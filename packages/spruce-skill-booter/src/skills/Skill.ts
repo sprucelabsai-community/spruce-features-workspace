@@ -1,6 +1,11 @@
+import {
+	buildLog,
+	HealthCheckResults,
+	Log,
+	Skill as ISkill,
+	SkillFeature,
+} from '@sprucelabs/spruce-skill-utils'
 import SpruceError from '../errors/SpruceError'
-import {buildLog, HealthCheckResults, Log, Skill as ISkill, SkillFeature} from '@sprucelabs/spruce-skill-utils'
-
 
 export default class Skill implements ISkill {
 	public rootDir

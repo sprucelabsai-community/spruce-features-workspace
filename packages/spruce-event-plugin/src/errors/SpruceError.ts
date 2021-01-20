@@ -7,7 +7,6 @@ export default class SpruceError extends BaseSpruceError<ErrorOptions> {
 		const { options } = this
 		let message
 		switch (options?.code) {
-
 			case 'EVENT_PLUGIN_ERROR':
 				message = 'A event plugin error just happened!'
 				break

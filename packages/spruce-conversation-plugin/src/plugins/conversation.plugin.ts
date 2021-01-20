@@ -49,6 +49,8 @@ export class ConversationFeature implements SkillFeature {
 	public async isInstalled(): Promise<boolean> {
 		return true
 	}
+
+	public async destroy() {}
 }
 
 export default (skill: Skill) => {

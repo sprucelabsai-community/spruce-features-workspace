@@ -16,6 +16,7 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSpruceTe
 	protected static Skill(options?: SkillFactoryOptions) {
 		const { plugins = [] } = options ?? {}
 
+		//@ts-ignore
 		const skill = new Skill({
 			rootDir: this.cwd,
 			activeDir: this.resolvePath('src'),

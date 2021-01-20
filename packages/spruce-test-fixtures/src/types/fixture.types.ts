@@ -1,5 +1,5 @@
 import { MercuryClient } from '@sprucelabs/mercury-client'
-import Skill from '@sprucelabs/spruce-skill-utils'
+import { Skill } from '@sprucelabs/spruce-skill-utils'
 import MercuryFixture from '../fixtures/MercuryFixture'
 import OrganizationFixture from '../fixtures/OrganizationFixture'
 import PersonFixture from '../fixtures/PersonFixture'
