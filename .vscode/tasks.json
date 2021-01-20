@@ -13,46 +13,102 @@
             "promptOnClose": false,
             "presentation": {
                 "panel": "dedicated",
+                "reveal": "silent"
             }
         },
         {
-            "label": "test.file",
-            "command": "spruce",
-            "args": [
-                "test",
-                "--inspect",
-                "5200",
-                "--pattern",
-                "${fileBasenameNoExtension}",
-                "--shouldWatch"
-            ],
-            "options": {
-                "cwd": "${workspaceFolder}/packages/mercury-client"
-            },
-            "promptOnClose": false,
-            "group": {
-                "kind": "test",
-                "isDefault": true
-            },
-            "presentation": {
-                "reveal": "always",
-                "panel": "new"
-            },
-            "problemMatcher": []
-        },
-        {
-            "label": "test.reporter",
+            "label": "test.reporter.conversation",
             "command": "spruce",
             "args": [
                 "test",
                 "--inspect",
                 "5200",
                 "--shouldHoldAtStart",
-                "true"
+                "true",
+                "--watchMode",
+                "smart"
+            ],
+            "runOptions": {
+                "runOn": "folderOpen"
+            },
+            "promptOnClose": false,
+            "options": {
+                "cwd": "${workspaceFolder}/packages/spruce-conversation-plugin"
+            },
+            "group": "test",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        },
+        {
+            "label": "test.reporter.event-plugin",
+            "command": "spruce",
+            "args": [
+                "test",
+                "--inspect",
+                "5200",
+                "--shouldHoldAtStart",
+                "true",
+                "--watchMode",
+                "smart"
+            ],
+            "runOptions": {
+                "runOn": "folderOpen"
+            },
+            "promptOnClose": false,
+            "options": {
+                "cwd": "${workspaceFolder}/packages/spruce-event-plugin"
+            },
+            "group": "test",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        },
+        {
+            "label": "test.reporter.skill-booter",
+            "command": "spruce",
+            "args": [
+                "test",
+                "--inspect",
+                "5200",
+                "--shouldHoldAtStart",
+                "true",
+                "--watchMode",
+                "smart"
+            ],
+            "runOptions": {
+                "runOn": "folderOpen"
+            },
+            "promptOnClose": false,
+            "options": {
+                "cwd": "${workspaceFolder}/packages/spruce-skill-booter"
+            },
+            "group": "test",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        },
+        {
+            "label": "test.reporter.text-fixtures",
+            "command": "spruce",
+            "args": [
+                "test",
+                "--inspect",
+                "5200",
+                "--shouldHoldAtStart",
+                "true",
+                "--watchMode",
+                "smart"
             ],
             "promptOnClose": false,
             "options": {
-                "cwd": "${workspaceFolder}/packages/mercury-client"
+                "cwd": "${workspaceFolder}/packages/spruce-test-fixtures"
+            },
+            "runOptions": {
+                "runOn": "folderOpen"
             },
             "group": "test",
             "presentation": {
