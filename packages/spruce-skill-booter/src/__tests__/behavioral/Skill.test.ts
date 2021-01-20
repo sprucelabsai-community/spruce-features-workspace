@@ -1,6 +1,6 @@
+import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 import AbstractSpruceTest, { test, assert } from '@sprucelabs/test'
 import { errorAssertUtil } from '@sprucelabs/test-utils'
-import diskUtil from '../../disk.utility'
 import Skill from '../../skills/Skill'
 
 export default class SkillTest extends AbstractSpruceTest {
