@@ -5,7 +5,7 @@ import plugin from '../../plugins/conversation.plugin'
 import AbstractConversationTest from '../../tests/AbstractConversationTest'
 
 export default class RegisteringConversationsOnBootTest extends AbstractConversationTest {
-	@test()
+	@test.skip()
 	protected static async throwsWhenExecutingIfEventPluginMissing() {
 		const skill = this.Skill({ plugins: [plugin] })
 		const err = await assert.doesThrowAsync(() => skill.execute())
@@ -15,7 +15,7 @@ export default class RegisteringConversationsOnBootTest extends AbstractConversa
 		})
 	}
 
-	@test()
+	@test.skip()
 	protected static async registersConvosOnBoot() {
 		this.cwd = diskUtil.createRandomTempDir()
 

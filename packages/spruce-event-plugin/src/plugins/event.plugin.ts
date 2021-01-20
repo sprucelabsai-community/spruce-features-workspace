@@ -1,6 +1,13 @@
 import pathUtil from 'path'
 import { EventContract, SpruceSchemas } from '@sprucelabs/mercury-types'
 import {
+	eventContractUtil,
+	eventDiskUtil,
+	eventNameUtil,
+	eventResponseUtil,
+	NamedEventSignature,
+} from '@sprucelabs/spruce-event-utils'
+import {
 	EventHealthCheckItem,
 	EventFeatureListener,
 	SkillFeature,
@@ -13,11 +20,6 @@ import {
 } from '@sprucelabs/spruce-skill-utils'
 import globby from 'globby'
 import SpruceError from '../errors/SpruceError'
-import { NamedEventSignature } from '../event.types'
-import eventContractUtil from '../utilities/eventContract.utility'
-import eventDiskUtil from '../utilities/eventDisk.utility'
-import eventNameUtil from '../utilities/eventName.utility'
-import eventResponseUtil from '../utilities/eventResponse.utility'
 
 require('dotenv').config()
 
@@ -114,7 +116,7 @@ export class EventSkillFeature implements SkillFeature {
 		}
 	}
 
-	private async destroy() {
+	public async destroy() {
 		if (this.apiClient) {
 			this.log.info(`Disconnecting from Mercury.`)
 			await this.apiClient.disconnect()
