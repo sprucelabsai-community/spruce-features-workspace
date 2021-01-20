@@ -36,9 +36,10 @@
 		"editor.formatOnSave": false
 	},
 	"eslint.workingDirectories": [
-		"./packages/mercury-client",
-		"./packages/mercury-event-emitter",
-		"./packages/mercury-types"
+		"./packages/spruce-conversation-plugin",
+		"./packages/spruce-event-plugin",
+		"./packages/spruce-skill-booter",
+		"./packages/spruce-test-fixtures"
 	],
 	"eslint.options": {
 		"extensions": [
