@@ -1,0 +1,111 @@
+{
+	"name": "@sprucelabs/spruce-conversation",
+	"publishConfig": {
+		"access": "public"
+	},
+	"version": "0.2.3",
+	"main": "./build/index.js",
+	"types": "./build/index.d.ts",
+	"license": "MIT",
+	"files": [
+		"build/**/*",
+		"tsconfig.json"
+	],
+	"description": "Spruce Conversation! 🗣",
+	"keywords": [
+		"node",
+		"sprucelabs"
+	],
+	"homepage": "https://github.com/sprucelabsai/spruce-conversation",
+	"bugs": {
+		"url": "https://github.com/sprucelabsai/spruce-conversation/issues"
+	},
+	"scripts": {
+		"build": "yarn build.babel && yarn build.types",
+		"build.types": "tsc --emitDeclarationOnly && echo PASS",
+		"build.babel": "babel src --out-dir build --extensions \".ts,.tsx\" --source-maps --copy-files",
+		"rebuild": "rm yarn.lock | true && yarn clean.all && yarn && yarn build",
+		"clean": "rm -rf build/ ; true",
+		"clean.all": "rm -rf build/ && rm -rf node_modules/ && rm -f yarn.lock",
+		"lint": "eslint '**/*.ts'",
+		"fix.lint": "eslint --fix '**/*.ts'",
+		"release": "semantic-release",
+		"test": "jest",
+		"watch.build": "concurrently 'yarn run build.babel --watch' 'tsc --emitDeclarationOnly -w' \"chokidar 'src/**/*' -c 'yarn build.types'\"",
+		"watch.lint": "chokidar 'src/**/*' -c 'yarn lint.tsc'",
+		"watch.tests": "jest --watch",
+		"upgrade.packages": "yarn-upgrade-all && rm yarn.lock ; yarn ; yarn lint.fix | true",
+		"upgrade.packages.all": "yarn install && yarn upgrade.packages",
+		"upgrade.packages.test": "yarn upgrade.packages.all && yarn lint && yarn build && yarn test"
+	},
+	"dependencies": {
+		"@nlpjs/nlu": "^4.19.1",
+		"@sprucelabs/error": "latest",
+		"@sprucelabs/schema": "latest",
+		"@sprucelabs/spruce-core-schemas": "latest",
+		"@sprucelabs/spruce-event-utils": "latest",
+		"@sprucelabs/spruce-skill-utils": "latest",
+		"globby": "^11.0.2",
+		"node-nlp": "^4.19.1"
+	},
+	"devDependencies": {
+		"@babel/cli": "^7.12.10",
+		"@babel/core": "^7.12.10",
+		"@babel/plugin-proposal-class-properties": "^7.12.1",
+		"@babel/plugin-proposal-decorators": "^7.12.12",
+		"@babel/plugin-transform-runtime": "^7.12.10",
+		"@babel/preset-env": "^7.12.11",
+		"@babel/preset-typescript": "^7.12.7",
+		"@sprucelabs/spruce-test-fixtures": "latest",
+		"@sprucelabs/babel-plugin-schema": "latest",
+		"@sprucelabs/jest-json-reporter": "latest",
+		"@sprucelabs/semantic-release": "latest",
+		"@sprucelabs/test": "latest",
+		"@sprucelabs/test-utils": "latest",
+		"@types/node": "^14.14.21",
+		"babel-plugin-module-resolver": "^4.1.0",
+		"chokidar-cli": "^2.1.0",
+		"concurrently": "^5.3.0",
+		"conventional-changelog-sprucelabs": "latest",
+		"eslint": "^7.18.0",
+		"eslint-config-spruce": "latest",
+		"jest": "^26.6.3",
+		"jest-circus": "^26.6.3",
+		"prettier": "^2.2.1",
+		"ts-node": "^9.1.1",
+		"typescript": "^4.1.3",
+		"yarn-upgrade-all": "^0.5.4"
+	},
+	"jest": {
+		"maxWorkers": 4,
+		"testTimeout": 300000,
+		"testEnvironment": "node",
+		"testPathIgnorePatterns": [
+			"<rootDir>/tmp/",
+			"<rootDir>/src/",
+			"<rootDir>/node_modules/"
+		],
+		"testMatch": [
+			"**/__tests__/**/*.test.js?(x)"
+		],
+		"moduleNameMapper": {
+			"^#spruce/(.*)$": "<rootDir>/build/.spruce/$1"
+		}
+	},
+	"yarn-upgrade-all": {
+		"ignore": [
+			"@sprucelabs/babel-plugin-schema",
+			"@sprucelabs/error",
+			"@sprucelabs/jest-json-reporter",
+			"@sprucelabs/schema",
+			"@sprucelabs/semantic-release",
+			"@sprucelabs/spruce-core-schemas",
+			"@sprucelabs/spruce-event-utils",
+			"@sprucelabs/spruce-skill-utils",
+			"@sprucelabs/test",
+			"@sprucelabs/test-utils",
+			"conventional-changelog-sprucelabs",
+			"eslint-config-spruce"
+		]
+	}
+}
