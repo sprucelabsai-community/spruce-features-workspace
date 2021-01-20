@@ -1,0 +1,16 @@
+{
+  "name": "spruce-features-workspace",
+  "version": "0.0.0",
+  "description": "Spruce Features!",
+  "repository": "git@github.com:sprucelabsai/spruce-features-workspace.git",
+  "author": "Ryan Johnson <ryan@sprucelabs.ai>",
+  "license": "MIT",
+  "private": true,
+  "useWorkspaces": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "dependencies": {
+    "lerna": "^2.9.1"
+  }
+}
