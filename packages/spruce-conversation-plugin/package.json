@@ -3,7 +3,7 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "0.2.3",
+	"version": "0.0.0",
 	"main": "./build/index.js",
 	"types": "./build/index.d.ts",
 	"license": "MIT",
@@ -16,9 +16,9 @@
 		"node",
 		"sprucelabs"
 	],
-	"homepage": "https://github.com/sprucelabsai/spruce-conversation",
+	"homepage": "https://github.com/sprucelabsai/spruce-features-workspace",
 	"bugs": {
-		"url": "https://github.com/sprucelabsai/spruce-conversation/issues"
+		"url": "https://github.com/sprucelabsai/spruce-features-workspace/issues"
 	},
 	"scripts": {
 		"build": "yarn build.babel && yarn build.types",
@@ -49,13 +49,6 @@
 		"node-nlp": "^4.19.1"
 	},
 	"devDependencies": {
-		"@babel/cli": "^7.12.10",
-		"@babel/core": "^7.12.10",
-		"@babel/plugin-proposal-class-properties": "^7.12.1",
-		"@babel/plugin-proposal-decorators": "^7.12.12",
-		"@babel/plugin-transform-runtime": "^7.12.10",
-		"@babel/preset-env": "^7.12.11",
-		"@babel/preset-typescript": "^7.12.7",
 		"@sprucelabs/spruce-test-fixtures": "latest",
 		"@sprucelabs/babel-plugin-schema": "latest",
 		"@sprucelabs/jest-json-reporter": "latest",
@@ -63,7 +56,6 @@
 		"@sprucelabs/test": "latest",
 		"@sprucelabs/test-utils": "latest",
 		"@types/node": "^14.14.21",
-		"babel-plugin-module-resolver": "^4.1.0",
 		"chokidar-cli": "^2.1.0",
 		"concurrently": "^5.3.0",
 		"conventional-changelog-sprucelabs": "latest",
