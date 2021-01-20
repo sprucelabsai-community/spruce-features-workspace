@@ -1,23 +1,15 @@
-// import { plugin as eventPlugin } from '@sprucelabs/spruce-event-utils'
-import { Skill } from '@sprucelabs/spruce-skill-utils'
+import { plugin as eventPlugin } from '@sprucelabs/spruce-event-plugin'
 import { AbstractSpruceFixtureTest } from '@sprucelabs/spruce-test-fixtures'
-// import plugin from '../plugins/conversation.plugin'
+import { SkillFactoryOptions } from '@sprucelabs/spruce-test-fixtures'
+import plugin from '../plugins/conversation.plugin'
 
 export default abstract class AbstractConversationTest extends AbstractSpruceFixtureTest {
-	protected static Skill(options?: any) {
-		console.log(options)
-		// const { plugins = [eventPlugin, plugin] } = options ?? {}
-		// const skill = new Skill({
-		// 	rootDir: this.cwd,
-		// 	activeDir: this.resolvePath('src'),
-		// 	hashSpruceDir: this.cwd,
-		// 	...options,
-		// })
-		// for (const plugin of plugins) {
-		// 	plugin(skill)
-		// }
-		// return skill
-		return {} as Skill
+	protected static Skill(options?: SkillFactoryOptions) {
+		const { plugins = [eventPlugin, plugin] } = options ?? {}
+		return super.Skill({
+			plugins,
+			...options,
+		})
 	}
 
 	protected static resolveTestPath(pathAfterTestDirsAndFiles: string) {

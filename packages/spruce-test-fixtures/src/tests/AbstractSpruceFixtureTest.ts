@@ -1,4 +1,4 @@
-import Skill from '@sprucelabs/spruce-skill-utils'
+import Skill from '@sprucelabs/spruce-skill-booter'
 import AbstractSpruceTest from '@sprucelabs/test'
 import FixtureFactory from '../fixtures/FixtureFactory'
 import { FixtureName, SkillFactoryOptions } from '../types/fixture.types'

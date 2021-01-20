@@ -6,19 +6,19 @@ import { ConversationHealthCheckResults } from '../../types/conversation.types'
 
 type SkillFactoryOptions = any
 export default class CheckingHealthTest extends AbstractConversationTest {
-	@test.skip()
+	@test()
 	protected static async pluginReturnsInstance() {
 		assert.isTrue(plugin instanceof Function)
 	}
 
-	@test.skip()
+	@test()
 	protected static registersWithSkill() {
 		const skill = this.Skill()
 		const features = skill.getFeatures()
 		assert.isLength(features, 2)
 	}
 
-	@test.skip()
+	@test()
 	protected static async throwsWhenExecutingIfEventPluginMissing() {
 		const health = await this.checkHealth({ plugins: [plugin] })
 
@@ -31,7 +31,7 @@ export default class CheckingHealthTest extends AbstractConversationTest {
 		})
 	}
 
-	@test.skip()
+	@test()
 	protected static async returnsZeroStateResponseFromHealthCheckWhenNoConversations() {
 		const healthCheck = await this.checkHealth()
 
@@ -45,7 +45,7 @@ export default class CheckingHealthTest extends AbstractConversationTest {
 		return healthCheck
 	}
 
-	@test.skip()
+	@test()
 	protected static async returnsHelpfulErrorWHenPassedBadConvos() {
 		const healthCheck = await this.checkHealth({
 			activeDir: this.resolvePath(
@@ -68,7 +68,7 @@ export default class CheckingHealthTest extends AbstractConversationTest {
 		)
 	}
 
-	@test.skip()
+	@test()
 	protected static async getsTopicsFromHealthCheck() {
 		const healthCheck = await this.checkHealth({
 			activeDir: this.resolvePath(__dirname, '..', 'testDirsAndFiles', 'good'),

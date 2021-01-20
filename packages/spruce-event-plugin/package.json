@@ -43,8 +43,9 @@
 		"@sprucelabs/mercury-types": "latest",
 		"@sprucelabs/schema": "latest",
 		"@sprucelabs/spruce-core-schemas": "latest",
-		"@sprucelabs/spruce-event-utils": "^10.0.0",
+		"@sprucelabs/spruce-event-utils": "latest",
 		"@sprucelabs/spruce-skill-utils": "latest",
+		"@sprucelabs/spruce-test-fixtures": "^1.0.4",
 		"@sprucelabs/test": "latest",
 		"@sprucelabs/test-utils": "latest"
 	},
@@ -95,7 +96,8 @@
 			"@sprucelabs/spruce-core-schemas",
 			"@sprucelabs/test",
 			"@sprucelabs/test-utils",
-			"@sprucelabs/spruce-skill-utils"
+			"@sprucelabs/spruce-skill-utils",
+			"@sprucelabs/spruce-event-utils"
 		]
 	}
 }
