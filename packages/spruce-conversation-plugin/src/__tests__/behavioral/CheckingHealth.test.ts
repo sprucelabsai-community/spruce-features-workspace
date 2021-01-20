@@ -4,7 +4,6 @@ import plugin from '../../plugins/conversation.plugin'
 import AbstractConversationTest from '../../tests/AbstractConversationTest'
 import { ConversationHealthCheckResults } from '../../types/conversation.types'
 
-
 type SkillFactoryOptions = any
 export default class CheckingHealthTest extends AbstractConversationTest {
 	@test.skip()
