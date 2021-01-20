@@ -60,7 +60,12 @@
 			"@sprucelabs/spruce-core-schemas",
 			"@sprucelabs/spruce-skill-utils",
 			"@sprucelabs/test",
-			"@sprucelabs/test-utils"
+			"@sprucelabs/test-utils",
+			"eslint-config-spruce",
+			"@sprucelabs/spruce-conversation-plugin",
+			"@sprucelabs/spruce-event-plugin",
+			"@sprucelabs/spruce-skill-booter",
+			"@sprucelabs/spruce-test-fixtures"
 		]
 	}
 }

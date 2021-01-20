@@ -24,7 +24,7 @@
 		"build": "yarn build.babel && yarn build.types",
 		"build.types": "tsc --emitDeclarationOnly && echo 'TYPES PASS'",
 		"build.babel": "babel src --out-dir build --extensions \".ts,.tsx\" --source-maps --copy-files",
-		"rebuild": "yarn clean.all && yarn && yarn build",
+		"rebuild": "cd .. && yarn rebuild",
 		"clean": "rm -rf build",
 		"clean.all": "rm -rf node_modules && rm -f yarn.lock && yarn clean",
 		"lint": "eslint '**/*.ts' && echo 'LINT PASS'",
