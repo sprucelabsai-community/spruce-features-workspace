@@ -1,0 +1,113 @@
+{
+	"name": "@sprucelabs/spruce-skill-utils",
+	"publishConfig": {
+		"access": "public"
+	},
+	"version": "15.3.2",
+	"main": "./build/index.js",
+	"types": "./build/index.d.ts",
+	"license": "MIT",
+	"files": [
+		"build/**/*",
+		"tsconfig.json"
+	],
+	"description": "Loosely coupled classes and functions to make skill development faster! 🏎",
+	"keywords": [
+		"node",
+		"sprucelabs"
+	],
+	"homepage": "https://github.com/sprucelabsai/spruce-skill-utils",
+	"bugs": {
+		"url": "https://github.com/sprucelabsai/spruce-skill-utils/issues"
+	},
+	"scripts": {
+		"build": "yarn build.babel && yarn build.types",
+		"build.types": "tsc --emitDeclarationOnly && echo PASS",
+		"build.babel": "babel src --out-dir build --extensions \".ts,.tsx\" --source-maps --copy-files",
+		"rebuild": "yarn clean.all && yarn && yarn build",
+		"clean": "rm -rf build/ ; true",
+		"clean.all": "rm -rf node_modules ; rm yarn.lock ; yarn clean ; true",
+		"lint": "eslint '**/*.ts' && tsc -p . --noEmit",
+		"fix.lint": "eslint --fix '**/*.ts'",
+		"release": "semantic-release",
+		"arkit": "arkit -f index.ts -o docs/images/arkit.svg",
+		"arkit.png": "arkit -f index.ts -o docs/images/arkit.png",
+		"test": "jest",
+		"watch.build": "concurrently 'yarn run build.babel --watch' \"chokidar 'src/**/*' -c 'clear ; yarn build.types'\"",
+		"watch.lint": "chokidar 'src/**/*' -c 'yarn lint.tsc'",
+		"watch.tests": "jest --watch",
+		"upgrade.packages": "yarn-upgrade-all && rm yarn.lock ; yarn ; yarn lint.fix | true",
+		"upgrade.packages.all": "yarn install && yarn upgrade.packages",
+		"upgrade.packages.test": "yarn upgrade.packages.all && yarn lint && yarn build && yarn test"
+	},
+	"dependencies": {
+		"@sprucelabs/error": "latest",
+		"@sprucelabs/schema": "latest",
+		"chalk": "^4.1.0",
+		"fs-extra": "^9.1.0",
+		"inflection": "^1.12.0",
+		"lodash": "^4.17.20",
+		"uuid": "^8.3.2"
+	},
+	"devDependencies": {
+		"@babel/cli": "^7.12.10",
+		"@babel/core": "^7.12.10",
+		"@babel/plugin-proposal-class-properties": "^7.12.1",
+		"@babel/plugin-proposal-decorators": "^7.12.12",
+		"@babel/plugin-transform-runtime": "^7.12.10",
+		"@babel/preset-env": "^7.12.11",
+		"@babel/preset-typescript": "^7.12.7",
+		"@sprucelabs/babel-plugin-schema": "latest",
+		"@sprucelabs/jest-json-reporter": "latest",
+		"@sprucelabs/semantic-release": "latest",
+		"@sprucelabs/test": "latest",
+		"@sprucelabs/test-utils": "latest",
+		"@types/fs-extra": "^9.0.6",
+		"@types/inflection": "^1.5.28",
+		"@types/lodash": "^4.14.168",
+		"@types/node": "^14.14.22",
+		"@types/uuid": "^8.3.0",
+		"arkit": "^1.6.4",
+		"babel-plugin-module-resolver": "^4.1.0",
+		"chokidar-cli": "^2.1.0",
+		"concurrently": "^5.3.0",
+		"conventional-changelog-sprucelabs": "latest",
+		"eslint": "^7.18.0",
+		"eslint-config-spruce": "latest",
+		"jest": "^26.6.3",
+		"jest-circus": "^26.6.3",
+		"prettier": "^2.2.1",
+		"typescript": "^4.1.3",
+		"yarn-upgrade-all": "^0.5.4"
+	},
+	"jest": {
+		"maxWorkers": 4,
+		"testTimeout": 300000,
+		"testEnvironment": "node",
+		"testPathIgnorePatterns": [
+			"<rootDir>/tmp/",
+			"<rootDir>/src/",
+			"<rootDir>/node_modules/",
+			"<rootDir>/build/__tests__/testDirsAndFiles/"
+		],
+		"testMatch": [
+			"**/__tests__/**/*.test.js?(x)"
+		],
+		"moduleNameMapper": {
+			"^#spruce/(.*)$": "<rootDir>/build/.spruce/$1"
+		}
+	},
+	"yarn-upgrade-all": {
+		"ignore": [
+			"@sprucelabs/error",
+			"@sprucelabs/schema",
+			"@sprucelabs/babel-plugin-schema",
+			"@sprucelabs/jest-json-reporter",
+			"@sprucelabs/semantic-release",
+			"@sprucelabs/test",
+			"@sprucelabs/test-utils",
+			"conventional-changelog-sprucelabs",
+			"eslint-config-spruce"
+		]
+	}
+}
