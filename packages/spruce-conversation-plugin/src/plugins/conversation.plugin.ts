@@ -1,3 +1,5 @@
+import { EventFeature } from '@sprucelabs/spruce-event-plugin'
+import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { Skill, SkillFeature } from '@sprucelabs/spruce-skill-utils'
 import TopicLoader from '../conversations/TopicLoader'
 import SpruceError from '../errors/SpruceError'
@@ -12,7 +14,22 @@ export class ConversationFeature implements SkillFeature {
 
 	public async execute(): Promise<void> {
 		this.assertDependencies()
+
+		const topics = await TopicLoader.loadTopics(this.skill.activeDir)
+
+		if (topics.length > 0) {
+			const events = this.skill.getFeatureByCode('event') as EventFeature
+			const { client } = await events.connectToApi()
+
+			const results = await client.emit(
+				`register-conversation-topics::v2020_12_25`,
+				{ payload: { topics: topics.map((topic) => ({ key: topic.key })) } }
+			)
+
+			eventResponseUtil.getFirstResponseOrThrow(results)
+		}
 	}
+
 	public async checkHealth(): Promise<ConversationHealthCheckItem> {
 		this.assertDependencies()
 
@@ -35,6 +52,7 @@ export class ConversationFeature implements SkillFeature {
 			}
 		}
 	}
+
 	private assertDependencies() {
 		try {
 			this.skill.getFeatureByCode('event')

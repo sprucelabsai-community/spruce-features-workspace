@@ -4,9 +4,15 @@ import FixtureFactory from '../fixtures/FixtureFactory'
 import { FixtureName, SkillFactoryOptions } from '../types/fixture.types'
 
 export default abstract class AbstractSpruceFixtureTest extends AbstractSpruceTest {
+	protected static skills: Skill[] = []
+
 	protected static async afterEach() {
 		await super.afterEach()
 		await FixtureFactory.destroy()
+		for (const skill of this.skills) {
+			await skill.kill()
+		}
+		this.skills = []
 	}
 
 	protected static Fixture<Name extends FixtureName>(name: Name) {
@@ -16,7 +22,6 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSpruceTe
 	protected static Skill(options?: SkillFactoryOptions) {
 		const { plugins = [] } = options ?? {}
 
-		//@ts-ignore
 		const skill = new Skill({
 			rootDir: this.cwd,
 			activeDir: this.resolvePath('src'),
@@ -27,6 +32,8 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSpruceTe
 		for (const plugin of plugins) {
 			void plugin(skill)
 		}
+
+		this.skills.push(skill)
 
 		return skill
 	}

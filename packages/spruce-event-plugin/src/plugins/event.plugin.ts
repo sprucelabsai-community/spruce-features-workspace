@@ -25,7 +25,7 @@ require('dotenv').config()
 
 type MercuryClient<T> = T extends any ? any : any
 
-export class EventSkillFeature implements SkillFeature {
+export class EventFeature implements SkillFeature {
 	private skill: Skill
 	private listenersPath: string
 	private listeners: EventFeatureListener[] = []
@@ -33,10 +33,14 @@ export class EventSkillFeature implements SkillFeature {
 	private allEventSignatures: NamedEventSignature[] = []
 	private combinedContractsFile: string
 	private _shouldConnectToApi: boolean
-	//@ts-ignore
-	private apiClient?: any
+	private apiClientPromise?: Promise<{
+		client?: any
+		currentSkill?: SpruceSchemas.Spruce.v2020_07_22.Skill
+	}>
 	private log: Log
-	private currentSkill: SpruceSchemas.Spruce.v2020_07_22.Skill | undefined
+	private isDestroyed = false
+	private isExecuting = false
+	private executeResolve?: any
 
 	public constructor(skill: Skill) {
 		this.skill = skill
@@ -54,6 +58,7 @@ export class EventSkillFeature implements SkillFeature {
 	}
 
 	public async execute() {
+		this.isExecuting = true
 		await this.loadEverything()
 
 		const willBoot = this.getListener('skill', 'will-boot')
@@ -64,17 +69,20 @@ export class EventSkillFeature implements SkillFeature {
 			await willBoot(this.skill)
 		}
 
-		await this.reRegisterListeners()
-		await this.reRegisterEvents()
+		await Promise.all([this.reRegisterListeners(), this.reRegisterEvents()])
 
 		if (didBoot) {
 			this.log.info(`Emitting skill.didBoot internally`)
 			await didBoot(this.skill)
 		}
 
-		if (this.apiClient) {
+		this.isExecuting = false
+
+		if (this.apiClientPromise) {
 			this.log.info('Connection to Mercury successful. Waiting for events')
-			await new Promise((_r) => {})
+			await new Promise((resolve) => {
+				this.executeResolve = resolve
+			})
 		} else {
 			this.log.info('This skill not registered so I have nothing to do. 🌲🤖')
 		}
@@ -117,44 +125,75 @@ export class EventSkillFeature implements SkillFeature {
 	}
 
 	public async destroy() {
-		if (this.apiClient) {
+		if (this.apiClientPromise && !this.isDestroyed) {
+			this.isDestroyed = true
+
+			if (this.executeResolve) {
+				this.executeResolve()
+				this.executeResolve = undefined
+			}
+
+			if (this.isExecuting) {
+				this.log.info('Waiting for tear down until main execution completes.')
+			}
+
+			while (this.isExecuting) {
+				await new Promise((resolve) => setTimeout(resolve, 100))
+			}
+
 			this.log.info(`Disconnecting from Mercury.`)
-			await this.apiClient.disconnect()
+			await (await this.apiClientPromise).client.disconnect()
+			this.apiClientPromise = undefined
 		}
 	}
 
 	private async loadEverything() {
-		await this.loadListeners()
-		await this.loadContracts()
+		await Promise.all([this.loadListeners(), this.loadContracts()])
 		await this.loadEvents()
 	}
 
-	private async connectToApi(): Promise<{
+	public async connectToApi(): Promise<{
 		client?: MercuryClient<any>
 		currentSkill?: SpruceSchemas.Spruce.v2020_07_22.Skill
 	}> {
-		if (!this.shouldConnectToApi()) {
-			return { client: undefined, currentSkill: undefined }
+		if (this.isDestroyed) {
+			return {}
 		}
 
-		if (this.apiClient) {
-			return { client: this.apiClient, currentSkill: this.currentSkill }
+		if (this.apiClientPromise) {
+			return this.apiClientPromise
 		}
 
-		const contracts = require(this.combinedContractsFile).default
+		const contracts = this.shouldConnectToApi()
+			? require(this.combinedContractsFile).default
+			: null
 		const MercuryClientFactory = require('@sprucelabs/mercury-client')
 			.MercuryClientFactory
 		const host = process.env.HOST ?? 'https://sandbox.mercury.spruce.ai'
 
 		this.log.info('Connecting to Mercury at', host)
 
+		this.apiClientPromise = this.loginAndAuthenticate(
+			MercuryClientFactory,
+			host,
+			contracts
+		)
+
+		const { client, currentSkill } = await this.apiClientPromise
+
+		return { client, currentSkill }
+	}
+
+	private async loginAndAuthenticate(
+		MercuryClientFactory: any,
+		host: string,
+		contracts: any
+	) {
 		const client = await MercuryClientFactory.Client({
 			host,
 			allowSelfSignedCrt: true,
 			contracts,
 		})
-
-		this.apiClient = client
 
 		this.log.info('Connection successful')
 
@@ -176,11 +215,9 @@ export class EventSkillFeature implements SkillFeature {
 			const { auth } = eventResponseUtil.getFirstResponseOrThrow(results)
 
 			currentSkill = auth.skill
-			this.currentSkill = currentSkill
 
 			this.log.info('Authentication successful')
 		}
-
 		return { client, currentSkill }
 	}
 
@@ -203,7 +240,7 @@ export class EventSkillFeature implements SkillFeature {
 			await this.registerListeners(client)
 		}
 
-		this.apiClient = client
+		this.apiClientPromise = client
 	}
 
 	private async reRegisterEvents() {
@@ -224,6 +261,10 @@ export class EventSkillFeature implements SkillFeature {
 
 	private async registerEvents() {
 		const { client } = await this.connectToApi()
+		if (this.isDestroyed) {
+			return
+		}
+
 		if (client) {
 			const contract = {
 				eventSignatures: {},
@@ -311,6 +352,7 @@ export class EventSkillFeature implements SkillFeature {
 	public async isInstalled() {
 		const settingsService = new SettingsService(this.skill.rootDir)
 		const isInstalled = settingsService.isMarkedAsInstalled('event')
+
 		return isInstalled
 	}
 
@@ -396,6 +438,6 @@ export class EventSkillFeature implements SkillFeature {
 }
 
 export default (skill: Skill) => {
-	const feature = new EventSkillFeature(skill)
+	const feature = new EventFeature(skill)
 	skill.registerFeature('event', feature)
 }

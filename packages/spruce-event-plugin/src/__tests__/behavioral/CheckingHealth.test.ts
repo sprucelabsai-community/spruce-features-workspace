@@ -1,8 +1,8 @@
-// import Skill from '@sprucelabs/spruce-skill-utils'
-import AbstractSpruceTest, { test, assert } from '@sprucelabs/test'
+import { test, assert } from '@sprucelabs/test'
+import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
 import plugin from './../../plugins/event.plugin'
 
-export default class CheckingHealthTest extends AbstractSpruceTest {
+export default class CheckingHealthTest extends AbstractEventPluginTest {
 	@test()
 	protected static async pluginReturnsInstance() {
 		assert.isTrue(plugin instanceof Function)
@@ -10,25 +10,24 @@ export default class CheckingHealthTest extends AbstractSpruceTest {
 
 	@test()
 	protected static registersWithSkill() {
-		// const skill = this.Skill()
-		// const features = skill.getFeatures()
-		// assert.isLength(features, 1)
+		const skill = this.Skill()
+		const features = skill.getFeatures()
+		assert.isLength(features, 1)
 	}
 
 	@test()
-	protected static returnsEmptyHealthCheck() {
-		// const skill = this.Skill()
+	protected static async doesNotComeBackFromHealthCheckUntilDeterminesInstalled() {
+		this.cwd = __dirname
+		const skill = this.Skill()
+		const health = await skill.checkHealth()
+		assert.isFalsy(health.event)
 	}
 
-	protected static Skill(options?: { activeDir?: string }) {
-		console.log(options)
-		// const skill = new Skill({
-		// 	rootDir: this.cwd,
-		// 	activeDir: this.cwd,
-		// 	hashSpruceDir: this.cwd,
-		// 	...options,
-		// })
-		// plugin(skill)
-		// return skill
+	@test()
+	protected static async givesBackEmptyHelthWhenInstalled() {
+		const skill = this.Skill()
+		const health = await skill.checkHealth()
+
+		assert.isTruthy(health.event)
 	}
 }
