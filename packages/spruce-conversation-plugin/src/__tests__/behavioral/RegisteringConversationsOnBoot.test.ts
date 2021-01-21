@@ -32,7 +32,7 @@ export default class RegisteringConversationsOnBootTest extends AbstractConversa
 		this.assert2ExpectedTopics(topics)
 	}
 
-	@test()
+	@test.skip()
 	protected static async canBootASecondTime() {
 		this.cwd = this.resolveTestPath('skill')
 

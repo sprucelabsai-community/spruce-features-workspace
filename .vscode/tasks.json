@@ -134,11 +134,8 @@
         {
             "label": "shell",
             "type": "shell",
-            "command": "${input:yarnCommand}",
+            "command": "${input:command} ${input:optionsCommand}",
             "problemMatcher": [],
-            "options": {
-                "cwd": "${workspaceFolder}/packages/mercury-client"
-            },
             "presentation": {
                 "reveal": "always",
                 "focus": true,
@@ -155,8 +152,14 @@
             "type": "promptString"
         },
         {
-            "id": "yarnCommand",
-            "description": "yarn command",
+            "id": "command",
+            "description": "command",
+            "default": "yarn",
+            "type": "promptString"
+        },
+        {
+            "id": "optionsCommand",
+            "description": "optionsCommand",
             "default": "add",
             "type": "promptString"
         }

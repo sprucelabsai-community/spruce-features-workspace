@@ -43,6 +43,7 @@
 		"@sprucelabs/error": "latest",
 		"@sprucelabs/schema": "latest",
 		"@sprucelabs/spruce-core-schemas": "latest",
+		"@sprucelabs/spruce-event-plugin": "^1.0.4",
 		"@sprucelabs/spruce-event-utils": "latest",
 		"@sprucelabs/spruce-skill-utils": "latest",
 		"globby": "^11.0.2",
