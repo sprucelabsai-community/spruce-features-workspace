@@ -46,17 +46,17 @@
 		"@sprucelabs/spruce-event-plugin": "^1.0.6",
 		"@sprucelabs/spruce-event-utils": "latest",
 		"@sprucelabs/spruce-skill-utils": "latest",
+		"@sprucelabs/spruce-test-fixtures": "^1.0.6",
 		"globby": "^11.0.2",
-		"node-nlp": "^4.19.1"
+		"node-nlp": "^4.19.5"
 	},
 	"devDependencies": {
 		"@sprucelabs/babel-plugin-schema": "latest",
 		"@sprucelabs/jest-json-reporter": "latest",
 		"@sprucelabs/semantic-release": "latest",
-		"@sprucelabs/spruce-test-fixtures": "^1.0.6",
 		"@sprucelabs/test": "latest",
 		"@sprucelabs/test-utils": "latest",
-		"@types/node": "^14.14.21",
+		"@types/node": "^14.14.22",
 		"chokidar-cli": "^2.1.0",
 		"concurrently": "^5.3.0",
 		"conventional-changelog-sprucelabs": "latest",
