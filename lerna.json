@@ -1,8 +1,17 @@
 {
-  "lerna": "2.9.1",
-  "packages": [
-    "packages/*"
-  ],
-  "version": "1.0.5",
-  "useWorkspaces": true
+	"lerna": "2.9.1",
+	"packages": [
+		"packages/*"
+	],
+	"version": "1.0.6",
+	"useWorkspaces": true,
+	"command": {
+		"publish": {
+			"allowBranch": [
+				"master"
+			],
+			"conventionalCommits": true,
+			"changelogPreset": "sprucelabs"
+		}
+	}
 }
