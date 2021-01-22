@@ -47,7 +47,7 @@ export class SkillFixture<
 
 		const { skill } = eventResponseUtil.getFirstResponseOrThrow(results)
 
-		const skillClient = await this.apiClientFactory()
+		const skillClient = (await this.apiClientFactory()) as any
 
 		await skillClient.emit('authenticate::v2020_12_25', {
 			payload: {

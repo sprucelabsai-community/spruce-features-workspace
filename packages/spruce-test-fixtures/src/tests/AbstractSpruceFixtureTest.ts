@@ -1,4 +1,5 @@
 import Skill from '@sprucelabs/spruce-skill-booter'
+import { mockLog } from '@sprucelabs/spruce-skill-utils'
 import AbstractSpruceTest from '@sprucelabs/test'
 import FixtureFactory from '../fixtures/FixtureFactory'
 import { FixtureName, SkillFactoryOptions } from '../types/fixture.types'
@@ -21,12 +22,13 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSpruceTe
 	}
 
 	protected static Skill(options?: SkillFactoryOptions) {
-		const { plugins = [] } = options ?? {}
+		const { plugins = [], log = mockLog } = options ?? {}
 
 		const skill = new Skill({
 			rootDir: this.cwd,
 			activeDir: this.resolvePath('src'),
 			hashSpruceDir: this.cwd,
+			log,
 			...options,
 		})
 

@@ -30,7 +30,7 @@ export default class PersonFixture<
 			})
 		}
 
-		const client = await this.apiClientFactory()
+		const client = (await this.apiClientFactory()) as any
 
 		//@ts-ignore
 		if (client.auth?.person?.phone === phone) {
@@ -63,7 +63,6 @@ export default class PersonFixture<
 
 		PersonFixture.clients.push(client)
 
-		//@ts-ignore
 		return { person, client }
 	}
 
