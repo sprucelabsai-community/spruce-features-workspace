@@ -1,5 +1,5 @@
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
-import { buildLog, diskUtil } from '@sprucelabs/spruce-skill-utils'
+import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 import { assert, test } from '@sprucelabs/test'
 import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
 
@@ -54,7 +54,7 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 		process.env.SKILL_ID = registeredSkill.id
 		process.env.SKILL_API_KEY = registeredSkill.apiKey
 
-		const skill = this.Skill({ log: buildLog('TESTING') })
+		const skill = this.Skill()
 		void skill.execute()
 
 		do {
