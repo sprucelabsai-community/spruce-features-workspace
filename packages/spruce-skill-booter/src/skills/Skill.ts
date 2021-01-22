@@ -13,7 +13,7 @@ export default class Skill implements ISkill {
 	public hashSpruceDir
 
 	private featureMap: Record<string, SkillFeature> = {}
-	private log = buildLog('skill')
+	private log: Log
 	private _isRunning = false
 	private shutdownTimeout: any
 
@@ -21,10 +21,12 @@ export default class Skill implements ISkill {
 		rootDir: string
 		activeDir: string
 		hashSpruceDir: string
+		log?: Log
 	}) {
 		this.rootDir = options.rootDir
 		this.activeDir = options.activeDir
 		this.hashSpruceDir = options.hashSpruceDir
+		this.log = options.log ?? buildLog('skill')
 	}
 
 	public isFeatureInstalled = async (featureCode: string) => {
@@ -48,12 +50,18 @@ export default class Skill implements ISkill {
 	}
 
 	public async kill() {
-		this._isRunning = false
-		if (this.shutdownTimeout) {
-			clearTimeout(this.shutdownTimeout)
-		}
+		if (this._isRunning) {
+			this.log.info('Killing skill')
 
-		await Promise.all(this.getFeatures().map((feature) => feature.destroy()))
+			this._isRunning = false
+			if (this.shutdownTimeout) {
+				clearTimeout(this.shutdownTimeout)
+			}
+
+			await Promise.all(this.getFeatures().map((feature) => feature.destroy()))
+
+			this.log.info('Kill complete! See you soon. 👋')
+		}
 	}
 
 	public checkHealth = async (): Promise<HealthCheckResults> => {
@@ -88,7 +96,13 @@ export default class Skill implements ISkill {
 	public execute = async () => {
 		this._isRunning = true
 
-		await Promise.all(this.getFeatures().map((feature) => feature.execute()))
+		try {
+			await Promise.all(this.getFeatures().map((feature) => feature.execute()))
+		} catch (err) {
+			this.log.error('Execution error:\n\n' + err.message)
+			await this.kill()
+			return
+		}
 
 		if (!this._isRunning) {
 			return
@@ -126,6 +140,16 @@ export default class Skill implements ISkill {
 		)
 
 		this._isRunning = false
+	}
+
+	public isBooted(): boolean {
+		const features = this.getFeatures()
+		for (const f of features) {
+			if (!f.isBooted()) {
+				return false
+			}
+		}
+		return true
 	}
 
 	public getFeatures() {

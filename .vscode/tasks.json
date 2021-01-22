@@ -86,7 +86,7 @@
             }
         },
         {
-            "label": "test.reporter.text-fixtures",
+            "label": "test.reporter.test-fixtures",
             "command": "spruce",
             "args": [
                 "test",

@@ -33,8 +33,8 @@
 		"arkit": "arkit -f index.ts -o docs/images/arkit.svg",
 		"arkit.png": "arkit -f index.ts -o docs/images/arkit.png",
 		"test": "jest",
-		"watch.build": "concurrently 'yarn run build.babel --watch' \"chokidar 'src/**/*' -c 'clear ; yarn build.types'\"",
-		"watch.lint": "chokidar 'src/**/*' -c 'yarn lint.tsc'",
+		"watch.build": "concurrently 'yarn run build.babel --watch' 'yarn watch.types'",
+		"watch.types": "tsc --emitDeclarationOnly -w",
 		"watch.tests": "jest --watch",
 		"upgrade.packages": "yarn-upgrade-all && rm yarn.lock ; yarn ; yarn lint.fix | true",
 		"upgrade.packages.all": "yarn install && yarn upgrade.packages",
@@ -43,7 +43,7 @@
 	"dependencies": {
 		"@sprucelabs/error": "latest",
 		"@sprucelabs/schema": "latest",
-		"@sprucelabs/spruce-skill-utils": "^16.1.0"
+		"@sprucelabs/spruce-skill-utils": "latest"
 	},
 	"devDependencies": {
 		"@sprucelabs/babel-plugin-schema": "latest",

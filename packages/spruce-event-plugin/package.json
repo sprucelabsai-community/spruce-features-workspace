@@ -32,7 +32,7 @@
 		"release": "semantic-release",
 		"test": "jest",
 		"watch.tests": "jest --watch",
-		"watch.build": "concurrently 'yarn build.types' 'yarn lint' 'yarn run build.babel --watch' \"chokidar 'src/**/*' -c 'clear ; yarn build.types'\" \"chokidar 'src/**/*' -c 'yarn lint'\"",
+		"watch.build": "concurrently 'yarn build.types' 'yarn lint' 'yarn run build.babel --watch' \"chokidar 'src/**/*' -c 'yarn build.types'\" \"chokidar 'src/**/*' -c 'yarn lint'\"",
 		"watch.lint": "chokidar 'src/**/*' -c 'yarn lint.tsc'",
 		"upgrade.packages": "yarn-upgrade-all && rm yarn.lock ; yarn ; yarn lint.fix | true",
 		"upgrade.packages.all": "yarn install && yarn upgrade.packages",
@@ -73,8 +73,7 @@
 		"testPathIgnorePatterns": [
 			"<rootDir>/tmp/",
 			"<rootDir>/src/",
-			"<rootDir>/node_modules/",
-			"<rootDir>/build/__tests__/testDirsAndFiles/"
+			"<rootDir>/node_modules/"
 		],
 		"testMatch": [
 			"**/__tests__/**/*.test.js?(x)"

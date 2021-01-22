@@ -82,6 +82,7 @@ export default class SkillTest extends AbstractSpruceTest {
 			execute: async () => {},
 			checkHealth: async () => ({ status: 'passed' }),
 			isInstalled: async () => true,
+			isBooted: () => false,
 			destroy: async () => {
 				wasDestroyCalled = true
 			},
@@ -92,6 +93,41 @@ export default class SkillTest extends AbstractSpruceTest {
 		await skill.kill()
 
 		assert.isTrue(wasDestroyCalled)
+	}
+
+	@test()
+	protected static async isBootedRightAwayIfNoFeatures() {
+		const skill = this.Skill()
+		void skill.execute()
+
+		assert.isTrue(skill.isBooted())
+
+		await skill.kill()
+	}
+
+	@test()
+	protected static async countsItselfAsBootedWhenAllFeaturesAreBooted() {
+		const skill = this.Skill()
+
+		let markAsBooted = false
+
+		skill.registerFeature('test', {
+			execute: async () => {},
+			checkHealth: async () => ({ status: 'passed' }),
+			isInstalled: async () => true,
+			isBooted: () => markAsBooted,
+			destroy: async () => {},
+		})
+
+		void skill.execute()
+
+		assert.isFalse(skill.isBooted())
+
+		markAsBooted = true
+
+		assert.isTrue(skill.isBooted())
+
+		await skill.kill()
 	}
 
 	private static Skill() {

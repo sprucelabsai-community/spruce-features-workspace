@@ -36,7 +36,10 @@ export default class FixtureFactory {
 					mercuryFixture.getApiClientFactory()
 				)
 
-				fixture = new SkillFixture(personFixture) as FixtureMap[Name]
+				fixture = new SkillFixture(
+					personFixture,
+					mercuryFixture.getApiClientFactory()
+				) as FixtureMap[Name]
 				break
 			}
 		}

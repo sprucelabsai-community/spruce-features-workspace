@@ -9,6 +9,7 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSpruceTe
 	protected static async afterEach() {
 		await super.afterEach()
 		await FixtureFactory.destroy()
+
 		for (const skill of this.skills) {
 			await skill.kill()
 		}

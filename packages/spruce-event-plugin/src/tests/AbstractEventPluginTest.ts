@@ -2,7 +2,7 @@ import {
 	AbstractSpruceFixtureTest,
 	SkillFactoryOptions,
 } from '../../../spruce-test-fixtures/build'
-import plugin from './../plugins/event.plugin'
+import plugin, { EventFeaturePlugin } from './../plugins/event.plugin'
 
 export default class AbstractEventPluginTest extends AbstractSpruceFixtureTest {
 	protected static async beforeEach() {
@@ -14,6 +14,8 @@ export default class AbstractEventPluginTest extends AbstractSpruceFixtureTest {
 			'testDirsAndFiles',
 			'skill'
 		)
+
+		EventFeaturePlugin.shouldClientUseEventContracts(false)
 	}
 
 	protected static Skill(options?: SkillFactoryOptions) {
@@ -22,5 +24,15 @@ export default class AbstractEventPluginTest extends AbstractSpruceFixtureTest {
 			plugins,
 			...options,
 		})
+	}
+
+	protected static resolveTestPath(pathAfterTestDirsAndFiles: string) {
+		return this.resolvePath(
+			__dirname,
+			'..',
+			'__tests__',
+			'testDirsAndFiles',
+			pathAfterTestDirsAndFiles
+		)
 	}
 }

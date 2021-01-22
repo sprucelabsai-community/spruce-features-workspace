@@ -99,6 +99,10 @@ export class ConversationFeature implements SkillFeature {
 			await new Promise((resolve) => setTimeout(resolve, 250))
 		}
 	}
+
+	public isBooted() {
+		return false
+	}
 }
 
 export default (skill: Skill) => {

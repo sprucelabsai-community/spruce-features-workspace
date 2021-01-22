@@ -25,6 +25,21 @@ export default class OrganizationFixture {
 		return organization
 	}
 
+	public async installSkill(skillId: string, orgId: any): Promise<void> {
+		const { client } = await this.personFixture.loginAsDemoPerson()
+
+		const results = await client.emit('install-skill::v2020_12_25', {
+			target: {
+				organizationId: orgId,
+			},
+			payload: {
+				skillId,
+			},
+		})
+
+		eventResponseUtil.getFirstResponseOrThrow(results)
+	}
+
 	public async destory() {
 		await this.personFixture.destroy()
 	}

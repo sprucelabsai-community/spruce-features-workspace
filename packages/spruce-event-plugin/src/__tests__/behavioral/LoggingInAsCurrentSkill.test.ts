@@ -1,6 +1,6 @@
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { test, assert } from '@sprucelabs/test'
-import { EventFeature } from '../../plugins/event.plugin'
+import { EventFeaturePlugin } from '../../plugins/event.plugin'
 import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
 
 export default class LoggingInAsCurrentSkillTest extends AbstractEventPluginTest {
@@ -30,7 +30,7 @@ export default class LoggingInAsCurrentSkillTest extends AbstractEventPluginTest
 
 	private static async login() {
 		const skill = this.Skill()
-		const feature = skill.getFeatureByCode('event') as EventFeature
+		const feature = skill.getFeatureByCode('event') as EventFeaturePlugin
 		const { client } = await feature.connectToApi()
 		const results = await client.emit('whoami::v2020_12_25')
 		return results

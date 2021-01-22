@@ -25,7 +25,7 @@ require('dotenv').config()
 
 type MercuryClient<T> = T extends any ? any : any
 
-export class EventFeature implements SkillFeature {
+export class EventFeaturePlugin implements SkillFeature {
 	private skill: Skill
 	private listenersPath: string
 	private listeners: EventFeatureListener[] = []
@@ -40,7 +40,13 @@ export class EventFeature implements SkillFeature {
 	private log: Log
 	private isDestroyed = false
 	private isExecuting = false
+	private _isBooted = false
 	private executeResolve?: any
+	private static shouldPassEventContractsToMercury = true
+
+	public static shouldClientUseEventContracts(should: boolean) {
+		this.shouldPassEventContractsToMercury = should
+	}
 
 	public constructor(skill: Skill) {
 		this.skill = skill
@@ -60,33 +66,43 @@ export class EventFeature implements SkillFeature {
 	public async execute() {
 		this.isExecuting = true
 
-		await this.loadEverything()
+		try {
+			await this.loadEverything()
 
-		const willBoot = this.getListener('skill', 'will-boot')
+			const willBoot = this.getListener('skill', 'will-boot')
+			const didBoot = this.getListener('skill', 'did-boot')
 
-		const didBoot = this.getListener('skill', 'did-boot')
+			if (willBoot) {
+				this.log.info(`Emitting skill.willBoot internally`)
+				await willBoot(this.skill)
+			}
 
-		if (willBoot) {
-			this.log.info(`Emitting skill.willBoot internally`)
-			await willBoot(this.skill)
-		}
+			await Promise.all([this.reRegisterListeners(), this.reRegisterEvents()])
 
-		await Promise.all([this.reRegisterListeners(), this.reRegisterEvents()])
+			if (didBoot) {
+				this.log.info(`Emitting skill.didBoot internally`)
+				await didBoot(this.skill)
+			}
 
-		if (didBoot) {
-			this.log.info(`Emitting skill.didBoot internally`)
-			await didBoot(this.skill)
-		}
+			if (this.apiClientPromise) {
+				this.log.info('Connection to Mercury successful. Waiting for events')
+				this.isExecuting = false
+				this._isBooted = true
+				await new Promise((resolve) => {
+					this.executeResolve = resolve
+				})
+			} else {
+				this.log.info(
+					"I couldn't find any events or listeners so I have nothing to do. 🌲🤖"
+				)
+				this._isBooted = true
+				this.isExecuting = false
+			}
+		} catch (err) {
+			this._isBooted = false
+			this.isExecuting = false
 
-		this.isExecuting = false
-
-		if (this.apiClientPromise) {
-			this.log.info('Connection to Mercury successful. Waiting for events')
-			await new Promise((resolve) => {
-				this.executeResolve = resolve
-			})
-		} else {
-			this.log.info('This skill not registered so I have nothing to do. 🌲🤖')
+			throw err
 		}
 	}
 
@@ -127,10 +143,11 @@ export class EventFeature implements SkillFeature {
 	}
 
 	public async destroy() {
-		if (this.apiClientPromise && !this.isDestroyed) {
+		if (!this.isDestroyed) {
 			this.isDestroyed = true
 
 			if (this.executeResolve) {
+				this.log.info('Killing execution hold.')
 				this.executeResolve()
 				this.executeResolve = undefined
 			}
@@ -143,8 +160,10 @@ export class EventFeature implements SkillFeature {
 				await new Promise((resolve) => setTimeout(resolve, 100))
 			}
 
-			this.log.info(`Disconnecting from Mercury.`)
-			await (await this.apiClientPromise).client.disconnect()
+			if (this.apiClientPromise) {
+				await (await this.apiClientPromise).client?.disconnect()
+				this.log.info(`Disconnected from Mercury.`)
+			}
 			this.apiClientPromise = undefined
 		}
 	}
@@ -166,9 +185,12 @@ export class EventFeature implements SkillFeature {
 			return this.apiClientPromise
 		}
 
-		const contracts = this.shouldConnectToApi()
-			? require(this.combinedContractsFile).default
-			: null
+		const contracts =
+			this.shouldConnectToApi() &&
+			EventFeaturePlugin.shouldPassEventContractsToMercury
+				? require(this.combinedContractsFile).default
+				: null
+
 		const MercuryClientFactory = require('@sprucelabs/mercury-client')
 			.MercuryClientFactory
 		const host = process.env.HOST ?? 'https://sandbox.mercury.spruce.ai'
@@ -446,9 +468,13 @@ export class EventFeature implements SkillFeature {
 
 		return this.eventsIRegistered
 	}
+
+	public isBooted() {
+		return this._isBooted
+	}
 }
 
 export default (skill: Skill) => {
-	const feature = new EventFeature(skill)
+	const feature = new EventFeaturePlugin(skill)
 	skill.registerFeature('event', feature)
 }
