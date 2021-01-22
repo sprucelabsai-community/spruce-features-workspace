@@ -59,9 +59,11 @@ export class EventFeature implements SkillFeature {
 
 	public async execute() {
 		this.isExecuting = true
+
 		await this.loadEverything()
 
 		const willBoot = this.getListener('skill', 'will-boot')
+
 		const didBoot = this.getListener('skill', 'did-boot')
 
 		if (willBoot) {
@@ -244,6 +246,10 @@ export class EventFeature implements SkillFeature {
 	}
 
 	private async reRegisterEvents() {
+		if (!this.shouldConnectToApi()) {
+			return
+		}
+
 		const { client, currentSkill } = await this.connectToApi()
 
 		if (client && currentSkill) {
@@ -375,6 +381,7 @@ export class EventFeature implements SkillFeature {
 		const listenerMatches = await globby(
 			`${this.listenersPath}/**/*.listener.[j|t]s`
 		)
+
 		const listeners: EventFeatureListener[] = []
 
 		listenerMatches.forEach((match) => {
@@ -414,6 +421,10 @@ export class EventFeature implements SkillFeature {
 	}
 
 	private async loadEvents() {
+		if (!this.shouldConnectToApi()) {
+			return
+		}
+
 		const { currentSkill } = await this.connectToApi()
 
 		if (currentSkill) {
