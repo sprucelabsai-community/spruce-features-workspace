@@ -233,7 +233,7 @@ export class EventFeature implements SkillFeature {
 		if (client && currentSkill) {
 			await client.emit('unregister-listeners::v2020_12_25', {
 				payload: {
-					shouldUnRegisterAll: true,
+					shouldUnregisterAll: true,
 				},
 			})
 
@@ -255,7 +255,7 @@ export class EventFeature implements SkillFeature {
 		if (client && currentSkill) {
 			await client.emit('unregister-events::v2020_12_25', {
 				payload: {
-					shouldUnRegisterAll: true,
+					shouldUnregisterAll: true,
 				},
 			})
 
