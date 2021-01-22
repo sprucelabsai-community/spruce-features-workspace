@@ -242,7 +242,7 @@ export class EventFeaturePlugin implements SkillFeature {
 
 			currentSkill = auth.skill
 
-			this.log.info('Authentication successful')
+			this.log.info(`Authenticated as ${currentSkill?.slug}.`)
 		}
 		return { client, currentSkill }
 	}
