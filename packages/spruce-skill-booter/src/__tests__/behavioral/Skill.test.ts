@@ -1,4 +1,8 @@
-import { diskUtil, Skill as ISkill } from '@sprucelabs/spruce-skill-utils'
+import {
+	diskUtil,
+	mockLog,
+	Skill as ISkill,
+} from '@sprucelabs/spruce-skill-utils'
 import AbstractSpruceTest, { test, assert } from '@sprucelabs/test'
 import { errorAssertUtil } from '@sprucelabs/test-utils'
 import Skill from '../../skills/Skill'
@@ -135,6 +139,7 @@ export default class SkillTest extends AbstractSpruceTest {
 			rootDir: this.cwd,
 			activeDir: this.cwd,
 			hashSpruceDir: this.cwd,
+			log: mockLog,
 		}) as ISkill
 	}
 }
