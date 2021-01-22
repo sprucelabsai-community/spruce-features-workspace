@@ -11,7 +11,7 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 		assert.isLength(contracts, 1)
 	}
 
-	@test.only()
+	@test()
 	protected static async registersEventsOnBoot() {
 		this.cwd = this.resolveTestPath('skill')
 

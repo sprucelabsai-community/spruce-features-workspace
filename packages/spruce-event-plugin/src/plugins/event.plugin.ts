@@ -1,4 +1,3 @@
-import { debug } from 'console'
 import pathUtil from 'path'
 import { EventContract, SpruceSchemas } from '@sprucelabs/mercury-types'
 import {
