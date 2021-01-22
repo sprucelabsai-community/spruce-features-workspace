@@ -22,6 +22,7 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 		)
 
 		if (contracts.length === 1) {
+			// eslint-disable-next-line no-debugger
 			debugger
 		}
 		assert.isLength(contracts, 2)
