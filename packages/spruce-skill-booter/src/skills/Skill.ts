@@ -133,13 +133,8 @@ export default class Skill implements ISkill {
 					resolve(null)
 				}, 1000))
 		)
-		await new Promise(
-			(resolve) =>
-				(this.shutdownTimeout = setTimeout(() => {
-					resolve(null)
-				}, 1000))
-		)
 
+		this.shutdownTimeout = undefined
 		this._isRunning = false
 	}
 

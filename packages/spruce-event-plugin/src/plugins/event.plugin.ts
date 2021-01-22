@@ -171,7 +171,7 @@ export class EventFeaturePlugin implements SkillFeature {
 	}
 
 	private async loadEverything() {
-		await Promise.all([this.loadListeners(), this.loadContracts()])
+		await Promise.all([this.loadContracts(), this.loadListeners()])
 		await this.loadEvents()
 	}
 
@@ -265,8 +265,6 @@ export class EventFeaturePlugin implements SkillFeature {
 
 			await this.registerListeners(client)
 		}
-
-		this.apiClientPromise = client
 	}
 
 	private async reRegisterEvents() {
@@ -286,6 +284,12 @@ export class EventFeaturePlugin implements SkillFeature {
 			this.log.info('Unregistered existing event contracts')
 
 			await this.registerEvents()
+		} else {
+			this.log.info(
+				`skipped reregister ${client ? 'has client' : 'no client'} | ${
+					currentSkill ? 'has currentSkill' : 'no current skill'
+				}`
+			)
 		}
 	}
 
@@ -453,7 +457,6 @@ export class EventFeaturePlugin implements SkillFeature {
 		const { currentSkill } = await this.connectToApi()
 
 		if (currentSkill) {
-			this.log.info('Loading events')
 			this.eventsIRegistered = []
 
 			this.allEventSignatures.forEach((signature) => {
@@ -467,6 +470,14 @@ export class EventFeaturePlugin implements SkillFeature {
 					})
 				}
 			})
+
+			this.log.info(
+				`Found ${this.eventsIRegistered.length} events defined locally.`
+			)
+		} else {
+			this.log.info(
+				'Skipped loading local events beacuse this skill is no registered.'
+			)
 		}
 
 		return this.eventsIRegistered

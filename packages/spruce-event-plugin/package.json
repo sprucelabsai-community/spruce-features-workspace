@@ -70,7 +70,7 @@
 		"yarn-upgrade-all": "^0.5.4"
 	},
 	"jest": {
-		"maxWorkers": 4,
+		"maxWorkers": 6,
 		"testTimeout": 300000,
 		"testEnvironment": "node",
 		"testPathIgnorePatterns": [

@@ -1,4 +1,3 @@
-import { testLog } from '@sprucelabs/spruce-skill-utils'
 import {
 	AbstractSpruceFixtureTest,
 	SkillFactoryOptions,
@@ -24,7 +23,6 @@ export default class AbstractEventPluginTest extends AbstractSpruceFixtureTest {
 		return super.Skill({
 			plugins,
 			...options,
-			log: testLog,
 		})
 	}
 
