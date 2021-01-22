@@ -3,7 +3,7 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "1.0.4",
+	"version": "1.0.7",
 	"main": "./build/index.js",
 	"types": "./build/index.d.ts",
 	"license": "MIT",
@@ -43,7 +43,7 @@
 	"dependencies": {
 		"@sprucelabs/error": "latest",
 		"@sprucelabs/schema": "latest",
-		"@sprucelabs/spruce-skill-utils": "^16.0.0"
+		"@sprucelabs/spruce-skill-utils": "^16.1.0"
 	},
 	"devDependencies": {
 		"@sprucelabs/babel-plugin-schema": "latest",
