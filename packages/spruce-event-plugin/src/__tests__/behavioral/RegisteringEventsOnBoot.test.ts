@@ -1,5 +1,5 @@
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
-import { diskUtil } from '@sprucelabs/spruce-skill-utils'
+import { buildLog, diskUtil } from '@sprucelabs/spruce-skill-utils'
 import { assert, test } from '@sprucelabs/test'
 import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
 
@@ -11,7 +11,7 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 		assert.isLength(contracts, 1)
 	}
 
-	@test()
+	@test.only()
 	protected static async registersEventsOnBoot() {
 		this.cwd = this.resolveTestPath('skill')
 
@@ -20,6 +20,10 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 				this.generateGoodContractFileForSkill(skill)
 			}
 		)
+
+		if (contracts.length === 1) {
+			debugger
+		}
 		assert.isLength(contracts, 2)
 	}
 
@@ -49,7 +53,7 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 		process.env.SKILL_ID = registeredSkill.id
 		process.env.SKILL_API_KEY = registeredSkill.apiKey
 
-		const skill = this.Skill()
+		const skill = this.Skill({ log: buildLog('TESTING') })
 		void skill.execute()
 
 		do {

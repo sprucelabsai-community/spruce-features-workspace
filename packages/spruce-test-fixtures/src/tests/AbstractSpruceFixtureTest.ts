@@ -14,6 +14,7 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSpruceTe
 		for (const skill of this.skills) {
 			await skill.kill()
 		}
+
 		this.skills = []
 	}
 

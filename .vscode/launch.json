@@ -15,7 +15,7 @@
 		{
 			"type": "node",
 			"request": "launch",
-			"name": "client.test.file",
+			"name": "event-plugin.test.file",
 			"runtimeExecutable": "${env:NVM_BIN}/node",
 			"runtimeArgs": [
 				"--inspect-brk",
@@ -25,7 +25,7 @@
 				"--detectOpenHandles"
 			],
 			"port": 9229,
-			"cwd": "${workspaceFolder}/packages/mercury-client",
+			"cwd": "${workspaceFolder}/packages/spruce-event-plugin",
 			"console": "integratedTerminal",
 			"internalConsoleOptions": "neverOpen"
 		},
@@ -40,7 +40,7 @@
 				"${workspaceFolder}/node_modules/.bin/jest"
 			],
 			"port": 9229,
-			"cwd": "${workspaceFolder}/packages/mercury-client",
+			"cwd": "${workspaceFolder}/packages/spruce-event-plugin",
 			"console": "integratedTerminal",
 			"internalConsoleOptions": "neverOpen"
 		}

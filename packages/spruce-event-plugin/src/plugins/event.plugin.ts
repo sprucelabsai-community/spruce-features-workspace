@@ -1,3 +1,4 @@
+import { debug } from 'console'
 import pathUtil from 'path'
 import { EventContract, SpruceSchemas } from '@sprucelabs/mercury-types'
 import {
@@ -60,6 +61,7 @@ export class EventFeaturePlugin implements SkillFeature {
 		this._shouldConnectToApi =
 			diskUtil.doesFileExist(this.combinedContractsFile + '.ts') ||
 			diskUtil.doesFileExist(this.combinedContractsFile + '.js')
+
 		this.log = skill.buildLog('feature.event')
 	}
 
@@ -164,6 +166,7 @@ export class EventFeaturePlugin implements SkillFeature {
 				await (await this.apiClientPromise).client?.disconnect()
 				this.log.info(`Disconnected from Mercury.`)
 			}
+
 			this.apiClientPromise = undefined
 		}
 	}
@@ -352,6 +355,7 @@ export class EventFeaturePlugin implements SkillFeature {
 	private async loadContracts() {
 		if (this.shouldConnectToApi()) {
 			const contracts = require(this.combinedContractsFile).default
+			this.log.info(`Loading ${contracts.length} contracts.`)
 
 			contracts.forEach((contract: EventContract) => {
 				const named = eventContractUtil.getNamedEventSignatures(contract)
