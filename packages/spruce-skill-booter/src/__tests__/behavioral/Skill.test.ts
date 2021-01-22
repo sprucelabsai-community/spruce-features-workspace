@@ -78,7 +78,7 @@ export default class SkillTest extends AbstractSpruceTest {
 		const skill = this.Skill()
 		let wasDestroyCalled = false
 
-		await skill.registerFeature('test', {
+		skill.registerFeature('test', {
 			execute: async () => {},
 			checkHealth: async () => ({ status: 'passed' }),
 			isInstalled: async () => true,

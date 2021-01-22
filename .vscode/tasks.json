@@ -21,8 +21,6 @@
             "command": "spruce",
             "args": [
                 "test",
-                "--inspect",
-                "5200",
                 "--shouldHoldAtStart",
                 "true",
                 "--watchMode",
@@ -46,8 +44,6 @@
             "command": "spruce",
             "args": [
                 "test",
-                "--inspect",
-                "5200",
                 "--shouldHoldAtStart",
                 "true",
                 "--watchMode",
@@ -71,8 +67,6 @@
             "command": "spruce",
             "args": [
                 "test",
-                "--inspect",
-                "5200",
                 "--shouldHoldAtStart",
                 "true",
                 "--watchMode",
@@ -96,8 +90,6 @@
             "command": "spruce",
             "args": [
                 "test",
-                "--inspect",
-                "5200",
                 "--shouldHoldAtStart",
                 "true",
                 "--watchMode",

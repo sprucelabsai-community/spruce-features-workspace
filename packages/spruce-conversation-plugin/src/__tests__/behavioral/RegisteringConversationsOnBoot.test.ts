@@ -32,15 +32,15 @@ export default class RegisteringConversationsOnBootTest extends AbstractConversa
 		this.assert2ExpectedTopics(topics)
 	}
 
-	@test.skip()
+	@test()
 	protected static async canBootASecondTime() {
 		this.cwd = this.resolveTestPath('skill')
 
-		const topics = await this.boot()
+		const topics = await this.boot(2)
 
 		this.assert2ExpectedTopics(topics)
 
-		const topics2 = await this.boot({
+		const topics2 = await this.boot(2, {
 			skillId: process.env.SKILL_ID as string,
 			apiKey: process.env.SKILL_API_KEY as string,
 		})
@@ -55,7 +55,10 @@ export default class RegisteringConversationsOnBootTest extends AbstractConversa
 		assert.doesInclude(topics, { key: 'cancelAppointment' })
 	}
 
-	private static async boot(options?: { skillId: string; apiKey: string }) {
+	private static async boot(
+		minTopics = 0,
+		options?: { skillId: string; apiKey: string }
+	) {
 		if (options?.skillId) {
 			process.env.SKILL_ID = options.skillId
 			process.env.SKILL_API_KEY = options.apiKey
@@ -72,15 +75,18 @@ export default class RegisteringConversationsOnBootTest extends AbstractConversa
 
 		void skill.execute()
 
-		await this.wait(1000)
-
 		const eventFeature = skill.getFeatureByCode('event') as EventFeature
 
 		const { client } = await eventFeature.connectToApi()
 
-		const results = await client.emit('get-conversation-topics::v2020_12_25')
+		let topics: any
 
-		const { topics } = eventResponseUtil.getFirstResponseOrThrow(results)
+		do {
+			await this.wait(1000)
+			const results = await client.emit('get-conversation-topics::v2020_12_25')
+			const payload = eventResponseUtil.getFirstResponseOrThrow(results)
+			topics = payload.topics
+		} while (topics.length < minTopics)
 
 		return topics
 	}
