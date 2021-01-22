@@ -101,7 +101,8 @@ export default class Skill implements ISkill {
 		} catch (err) {
 			this.log.error('Execution error:\n\n' + err.message)
 			await this.kill()
-			return
+
+			throw err
 		}
 
 		if (!this._isRunning) {

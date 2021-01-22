@@ -61,17 +61,19 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 			await this.wait(500)
 		} while (!skill.isBooted() && skill.isRunning())
 
-		const { skill: skill2, client } = await this.Fixture(
-			'skill'
-		).loginAsDemoSkill({
-			name: 'a killer skill',
-		})
-
 		const orgs = this.Fixture('organization')
-		const org = await orgs.seedDemoOrg({ name: 'my new org' })
 
-		await orgs.installSkill(registeredSkill.id, org.id)
-		await orgs.installSkill(skill2.id, org.id)
+		const [{ skill: skill2, client }, org] = await Promise.all([
+			await this.Fixture('skill').loginAsDemoSkill({
+				name: 'a killer skill',
+			}),
+			await orgs.seedDemoOrg({ name: 'my new org' }),
+		])
+
+		await Promise.all([
+			orgs.installSkill(registeredSkill.id, org.id),
+			orgs.installSkill(skill2.id, org.id),
+		])
 
 		const results = await client.emit('get-event-contracts::v2020_12_25')
 

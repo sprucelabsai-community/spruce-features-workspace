@@ -15,6 +15,23 @@
 		{
 			"type": "node",
 			"request": "launch",
+			"name": "conversation-plugin.test.file",
+			"runtimeExecutable": "${env:NVM_BIN}/node",
+			"runtimeArgs": [
+				"--inspect-brk",
+				"--trace-warnings",
+				"${workspaceFolder}/node_modules/.bin/jest",
+				"${fileBasenameNoExtension}",
+				"--detectOpenHandles"
+			],
+			"port": 9229,
+			"cwd": "${workspaceFolder}/packages/spruce-conversation-plugin",
+			"console": "integratedTerminal",
+			"internalConsoleOptions": "neverOpen"
+		},
+		{
+			"type": "node",
+			"request": "launch",
 			"name": "event-plugin.test.file",
 			"runtimeExecutable": "${env:NVM_BIN}/node",
 			"runtimeArgs": [
@@ -32,12 +49,13 @@
 		{
 			"type": "node",
 			"request": "launch",
-			"name": "client.test.all",
+			"name": "event-plugin.test.all",
 			"runtimeExecutable": "${env:NVM_BIN}/node",
 			"runtimeArgs": [
 				"--inspect-brk",
 				"--trace-warnings",
-				"${workspaceFolder}/node_modules/.bin/jest"
+				"${workspaceFolder}/node_modules/.bin/jest",
+				"--detectOpenHandles"
 			],
 			"port": 9229,
 			"cwd": "${workspaceFolder}/packages/spruce-event-plugin",
