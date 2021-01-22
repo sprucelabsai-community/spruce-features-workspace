@@ -23,6 +23,12 @@ jobs:
       - run: yarn clean
       - run: yarn build
       - run: yarn lint
+      - run:
+          name: "set phone numbers for each pacakge"
+          command: |
+            echo DEMO_NUMBER=555-001-0002 |tee packages/spruce-test-fixtures/.env
+            echo DEMO_NUMBER=555-002-0002 |tee packages/spruce-conversation-plugin/.env
+            echo DEMO_NUMBER=555-003-0002 |tee packages/spruce-event-plugin/.env
       - run: yarn test
       - run:
           name: Check branch for auto-upgrade
