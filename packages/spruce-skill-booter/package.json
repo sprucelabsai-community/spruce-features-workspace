@@ -44,7 +44,7 @@
 	"dependencies": {
 		"@sprucelabs/error": "latest",
 		"@sprucelabs/schema": "latest",
-		"@sprucelabs/spruce-skill-utils": "^17.0.1"
+		"@sprucelabs/spruce-skill-utils": "^17.0.2"
 	},
 	"devDependencies": {
 		"@sprucelabs/babel-plugin-schema": "latest",
