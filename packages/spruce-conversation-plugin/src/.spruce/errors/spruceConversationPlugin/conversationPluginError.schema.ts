@@ -3,9 +3,9 @@ import { SpruceErrors } from '../errors.types'
 
 
 
-const conversationPluginErrorSchema: SpruceErrors.SpruceConversation.ConversationPluginErrorSchema  = {
+const conversationPluginErrorSchema: SpruceErrors.SpruceConversationPlugin.ConversationPluginErrorSchema  = {
 	id: 'conversationPluginError',
-	namespace: 'SpruceConversation',
+	namespace: 'SpruceConversationPlugin',
 	name: 'Conversation plugin error',
 	    fields: {
 	    }

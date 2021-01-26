@@ -1,11 +1,7 @@
 import pathUtil from 'path'
 import globby from 'globby'
 import SpruceError from '../errors/SpruceError'
-import { TopicDefinition } from '../types/conversation.types'
-
-type LoadedTopicDefinition = TopicDefinition & {
-	key: string
-}
+import { LoadedTopicDefinition } from '../types/conversation.types'
 
 export default class TopicLoader {
 	private constructor() {}

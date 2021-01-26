@@ -1,14 +1,18 @@
 import { buildErrorSchema } from '@sprucelabs/schema'
 
 export default buildErrorSchema({
-	id: 'invalidTopic',
-	name: 'Invalid topic',
+	id: 'topicNotFound',
+	name: 'Topic not found',
 	description: '',
 	fields: {
-		topicScript: {
+		suppliedTopic: {
 			type: 'text',
 			isRequired: true,
-			hint: 'The script that I was attempting to load. Ends in .topic',
+		},
+		validTopics: {
+			type: 'text',
+			isRequired: true,
+			isArray: true,
 		},
 	},
 })

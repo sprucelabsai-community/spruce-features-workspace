@@ -1,3 +1,4 @@
+import { CoreEventContract } from '@sprucelabs/mercury-types'
 import { buildSchema, SchemaValues } from '@sprucelabs/schema'
 import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
 import { EventTarget } from '@sprucelabs/spruce-event-utils'
@@ -10,6 +11,8 @@ import {
 export type Message = SpruceSchemas.Spruce.v2020_07_22.Message
 export type SendMessage = SpruceSchemas.Spruce.v2020_07_22.SendMessage
 export type SendMessageHandler = (message: SendMessage) => Promise<void>
+export type DidMessageResponsePayloadSchema = CoreEventContract['eventSignatures']['did-message::v2020_12_25']['responsePayloadSchema']
+export type DidMessageResponsePayload = SchemaValues<DidMessageResponsePayloadSchema>
 
 type ScriptLineCallbackOptions = {
 	ui: GraphicsInterface
@@ -18,7 +21,9 @@ type ScriptLineCallbackOptions = {
 export type ScriptLine = string | ScriptLineCallback | string[]
 
 export interface ScriptLineCallback {
-	(options: ScriptLineCallbackOptions): Promise<void>
+	(
+		options: ScriptLineCallbackOptions
+	): Promise<void | DidMessageResponsePayload>
 }
 export type Script = ScriptLine[]
 
@@ -69,4 +74,8 @@ export interface ConversationHealthCheckItem extends HealthCheckItem {
 
 export interface ConversationHealthCheckResults extends HealthCheckResults {
 	conversation: ConversationHealthCheckItem
+}
+
+export type LoadedTopicDefinition = TopicDefinition & {
+	key: string
 }

@@ -9,7 +9,7 @@ export default class KillingTheSkillTest extends AbstractEventPluginTest {
 		void skill.execute()
 		const plugin = skill.getFeatureByCode('event') as EventFeaturePlugin
 
-		const { client } = await plugin.connectToApi()
+		const client = await plugin.connectToApi()
 
 		assert.isTruthy(client)
 		assert.isTrue(client.isConnected())

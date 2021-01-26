@@ -7,6 +7,7 @@ import {
 	SendMessageHandler,
 	ScriptPlayerSendMessage,
 	ScriptLine,
+	DidMessageResponsePayload,
 } from '../types/conversation.types'
 
 type MessageTarget = SpruceSchemas.Spruce.v2020_07_22.MessageTarget
@@ -54,18 +55,26 @@ export class TopicScriptPlayer {
 		})
 	}
 
-	public async handleMessage(message: Message) {
+	public async handleMessage(
+		message: Message
+	): Promise<DidMessageResponsePayload | null> {
 		if (this.graphicsInterface.isWaitingForInput()) {
 			await this.graphicsInterface.handleMessageBody(message.body)
 		} else {
-			await this.play(message)
+			return this.play(message)
 		}
+		return null
 	}
 
 	private async play(message: Message) {
 		for (const line of this.script) {
-			await this.handleLine(message, line)
+			const results = await this.handleLine(message, line)
+			if (results) {
+				return results
+			}
 		}
+
+		return null
 	}
 
 	private async handleLine(message: Message, line: ScriptLine) {
@@ -80,8 +89,10 @@ export class TopicScriptPlayer {
 				body: normalizedLine,
 			})
 		} else if (typeof normalizedLine === 'function') {
-			await normalizedLine({ ui: this.graphicsInterface })
+			return normalizedLine({ ui: this.graphicsInterface })
 		}
+
+		return null
 	}
 
 	protected pickRandomLine(line: any[]): ScriptLine {
