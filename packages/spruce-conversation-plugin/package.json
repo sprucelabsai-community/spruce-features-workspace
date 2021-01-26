@@ -3,7 +3,7 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "1.0.16",
+	"version": "1.1.0",
 	"main": "./build/index.js",
 	"types": "./build/index.d.ts",
 	"license": "MIT",
@@ -46,10 +46,10 @@
 		"@sprucelabs/error": "latest",
 		"@sprucelabs/schema": "latest",
 		"@sprucelabs/spruce-core-schemas": "latest",
-		"@sprucelabs/spruce-event-plugin": "^1.0.16",
+		"@sprucelabs/spruce-event-plugin": "^1.1.0",
 		"@sprucelabs/spruce-event-utils": "latest",
 		"@sprucelabs/spruce-skill-utils": "latest",
-		"@sprucelabs/spruce-test-fixtures": "^1.0.16",
+		"@sprucelabs/spruce-test-fixtures": "^1.1.0",
 		"globby": "^11.0.2",
 		"node-nlp": "^4.19.7"
 	},
