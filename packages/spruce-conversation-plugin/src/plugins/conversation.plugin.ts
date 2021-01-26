@@ -1,6 +1,8 @@
+import { EventContract, CoreEventContract } from '@sprucelabs/mercury-types'
 import { EventFeature } from '@sprucelabs/spruce-event-plugin'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { Log, Skill, SkillFeature } from '@sprucelabs/spruce-skill-utils'
+import { ConversationCoordinator } from '../conversations/ConversationCoordinator'
 import TopicLoader from '../conversations/TopicLoader'
 import SpruceError from '../errors/SpruceError'
 import { ConversationHealthCheckItem } from '../types/conversation.types'
@@ -9,6 +11,7 @@ export class ConversationFeature implements SkillFeature {
 	private skill: Skill
 	private log: Log
 	private isExecuting = false
+	private _isBooted = false
 
 	public constructor(skill: Skill) {
 		this.skill = skill
@@ -18,8 +21,36 @@ export class ConversationFeature implements SkillFeature {
 	public async execute(): Promise<void> {
 		this.assertDependencies()
 		this.isExecuting = true
+
 		await this.syncTopics()
+
+		const client = await this.connectToApi()
+
+		const coordinator = await ConversationCoordinator.Coordinator({
+			topicLookupPath: this.skill.activeDir,
+			sendMessageHandler: async (message) => {
+				try {
+					const { target, ...values } = message
+					await client.emit('send-message::v2020_12_25', {
+						target,
+						payload: {
+							message: values,
+						},
+					})
+				} catch (err) {
+					this.log.error(err.message)
+				}
+			},
+		})
+
+		await client.on('did-message::v2020_12_25', async (targetAndPayload) => {
+			const { message, topic } = targetAndPayload.payload
+			//@ts-ignore
+			return coordinator.handleMessage(message, topic)
+		})
+
 		this.isExecuting = false
+		this._isBooted = true
 	}
 
 	private async syncTopics() {
@@ -28,9 +59,7 @@ export class ConversationFeature implements SkillFeature {
 		this.log.info(`Found ${topics.length} conversation topics.`)
 
 		if (topics.length > 0) {
-			const events = this.skill.getFeatureByCode('event') as EventFeature
-
-			const { client } = await events.connectToApi()
+			const client = await this.connectToApi()
 
 			this.log.info('Unregistering past conversation topics.')
 
@@ -54,6 +83,15 @@ export class ConversationFeature implements SkillFeature {
 
 			this.log.info('Topics now in sync.')
 		}
+	}
+
+	private async connectToApi<
+		Contract extends EventContract = CoreEventContract
+	>() {
+		const events = this.skill.getFeatureByCode('event') as EventFeature
+
+		const client = await events.connectToApi<Contract>()
+		return client
 	}
 
 	public async checkHealth(): Promise<ConversationHealthCheckItem> {
@@ -101,7 +139,7 @@ export class ConversationFeature implements SkillFeature {
 	}
 
 	public isBooted() {
-		return false
+		return this._isBooted
 	}
 }
 

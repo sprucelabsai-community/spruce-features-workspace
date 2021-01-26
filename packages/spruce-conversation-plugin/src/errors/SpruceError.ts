@@ -24,6 +24,10 @@ export default class SpruceError extends BaseSpruceError<ErrorOptions> {
 				message = 'A Missing dependencies just happened!'
 				break
 
+			case 'TOPIC_NOT_FOUND':
+				message = 'A Topic not found just happened!'
+				break
+
 			default:
 				message = super.friendlyMessage()
 		}

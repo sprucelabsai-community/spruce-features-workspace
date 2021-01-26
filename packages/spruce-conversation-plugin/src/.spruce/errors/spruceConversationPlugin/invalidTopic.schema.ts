@@ -3,15 +3,16 @@ import { SpruceErrors } from '../errors.types'
 
 
 
-const invalidTopicSchema: SpruceErrors.SpruceConversation.InvalidTopicSchema  = {
+const invalidTopicSchema: SpruceErrors.SpruceConversationPlugin.InvalidTopicSchema  = {
 	id: 'invalidTopic',
-	namespace: 'SpruceConversation',
+	namespace: 'SpruceConversationPlugin',
 	name: 'Invalid topic',
 	    fields: {
-	            /** . */
+	            /** . The script that I was attempting to load. Ends in .topic */
 	            'topicScript': {
 	                type: 'text',
 	                isRequired: true,
+	                hint: 'The script that I was attempting to load. Ends in .topic',
 	                options: undefined
 	            },
 	    }

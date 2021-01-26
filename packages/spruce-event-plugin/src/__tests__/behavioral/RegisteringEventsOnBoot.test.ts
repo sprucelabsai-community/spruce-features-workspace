@@ -54,12 +54,7 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 		process.env.SKILL_ID = registeredSkill.id
 		process.env.SKILL_API_KEY = registeredSkill.apiKey
 
-		const skill = this.Skill()
-		void skill.execute()
-
-		do {
-			await this.wait(500)
-		} while (!skill.isBooted() && skill.isRunning())
+		await this.bootSkill()
 
 		const orgs = this.Fixture('organization')
 

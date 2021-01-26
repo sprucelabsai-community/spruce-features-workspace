@@ -1,14 +1,14 @@
-import AbstractSpruceTest, { test, assert } from '@sprucelabs/test'
+import { AbstractSpruceFixtureTest } from '@sprucelabs/spruce-test-fixtures'
+import { test, assert } from '@sprucelabs/test'
 import { errorAssertUtil } from '@sprucelabs/test-utils'
 import { TopicScriptPlayer } from '../../conversations/TopicScriptPlayer'
 import {
 	Script,
 	ScriptPlayerOptions,
 	SendMessage,
-	Message,
 } from '../../types/conversation.types'
 
-export default class TopicScriptPlayerTest extends AbstractSpruceTest {
+export default class TopicScriptPlayerTest extends AbstractSpruceFixtureTest {
 	@test()
 	protected static async throwsWhenRequiredOptionsNotSent() {
 		//@ts-ignore
@@ -88,7 +88,7 @@ export default class TopicScriptPlayerTest extends AbstractSpruceTest {
 	}
 
 	@test()
-	protected static async responseWithRandomLine() {
+	protected static async respondsWithRandomLine() {
 		const messages: SendMessage[] = []
 
 		const player = this.Player({
@@ -203,6 +203,25 @@ export default class TopicScriptPlayerTest extends AbstractSpruceTest {
 		assert.doesInclude(messages, { body: 'Are you sure?' })
 	}
 
+	@test()
+	protected static async scriptCanRespondWithTransition() {
+		const player = this.Player({
+			script: [
+				async () => {
+					return { transitionConversationTo: 'discovery' }
+				},
+			],
+		})
+
+		const results = await this.sendMessage(player, {
+			body: 'tell me a story!',
+		})
+
+		assert.isTruthy(results)
+		assert.isTruthy(results.transitionConversationTo)
+		assert.isEqual(results.transitionConversationTo, 'discovery')
+	}
+
 	private static Player(
 		options: Partial<ScriptPlayerOptions> & { script: Script }
 	) {
@@ -217,21 +236,8 @@ export default class TopicScriptPlayerTest extends AbstractSpruceTest {
 		player: TopicScriptPlayer,
 		message: Partial<SendMessage>
 	) {
-		await player.handleMessage(
+		return player.handleMessage(
 			this.buildMessage({ source: { personId: '1234' }, ...message })
 		)
-	}
-
-	protected static buildMessage<T extends Partial<Message>>(
-		values: T
-	): Message & T {
-		return {
-			id: '1234',
-			dateCreated: new Date().getTime(),
-			target: {},
-			source: {},
-			classification: 'incoming',
-			...values,
-		} as Message & T
 	}
 }

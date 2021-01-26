@@ -1,5 +1,9 @@
 import pathUtil from 'path'
-import { EventContract, SpruceSchemas } from '@sprucelabs/mercury-types'
+import {
+	EventContract,
+	MercuryEventEmitter,
+	SpruceSchemas,
+} from '@sprucelabs/mercury-types'
 import {
 	eventContractUtil,
 	eventDiskUtil,
@@ -23,7 +27,13 @@ import SpruceError from '../errors/SpruceError'
 
 require('dotenv').config()
 
-type MercuryClient<T> = T extends any ? any : any
+type MercuryClient<
+	Contract extends EventContract = EventContract
+> = MercuryEventEmitter<Contract> & {
+	isConnected: () => boolean
+	connect: () => Promise<void>
+	disconnect: () => Promise<void>
+}
 
 export class EventFeaturePlugin implements SkillFeature {
 	private skill: Skill
@@ -175,16 +185,16 @@ export class EventFeaturePlugin implements SkillFeature {
 		await this.loadEvents()
 	}
 
-	public async connectToApi(): Promise<{
-		client?: MercuryClient<any>
-		currentSkill?: SpruceSchemas.Spruce.v2020_07_22.Skill
-	}> {
+	public async connectToApi<Contract extends EventContract = any>(): Promise<
+		MercuryClient<Contract>
+	> {
 		if (this.isDestroyed) {
-			return {}
+			throw new Error(`Can't connect to api when being shut down.`)
 		}
 
 		if (this.apiClientPromise) {
-			return this.apiClientPromise
+			const { client } = await this.apiClientPromise
+			return client
 		}
 
 		const contracts =
@@ -205,9 +215,21 @@ export class EventFeaturePlugin implements SkillFeature {
 			contracts
 		)
 
-		const { client, currentSkill } = await this.apiClientPromise
+		const { client } = await this.apiClientPromise
 
-		return { client, currentSkill }
+		return client
+	}
+
+	public async getCurrentSkill() {
+		await this.connectToApi()
+
+		if (this.apiClientPromise) {
+			const { currentSkill } = await this.apiClientPromise
+
+			return currentSkill
+		}
+
+		return undefined
 	}
 
 	private async loginAndAuthenticate(
@@ -252,7 +274,8 @@ export class EventFeaturePlugin implements SkillFeature {
 			return
 		}
 
-		const { client, currentSkill } = await this.connectToApi()
+		const client = await this.connectToApi()
+		const currentSkill = await this.getCurrentSkill()
 
 		if (client && currentSkill) {
 			await client.emit('unregister-listeners::v2020_12_25', {
@@ -272,7 +295,8 @@ export class EventFeaturePlugin implements SkillFeature {
 			return
 		}
 
-		const { client, currentSkill } = await this.connectToApi()
+		const client = await this.connectToApi()
+		const currentSkill = await this.getCurrentSkill()
 
 		if (client && currentSkill) {
 			await client.emit('unregister-events::v2020_12_25', {
@@ -294,38 +318,36 @@ export class EventFeaturePlugin implements SkillFeature {
 	}
 
 	private async registerEvents() {
-		const { client } = await this.connectToApi()
+		const client = await this.connectToApi()
+
 		if (this.isDestroyed) {
 			return
 		}
 
-		if (client) {
-			const contract = {
-				eventSignatures: {},
-			}
-
-			for (const event of this.eventsIRegistered) {
-				const name = eventNameUtil.join({
-					eventName: event.eventName,
-					version: event.version,
-				})
-				//@ts-ignore
-				contract.eventSignatures[name] = event.signature
-			}
-
-			const registerResults = await client.emit(
-				'register-events::v2020_12_25',
-				{ payload: { contract } }
-			)
-
-			eventResponseUtil.getFirstResponseOrThrow(registerResults)
-
-			this.log.info(
-				`Registered ${this.eventsIRegistered.length} event contract${
-					this.eventsIRegistered.length === 1 ? '' : 's'
-				}`
-			)
+		const contract = {
+			eventSignatures: {},
 		}
+
+		for (const event of this.eventsIRegistered) {
+			const name = eventNameUtil.join({
+				eventName: event.eventName,
+				version: event.version,
+			})
+			//@ts-ignore
+			contract.eventSignatures[name] = event.signature
+		}
+
+		const registerResults = await client.emit('register-events::v2020_12_25', {
+			payload: { contract },
+		})
+
+		eventResponseUtil.getFirstResponseOrThrow(registerResults)
+
+		this.log.info(
+			`Registered ${this.eventsIRegistered.length} event contract${
+				this.eventsIRegistered.length === 1 ? '' : 's'
+			}`
+		)
 	}
 
 	private async registerListeners(client: any) {
@@ -454,7 +476,7 @@ export class EventFeaturePlugin implements SkillFeature {
 			return
 		}
 
-		const { currentSkill } = await this.connectToApi()
+		const currentSkill = await this.getCurrentSkill()
 
 		if (currentSkill) {
 			this.eventsIRegistered = []

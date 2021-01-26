@@ -17,7 +17,7 @@
             }
         },
         {
-            "label": "test.reporter.conversation",
+            "label": "conversation.test.reporter",
             "command": "spruce",
             "args": [
                 "test",
@@ -40,7 +40,7 @@
             }
         },
         {
-            "label": "test.reporter.event-plugin",
+            "label": "event-plugin.test.reporter",
             "command": "spruce",
             "args": [
                 "test",
@@ -63,7 +63,7 @@
             }
         },
         {
-            "label": "test.reporter.skill-booter",
+            "label": "skill-booter.test.reporter",
             "command": "spruce",
             "args": [
                 "test",
@@ -86,7 +86,7 @@
             }
         },
         {
-            "label": "test.reporter.test-fixtures",
+            "label": "test-fixtures.test.reporter",
             "command": "spruce",
             "args": [
                 "test",

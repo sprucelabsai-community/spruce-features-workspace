@@ -19,7 +19,6 @@ export default class RegisteringConversationsOnBootTest extends AbstractConversa
 	@test()
 	protected static async noConvosToStart() {
 		const topics = await this.boot()
-
 		assert.isLength(topics, 0)
 	}
 
@@ -77,7 +76,7 @@ export default class RegisteringConversationsOnBootTest extends AbstractConversa
 
 		const eventFeature = skill.getFeatureByCode('event') as EventFeature
 
-		const { client } = await eventFeature.connectToApi()
+		const client = await eventFeature.connectToApi()
 
 		let topics: any
 
