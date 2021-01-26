@@ -45,8 +45,8 @@ export default class TopicCoordinatorTest extends AbstractConversationTest {
 			this.buildMessage({ body: 'waka waka', source: { personId: '1234' } })
 		)
 
-		assert.isArray(results.suggestedTopics)
-		assert.isLength(results.suggestedTopics, 0)
+		assert.isArray((results as any).suggestedTopics)
+		assert.isLength((results as any).suggestedTopics, 0)
 	}
 
 	@test()
@@ -55,8 +55,8 @@ export default class TopicCoordinatorTest extends AbstractConversationTest {
 			this.buildMessage({ body: 'help me book!', source: { personId: '1234' } })
 		)
 
-		assert.isArray(results.suggestedTopics)
-		assert.isLength(results.suggestedTopics, 1)
+		assert.isArray((results as any).suggestedTopics)
+		assert.isLength((results as any).suggestedTopics, 1)
 	}
 
 	@test()
@@ -70,8 +70,8 @@ export default class TopicCoordinatorTest extends AbstractConversationTest {
 			this.buildMessage({ body: 'help me book!', source: { personId: '1234' } })
 		)
 
-		assert.isArray(results.suggestedTopics)
-		assert.isLength(results.suggestedTopics, 0)
+		assert.isArray((results as any).suggestedTopics)
+		assert.isLength((results as any).suggestedTopics, 0)
 	}
 
 	@test()

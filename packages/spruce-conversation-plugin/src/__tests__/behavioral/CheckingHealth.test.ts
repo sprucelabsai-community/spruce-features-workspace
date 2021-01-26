@@ -2,7 +2,6 @@ import { test, assert } from '@sprucelabs/test'
 import { errorAssertUtil } from '@sprucelabs/test-utils'
 import plugin from '../../plugins/conversation.plugin'
 import AbstractConversationTest from '../../tests/AbstractConversationTest'
-import { ConversationHealthCheckResults } from '../../types/conversation.types'
 
 type SkillFactoryOptions = any
 export default class CheckingHealthTest extends AbstractConversationTest {
@@ -22,6 +21,7 @@ export default class CheckingHealthTest extends AbstractConversationTest {
 	protected static async throwsWhenExecutingIfEventPluginMissing() {
 		const health = await this.checkHealth({ plugins: [plugin] })
 
+		assert.isTruthy(health.conversation)
 		assert.isEqual(health.conversation.status, 'failed')
 		const err = health.conversation.errors?.[0]
 		assert.isTruthy(err)
@@ -35,13 +35,14 @@ export default class CheckingHealthTest extends AbstractConversationTest {
 	protected static async returnsZeroStateResponseFromHealthCheckWhenNoConversations() {
 		const healthCheck = await this.checkHealth()
 
+		assert.isTruthy(healthCheck.conversation)
 		assert.isEqual(healthCheck.conversation.status, 'passed')
 		assert.isEqualDeep(healthCheck.conversation.topics, [])
 	}
 
 	private static async checkHealth(options?: SkillFactoryOptions) {
 		const skill = this.Skill(options)
-		const healthCheck = (await skill.checkHealth()) as ConversationHealthCheckResults
+		const healthCheck = await skill.checkHealth()
 		return healthCheck
 	}
 
@@ -56,7 +57,9 @@ export default class CheckingHealthTest extends AbstractConversationTest {
 			),
 		})
 
+		assert.isTruthy(healthCheck.conversation)
 		assert.isEqual(healthCheck.conversation.status, 'failed')
+
 		errorAssertUtil.assertError(
 			healthCheck.conversation.errors?.[0] as Error,
 			'CONVERSATION_PLUGIN_ERROR'
@@ -74,6 +77,7 @@ export default class CheckingHealthTest extends AbstractConversationTest {
 			activeDir: this.resolvePath(__dirname, '..', 'testDirsAndFiles', 'good'),
 		})
 
+		assert.isTruthy(healthCheck.conversation)
 		assert.isLength(healthCheck.conversation.topics, 2)
 		assert.isEqualDeep(healthCheck.conversation.topics, [
 			'bookAppointment',

@@ -5,7 +5,6 @@ import { EventTarget } from '@sprucelabs/spruce-event-utils'
 import {
 	GraphicsInterface,
 	HealthCheckItem,
-	HealthCheckResults,
 } from '@sprucelabs/spruce-skill-utils'
 
 export type Message = SpruceSchemas.Spruce.v2020_07_22.Message
@@ -72,10 +71,12 @@ export interface ConversationHealthCheckItem extends HealthCheckItem {
 	topics: string[]
 }
 
-export interface ConversationHealthCheckResults extends HealthCheckResults {
-	conversation: ConversationHealthCheckItem
-}
-
 export type LoadedTopicDefinition = TopicDefinition & {
 	key: string
+}
+
+declare module '@sprucelabs/spruce-skill-utils/build/skill.types' {
+	export interface HealthCheckResults {
+		conversation?: ConversationHealthCheckItem
+	}
 }
