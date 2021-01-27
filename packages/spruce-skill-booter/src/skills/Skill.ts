@@ -26,7 +26,7 @@ export default class Skill implements ISkill {
 		this.rootDir = options.rootDir
 		this.activeDir = options.activeDir
 		this.hashSpruceDir = options.hashSpruceDir
-		this.log = options.log ?? buildLog('skill')
+		this.log = options.log ?? buildLog('Skill')
 	}
 
 	public isFeatureInstalled = async (featureCode: string) => {

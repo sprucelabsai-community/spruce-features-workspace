@@ -35,16 +35,27 @@ export default class RegisteringConversationsOnBootTest extends AbstractConversa
 	protected static async canBootASecondTime() {
 		this.cwd = this.resolveTestPath('skill')
 
-		const topics = await this.boot(2)
+		const topics = await this.boot()
 
 		this.assert2ExpectedTopics(topics)
 
-		const topics2 = await this.boot(2, {
+		const topics2 = await this.boot({
 			skillId: process.env.SKILL_ID as string,
 			apiKey: process.env.SKILL_API_KEY as string,
 		})
 
 		this.assert2ExpectedTopics(topics2)
+	}
+
+	@test()
+	protected static async skillCanBootASecondTime() {
+		this.cwd = this.resolveTestPath('skill')
+
+		await this.boot()
+		await this.boot({
+			skillId: process.env.SKILL_ID as string,
+			apiKey: process.env.SKILL_API_KEY as string,
+		})
 	}
 
 	private static assert2ExpectedTopics(topics: any) {
@@ -54,10 +65,7 @@ export default class RegisteringConversationsOnBootTest extends AbstractConversa
 		assert.doesInclude(topics, { key: 'cancelAppointment' })
 	}
 
-	private static async boot(
-		minTopics = 0,
-		options?: { skillId: string; apiKey: string }
-	) {
+	private static async boot(options?: { skillId: string; apiKey: string }) {
 		if (options?.skillId) {
 			process.env.SKILL_ID = options.skillId
 			process.env.SKILL_API_KEY = options.apiKey
@@ -74,18 +82,19 @@ export default class RegisteringConversationsOnBootTest extends AbstractConversa
 
 		void skill.execute()
 
+		do {
+			await this.wait(500)
+		} while (!skill.isBooted())
+
 		const eventFeature = skill.getFeatureByCode('event') as EventFeature
 
 		const client = await eventFeature.connectToApi()
 
 		let topics: any
 
-		do {
-			await this.wait(1000)
-			const results = await client.emit('get-conversation-topics::v2020_12_25')
-			const payload = eventResponseUtil.getFirstResponseOrThrow(results)
-			topics = payload.topics
-		} while (topics.length < minTopics)
+		const results = await client.emit('get-conversation-topics::v2020_12_25')
+		const payload = eventResponseUtil.getFirstResponseOrThrow(results)
+		topics = payload.topics
 
 		return topics
 	}

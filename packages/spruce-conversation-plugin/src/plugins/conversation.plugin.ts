@@ -72,7 +72,11 @@ export class ConversationFeature implements SkillFeature {
 
 			eventResponseUtil.getFirstResponseOrThrow(unregisterResults)
 
-			this.log.info('Registering new topics.')
+			this.log.info(
+				`Registering new ${topics.length} topic${
+					topics.length === 1 ? '' : 's'
+				}.`
+			)
 
 			const results = await client.emit(
 				`register-conversation-topics::v2020_12_25`,
