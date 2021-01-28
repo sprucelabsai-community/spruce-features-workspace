@@ -12,6 +12,7 @@ export class ConversationFeature implements SkillFeature {
 	private log: Log
 	private isExecuting = false
 	private _isBooted = false
+	private executeResolver?: any
 
 	public constructor(skill: Skill) {
 		this.skill = skill
@@ -55,7 +56,11 @@ export class ConversationFeature implements SkillFeature {
 		this.isExecuting = false
 		this._isBooted = true
 
-		this.log.info('Conversations ready and waiting.')
+		this.log.info('Conversations loaded. Ready to chat when you are. 🤘')
+
+		await new Promise((resolve) => {
+			this.executeResolver = resolve
+		})
 	}
 
 	private async syncTopics() {

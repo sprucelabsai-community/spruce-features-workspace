@@ -57,6 +57,7 @@ export default class RespondingToMessagesTest extends AbstractConversationTest {
 				message: this.buildMessage({
 					body: 'I wanna book an appointment!',
 					source: {
+						isCore: null,
 						personId: '12345',
 					},
 					...options?.message,

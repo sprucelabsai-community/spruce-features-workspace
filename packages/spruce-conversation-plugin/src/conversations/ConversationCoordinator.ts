@@ -71,8 +71,11 @@ export class ConversationCoordinator {
 			})
 		}
 
+		const { ...target } = message.source
+		delete target.isCore
+
 		const player = new TopicScriptPlayer({
-			target: message.source,
+			target,
 			sendMessageHandler: this.sendMessageHandler,
 			script: matchedTopic.script,
 		})
