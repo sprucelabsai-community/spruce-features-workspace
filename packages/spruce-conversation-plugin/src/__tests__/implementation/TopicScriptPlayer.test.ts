@@ -121,7 +121,7 @@ export default class TopicScriptPlayerTest extends AbstractSpruceFixtureTest {
 		const player = this.Player({
 			script: [
 				async (options) => {
-					options.ui.renderLine('What the?')
+					options.ui.renderLine('What is up?')
 				},
 			],
 			sendMessageHandler: async (message) => {
@@ -132,6 +132,11 @@ export default class TopicScriptPlayerTest extends AbstractSpruceFixtureTest {
 		await this.sendMessage(player, {
 			body: 'What the?',
 		})
+
+		assert.isLength(messages, 1)
+		assert.isEqual(messages[0].body, 'What is up?')
+		//@ts-ignore
+		assert.isFalsy(messages[0].target.isCore)
 	}
 
 	@test('Passes confirm when sent "Y"', 'Y', true)

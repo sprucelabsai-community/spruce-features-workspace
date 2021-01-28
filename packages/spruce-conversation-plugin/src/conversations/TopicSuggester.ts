@@ -18,22 +18,13 @@ type NlpProcessor = (
 export class TopicSuggester {
 	private nlp: NlpProcessor
 	private topics: Topic[]
-	private minimumTopicSuggestionConfidenceThreshold: number
 
-	private constructor(
-		nlp: NlpProcessor,
-		topics: Topic[],
-		minimumTopicSuggestionConfidenceThreshold = 0.5
-	) {
+	private constructor(nlp: NlpProcessor, topics: Topic[]) {
 		this.nlp = nlp
 		this.topics = topics
-		this.minimumTopicSuggestionConfidenceThreshold = minimumTopicSuggestionConfidenceThreshold
 	}
 
-	public static async Suggester(options: {
-		topics: Topic[]
-		minimumTopicSuggestionConfidenceThreshold?: number
-	}) {
+	public static async Suggester(options: { topics: Topic[] }) {
 		const container = containerBootstrap()
 		container.use(LangEn)
 		container.use(NluNeural)
@@ -51,11 +42,7 @@ export class TopicSuggester {
 			await manager.train()
 		}
 
-		return new this(
-			manager.process.bind(manager),
-			options.topics,
-			options.minimumTopicSuggestionConfidenceThreshold
-		)
+		return new this(manager.process.bind(manager), options.topics)
 	}
 
 	public async suggest(
@@ -68,7 +55,7 @@ export class TopicSuggester {
 		for (const c of classifications) {
 			const match = this.topics.find((t) => t.key === c.intent)
 
-			if (match && c.score > this.minimumTopicSuggestionConfidenceThreshold) {
+			if (match) {
 				suggestedTopics.push({
 					key: match.key,
 					label: match.label,

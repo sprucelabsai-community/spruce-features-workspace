@@ -57,40 +57,12 @@ export default class TopicSuggesterTest extends AbstractSpruceTest {
 		assert.isEqualDeep(suggestions[0].key, 'bookAppointment')
 	}
 
-	@test()
-	protected static async onlyReturnsTopicsAboveThreshold() {
-		const suggestions = await this.Suggester(
-			[
-				{
-					key: 'scheduleShft',
-					label: 'Shift',
-					utterances: ['shift', 'block my time', 'break', 'hours', 'schedule'],
-				},
-				{
-					key: 'bookAppointment',
-					label: 'Book',
-					utterances: [
-						'book appointment',
-						'schedule an appointment',
-						'book',
-						'schedule',
-					],
-				},
-			],
-			'waka'
-		)
-
-		assert.isLength(suggestions, 0)
-	}
-
 	private static async Suggester(
 		topics: { key: string; label: string; utterances: string[] }[],
-		messageBody: string,
-		minimumTopicSuggestionConfidenceThreshold?: number
+		messageBody: string
 	) {
 		const topicSuggester = await TopicSuggester.Suggester({
 			topics,
-			minimumTopicSuggestionConfidenceThreshold,
 		})
 
 		const suggestions = await topicSuggester.suggest(messageBody)

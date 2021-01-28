@@ -31,12 +31,15 @@ export class ConversationFeature implements SkillFeature {
 			sendMessageHandler: async (message) => {
 				try {
 					const { target, ...values } = message
-					await client.emit('send-message::v2020_12_25', {
+
+					const results = await client.emit('send-message::v2020_12_25', {
 						target,
 						payload: {
 							message: values,
 						},
 					})
+
+					eventResponseUtil.getFirstResponseOrThrow(results)
 				} catch (err) {
 					this.log.error(err.message)
 				}
@@ -51,6 +54,8 @@ export class ConversationFeature implements SkillFeature {
 
 		this.isExecuting = false
 		this._isBooted = true
+
+		this.log.info('Conversations ready and waiting.')
 	}
 
 	private async syncTopics() {

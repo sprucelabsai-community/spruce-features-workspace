@@ -39,15 +39,6 @@ export default class TopicCoordinatorTest extends AbstractConversationTest {
 		})
 	}
 
-	@test()
-	protected static async respondsWithNoSuggestedTopicsToFirstMessage() {
-		const results = await this.coordinator.handleMessage(
-			this.buildMessage({ body: 'waka waka', source: { personId: '1234' } })
-		)
-
-		assert.isArray((results as any).suggestedTopics)
-		assert.isLength((results as any).suggestedTopics, 0)
-	}
 
 	@test()
 	protected static async respondsWithSuggestedTopicsToFirstMessage() {
