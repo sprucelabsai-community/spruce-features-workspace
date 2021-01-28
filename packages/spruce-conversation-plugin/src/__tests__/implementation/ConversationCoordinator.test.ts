@@ -39,7 +39,6 @@ export default class TopicCoordinatorTest extends AbstractConversationTest {
 		})
 	}
 
-
 	@test()
 	protected static async respondsWithSuggestedTopicsToFirstMessage() {
 		const results = await this.coordinator.handleMessage(
