@@ -3,7 +3,7 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "1.1.7",
+	"version": "1.1.9",
 	"main": "./build/index.js",
 	"types": "./build/index.d.ts",
 	"license": "MIT",
@@ -46,17 +46,17 @@
 		"@sprucelabs/error": "latest",
 		"@sprucelabs/schema": "latest",
 		"@sprucelabs/spruce-core-schemas": "latest",
-		"@sprucelabs/spruce-event-plugin": "^1.1.7",
+		"@sprucelabs/spruce-event-plugin": "^1.1.9",
 		"@sprucelabs/spruce-event-utils": "latest",
 		"@sprucelabs/spruce-skill-utils": "latest",
-		"@sprucelabs/spruce-test-fixtures": "^1.1.7",
+		"@sprucelabs/spruce-test-fixtures": "^1.1.9",
 		"globby": "^11.0.2",
 		"node-nlp": "^4.19.8"
 	},
 	"devDependencies": {
 		"@sprucelabs/babel-plugin-schema": "latest",
 		"@sprucelabs/jest-json-reporter": "latest",
-		"@sprucelabs/mercury-client": "^15.2.5",
+		"@sprucelabs/mercury-client": "^15.2.6",
 		"@sprucelabs/mercury-types": "^15.4.5",
 		"@sprucelabs/semantic-release": "latest",
 		"@sprucelabs/test": "latest",
