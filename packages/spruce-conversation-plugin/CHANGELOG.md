@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.1.9...v1.2.0) (2021-01-29)
+
+
+### Features
+
+* select field handling ([c23fe70](https://github.com/sprucelabsai/spruce-features-workspace/commit/c23fe70))
+
+
+
+
+
 ## [1.1.9](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.1.8...v1.1.9) (2021-01-29)
 
 **Note:** Version bump only for package @sprucelabs/spruce-conversation-plugin
