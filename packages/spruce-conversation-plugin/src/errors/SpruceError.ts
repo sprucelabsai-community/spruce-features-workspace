@@ -28,28 +28,18 @@ export default class SpruceError extends BaseSpruceError<ErrorOptions> {
 				message = 'A Topic not found just happened!'
 				break
 
+			case 'ABORT':
+				message = `Well this is embarrasing, but something went wrong and I have to abort this conversation.`
+				break
+
 			default:
 				message = super.friendlyMessage()
 		}
 
-		// Drop on code and friendly message
-		message = `${options.code}: ${message}`
-		const fullMessage = `${message}${
-			options.friendlyMessage && options.friendlyMessage !== message
-				? `\n\n${options.friendlyMessage}`
-				: ''
-		}`
+		const fullMessage = options.friendlyMessage
+			? options.friendlyMessage
+			: message
 
-		// Handle repeating text from original message by remove it
-		return `${fullMessage}${
-			this.originalError &&
-			this.originalError.message !== fullMessage &&
-			this.originalError.message !== message
-				? `\n\nOriginal error: ${this.originalError.message.replace(
-						message,
-						''
-				  )}`
-				: ''
-		}`
+		return fullMessage
 	}
 }

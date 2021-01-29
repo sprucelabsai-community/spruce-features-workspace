@@ -49,19 +49,28 @@ export declare namespace SpruceErrors.SpruceConversationPlugin {
 export declare namespace SpruceErrors.SpruceConversationPlugin {
 
 	
-	export interface ConversationPluginError {
+	export interface InvalidTopic {
 		
+			/** . The script that I was attempting to load. Ends in .topic */
+			'topicScript': string
 	}
 
-	export interface ConversationPluginErrorSchema extends SpruceSchema.Schema {
-		id: 'conversationPluginError',
+	export interface InvalidTopicSchema extends SpruceSchema.Schema {
+		id: 'invalidTopic',
 		namespace: 'SpruceConversationPlugin',
-		name: 'Conversation plugin error',
+		name: 'Invalid topic',
 		    fields: {
+		            /** . The script that I was attempting to load. Ends in .topic */
+		            'topicScript': {
+		                type: 'text',
+		                isRequired: true,
+		                hint: 'The script that I was attempting to load. Ends in .topic',
+		                options: undefined
+		            },
 		    }
 	}
 
-	export type ConversationPluginErrorEntity = SchemaEntity<SpruceErrors.SpruceConversationPlugin.ConversationPluginErrorSchema>
+	export type InvalidTopicEntity = SchemaEntity<SpruceErrors.SpruceConversationPlugin.InvalidTopicSchema>
 
 }
 
@@ -100,28 +109,40 @@ export declare namespace SpruceErrors.SpruceConversationPlugin {
 export declare namespace SpruceErrors.SpruceConversationPlugin {
 
 	
-	export interface InvalidTopic {
+	export interface Abort {
 		
-			/** . The script that I was attempting to load. Ends in .topic */
-			'topicScript': string
 	}
 
-	export interface InvalidTopicSchema extends SpruceSchema.Schema {
-		id: 'invalidTopic',
+	export interface AbortSchema extends SpruceSchema.Schema {
+		id: 'abort',
 		namespace: 'SpruceConversationPlugin',
-		name: 'Invalid topic',
+		name: 'Abort',
 		    fields: {
-		            /** . The script that I was attempting to load. Ends in .topic */
-		            'topicScript': {
-		                type: 'text',
-		                isRequired: true,
-		                hint: 'The script that I was attempting to load. Ends in .topic',
-		                options: undefined
-		            },
 		    }
 	}
 
-	export type InvalidTopicEntity = SchemaEntity<SpruceErrors.SpruceConversationPlugin.InvalidTopicSchema>
+	export type AbortEntity = SchemaEntity<SpruceErrors.SpruceConversationPlugin.AbortSchema>
+
+}
+
+
+
+export declare namespace SpruceErrors.SpruceConversationPlugin {
+
+	
+	export interface ConversationPluginError {
+		
+	}
+
+	export interface ConversationPluginErrorSchema extends SpruceSchema.Schema {
+		id: 'conversationPluginError',
+		namespace: 'SpruceConversationPlugin',
+		name: 'Conversation plugin error',
+		    fields: {
+		    }
+	}
+
+	export type ConversationPluginErrorEntity = SchemaEntity<SpruceErrors.SpruceConversationPlugin.ConversationPluginErrorSchema>
 
 }
 

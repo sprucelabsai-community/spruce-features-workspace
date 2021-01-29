@@ -147,6 +147,9 @@ export class ConversationFeature implements SkillFeature {
 	}
 
 	public async destroy() {
+		this.executeResolver?.()
+		this.executeResolver = undefined
+
 		while (this.isExecuting) {
 			await new Promise((resolve) => setTimeout(resolve, 250))
 		}

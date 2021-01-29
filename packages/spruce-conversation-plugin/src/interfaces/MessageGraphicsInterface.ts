@@ -1,23 +1,32 @@
-import { FieldDefinitions, FieldDefinitionValueType } from '@sprucelabs/schema'
+import {
+	areSchemaValuesValid,
+	FieldDefinitions,
+	FieldDefinitionValueType,
+	SelectFieldDefinition,
+} from '@sprucelabs/schema'
 import { GraphicsInterface } from '@sprucelabs/spruce-skill-utils'
 //@ts-ignore
 import { SentimentAnalyzer } from 'node-nlp'
-import { ScriptPlayerSendMessage } from './../types/conversation.types'
+import SpruceError from '../errors/SpruceError'
+import { ScriptPlayerSendMessageHandler } from '../types/conversation.types'
+import SelectFieldHandler from './fieldHandlers/SelectFieldHandler'
 
 const sentiment = new SentimentAnalyzer({ language: 'en' })
 
-type ScriptPlayerSendMessageHandler = (
-	message: ScriptPlayerSendMessage
-) => Promise<void>
-
 export default class MessageGraphicsInterface implements GraphicsInterface {
 	private sendMessageHandler: ScriptPlayerSendMessageHandler
-	private resolve?: (value: string) => Promise<void> | void
+	private resolve?: (value: string) => void
+	private invalidValueRepairs: string[]
+	private invalidValueRepairIdx = 0
 
 	public constructor(options: {
 		sendMessageHandler: ScriptPlayerSendMessageHandler
+		invalidValueRepairs?: string[]
 	}) {
 		this.sendMessageHandler = options.sendMessageHandler
+		this.invalidValueRepairs = options.invalidValueRepairs ?? [
+			"Oh geezy, I'm sorry, a don't understand.",
+		]
 	}
 
 	public renderSection(): void {
@@ -68,12 +77,60 @@ export default class MessageGraphicsInterface implements GraphicsInterface {
 		this.notSupported('renderImage')
 	}
 
-	public prompt<T extends FieldDefinitions>(
+	public async prompt<T extends FieldDefinitions>(
 		definition: T
 	): Promise<FieldDefinitionValueType<T, false>> {
-		this.notSupported('prompt')
-		console.log(definition)
-		return null as any
+		let value: any
+
+		if (definition.type === 'select') {
+			value = await this.handleSelect(definition as any)
+		}
+
+		if (!value) {
+			throw new SpruceError({ code: 'ABORT' })
+		}
+
+		return value
+	}
+
+	private async handleSelect(
+		definition: SelectFieldDefinition
+	): Promise<string> {
+		let value
+		do {
+			value = await SelectFieldHandler.handle({
+				sendMessageHandler: this.sendMessageHandler,
+				waitForNextMessageHandler: this.waitForNextMessage.bind(this),
+				definition,
+			})
+
+			const isValid = areSchemaValuesValid(
+				{
+					id: 'promptvalidateschema',
+					fields: {
+						prompt: definition,
+					},
+				},
+				{ prompt: value }
+			)
+
+			if (!isValid) {
+				this.renderLine(this.getNextInvalidValueRepair())
+				value = undefined
+			}
+		} while (!value)
+
+		return value
+	}
+
+	private getNextInvalidValueRepair(): string {
+		const repair = this.invalidValueRepairs[this.invalidValueRepairIdx]
+		this.invalidValueRepairIdx++
+		if (this.invalidValueRepairIdx > this.invalidValueRepairs.length - 1) {
+			this.invalidValueRepairIdx = 0
+		}
+
+		return repair
 	}
 
 	public startLoading(): void {
@@ -98,6 +155,7 @@ export default class MessageGraphicsInterface implements GraphicsInterface {
 
 	public async confirm(question: string): Promise<boolean> {
 		this.renderLine(question)
+
 		const results = await this.waitForNextMessage()
 		const positiveWords = ['yes']
 		const negativeWords = ['nah', 'no', 'nope']
@@ -130,8 +188,9 @@ export default class MessageGraphicsInterface implements GraphicsInterface {
 	}
 
 	public async handleMessageBody(body: string) {
-		await this.resolve?.(body)
+		const resolve = this.resolve
 		this.resolve = undefined
+		resolve?.(body)
 	}
 
 	public isWaitingForInput() {

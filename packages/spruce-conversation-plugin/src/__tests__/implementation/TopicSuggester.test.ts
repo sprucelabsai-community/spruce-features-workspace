@@ -49,8 +49,7 @@ export default class TopicSuggesterTest extends AbstractSpruceTest {
 					],
 				},
 			],
-			"I'd like to schedule a haircut",
-			0
+			"I'd like to schedule a haircut"
 		)
 
 		assert.isLength(suggestions, 2)

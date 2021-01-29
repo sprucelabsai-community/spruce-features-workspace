@@ -34,6 +34,7 @@ export interface ScriptPlayerOptions {
 
 export type ScriptPlayerSendMessage = {
 	body: string
+	choices?: Message['choices']
 }
 
 export const suggestedConversationTopicSchema = buildSchema({
@@ -80,3 +81,7 @@ declare module '@sprucelabs/spruce-skill-utils/build/skill.types' {
 		conversation?: ConversationHealthCheckItem
 	}
 }
+
+export type ScriptPlayerSendMessageHandler = (
+	message: ScriptPlayerSendMessage
+) => Promise<void>
