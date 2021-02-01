@@ -7,36 +7,9 @@ export default class SpruceError extends BaseSpruceError<ErrorOptions> {
 		const { options } = this
 		let message
 		switch (options?.code) {
-			case 'INVALID_TOPIC':
-				message = `The conversation topic defined in ${options.topicScript} is not valid.`
+			case 'HEROKU_ERROR':
+				message = 'A Heroku Error just happened!'
 				break
-			case 'MISSING_PARAMETERS':
-				message = `Looks like you're missing the following parameters: ${options.parameters.join(
-					', '
-				)}`
-				break
-
-			case 'CONVERSATION_PLUGIN_ERROR':
-				message = 'A Conversation plugin error just happened!'
-				break
-
-			case 'MISSING_DEPENDENCIES':
-				message = 'A Missing dependencies just happened!'
-				break
-
-			case 'TOPIC_NOT_FOUND':
-				message = 'A Topic not found just happened!'
-				break
-
-			case 'ABORT':
-				message = `Well this is embarrasing, but something went wrong and I have to abort this conversation.`
-				break
-
-			case 'TESTER_NOT_STARTED':
-				message =
-					'You gotta start the Script Tester before you can send it messages.'
-				break
-
 			default:
 				message = super.friendlyMessage()
 		}
