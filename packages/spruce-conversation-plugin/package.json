@@ -49,6 +49,7 @@
 		"@sprucelabs/spruce-event-plugin": "^1.4.0",
 		"@sprucelabs/spruce-event-utils": "latest",
 		"@sprucelabs/spruce-skill-utils": "latest",
+		"@sprucelabs/spruce-test-fixtures": "^1.4.0",
 		"globby": "^11.0.2",
 		"node-nlp": "^4.19.8"
 	},
@@ -58,7 +59,6 @@
 		"@sprucelabs/mercury-client": "^15.2.10",
 		"@sprucelabs/mercury-types": "^15.4.6",
 		"@sprucelabs/semantic-release": "latest",
-		"@sprucelabs/spruce-test-fixtures": "^1.4.0",
 		"@sprucelabs/test": "latest",
 		"@sprucelabs/test-utils": "latest",
 		"@types/inquirer": "^7.3.1",
