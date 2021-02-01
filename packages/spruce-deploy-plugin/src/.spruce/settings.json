@@ -1,0 +1,10 @@
+{
+  "installed": [
+    "test",
+    "schema",
+    "error"
+  ],
+  "skipped": [
+    "skill"
+  ]
+}
