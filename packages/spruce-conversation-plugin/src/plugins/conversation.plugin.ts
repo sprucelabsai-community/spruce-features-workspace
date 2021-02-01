@@ -6,7 +6,7 @@ import { Log, Skill, SkillFeature } from '@sprucelabs/spruce-skill-utils'
 import { ConversationCoordinator } from '../conversations/ConversationCoordinator'
 import TopicLoader from '../conversations/TopicLoader'
 import SpruceError from '../errors/SpruceError'
-import { ScriptTester } from '../tests/ScriptTester'
+import ScriptTester from '../tests/ScriptTester'
 import { ConversationHealthCheckItem } from '../types/conversation.types'
 
 export class ConversationFeature implements SkillFeature {
