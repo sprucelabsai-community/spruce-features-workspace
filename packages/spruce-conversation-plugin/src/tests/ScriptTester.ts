@@ -93,6 +93,7 @@ export default class ScriptTester {
 			})
 		}
 
+		// eslint-disable-next-line no-constant-condition
 		while (true) {
 			await this.handleInput(msg)
 
