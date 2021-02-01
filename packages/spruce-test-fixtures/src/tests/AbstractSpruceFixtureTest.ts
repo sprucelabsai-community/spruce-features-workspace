@@ -3,19 +3,26 @@ import { coreEventContracts } from '@sprucelabs/mercury-types'
 import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
 import Skill from '@sprucelabs/spruce-skill-booter'
 import { mockLog } from '@sprucelabs/spruce-skill-utils'
-import AbstractSpruceTest from '@sprucelabs/test'
+import AbstractSpruceTest, { assert } from '@sprucelabs/test'
 import FixtureFactory from '../fixtures/FixtureFactory'
 import { FixtureName, SkillFactoryOptions } from '../types/fixture.types'
+import messageTestUtility from './messageTest.utility'
 
 export type Message = SpruceSchemas.Spruce.v2020_07_22.Message
 
 export default abstract class AbstractSpruceFixtureTest extends AbstractSpruceTest {
 	protected static skills: Skill[] = []
+	private static skillBootError?: any
 
 	protected static async beforeAll() {
 		await super.beforeAll()
 		MercuryClientFactory.setIsTestMode(true)
 		MercuryClientFactory.setDefaultContract(coreEventContracts[0])
+	}
+
+	protected static async beforeEach() {
+		await super.beforeEach()
+		MercuryClientFactory.resetTestClient()
 	}
 
 	protected static async afterEach() {
@@ -27,6 +34,18 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSpruceTe
 		}
 
 		this.skills = []
+
+		if (this.skillBootError) {
+			const err = this.skillBootError
+
+			this.clearSkillBootErrors()
+
+			assert.fail('Skill had error during boot:\n\n' + err.toString())
+		}
+	}
+
+	protected static clearSkillBootErrors() {
+		this.skillBootError = undefined
 	}
 
 	protected static Fixture<Name extends FixtureName>(name: Name) {
@@ -55,7 +74,8 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSpruceTe
 
 	protected static async bootSkill(options?: SkillFactoryOptions) {
 		const skill = this.Skill(options)
-		void skill.execute()
+
+		void skill.execute().catch((err) => (this.skillBootError = err))
 
 		do {
 			await this.wait(500)
@@ -85,13 +105,6 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSpruceTe
 	protected static buildMessage<T extends Partial<Message>>(
 		values: T
 	): Message & T {
-		return {
-			id: '1234',
-			dateCreated: new Date().getTime(),
-			target: {},
-			source: {},
-			classification: 'incoming',
-			...values,
-		} as Message & T
+		return messageTestUtility.buildMessage(values)
 	}
 }

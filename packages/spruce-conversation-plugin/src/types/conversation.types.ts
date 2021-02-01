@@ -6,6 +6,7 @@ import {
 	GraphicsInterface,
 	HealthCheckItem,
 } from '@sprucelabs/spruce-skill-utils'
+import MessageGraphicsInterface from '../interfaces/MessageGraphicsInterface'
 
 export type Message = SpruceSchemas.Spruce.v2020_07_22.Message
 export type SendMessage = SpruceSchemas.Spruce.v2020_07_22.SendMessage
@@ -30,6 +31,8 @@ export interface ScriptPlayerOptions {
 	script: Script
 	sendMessageHandler: SendMessageHandler
 	target: EventTarget
+	lineDelay?: number
+	graphicsInterface?: MessageGraphicsInterface
 }
 
 export type ScriptPlayerSendMessage = {

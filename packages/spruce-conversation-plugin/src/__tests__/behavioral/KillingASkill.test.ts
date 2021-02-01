@@ -3,8 +3,10 @@ import AbstractConversationTest from '../../tests/AbstractConversationTest'
 
 export default class KillingASkillTest extends AbstractConversationTest {
 	@test()
-	protected static async canCreateKillingASkill() {
-		const skill = await this.bootSkill()
+	protected static async killingASkillKillsConversation() {
+		const { skill } = await this.bootAndRegisterSkill({
+			name: 'great skilld dude!',
+		})
 
 		await skill.kill()
 

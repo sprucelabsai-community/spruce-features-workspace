@@ -63,6 +63,35 @@ export default class TopicScriptPlayerTest extends AbstractSpruceFixtureTest {
 	}
 
 	@test()
+	protected static async multipleTextLinesWaitsForDelay() {
+		const messages: SendMessage[] = []
+
+		const player = this.Player({
+			lineDelay: 50,
+			script: [
+				'It all started on a cold, dark night.',
+				'Before the sun went down',
+			],
+			sendMessageHandler: async (message) => {
+				messages.push(message)
+			},
+		})
+
+		void this.sendMessage(player, {
+			body: 'how are you today?',
+		})
+
+		assert.isLength(messages, 1)
+
+		await this.wait(100)
+
+		assert.isLength(messages, 2)
+
+		assert.isEqual(messages[0].body, 'It all started on a cold, dark night.')
+		assert.isEqual(messages[1].body, 'Before the sun went down')
+	}
+
+	@test()
 	protected static async restartsScriptNextMessage() {
 		const messages: SendMessage[] = []
 
@@ -233,6 +262,7 @@ export default class TopicScriptPlayerTest extends AbstractSpruceFixtureTest {
 		return new TopicScriptPlayer({
 			target: options.target ?? { personId: '12345' },
 			script: options.script,
+			lineDelay: 0,
 			sendMessageHandler: options.sendMessageHandler ?? async function () {},
 		})
 	}

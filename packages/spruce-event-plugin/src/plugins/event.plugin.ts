@@ -104,7 +104,7 @@ export class EventFeaturePlugin implements SkillFeature {
 				})
 			} else {
 				this.log.info(
-					"I couldn't find any events or listeners so I have nothing to do. 🌲🤖"
+					"I couldn't find any events or listeners so I won't be connecting to Mercury. 🌲🤖"
 				)
 				this._isBooted = true
 				this.isExecuting = false

@@ -1,3 +1,4 @@
+import { MercuryClient } from '@sprucelabs/mercury-client'
 import { EventContract, CoreEventContract } from '@sprucelabs/mercury-types'
 import { EventFeature } from '@sprucelabs/spruce-event-plugin'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
@@ -5,6 +6,7 @@ import { Log, Skill, SkillFeature } from '@sprucelabs/spruce-skill-utils'
 import { ConversationCoordinator } from '../conversations/ConversationCoordinator'
 import TopicLoader from '../conversations/TopicLoader'
 import SpruceError from '../errors/SpruceError'
+import { ScriptTester } from '../tests/ScriptTester'
 import { ConversationHealthCheckItem } from '../types/conversation.types'
 
 export class ConversationFeature implements SkillFeature {
@@ -13,6 +15,7 @@ export class ConversationFeature implements SkillFeature {
 	private isExecuting = false
 	private _isBooted = false
 	private executeResolver?: any
+	private _isTesting = false
 
 	public constructor(skill: Skill) {
 		this.skill = skill
@@ -23,10 +26,56 @@ export class ConversationFeature implements SkillFeature {
 		this.assertDependencies()
 		this.isExecuting = true
 
-		await this.syncTopics()
+		try {
+			if (process.env.ACTION === 'test.conversation') {
+				this._isTesting = true
+				void this.startScriptTester()
+			} else {
+				await this.syncTopics()
+				const client = await this.connectToApi()
+				await this.startConversationCoordinator(client as any)
+				this.log.info('Conversations loaded. Ready to chat when you are. 🤘')
+			}
+		} finally {
+			this.isExecuting = false
+			this._isBooted = true
+		}
 
-		const client = await this.connectToApi()
+		await new Promise((resolve) => {
+			this.executeResolver = resolve
+		})
+	}
 
+	private async startScriptTester() {
+		this.log.info('Booting conversation tester.')
+
+		const topics = await TopicLoader.loadTopics(this.skill.activeDir)
+
+		if (topics.length === 0) {
+			this.log.info('No Topics found to test. Bailing')
+			return
+		}
+
+		this.log.info(
+			`Found ${topics.length} topic${
+				topics.length ? '' : 's'
+			}. Holding for a second to let your skill finish building...`
+		)
+
+		const tester = await ScriptTester.Tester({ topics })
+
+		while (!this.skill.isBooted()) {
+			await new Promise((resolve) => setTimeout(resolve, 10))
+		}
+
+		console.clear()
+
+		void tester.go()
+	}
+
+	private async startConversationCoordinator(
+		client: MercuryClient<CoreEventContract>
+	) {
 		const coordinator = await ConversationCoordinator.Coordinator({
 			topicLookupPath: this.skill.activeDir,
 			sendMessageHandler: async (message) => {
@@ -51,15 +100,6 @@ export class ConversationFeature implements SkillFeature {
 			const { message, topic } = targetAndPayload.payload
 			//@ts-ignore
 			return coordinator.handleMessage(message, topic)
-		})
-
-		this.isExecuting = false
-		this._isBooted = true
-
-		this.log.info('Conversations loaded. Ready to chat when you are. 🤘')
-
-		await new Promise((resolve) => {
-			this.executeResolver = resolve
 		})
 	}
 
@@ -147,6 +187,7 @@ export class ConversationFeature implements SkillFeature {
 	}
 
 	public async destroy() {
+		this._isTesting = false
 		this.executeResolver?.()
 		this.executeResolver = undefined
 
@@ -157,6 +198,10 @@ export class ConversationFeature implements SkillFeature {
 
 	public isBooted() {
 		return this._isBooted
+	}
+
+	public isTesting() {
+		return this._isTesting
 	}
 }
 

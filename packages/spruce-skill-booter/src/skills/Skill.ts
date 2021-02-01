@@ -16,6 +16,7 @@ export default class Skill implements ISkill {
 	private log: Log
 	private _isRunning = false
 	private shutdownTimeout: any
+	private isKilling = false
 
 	public constructor(options: {
 		rootDir: string
@@ -51,16 +52,18 @@ export default class Skill implements ISkill {
 
 	public async kill() {
 		if (this._isRunning) {
+			this.isKilling = true
 			this.log.info('Killing skill')
 
-			this._isRunning = false
 			if (this.shutdownTimeout) {
 				clearTimeout(this.shutdownTimeout)
 			}
 
 			await Promise.all(this.getFeatures().map((feature) => feature.destroy()))
 
-			this.log.info('Kill complete! See you soon. 👋')
+			this._isRunning = false
+
+			this.log.info('Kill complete. Until next time! 👋')
 		}
 	}
 
@@ -100,12 +103,13 @@ export default class Skill implements ISkill {
 			await Promise.all(this.getFeatures().map((feature) => feature.execute()))
 		} catch (err) {
 			this.log.error('Execution error:\n\n' + err.message)
+
 			await this.kill()
 
 			throw err
 		}
 
-		if (!this._isRunning) {
+		if (this.isKilling || !this._isRunning) {
 			return
 		}
 

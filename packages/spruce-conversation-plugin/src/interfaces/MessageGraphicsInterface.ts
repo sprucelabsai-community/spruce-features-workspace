@@ -13,16 +13,18 @@ import SelectFieldHandler from './fieldHandlers/SelectFieldHandler'
 
 const sentiment = new SentimentAnalyzer({ language: 'en' })
 
+export interface MessageGraphicsInterfaceOptions {
+	sendMessageHandler: ScriptPlayerSendMessageHandler
+	invalidValueRepairs?: string[]
+}
+
 export default class MessageGraphicsInterface implements GraphicsInterface {
 	private sendMessageHandler: ScriptPlayerSendMessageHandler
 	private resolve?: (value: string) => void
 	private invalidValueRepairs: string[]
 	private invalidValueRepairIdx = 0
 
-	public constructor(options: {
-		sendMessageHandler: ScriptPlayerSendMessageHandler
-		invalidValueRepairs?: string[]
-	}) {
+	public constructor(options: MessageGraphicsInterfaceOptions) {
 		this.sendMessageHandler = options.sendMessageHandler
 		this.invalidValueRepairs = options.invalidValueRepairs ?? [
 			"Oh geezy, I'm sorry, a don't understand.",
@@ -181,7 +183,7 @@ export default class MessageGraphicsInterface implements GraphicsInterface {
 		return analysis.vote === 'neutral' || analysis.vote === 'positive'
 	}
 
-	private waitForNextMessage(): Promise<string> {
+	protected waitForNextMessage(): Promise<string> {
 		return new Promise((resolve) => {
 			this.resolve = resolve
 		})

@@ -9,6 +9,12 @@ import AbstractConversationTest from '../../tests/AbstractConversationTest'
 export default class RespondingToMessagesTest extends AbstractConversationTest {
 	private static client: MercuryClient<CoreEventContract>
 
+	protected static async beforeEach() {
+		await super.beforeEach()
+		//@ts-ignore
+		this.client = undefined
+	}
+
 	@test()
 	protected static async respondsToFirstMessageWithSuggestedTopics() {
 		this.cwd = this.resolveTestPath('skill')

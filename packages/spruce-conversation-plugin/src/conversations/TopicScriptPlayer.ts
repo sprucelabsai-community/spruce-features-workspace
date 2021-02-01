@@ -24,6 +24,7 @@ export class TopicScriptPlayer {
 	private sendMessageHandler: SendMessageHandler
 	private target: MessageTarget
 	private graphicsInterface: MessageGraphicsInterface
+	private lineDelay: number
 
 	public constructor(options: ScriptPlayerOptions) {
 		const missing: string[] = []
@@ -49,10 +50,13 @@ export class TopicScriptPlayer {
 		this.script = options.script
 		this.target = options.target
 		this.sendMessageHandler = options.sendMessageHandler
+		this.lineDelay = options.lineDelay ?? 1000
 
-		this.graphicsInterface = new MessageGraphicsInterface({
-			sendMessageHandler: this.sendMessage.bind(this),
-		})
+		this.graphicsInterface =
+			options.graphicsInterface ??
+			new MessageGraphicsInterface({
+				sendMessageHandler: this.sendMessage.bind(this),
+			})
 	}
 
 	public async handleMessage(
@@ -67,8 +71,17 @@ export class TopicScriptPlayer {
 	}
 
 	private async play(message: Message) {
+		let isFirstLine = true
+
 		for (const line of this.script) {
+			if (!isFirstLine) {
+				await new Promise((resolve) => setTimeout(resolve, this.lineDelay))
+			}
+
+			isFirstLine = false
+
 			const results = await this.handleLine(message, line)
+
 			if (results) {
 				return results
 			}

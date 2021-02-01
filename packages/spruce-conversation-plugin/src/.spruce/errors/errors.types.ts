@@ -11,6 +11,36 @@ import * as SpruceSchema from '@sprucelabs/schema'
 export declare namespace SpruceErrors.SpruceConversationPlugin {
 
 	
+	export interface InvalidTopic {
+		
+			/** . The script that I was attempting to load. Ends in .topic */
+			'topicScript': string
+	}
+
+	export interface InvalidTopicSchema extends SpruceSchema.Schema {
+		id: 'invalidTopic',
+		namespace: 'SpruceConversationPlugin',
+		name: 'Invalid topic',
+		    fields: {
+		            /** . The script that I was attempting to load. Ends in .topic */
+		            'topicScript': {
+		                type: 'text',
+		                isRequired: true,
+		                hint: 'The script that I was attempting to load. Ends in .topic',
+		                options: undefined
+		            },
+		    }
+	}
+
+	export type InvalidTopicEntity = SchemaEntity<SpruceErrors.SpruceConversationPlugin.InvalidTopicSchema>
+
+}
+
+
+
+export declare namespace SpruceErrors.SpruceConversationPlugin {
+
+	
 	export interface TopicNotFound {
 		
 			
@@ -49,28 +79,61 @@ export declare namespace SpruceErrors.SpruceConversationPlugin {
 export declare namespace SpruceErrors.SpruceConversationPlugin {
 
 	
-	export interface InvalidTopic {
+	export interface ConversationPluginError {
 		
-			/** . The script that I was attempting to load. Ends in .topic */
-			'topicScript': string
 	}
 
-	export interface InvalidTopicSchema extends SpruceSchema.Schema {
-		id: 'invalidTopic',
+	export interface ConversationPluginErrorSchema extends SpruceSchema.Schema {
+		id: 'conversationPluginError',
 		namespace: 'SpruceConversationPlugin',
-		name: 'Invalid topic',
+		name: 'Conversation plugin error',
 		    fields: {
-		            /** . The script that I was attempting to load. Ends in .topic */
-		            'topicScript': {
-		                type: 'text',
-		                isRequired: true,
-		                hint: 'The script that I was attempting to load. Ends in .topic',
-		                options: undefined
-		            },
 		    }
 	}
 
-	export type InvalidTopicEntity = SchemaEntity<SpruceErrors.SpruceConversationPlugin.InvalidTopicSchema>
+	export type ConversationPluginErrorEntity = SchemaEntity<SpruceErrors.SpruceConversationPlugin.ConversationPluginErrorSchema>
+
+}
+
+
+
+export declare namespace SpruceErrors.SpruceConversationPlugin {
+
+	
+	export interface Abort {
+		
+	}
+
+	export interface AbortSchema extends SpruceSchema.Schema {
+		id: 'abort',
+		namespace: 'SpruceConversationPlugin',
+		name: 'Abort',
+		    fields: {
+		    }
+	}
+
+	export type AbortEntity = SchemaEntity<SpruceErrors.SpruceConversationPlugin.AbortSchema>
+
+}
+
+
+
+export declare namespace SpruceErrors.SpruceConversationPlugin {
+
+	
+	export interface TesterNotStarted {
+		
+	}
+
+	export interface TesterNotStartedSchema extends SpruceSchema.Schema {
+		id: 'testerNotStarted',
+		namespace: 'SpruceConversationPlugin',
+		name: 'Tester not started',
+		    fields: {
+		    }
+	}
+
+	export type TesterNotStartedEntity = SchemaEntity<SpruceErrors.SpruceConversationPlugin.TesterNotStartedSchema>
 
 }
 
@@ -101,48 +164,6 @@ export declare namespace SpruceErrors.SpruceConversationPlugin {
 	}
 
 	export type MissingDependenciesEntity = SchemaEntity<SpruceErrors.SpruceConversationPlugin.MissingDependenciesSchema>
-
-}
-
-
-
-export declare namespace SpruceErrors.SpruceConversationPlugin {
-
-	
-	export interface Abort {
-		
-	}
-
-	export interface AbortSchema extends SpruceSchema.Schema {
-		id: 'abort',
-		namespace: 'SpruceConversationPlugin',
-		name: 'Abort',
-		    fields: {
-		    }
-	}
-
-	export type AbortEntity = SchemaEntity<SpruceErrors.SpruceConversationPlugin.AbortSchema>
-
-}
-
-
-
-export declare namespace SpruceErrors.SpruceConversationPlugin {
-
-	
-	export interface ConversationPluginError {
-		
-	}
-
-	export interface ConversationPluginErrorSchema extends SpruceSchema.Schema {
-		id: 'conversationPluginError',
-		namespace: 'SpruceConversationPlugin',
-		name: 'Conversation plugin error',
-		    fields: {
-		    }
-	}
-
-	export type ConversationPluginErrorEntity = SchemaEntity<SpruceErrors.SpruceConversationPlugin.ConversationPluginErrorSchema>
 
 }
 

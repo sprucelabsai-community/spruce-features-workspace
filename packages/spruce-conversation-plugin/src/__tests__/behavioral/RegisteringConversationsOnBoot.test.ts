@@ -32,6 +32,13 @@ export default class RegisteringConversationsOnBootTest extends AbstractConversa
 	}
 
 	@test()
+	protected static async skillShutsDownWhenConvosFailToRegister() {
+		const skill = await super.bootSkill()
+		assert.isFalse(skill.isRunning())
+		this.clearSkillBootErrors()
+	}
+
+	@test()
 	protected static async canBootASecondTime() {
 		this.cwd = this.resolveTestPath('skill')
 
@@ -78,13 +85,7 @@ export default class RegisteringConversationsOnBootTest extends AbstractConversa
 			process.env.SKILL_API_KEY = registeredSkill.apiKey
 		}
 
-		const skill = this.Skill()
-
-		void skill.execute()
-
-		do {
-			await this.wait(500)
-		} while (!skill.isBooted())
+		const skill = await super.bootSkill()
 
 		const eventFeature = skill.getFeatureByCode('event') as EventFeature
 
