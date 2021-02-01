@@ -3,7 +3,7 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "1.2.6",
+	"version": "1.3.0",
 	"main": "./build/index.js",
 	"types": "./build/index.d.ts",
 	"license": "MIT",
@@ -52,7 +52,7 @@
 		"@sprucelabs/test-utils": "latest"
 	},
 	"devDependencies": {
-		"@sprucelabs/spruce-test-fixtures": "^1.2.6",
+		"@sprucelabs/spruce-test-fixtures": "^1.3.0",
 		"@sprucelabs/babel-plugin-schema": "latest",
 		"@sprucelabs/jest-json-reporter": "latest",
 		"@sprucelabs/semantic-release": "latest",
