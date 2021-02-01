@@ -53,7 +53,6 @@
 		"@sprucelabs/mercury-client": "^15.2.10",
 		"@sprucelabs/mercury-types": "^15.4.6",
 		"@sprucelabs/semantic-release": "latest",
-		"@sprucelabs/spruce-test-fixtures": "^1.2.6",
 		"@sprucelabs/test": "latest",
 		"@sprucelabs/test-utils": "latest",
 		"@types/inquirer": "^7.3.1",
