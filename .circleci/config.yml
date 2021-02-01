@@ -22,7 +22,6 @@ jobs:
       - run: yarn install
       - run: yarn clean
       - run: yarn build
-      - run: yarn lint
       - run:
           name: "set phone numbers for each pacakge"
           command: |

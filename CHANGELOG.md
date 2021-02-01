@@ -3,6 +3,65 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.6](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.2.5...v1.2.6) (2021-02-01)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+## [1.2.5](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.2.4...v1.2.5) (2021-02-01)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+## [1.2.4](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.2.3...v1.2.4) (2021-01-31)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+## [1.2.3](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.2.2...v1.2.3) (2021-01-31)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+## [1.2.2](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.2.1...v1.2.2) (2021-01-31)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+## [1.2.1](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.2.0...v1.2.1) (2021-01-29)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+# [1.2.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.1.9...v1.2.0) (2021-01-29)
+
+
+### Features
+
+* select field handling ([c23fe70](https://github.com/sprucelabsai/spruce-features-workspace/commit/c23fe70))
+
+
+
+
+
 ## [1.1.9](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.1.8...v1.1.9) (2021-01-29)
 
 **Note:** Version bump only for package spruce-features-workspace
