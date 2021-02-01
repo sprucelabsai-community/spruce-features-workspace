@@ -71,7 +71,7 @@ export class EventFeaturePlugin implements SkillFeature {
 			diskUtil.doesFileExist(this.combinedContractsFile + '.ts') ||
 			diskUtil.doesFileExist(this.combinedContractsFile + '.js')
 
-		this.log = skill.buildLog('feature.event')
+		this.log = skill.buildLog('Event.Feature')
 	}
 
 	public async execute() {

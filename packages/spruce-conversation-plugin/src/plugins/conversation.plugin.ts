@@ -19,7 +19,7 @@ export class ConversationFeature implements SkillFeature {
 
 	public constructor(skill: Skill) {
 		this.skill = skill
-		this.log = skill.buildLog('feature.conversation')
+		this.log = skill.buildLog('Conversation.Feature')
 	}
 
 	public async execute(): Promise<void> {

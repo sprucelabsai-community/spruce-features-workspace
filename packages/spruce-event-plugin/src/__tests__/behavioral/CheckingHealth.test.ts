@@ -24,7 +24,7 @@ export default class CheckingHealthTest extends AbstractEventPluginTest {
 	}
 
 	@test()
-	protected static async givesBackEmptyHelthWhenInstalled() {
+	protected static async givesBackEmptyHealthWhenInstalled() {
 		const skill = this.Skill()
 		const health = await skill.checkHealth()
 
