@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.2.6...v1.3.0) (2021-02-01)
+
+
+### Features
+
+* conversation topic script testing ([588daa7](https://github.com/sprucelabsai/spruce-features-workspace/commit/588daa7))
+
+
+
+
+
 ## [1.2.6](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.2.5...v1.2.6) (2021-02-01)
 
 **Note:** Version bump only for package @sprucelabs/spruce-skill-booter
