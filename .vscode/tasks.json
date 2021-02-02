@@ -132,21 +132,6 @@
             }
         },
         {
-            "label": "spruce",
-            "type": "shell",
-            "command": "spruce ${input:spruceCommand}",
-            "problemMatcher": [],
-            "options": {
-                "cwd": "${workspaceFolder}/packages/mercury-client"
-            },
-            "presentation": {
-                "reveal": "always",
-                "focus": true,
-                "panel": "new",
-                "clear": false
-            }
-        },
-        {
             "label": "shell",
             "type": "shell",
             "command": "${input:command} ${input:optionsCommand}",
