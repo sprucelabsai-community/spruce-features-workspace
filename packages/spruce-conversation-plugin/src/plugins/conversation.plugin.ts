@@ -7,7 +7,10 @@ import { ConversationCoordinator } from '../conversations/ConversationCoordinato
 import TopicLoader from '../conversations/TopicLoader'
 import SpruceError from '../errors/SpruceError'
 import ScriptTester from '../tests/ScriptTester'
-import { ConversationHealthCheckItem } from '../types/conversation.types'
+import {
+	ConversationHealthCheckItem,
+	LoadedTopicDefinition,
+} from '../types/conversation.types'
 
 export class ConversationFeature implements SkillFeature {
 	private skill: Skill
@@ -29,7 +32,13 @@ export class ConversationFeature implements SkillFeature {
 		try {
 			if (process.env.ACTION === 'test.conversation') {
 				this._isTesting = true
-				void this.startScriptTester()
+				const topics = await this.loadTopics()
+
+				if (topics.length === 0) {
+					this.log.info('No Topics found to test. Testing cancelled...')
+				} else {
+					void this.startScriptTester(topics)
+				}
 			} else {
 				await this.syncTopics()
 				const client = await this.connectToApi()
@@ -46,21 +55,20 @@ export class ConversationFeature implements SkillFeature {
 		})
 	}
 
-	private async startScriptTester() {
-		this.log.info('Booting conversation tester.')
-
+	private async loadTopics() {
 		const topics = await TopicLoader.loadTopics(this.skill.activeDir)
 
-		if (topics.length === 0) {
-			this.log.info('No Topics found to test. Bailing')
-			return
-		}
+		return topics
+	}
 
+	private async startScriptTester(topics: LoadedTopicDefinition[]) {
 		this.log.info(
 			`Found ${topics.length} topic${
 				topics.length ? '' : 's'
 			}. Holding for a second to let your skill finish building...`
 		)
+
+		this.log.info('Booting conversation tester.')
 
 		const tester = await ScriptTester.Tester({ topics })
 

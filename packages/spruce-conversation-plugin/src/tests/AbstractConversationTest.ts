@@ -1,6 +1,6 @@
 import { plugin as eventPlugin } from '@sprucelabs/spruce-event-plugin'
+import { SkillFactoryOptions } from '@sprucelabs/spruce-skill-booter'
 import { AbstractSpruceFixtureTest } from '@sprucelabs/spruce-test-fixtures'
-import { SkillFactoryOptions } from '@sprucelabs/spruce-test-fixtures'
 import plugin from '../plugins/conversation.plugin'
 
 export default abstract class AbstractConversationTest extends AbstractSpruceFixtureTest {
