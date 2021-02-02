@@ -51,7 +51,8 @@
 		"@sprucelabs/spruce-skill-utils": "latest",
 		"@sprucelabs/spruce-test-fixtures": "^1.5.2",
 		"globby": "^11.0.2",
-		"node-nlp": "^4.19.8"
+		"node-nlp": "^4.19.8",
+		"inquirer": "^7.3.3"
 	},
 	"devDependencies": {
 		"@sprucelabs/babel-plugin-schema": "latest",
@@ -68,7 +69,6 @@
 		"conventional-changelog-sprucelabs": "latest",
 		"eslint": "^7.19.0",
 		"eslint-config-spruce": "latest",
-		"inquirer": "^7.3.3",
 		"jest": "^26.6.3",
 		"jest-circus": "^26.6.3",
 		"prettier": "^2.2.1",
