@@ -1,4 +1,5 @@
 import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
+import random from 'random'
 import SpruceError from '../errors/SpruceError'
 import MessageGraphicsInterface from '../interfaces/MessageGraphicsInterface'
 import {
@@ -8,6 +9,7 @@ import {
 	ScriptPlayerSendMessage,
 	ScriptLine,
 	DidMessageResponsePayload,
+	ScriptLineCallbackOptions,
 } from '../types/conversation.types'
 
 type MessageTarget = SpruceSchemas.Spruce.v2020_07_22.MessageTarget
@@ -102,10 +104,19 @@ export class TopicScriptPlayer {
 				body: normalizedLine,
 			})
 		} else if (typeof normalizedLine === 'function') {
-			return normalizedLine({ ui: this.graphicsInterface })
+			return normalizedLine(this.buildCallbackOptions())
 		}
 
 		return null
+	}
+
+	private buildCallbackOptions(): ScriptLineCallbackOptions {
+		return {
+			ui: this.graphicsInterface,
+			rand: (possibilities: string[]) => {
+				return possibilities[random.int(0, possibilities.length - 1)]
+			},
+		}
 	}
 
 	protected pickRandomLine(line: any[]): ScriptLine {

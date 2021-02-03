@@ -256,6 +256,33 @@ export default class TopicScriptPlayerTest extends AbstractSpruceFixtureTest {
 		assert.isEqual(results.transitionConversationTo, 'discovery')
 	}
 
+	@test()
+	protected static async randomOnOptions() {
+		const messages: string[] = []
+		const remaining = { one: true, two: true, three: true }
+		const possibilities: (keyof typeof remaining)[] = ['one', 'two', 'three']
+		const player = this.Player({
+			sendMessageHandler: async (message) => {
+				messages.push(message.body)
+			},
+			script: [
+				async (options) => {
+					assert.isFunction(options.rand)
+
+					const answer = options.rand(possibilities)
+
+					//@ts-ignore
+					delete remaining[answer]
+				},
+			],
+		})
+		do {
+			await this.sendMessage(player, {
+				body: 'tell me a story!',
+			})
+		} while (Object.keys(remaining).length > 0)
+	}
+
 	private static Player(
 		options: Partial<ScriptPlayerOptions> & { script: Script }
 	) {
