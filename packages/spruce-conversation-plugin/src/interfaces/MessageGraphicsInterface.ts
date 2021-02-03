@@ -86,6 +86,8 @@ export default class MessageGraphicsInterface implements GraphicsInterface {
 
 		if (definition.type === 'select') {
 			value = await this.handleSelect(definition as any)
+		} else {
+			this.notSupported(`prompt.${definition.type}`)
 		}
 
 		if (!value) {
