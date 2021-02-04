@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.7.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.6.3...v1.7.0) (2021-02-04)
+
+
+### Features
+
+* text prompt ([3475103](https://github.com/sprucelabsai/spruce-features-workspace/commit/3475103))
+
+
+
+
+
 ## [1.6.3](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.6.2...v1.6.3) (2021-02-04)
 
 **Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
