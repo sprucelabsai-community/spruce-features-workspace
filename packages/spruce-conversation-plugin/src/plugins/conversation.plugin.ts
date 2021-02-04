@@ -19,6 +19,7 @@ export class ConversationFeature implements SkillFeature {
 	private _isBooted = false
 	private executeResolver?: any
 	private _isTesting = false
+	private executeRejector?: (err: any) => void
 
 	public constructor(skill: Skill) {
 		this.skill = skill
@@ -50,8 +51,9 @@ export class ConversationFeature implements SkillFeature {
 			this._isBooted = true
 		}
 
-		await new Promise((resolve) => {
+		await new Promise((resolve, reject) => {
 			this.executeResolver = resolve
+			this.executeRejector = reject
 		})
 	}
 
@@ -78,7 +80,11 @@ export class ConversationFeature implements SkillFeature {
 
 		console.clear()
 
-		void tester.go()
+		void tester.go(process.env.FIRST_MESSAGE).catch((err) => {
+			this.executeRejector?.(
+				new SpruceError({ code: 'CONVERSATION_ABORTED', originalError: err })
+			)
+		})
 	}
 
 	private async startConversationCoordinator(

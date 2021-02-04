@@ -37,6 +37,10 @@ export default class SpruceError extends BaseSpruceError<ErrorOptions> {
 					'You gotta start the Script Tester before you can send it messages.'
 				break
 
+			case 'CONVERSATION_ABORTED':
+				message = 'A Conversation aborted just happened!'
+				break
+
 			default:
 				message = super.friendlyMessage()
 		}

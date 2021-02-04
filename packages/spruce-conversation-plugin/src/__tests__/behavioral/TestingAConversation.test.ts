@@ -31,6 +31,18 @@ export default class TestingAConversationTest extends AbstractConversationTest {
 		errorAssertUtil.assertError(err, 'INVALID_TOPIC')
 	}
 
+	@test()
+	protected static async throwsWithThrowsInScript() {
+		this.cwd = this.resolveTestPath('skill-with-script-that-throws')
+		process.env.ACTION = 'test.conversation'
+		process.env.FIRST_MESSAGE = 'hey there!'
+		const skill = this.Skill()
+
+		const err = await assert.doesThrowAsync(() => skill.execute())
+
+		errorAssertUtil.assertError(err, 'CONVERSATION_ABORTED')
+	}
+
 	private static async bootAndGetConversationFeature() {
 		const skill = await this.bootSkill()
 		const conversation = skill.getFeatureByCode(
