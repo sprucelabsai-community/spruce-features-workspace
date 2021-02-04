@@ -3,7 +3,7 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "1.6.1",
+	"version": "1.6.3",
 	"main": "./build/index.js",
 	"types": "./build/index.d.ts",
 	"license": "MIT",
@@ -47,7 +47,7 @@
 		"@sprucelabs/schema": "latest",
 		"@sprucelabs/spruce-core-schemas": "latest",
 		"@sprucelabs/spruce-event-utils": "latest",
-		"@sprucelabs/spruce-skill-booter": "^1.6.1",
+		"@sprucelabs/spruce-skill-booter": "^1.6.3",
 		"@sprucelabs/spruce-skill-utils": "latest",
 		"dotenv": "^8.2.0"
 	},
@@ -58,7 +58,7 @@
 		"@sprucelabs/semantic-release": "latest",
 		"@sprucelabs/test": "latest",
 		"@sprucelabs/test-utils": "latest",
-		"@types/node": "^14.14.23",
+		"@types/node": "^14.14.25",
 		"chokidar-cli": "^2.1.0",
 		"concurrently": "^5.3.0",
 		"conventional-changelog-sprucelabs": "latest",
