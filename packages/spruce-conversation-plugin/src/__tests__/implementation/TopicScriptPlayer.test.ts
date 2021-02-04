@@ -283,6 +283,28 @@ export default class TopicScriptPlayerTest extends AbstractSpruceFixtureTest {
 		} while (Object.keys(remaining).length > 0)
 	}
 
+	@test()
+	protected static async randomOnOptionsOnNotString() {
+		const possibilities = [true, false]
+		let answer: any
+
+		const player = this.Player({
+			script: [
+				async (options) => {
+					assert.isFunction(options.rand)
+
+					answer = options.rand(possibilities)
+				},
+			],
+		})
+
+		await this.sendMessage(player, {
+			body: 'go',
+		})
+
+		assert.isTrue(possibilities.includes(answer))
+	}
+
 	private static Player(
 		options: Partial<ScriptPlayerOptions> & { script: Script }
 	) {

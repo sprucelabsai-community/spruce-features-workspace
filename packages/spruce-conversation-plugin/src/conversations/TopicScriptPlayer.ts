@@ -113,7 +113,7 @@ export class TopicScriptPlayer {
 	private buildCallbackOptions(): ScriptLineCallbackOptions {
 		return {
 			ui: this.graphicsInterface,
-			rand: (possibilities: string[]) => {
+			rand: (possibilities) => {
 				return possibilities[random.int(0, possibilities.length - 1)]
 			},
 		}

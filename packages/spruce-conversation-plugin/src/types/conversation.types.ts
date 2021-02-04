@@ -15,9 +15,11 @@ export type SendMessageHandler = (message: SendMessage) => Promise<void>
 export type DidMessageResponsePayloadSchema = CoreEventContract['eventSignatures']['did-message::v2020_12_25']['responsePayloadSchema']
 export type DidMessageResponsePayload = SchemaValues<DidMessageResponsePayloadSchema>
 
+type RandomResolver<T extends any = any> = (possibilities: T[]) => T
+
 export type ScriptLineCallbackOptions = {
 	ui: GraphicsInterface
-	rand: (possibilities: string[]) => string
+	rand: RandomResolver
 }
 
 export type ScriptLine = string | ScriptLineCallback | string[]
