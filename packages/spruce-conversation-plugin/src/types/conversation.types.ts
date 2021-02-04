@@ -1,5 +1,6 @@
 import { CoreEventContract } from '@sprucelabs/mercury-types'
 import { buildSchema, SchemaValues } from '@sprucelabs/schema'
+import { FieldDefinitions } from '@sprucelabs/schema'
 import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
 import { EventTarget } from '@sprucelabs/spruce-event-utils'
 import {
@@ -89,3 +90,15 @@ declare module '@sprucelabs/spruce-skill-utils/build/skill.types' {
 export type ScriptPlayerSendMessageHandler = (
 	message: ScriptPlayerSendMessage
 ) => Promise<void>
+
+export interface FieldHandlerOptions<
+	D extends FieldDefinitions = FieldDefinitions
+> {
+	sendMessageHandler: ScriptPlayerSendMessageHandler
+	waitForNextMessageHandler: () => Promise<string>
+	definition: D
+}
+
+export interface FieldHandler<F extends FieldDefinitions = FieldDefinitions> {
+	(options: FieldHandlerOptions<F>): Promise<any>
+}

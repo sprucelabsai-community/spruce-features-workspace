@@ -1,35 +1,7 @@
-import { GraphicsInterface } from '@sprucelabs/spruce-skill-utils'
 import { test, assert } from '@sprucelabs/test'
-import { errorAssertUtil } from '@sprucelabs/test-utils'
-import MessageGraphicsInterface from '../../../interfaces/MessageGraphicsInterface'
-import AbstractConversationTest from '../../../tests/AbstractConversationTest'
-import { ScriptPlayerSendMessage } from '../../../types/conversation.types'
+import AbstractGraphicsInterfaceTest from '../../../tests/AbstractGraphicsInterfaceTest'
 
-export default class MessageGraphicsInterfaceTest extends AbstractConversationTest {
-	private static sentMessages: ScriptPlayerSendMessage[]
-	private static ui: GraphicsInterface
-
-	protected static async beforeEach() {
-		this.sentMessages = []
-
-		this.ui = new MessageGraphicsInterface({
-			invalidValueRepairs: ['invalid-value-repair', 'invalid-value-repair2'],
-			sendMessageHandler: async (message) => {
-				this.sentMessages.push(message)
-			},
-		})
-	}
-
-	@test()
-	protected static async selectAsksAgainWithBadResponse() {
-		const promise = this.renderAppointmentSelect()
-
-		await this.sendMessage('get me out of here!')
-
-		const err = await assert.doesThrowAsync(async () => await promise)
-		errorAssertUtil.assertError(err, 'ABORT')
-	}
-
+export default class MessageGraphicsInterfaceTest extends AbstractGraphicsInterfaceTest {
 	@test()
 	protected static async respondingWithNumberSelectsOptions() {
 		const promise = this.renderAppointmentSelect()
@@ -94,9 +66,5 @@ export default class MessageGraphicsInterfaceTest extends AbstractConversationTe
 			choices,
 		})
 		return response
-	}
-
-	private static async sendMessage(body: string) {
-		await (this.ui as MessageGraphicsInterface).handleMessageBody(body)
 	}
 }

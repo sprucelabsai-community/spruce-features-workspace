@@ -1,6 +1,6 @@
 import { SelectFieldDefinition } from '@sprucelabs/schema'
 import SpruceError from '../../errors/SpruceError'
-import { ScriptPlayerSendMessageHandler } from '../../types/conversation.types'
+import { FieldHandler } from '../../types/conversation.types'
 import suggesterUtil from '../../utilities/suggester.utility'
 
 function isNumeric(str: any) {
@@ -14,11 +14,9 @@ function isNumeric(str: any) {
 }
 
 export default class SelectFieldHandler {
-	public static async handle(options: {
-		sendMessageHandler: ScriptPlayerSendMessageHandler
-		waitForNextMessageHandler: () => Promise<string>
-		definition: SelectFieldDefinition
-	}): Promise<string> {
+	public static handle: FieldHandler<SelectFieldDefinition> = async (
+		options
+	) => {
 		const {
 			sendMessageHandler,
 			definition,

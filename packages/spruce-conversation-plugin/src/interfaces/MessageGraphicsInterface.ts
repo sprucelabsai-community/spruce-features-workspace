@@ -2,14 +2,16 @@ import {
 	areSchemaValuesValid,
 	FieldDefinitions,
 	FieldDefinitionValueType,
-	SelectFieldDefinition,
 } from '@sprucelabs/schema'
 import { GraphicsInterface } from '@sprucelabs/spruce-skill-utils'
 //@ts-ignore
 import { SentimentAnalyzer } from 'node-nlp'
-import SpruceError from '../errors/SpruceError'
-import { ScriptPlayerSendMessageHandler } from '../types/conversation.types'
+import {
+	FieldHandler,
+	ScriptPlayerSendMessageHandler,
+} from '../types/conversation.types'
 import SelectFieldHandler from './fieldHandlers/SelectFieldHandler'
+import TextFieldHandler from './fieldHandlers/TextFieldHandler'
 
 const sentiment = new SentimentAnalyzer({ language: 'en' })
 
@@ -23,6 +25,7 @@ export default class MessageGraphicsInterface implements GraphicsInterface {
 	private resolve?: (value: string) => void
 	private invalidValueRepairs: string[]
 	private invalidValueRepairIdx = 0
+	private isDestroyed = false
 
 	public constructor(options: MessageGraphicsInterfaceOptions) {
 		this.sendMessageHandler = options.sendMessageHandler
@@ -84,25 +87,23 @@ export default class MessageGraphicsInterface implements GraphicsInterface {
 	): Promise<FieldDefinitionValueType<T, false>> {
 		let value: any
 
-		if (definition.type === 'select') {
-			value = await this.handleSelect(definition as any)
-		} else {
+		const handlersByType: Record<string, FieldHandler<any>> = {
+			select: SelectFieldHandler.handle,
+			text: TextFieldHandler.handle,
+		}
+
+		const handler = handlersByType[definition.type]
+
+		if (!handler) {
 			this.notSupported(`prompt.${definition.type}`)
 		}
 
-		if (!value) {
-			throw new SpruceError({ code: 'ABORT' })
-		}
-
-		return value
-	}
-
-	private async handleSelect(
-		definition: SelectFieldDefinition
-	): Promise<string> {
-		let value
 		do {
-			value = await SelectFieldHandler.handle({
+			if (this.isDestroyed) {
+				return null as any
+			}
+
+			value = await handler({
 				sendMessageHandler: this.sendMessageHandler,
 				waitForNextMessageHandler: this.waitForNextMessage.bind(this),
 				definition,
@@ -199,5 +200,9 @@ export default class MessageGraphicsInterface implements GraphicsInterface {
 
 	public isWaitingForInput() {
 		return !!this.resolve
+	}
+
+	public destory() {
+		this.isDestroyed = true
 	}
 }

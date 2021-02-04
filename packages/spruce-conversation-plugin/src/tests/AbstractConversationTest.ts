@@ -6,6 +6,7 @@ import plugin from '../plugins/conversation.plugin'
 export default abstract class AbstractConversationTest extends AbstractSpruceFixtureTest {
 	protected static async beforeEach() {
 		await super.beforeEach()
+
 		delete process.env.SKILL_ID
 		delete process.env.SKILL_API_KEY
 	}

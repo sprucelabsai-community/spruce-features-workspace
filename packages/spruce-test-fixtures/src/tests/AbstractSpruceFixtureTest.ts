@@ -25,6 +25,7 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 
 	protected static async afterEach() {
 		await super.afterEach()
+
 		await FixtureFactory.destroy()
 	}
 
