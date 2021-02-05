@@ -29,7 +29,7 @@ export class TopicSuggester {
 		container.use(LangEn)
 		container.use(NluNeural)
 
-		const manager = new NluManager({ container, locales: ['en'] })
+		const manager = new NluManager({ container, locales: ['en'], log: false })
 
 		for (const topic of options.topics) {
 			manager.assignDomain('en', topic.key, topic.key)

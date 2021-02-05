@@ -9,6 +9,8 @@ export default abstract class AbstractConversationTest extends AbstractSpruceFix
 
 		delete process.env.SKILL_ID
 		delete process.env.SKILL_API_KEY
+		delete process.env.ACTION
+		delete process.env.FIRST_MESSAGE
 	}
 
 	protected static Skill(options?: SkillFactoryOptions) {
