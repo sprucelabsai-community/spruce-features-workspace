@@ -2,7 +2,6 @@ import { MercuryClient } from '@sprucelabs/mercury-client'
 import { CoreEventContract } from '@sprucelabs/mercury-types'
 import { EventFeature } from '@sprucelabs/spruce-event-plugin'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
-import { buildLog } from '@sprucelabs/spruce-skill-utils'
 import { test, assert } from '@sprucelabs/test'
 import AbstractConversationTest from '../../tests/AbstractConversationTest'
 

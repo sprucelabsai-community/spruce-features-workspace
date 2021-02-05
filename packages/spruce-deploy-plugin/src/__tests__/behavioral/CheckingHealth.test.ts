@@ -8,6 +8,7 @@ const APP_NAME_DEPLOYED = 'sb-skill-schrutebucks-pos'
 const APP_NAME_BAD_APP = 'spruce-test-app-bad'
 const WEB_URL_NEVER_DEPLOYED = 'https://spruce-test-app.herokuapp.com/'
 const WEB_URL_DEPLOYED = 'https://sb-skill-schrutebucks-pos.herokuapp.com/'
+
 export default class CheckingHealthTest extends AbstractDeployTest {
 	@test()
 	protected static async pluginReturnsInstance() {
