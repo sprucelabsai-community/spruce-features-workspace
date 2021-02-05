@@ -39,6 +39,8 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 				},
 			],
 			writeHandler: () => {},
+			selectPromptHandler: async () => '',
+			promptHandler: async () => await new Promise(() => {}),
 		})
 
 		void tester.go()
@@ -55,6 +57,8 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 				},
 			],
 			writeHandler: () => {},
+			selectPromptHandler: async () => '',
+			promptHandler: async () => '',
 		})
 
 		const err = await assert.doesThrowAsync(() => tester.handleInput('taco'))
@@ -70,6 +74,7 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 				return 'oeuou'
 			},
 			writeHandler: () => {},
+			promptHandler: async () => '',
 		})
 
 		const err = await assert.doesThrowAsync(() => tester.go())
@@ -106,6 +111,7 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 			writeHandler: (message) => {
 				writes.push(message.body)
 			},
+			promptHandler: async () => await new Promise(() => {}),
 		})
 
 		void tester.go('go team')
@@ -137,6 +143,8 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 			writeHandler: (message) => {
 				writes.push(message.body)
 			},
+			selectPromptHandler: async () => '',
+			promptHandler: async () => '',
 		})
 
 		assert.isLength(writes, 0)
@@ -180,6 +188,7 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 			promptHandler: async () => {
 				return answer
 			},
+			selectPromptHandler: async () => '',
 		})
 
 		void tester.go('lets go!')
@@ -212,6 +221,7 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 				await new Promise((resolve) => (promptResolve = resolve))
 				return 'answer from prompt'
 			},
+			selectPromptHandler: async () => '',
 		})
 
 		void tester.go()
@@ -254,6 +264,7 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 				}
 				return 'answer from prompt'
 			},
+			selectPromptHandler: async () => '',
 		})
 
 		void tester.go()
