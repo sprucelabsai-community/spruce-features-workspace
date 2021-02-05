@@ -38,6 +38,7 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 					script: ['hey there!'],
 				},
 			],
+			writeHandler: () => {},
 		})
 
 		void tester.go()
@@ -53,6 +54,7 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 					script: ['hey there!'],
 				},
 			],
+			writeHandler: () => {},
 		})
 
 		const err = await assert.doesThrowAsync(() => tester.handleInput('taco'))
@@ -67,6 +69,7 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 			selectPromptHandler: async () => {
 				return 'oeuou'
 			},
+			writeHandler: () => {},
 		})
 
 		const err = await assert.doesThrowAsync(() => tester.go())
@@ -244,9 +247,7 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 			writeHandler: (message) => {
 				writes.push(message.body)
 			},
-			promptHandler: async (message) => {
-				console.log(message)
-
+			promptHandler: async () => {
 				promptHitCount++
 				if (promptHitCount > 2) {
 					await new Promise(() => {})

@@ -4,6 +4,16 @@ import { ConversationFeature } from '../../plugins/conversation.plugin'
 import AbstractConversationTest from '../../tests/AbstractConversationTest'
 
 export default class TestingAConversationTest extends AbstractConversationTest {
+	protected static async afterEach() {
+		await super.afterEach()
+		process.env.ACTION = undefined
+	}
+
+	protected static async afterAll() {
+		await super.afterAll()
+		process.env.ACTION = undefined
+	}
+
 	@test()
 	protected static async bootingNormallyDoesNotGoToTestMode() {
 		const conversation = await this.bootAndGetConversationFeature()
@@ -16,7 +26,6 @@ export default class TestingAConversationTest extends AbstractConversationTest {
 	protected static async bootsInTestModeWithProperAction() {
 		process.env.ACTION = 'test.conversation'
 		const conversation = await this.bootAndGetConversationFeature()
-		process.env.ACTION = undefined
 
 		assert.isTrue(conversation.isTesting())
 	}
@@ -29,7 +38,6 @@ export default class TestingAConversationTest extends AbstractConversationTest {
 		const err = await assert.doesThrowAsync(() => skill.execute())
 
 		errorAssertUtil.assertError(err, 'INVALID_TOPIC')
-		process.env.ACTION = undefined
 	}
 
 	@test()
@@ -42,7 +50,6 @@ export default class TestingAConversationTest extends AbstractConversationTest {
 		const err = await assert.doesThrowAsync(() => skill.execute())
 
 		errorAssertUtil.assertError(err, 'CONVERSATION_ABORTED')
-		process.env.ACTION = undefined
 	}
 
 	private static async bootAndGetConversationFeature() {

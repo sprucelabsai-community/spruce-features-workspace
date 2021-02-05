@@ -78,7 +78,6 @@ export default class RespondingToMessagesTest extends AbstractConversationTest {
 		if (!this.client) {
 			const { skill } = await this.bootAndRegisterSkill({
 				name: 'my skill yo',
-				log: buildLog('to-message'),
 			})
 
 			const events = skill.getFeatureByCode('event') as EventFeature
