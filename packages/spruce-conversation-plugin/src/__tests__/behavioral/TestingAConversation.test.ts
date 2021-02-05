@@ -16,6 +16,7 @@ export default class TestingAConversationTest extends AbstractConversationTest {
 	protected static async bootsInTestModeWithProperAction() {
 		process.env.ACTION = 'test.conversation'
 		const conversation = await this.bootAndGetConversationFeature()
+		process.env.ACTION = undefined
 
 		assert.isTrue(conversation.isTesting())
 	}
@@ -25,10 +26,10 @@ export default class TestingAConversationTest extends AbstractConversationTest {
 		this.cwd = this.resolveTestPath('bad-skill')
 		process.env.ACTION = 'test.conversation'
 		const skill = this.Skill()
-
 		const err = await assert.doesThrowAsync(() => skill.execute())
 
 		errorAssertUtil.assertError(err, 'INVALID_TOPIC')
+		process.env.ACTION = undefined
 	}
 
 	@test()
@@ -41,6 +42,7 @@ export default class TestingAConversationTest extends AbstractConversationTest {
 		const err = await assert.doesThrowAsync(() => skill.execute())
 
 		errorAssertUtil.assertError(err, 'CONVERSATION_ABORTED')
+		process.env.ACTION = undefined
 	}
 
 	private static async bootAndGetConversationFeature() {
