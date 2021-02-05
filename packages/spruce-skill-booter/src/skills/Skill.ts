@@ -7,6 +7,13 @@ import {
 } from '@sprucelabs/spruce-skill-utils'
 import SpruceError from '../errors/SpruceError'
 
+export interface SkillOptions {
+	rootDir: string
+	activeDir: string
+	hashSpruceDir: string
+	log?: Log
+}
+
 export default class Skill implements ISkill {
 	public rootDir
 	public activeDir
@@ -17,13 +24,9 @@ export default class Skill implements ISkill {
 	private _isRunning = false
 	private shutdownTimeout: any
 	private isKilling = false
+	private bootLoggerInterval: any
 
-	public constructor(options: {
-		rootDir: string
-		activeDir: string
-		hashSpruceDir: string
-		log?: Log
-	}) {
+	public constructor(options: SkillOptions) {
 		this.rootDir = options.rootDir
 		this.activeDir = options.activeDir
 		this.hashSpruceDir = options.hashSpruceDir
@@ -57,6 +60,10 @@ export default class Skill implements ISkill {
 
 			if (this.shutdownTimeout) {
 				clearTimeout(this.shutdownTimeout)
+			}
+
+			if (this.bootLoggerInterval) {
+				clearInterval(this.bootLoggerInterval)
 			}
 
 			await Promise.all(this.getFeatures().map((feature) => feature.destroy()))
@@ -100,6 +107,13 @@ export default class Skill implements ISkill {
 		this._isRunning = true
 
 		try {
+			this.bootLoggerInterval = setInterval(() => {
+				if (this.isBooted()) {
+					clearInterval(this.bootLoggerInterval)
+					this.log.info('Skill booted!')
+				}
+			}, 50)
+
 			await Promise.all(this.getFeatures().map((feature) => feature.execute()))
 		} catch (err) {
 			this.log.error('Execution error:\n\n' + err.message)

@@ -27,6 +27,7 @@ export class TopicScriptPlayer {
 	private target: MessageTarget
 	private graphicsInterface: MessageGraphicsInterface
 	private lineDelay: number
+	private scriptState: Record<string, any> = {}
 
 	public constructor(options: ScriptPlayerOptions) {
 		const missing: string[] = []
@@ -113,6 +114,7 @@ export class TopicScriptPlayer {
 	private buildCallbackOptions(): ScriptLineCallbackOptions {
 		return {
 			ui: this.graphicsInterface,
+			state: this.scriptState,
 			rand: (possibilities) => {
 				return possibilities[random.int(0, possibilities.length - 1)]
 			},

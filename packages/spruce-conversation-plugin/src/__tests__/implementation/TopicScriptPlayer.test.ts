@@ -1,3 +1,4 @@
+import { stat } from 'fs'
 import { AbstractSpruceFixtureTest } from '@sprucelabs/spruce-test-fixtures'
 import { test, assert } from '@sprucelabs/test'
 import { errorAssertUtil } from '@sprucelabs/test-utils'
@@ -303,6 +304,55 @@ export default class TopicScriptPlayerTest extends AbstractSpruceFixtureTest {
 		})
 
 		assert.isTrue(possibilities.includes(answer))
+	}
+
+	@test()
+	protected static async retainsStateBetweenScriptLines() {
+		const player = this.Player({
+			script: [
+				async (options) => {
+					options.state.goTeam = true
+				},
+				async (options) => {
+					assert.isTrue(options.state.goTeam)
+				},
+			],
+		})
+
+		await this.sendMessage(player, {
+			body: 'tell me a story!',
+		})
+	}
+
+	@test()
+	protected static async retainsStateBetweenMessages() {
+		let stateCount = 0
+		const player = this.Player({
+			script: [
+				async (options) => {
+					if (!options.state.count) {
+						options.state.count = 1
+					} else {
+						options.state.count++
+					}
+				},
+				async (options) => {
+					options.state.count++
+
+					stateCount = options.state.count
+				},
+			],
+		})
+
+		await this.sendMessage(player, {
+			body: 'tell me a story!',
+		})
+
+		assert.isEqual(stateCount, 2)
+
+		await this.sendMessage(player, { body: 'again, again!' })
+
+		assert.isEqual(stateCount, 4)
 	}
 
 	private static Player(

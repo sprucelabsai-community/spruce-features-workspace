@@ -1,11 +1,12 @@
 import {
+	buildLog,
 	diskUtil,
 	mockLog,
 	Skill as ISkill,
 } from '@sprucelabs/spruce-skill-utils'
 import AbstractSpruceTest, { test, assert } from '@sprucelabs/test'
 import { errorAssertUtil } from '@sprucelabs/test-utils'
-import Skill from '../../skills/Skill'
+import Skill, { SkillOptions } from '../../skills/Skill'
 
 export default class SkillTest extends AbstractSpruceTest {
 	@test()
@@ -134,12 +135,36 @@ export default class SkillTest extends AbstractSpruceTest {
 		await skill.kill()
 	}
 
-	private static Skill() {
+	@test()
+	protected static async logsSkillBootedWhenBooted() {
+		let log = ''
+
+		const skill = this.Skill({
+			log: {
+				prefix: '',
+				warn: () => '',
+				info: (data) => (log += data),
+				error: () => '',
+				buildLog,
+			},
+		})
+
+		void skill.execute()
+
+		do {
+			await this.wait(500)
+		} while (!skill.isBooted() && skill.isRunning())
+
+		assert.isAbove(log.search('Skill booted'), -1)
+	}
+
+	private static Skill(options?: Partial<SkillOptions>) {
 		return new Skill({
 			rootDir: this.cwd,
 			activeDir: this.cwd,
 			hashSpruceDir: this.cwd,
 			log: mockLog,
+			...options,
 		}) as ISkill
 	}
 }

@@ -17,6 +17,7 @@ export type DidMessageResponsePayload = SchemaValues<DidMessageResponsePayloadSc
 
 export type ScriptLineCallbackOptions = {
 	ui: GraphicsInterface
+	state: Record<string, any>
 	rand<T>(possibilities: T[]): T
 }
 
