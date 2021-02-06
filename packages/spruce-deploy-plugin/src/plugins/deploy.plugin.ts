@@ -1,19 +1,15 @@
-import { Log, Skill, SkillFeature } from '@sprucelabs/spruce-skill-utils'
+import { Skill, SkillFeature } from '@sprucelabs/spruce-skill-utils'
 //@ts-ignore
 import Heroku from 'heroku-client'
 import SpruceError from '../errors/SpruceError'
 import { DeployHealthCheckItem, HealthCheckDeploy } from '../types/deploy.types'
 
 export class DeployFeature implements SkillFeature {
-	private log: Log
-	private isExecuting = false
 	private _isBooted = false
 	//@ts-ignore
 	private executeResolver?: any
 
-	public constructor(skill: Skill) {
-		this.log = skill.buildLog('Deploy.Feature')
-	}
+	public constructor() {}
 
 	public async execute(): Promise<void> {}
 
@@ -80,6 +76,6 @@ export class DeployFeature implements SkillFeature {
 }
 
 export default (skill: Skill) => {
-	const feature = new DeployFeature(skill)
+	const feature = new DeployFeature()
 	skill.registerFeature('deploy', feature)
 }
