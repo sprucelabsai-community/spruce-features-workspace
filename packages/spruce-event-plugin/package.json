@@ -48,7 +48,7 @@
 		"@sprucelabs/spruce-core-schemas": "latest",
 		"@sprucelabs/spruce-event-utils": "latest",
 		"@sprucelabs/spruce-skill-utils": "latest",
-		"@sprucelabs/spruce-test-fixtures": "^1.7.6",
+		"@sprucelabs/spruce-test-fixtures": "^1.7.7",
 		"@sprucelabs/test": "latest",
 		"@sprucelabs/test-utils": "latest"
 	},
