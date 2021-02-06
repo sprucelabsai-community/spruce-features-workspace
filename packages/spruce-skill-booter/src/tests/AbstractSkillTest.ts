@@ -34,6 +34,7 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
 
 		const skill = new Skill({
 			rootDir: this.cwd,
+			shouldCountdownOnExit: false,
 			activeDir: this.resolvePath('src'),
 			hashSpruceDir: this.cwd,
 			log,
@@ -55,7 +56,7 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
 		void skill.execute().catch((err) => (this.skillBootError = err))
 
 		do {
-			await this.wait(500)
+			await this.wait(100)
 		} while (!skill.isBooted() && skill.isRunning())
 
 		return skill

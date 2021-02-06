@@ -17,7 +17,7 @@
 		"lint": "lerna run lint",
 		"publish": "lerna publish",
 		"rebuild": "yarn clean.all && yarn && yarn build",
-		"test": "lerna run test --stream",
+		"test": "lerna run test --parallel --stream",
 		"upgrade.packages": "yarn upgrade --latest && rm -f yarn.lock && yarn | true && yarn fix.lint || true",
 		"upgrade.packages.workspaces": "yarn && for d in packages/*; do cd $d; yarn-upgrade-all; cd ../..; done",
 		"upgrade.packages.all": "yarn install && yarn upgrade.packages.workspaces && yarn upgrade.packages",

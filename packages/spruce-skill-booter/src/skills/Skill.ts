@@ -12,6 +12,7 @@ export interface SkillOptions {
 	activeDir: string
 	hashSpruceDir: string
 	log?: Log
+	shouldCountdownOnExit?: boolean
 }
 
 export default class Skill implements ISkill {
@@ -25,12 +26,14 @@ export default class Skill implements ISkill {
 	private shutdownTimeout: any
 	private isKilling = false
 	private bootLoggerInterval: any
+	private shouldCountdownOnExit = true
 
 	public constructor(options: SkillOptions) {
 		this.rootDir = options.rootDir
 		this.activeDir = options.activeDir
 		this.hashSpruceDir = options.hashSpruceDir
 		this.log = options.log ?? buildLog('Skill')
+		this.shouldCountdownOnExit = options.shouldCountdownOnExit ?? true
 	}
 
 	public isFeatureInstalled = async (featureCode: string) => {
@@ -51,27 +54,6 @@ export default class Skill implements ISkill {
 
 	public isRunning(): boolean {
 		return this._isRunning
-	}
-
-	public async kill() {
-		if (this._isRunning) {
-			this.isKilling = true
-			this.log.info('Killing skill')
-
-			if (this.shutdownTimeout) {
-				clearTimeout(this.shutdownTimeout)
-			}
-
-			if (this.bootLoggerInterval) {
-				clearInterval(this.bootLoggerInterval)
-			}
-
-			await Promise.all(this.getFeatures().map((feature) => feature.destroy()))
-
-			this._isRunning = false
-
-			this.log.info('Kill complete. Until next time! 👋')
-		}
 	}
 
 	public checkHealth = async (): Promise<HealthCheckResults> => {
@@ -128,32 +110,59 @@ export default class Skill implements ISkill {
 		}
 
 		this.log.info('All features have finished execution.')
-		this.log.info('Shutting down in 3')
+		clearInterval(this.bootLoggerInterval)
 
-		await new Promise(
-			(resolve) =>
-				(this.shutdownTimeout = setTimeout(() => {
-					this.log.info('.................2')
-					resolve(null)
-				}, 1000))
-		)
-		await new Promise(
-			(resolve) =>
-				(this.shutdownTimeout = setTimeout(() => {
-					this.log.info('.................1')
-					resolve(null)
-				}, 1000))
-		)
-		await new Promise(
-			(resolve) =>
-				(this.shutdownTimeout = setTimeout(() => {
-					this.log.info('.................Good bye 👋')
-					resolve(null)
-				}, 1000))
-		)
+		if (!this.shouldCountdownOnExit) {
+			this.log.info('Shutting down immediately.')
+		} else {
+			this.log.info('Shutting down in 3')
+
+			await new Promise(
+				(resolve) =>
+					(this.shutdownTimeout = setTimeout(() => {
+						this.log.info('.................2')
+						resolve(null)
+					}, 1000))
+			)
+			await new Promise(
+				(resolve) =>
+					(this.shutdownTimeout = setTimeout(() => {
+						this.log.info('.................1')
+						resolve(null)
+					}, 1000))
+			)
+			await new Promise(
+				(resolve) =>
+					(this.shutdownTimeout = setTimeout(() => {
+						this.log.info('.................Good bye 👋')
+						resolve(null)
+					}, 1000))
+			)
+		}
 
 		this.shutdownTimeout = undefined
 		this._isRunning = false
+	}
+
+	public async kill() {
+		if (this._isRunning && !this.isKilling) {
+			this.isKilling = true
+			this.log.info('Killing skill')
+
+			if (this.shutdownTimeout) {
+				clearTimeout(this.shutdownTimeout)
+			}
+
+			if (this.bootLoggerInterval) {
+				clearInterval(this.bootLoggerInterval)
+			}
+
+			await Promise.all(this.getFeatures().map((feature) => feature.destroy()))
+
+			this._isRunning = false
+
+			this.log.info('Kill complete. Until next time! 👋')
+		}
 	}
 
 	public isBooted(): boolean {

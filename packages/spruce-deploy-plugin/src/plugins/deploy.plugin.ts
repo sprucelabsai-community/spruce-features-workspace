@@ -5,19 +5,13 @@ import SpruceError from '../errors/SpruceError'
 import { DeployHealthCheckItem, HealthCheckDeploy } from '../types/deploy.types'
 
 export class DeployFeature implements SkillFeature {
-	//@ts-ignore
-	private skill: Skill
-	//@ts-ignore
 	private log: Log
-	//@ts-ignore
 	private isExecuting = false
-	//@ts-ignore
 	private _isBooted = false
 	//@ts-ignore
 	private executeResolver?: any
 
 	public constructor(skill: Skill) {
-		this.skill = skill
 		this.log = skill.buildLog('Deploy.Feature')
 	}
 

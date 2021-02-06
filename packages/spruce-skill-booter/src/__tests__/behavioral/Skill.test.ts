@@ -72,7 +72,7 @@ export default class SkillTest extends AbstractSpruceTest {
 	}
 
 	@test()
-	protected static async killMarksAsDoneRunningWhenFinished() {
+	protected static async skillMarksAsDoneRunningWhenFinished() {
 		const skill = this.Skill()
 		await skill.execute()
 		assert.isFalse(skill.isRunning())
@@ -149,6 +149,14 @@ export default class SkillTest extends AbstractSpruceTest {
 			},
 		})
 
+		skill.registerFeature('test', {
+			execute: async () => await new Promise(() => {}),
+			checkHealth: async () => ({ status: 'passed' }),
+			isBooted: () => true,
+			destroy: async () => {},
+			isInstalled: async () => true,
+		})
+
 		void skill.execute()
 
 		do {
@@ -160,6 +168,7 @@ export default class SkillTest extends AbstractSpruceTest {
 
 	private static Skill(options?: Partial<SkillOptions>) {
 		return new Skill({
+			shouldCountdownOnExit: false,
 			rootDir: this.cwd,
 			activeDir: this.cwd,
 			hashSpruceDir: this.cwd,
