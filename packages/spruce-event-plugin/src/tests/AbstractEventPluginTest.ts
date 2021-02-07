@@ -1,7 +1,5 @@
-import {
-	AbstractSpruceFixtureTest,
-	SkillFactoryOptions,
-} from '../../../spruce-test-fixtures/build'
+import { SkillFactoryOptions } from '@sprucelabs/spruce-skill-booter'
+import { AbstractSpruceFixtureTest } from '@sprucelabs/spruce-test-fixtures'
 import plugin, { EventFeaturePlugin } from './../plugins/event.plugin'
 
 export default class AbstractEventPluginTest extends AbstractSpruceFixtureTest {
