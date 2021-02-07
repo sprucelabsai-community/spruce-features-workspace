@@ -12,7 +12,6 @@ export class DeployFeature implements SkillFeature {
 	public constructor() {}
 
 	public async execute(): Promise<void> {}
-
 	public async checkHealth(): Promise<DeployHealthCheckItem> {
 		const token = process.env.HEROKU_API_TOKEN
 		const appName = process.env.HEROKU_APP_NAME
