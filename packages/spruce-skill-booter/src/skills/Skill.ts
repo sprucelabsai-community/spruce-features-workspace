@@ -92,6 +92,7 @@ export default class Skill implements ISkill {
 			this.bootLoggerInterval = setInterval(() => {
 				if (this.isBooted()) {
 					clearInterval(this.bootLoggerInterval)
+					this.bootLoggerInterval = undefined
 					this.log.info('Skill booted!')
 				}
 			}, 50)
@@ -109,8 +110,12 @@ export default class Skill implements ISkill {
 			return
 		}
 
+		if (this.bootLoggerInterval) {
+			clearInterval(this.bootLoggerInterval)
+			this.log.info('Skill booted!')
+		}
+
 		this.log.info('All features have finished execution.')
-		clearInterval(this.bootLoggerInterval)
 
 		if (!this.shouldCountdownOnExit) {
 			this.log.info('Shutting down immediately.')
