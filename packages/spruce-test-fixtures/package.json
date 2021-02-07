@@ -24,7 +24,7 @@
 		"build": "yarn build.babel && yarn build.types.resolve-paths.lint",
 		"build.babel": "babel src --out-dir build --extensions '.ts, .tsx' --source-maps --copy-files",
 		"build.resolve-paths": "resolve-path-aliases --target build --patterns **/*.js,**/*.d.ts",
-		"build.types": "tsc --emitDeclarationOnly && echo PASS TYPES || echo FAIL TYPES",
+		"build.types": "tsc --emitDeclarationOnly && echo PASS TYPES || (echo FAIL TYPES && false)",
 		"build.types.resolve-paths.lint": "yarn build.types && yarn resolve-paths.lint",
 		"clean": "rm -rf build/",
 		"clean.all": "yarn clean && rm yarn.lock | true && rm -rf node_modules/",
