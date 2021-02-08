@@ -50,8 +50,9 @@ export default class PersonFixture<
 			requestPinResults
 		)
 
+		const pin = phone.substr(-4)
 		const confirmPinResults = await client.emit('confirm-pin::v2020_12_25', {
-			payload: { challenge, pin: phone.substr(-4) },
+			payload: { challenge, pin },
 		})
 
 		const { person } = eventResponseUtil.getFirstResponseOrThrow(

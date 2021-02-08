@@ -28,7 +28,7 @@ export default class RegisteringConversationsOnBootTest extends AbstractConversa
 
 		const topics = await this.boot()
 
-		this.assert2ExpectedTopics(topics)
+		this.assertExpectedTopics(topics)
 	}
 
 	@test()
@@ -44,14 +44,14 @@ export default class RegisteringConversationsOnBootTest extends AbstractConversa
 
 		const topics = await this.boot()
 
-		this.assert2ExpectedTopics(topics)
+		this.assertExpectedTopics(topics)
 
 		const topics2 = await this.boot({
 			skillId: process.env.SKILL_ID as string,
 			apiKey: process.env.SKILL_API_KEY as string,
 		})
 
-		this.assert2ExpectedTopics(topics2)
+		this.assertExpectedTopics(topics2)
 	}
 
 	@test()
@@ -65,11 +65,12 @@ export default class RegisteringConversationsOnBootTest extends AbstractConversa
 		})
 	}
 
-	private static assert2ExpectedTopics(topics: any) {
-		assert.isLength(topics, 2)
+	private static assertExpectedTopics(topics: any) {
+		assert.isLength(topics, 3)
 
 		assert.doesInclude(topics, { key: 'bookAppointment' })
 		assert.doesInclude(topics, { key: 'cancelAppointment' })
+		assert.doesInclude(topics, { key: 'favoriteColor' })
 	}
 
 	private static async boot(options?: { skillId: string; apiKey: string }) {

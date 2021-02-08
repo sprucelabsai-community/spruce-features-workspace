@@ -172,7 +172,8 @@ export class EventFeaturePlugin implements SkillFeature {
 			}
 
 			if (this.apiClientPromise) {
-				await (await this.apiClientPromise).client?.disconnect()
+				const { client } = await this.apiClientPromise
+				await client.disconnect()
 				this.log.info(`Disconnected from Mercury.`)
 			}
 

@@ -5,7 +5,7 @@ export default class KillingASkillTest extends AbstractConversationTest {
 	@test()
 	protected static async killingASkillKillsConversation() {
 		const { skill } = await this.bootAndRegisterSkill({
-			name: 'great skilld dude!',
+			name: 'great skill dude!',
 		})
 
 		await skill.kill()
