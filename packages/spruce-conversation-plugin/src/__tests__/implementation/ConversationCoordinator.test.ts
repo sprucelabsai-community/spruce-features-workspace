@@ -10,7 +10,10 @@ export default class TopicCoordinatorTest extends AbstractConversationTest {
 	protected static async beforeEach() {
 		await super.beforeEach()
 
+		this.sentMessages = []
+
 		this.coordinator = await ConversationCoordinator.Coordinator({
+			lineDelay: 0,
 			sendMessageHandler: async (message) => {
 				this.sentMessages.push(message)
 			},
@@ -46,7 +49,7 @@ export default class TopicCoordinatorTest extends AbstractConversationTest {
 		)
 
 		assert.isArray((results as any).suggestedTopics)
-		assert.isLength((results as any).suggestedTopics, 1)
+		assert.isLength((results as any).suggestedTopics, 2)
 	}
 
 	@test()
@@ -75,7 +78,7 @@ export default class TopicCoordinatorTest extends AbstractConversationTest {
 
 		errorAssertUtil.assertError(err, 'TOPIC_NOT_FOUND', {
 			suppliedTopic: 'aoeu',
-			validTopics: ['bookAppointment', 'cancelAppointment'],
+			validTopics: ['bookAppointment', 'cancelAppointment', 'favoriteColor'],
 		})
 	}
 
@@ -88,5 +91,41 @@ export default class TopicCoordinatorTest extends AbstractConversationTest {
 
 		assert.isLength(this.sentMessages, 2)
 		assert.isEqual(this.sentMessages[0].body, 'Sweet, lets book!')
+	}
+
+	@test()
+	protected static async canHandlePromptsInScript() {
+		void this.coordinator.handleMessage(
+			this.buildMessage({ body: '1', source: { personId: '1234' } }),
+			'favoriteColor'
+		)
+
+		await this.wait(10)
+
+		assert.isLength(this.sentMessages, 1)
+		assert.isEqual(this.sentMessages[0].body, 'what is your favorite color?')
+
+		void this.coordinator.handleMessage(
+			this.buildMessage({ body: 'blue', source: { personId: '1234' } }),
+			'favoriteColor'
+		)
+
+		await this.wait(10)
+
+		assert.isLength(this.sentMessages, 2)
+		assert.isEqual(this.sentMessages[this.sentMessages.length - 1].body, 'blue')
+
+		void this.coordinator.handleMessage(
+			this.buildMessage({ body: 'blue', source: { personId: '1234' } }),
+			'bookAppointment'
+		)
+
+		await this.wait(10)
+
+		assert.isLength(this.sentMessages, 4)
+		assert.isEqual(
+			this.sentMessages.pop()?.body,
+			'Lemme find your appointment!'
+		)
 	}
 }

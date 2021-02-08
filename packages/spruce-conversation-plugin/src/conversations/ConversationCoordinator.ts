@@ -17,20 +17,26 @@ export class ConversationCoordinator {
 	private suggester: TopicSuggester
 	private sendMessageHandler: SendMessageHandler
 	private topics: LoadedTopicDefinition[]
+	private player?: TopicScriptPlayer
+	private lastTopic?: string
+	private lineDelay?: number
 
 	private constructor(options: {
 		suggester: TopicSuggester
 		sendMessageHandler: SendMessageHandler
 		topics: LoadedTopicDefinition[]
+		lineDelay?: number
 	}) {
 		this.suggester = options.suggester
 		this.sendMessageHandler = options.sendMessageHandler
 		this.topics = options.topics
+		this.lineDelay = options.lineDelay
 	}
 
 	public static async Coordinator(options: {
 		topicLookupPath: string
 		sendMessageHandler: SendMessageHandler
+		lineDelay?: number
 	}) {
 		const topics = await TopicLoader.loadTopics(options.topicLookupPath)
 		const suggester = await TopicSuggester.Suggester({ topics })
@@ -39,6 +45,7 @@ export class ConversationCoordinator {
 			suggester,
 			sendMessageHandler: options.sendMessageHandler,
 			topics,
+			lineDelay: options.lineDelay,
 		})
 	}
 
@@ -54,6 +61,7 @@ export class ConversationCoordinator {
 		}
 
 		if (!topic) {
+			this.lastTopic = topic
 			const suggestions = await this.suggester.suggest(message.body)
 
 			return {
@@ -74,13 +82,18 @@ export class ConversationCoordinator {
 		const { ...target } = message.source
 		delete target.isCore
 
-		const player = new TopicScriptPlayer({
-			target,
-			sendMessageHandler: this.sendMessageHandler,
-			script: matchedTopic.script,
-		})
+		if (!this.player || this.lastTopic !== matchedTopic.key) {
+			this.lastTopic = matchedTopic.key
 
-		const results = await player.handleMessage(message)
+			this.player = new TopicScriptPlayer({
+				target,
+				sendMessageHandler: this.sendMessageHandler,
+				script: matchedTopic.script,
+				lineDelay: this.lineDelay,
+			})
+		}
+
+		const results = await this.player.handleMessage(message)
 
 		if (results) {
 			return results
