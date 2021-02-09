@@ -1,17 +1,5 @@
 import { HealthCheckItem } from '@sprucelabs/spruce-skill-utils'
 
-//const deployHealthCheckItem = {
-// 	status: 'passed',
-// 	errors: undefined,
-// 	isDeployed: true,
-// 	deploys: [
-// 		{
-// 			cloudProvider: 'heroku',
-// 			appName: 'test-123234509230823',
-// 		},
-// 	],
-// }
-
 export interface HealthCheckDeploy {
 	name: string
 	provider: string

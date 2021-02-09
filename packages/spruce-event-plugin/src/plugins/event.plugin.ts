@@ -186,8 +186,7 @@ export class EventFeaturePlugin implements SkillFeature {
 	}
 
 	private async loadEverything() {
-		await this.loadLocal()
-		await this.loadEvents()
+		await Promise.all([this.loadLocal(), this.loadEvents()])
 	}
 
 	public async destroy() {

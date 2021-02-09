@@ -19,6 +19,7 @@ export class DeployFeature implements SkillFeature {
 		if (token && appName) {
 			try {
 				const deploys = await this.loadDeploys(token, appName)
+
 				return {
 					status: 'passed',
 					deploys,
@@ -43,6 +44,7 @@ export class DeployFeature implements SkillFeature {
 		appName: string
 	): Promise<HealthCheckDeploy[]> {
 		const heroku = new Heroku({ token })
+
 		const apps = await heroku.get('/apps')
 
 		const match = apps.find((app: any) => app.name === appName)

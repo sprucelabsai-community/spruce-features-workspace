@@ -21,7 +21,11 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
 
 			this.clearSkillBootErrors()
 
-			assert.fail('Skill had error during boot:\n\n' + err.toString())
+			assert.fail(
+				'Skill had error during boot:\n\n' + err.prettyPrint
+					? err.prettyPrint()
+					: err.toString()
+			)
 		}
 	}
 
