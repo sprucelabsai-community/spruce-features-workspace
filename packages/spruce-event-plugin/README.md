@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/sprucelabsai/spruce-features-workspace/blob/master/packages/spruce-event-plugin/docs/images/hero.jpg">
+<img src="https://raw.githubusercontent.com/sprucelabsai/spruce-features-workspace/master/packages/spruce-event-plugin/docs/images/hero.jpg">
 
 <h1 align="center">
 Spruce XP Documentation
@@ -6,17 +6,17 @@ Spruce XP Documentation
 <h3 align="center">Spruce XP is an Experience Platform built to create unforgettable experiences and long-lasting relationships.
 </h3>
 <p align="center">
-<img align="center" width="80%" src="https://raw.githubusercontent.com/sprucelabsai/spruce-features-workspace/blob/master/packages/spruce-event-plugin/docs/images/bullets.jpg">
+<img align="center" width="80%" src="https://raw.githubusercontent.com/sprucelabsai/spruce-features-workspace/master/packages/spruce-event-plugin/docs/images/bullets.jpg">
 </p>
-<img src="https://raw.githubusercontent.com/sprucelabsai/spruce-features-workspace/blob/master/packages/spruce-event-plugin/docs/images/spacer.png">
+<img src="https://raw.githubusercontent.com/sprucelabsai/spruce-features-workspace/master/packages/spruce-event-plugin/docs/images/spacer.png">
 <br />
 <p align="center">
-<img align="center" width="80%" src="https://raw.githubusercontent.com/sprucelabsai/spruce-features-workspace/blob/master/packages/spruce-event-plugin/docs/images/sprucebot-message.png">
+<img align="center" width="80%" src="https://raw.githubusercontent.com/sprucelabsai/spruce-features-workspace/master/packages/spruce-event-plugin/docs/images/sprucebot-message.png">
 </p>
 
 <br />
 <p align="center">
-<a href="https://master.spruce.ai/#/"><img width="250" src="https://raw.githubusercontent.com/sprucelabsai/spruce-features-workspace/blob/master/packages/spruce-event-plugin/docs/images/read-full-docs.png" /></a>
+<a href="https://master.spruce.ai/#/"><img width="250" src="https://raw.githubusercontent.com/sprucelabsai/spruce-features-workspace/master/packages/spruce-event-plugin/docs/images/read-full-docs.png" /></a>
 </p>
 
 ### Dependencies
