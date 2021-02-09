@@ -49,6 +49,29 @@ export default class RespondingToMessagesTest extends AbstractConversationTest {
 		assert.isLength(sentMessages, 2)
 	}
 
+	@test()
+	protected static async scriptCallbacksCanRespondToEvent() {
+		this.cwd = this.resolveTestPath('skill')
+
+		await this.sendMessage({
+			topic: 'favoriteColor',
+			message: { body: 'favorite color' },
+		})
+
+		const results = await this.sendMessage({
+			topic: 'favoriteColor',
+			message: { body: 'blue' },
+		})
+
+		const {
+			transitionConversationTo,
+			repairs,
+		} = eventResponseUtil.getFirstResponseOrThrow(results)
+
+		assert.isEqual(transitionConversationTo, 'discovery')
+		assert.isEqualDeep(repairs, ['go', 'team'])
+	}
+
 	private static async sendMessage(options?: {
 		message?: any
 		topic?: string

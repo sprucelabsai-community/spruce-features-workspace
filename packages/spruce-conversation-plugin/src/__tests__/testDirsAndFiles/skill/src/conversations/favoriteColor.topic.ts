@@ -9,6 +9,11 @@ const topicDefinition: TopicDefinition = {
 			const answer = await options.ui.prompt({ type: 'text', isRequired: true })
 
 			options.ui.renderLine(answer)
+
+			return {
+				transitionConversationTo: 'discovery',
+				repairs: ['go', 'team'],
+			}
 		},
 	],
 }

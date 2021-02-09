@@ -10,6 +10,7 @@ import {
 	ScriptLine,
 	DidMessageResponsePayload,
 	ScriptLineCallbackOptions,
+	ScriptLineCallback,
 } from '../types/conversation.types'
 
 type MessageTarget = SpruceSchemas.Spruce.v2020_07_22.MessageTarget
@@ -28,6 +29,7 @@ export class TopicScriptPlayer {
 	private graphicsInterface: MessageGraphicsInterface
 	private lineDelay: number
 	private scriptState: Record<string, any> = {}
+	private runningLine: any
 
 	public constructor(options: ScriptPlayerOptions) {
 		const missing: string[] = []
@@ -53,7 +55,7 @@ export class TopicScriptPlayer {
 		this.script = options.script
 		this.target = options.target
 		this.sendMessageHandler = options.sendMessageHandler
-		this.lineDelay = options.lineDelay ?? 1000
+		this.lineDelay = options.lineDelay ?? 2000
 
 		this.graphicsInterface =
 			options.graphicsInterface ??
@@ -67,10 +69,13 @@ export class TopicScriptPlayer {
 	): Promise<DidMessageResponsePayload | null> {
 		if (this.graphicsInterface.isWaitingForInput()) {
 			await this.graphicsInterface.handleMessageBody(message.body)
+
+			const results = await this.waitForRunningLineToResolveOrMoveOn()
+
+			return results
 		} else {
 			return this.play(message)
 		}
-		return null
 	}
 
 	private async play(message: Message) {
@@ -105,10 +110,43 @@ export class TopicScriptPlayer {
 				body: normalizedLine,
 			})
 		} else if (typeof normalizedLine === 'function') {
-			return normalizedLine(this.buildCallbackOptions())
+			return this.handleLineCallback(normalizedLine)
 		}
 
 		return null
+	}
+
+	private async handleLineCallback(normalizedLine: ScriptLineCallback) {
+		this.runningLine = {
+			promise: normalizedLine(this.buildCallbackOptions()).then((results) => {
+				this.runningLine.isDone = true
+				return results
+			}),
+			isDone: false,
+		}
+
+		return this.waitForRunningLineToResolveOrMoveOn()
+	}
+
+	private async waitForRunningLineToResolveOrMoveOn(): Promise<DidMessageResponsePayload> {
+		if (this.runningLine) {
+			let done = false
+
+			do {
+				await new Promise((resolve) => setTimeout(resolve, 10))
+
+				done =
+					this.runningLine.isDone || this.graphicsInterface.isWaitingForInput()
+			} while (!done)
+		}
+
+		if (this.runningLine.isDone) {
+			const promise = this.runningLine.promise
+			this.runningLine = undefined
+			return promise
+		}
+
+		return {}
 	}
 
 	private buildCallbackOptions(): ScriptLineCallbackOptions {
