@@ -3,7 +3,7 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "1.8.4",
+	"version": "1.8.6",
 	"main": "./build/index.js",
 	"types": "./build/index.d.ts",
 	"license": "MIT",
@@ -48,14 +48,14 @@
 		"@sprucelabs/spruce-core-schemas": "latest",
 		"@sprucelabs/spruce-event-utils": "latest",
 		"@sprucelabs/spruce-skill-utils": "latest",
-		"@sprucelabs/spruce-test-fixtures": "^1.8.4",
+		"@sprucelabs/spruce-test-fixtures": "^1.8.6",
 		"@sprucelabs/test": "latest",
 		"@sprucelabs/test-utils": "latest"
 	},
 	"devDependencies": {
 		"@sprucelabs/babel-plugin-schema": "latest",
 		"@sprucelabs/jest-json-reporter": "latest",
-		"@sprucelabs/mercury-client": "^15.2.14",
+		"@sprucelabs/mercury-client": "^15.2.15",
 		"@sprucelabs/semantic-release": "latest",
 		"@types/node": "^14.14.25",
 		"chokidar-cli": "^2.1.0",
