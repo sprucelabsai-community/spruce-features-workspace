@@ -118,10 +118,15 @@ export class TopicScriptPlayer {
 
 	private async handleLineCallback(normalizedLine: ScriptLineCallback) {
 		this.runningLine = {
-			promise: normalizedLine(this.buildCallbackOptions()).then((results) => {
-				this.runningLine.isDone = true
-				return results
-			}),
+			promise: normalizedLine(this.buildCallbackOptions())
+				.then((results) => {
+					this.runningLine.isDone = true
+					return results
+				})
+				.catch((err) => {
+					this.runningLine.isDone = true
+					throw err
+				}),
 			isDone: false,
 		}
 
