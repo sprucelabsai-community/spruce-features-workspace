@@ -42,7 +42,33 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 
 	@test()
 	protected static async eventsGetProperPayloads() {
-		this.cwd = await this.setupSkillDir()
+		const dirName = 'registered-skill'
+		const results = await this.setupTwoSkillsRegisterEventsAndEmit(dirName)
+
+		const {
+			payloads,
+			errors,
+		} = eventResponseUtil.getAllResponsePayloadsAndErrors(results, SpruceError)
+
+		assert.isFalsy(errors)
+
+		assert.isEqualDeep(payloads[0], { taco: 'bravo' })
+	}
+
+	@test()
+	protected static async listenerErrorsGetPassedBack() {
+		const results = await this.setupTwoSkillsRegisterEventsAndEmit(
+			'registered-skill-throw-in-listener'
+		)
+
+		assert.isEqual(
+			results.responses[0]?.errors?.[0].options.code,
+			'LISTENER_ERROR'
+		)
+	}
+
+	private static async setupTwoSkillsRegisterEventsAndEmit(dirName: string) {
+		this.cwd = await this.setupSkillDir(dirName)
 
 		const skills = this.Fixture('skill')
 
@@ -73,15 +99,7 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 				bar: 'foo',
 			},
 		})
-
-		const {
-			payloads,
-			errors,
-		} = eventResponseUtil.getAllResponsePayloadsAndErrors(results, SpruceError)
-
-		assert.isFalsy(errors)
-
-		assert.isEqualDeep(payloads[0], { taco: 'bravo' })
+		return results
 	}
 
 	private static setupListeners(skill: any) {
@@ -91,8 +109,8 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 		)
 	}
 
-	private static async setupSkillDir() {
-		const source = this.resolveTestPath('registered-skill')
+	private static async setupSkillDir(dirName = 'registered-skill') {
+		const source = this.resolveTestPath(dirName)
 		const destination = this.resolveTestPath(`${new Date().getTime()}/skill`)
 
 		await diskUtil.copyDir(source, destination)
