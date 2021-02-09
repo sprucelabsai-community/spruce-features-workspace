@@ -1,4 +1,5 @@
 import { SkillFactoryOptions } from '@sprucelabs/spruce-skill-booter'
+import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 import { AbstractSpruceFixtureTest } from '@sprucelabs/spruce-test-fixtures'
 import plugin, { EventFeaturePlugin } from './../plugins/event.plugin'
 
@@ -32,5 +33,19 @@ export default class AbstractEventPluginTest extends AbstractSpruceFixtureTest {
 			'testDirsAndFiles',
 			pathAfterTestDirsAndFiles
 		)
+	}
+
+	protected static generateGoodContractFileForSkill(skill: any) {
+		const sourceContents = diskUtil.readFile(
+			this.resolvePath('src', '.spruce', 'events', 'source.events.contract.js')
+		)
+		const updatedContents = sourceContents.replace('{{namespace}}', skill.slug)
+		const destination = this.resolvePath(
+			'src',
+			'.spruce',
+			'events',
+			'events.contract.js'
+		)
+		diskUtil.writeFile(destination, updatedContents)
 	}
 }

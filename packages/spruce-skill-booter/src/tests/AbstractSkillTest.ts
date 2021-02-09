@@ -53,7 +53,9 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
 	protected static async bootSkill(options?: SkillFactoryOptions) {
 		const skill = this.Skill(options)
 
-		void skill.execute().catch((err) => (this.skillBootError = err))
+		void skill.execute().catch((err) => {
+			this.skillBootError = err
+		})
 
 		do {
 			await this.wait(100)

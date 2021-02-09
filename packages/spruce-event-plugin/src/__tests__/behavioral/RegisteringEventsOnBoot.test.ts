@@ -1,5 +1,4 @@
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
-import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 import { assert, test } from '@sprucelabs/test'
 import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
 
@@ -22,20 +21,6 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 		)
 
 		assert.isLength(contracts, 2)
-	}
-
-	private static generateGoodContractFileForSkill(skill: any) {
-		const sourceContents = diskUtil.readFile(
-			this.resolvePath('src', '.spruce', 'events', 'source.events.contract.js')
-		)
-		const updatedContents = sourceContents.replace('{{namespace}}', skill.slug)
-		const destination = this.resolvePath(
-			'src',
-			'.spruce',
-			'events',
-			'events.contract.js'
-		)
-		diskUtil.writeFile(destination, updatedContents)
 	}
 
 	private static async register2SkillsInstallAtOrgAndBootSkill(

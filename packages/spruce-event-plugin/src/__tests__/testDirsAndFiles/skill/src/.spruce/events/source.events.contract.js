@@ -2,7 +2,7 @@ module.exports = {
     default:[
         {
             eventSignatures: {
-                [`{{namespace}}.my-cool-event::2021_01_22`]: {}
+                [`{{namespace}}.my-cool-event::v2021_01_22`]: {}
             }
         }
     ]

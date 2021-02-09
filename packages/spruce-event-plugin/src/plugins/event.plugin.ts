@@ -10,10 +10,11 @@ import {
 	eventNameUtil,
 	eventResponseUtil,
 	NamedEventSignature,
-} from '@sprucelabs/spruce-event-utils'
-import {
 	EventHealthCheckItem,
 	EventFeatureListener,
+	SpruceEvent,
+} from '@sprucelabs/spruce-event-utils'
+import {
 	SkillFeature,
 	Skill,
 	HASH_SPRUCE_DIR_NAME,
@@ -67,6 +68,7 @@ export class EventFeaturePlugin implements SkillFeature {
 			'events',
 			'events.contract'
 		)
+
 		this._shouldConnectToApi =
 			diskUtil.doesFileExist(this.combinedContractsFile + '.ts') ||
 			diskUtil.doesFileExist(this.combinedContractsFile + '.js')
@@ -85,14 +87,22 @@ export class EventFeaturePlugin implements SkillFeature {
 
 			if (willBoot) {
 				this.log.info(`Emitting skill.willBoot internally`)
-				await willBoot(this.skill)
+				const event = await this.buildEvent('will-boot')
+				//@ts-ignore
+				delete event.apiClient
+				//NOTE: This will need to be moved before loading everything
+				// to be useful, so coding to pass as expected for now
+				await willBoot(event)
 			}
 
 			await Promise.all([this.reRegisterListeners(), this.reRegisterEvents()])
 
 			if (didBoot) {
 				this.log.info(`Emitting skill.didBoot internally`)
-				await didBoot(this.skill)
+
+				const event = await this.buildEvent('did-boot')
+
+				await didBoot(event)
 			}
 
 			if (this.apiClientPromise) {
@@ -114,6 +124,26 @@ export class EventFeaturePlugin implements SkillFeature {
 			this.isExecuting = false
 
 			throw err
+		}
+	}
+
+	private async buildEvent(
+		eventName: string,
+		targetAndPayload?: any
+	): Promise<SpruceEvent<any, any>> {
+		let apiClient: any
+
+		if (this.apiClientPromise) {
+			const { client } = await this.apiClientPromise
+
+			apiClient = client
+		}
+
+		return {
+			skill: this.skill,
+			log: this.log.buildLog(eventName),
+			apiClient,
+			targetAndPayload,
 		}
 	}
 
@@ -311,8 +341,12 @@ export class EventFeaturePlugin implements SkillFeature {
 			await this.registerEvents()
 		} else {
 			this.log.info(
-				`skipped reregister ${client ? 'has client' : 'no client'} | ${
-					currentSkill ? 'has currentSkill' : 'no current skill'
+				`Skipped registering events. ${
+					client ? 'I am connected to Mercury' : 'I am not connected to Mercury'
+				} ${
+					currentSkill
+						? 'and have been registered.'
+						: 'and have not been registered.'
 				}`
 			)
 		}
@@ -360,19 +394,14 @@ export class EventFeaturePlugin implements SkillFeature {
 					version: listener.version,
 				})
 
-				await client.on(name, async (...args: []) => {
+				await client.on(name, async (targetAndPayload: any) => {
 					this.log.info(`Incoming event - ${name}`)
-					try {
-						//@ts-ignore
-						const results = await listener.callback(...args)
+					const event = await this.buildEvent(name, targetAndPayload)
+					const results = await listener.callback(event)
 
-						return results
-					} catch (err) {
-						return {
-							errors: [err],
-						}
-					}
+					return results
 				})
+
 				this.log.info(`Registered listener for ${name}`)
 			}
 		}
@@ -499,7 +528,7 @@ export class EventFeaturePlugin implements SkillFeature {
 			)
 		} else {
 			this.log.info(
-				'Skipped loading local events beacuse this skill is no registered.'
+				'Skipped loading local events beacuse this skill has not been registered. Try `spruce skill.register` first.'
 			)
 		}
 
