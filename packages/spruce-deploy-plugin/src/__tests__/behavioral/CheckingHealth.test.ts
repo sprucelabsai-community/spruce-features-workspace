@@ -33,7 +33,7 @@ export default class CheckingHealthTest extends AbstractDeployTest {
 		assert.isLength(health.deploy.deploys, 0)
 	}
 
-	@test()
+	@test.skip()
 	protected static async failsHealthCheckWithBadApp() {
 		process.env.HEROKU_APP_NAME = APP_NAME_BAD_APP
 		process.env.HEROKU_API_TOKEN = process.env.TEST_HEROKU_API_TOKEN
@@ -53,7 +53,7 @@ export default class CheckingHealthTest extends AbstractDeployTest {
 		errorAssertUtil.assertError(err, 'HEROKU_ERROR')
 	}
 
-	@test()
+	@test.skip()
 	protected static async getsBackHealtCheckShowingNotDeployed() {
 		process.env.HEROKU_APP_NAME = APP_NAME_NEVER_DEPLOYED
 		process.env.HEROKU_API_TOKEN = process.env.TEST_HEROKU_API_TOKEN
@@ -78,7 +78,7 @@ export default class CheckingHealthTest extends AbstractDeployTest {
 		])
 	}
 
-	@test()
+	@test.skip()
 	protected static async healthCheckChecksDeployStatus() {
 		process.env.HEROKU_APP_NAME = APP_NAME_DEPLOYED
 		process.env.HEROKU_API_TOKEN = process.env.TEST_HEROKU_API_TOKEN
