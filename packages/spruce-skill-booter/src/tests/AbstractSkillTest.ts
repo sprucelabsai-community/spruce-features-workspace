@@ -5,7 +5,7 @@ import { SkillFactoryOptions } from '../types/skill.types'
 
 export default class AbstractSkillTest extends AbstractSpruceTest {
 	protected static skills: Skill[] = []
-	private static skillBootError?: any
+	protected static skillBootError?: any
 
 	protected static async afterEach() {
 		await super.afterEach()

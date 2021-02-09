@@ -12,6 +12,22 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 	}
 
 	@test()
+	protected static async willBootCanFireFirstAndConfigureMercury() {
+		this.cwd = this.resolveTestPath('registered-skill-boot-events')
+		const { skill } = await this.Fixture('skill').loginAsDemoSkill({
+			name: 'boot-events',
+		})
+
+		process.env.SKILL_API_KEY = '123123'
+		process.env.SKILL_ID = '123123'
+
+		process.env.TO_COPY_SKILL_API_KEY = skill.apiKey
+		process.env.TO_COPY_SKILL_ID = skill.id
+
+		await this.bootSkill()
+	}
+
+	@test()
 	protected static async didBootEventForRegisteredSkillGetApiClient() {
 		this.cwd = this.resolveTestPath('registered-skill-boot-events')
 		const { skill } = await this.Fixture('skill').loginAsDemoSkill({

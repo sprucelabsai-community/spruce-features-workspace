@@ -80,7 +80,7 @@ export class EventFeaturePlugin implements SkillFeature {
 		this.isExecuting = true
 
 		try {
-			await this.loadEverything()
+			await this.loadLocal()
 
 			const willBoot = this.getListener('skill', 'will-boot')
 			const didBoot = this.getListener('skill', 'did-boot')
@@ -95,10 +95,12 @@ export class EventFeaturePlugin implements SkillFeature {
 				await willBoot(event)
 			}
 
+			await this.loadEvents()
+
 			await Promise.all([this.reRegisterListeners(), this.reRegisterEvents()])
 
 			if (didBoot) {
-				this.log.info(`Emitting skill.didBoot internally`)
+				this.log.info(`Emitting skill.didBoot internally.`)
 
 				const event = await this.buildEvent('did-boot')
 
@@ -106,7 +108,7 @@ export class EventFeaturePlugin implements SkillFeature {
 			}
 
 			if (this.apiClientPromise) {
-				this.log.info('Connection to Mercury successful. Waiting for events')
+				this.log.info('Connection to Mercury successful. Waiting for events.')
 				this.isExecuting = false
 				this._isBooted = true
 				await new Promise((resolve) => {
@@ -183,6 +185,11 @@ export class EventFeaturePlugin implements SkillFeature {
 		}
 	}
 
+	private async loadEverything() {
+		await this.loadLocal()
+		await this.loadEvents()
+	}
+
 	public async destroy() {
 		if (!this.isDestroyed) {
 			this.isDestroyed = true
@@ -203,6 +210,7 @@ export class EventFeaturePlugin implements SkillFeature {
 
 			if (this.apiClientPromise) {
 				const { client } = await this.apiClientPromise
+
 				await client.disconnect()
 				this.log.info(`Disconnected from Mercury.`)
 			}
@@ -211,9 +219,8 @@ export class EventFeaturePlugin implements SkillFeature {
 		}
 	}
 
-	private async loadEverything() {
+	private async loadLocal() {
 		await Promise.all([this.loadContracts(), this.loadListeners()])
-		await this.loadEvents()
 	}
 
 	public async connectToApi<Contract extends EventContract = any>(): Promise<
@@ -291,11 +298,17 @@ export class EventFeaturePlugin implements SkillFeature {
 				},
 			} as any)
 
-			const { auth } = eventResponseUtil.getFirstResponseOrThrow(results)
+			try {
+				const { auth } = eventResponseUtil.getFirstResponseOrThrow(results)
 
-			currentSkill = auth.skill
+				currentSkill = auth.skill
 
-			this.log.info(`Authenticated as ${currentSkill?.slug}.`)
+				this.log.info(`Authenticated as ${currentSkill?.slug}.`)
+			} catch (err) {
+				await client.disconnect()
+				this.apiClientPromise = undefined
+				throw err
+			}
 		}
 		return { client, currentSkill }
 	}
