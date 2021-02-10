@@ -52,7 +52,7 @@
 		"@sprucelabs/babel-plugin-schema": "latest",
 		"@sprucelabs/jest-json-reporter": "latest",
 		"@sprucelabs/mercury-client": "^15.2.15",
-		"@sprucelabs/mercury-types": "^15.4.15",
+		"@sprucelabs/mercury-types": "^15.4.16",
 		"@sprucelabs/semantic-release": "latest",
 		"@sprucelabs/test": "latest",
 		"@sprucelabs/test-utils": "latest",
@@ -68,7 +68,7 @@
 		"jest-circus": "^26.6.3",
 		"prettier": "^2.2.1",
 		"ts-node": "^9.1.1",
-		"typescript": "^4.1.4",
+		"typescript": "^4.1.5",
 		"yarn-upgrade-all": "^0.5.4"
 	},
 	"jest": {
