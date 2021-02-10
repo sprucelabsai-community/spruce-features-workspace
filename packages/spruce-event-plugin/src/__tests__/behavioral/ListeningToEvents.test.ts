@@ -1,6 +1,7 @@
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 import { assert, test } from '@sprucelabs/test'
+import { EventFeature, plugin } from '../..'
 import SpruceError from '../../errors/SpruceError'
 import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
 
@@ -38,6 +39,55 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 		process.env.SKILL_ID = skill.id
 
 		await this.bootSkill()
+	}
+
+	@test()
+	protected static async cantConnectToApiUntilWillBootIsDoneUnlessForced() {
+		this.cwd = this.resolveTestPath('registered-skill-boot-events-with-delay')
+		const { skill } = await this.Fixture('skill').loginAsDemoSkill({
+			name: 'boot-events',
+		})
+
+		let didHit = false
+		let didHitForced = false
+		process.env.SKILL_API_KEY = skill.apiKey
+		process.env.SKILL_ID = skill.id
+
+		const runningSkill = this.Skill()
+		void runningSkill.registerFeature('test', {
+			execute: async () => {
+				const events = runningSkill.getFeatureByCode('event') as EventFeature
+				await events.connectToApi()
+				didHit = true
+			},
+			checkHealth: async () => ({ status: 'passed' }),
+			isInstalled: async () => true,
+			isBooted: () => false,
+			destroy: async () => {},
+		})
+
+		void runningSkill.registerFeature('test2', {
+			execute: async () => {
+				const events = runningSkill.getFeatureByCode('event') as EventFeature
+				await events.connectToApi({ shouldWaitForWillBoot: false })
+				didHitForced = true
+			},
+			checkHealth: async () => ({ status: 'passed' }),
+			isInstalled: async () => true,
+			isBooted: () => false,
+			destroy: async () => {},
+		})
+
+		void runningSkill.execute()
+
+		await this.wait(2000)
+
+		assert.isFalse(didHit)
+		assert.isTrue(didHitForced)
+
+		await this.wait(6000)
+
+		assert.isTrue(didHit)
 	}
 
 	@test()

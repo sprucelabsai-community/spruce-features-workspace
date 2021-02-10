@@ -54,6 +54,7 @@ export class EventFeaturePlugin implements SkillFeature {
 	private _isBooted = false
 	private executeResolve?: any
 	private static shouldPassEventContractsToMercury = true
+	private willBootPromise?: Promise<unknown>
 
 	public static shouldClientUseEventContracts(should: boolean) {
 		this.shouldPassEventContractsToMercury = should
@@ -80,6 +81,11 @@ export class EventFeaturePlugin implements SkillFeature {
 		this.isExecuting = true
 
 		try {
+			let r: any
+			this.willBootPromise = new Promise((resolve) => {
+				r = resolve
+			})
+
 			await this.loadLocal()
 
 			const willBoot = this.getListener('skill', 'will-boot')
@@ -88,12 +94,16 @@ export class EventFeaturePlugin implements SkillFeature {
 			if (willBoot) {
 				this.log.info(`Emitting skill.willBoot internally`)
 				const event = await this.buildEvent('will-boot')
+
 				//@ts-ignore
 				delete event.apiClient
+
 				//NOTE: This will need to be moved before loading everything
 				// to be useful, so coding to pass as expected for now
 				await willBoot(event)
 			}
+
+			r()
 
 			await this.loadEvents()
 
@@ -222,9 +232,13 @@ export class EventFeaturePlugin implements SkillFeature {
 		await Promise.all([this.loadContracts(), this.loadListeners()])
 	}
 
-	public async connectToApi<Contract extends EventContract = any>(): Promise<
-		MercuryClient<Contract>
-	> {
+	public async connectToApi<Contract extends EventContract = any>(options?: {
+		shouldWaitForWillBoot?: boolean
+	}): Promise<MercuryClient<Contract>> {
+		if (options?.shouldWaitForWillBoot !== false) {
+			await this.willBootPromise
+		}
+
 		if (this.isDestroyed) {
 			throw new Error(`Can't connect to api when being shut down.`)
 		}
