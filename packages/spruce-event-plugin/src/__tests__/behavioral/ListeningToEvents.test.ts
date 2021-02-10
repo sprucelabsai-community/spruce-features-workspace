@@ -1,7 +1,7 @@
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 import { assert, test } from '@sprucelabs/test'
-import { EventFeature, plugin } from '../..'
+import { EventFeature } from '../..'
 import SpruceError from '../../errors/SpruceError'
 import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
 
