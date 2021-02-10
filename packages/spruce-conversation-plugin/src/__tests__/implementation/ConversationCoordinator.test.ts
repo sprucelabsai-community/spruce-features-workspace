@@ -78,7 +78,13 @@ export default class TopicCoordinatorTest extends AbstractConversationTest {
 
 		errorAssertUtil.assertError(err, 'TOPIC_NOT_FOUND', {
 			suppliedTopic: 'aoeu',
-			validTopics: ['bookAppointment', 'cancelAppointment', 'favoriteColor'],
+			validTopics: [
+				'assertsScriptCallbackOptions',
+				'bookAppointment',
+				'cancelAppointment',
+				'favoriteColor',
+				'favoriteColorTopicChanger',
+			],
 		})
 	}
 

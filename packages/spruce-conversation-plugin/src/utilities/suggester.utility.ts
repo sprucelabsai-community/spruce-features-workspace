@@ -1,3 +1,4 @@
+import FuzzySet from 'fuzzyset'
 import { TopicSuggester } from '../conversations/TopicSuggester'
 
 type Suggestion = {
@@ -26,6 +27,13 @@ const suggesterUtil = {
 		}))
 
 		return suggestions
+	},
+
+	async doesMatch(phrases: string[], utterance: string) {
+		//@ts-ignore
+		const f = new FuzzySet(phrases)
+		const matches = f.get(utterance)
+		return (matches && matches.length > 0) ?? false
 	},
 }
 

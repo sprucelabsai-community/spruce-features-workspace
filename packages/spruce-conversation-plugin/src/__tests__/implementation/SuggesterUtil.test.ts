@@ -38,4 +38,37 @@ export default class SuggesterUtilTest extends AbstractConversationTest {
 			score: 1,
 		})
 	}
+
+	@test(
+		'doesMatch is false when way off',
+		['one', 'two', 'three', 'four'],
+		'miss',
+		false
+	)
+	@test(
+		'doesMatch is true when perfect match',
+		['one', 'two', 'three', 'four'],
+		'one',
+		true
+	)
+	@test(
+		'doesMatch is true with ha',
+		['ha', 'haha', 'lol', 'lolz', 'rofl', 'hahahah', 'haha'],
+		'haha!!!',
+		true
+	)
+	@test(
+		'doesMatch is true with ha',
+		['ha', 'haha', 'lol', 'lolz', 'rofl', 'hahahah'],
+		'lol',
+		true
+	)
+	protected static async matchesByReturningTopOptionsAboveThreshold(
+		phrases: string[],
+		utterance: string,
+		expected: boolean
+	) {
+		const results = await suggesterUtil.doesMatch(phrases, utterance)
+		assert.isEqual(results, expected)
+	}
 }

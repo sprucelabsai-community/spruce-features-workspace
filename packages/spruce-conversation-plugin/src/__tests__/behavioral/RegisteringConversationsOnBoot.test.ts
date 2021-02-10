@@ -66,7 +66,7 @@ export default class RegisteringConversationsOnBootTest extends AbstractConversa
 	}
 
 	private static assertExpectedTopics(topics: any) {
-		assert.isLength(topics, 3)
+		assert.isLength(topics, 5)
 
 		assert.doesInclude(topics, { key: 'bookAppointment' })
 		assert.doesInclude(topics, { key: 'cancelAppointment' })
