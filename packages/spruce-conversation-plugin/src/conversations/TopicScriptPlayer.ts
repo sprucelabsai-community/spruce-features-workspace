@@ -110,15 +110,18 @@ export class TopicScriptPlayer {
 				body: normalizedLine,
 			})
 		} else if (typeof normalizedLine === 'function') {
-			return this.handleLineCallback(normalizedLine)
+			return this.handleLineCallback(normalizedLine, message)
 		}
 
 		return null
 	}
 
-	private async handleLineCallback(normalizedLine: ScriptLineCallback) {
+	private async handleLineCallback(
+		normalizedLine: ScriptLineCallback,
+		message: Message
+	) {
 		this.runningLine = {
-			promise: normalizedLine(this.buildCallbackOptions())
+			promise: normalizedLine(this.buildCallbackOptions(message))
 				.then((results) => {
 					this.runningLine.isDone = true
 					return results
@@ -154,13 +157,14 @@ export class TopicScriptPlayer {
 		return {}
 	}
 
-	private buildCallbackOptions(): ScriptLineCallbackOptions {
+	private buildCallbackOptions(message: Message): ScriptLineCallbackOptions {
 		return {
 			ui: this.graphicsInterface,
 			state: this.scriptState,
 			rand: (possibilities) => {
 				return possibilities[random.int(0, possibilities.length - 1)]
 			},
+			message,
 		}
 	}
 

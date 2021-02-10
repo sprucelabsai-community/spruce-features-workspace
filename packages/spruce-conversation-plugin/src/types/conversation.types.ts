@@ -19,6 +19,7 @@ export type ScriptLineCallbackOptions = {
 	ui: GraphicsInterface
 	state: Record<string, any>
 	rand<T>(possibilities: T[]): T
+	message: Message
 }
 
 export type ScriptLine = string | ScriptLineCallback | string[]

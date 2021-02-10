@@ -50,7 +50,7 @@ export default class RespondingToMessagesTest extends AbstractConversationTest {
 	}
 
 	@test()
-	protected static async scriptCallbacksCanRespondToEvent() {
+	protected static async scriptCallbacksCanRespondToEventWithTransitionAndRepairs() {
 		this.cwd = this.resolveTestPath('skill')
 
 		await this.sendMessage({
@@ -70,6 +70,41 @@ export default class RespondingToMessagesTest extends AbstractConversationTest {
 
 		assert.isEqual(transitionConversationTo, 'discovery')
 		assert.isEqualDeep(repairs, ['go', 'team'])
+	}
+
+	@test()
+	protected static async scriptCallbacksCanRespondToEventWithTransitionAndTopicChangers() {
+		this.cwd = this.resolveTestPath('skill')
+
+		await this.sendMessage({
+			topic: 'favoriteColorTopicChanger',
+			message: { body: 'favorite color' },
+		})
+
+		const results = await this.sendMessage({
+			topic: 'favoriteColorTopicChanger',
+			message: { body: 'blue' },
+		})
+
+		const {
+			transitionConversationTo,
+			topicChangers,
+		} = eventResponseUtil.getFirstResponseOrThrow(results)
+
+		assert.isEqual(transitionConversationTo, 'discovery')
+		assert.isEqualDeep(topicChangers, ['now', 'this'])
+	}
+
+	@test()
+	protected static async scriptCallbackGetsRandAndMessage() {
+		this.cwd = this.resolveTestPath('skill')
+
+		const results = await this.sendMessage({
+			topic: 'assertsScriptCallbackOptions',
+			message: { body: 'hello' },
+		})
+
+		eventResponseUtil.getFirstResponseOrThrow(results)
 	}
 
 	private static async sendMessage(options?: {

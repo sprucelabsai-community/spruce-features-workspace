@@ -35,7 +35,7 @@ export default class TopicLoader {
 			throw new SpruceError({
 				code: 'INVALID_TOPIC',
 				topicScript: file,
-				friendlyMessage: 'Default export missing.',
+				friendlyMessage: 'Failed to load topic! Default export missing.',
 			})
 		}
 
