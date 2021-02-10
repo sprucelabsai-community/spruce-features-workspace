@@ -97,7 +97,7 @@ export default class RespondingToMessagesTest extends AbstractConversationTest {
 
 	@test()
 	protected static async scriptCallbackGetsRandAndMessage() {
-		this.cwd = this.resolveTestPath('skill')
+		this.cwd = this.resolveTestPath('skill-assertions')
 
 		const results = await this.sendMessage({
 			topic: 'assertsScriptCallbackOptions',
@@ -105,6 +105,26 @@ export default class RespondingToMessagesTest extends AbstractConversationTest {
 		})
 
 		eventResponseUtil.getFirstResponseOrThrow(results)
+	}
+
+	@test()
+	protected static async eachPersonGetsTheirOwnConversation() {
+		this.cwd = this.resolveTestPath('skill-assertions')
+
+		await this.sendMessage({
+			topic: 'assertsScriptOnlyCalledOnce',
+			message: { body: 'hey hey', source: { personId: '234234234' } },
+		})
+
+		await this.sendMessage({
+			topic: 'assertsScriptOnlyCalledOnce',
+			message: { body: 'hey hey', source: { personId: '234234' } },
+		})
+
+		await this.sendMessage({
+			topic: 'assertsScriptOnlyCalledOnce',
+			message: { body: 'hey hey', source: { personId: '323' } },
+		})
 	}
 
 	private static async sendMessage(options?: {

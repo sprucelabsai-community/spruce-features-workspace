@@ -20,6 +20,7 @@ export class ConversationFeature implements SkillFeature {
 	private executeResolver?: any
 	private _isTesting = false
 	private executeRejector?: (err: any) => void
+	private coordinatorsBySource: Record<string, any> = {}
 
 	public constructor(skill: Skill) {
 		this.skill = skill
@@ -90,7 +91,23 @@ export class ConversationFeature implements SkillFeature {
 	private async startConversationCoordinator(
 		client: MercuryClient<CoreEventContract>
 	) {
-		const coordinator = await ConversationCoordinator.Coordinator({
+		await client.on('did-message::v2020_12_25', async (targetAndPayload) => {
+			const { message, topic } = targetAndPayload.payload
+			const coordinator = await this.getCoordinatorForPerson(
+				client,
+				message.source.personId ?? '***missing***'
+			)
+
+			return coordinator.handleMessage(message, topic)
+		})
+	}
+
+	private async getCoordinatorForPerson(client: any, sourceId: string) {
+		if (this.coordinatorsBySource[sourceId]) {
+			return this.coordinatorsBySource[sourceId]
+		}
+
+		this.coordinatorsBySource[sourceId] = ConversationCoordinator.Coordinator({
 			topicLookupPath: this.skill.activeDir,
 			sendMessageHandler: async (message) => {
 				try {
@@ -110,11 +127,7 @@ export class ConversationFeature implements SkillFeature {
 			},
 		})
 
-		await client.on('did-message::v2020_12_25', async (targetAndPayload) => {
-			const { message, topic } = targetAndPayload.payload
-			//@ts-ignore
-			return coordinator.handleMessage(message, topic)
-		})
+		return this.coordinatorsBySource[sourceId]
 	}
 
 	private async syncTopics() {

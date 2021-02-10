@@ -66,11 +66,12 @@ export default class RegisteringConversationsOnBootTest extends AbstractConversa
 	}
 
 	private static assertExpectedTopics(topics: any) {
-		assert.isLength(topics, 5)
+		assert.isLength(topics, 4)
 
 		assert.doesInclude(topics, { key: 'bookAppointment' })
 		assert.doesInclude(topics, { key: 'cancelAppointment' })
 		assert.doesInclude(topics, { key: 'favoriteColor' })
+		assert.doesInclude(topics, { key: 'favoriteColorTopicChanger' })
 	}
 
 	private static async boot(options?: { skillId: string; apiKey: string }) {
