@@ -141,7 +141,7 @@ export class TopicScriptPlayer {
 				await new Promise((resolve) => setTimeout(resolve, 10))
 
 				done =
-					this.runningLine.isDone || this.graphicsInterface.isWaitingForInput()
+					this.runningLine?.isDone || this.graphicsInterface.isWaitingForInput()
 			} while (!done)
 		}
 
