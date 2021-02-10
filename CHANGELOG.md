@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.1](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.9.0...v1.9.1) (2021-02-10)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+# [1.9.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.8.7...v1.9.0) (2021-02-10)
+
+
+### Features
+
+* suggester util exported with matching function ([c07b0d8](https://github.com/sprucelabsai/spruce-features-workspace/commit/c07b0d8))
+* topic changers and message in script line callback options ([fed9f1a](https://github.com/sprucelabsai/spruce-features-workspace/commit/fed9f1a))
+
+
+
+
+
 ## [1.8.7](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.8.6...v1.8.7) (2021-02-10)
 
 **Note:** Version bump only for package spruce-features-workspace

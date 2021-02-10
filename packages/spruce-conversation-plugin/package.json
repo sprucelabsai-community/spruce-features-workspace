@@ -3,7 +3,7 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "1.8.7",
+	"version": "1.9.1",
 	"main": "./build/index.js",
 	"types": "./build/index.d.ts",
 	"license": "MIT",
@@ -46,10 +46,10 @@
 		"@sprucelabs/error": "latest",
 		"@sprucelabs/schema": "latest",
 		"@sprucelabs/spruce-core-schemas": "latest",
-		"@sprucelabs/spruce-event-plugin": "^1.8.7",
+		"@sprucelabs/spruce-event-plugin": "^1.9.1",
 		"@sprucelabs/spruce-event-utils": "latest",
 		"@sprucelabs/spruce-skill-utils": "latest",
-		"@sprucelabs/spruce-test-fixtures": "^1.8.7",
+		"@sprucelabs/spruce-test-fixtures": "^1.9.1",
 		"fuzzyset": "^1.0.6",
 		"globby": "^11.0.2",
 		"inquirer": "^7.3.3",
@@ -77,7 +77,7 @@
 		"jest-circus": "^26.6.3",
 		"prettier": "^2.2.1",
 		"ts-node": "^9.1.1",
-		"typescript": "^4.1.4",
+		"typescript": "^4.1.5",
 		"yarn-upgrade-all": "^0.5.4"
 	},
 	"jest": {
