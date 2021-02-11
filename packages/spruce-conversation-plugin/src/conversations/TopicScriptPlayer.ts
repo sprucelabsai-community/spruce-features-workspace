@@ -1,5 +1,4 @@
 import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
-import random from 'random'
 import SpruceError from '../errors/SpruceError'
 import MessageGraphicsInterface from '../interfaces/MessageGraphicsInterface'
 import {
@@ -12,15 +11,10 @@ import {
 	ScriptLineCallbackOptions,
 	ScriptLineCallback,
 } from '../types/conversation.types'
+import randomUtil from '../utilities/random.utility'
 
 type MessageTarget = SpruceSchemas.Spruce.v2020_07_22.MessageTarget
 type Message = SpruceSchemas.Spruce.v2020_07_22.Message
-
-function getRandomInt(min: number, max: number) {
-	min = Math.ceil(min)
-	max = Math.floor(max)
-	return Math.floor(Math.random() * (max - min + 1)) + min
-}
 
 export class TopicScriptPlayer {
 	private script: Script
@@ -175,16 +169,13 @@ export class TopicScriptPlayer {
 		return {
 			ui: this.graphicsInterface,
 			state: this.scriptState,
-			rand: (possibilities) => {
-				return possibilities[random.int(0, possibilities.length - 1)]
-			},
+			rand: randomUtil.rand,
 			message,
 		}
 	}
 
 	protected pickRandomLine(line: any[]): ScriptLine {
-		const idx = getRandomInt(0, line.length - 1)
-		return line[idx] as ScriptLine
+		return randomUtil.rand(line)
 	}
 
 	private async sendMessage(message: ScriptPlayerSendMessage) {

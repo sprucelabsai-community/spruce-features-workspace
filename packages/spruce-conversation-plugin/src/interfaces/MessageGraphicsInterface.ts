@@ -10,6 +10,7 @@ import {
 	FieldHandler,
 	ScriptPlayerSendMessageHandler,
 } from '../types/conversation.types'
+import EmailFieldHandler from './fieldHandlers/EmailFieldHandler'
 import SelectFieldHandler from './fieldHandlers/SelectFieldHandler'
 import TextFieldHandler from './fieldHandlers/TextFieldHandler'
 
@@ -90,6 +91,7 @@ export default class MessageGraphicsInterface implements GraphicsInterface {
 		const handlersByType: Record<string, FieldHandler<any>> = {
 			select: SelectFieldHandler.handle,
 			text: TextFieldHandler.handle,
+			email: EmailFieldHandler.handle,
 		}
 
 		const handler = handlersByType[definition.type]
