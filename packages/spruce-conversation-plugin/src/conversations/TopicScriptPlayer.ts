@@ -30,6 +30,7 @@ export class TopicScriptPlayer {
 	private lineDelay: number
 	private scriptState: Record<string, any> = {}
 	private runningLine: any
+	private scriptLineIndex = -1
 
 	public constructor(options: ScriptPlayerOptions) {
 		const missing: string[] = []
@@ -72,16 +73,23 @@ export class TopicScriptPlayer {
 
 			const results = await this.waitForRunningLineToResolveOrMoveOn()
 
-			return results
-		} else {
-			return this.play(message)
+			if (
+				results &&
+				(Object.keys(results).length > 0 ||
+					this.graphicsInterface.isWaitingForInput())
+			) {
+				return results
+			}
 		}
+		return this.play(message)
 	}
 
 	private async play(message: Message) {
-		let isFirstLine = true
+		let isFirstLine = this.scriptLineIndex === -1
+		for (let idx = this.scriptLineIndex + 1; idx < this.script.length; idx++) {
+			this.scriptLineIndex = idx
+			const line = this.script[idx]
 
-		for (const line of this.script) {
 			if (!isFirstLine) {
 				await new Promise((resolve) => setTimeout(resolve, this.lineDelay))
 			}
@@ -90,10 +98,16 @@ export class TopicScriptPlayer {
 
 			const results = await this.handleLine(message, line)
 
-			if (results) {
+			if (
+				results &&
+				(Object.keys(results).length > 0 ||
+					this.graphicsInterface.isWaitingForInput())
+			) {
 				return results
 			}
 		}
+
+		this.scriptLineIndex = -1
 
 		return null
 	}

@@ -49,7 +49,7 @@ export default class TopicCoordinatorTest extends AbstractConversationTest {
 		)
 
 		assert.isArray((results as any).suggestedTopics)
-		assert.isLength((results as any).suggestedTopics, 2)
+		assert.isLength((results as any).suggestedTopics, 3)
 	}
 
 	@test()
@@ -83,6 +83,7 @@ export default class TopicCoordinatorTest extends AbstractConversationTest {
 				'cancelAppointment',
 				'favoriteColor',
 				'favoriteColorTopicChanger',
+				'mixedStringsAndCallbacks',
 			],
 		})
 	}
@@ -132,5 +133,57 @@ export default class TopicCoordinatorTest extends AbstractConversationTest {
 			this.sentMessages.pop()?.body,
 			'Lemme find your appointment!'
 		)
+	}
+
+	@test()
+	protected static async canPlaceMixedScriptsUntilTheEndAndStartsOver() {
+		await this.coordinator.handleMessage(
+			this.buildMessage({ body: '1', source: { personId: '1234' } }),
+			'mixedStringsAndCallbacks'
+		)
+
+		await this.wait(10)
+
+		assert.isLength(this.sentMessages, 2)
+		assert.isEqual(this.sentMessages[0]?.body, 'string 1')
+		assert.isEqual(this.sentMessages[1]?.body, 'prompt 1')
+
+		this.sentMessages = []
+
+		await this.coordinator.handleMessage(
+			this.buildMessage({ body: 'answer 1', source: { personId: '1234' } }),
+			'mixedStringsAndCallbacks'
+		)
+
+		await this.wait(100)
+
+		assert.isLength(this.sentMessages, 3)
+		assert.isEqual(this.sentMessages[0]?.body, 'answer 1')
+		assert.isEqual(this.sentMessages[1]?.body, 'string 2')
+		assert.isEqual(this.sentMessages[2]?.body, 'prompt 2')
+
+		this.sentMessages = []
+
+		await this.coordinator.handleMessage(
+			this.buildMessage({ body: 'answer 2', source: { personId: '1234' } }),
+			'mixedStringsAndCallbacks'
+		)
+
+		assert.isLength(this.sentMessages, 2)
+		assert.isEqual(this.sentMessages[0]?.body, 'answer 2')
+		assert.isEqual(this.sentMessages[1]?.body, 'and done')
+
+		this.sentMessages = []
+
+		await this.coordinator.handleMessage(
+			this.buildMessage({ body: 'answer 1', source: { personId: '1234' } }),
+			'mixedStringsAndCallbacks'
+		)
+
+		await this.wait(100)
+
+		assert.isLength(this.sentMessages, 2)
+		assert.isEqual(this.sentMessages[0]?.body, 'string 1')
+		assert.isEqual(this.sentMessages[1]?.body, 'prompt 1')
 	}
 }

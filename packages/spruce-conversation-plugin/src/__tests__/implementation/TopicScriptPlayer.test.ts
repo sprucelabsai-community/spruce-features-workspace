@@ -284,7 +284,7 @@ export default class TopicScriptPlayerTest extends AbstractSpruceFixtureTest {
 	}
 
 	@test()
-	protected static async randomOptionsOnNotString() {
+	protected static async randomOptionsRandomOnNotString() {
 		const possibilities = [true, false]
 		let answer: any
 
