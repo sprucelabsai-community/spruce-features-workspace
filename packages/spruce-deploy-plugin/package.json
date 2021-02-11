@@ -3,7 +3,7 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "1.9.3",
+	"version": "1.10.0",
 	"main": "./build/index.js",
 	"types": "./build/index.d.ts",
 	"license": "MIT",
@@ -45,7 +45,7 @@
 		"@sprucelabs/error": "latest",
 		"@sprucelabs/schema": "latest",
 		"@sprucelabs/spruce-skill-utils": "latest",
-		"@sprucelabs/spruce-test-fixtures": "^1.9.3",
+		"@sprucelabs/spruce-test-fixtures": "^1.10.0",
 		"heroku-client": "^3.1.0"
 	},
 	"devDependencies": {
