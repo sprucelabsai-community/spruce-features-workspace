@@ -63,6 +63,18 @@ export default class SuggesterUtilTest extends AbstractConversationTest {
 		'lol',
 		true
 	)
+	@test(
+		'doesMatch is false with lame',
+		['ha', 'haha', 'lol', 'lolz', 'rofl', 'hahahah'],
+		'lame',
+		false
+	)
+	@test(
+		'doesMatch is false with horrible',
+		['ha', 'haha', 'lol', 'lolz', 'rofl', 'hahahah'],
+		'horrible',
+		false
+	)
 	protected static async matchesByReturningTopOptionsAboveThreshold(
 		phrases: string[],
 		utterance: string,
