@@ -94,12 +94,6 @@ export class EventFeaturePlugin implements SkillFeature {
 			if (willBoot) {
 				this.log.info(`Emitting skill.willBoot internally`)
 				const event = await this.buildEvent('will-boot')
-
-				//@ts-ignore
-				delete event.apiClient
-
-				//NOTE: This will need to be moved before loading everything
-				// to be useful, so coding to pass as expected for now
 				await willBoot(event)
 			}
 
