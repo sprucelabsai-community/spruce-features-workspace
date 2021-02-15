@@ -11,7 +11,7 @@ export interface DeployHealthCheckItem extends HealthCheckItem {
 	deploys: HealthCheckDeploy[]
 }
 
-declare module '@sprucelabs/spruce-skill-utils/build/skill.types' {
+declare module '@sprucelabs/spruce-skill-utils/build/types/skill.types' {
 	export interface HealthCheckResults {
 		deploy?: DeployHealthCheckItem
 	}

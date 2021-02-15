@@ -83,7 +83,7 @@ export type LoadedTopicDefinition = TopicDefinition & {
 	key: string
 }
 
-declare module '@sprucelabs/spruce-skill-utils/build/skill.types' {
+declare module '@sprucelabs/spruce-skill-utils/build/types/skill.types' {
 	export interface HealthCheckResults {
 		conversation?: ConversationHealthCheckItem
 	}

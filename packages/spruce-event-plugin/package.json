@@ -55,7 +55,7 @@
 	"devDependencies": {
 		"@sprucelabs/babel-plugin-schema": "latest",
 		"@sprucelabs/jest-json-reporter": "latest",
-		"@sprucelabs/mercury-client": "^15.2.18",
+		"@sprucelabs/mercury-client": "latest",
 		"@sprucelabs/semantic-release": "latest",
 		"@types/node": "^14.14.28",
 		"chokidar-cli": "^2.1.0",
@@ -96,7 +96,8 @@
 			"@sprucelabs/spruce-skill-utils",
 			"@sprucelabs/spruce-event-utils",
 			"conventional-changelog-sprucelabs",
-			"eslint-config-spruce"
+			"eslint-config-spruce",
+			"@sprucelabs/mercury-client"
 		]
 	}
 }
