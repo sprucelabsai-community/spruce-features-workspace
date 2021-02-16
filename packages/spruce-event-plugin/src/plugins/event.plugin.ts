@@ -430,6 +430,7 @@ export class EventFeaturePlugin implements SkillFeature {
 	private async loadContracts() {
 		if (this.shouldConnectToApi()) {
 			const contracts = require(this.combinedContractsFile).default
+
 			this.log.info(`Loading ${contracts.length} contracts.`)
 
 			contracts.forEach((contract: EventContract) => {
