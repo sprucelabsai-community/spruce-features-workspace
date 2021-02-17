@@ -1,7 +1,10 @@
 import { test, assert } from '@sprucelabs/test'
 import { errorAssertUtil } from '@sprucelabs/test-utils'
 import AbstractConversationTest from '../../tests/AbstractConversationTest'
-import ScriptTester, { END_OF_LINE } from '../../tests/ScriptTester'
+import ScriptTester, {
+	END_OF_LINE,
+	generateTransitionMessage,
+} from '../../tests/ScriptTester'
 import { Script } from '../../types/conversation.types'
 
 export default class ScriptTesterTest extends AbstractConversationTest {
@@ -153,7 +156,11 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 
 		await this.wait(10)
 
-		const expected = [...script, END_OF_LINE]
+		const expected = [
+			...script,
+			generateTransitionMessage('discovery'),
+			END_OF_LINE,
+		]
 
 		assert.isLength(writes, expected.length)
 		assert.isEqualDeep(writes, expected)
@@ -194,7 +201,12 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 		void tester.go('lets go!')
 
 		await this.wait(10)
-		const expected = ['Are you sure?', answer, END_OF_LINE]
+		const expected = [
+			'Are you sure?',
+			answer,
+			generateTransitionMessage('discovery'),
+			END_OF_LINE,
+		]
 		assert.isEqualDeep(writes, expected)
 	}
 
@@ -219,7 +231,7 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 			promptHandler: async (message) => {
 				promptWrites.push(message.body)
 				await new Promise((resolve) => (promptResolve = resolve))
-				return 'answer from prompt'
+				return 'go!'
 			},
 			selectPromptHandler: async () => '',
 		})
@@ -236,7 +248,12 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 
 		await this.wait(10)
 
-		const expected = ['go', 'team', END_OF_LINE]
+		const expected = [
+			'go',
+			'team',
+			generateTransitionMessage('discovery'),
+			END_OF_LINE,
+		]
 
 		assert.isEqualDeep(writes, expected)
 	}
@@ -262,7 +279,7 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 				if (promptHitCount > 2) {
 					await new Promise(() => {})
 				}
-				return 'answer from prompt'
+				return 'go!'
 			},
 			selectPromptHandler: async () => '',
 		})
@@ -276,9 +293,121 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 		assert.isEqualDeep(writes, [
 			'go',
 			'team',
+			generateTransitionMessage('discovery'),
 			END_OF_LINE,
 			'go',
 			'team',
+			generateTransitionMessage('discovery'),
+			END_OF_LINE,
+		])
+	}
+
+	@test()
+	protected static async messagesAboutTransitionResponseTopicChanger() {
+		const writes: string[] = []
+		let promptHitCount = 0
+		const tester = await ScriptTester.Tester({
+			lineDelay: 0,
+			topics: [
+				{
+					key: 'test',
+					label: 'Test with prompt',
+					script: [
+						'my',
+						'team',
+						async () => {
+							return {
+								transitionConversationTo: 'greeting',
+								topicChangers: ['topic_changer'],
+							}
+						},
+					],
+				},
+			],
+			writeHandler: (message) => {
+				writes.push(message.body)
+			},
+			promptHandler: async () => {
+				promptHitCount++
+				if (promptHitCount > 2) {
+					await new Promise(() => {})
+				}
+				return 'go!'
+			},
+			selectPromptHandler: async () => '',
+		})
+
+		void tester.go()
+
+		await this.wait(500)
+
+		assert.isEqual(promptHitCount, 3)
+
+		assert.isEqualDeep(writes, [
+			'my',
+			'team',
+			'topic_changer',
+			generateTransitionMessage('greeting'),
+			END_OF_LINE,
+			'my',
+			'team',
+			'topic_changer',
+			generateTransitionMessage('greeting'),
+			END_OF_LINE,
+		])
+	}
+
+	@test()
+	protected static async messagesAboutTransitionResponseWithRepairs() {
+		const writes: string[] = []
+		let promptHitCount = 0
+		const tester = await ScriptTester.Tester({
+			lineDelay: 0,
+			topics: [
+				{
+					key: 'test',
+					label: 'Test with prompt',
+					script: [
+						'my',
+						'team',
+						async () => {
+							return {
+								transitionConversationTo: 'greeting',
+								repairs: ['repairs'],
+							}
+						},
+					],
+				},
+			],
+			writeHandler: (message) => {
+				writes.push(message.body)
+			},
+			promptHandler: async () => {
+				promptHitCount++
+				if (promptHitCount > 2) {
+					await new Promise(() => {})
+				}
+				return 'go!'
+			},
+			selectPromptHandler: async () => '',
+		})
+
+		void tester.go()
+
+		await this.wait(500)
+
+		assert.isEqual(promptHitCount, 3)
+
+		assert.isEqualDeep(writes, [
+			'my',
+			'team',
+			'repairs',
+			generateTransitionMessage('greeting'),
+			END_OF_LINE,
+			'my',
+			'team',
+			'repairs',
+			generateTransitionMessage('greeting'),
 			END_OF_LINE,
 		])
 	}

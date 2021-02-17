@@ -5,6 +5,7 @@ import TestGraphicsInterface, {
 	PromptHandler,
 } from '../interfaces/TestGraphicsInterface'
 import { LoadedTopicDefinition, Message } from '../types/conversation.types'
+import randomUtil from '../utilities/random.utility'
 
 type WriteHandler = (message: Pick<Message, 'body' | 'choices'>) => void
 type SelectHandler = (
@@ -95,7 +96,18 @@ export default class ScriptTester {
 
 		// eslint-disable-next-line no-constant-condition
 		while (true) {
-			await this.handleInput(msg)
+			const response = await this.handleInput(msg)
+
+			if (response?.transitionConversationTo) {
+				if (response.topicChangers) {
+					this.writeHandler({ body: randomUtil.rand(response.topicChangers) })
+				} else if (response.repairs) {
+					this.writeHandler({ body: randomUtil.rand(response.repairs) })
+				}
+				this.writeHandler({
+					body: generateTransitionMessage(response.transitionConversationTo),
+				})
+			}
 
 			this.writeHandler({ body: END_OF_LINE })
 
@@ -134,7 +146,7 @@ export default class ScriptTester {
 			throw new SpruceError({ code: 'TESTER_NOT_STARTED' })
 		}
 		//@ts-ignore
-		await this.player?.handleMessage({ body: input })
+		return this.player?.handleMessage({ body: input })
 	}
 
 	public static async Tester(options: {
@@ -164,4 +176,10 @@ export default class ScriptTester {
 			options.shouldPlayReplayAfterFinish
 		)
 	}
+}
+
+export function generateTransitionMessage(
+	transitionConversationTo: string
+): string {
+	return `Conversation exited. Transitioning to ${transitionConversationTo}.`
 }

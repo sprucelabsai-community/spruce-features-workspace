@@ -62,7 +62,7 @@ export class TopicScriptPlayer {
 	public async handleMessage(
 		message: Message
 	): Promise<DidMessageResponsePayload | null> {
-		let results: DidMessageResponsePayload | undefined
+		let results: DidMessageResponsePayload | null
 
 		if (this.graphicsInterface.isWaitingForInput()) {
 			await this.graphicsInterface.handleMessageBody(message.body)
@@ -91,7 +91,6 @@ export class TopicScriptPlayer {
 
 	private async play(message: Message) {
 		let isFirstLine = this.scriptLineIndex === -1
-		let lastResponse: any = null
 
 		for (let idx = this.scriptLineIndex + 1; idx < this.script.length; idx++) {
 			this.scriptLineIndex = idx
@@ -105,20 +104,17 @@ export class TopicScriptPlayer {
 
 			const results = await this.handleLine(message, line)
 
-			if (
-				results &&
-				(Object.keys(results).length > 0 ||
-					this.graphicsInterface.isWaitingForInput())
-			) {
+			if (results && Object.keys(results).length > 0) {
+				this.scriptLineIndex = -1
 				return results
-			} else {
-				lastResponse = results
+			} else if (this.graphicsInterface.isWaitingForInput()) {
+				return results
 			}
 		}
 
 		this.scriptLineIndex = -1
 
-		return lastResponse
+		return null
 	}
 
 	private async handleLine(message: Message, line: ScriptLine) {
