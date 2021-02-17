@@ -42,7 +42,7 @@
 		"watch.tests": "yarn test --watch"
 	},
 	"dependencies": {
-		"@nlpjs/nlu": "^4.19.8",
+		"@nlpjs/nlu": "^4.21.1",
 		"@sprucelabs/error": "latest",
 		"@sprucelabs/schema": "latest",
 		"@sprucelabs/spruce-core-schemas": "latest",
@@ -53,7 +53,7 @@
 		"fuzzyset": "^1.0.6",
 		"globby": "^11.0.2",
 		"inquirer": "^7.3.3",
-		"node-nlp": "^4.20.0",
+		"node-nlp": "^4.21.1",
 		"random": "^2.2.0"
 	},
 	"devDependencies": {
