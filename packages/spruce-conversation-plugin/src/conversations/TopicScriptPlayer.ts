@@ -62,10 +62,12 @@ export class TopicScriptPlayer {
 	public async handleMessage(
 		message: Message
 	): Promise<DidMessageResponsePayload | null> {
+		let results: DidMessageResponsePayload | undefined
+
 		if (this.graphicsInterface.isWaitingForInput()) {
 			await this.graphicsInterface.handleMessageBody(message.body)
 
-			const results = await this.waitForRunningLineToResolveOrMoveOn()
+			results = await this.waitForRunningLineToResolveOrMoveOn()
 
 			if (
 				results &&
@@ -75,11 +77,22 @@ export class TopicScriptPlayer {
 				return results
 			}
 		}
-		return this.play(message)
+
+		results = await this.play(message)
+
+		if (!results) {
+			return {
+				transitionConversationTo: 'discovery',
+			}
+		}
+
+		return results
 	}
 
 	private async play(message: Message) {
 		let isFirstLine = this.scriptLineIndex === -1
+		let lastResponse: any = null
+
 		for (let idx = this.scriptLineIndex + 1; idx < this.script.length; idx++) {
 			this.scriptLineIndex = idx
 			const line = this.script[idx]
@@ -98,12 +111,14 @@ export class TopicScriptPlayer {
 					this.graphicsInterface.isWaitingForInput())
 			) {
 				return results
+			} else {
+				lastResponse = results
 			}
 		}
 
 		this.scriptLineIndex = -1
 
-		return null
+		return lastResponse
 	}
 
 	private async handleLine(message: Message, line: ScriptLine) {

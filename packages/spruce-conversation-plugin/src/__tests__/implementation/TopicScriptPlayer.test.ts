@@ -242,7 +242,7 @@ export default class TopicScriptPlayerTest extends AbstractSpruceFixtureTest {
 		const player = this.Player({
 			script: [
 				async () => {
-					return { transitionConversationTo: 'discovery' }
+					return { transitionConversationTo: 'greeting' }
 				},
 			],
 		})
@@ -253,7 +253,55 @@ export default class TopicScriptPlayerTest extends AbstractSpruceFixtureTest {
 
 		assert.isTruthy(results)
 		assert.isTruthy(results.transitionConversationTo)
-		assert.isEqual(results.transitionConversationTo, 'discovery')
+		assert.isEqual(results.transitionConversationTo, 'greeting')
+	}
+
+	@test()
+	protected static async scriptCanRespondWithTransitionAInLaterLines() {
+		const player = this.Player({
+			script: [
+				'Hey there!',
+				async () => {},
+				async () => {
+					return { transitionConversationTo: 'greeting' }
+				},
+			],
+		})
+
+		const results = await this.sendMessage(player, {
+			body: 'tell me a story!',
+		})
+
+		assert.isTruthy(results)
+		assert.isTruthy(results.transitionConversationTo)
+		assert.isEqual(results.transitionConversationTo, 'greeting')
+	}
+
+	@test()
+	protected static async scriptCanRespondWithTransitionAInLaterLinesAfterAskingForInput() {
+		const player = this.Player({
+			script: [
+				'Hey there!',
+				async (options) => {
+					await options.ui.prompt({ type: 'text', isRequired: true })
+				},
+				async () => {
+					return { transitionConversationTo: 'greeting' }
+				},
+			],
+		})
+
+		await this.sendMessage(player, {
+			body: 'tell me a story!',
+		})
+
+		const results = await this.sendMessage(player, {
+			body: 'Yes!',
+		})
+
+		assert.isTruthy(results)
+		assert.isTruthy(results.transitionConversationTo)
+		assert.isEqual(results.transitionConversationTo, 'greeting')
 	}
 
 	@test()
@@ -350,6 +398,40 @@ export default class TopicScriptPlayerTest extends AbstractSpruceFixtureTest {
 		assert.isEqual(stateCount, 2)
 
 		await this.sendMessage(player, { body: 'again, again!' })
+
+		assert.isEqual(stateCount, 4)
+	}
+
+	@test()
+	protected static async alwaysEndsWithRedirectToDiscovery() {
+		let stateCount = 0
+		const player = this.Player({
+			script: [
+				async (options) => {
+					if (!options.state.count) {
+						options.state.count = 1
+					} else {
+						options.state.count++
+					}
+				},
+				async (options) => {
+					options.state.count++
+
+					stateCount = options.state.count
+				},
+			],
+		})
+
+		let results = await this.sendMessage(player, {
+			body: 'tell me a story!',
+		})
+
+		assert.isEqual(results?.transitionConversationTo, 'discovery')
+
+		assert.isEqual(stateCount, 2)
+
+		results = await this.sendMessage(player, { body: 'again, again!' })
+		assert.isEqual(results?.transitionConversationTo, 'discovery')
 
 		assert.isEqual(stateCount, 4)
 	}
