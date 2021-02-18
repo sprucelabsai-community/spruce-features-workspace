@@ -1,3 +1,4 @@
+import { testLog } from '@sprucelabs/spruce-skill-utils'
 import FuzzySet from 'fuzzyset'
 import { TopicSuggester } from '../conversations/TopicSuggester'
 
@@ -33,7 +34,10 @@ const suggesterUtil = {
 		//@ts-ignore
 		const f = new FuzzySet(phrases)
 		const matches = f.get(utterance)
-		return (matches && matches.length > 0) ?? false
+
+		return (
+			(matches && matches.filter((m: any) => m[0] > 0.4).length > 0) ?? false
+		)
 	},
 }
 
