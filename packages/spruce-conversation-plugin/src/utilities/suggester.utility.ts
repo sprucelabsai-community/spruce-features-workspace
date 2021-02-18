@@ -1,4 +1,3 @@
-import { testLog } from '@sprucelabs/spruce-skill-utils'
 import FuzzySet from 'fuzzyset'
 import { TopicSuggester } from '../conversations/TopicSuggester'
 
