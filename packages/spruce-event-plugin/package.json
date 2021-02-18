@@ -3,7 +3,7 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "1.11.16",
+	"version": "1.11.17",
 	"main": "./build/index.js",
 	"types": "./build/index.d.ts",
 	"license": "MIT",
@@ -48,7 +48,7 @@
 		"@sprucelabs/spruce-core-schemas": "latest",
 		"@sprucelabs/spruce-event-utils": "latest",
 		"@sprucelabs/spruce-skill-utils": "latest",
-		"@sprucelabs/spruce-test-fixtures": "^1.11.16",
+		"@sprucelabs/spruce-test-fixtures": "^1.11.17",
 		"@sprucelabs/test": "latest",
 		"@sprucelabs/test-utils": "latest"
 	},
