@@ -3,6 +3,62 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.11.20](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.11.19...v1.11.20) (2021-02-19)
+
+**Note:** Version bump only for package @sprucelabs/spruce-conversation-plugin
+
+
+
+
+
+## [1.11.19](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.11.18...v1.11.19) (2021-02-19)
+
+**Note:** Version bump only for package @sprucelabs/spruce-conversation-plugin
+
+
+
+
+
+## [1.11.18](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.11.17...v1.11.18) (2021-02-18)
+
+**Note:** Version bump only for package @sprucelabs/spruce-conversation-plugin
+
+
+
+
+
+## [1.11.17](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.11.16...v1.11.17) (2021-02-18)
+
+**Note:** Version bump only for package @sprucelabs/spruce-conversation-plugin
+
+
+
+
+
+## [1.11.16](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.11.15...v1.11.16) (2021-02-18)
+
+**Note:** Version bump only for package @sprucelabs/spruce-conversation-plugin
+
+
+
+
+
+## [1.11.15](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.11.14...v1.11.15) (2021-02-18)
+
+**Note:** Version bump only for package @sprucelabs/spruce-conversation-plugin
+
+
+
+
+
+## [1.11.14](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.11.13...v1.11.14) (2021-02-18)
+
+**Note:** Version bump only for package @sprucelabs/spruce-conversation-plugin
+
+
+
+
+
 ## [1.11.13](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.11.12...v1.11.13) (2021-02-17)
 
 **Note:** Version bump only for package @sprucelabs/spruce-conversation-plugin
