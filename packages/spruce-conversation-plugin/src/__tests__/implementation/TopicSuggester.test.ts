@@ -57,7 +57,14 @@ export default class TopicSuggesterTest extends AbstractSpruceTest {
 	}
 
 	@test('matches regardless "Experience "', 'Experience ', 'contactUs')
+	@test(
+		'matches regardless "Tell me about experience"',
+		'Tell me about experience ',
+		'contactUs'
+	)
 	@test('matches "Tell me something funny"', 'Tell me something funny', 'jokes')
+	@test('matches "Joke me"', 'Joke me', 'jokes')
+	@test('matches "Joke me"', 'Joke me', 'jokes')
 	protected static async matchTests(
 		phrase: string,
 		expectedSuggestionKey: string
