@@ -52,7 +52,7 @@
 		"@sprucelabs/babel-plugin-schema": "latest",
 		"@sprucelabs/jest-json-reporter": "latest",
 		"@sprucelabs/mercury-client": "^15.2.22",
-		"@sprucelabs/mercury-types": "^15.4.23",
+		"@sprucelabs/mercury-types": "^15.4.24",
 		"@sprucelabs/semantic-release": "latest",
 		"@sprucelabs/test": "latest",
 		"@sprucelabs/test-utils": "latest",
