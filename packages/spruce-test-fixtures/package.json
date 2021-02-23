@@ -54,7 +54,7 @@
 	"devDependencies": {
 		"@sprucelabs/babel-plugin-schema": "latest",
 		"@sprucelabs/jest-json-reporter": "latest",
-		"@sprucelabs/mercury-types": "^15.4.26",
+		"@sprucelabs/mercury-types": "^15.4.27",
 		"@sprucelabs/semantic-release": "latest",
 		"@sprucelabs/test": "latest",
 		"@sprucelabs/test-utils": "latest",
