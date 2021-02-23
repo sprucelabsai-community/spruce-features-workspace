@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.11.29](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.11.28...v1.11.29) (2021-02-23)
+
+**Note:** Version bump only for package @sprucelabs/spruce-skill-booter
+
+
+
+
+
 ## [1.11.28](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.11.27...v1.11.28) (2021-02-23)
 
 **Note:** Version bump only for package @sprucelabs/spruce-skill-booter
