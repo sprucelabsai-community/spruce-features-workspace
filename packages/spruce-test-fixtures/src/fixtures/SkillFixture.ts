@@ -49,11 +49,9 @@ export class SkillFixture<
 
 		const skillClient = (await this.apiClientFactory()) as any
 
-		await skillClient.emit('authenticate::v2020_12_25', {
-			payload: {
-				skillId: skill.id,
-				apiKey: skill.apiKey,
-			},
+		await skillClient.authenticate({
+			skillId: skill.id,
+			apiKey: skill.apiKey,
 		})
 
 		return { skill, client: skillClient }

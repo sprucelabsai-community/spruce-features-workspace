@@ -34,6 +34,14 @@ type MercuryClient<
 	isConnected: () => boolean
 	connect: () => Promise<void>
 	disconnect: () => Promise<void>
+	authenticate(options: {
+		skillId?: string
+		apiKey?: string
+		token?: string
+	}): Promise<{
+		skill?: SpruceSchemas.Spruce.v2020_07_22.Skill
+		person?: SpruceSchemas.Spruce.v2020_07_22.Person
+	}>
 }
 
 export class EventFeaturePlugin implements SkillFeature {
@@ -254,7 +262,7 @@ export class EventFeaturePlugin implements SkillFeature {
 
 		this.log.info('Connecting to Mercury at', host)
 
-		this.apiClientPromise = this.loginAndAuthenticate(
+		this.apiClientPromise = this.connectAndAuthenticate(
 			MercuryClientFactory,
 			host,
 			contracts
@@ -277,7 +285,7 @@ export class EventFeaturePlugin implements SkillFeature {
 		return undefined
 	}
 
-	private async loginAndAuthenticate(
+	private async connectAndAuthenticate(
 		MercuryClientFactory: any,
 		host: string,
 		contracts: any
@@ -298,17 +306,13 @@ export class EventFeaturePlugin implements SkillFeature {
 		if (skillId && apiKey) {
 			this.log.info('Logging in as skill')
 
-			const results = await client.emit('authenticate::v2020_12_25', {
-				payload: {
+			try {
+				const { skill } = await client.authenticate({
 					skillId,
 					apiKey,
-				},
-			} as any)
+				} as any)
 
-			try {
-				const { auth } = eventResponseUtil.getFirstResponseOrThrow(results)
-
-				currentSkill = auth.skill
+				currentSkill = skill
 
 				this.log.info(`Authenticated as ${currentSkill?.slug}.`)
 			} catch (err) {
