@@ -53,8 +53,7 @@
 		"fuzzyset": "^1.0.6",
 		"globby": "^11.0.2",
 		"inquirer": "^7.3.3",
-		"node-nlp": "^4.21.3",
-		"random": "^2.2.0"
+		"node-nlp": "^4.21.3"
 	},
 	"devDependencies": {
 		"@sprucelabs/babel-plugin-schema": "latest",
@@ -67,7 +66,6 @@
 		"@types/fuzzyset": "^1.0.2",
 		"@types/inquirer": "^7.3.1",
 		"@types/node": "^14.14.31",
-		"@types/random": "^2.1.1",
 		"chokidar-cli": "^2.1.0",
 		"concurrently": "^6.0.0",
 		"conventional-changelog-sprucelabs": "latest",
