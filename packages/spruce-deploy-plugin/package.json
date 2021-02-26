@@ -3,22 +3,22 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "1.11.38",
+	"version": "1.11.39",
 	"files": [
 		"build/**/*",
 		"tsconfig.json"
 	],
-    "main": "./build/index.js",
-    "types": "./build/index.d.ts",
-    "exports": {
-        ".": {
-            "node": "./build/index.js",
-            "require": "./build/index.js",
-            "import": "./build/esm/index.js",
-            "default": "./build/esm/index.js"
-        }
-    },
-    "module": "./build/esm/index.js",
+	"main": "./build/index.js",
+	"types": "./build/index.d.ts",
+	"exports": {
+		".": {
+			"node": "./build/index.js",
+			"require": "./build/index.js",
+			"import": "./build/esm/index.js",
+			"default": "./build/esm/index.js"
+		}
+	},
+	"module": "./build/esm/index.js",
 	"license": "MIT",
 	"description": "Spruce Deploy! 🚀",
 	"keywords": [
@@ -55,7 +55,7 @@
 		"@sprucelabs/error": "latest",
 		"@sprucelabs/schema": "latest",
 		"@sprucelabs/spruce-skill-utils": "latest",
-		"@sprucelabs/spruce-test-fixtures": "^1.11.38",
+		"@sprucelabs/spruce-test-fixtures": "^1.11.39",
 		"heroku-client": "^3.1.0"
 	},
 	"devDependencies": {

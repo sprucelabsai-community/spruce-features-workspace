@@ -3,7 +3,7 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "1.11.38",
+	"version": "1.11.39",
 	"files": [
 		"build/**/*",
 		"tsconfig.json"
@@ -11,14 +11,14 @@
 	"main": "./build/index.js",
 	"types": "./build/index.d.ts",
 	"exports": {
-        ".": {
-            "node": "./build/index.js",
-            "require": "./build/index.js",
-            "import": "./build/esm/index.js",
-            "default": "./build/esm/index.js"
-        }
-    },
-    "module": "./build/esm/index.js",
+		".": {
+			"node": "./build/index.js",
+			"require": "./build/index.js",
+			"import": "./build/esm/index.js",
+			"default": "./build/esm/index.js"
+		}
+	},
+	"module": "./build/esm/index.js",
 	"license": "MIT",
 	"description": "Spruce Conversation! 🗣",
 	"keywords": [
@@ -56,10 +56,10 @@
 		"@sprucelabs/error": "latest",
 		"@sprucelabs/schema": "latest",
 		"@sprucelabs/spruce-core-schemas": "latest",
-		"@sprucelabs/spruce-event-plugin": "^1.11.38",
+		"@sprucelabs/spruce-event-plugin": "^1.11.39",
 		"@sprucelabs/spruce-event-utils": "latest",
 		"@sprucelabs/spruce-skill-utils": "latest",
-		"@sprucelabs/spruce-test-fixtures": "^1.11.38",
+		"@sprucelabs/spruce-test-fixtures": "^1.11.39",
 		"fuzzyset": "^1.0.6",
 		"globby": "^11.0.2",
 		"inquirer": "^8.0.0",
@@ -98,7 +98,7 @@
 			"<rootDir>/tmp/",
 			"<rootDir>/src/",
 			"<rootDir>/node_modules/",
-            "<rootDir>/build/esm/"
+			"<rootDir>/build/esm/"
 		],
 		"testMatch": [
 			"**/__tests__/**/*.test.js?(x)"
