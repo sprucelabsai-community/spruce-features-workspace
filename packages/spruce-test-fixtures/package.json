@@ -3,7 +3,7 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "1.11.40",
+	"version": "1.11.41",
 	"files": [
 		"build/**/*",
 		"tsconfig.json"
@@ -57,7 +57,7 @@
 		"@sprucelabs/schema": "latest",
 		"@sprucelabs/spruce-core-schemas": "latest",
 		"@sprucelabs/spruce-event-utils": "latest",
-		"@sprucelabs/spruce-skill-booter": "^1.11.40",
+		"@sprucelabs/spruce-skill-booter": "^1.11.41",
 		"@sprucelabs/spruce-skill-utils": "latest",
 		"dotenv": "^8.2.0"
 	},
