@@ -38,7 +38,7 @@
 		"@sprucelabs/babel-plugin-schema": "latest",
 		"babel-plugin-module-resolver": "^4.1.0",
 		"conventional-changelog-sprucelabs": "latest",
-		"eslint": "^7.11.0",
+		"eslint": "^7.21.0",
 		"eslint-config-spruce": "latest",
 		"lerna": "^3.20.2",
 		"prettier": "^2.2.0",
