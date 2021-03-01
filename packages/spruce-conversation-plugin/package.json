@@ -64,7 +64,7 @@
 		"globby": "^11.0.2",
 		"inquirer": "^8.0.0",
 		"node-nlp": "^4.21.3",
-		"random": "^2.2.0"
+		"random": "^3.0.0"
 	},
 	"devDependencies": {
 		"@sprucelabs/babel-plugin-schema": "latest",
