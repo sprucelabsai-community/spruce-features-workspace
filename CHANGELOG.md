@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.11.43](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.11.42...v1.11.43) (2021-03-01)
+
+
+### Bug Fixes
+
+* rsync should be installed for publish step ([f473acc](https://github.com/sprucelabsai/spruce-features-workspace/commit/f473acc))
+
+
+
+
+
 ## [1.11.42](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.11.41...v1.11.42) (2021-02-27)
 
 **Note:** Version bump only for package spruce-features-workspace
