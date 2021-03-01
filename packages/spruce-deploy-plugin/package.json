@@ -30,14 +30,13 @@
 		"url": "https://github.com/sprucelabsai/spruce-features-workspace/issues"
 	},
 	"scripts": {
-		"build": "yarn build.babel && yarn build.dist && yarn build.types.resolve-paths.lint",
-		"build.babel": "babel src --out-dir build --extensions '.ts, .tsx' --source-maps --copy-files",
+		"build": "yarn build.tsc && yarn build.dist && yarn resolve-paths.lint",
+		"build.copy-files": "mkdir -p build && rsync -avzq --exclude='*.ts' ./src/ ./build/",
 		"build.dist": "tsc --project tsconfig.dist.json",
 		"build.resolve-paths": "resolve-path-aliases --target build --patterns **/*.js,**/*.d.ts",
-		"build.types": "tsc --emitDeclarationOnly && echo PASS TYPES || (echo FAIL TYPES && false)",
-		"build.types.resolve-paths.lint": "yarn build.types && yarn resolve-paths.lint",
+		"build.tsc": "yarn build.copy-files && tsc",
 		"clean": "rm -rf build/",
-		"clean.all": "yarn clean && rm yarn.lock | true && rm -rf node_modules/",
+		"clean.all": "rm -rf node_modules/ yarn.lock ; yarn clean",
 		"fix.lint": "eslint --fix '**/*.ts'",
 		"lint": "eslint '**/*.ts'",
 		"rebuild": "yarn clean.all && yarn && yarn build",
@@ -46,10 +45,9 @@
 		"upgrade.packages": "yarn-upgrade-all && rm yarn.lock ; yarn ; yarn fix.lint | true",
 		"upgrade.packages.all": "yarn install && yarn upgrade.packages",
 		"upgrade.packages.test": "yarn upgrade.packages.all && yarn lint && yarn build && yarn test",
-		"watch.build": "concurrently 'yarn build.types.resolve-paths.lint' 'tsc --emitDeclarationOnly -w' 'yarn build.babel --watch' \"chokidar 'src/**/*' --ignore '.*/tmp/.*' -c 'yarn resolve-paths.lint'\"",
+		"watch.build": "concurrently 'yarn build.tsc -w' 'yarn resolve-paths.lint' \"chokidar 'src/**/*' --ignore '.*/tmp/.*' -c 'yarn resolve-paths.lint'\"",
 		"watch.lint": "concurrently 'yarn lint' \"chokidar 'src/**/*' -c 'yarn lint.tsc'\"",
-		"watch.rebuild": "yarn clean.all && yarn && yarn build.watch",
-		"watch.tests": "yarn test --watch"
+		"watch.rebuild": "yarn clean.all && yarn && yarn build.watch"
 	},
 	"dependencies": {
 		"@sprucelabs/error": "latest",
