@@ -3,7 +3,7 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "1.11.45",
+	"version": "1.11.46",
 	"files": [
 		"build/**/*",
 		"tsconfig.json"
@@ -20,7 +20,7 @@
 	},
 	"module": "./build/esm/index.js",
 	"license": "MIT",
-	"description": "Spruce Deploy! 🚀",
+	"description": "Spruce Store! 🚀",
 	"keywords": [
 		"node",
 		"sprucelabs"

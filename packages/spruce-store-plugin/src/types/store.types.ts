@@ -1,6 +1,5 @@
 import { HealthCheckItem } from '@sprucelabs/spruce-skill-utils'
 
-
 export interface StoreHealthCheckItem extends HealthCheckItem {
 	stores: string[]
 }
