@@ -1,7 +1,12 @@
+import AbstractSpruceError from '@sprucelabs/error'
 import { HealthCheckItem } from '@sprucelabs/spruce-skill-utils'
 
 export interface StoreHealthCheckItem extends HealthCheckItem {
-	stores: string[]
+	stores: {
+		name: string
+		status: HealthCheckItem['status']
+		errors?: AbstractSpruceError<any>[]
+	}[]
 }
 
 declare module '@sprucelabs/spruce-skill-utils/build/types/skill.types' {

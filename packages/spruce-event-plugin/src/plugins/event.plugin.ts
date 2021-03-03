@@ -101,7 +101,7 @@ export class EventFeaturePlugin implements SkillFeature {
 
 			if (willBoot) {
 				this.log.info(`Emitting skill.willBoot internally`)
-				const event = await this.buildEvent('will-boot')
+				const event = await this.buildSpruceEvent('will-boot')
 				await willBoot(event)
 			}
 
@@ -114,7 +114,7 @@ export class EventFeaturePlugin implements SkillFeature {
 			if (didBoot) {
 				this.log.info(`Emitting skill.didBoot internally.`)
 
-				const event = await this.buildEvent('did-boot')
+				const event = await this.buildSpruceEvent('did-boot')
 
 				await didBoot(event)
 			}
@@ -141,7 +141,7 @@ export class EventFeaturePlugin implements SkillFeature {
 		}
 	}
 
-	private async buildEvent(
+	private async buildSpruceEvent(
 		eventName: string,
 		targetAndPayload?: any
 	): Promise<SpruceEvent<any, any>> {
@@ -420,7 +420,7 @@ export class EventFeaturePlugin implements SkillFeature {
 
 				await client.on(name, async (targetAndPayload: any) => {
 					this.log.info(`Incoming event - ${name}`)
-					const event = await this.buildEvent(name, targetAndPayload)
+					const event = await this.buildSpruceEvent(name, targetAndPayload)
 					const results = await listener.callback(event)
 
 					return results

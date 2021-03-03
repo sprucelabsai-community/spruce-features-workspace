@@ -8,22 +8,30 @@ import * as SpruceSchema from '@sprucelabs/schema'
 
 
 
-export declare namespace SpruceErrors.SpruceDeployPlugin {
+export declare namespace SpruceErrors.SpruceStorePlugin {
 
 	
-	export interface HerokuError {
+	export interface FailedToLoadStore {
 		
+			
+			'name': string
 	}
 
-	export interface HerokuErrorSchema extends SpruceSchema.Schema {
-		id: 'herokuError',
-		namespace: 'SpruceDeployPlugin',
-		name: 'Heroku Error',
+	export interface FailedToLoadStoreSchema extends SpruceSchema.Schema {
+		id: 'failedToLoadStore',
+		namespace: 'SpruceStorePlugin',
+		name: 'Failed to load store',
 		    fields: {
+		            /** . */
+		            'name': {
+		                type: 'text',
+		                isRequired: true,
+		                options: undefined
+		            },
 		    }
 	}
 
-	export type HerokuErrorEntity = SchemaEntity<SpruceErrors.SpruceDeployPlugin.HerokuErrorSchema>
+	export type FailedToLoadStoreEntity = SchemaEntity<SpruceErrors.SpruceStorePlugin.FailedToLoadStoreSchema>
 
 }
 

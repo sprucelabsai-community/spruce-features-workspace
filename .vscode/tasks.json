@@ -132,6 +132,29 @@
             }
         },
         {
+            "label": "store.test.reporter",
+            "command": "spruce",
+            "args": [
+                "test",
+                "--shouldHoldAtStart",
+                "true",
+                "--watchMode",
+                "smart"
+            ],
+            "runOptions": {
+                "runOn": "folderOpen"
+            },
+            "promptOnClose": false,
+            "options": {
+                "cwd": "${workspaceFolder}/packages/spruce-store-plugin"
+            },
+            "group": "test",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        },
+        {
             "label": "shell",
             "type": "shell",
             "command": "${input:command} ${input:optionsCommand}",
@@ -142,9 +165,29 @@
                 "panel": "new",
                 "clear": false
             }
-        }
+        },
+        {
+            "label": "spruce",
+            "type": "shell",
+            "command": "spruce ${input:spruceCommand}",
+            "problemMatcher": [],
+            "options": {
+                "cwd": "${workspaceFolder}/packages/spruce-${input:pluginName}-plugin"
+            },
+            "presentation": {
+                "reveal": "always",
+                "focus": true,
+                "panel": "new",
+                "clear": false
+            }
+        },
     ],
     "inputs": [
+        {
+            "id": "pluginName",
+            "description": "plugin name",
+            "type": "promptString",
+        },
         {
             "id": "spruceCommand",
             "description": "spruce command",

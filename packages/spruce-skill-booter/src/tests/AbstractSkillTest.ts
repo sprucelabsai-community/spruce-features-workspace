@@ -1,3 +1,4 @@
+import { SchemaRegistry } from '@sprucelabs/schema'
 import { mockLog } from '@sprucelabs/spruce-skill-utils'
 import AbstractSpruceTest, { assert } from '@sprucelabs/test'
 import Skill from '../skills/Skill'
@@ -10,6 +11,8 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
 	protected static async afterEach() {
 		await super.afterEach()
 
+		SchemaRegistry.getInstance().forgetAllSchemas()
+
 		for (const skill of this.skills) {
 			await skill.kill()
 		}
@@ -21,11 +24,13 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
 
 			this.clearSkillBootErrors()
 
-			assert.fail(
-				'Skill had error during boot:\n\n' + err.prettyPrint
+			const msg =
+				'Skill had error during boot:\n\n' +
+				(typeof err.prettyPrint === 'function'
 					? err.prettyPrint()
-					: err.toString()
-			)
+					: err.toString())
+
+			assert.fail(msg)
 		}
 	}
 

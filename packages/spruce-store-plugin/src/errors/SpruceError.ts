@@ -7,9 +7,13 @@ export default class SpruceError extends BaseSpruceError<ErrorOptions> {
 		const { options } = this
 		let message
 		switch (options?.code) {
-			case 'HEROKU_ERROR':
-				message = 'A Heroku Error just happened!'
+			case 'FAILED_TO_LOAD_STORE':
+				message = `Dang it, I couldn't load your ${options.name} store!`
+				if (options.originalError) {
+					message += '\n\nOriginal error:\n\n' + options.originalError.message
+				}
 				break
+
 			default:
 				message = super.friendlyMessage()
 		}
