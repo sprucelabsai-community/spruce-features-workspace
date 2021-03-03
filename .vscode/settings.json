@@ -11,7 +11,7 @@
 		"**/node_modules/**": true,
 	},
 	"search.exclude": {
-		"**/node_modules/**": false,
+		"**/node_modules/**": true,
 		"**/browser/**": false,
 	},
 	"eslint.validate": [
