@@ -3,7 +3,7 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "1.11.46",
+	"version": "1.12.0",
 	"files": [
 		"build/**/*",
 		"tsconfig.json"
@@ -55,10 +55,10 @@
 		"@sprucelabs/error": "latest",
 		"@sprucelabs/schema": "latest",
 		"@sprucelabs/spruce-core-schemas": "latest",
-		"@sprucelabs/spruce-event-plugin": "^1.11.46",
+		"@sprucelabs/spruce-event-plugin": "^1.12.0",
 		"@sprucelabs/spruce-event-utils": "latest",
 		"@sprucelabs/spruce-skill-utils": "latest",
-		"@sprucelabs/spruce-test-fixtures": "^1.11.46",
+		"@sprucelabs/spruce-test-fixtures": "^1.12.0",
 		"fuzzyset": "^1.0.6",
 		"globby": "^11.0.2",
 		"inquirer": "^8.0.0",
