@@ -40,7 +40,8 @@
 		"./packages/spruce-event-plugin",
 		"./packages/spruce-skill-booter",
 		"./packages/spruce-test-fixtures",
-		"./packages/spruce-deploy-plugin"
+		"./packages/spruce-deploy-plugin",
+		"./packages/spruce-store-plugin"
 	],
 	"eslint.options": {
 		"extensions": [
