@@ -45,7 +45,6 @@
 			"@sprucelabs/babel-plugin-schema",
 			"@sprucelabs/error",
 			"@sprucelabs/jest-sheets-reporter",
-			"@sprucelabs/log",
 			"@sprucelabs/mercury-types",
 			"@sprucelabs/schema",
 			"@sprucelabs/semantic-release",
