@@ -3,7 +3,7 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "1.12.0",
+	"version": "1.13.1",
 	"files": [
 		"build/**/*",
 		"tsconfig.json"
@@ -19,6 +19,7 @@
 		}
 	},
 	"module": "./build/esm/index.js",
+	"sideEffects": false,
 	"license": "MIT",
 	"description": "Some helpful utilities to speed up working with Mercury! 🚅",
 	"keywords": [
@@ -57,7 +58,7 @@
 		"@sprucelabs/spruce-core-schemas": "latest",
 		"@sprucelabs/spruce-event-utils": "latest",
 		"@sprucelabs/spruce-skill-utils": "latest",
-		"@sprucelabs/spruce-test-fixtures": "^1.12.0",
+		"@sprucelabs/spruce-test-fixtures": "^1.13.1",
 		"@sprucelabs/test": "latest",
 		"@sprucelabs/test-utils": "latest"
 	},
