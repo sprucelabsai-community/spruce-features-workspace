@@ -14,6 +14,11 @@ export default class SpruceError extends BaseSpruceError<ErrorOptions> {
 				}
 				break
 
+			case 'MISSING_PARAMETERS':
+				message = 'Looks like some parameters are missing: \n\n'
+				message += options.parameters.join('\n')
+				break
+
 			default:
 				message = super.friendlyMessage()
 		}

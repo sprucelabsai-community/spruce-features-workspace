@@ -3,6 +3,7 @@ import {
 	HealthCheckResults,
 	Log,
 	Skill as ISkill,
+	SkillContext,
 	SkillFeature,
 } from '@sprucelabs/spruce-skill-utils'
 import SpruceError from '../errors/SpruceError'
@@ -27,6 +28,7 @@ export default class Skill implements ISkill {
 	private isKilling = false
 	private bootLoggerInterval: any
 	private shouldCountdownOnExit = true
+	private context: SkillContext = {}
 
 	public constructor(options: SkillOptions) {
 		this.rootDir = options.rootDir
@@ -206,5 +208,16 @@ export default class Skill implements ISkill {
 	public buildLog(...args: any[]): Log {
 		//@ts-ignore
 		return this.log.buildLog(...args)
+	}
+
+	public getContext() {
+		return this.context as SkillContext
+	}
+
+	public updateContext<Key extends keyof SkillContext>(
+		key: Key,
+		value: SkillContext[Key]
+	) {
+		this.context[key] = value
 	}
 }

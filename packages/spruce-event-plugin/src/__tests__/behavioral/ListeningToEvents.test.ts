@@ -50,7 +50,6 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 
 		let didHit = false
 		let didHitForced = false
-		process.env.SKILL_API_KEY = skill.apiKey
 		process.env.SKILL_ID = skill.id
 
 		const runningSkill = this.Skill()

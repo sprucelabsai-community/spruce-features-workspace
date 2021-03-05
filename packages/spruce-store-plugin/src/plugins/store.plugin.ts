@@ -15,6 +15,12 @@ import globby from 'globby'
 import SpruceError from '../errors/SpruceError'
 import { StoreHealthCheckItem } from '../types/store.types'
 
+declare module '@sprucelabs/spruce-skill-utils/build/types/skill.types' {
+	interface SkillContext {
+		storeFactory: StoreFactory
+	}
+}
+
 export class StoreFeaturePlugin implements SkillFeature {
 	private skill: Skill
 	private dbConnectionString?: string
@@ -44,6 +50,8 @@ export class StoreFeaturePlugin implements SkillFeature {
 			//@ts-ignore
 			this.storeFactory.setStore(namesUtil.toCamel(store.name), store.Class)
 		}
+
+		this.skill.updateContext('storeFactory', this.storeFactory)
 	}
 	public async connectToDatabase() {
 		if (!this.db) {

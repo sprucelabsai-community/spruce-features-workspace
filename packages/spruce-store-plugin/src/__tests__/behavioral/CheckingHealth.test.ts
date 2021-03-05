@@ -13,25 +13,10 @@ export default class StoreFeaturePluginTest extends AbstractStoreTest {
 	}
 
 	private static async checkHealth(key: string) {
-		const skill = this.Skill(key)
+		const skill = this.SkillFromTestDir(key)
 		const health = await skill.checkHealth()
 
 		return health
-	}
-
-	protected static Skill(key: string) {
-		this.cwd = this.resolvePath(
-			__dirname,
-			'..',
-			'..',
-			'__tests__',
-			'/testDirsAndFiles/',
-			key
-		)
-
-		const skill = super.Skill()
-
-		return skill
 	}
 
 	@test()

@@ -66,10 +66,14 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
 			this.skillBootError = err
 		})
 
+		await this.waitUntilSkillIsBooted(skill)
+
+		return skill
+	}
+
+	protected static async waitUntilSkillIsBooted(skill: Skill) {
 		do {
 			await this.wait(100)
 		} while (!skill.isBooted() && skill.isRunning())
-
-		return skill
 	}
 }

@@ -5,12 +5,6 @@ import AbstractStoreTest from '../../tests/AbstractStoreTest'
 import OneGoodStore from '../testDirsAndFiles/one-good-store-skill/src/stores/Good.store'
 
 export default class LoadingStoresOnBootTest extends AbstractStoreTest {
-	protected static async beforeEach() {
-		await super.beforeEach()
-		process.env.DB_CONNECTION_STRING = 'memory://'
-		process.env.DB_NAME = 'mercury '
-	}
-
 	@test()
 	protected static async throwsWhenLoadingImproperlyImplementedStore() {
 		this.setCwd('one-bad-store-skill')
