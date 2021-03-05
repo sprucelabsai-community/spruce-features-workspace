@@ -44,6 +44,12 @@ type MercuryClient<
 	}>
 }
 
+declare module '@sprucelabs/spruce-skill-utils/build/types/skill.types' {
+	interface SkillContext {
+		mercury: MercuryClient
+	}
+}
+
 export class EventFeaturePlugin implements SkillFeature {
 	private skill: Skill
 	private listenersPath: string
@@ -123,6 +129,10 @@ export class EventFeaturePlugin implements SkillFeature {
 				this.log.info('Connection to Mercury successful. Waiting for events.')
 				this.isExecuting = false
 				this._isBooted = true
+
+				const { client } = await this.apiClientPromise
+				this.skill.updateContext('mercury', client)
+
 				await new Promise((resolve) => {
 					this.executeResolve = resolve
 				})
@@ -156,9 +166,10 @@ export class EventFeaturePlugin implements SkillFeature {
 		return {
 			skill: this.skill,
 			log: this.log.buildLog(eventName),
-			apiClient,
 			targetAndPayload,
-		}
+			...this.skill.getContext(),
+			mercury: apiClient,
+		} as any
 	}
 
 	public async checkHealth() {

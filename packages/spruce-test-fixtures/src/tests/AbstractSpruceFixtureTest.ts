@@ -56,4 +56,17 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 	): Message & T {
 		return messageTestUtility.buildMessage(values)
 	}
+
+	protected static async bootAndRegisterTestSkill(key: string) {
+		const registeredSkill = await this.Fixture('skill').seedDemoSkill({
+			name: 'my test skill',
+		})
+
+		process.env.SKILL_ID = registeredSkill.id
+		process.env.SKILL_API_KEY = registeredSkill.apiKey
+
+		const skill = await this.bootTestSkillAndWait(key)
+
+		return skill
+	}
 }

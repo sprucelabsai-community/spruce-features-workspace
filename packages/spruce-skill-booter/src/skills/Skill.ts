@@ -28,6 +28,7 @@ export default class Skill implements ISkill {
 	private isKilling = false
 	private bootLoggerInterval: any
 	private shouldCountdownOnExit = true
+	//@ts-ignore
 	private context: SkillContext = {}
 
 	public constructor(options: SkillOptions) {
