@@ -51,7 +51,6 @@
 		"@sprucelabs/spruce-event-utils": "latest",
 		"@sprucelabs/spruce-skill-utils": "latest",
 		"@sprucelabs/spruce-test-fixtures": "^1.13.2",
-		"@sprucelabs/test": "latest",
 		"@sprucelabs/test-utils": "latest"
 	},
 	"devDependencies": {
@@ -60,6 +59,7 @@
 		"@sprucelabs/jest-json-reporter": "latest",
 		"@sprucelabs/mercury-client": "latest",
 		"@sprucelabs/semantic-release": "latest",
+		"@sprucelabs/test": "latest",
 		"@types/node": "^14.14.31",
 		"chokidar-cli": "^2.1.0",
 		"concurrently": "^6.0.0",
