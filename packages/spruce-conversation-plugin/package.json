@@ -3,7 +3,7 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "1.13.2",
+	"version": "1.14.0",
 	"files": [
 		"build/**/*",
 		"tsconfig.json"
@@ -48,7 +48,7 @@
 		"@sprucelabs/error": "latest",
 		"@sprucelabs/schema": "latest",
 		"@sprucelabs/spruce-core-schemas": "latest",
-		"@sprucelabs/spruce-event-plugin": "^1.13.2",
+		"@sprucelabs/spruce-event-plugin": "^1.14.0",
 		"@sprucelabs/spruce-event-utils": "latest",
 		"@sprucelabs/spruce-skill-utils": "latest",
 		"fuzzyset": "^1.0.6",
@@ -64,7 +64,7 @@
 		"@sprucelabs/mercury-client": "latest",
 		"@sprucelabs/mercury-types": "latest",
 		"@sprucelabs/semantic-release": "latest",
-		"@sprucelabs/spruce-test-fixtures": "^1.13.2",
+		"@sprucelabs/spruce-test-fixtures": "^1.14.0",
 		"@sprucelabs/test": "latest",
 		"@sprucelabs/test-utils": "latest",
 		"@types/fuzzyset": "^1.0.2",
