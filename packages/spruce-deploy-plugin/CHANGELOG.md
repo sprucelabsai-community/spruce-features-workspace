@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.14.8](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.14.7...v1.14.8) (2021-03-15)
+
+**Note:** Version bump only for package @sprucelabs/spruce-deploy-plugin
+
+
+
+
+
 ## [1.14.7](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.14.6...v1.14.7) (2021-03-12)
 
 **Note:** Version bump only for package @sprucelabs/spruce-deploy-plugin
