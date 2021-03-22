@@ -50,7 +50,7 @@
 		"@sprucelabs/spruce-core-schemas": "latest",
 		"@sprucelabs/spruce-event-utils": "latest",
 		"@sprucelabs/spruce-skill-utils": "latest",
-		"@sprucelabs/spruce-test-fixtures": "^1.14.13"
+		"@sprucelabs/spruce-test-fixtures": "^1.14.14"
 	},
 	"devDependencies": {
 		"@sprucelabs/babel-plugin-schema": "latest",
