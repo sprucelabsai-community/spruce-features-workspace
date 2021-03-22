@@ -138,6 +138,8 @@ export default class ScriptTester {
 					)}%`,
 				})
 			}
+
+			this.writeHandler({ body: '\n\n' })
 		}
 	}
 
