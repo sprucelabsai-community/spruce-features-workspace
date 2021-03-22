@@ -53,7 +53,7 @@
 		"@sprucelabs/spruce-skill-utils": "latest",
 		"@sprucelabs/spruce-test-fixtures": "^1.14.10",
 		"fuzzyset": "^1.0.6",
-		"globby": "^11.0.2",
+		"globby": "^11.0.3",
 		"inquirer": "^8.0.0",
 		"node-nlp": "^4.21.3",
 		"random": "^3.0.3"
