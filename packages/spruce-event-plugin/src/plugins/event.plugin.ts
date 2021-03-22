@@ -93,13 +93,14 @@ export class EventFeaturePlugin implements SkillFeature {
 
 	public async execute() {
 		this.isExecuting = true
+		let re: any
+		let rej: any
+		this.willBootPromise = new Promise((resolve, reject) => {
+			re = resolve
+			rej = reject
+		})
 
 		try {
-			let r: any
-			this.willBootPromise = new Promise((resolve) => {
-				r = resolve
-			})
-
 			await this.loadLocal()
 
 			const willBoot = this.getListener('skill', 'will-boot')
@@ -111,7 +112,7 @@ export class EventFeaturePlugin implements SkillFeature {
 				await willBoot(event)
 			}
 
-			r()
+			re()
 
 			await this.loadEvents()
 
@@ -144,6 +145,7 @@ export class EventFeaturePlugin implements SkillFeature {
 				this.isExecuting = false
 			}
 		} catch (err) {
+			rej(err)
 			this._isBooted = false
 			this.isExecuting = false
 

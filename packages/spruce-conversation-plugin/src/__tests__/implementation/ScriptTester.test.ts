@@ -22,6 +22,7 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 		const tester = await ScriptTester.Tester({
 			topics: [
 				{
+					utterances: [],
 					key: 'bookAppointment',
 					label: 'Book appointment',
 					script: ['hey there!'],
@@ -36,6 +37,7 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 		const tester = await ScriptTester.Tester({
 			topics: [
 				{
+					utterances: [],
 					key: 'bookAppointment',
 					label: 'Book appointment',
 					script: ['hey there!'],
@@ -54,6 +56,7 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 		const tester = await ScriptTester.Tester({
 			topics: [
 				{
+					utterances: [],
 					key: 'bookAppointment',
 					label: 'Book appointment',
 					script: ['hey there!'],
@@ -72,7 +75,7 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 	@test()
 	protected static async selectingBadScriptToStartThrows() {
 		const tester = await ScriptTester.Tester({
-			topics: ScriptTesterTest.basicBookingScript,
+			topics: this.basicBookingScript,
 			selectPromptHandler: async () => {
 				return 'oeuou'
 			},
@@ -90,11 +93,13 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 
 	private static readonly basicBookingScript = [
 		{
+			utterances: [],
 			key: 'bookAppointment',
 			label: 'Book appointment',
 			script: ['you ready to book?'],
 		},
 		{
+			utterances: [],
 			key: 'cancelAppointment',
 			label: 'Cancel appointment',
 			script: ['Lets cancel'],
@@ -106,7 +111,7 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 		let choices: any
 		const writes: string[] = []
 		const tester = await ScriptTester.Tester({
-			topics: ScriptTesterTest.basicBookingScript,
+			topics: this.basicBookingScript,
 			selectPromptHandler: async (message) => {
 				choices = message.choices ?? []
 				return 'cancelAppointment'
@@ -142,7 +147,7 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 		const tester = await ScriptTester.Tester({
 			shouldPlayReplayAfterFinish: false,
 			lineDelay: 0,
-			topics: [{ key: 'test', label: 'Testing', script }],
+			topics: [{ key: 'test', label: 'Testing', script, utterances: [] }],
 			writeHandler: (message) => {
 				writes.push(message.body)
 			},
@@ -174,6 +179,7 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 			shouldPlayReplayAfterFinish: false,
 			topics: [
 				{
+					utterances: [],
 					key: 'test',
 					label: 'Test with prompt',
 					script: [
@@ -200,7 +206,7 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 
 		void tester.go('lets go!')
 
-		await this.wait(10)
+		await this.wait(20)
 		const expected = [
 			'Are you sure?',
 			answer,
@@ -220,6 +226,7 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 			lineDelay: 0,
 			topics: [
 				{
+					utterances: [],
 					key: 'test',
 					label: 'Test with prompt',
 					script: ['go', 'team'],
@@ -259,6 +266,38 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 	}
 
 	@test()
+	protected static async showsConfidenceRatingBasedOnFirstMesageSent() {
+		const writes: string[] = []
+		const promptWrites: string[] = []
+
+		const tester = await ScriptTester.Tester({
+			lineDelay: 0,
+			topics: [
+				{
+					utterances: ['go team', 'team'],
+					key: 'test',
+					label: 'Test with prompt',
+					script: ['go', 'team'],
+				},
+			],
+			writeHandler: (message) => {
+				writes.push(message.body)
+			},
+			promptHandler: async (message) => {
+				promptWrites.push(message.body)
+				return 'go!'
+			},
+			selectPromptHandler: async () => '',
+		})
+
+		void tester.go('team')
+
+		await this.wait(10)
+
+		assert.doesInclude(writes, `%`)
+	}
+
+	@test()
 	protected static async promptsToStartAgainAfterDone() {
 		const writes: string[] = []
 		let promptHitCount = 0
@@ -266,6 +305,7 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 			lineDelay: 0,
 			topics: [
 				{
+					utterances: [],
 					key: 'test',
 					label: 'Test with prompt',
 					script: ['go', 'team'],
@@ -312,6 +352,7 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 				{
 					key: 'test',
 					label: 'Test with prompt',
+					utterances: [],
 					script: [
 						'my',
 						'team',
@@ -367,6 +408,7 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 				{
 					key: 'test',
 					label: 'Test with prompt',
+					utterances: [],
 					script: [
 						'my',
 						'team',
