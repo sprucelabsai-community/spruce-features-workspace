@@ -96,10 +96,10 @@ export default class ScriptTester {
 			})
 		}
 
+		await this.reportOnConfidence(msg)
+
 		// eslint-disable-next-line no-constant-condition
 		while (true) {
-			await this.reportOnConfidence(msg)
-
 			const response = await this.handleInput(msg)
 
 			if (response?.transitionConversationTo) {
@@ -130,10 +130,12 @@ export default class ScriptTester {
 		const suggestions = await this.suggester.suggest(msg)
 
 		if (suggestions.length > 0) {
-			this.writeHandler({ body: 'My confidence you meant' })
+			this.writeHandler({ body: '\n\nMy confidence for each topic:' })
 			for (const suggestion of suggestions) {
 				this.writeHandler({
-					body: `${suggestion.key}: ${suggestion.confidence}%`,
+					body: `\t${suggestion.key}: ${Math.round(
+						suggestion.confidence * 100
+					)}%`,
 				})
 			}
 		}

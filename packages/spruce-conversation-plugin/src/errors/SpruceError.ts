@@ -38,7 +38,7 @@ export default class SpruceError extends BaseSpruceError<ErrorOptions> {
 				break
 
 			case 'CONVERSATION_ABORTED':
-				message = 'A Conversation aborted just happened!'
+				message = 'I am aborting on this conversation.'
 				break
 
 			default:
