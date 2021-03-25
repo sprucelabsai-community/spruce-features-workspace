@@ -44,7 +44,7 @@
 		"watch.rebuild": "yarn clean.all && yarn && yarn watch.build.dev"
 	},
 	"dependencies": {
-		"@nlpjs/nlu": "^4.21.3",
+		"@nlpjs/nlu": "^4.22.0",
 		"@sprucelabs/error": "latest",
 		"@sprucelabs/schema": "latest",
 		"@sprucelabs/spruce-core-schemas": "latest",
@@ -55,7 +55,7 @@
 		"fuzzyset": "^1.0.6",
 		"globby": "^11.0.3",
 		"inquirer": "^8.0.0",
-		"node-nlp": "^4.21.3",
+		"node-nlp": "^4.22.0",
 		"random": "^3.0.3"
 	},
 	"devDependencies": {
