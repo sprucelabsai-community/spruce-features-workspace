@@ -3,7 +3,7 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "1.14.17",
+	"version": "1.14.18",
 	"files": [
 		"build/**/*",
 		"tsconfig.json"
@@ -48,7 +48,7 @@
 		"@sprucelabs/error": "latest",
 		"@sprucelabs/schema": "latest",
 		"@sprucelabs/spruce-skill-utils": "latest",
-		"@sprucelabs/spruce-test-fixtures": "^1.14.17",
+		"@sprucelabs/spruce-test-fixtures": "^1.14.18",
 		"globby": "^11.0.3",
 		"heroku-client": "^3.1.0"
 	},
