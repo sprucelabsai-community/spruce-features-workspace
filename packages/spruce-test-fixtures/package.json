@@ -3,7 +3,7 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "1.13.2",
+	"version": "1.14.20",
 	"files": [
 		"build/**/*",
 		"tsconfig.json"
@@ -49,7 +49,7 @@
 		"@sprucelabs/schema": "latest",
 		"@sprucelabs/spruce-core-schemas": "latest",
 		"@sprucelabs/spruce-event-utils": "latest",
-		"@sprucelabs/spruce-skill-booter": "^1.13.2",
+		"@sprucelabs/spruce-skill-booter": "^1.14.20",
 		"@sprucelabs/spruce-skill-utils": "latest",
 		"dotenv": "^8.2.0"
 	},
@@ -61,17 +61,17 @@
 		"@sprucelabs/semantic-release": "latest",
 		"@sprucelabs/test": "latest",
 		"@sprucelabs/test-utils": "latest",
-		"@types/node": "^14.14.31",
+		"@types/node": "^14.14.37",
 		"chokidar-cli": "^2.1.0",
 		"concurrently": "^6.0.0",
 		"conventional-changelog-sprucelabs": "latest",
-		"eslint": "^7.21.0",
+		"eslint": "^7.23.0",
 		"eslint-config-spruce": "latest",
 		"jest": "^26.6.3",
 		"jest-circus": "^26.6.3",
 		"prettier": "^2.2.1",
 		"ts-node": "^9.1.1",
-		"typescript": "^4.2.2",
+		"typescript": "^4.2.3",
 		"yarn-upgrade-all": "^0.5.4"
 	},
 	"jest": {

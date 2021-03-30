@@ -62,11 +62,22 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
 	protected static async bootSkill(options?: SkillFactoryOptions) {
 		const skill = this.Skill(options)
 
+		await this.bootSkillAndWait(skill)
+
+		return skill
+	}
+
+	private static async bootSkillAndWait(skill: Skill) {
 		void skill.execute().catch((err) => {
 			this.skillBootError = err
 		})
 
 		await this.waitUntilSkillIsBooted(skill)
+	}
+
+	protected static async bootTestSkillAndWait(key: string) {
+		const skill = this.SkillFromTestDir(key)
+		await this.bootSkillAndWait(skill)
 
 		return skill
 	}
@@ -75,5 +86,19 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
 		do {
 			await this.wait(100)
 		} while (!skill.isBooted() && skill.isRunning())
+	}
+
+	protected static SkillFromTestDir(key: string) {
+		this.cwd = this.resolvePath(
+			process.cwd(),
+			'build',
+			'__tests__',
+			'/testDirsAndFiles/',
+			key
+		)
+
+		const skill = this.Skill()
+
+		return skill
 	}
 }

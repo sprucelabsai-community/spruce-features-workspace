@@ -43,8 +43,10 @@ export class ConversationFeature implements SkillFeature {
 				}
 			} else {
 				await this.syncTopics()
+
 				const client = await this.connectToApi()
 				await this.startConversationCoordinator(client as any)
+
 				this.log.info('Conversations loaded. Ready to chat when you are. 🤘')
 			}
 		} finally {

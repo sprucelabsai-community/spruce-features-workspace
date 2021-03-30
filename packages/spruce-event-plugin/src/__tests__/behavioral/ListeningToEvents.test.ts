@@ -5,6 +5,12 @@ import { EventFeature } from '../..'
 import SpruceError from '../../errors/SpruceError'
 import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
 
+declare module '@sprucelabs/spruce-skill-utils/build/types/skill.types' {
+	interface SkillContext {
+		helloWorld: string
+	}
+}
+
 export default class ReceivingEventsTest extends AbstractEventPluginTest {
 	@test()
 	protected static async bootEventsForUnregisteredSkillGetProperEventArg() {
@@ -51,6 +57,7 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 		let didHit = false
 		let didHitForced = false
 		process.env.SKILL_ID = skill.id
+		process.env.SKILL_API_KEY = skill.apiKey
 
 		const runningSkill = this.Skill()
 		void runningSkill.registerFeature('test', {
@@ -116,7 +123,38 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 		)
 	}
 
+	@test()
+	protected static async sendsSkillContextToListeners() {
+		const { client1, fqen, skill } = await this.setupTwoSkillsAndBoot(
+			'registered-skill-with-context-checks'
+		)
+
+		skill.updateContext('helloWorld', 'yes please')
+
+		const results = await client1.emit(fqen, {
+			payload: {
+				foo: 'bar',
+				bar: 'foo',
+			},
+		})
+
+		const { taco } = eventResponseUtil.getFirstResponseOrThrow(results)
+
+		assert.isEqual(taco, 'yes please')
+	}
+
 	private static async setupTwoSkillsRegisterEventsAndEmit(dirName: string) {
+		const { client1, fqen } = await this.setupTwoSkillsAndBoot(dirName)
+		const results = await client1.emit(fqen, {
+			payload: {
+				foo: 'bar',
+				bar: 'foo',
+			},
+		})
+		return results
+	}
+
+	private static async setupTwoSkillsAndBoot(dirName: string) {
 		this.cwd = await this.setupSkillDir(dirName)
 
 		const skills = this.Fixture('skill')
@@ -140,15 +178,9 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 		process.env.SKILL_API_KEY = skill2.apiKey
 		process.env.SKILL_ID = skill2.id
 
-		await this.bootSkill()
+		const skill = await this.bootSkill()
 
-		const results = await client1.emit(fqen, {
-			payload: {
-				foo: 'bar',
-				bar: 'foo',
-			},
-		})
-		return results
+		return { fqen, skill, client1 }
 	}
 
 	private static setupListeners(skill: any) {

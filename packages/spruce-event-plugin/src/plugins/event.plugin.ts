@@ -44,6 +44,12 @@ type MercuryClient<
 	}>
 }
 
+declare module '@sprucelabs/spruce-skill-utils/build/types/skill.types' {
+	interface SkillContext {
+		mercury: MercuryClient
+	}
+}
+
 export class EventFeaturePlugin implements SkillFeature {
 	private skill: Skill
 	private listenersPath: string
@@ -87,13 +93,14 @@ export class EventFeaturePlugin implements SkillFeature {
 
 	public async execute() {
 		this.isExecuting = true
+		let re: any
+		let rej: any
+		this.willBootPromise = new Promise((resolve, reject) => {
+			re = resolve
+			rej = reject
+		})
 
 		try {
-			let r: any
-			this.willBootPromise = new Promise((resolve) => {
-				r = resolve
-			})
-
 			await this.loadLocal()
 
 			const willBoot = this.getListener('skill', 'will-boot')
@@ -105,7 +112,7 @@ export class EventFeaturePlugin implements SkillFeature {
 				await willBoot(event)
 			}
 
-			r()
+			re()
 
 			await this.loadEvents()
 
@@ -123,6 +130,10 @@ export class EventFeaturePlugin implements SkillFeature {
 				this.log.info('Connection to Mercury successful. Waiting for events.')
 				this.isExecuting = false
 				this._isBooted = true
+
+				const { client } = await this.apiClientPromise
+				this.skill.updateContext('mercury', client)
+
 				await new Promise((resolve) => {
 					this.executeResolve = resolve
 				})
@@ -134,6 +145,7 @@ export class EventFeaturePlugin implements SkillFeature {
 				this.isExecuting = false
 			}
 		} catch (err) {
+			rej(err)
 			this._isBooted = false
 			this.isExecuting = false
 
@@ -156,9 +168,10 @@ export class EventFeaturePlugin implements SkillFeature {
 		return {
 			skill: this.skill,
 			log: this.log.buildLog(eventName),
-			apiClient,
 			targetAndPayload,
-		}
+			...this.skill.getContext(),
+			mercury: apiClient,
+		} as any
 	}
 
 	public async checkHealth() {

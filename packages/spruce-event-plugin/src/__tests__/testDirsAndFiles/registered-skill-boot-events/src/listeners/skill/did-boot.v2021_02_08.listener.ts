@@ -6,6 +6,6 @@ import { assert } from '@sprucelabs/test'
 
 export default async (event: SpruceEvent): SpruceEventResponse => {
 	//@ts-ignore
-	assert.isTruthy(event.apiClient)
+	assert.isTruthy(event.mercury)
 	return
 }

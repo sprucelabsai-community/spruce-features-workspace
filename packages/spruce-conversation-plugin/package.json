@@ -3,7 +3,7 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "1.13.2",
+	"version": "1.14.20",
 	"files": [
 		"build/**/*",
 		"tsconfig.json"
@@ -44,17 +44,18 @@
 		"watch.rebuild": "yarn clean.all && yarn && yarn watch.build.dev"
 	},
 	"dependencies": {
-		"@nlpjs/nlu": "^4.21.3",
+		"@nlpjs/nlu": "^4.22.0",
 		"@sprucelabs/error": "latest",
 		"@sprucelabs/schema": "latest",
 		"@sprucelabs/spruce-core-schemas": "latest",
-		"@sprucelabs/spruce-event-plugin": "^1.13.2",
+		"@sprucelabs/spruce-event-plugin": "^1.14.20",
 		"@sprucelabs/spruce-event-utils": "latest",
 		"@sprucelabs/spruce-skill-utils": "latest",
+		"@sprucelabs/spruce-test-fixtures": "^1.14.20",
 		"fuzzyset": "^1.0.6",
-		"globby": "^11.0.2",
+		"globby": "^11.0.3",
 		"inquirer": "^8.0.0",
-		"node-nlp": "^4.21.3",
+		"node-nlp": "^4.22.1",
 		"random": "^3.0.3"
 	},
 	"devDependencies": {
@@ -64,22 +65,21 @@
 		"@sprucelabs/mercury-client": "latest",
 		"@sprucelabs/mercury-types": "latest",
 		"@sprucelabs/semantic-release": "latest",
-		"@sprucelabs/spruce-test-fixtures": "^1.13.2",
 		"@sprucelabs/test": "latest",
 		"@sprucelabs/test-utils": "latest",
 		"@types/fuzzyset": "^1.0.2",
 		"@types/inquirer": "^7.3.1",
-		"@types/node": "^14.14.31",
+		"@types/node": "^14.14.37",
 		"chokidar-cli": "^2.1.0",
 		"concurrently": "^6.0.0",
 		"conventional-changelog-sprucelabs": "latest",
-		"eslint": "^7.21.0",
+		"eslint": "^7.23.0",
 		"eslint-config-spruce": "latest",
 		"jest": "^26.6.3",
 		"jest-circus": "^26.6.3",
 		"prettier": "^2.2.1",
 		"ts-node": "^9.1.1",
-		"typescript": "^4.2.2",
+		"typescript": "^4.2.3",
 		"yarn-upgrade-all": "^0.5.4"
 	},
 	"jest": {

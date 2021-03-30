@@ -1,5 +1,6 @@
 import inquirer from 'inquirer'
 import { TopicScriptPlayer } from '../conversations/TopicScriptPlayer'
+import { TopicSuggester } from '../conversations/TopicSuggester'
 import SpruceError from '../errors/SpruceError'
 import TestGraphicsInterface, {
 	PromptHandler,
@@ -11,7 +12,7 @@ type WriteHandler = (message: Pick<Message, 'body' | 'choices'>) => void
 type SelectHandler = (
 	message: Pick<Message, 'body' | 'choices'>
 ) => Promise<string>
-type SimplifiedTopic = Omit<LoadedTopicDefinition, 'utterances'>
+type SimplifiedTopic = LoadedTopicDefinition
 
 const inquirerSelectPromptHandler: SelectHandler = async (message) => {
 	const answer = await inquirer.prompt({
@@ -44,6 +45,7 @@ export default class ScriptTester {
 	private promptHandler: PromptHandler
 	private lineDelay?: number
 	private shouldPlayReplayAfterFinish: boolean
+	private suggester?: TopicSuggester
 
 	private constructor(
 		topics: SimplifiedTopic[],
@@ -94,6 +96,8 @@ export default class ScriptTester {
 			})
 		}
 
+		await this.reportOnConfidence(msg)
+
 		// eslint-disable-next-line no-constant-condition
 		while (true) {
 			const response = await this.handleInput(msg)
@@ -116,6 +120,26 @@ export default class ScriptTester {
 			}
 
 			await this.promptHandler({ body: 'Enter to start again.' })
+		}
+	}
+	private async reportOnConfidence(msg: string) {
+		if (!this.suggester) {
+			this.suggester = await TopicSuggester.Suggester({ topics: this.topics })
+		}
+
+		const suggestions = await this.suggester.suggest(msg)
+
+		if (suggestions.length > 0) {
+			this.writeHandler({ body: '\n\nMy confidence for each topic:' })
+			for (const suggestion of suggestions) {
+				this.writeHandler({
+					body: `\t${suggestion.key}: ${Math.round(
+						suggestion.confidence * 100
+					)}%`,
+				})
+			}
+
+			this.writeHandler({ body: '\n\n' })
 		}
 	}
 

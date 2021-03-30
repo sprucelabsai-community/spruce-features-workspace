@@ -17,18 +17,4 @@ export default abstract class AbstractStoreTest extends AbstractSpruceFixtureTes
 			...options,
 		})
 	}
-
-	protected static SkillFromTestDir(key: string) {
-		this.cwd = this.resolvePath(
-			__dirname,
-			'..',
-			'__tests__',
-			'/testDirsAndFiles/',
-			key
-		)
-
-		const skill = this.Skill()
-
-		return skill
-	}
 }

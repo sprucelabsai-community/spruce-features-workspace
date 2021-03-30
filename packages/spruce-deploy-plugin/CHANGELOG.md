@@ -3,6 +3,174 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.14.20](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.14.19...v1.14.20) (2021-03-27)
+
+**Note:** Version bump only for package @sprucelabs/spruce-deploy-plugin
+
+
+
+
+
+## [1.14.19](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.14.18...v1.14.19) (2021-03-26)
+
+**Note:** Version bump only for package @sprucelabs/spruce-deploy-plugin
+
+
+
+
+
+## [1.14.18](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.14.17...v1.14.18) (2021-03-26)
+
+**Note:** Version bump only for package @sprucelabs/spruce-deploy-plugin
+
+
+
+
+
+## [1.14.17](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.14.16...v1.14.17) (2021-03-25)
+
+**Note:** Version bump only for package @sprucelabs/spruce-deploy-plugin
+
+
+
+
+
+## [1.14.16](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.14.15...v1.14.16) (2021-03-25)
+
+**Note:** Version bump only for package @sprucelabs/spruce-deploy-plugin
+
+
+
+
+
+## [1.14.15](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.14.14...v1.14.15) (2021-03-25)
+
+**Note:** Version bump only for package @sprucelabs/spruce-deploy-plugin
+
+
+
+
+
+## [1.14.14](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.14.13...v1.14.14) (2021-03-22)
+
+**Note:** Version bump only for package @sprucelabs/spruce-deploy-plugin
+
+
+
+
+
+## [1.14.13](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.14.12...v1.14.13) (2021-03-22)
+
+**Note:** Version bump only for package @sprucelabs/spruce-deploy-plugin
+
+
+
+
+
+## [1.14.12](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.14.11...v1.14.12) (2021-03-22)
+
+**Note:** Version bump only for package @sprucelabs/spruce-deploy-plugin
+
+
+
+
+
+## [1.14.11](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.14.10...v1.14.11) (2021-03-22)
+
+**Note:** Version bump only for package @sprucelabs/spruce-deploy-plugin
+
+
+
+
+
+## [1.14.10](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.14.9...v1.14.10) (2021-03-22)
+
+**Note:** Version bump only for package @sprucelabs/spruce-deploy-plugin
+
+
+
+
+
+## [1.14.9](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.14.8...v1.14.9) (2021-03-15)
+
+**Note:** Version bump only for package @sprucelabs/spruce-deploy-plugin
+
+
+
+
+
+## [1.14.8](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.14.7...v1.14.8) (2021-03-15)
+
+**Note:** Version bump only for package @sprucelabs/spruce-deploy-plugin
+
+
+
+
+
+## [1.14.7](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.14.6...v1.14.7) (2021-03-12)
+
+**Note:** Version bump only for package @sprucelabs/spruce-deploy-plugin
+
+
+
+
+
+## [1.14.6](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.14.5...v1.14.6) (2021-03-12)
+
+**Note:** Version bump only for package @sprucelabs/spruce-deploy-plugin
+
+
+
+
+
+## [1.14.5](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.14.4...v1.14.5) (2021-03-12)
+
+**Note:** Version bump only for package @sprucelabs/spruce-deploy-plugin
+
+
+
+
+
+## [1.14.4](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.14.3...v1.14.4) (2021-03-09)
+
+**Note:** Version bump only for package @sprucelabs/spruce-deploy-plugin
+
+
+
+
+
+## [1.14.3](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.14.2...v1.14.3) (2021-03-07)
+
+**Note:** Version bump only for package @sprucelabs/spruce-deploy-plugin
+
+
+
+
+
+## [1.14.2](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.14.1...v1.14.2) (2021-03-07)
+
+**Note:** Version bump only for package @sprucelabs/spruce-deploy-plugin
+
+
+
+
+
+## [1.14.1](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.14.0...v1.14.1) (2021-03-05)
+
+**Note:** Version bump only for package @sprucelabs/spruce-deploy-plugin
+
+
+
+
+
+# [1.14.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.13.2...v1.14.0) (2021-03-05)
+
+**Note:** Version bump only for package @sprucelabs/spruce-deploy-plugin
+
+
+
+
+
 ## [1.13.2](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.13.1...v1.13.2) (2021-03-04)
 
 **Note:** Version bump only for package @sprucelabs/spruce-deploy-plugin
