@@ -31,7 +31,7 @@
 	"devDependencies": {
 		"@sprucelabs/babel-plugin-schema": "latest",
 		"conventional-changelog-sprucelabs": "latest",
-		"eslint": "^7.21.0",
+		"eslint": "^7.23.0",
 		"eslint-config-spruce": "latest",
 		"lerna": "^4.0.0",
 		"prettier": "^2.2.0",
