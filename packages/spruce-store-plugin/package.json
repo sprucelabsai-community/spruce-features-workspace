@@ -6,6 +6,8 @@
 	"version": "1.15.1",
 	"files": [
 		"build/**/*",
+		"!build/__tests__",
+		"!build/esm/__tests__",
 		"tsconfig.json"
 	],
 	"main": "./build/index.js",
