@@ -99,7 +99,7 @@ export default class LoadingStoresOnBootTest extends AbstractStoreTest {
 		const factory = stores.getFactory()
 
 		//@ts-ignore
-		const store = await factory.Store('good')
+		const store = (await factory.Store('good')) as any
 		assert.isTruthy(store)
 		assert.isTrue(store instanceof OneGoodStore)
 	}
@@ -113,9 +113,5 @@ export default class LoadingStoresOnBootTest extends AbstractStoreTest {
 			'/testDirsAndFiles/',
 			key
 		)
-
-		const skill = super.Skill()
-
-		return skill
 	}
 }

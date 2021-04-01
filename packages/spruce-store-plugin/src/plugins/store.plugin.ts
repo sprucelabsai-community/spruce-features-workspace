@@ -13,6 +13,7 @@ import {
 } from '@sprucelabs/spruce-skill-utils'
 import globby from 'globby'
 import SpruceError from '../errors/SpruceError'
+import { StoreLoader } from '../loaders/StoreLoader'
 import { StoreHealthCheckItem } from '../types/store.types'
 
 declare module '@sprucelabs/spruce-skill-utils/build/types/skill.types' {
@@ -35,24 +36,17 @@ export class StoreFeaturePlugin implements SkillFeature {
 	}
 
 	public async execute(): Promise<void> {
-		const [db, { stores, errors }] = await Promise.all([
-			this.connectToDatabase(),
-			this.loadStores(),
-		])
+		const { errors, factory } = await this.loadStores()
 
 		if (errors.length > 0) {
 			throw errors[0]
 		}
 
-		this.storeFactory = StoreFactory.Factory(db)
-
-		for (const store of stores) {
-			//@ts-ignore
-			this.storeFactory.setStore(namesUtil.toCamel(store.name), store.Class)
-		}
+		this.storeFactory = factory
 
 		this.skill.updateContext('storeFactory', this.storeFactory)
 	}
+
 	public async connectToDatabase() {
 		if (!this.db) {
 			const missing: string[] = []
@@ -97,43 +91,33 @@ export class StoreFeaturePlugin implements SkillFeature {
 	}
 
 	public async loadStores() {
-		const matches = await globby(
-			`${this.skill.activeDir}/stores/**/*.store.[j|t]s`
-		)
+		const db = await this.connectToDatabase()
+		const loader = await StoreLoader.Loader(`${this.skill.activeDir}`, db)
 
+		const { factory, errors } = await loader.loadStoresAndErrors()
 		const results: StoreHealthCheckItem['stores'] = []
-		const errors: AbstractSpruceError<any>[] = []
+		const loadedStoreNames = factory.getStoreNames()
 
-		for (const match of matches) {
-			const namePascal =
-				match.split(pathUtil.sep).pop()?.split('.store').shift() ?? 'MISSING'
-
-			try {
-				const Class = require(match).default
-
-				results.push({
-					name: namePascal,
-					status: 'passed',
-					//@ts-ignore
-					Class,
-				})
-			} catch (err) {
-				const spruceError = new SpruceError({
-					code: 'FAILED_TO_LOAD_STORE',
-					originalError: err,
-					name: namePascal,
-				})
-
-				results.push({
-					name: namePascal,
-					status: 'failed',
-					errors: [spruceError],
-				})
-				errors.push(spruceError)
-			}
+		for (const name of loadedStoreNames) {
+			results.push({
+				name: namesUtil.toPascal(name),
+				status: 'passed',
+			})
 		}
 
-		return { stores: results, errors }
+		for (const err of errors) {
+			results.push({
+				name: err.options.name,
+				status: 'failed',
+				errors: [err],
+			})
+		}
+
+		results.sort((a, b) => {
+			return a.name > b.name ? 1 : -1
+		})
+
+		return { stores: results, errors, factory }
 	}
 
 	public async isInstalled() {
