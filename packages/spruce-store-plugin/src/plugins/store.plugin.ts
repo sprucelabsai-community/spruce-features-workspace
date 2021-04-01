@@ -1,17 +1,14 @@
-import pathUtil from 'path'
 import {
 	Database,
 	DatabaseFactory,
 	StoreFactory,
 } from '@sprucelabs/data-stores'
-import AbstractSpruceError from '@sprucelabs/error'
 import {
 	SkillFeature,
 	Skill,
 	SettingsService,
 	namesUtil,
 } from '@sprucelabs/spruce-skill-utils'
-import globby from 'globby'
 import SpruceError from '../errors/SpruceError'
 import { StoreLoader } from '../loaders/StoreLoader'
 import { StoreHealthCheckItem } from '../types/store.types'
