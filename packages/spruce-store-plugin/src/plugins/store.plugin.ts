@@ -2,6 +2,7 @@ import {
 	Database,
 	DatabaseFactory,
 	StoreFactory,
+	StoreLoader,
 } from '@sprucelabs/data-stores'
 import {
 	SkillFeature,
@@ -10,7 +11,6 @@ import {
 	namesUtil,
 } from '@sprucelabs/spruce-skill-utils'
 import SpruceError from '../errors/SpruceError'
-import { StoreLoader } from '../loaders/StoreLoader'
 import { StoreHealthCheckItem } from '../types/store.types'
 
 declare module '@sprucelabs/spruce-skill-utils/build/types/skill.types' {
