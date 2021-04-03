@@ -3,9 +3,11 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "1.15.0",
+	"version": "1.15.2",
 	"files": [
 		"build/**/*",
+		"!build/__tests__",
+		"!build/esm/__tests__",
 		"tsconfig.json"
 	],
 	"main": "./build/index.js",
