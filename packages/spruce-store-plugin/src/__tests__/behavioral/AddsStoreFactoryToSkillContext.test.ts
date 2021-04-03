@@ -1,4 +1,4 @@
-import { StoreFactory } from '@sprucelabs/data-stores'
+import { Database, StoreFactory } from '@sprucelabs/data-stores'
 import { test, assert } from '@sprucelabs/test'
 import AbstractStoreTest from '../../tests/AbstractStoreTest'
 
@@ -8,6 +8,7 @@ export default class AddsStoreFactoryToSkillContextTest extends AbstractStoreTes
 		const context = await this.bootAndGetContext()
 
 		assert.isTruthy(context.storeFactory)
+		assert.isTruthy(context.database)
 	}
 
 	private static async bootAndGetContext() {
@@ -27,5 +28,6 @@ export default class AddsStoreFactoryToSkillContextTest extends AbstractStoreTes
 		type Context = typeof context
 
 		assert.isExactType<Context['storeFactory'], StoreFactory>(true)
+		assert.isExactType<Context['database'], Database>(true)
 	}
 }

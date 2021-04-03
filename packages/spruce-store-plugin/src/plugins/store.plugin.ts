@@ -16,6 +16,7 @@ import { StoreHealthCheckItem } from '../types/store.types'
 declare module '@sprucelabs/spruce-skill-utils/build/types/skill.types' {
 	interface SkillContext {
 		storeFactory: StoreFactory
+		database: Database
 	}
 }
 
@@ -33,7 +34,7 @@ export class StoreFeaturePlugin implements SkillFeature {
 	}
 
 	public async execute(): Promise<void> {
-		const { errors, factory } = await this.loadStores()
+		const { errors, factory, db } = await this.loadStores()
 
 		if (errors.length > 0) {
 			throw errors[0]
@@ -42,6 +43,7 @@ export class StoreFeaturePlugin implements SkillFeature {
 		this.storeFactory = factory
 
 		this.skill.updateContext('storeFactory', this.storeFactory)
+		this.skill.updateContext('database', db)
 	}
 
 	public async connectToDatabase() {
@@ -114,7 +116,7 @@ export class StoreFeaturePlugin implements SkillFeature {
 			return a.name > b.name ? 1 : -1
 		})
 
-		return { stores: results, errors, factory }
+		return { stores: results, errors, factory, db }
 	}
 
 	public async isInstalled() {
