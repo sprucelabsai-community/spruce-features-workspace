@@ -69,6 +69,7 @@ export class EventFeaturePlugin implements SkillFeature {
 	private executeResolve?: any
 	private static shouldPassEventContractsToMercury = true
 	private willBootPromise?: Promise<unknown>
+	private executeReject?: (reason?: any) => void
 
 	public static shouldClientUseEventContracts(should: boolean) {
 		this.shouldPassEventContractsToMercury = should
@@ -118,20 +119,22 @@ export class EventFeaturePlugin implements SkillFeature {
 
 			await Promise.all([this.reRegisterListeners(), this.reRegisterEvents()])
 
-			if (didBoot) {
-				void this.queueDidBoot(didBoot)
-			}
-
 			if (this.apiClientPromise) {
 				this.log.info('Connection to Mercury successful. Waiting for events.')
-				this.isExecuting = false
-				this._isBooted = true
 
 				const { client } = await this.apiClientPromise
 				this.skill.updateContext('mercury', client)
 
-				await new Promise((resolve) => {
+				await new Promise((resolve, reject) => {
 					this.executeResolve = resolve
+					this.executeReject = reject
+
+					this.isExecuting = false
+					this._isBooted = true
+
+					if (didBoot) {
+						void this.queueDidBoot(didBoot)
+					}
 				})
 			} else {
 				this.log.info(
@@ -139,6 +142,10 @@ export class EventFeaturePlugin implements SkillFeature {
 				)
 				this._isBooted = true
 				this.isExecuting = false
+
+				if (didBoot) {
+					await this.queueDidBoot(didBoot)
+				}
 			}
 		} catch (err) {
 			rej(err)
@@ -150,15 +157,22 @@ export class EventFeaturePlugin implements SkillFeature {
 	}
 
 	private async queueDidBoot(didBoot: (event: SpruceEvent) => Promise<void>) {
-		do {
-			await new Promise((r) => setTimeout(r, 100))
-		} while (!this.skill.isBooted())
+		try {
+			do {
+				await new Promise((r) => setTimeout(r, 100))
+			} while (!this.skill.isBooted())
 
-		this.log.info(`Emitting skill.didBoot internally.`)
+			this.log.info(`Emitting skill.didBoot internally.`)
 
-		const event = await this.buildSpruceEvent('did-boot')
+			const event = await this.buildSpruceEvent('did-boot')
 
-		await didBoot(event)
+			await didBoot(event)
+		} catch (err) {
+			if (!this.executeReject) {
+				throw err
+			}
+			this.executeReject?.(err)
+		}
 	}
 
 	private async buildSpruceEvent(

@@ -135,6 +135,18 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 	}
 
 	@test()
+	protected static async didBootErrorErrorsGetPassedBack() {
+		await this.setupTwoSkillsAndBoot(
+			'registered-skill-throw-in-will-boot-listener'
+		)
+
+		assert.isTruthy(this.skillBootError)
+		assert.doesInclude(this.skillBootError.message, 'what the')
+
+		this.clearSkillBootErrors()
+	}
+
+	@test()
 	protected static async sendsSkillContextToListeners() {
 		const { client1, fqen, skill, skill2 } = await this.setupTwoSkillsAndBoot(
 			'registered-skill-with-context-checks'

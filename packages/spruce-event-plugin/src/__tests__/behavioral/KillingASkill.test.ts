@@ -21,7 +21,7 @@ export default class KillingTheSkillTest extends AbstractEventPluginTest {
 
 	@test()
 	protected static async bootEventCrashingSkillCausesConnectToApiToThrow() {
-		this.cwd = this.resolveTestPath('registered-skill-will-boot-throws')
+		this.cwd = this.resolveTestPath('skill-will-boot-throws')
 		const skill = this.Skill()
 
 		void skill.execute().catch((err: any) => {
