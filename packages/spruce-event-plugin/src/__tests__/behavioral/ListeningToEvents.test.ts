@@ -1,4 +1,7 @@
-import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
+import {
+	buildEmitTargetAndPayloadSchema,
+	eventResponseUtil,
+} from '@sprucelabs/spruce-event-utils'
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 import { assert, test } from '@sprucelabs/test'
 import { EventFeature } from '../..'
@@ -68,7 +71,7 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 			},
 			checkHealth: async () => ({ status: 'passed' }),
 			isInstalled: async () => true,
-			isBooted: () => false,
+			isBooted: () => didHit,
 			destroy: async () => {},
 		})
 
@@ -80,7 +83,7 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 			},
 			checkHealth: async () => ({ status: 'passed' }),
 			isInstalled: async () => true,
-			isBooted: () => false,
+			isBooted: () => didHitForced,
 			destroy: async () => {},
 		})
 
@@ -91,15 +94,23 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 		assert.isFalse(didHit)
 		assert.isTrue(didHitForced)
 
-		await this.wait(6000)
+		do {
+			await this.wait(1000)
+		} while (!didHit)
 
 		assert.isTrue(didHit)
+
+		do {
+			await this.wait(1000)
+		} while (!runningSkill.isBooted())
 	}
 
 	@test()
-	protected static async eventsGetProperPayloads() {
-		const dirName = 'registered-skill'
-		const results = await this.setupTwoSkillsRegisterEventsAndEmit(dirName)
+	protected static async eventsGetProperContext() {
+		//assertions in my-cool-event listener
+		const results = await this.setupTwoSkillsRegisterEventsAndEmit(
+			'registered-skill'
+		)
 
 		const {
 			payloads,
@@ -125,13 +136,16 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 
 	@test()
 	protected static async sendsSkillContextToListeners() {
-		const { client1, fqen, skill } = await this.setupTwoSkillsAndBoot(
+		const { client1, fqen, skill, skill2 } = await this.setupTwoSkillsAndBoot(
 			'registered-skill-with-context-checks'
 		)
 
 		skill.updateContext('helloWorld', 'yes please')
 
 		const results = await client1.emit(fqen, {
+			target: {
+				skillId: skill2.id,
+			},
 			payload: {
 				foo: 'bar',
 				bar: 'foo',
@@ -145,7 +159,11 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 
 	private static async setupTwoSkillsRegisterEventsAndEmit(dirName: string) {
 		const { client1, fqen } = await this.setupTwoSkillsAndBoot(dirName)
+
 		const results = await client1.emit(fqen, {
+			target: {
+				organizationId: '1234',
+			},
 			payload: {
 				foo: 'bar',
 				bar: 'foo',
@@ -180,7 +198,7 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 
 		const skill = await this.bootSkill()
 
-		return { fqen, skill, client1 }
+		return { fqen, skill, client1, skill2 }
 	}
 
 	private static setupListeners(skill: any) {
@@ -214,27 +232,20 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 		return {
 			eventSignatures: {
 				[eventName]: {
-					emitPayloadSchema: {
-						id: 'targetAndPayload',
-						fields: {
-							payload: {
-								type: 'schema',
-								options: {
-									schema: {
-										id: 'emitPayload',
-										fields: {
-											foo: {
-												type: 'text',
-											},
-											bar: {
-												type: 'text',
-											},
-										},
-									},
+					emitPayloadSchema: buildEmitTargetAndPayloadSchema({
+						eventName,
+						emitPayloadSchema: {
+							id: 'emitPayload',
+							fields: {
+								foo: {
+									type: 'text',
+								},
+								bar: {
+									type: 'text',
 								},
 							},
 						},
-					},
+					}),
 					responsePayloadSchema: {
 						id: 'responsePayload',
 						fields: {

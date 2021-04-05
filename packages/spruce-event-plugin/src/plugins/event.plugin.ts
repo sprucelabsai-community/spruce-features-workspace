@@ -161,14 +161,13 @@ export class EventFeaturePlugin implements SkillFeature {
 
 		if (this.apiClientPromise) {
 			const { client } = await this.apiClientPromise
-
 			apiClient = client
 		}
 
 		return {
 			skill: this.skill,
 			log: this.log.buildLog(eventName),
-			targetAndPayload,
+			...targetAndPayload,
 			...this.skill.getContext(),
 			mercury: apiClient,
 		} as any
