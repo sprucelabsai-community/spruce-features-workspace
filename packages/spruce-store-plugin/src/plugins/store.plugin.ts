@@ -26,6 +26,7 @@ export class StoreFeaturePlugin implements SkillFeature {
 	private dbName?: string
 	private db?: Promise<Database>
 	private storeFactory!: StoreFactory
+	private isExecuting = false
 
 	public constructor(skill: Skill) {
 		this.skill = skill
@@ -34,16 +35,21 @@ export class StoreFeaturePlugin implements SkillFeature {
 	}
 
 	public async execute(): Promise<void> {
-		const { errors, factory, db } = await this.loadStores()
+		this.isExecuting = true
+		try {
+			const { errors, factory, db } = await this.loadStores()
 
-		if (errors.length > 0) {
-			throw errors[0]
+			if (errors.length > 0) {
+				throw errors[0]
+			}
+
+			this.storeFactory = factory
+
+			this.skill.updateContext('storeFactory', this.storeFactory)
+			this.skill.updateContext('database', db)
+		} finally {
+			this.isExecuting = false
 		}
-
-		this.storeFactory = factory
-
-		this.skill.updateContext('storeFactory', this.storeFactory)
-		this.skill.updateContext('database', db)
 	}
 
 	public async connectToDatabase() {
@@ -126,10 +132,19 @@ export class StoreFeaturePlugin implements SkillFeature {
 		return isInstalled
 	}
 
-	public async destroy(): Promise<void> {}
+	public async destroy(): Promise<void> {
+		do {
+			await new Promise((resolve) => setTimeout(resolve, 100))
+		} while (this.isExecuting)
+
+		if (this.db) {
+			const db = await this.db
+			await db.close()
+		}
+	}
 
 	public isBooted(): boolean {
-		return true
+		return !this.isExecuting
 	}
 
 	public getFactory() {

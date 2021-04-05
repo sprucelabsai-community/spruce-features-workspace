@@ -86,6 +86,8 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
 		do {
 			await this.wait(100)
 		} while (!skill.isBooted() && skill.isRunning())
+
+		await this.wait(100)
 	}
 
 	protected static SkillFromTestDir(key: string) {
