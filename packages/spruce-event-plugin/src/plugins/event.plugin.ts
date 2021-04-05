@@ -119,11 +119,7 @@ export class EventFeaturePlugin implements SkillFeature {
 			await Promise.all([this.reRegisterListeners(), this.reRegisterEvents()])
 
 			if (didBoot) {
-				this.log.info(`Emitting skill.didBoot internally.`)
-
-				const event = await this.buildSpruceEvent('did-boot')
-
-				await didBoot(event)
+				void this.queueDidBoot(didBoot)
 			}
 
 			if (this.apiClientPromise) {
@@ -151,6 +147,18 @@ export class EventFeaturePlugin implements SkillFeature {
 
 			throw err
 		}
+	}
+
+	private async queueDidBoot(didBoot: (event: SpruceEvent) => Promise<void>) {
+		do {
+			await new Promise((r) => setTimeout(r, 100))
+		} while (!this.skill.isBooted())
+
+		this.log.info(`Emitting skill.didBoot internally.`)
+
+		const event = await this.buildSpruceEvent('did-boot')
+
+		await didBoot(event)
 	}
 
 	private async buildSpruceEvent(
