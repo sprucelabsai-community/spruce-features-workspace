@@ -6,7 +6,7 @@ export default abstract class AbstractStoreTest extends AbstractSpruceFixtureTes
 	protected static async beforeEach() {
 		await super.beforeEach()
 		process.env.DB_CONNECTION_STRING = 'memory://'
-		process.env.DB_NAME = 'mercury '
+		process.env.DB_NAME = 'mercury'
 	}
 
 	protected static Skill(options?: SkillFactoryOptions) {

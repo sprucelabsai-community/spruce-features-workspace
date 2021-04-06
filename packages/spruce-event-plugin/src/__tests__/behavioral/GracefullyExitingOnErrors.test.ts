@@ -18,4 +18,22 @@ export default class GracefullyExitingOnErrorsTest extends AbstractEventPluginTe
 		errorAssertUtil.assertError(this.skillBootError, 'MERCURY_RESPONSE_ERROR')
 		this.clearSkillBootErrors()
 	}
+
+	@test()
+	protected static async skillIsKilledDifferentFeatureCrash() {
+		const skill = this.SkillFromTestDir('registered-skill-boot-events')
+
+		void skill.registerFeature('test', {
+			execute: async () => {
+				await new Promise((r) => setTimeout(r, 1000))
+				throw new Error('crash!')
+			},
+			checkHealth: async () => ({ status: 'passed' }),
+			isInstalled: async () => true,
+			isBooted: () => false,
+			destroy: async () => {},
+		})
+
+		await assert.doesThrowAsync(() => skill.execute())
+	}
 }
