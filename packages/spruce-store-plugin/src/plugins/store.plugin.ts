@@ -20,6 +20,10 @@ declare module '@sprucelabs/spruce-skill-utils/build/types/skill.types' {
 	}
 }
 
+interface DbConnectionOptions {
+	dbConnectionString?: string
+	dbName?: string
+}
 export class StoreFeaturePlugin implements SkillFeature {
 	private skill: Skill
 	private dbConnectionString?: string
@@ -52,40 +56,23 @@ export class StoreFeaturePlugin implements SkillFeature {
 		}
 	}
 
-	public async connectToDatabase() {
-		if (!this.db) {
-			const missing: string[] = []
-			if (!this.dbName) {
-				missing.push('env.DB_NAME')
-			}
-
-			if (!this.dbConnectionString) {
-				missing.push('env.DB_CONNECTION_STRING')
-			}
-
-			if (missing.length > 0) {
-				throw new SpruceError({
-					code: 'MISSING_PARAMETERS',
-					parameters: missing,
-				})
-			}
-			const database = DatabaseFactory.Database({
-				dbName: this.dbName as string,
-				dbConnectionString: this.dbConnectionString as string,
-			})
-
-			this.db = database.connect().then(() => database)
-		}
-
-		return this.db
-	}
-
 	public async checkHealth(): Promise<StoreHealthCheckItem> {
-		const { stores, errors } = await this.loadStores()
+		let isConnected = false
+
+		try {
+			await this.connectToDatabase()
+			isConnected = true
+			// eslint-disable-next-line no-empty
+		} catch {}
+
+		const { stores, errors } = await this.loadStores({
+			dbConnectionString: 'memory://',
+		})
 
 		const checkItem: StoreHealthCheckItem = {
 			status: 'passed',
 			stores,
+			isConnected,
 		}
 
 		if (errors.length > 0) {
@@ -95,8 +82,41 @@ export class StoreFeaturePlugin implements SkillFeature {
 		return checkItem
 	}
 
-	public async loadStores() {
-		const db = await this.connectToDatabase()
+	public async connectToDatabase(options?: DbConnectionOptions) {
+		if (!this.db) {
+			const dbName = options?.dbName ?? this.dbName
+			const dbConnectionString =
+				options?.dbConnectionString ?? this.dbConnectionString
+
+			const missing: string[] = []
+			if (dbConnectionString !== 'memory://' && !dbName) {
+				missing.push('env.DB_NAME')
+			}
+
+			if (!dbConnectionString) {
+				missing.push('env.DB_CONNECTION_STRING')
+			}
+
+			if (missing.length > 0) {
+				throw new SpruceError({
+					code: 'MISSING_PARAMETERS',
+					parameters: missing,
+				})
+			}
+
+			const database = DatabaseFactory.Database({
+				dbName: dbName as string,
+				dbConnectionString: dbConnectionString as string,
+			})
+
+			this.db = database.connect().then(() => database)
+		}
+
+		return this.db
+	}
+
+	public async loadStores(options?: DbConnectionOptions) {
+		const db = await this.connectToDatabase(options)
 		const loader = await StoreLoader.Loader(`${this.skill.activeDir}`, db)
 
 		const { factory, errors } = await loader.loadStoresAndErrors()

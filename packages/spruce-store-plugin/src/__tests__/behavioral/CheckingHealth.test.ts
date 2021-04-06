@@ -4,11 +4,21 @@ import AbstractStoreTest from '../../tests/AbstractStoreTest'
 
 //@ts-ignore
 export default class StoreFeaturePluginTest extends AbstractStoreTest {
-	@test()
-	protected static async cleanHealthCheckToStart() {
+	protected static async beforeEach() {
+		await super.beforeEach()
+		//@ts-ignore
+		jest.resetModules()
+	}
+
+	@test('clean health with env', true)
+	@test('clean health without env', false)
+	protected static async cleanHealthCheckToStart(shouldSetEnv: boolean) {
+		this.setEnv(shouldSetEnv)
+
 		const health = await this.checkHealth('empty-skill')
 
 		assert.isTruthy(health.store)
+		assert.isEqual(health.store.isConnected, shouldSetEnv)
 		assert.isLength(health.store.stores, 0)
 	}
 
@@ -19,8 +29,11 @@ export default class StoreFeaturePluginTest extends AbstractStoreTest {
 		return health
 	}
 
-	@test()
-	protected static async returnsAnErrorWithBadStore() {
+	@test('returns error with bad store with env', true)
+	@test('returns error with bad store without env', false)
+	protected static async returnsAnErrorWithBadStore(shouldSetEnv: boolean) {
+		this.setEnv(shouldSetEnv)
+
 		const health = await this.checkHealth('one-bad-store-skill')
 
 		assert.isTruthy(health.store)
@@ -47,8 +60,11 @@ export default class StoreFeaturePluginTest extends AbstractStoreTest {
 		)
 	}
 
-	@test()
-	protected static async getsGoodStore() {
+	@test('gets good store with env', true)
+	@test('gets good store without env', false)
+	protected static async getsGoodStore(shouldSetEnv: boolean) {
+		this.setEnv(shouldSetEnv)
+
 		const health = await this.checkHealth('one-good-store-skill')
 
 		assert.isTruthy(health.store)
@@ -56,8 +72,11 @@ export default class StoreFeaturePluginTest extends AbstractStoreTest {
 		assert.isEqual(health.store.stores[0].name, 'Good')
 	}
 
-	@test()
-	protected static async getsOneGoodOneBadStore() {
+	@test('gets one good and one bad store with env', true)
+	@test('gets one good and one bad store without env', false)
+	protected static async getsOneGoodOneBadStore(shouldSetEnv: boolean) {
+		this.setEnv(shouldSetEnv)
+
 		const health = await this.checkHealth('one-good-one-bad-store-skill')
 
 		assert.isTruthy(health.store)
@@ -71,5 +90,12 @@ export default class StoreFeaturePluginTest extends AbstractStoreTest {
 			}
 		)
 		assert.isEqual(health.store.stores[1].name, 'Good')
+	}
+
+	private static setEnv(shouldSetEnv: boolean) {
+		if (!shouldSetEnv) {
+			delete process.env.DB_CONNECTION_STRING
+			delete process.env.DB_NAME
+		}
 	}
 }

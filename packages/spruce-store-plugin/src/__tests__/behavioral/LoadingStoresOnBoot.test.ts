@@ -49,6 +49,7 @@ export default class LoadingStoresOnBootTest extends AbstractStoreTest {
 
 	@test()
 	protected static async throwsIfMissingDbName() {
+		process.env.DB_CONNECTION_STRING = 'mongo://127.0.0.1:1234'
 		delete process.env.DB_NAME
 
 		this.setCwd('one-good-store-skill')
