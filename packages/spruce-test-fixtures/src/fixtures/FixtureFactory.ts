@@ -39,7 +39,7 @@ export default class FixtureFactory {
 				fixture = new SkillFixture(
 					personFixture,
 					mercuryFixture.getApiClientFactory()
-				) as FixtureMap[Name]
+				) as any
 				break
 			}
 		}

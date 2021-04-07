@@ -1,5 +1,5 @@
 import { MercuryClient } from '@sprucelabs/mercury-client'
-import { SkillEventContract } from '@sprucelabs/mercury-types'
+import { EventContract, SkillEventContract } from '@sprucelabs/mercury-types'
 import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { ApiClientFactory } from '../types/fixture.types'
@@ -8,7 +8,9 @@ import PersonFixture from './PersonFixture'
 type Skill = SpruceSchemas.Spruce.v2020_07_22.Skill
 export class SkillFixture<
 	Factory extends ApiClientFactory = ApiClientFactory,
-	Client extends MercuryClient<SkillEventContract> = MercuryClient<SkillEventContract>
+	/** @ts-ignore */
+	Contract extends EventContract = SkillEventContract,
+	Client extends MercuryClient<Contract> = MercuryClient<Contract>
 > {
 	private personFixture: PersonFixture
 	private apiClientFactory: Factory

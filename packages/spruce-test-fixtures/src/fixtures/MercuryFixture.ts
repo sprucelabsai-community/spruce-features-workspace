@@ -1,8 +1,11 @@
 import { MercuryClient, MercuryClientFactory } from '@sprucelabs/mercury-client'
+import { SkillEventContract } from '@sprucelabs/mercury-types'
 
 export default class MercuryFixture {
-	private clientPromise?: Promise<MercuryClient<any>>
+	/** @ts-ignore */
+	private clientPromise?: Promise<MercuryClient<SkillEventContract>>
 
+	/** @ts-ignore */
 	public async connectToApi() {
 		if (this.clientPromise) {
 			return this.clientPromise
@@ -14,6 +17,7 @@ export default class MercuryFixture {
 		return this.clientPromise
 	}
 
+	/** @ts-ignore */
 	public getApiClientFactory() {
 		return this.connectToApi.bind(this)
 	}
