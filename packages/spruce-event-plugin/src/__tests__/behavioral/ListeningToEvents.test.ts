@@ -119,7 +119,7 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 
 		assert.isFalsy(errors)
 
-		assert.isEqualDeep(payloads[0], { taco: 'bravo' })
+		assert.isEqualDeep(payloads[0] as any, { taco: 'bravo' })
 	}
 
 	@test()
@@ -154,7 +154,7 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 
 		skill.updateContext('helloWorld', 'yes please')
 
-		const results = await client1.emit(fqen, {
+		const results = await client1.emit(fqen as any, {
 			target: {
 				skillId: skill2.id,
 			},
@@ -172,7 +172,7 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 	private static async setupTwoSkillsRegisterEventsAndEmit(dirName: string) {
 		const { client1, fqen } = await this.setupTwoSkillsAndBoot(dirName)
 
-		const results = await client1.emit(fqen, {
+		const results = await client1.emit(fqen as any, {
 			target: {
 				organizationId: '1234',
 			},
