@@ -51,9 +51,9 @@
 		"@sprucelabs/spruce-skill-utils": "latest"
 	},
 	"devDependencies": {
-		"@sprucelabs/babel-plugin-schema": "latest",
 		"@sprucelabs/esm-postbuild": "latest",
 		"@sprucelabs/jest-json-reporter": "latest",
+		"@sprucelabs/resolve-path-aliases": "latest",
 		"@sprucelabs/semantic-release": "latest",
 		"@sprucelabs/test": "latest",
 		"@sprucelabs/test-utils": "latest",
@@ -92,9 +92,9 @@
 		"ignore": [
 			"@sprucelabs/error",
 			"@sprucelabs/esm-postbuild",
-			"@sprucelabs/schema",
-			"@sprucelabs/babel-plugin-schema",
 			"@sprucelabs/jest-json-reporter",
+			"@sprucelabs/resolve-path-aliases",
+			"@sprucelabs/schema",
 			"@sprucelabs/semantic-release",
 			"@sprucelabs/spruce-skill-utils",
 			"@sprucelabs/test",

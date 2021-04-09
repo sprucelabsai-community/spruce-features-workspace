@@ -61,11 +61,11 @@
 		"random": "^3.0.3"
 	},
 	"devDependencies": {
-		"@sprucelabs/babel-plugin-schema": "latest",
 		"@sprucelabs/esm-postbuild": "latest",
 		"@sprucelabs/jest-json-reporter": "latest",
 		"@sprucelabs/mercury-client": "latest",
 		"@sprucelabs/mercury-types": "latest",
+		"@sprucelabs/resolve-path-aliases": "latest",
 		"@sprucelabs/semantic-release": "latest",
 		"@sprucelabs/test": "latest",
 		"@sprucelabs/test-utils": "latest",
@@ -103,10 +103,10 @@
 	},
 	"yarn-upgrade-all": {
 		"ignore": [
-			"@sprucelabs/babel-plugin-schema",
 			"@sprucelabs/error",
 			"@sprucelabs/esm-postbuild",
 			"@sprucelabs/jest-json-reporter",
+			"@sprucelabs/resolve-path-aliases",
 			"@sprucelabs/schema",
 			"@sprucelabs/semantic-release",
 			"@sprucelabs/spruce-core-schemas",
