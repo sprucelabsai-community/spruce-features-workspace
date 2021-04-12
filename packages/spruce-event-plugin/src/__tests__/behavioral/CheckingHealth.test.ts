@@ -9,8 +9,8 @@ export default class CheckingHealthTest extends AbstractEventPluginTest {
 	}
 
 	@test()
-	protected static registersWithSkill() {
-		const skill = this.Skill()
+	protected static async registersWithSkill() {
+		const skill = await this.Skill()
 		const features = skill.getFeatures()
 		assert.isLength(features, 1)
 	}
@@ -18,14 +18,14 @@ export default class CheckingHealthTest extends AbstractEventPluginTest {
 	@test()
 	protected static async doesNotComeBackFromHealthCheckUntilDeterminesInstalled() {
 		this.cwd = __dirname
-		const skill = this.Skill()
+		const skill = await this.Skill()
 		const health = await skill.checkHealth()
 		assert.isFalsy(health.event)
 	}
 
 	@test()
 	protected static async givesBackEmptyHealthWhenInstalled() {
-		const skill = this.Skill()
+		const skill = await this.Skill()
 		const health = await skill.checkHealth()
 
 		assert.isTruthy(health.event)

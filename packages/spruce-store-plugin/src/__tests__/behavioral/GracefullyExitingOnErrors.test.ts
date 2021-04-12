@@ -14,7 +14,7 @@ export default class GracefullyExitingOnErrorsTest extends AbstractStoreTest {
 
 	@test()
 	protected static async skillIsKilledDifferentFeatureCrash() {
-		const skill = this.Skill()
+		const skill = await this.Skill()
 
 		void skill.registerFeature('test', {
 			execute: async () => {
@@ -31,7 +31,7 @@ export default class GracefullyExitingOnErrorsTest extends AbstractStoreTest {
 
 	@test()
 	protected static async skillIsKilledOnDifferentFeatureCrashWithDelay() {
-		const skill = this.Skill()
+		const skill = await this.Skill()
 
 		void skill.registerFeature('test', {
 			execute: async () => {
@@ -51,7 +51,7 @@ export default class GracefullyExitingOnErrorsTest extends AbstractStoreTest {
 	protected static async shutsDownWithDatabaseError() {
 		process.env.DB_CONNECTION_STRING = 'wakawaka'
 		process.env.DB_NAME = 'wakawaka'
-		const skill = this.Skill()
+		const skill = await this.Skill()
 
 		await assert.doesThrowAsync(() => skill.execute())
 	}
@@ -61,7 +61,7 @@ export default class GracefullyExitingOnErrorsTest extends AbstractStoreTest {
 		delete process.env.DB_CONNECTION_STRING
 		delete process.env.DB_NAME
 
-		const skill = this.Skill()
+		const skill = await this.Skill()
 		await assert.doesThrowAsync(() => skill.execute())
 	}
 
@@ -74,7 +74,7 @@ export default class GracefullyExitingOnErrorsTest extends AbstractStoreTest {
 			'one-bad-store-skill'
 		)
 
-		const skill = this.Skill()
+		const skill = await this.Skill()
 
 		await assert.doesThrowAsync(() => skill.execute())
 	}

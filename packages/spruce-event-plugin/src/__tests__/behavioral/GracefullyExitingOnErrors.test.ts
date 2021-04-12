@@ -21,7 +21,7 @@ export default class GracefullyExitingOnErrorsTest extends AbstractEventPluginTe
 
 	@test()
 	protected static async skillIsKilledDifferentFeatureCrash() {
-		const skill = this.SkillFromTestDir('registered-skill-boot-events')
+		const skill = await this.SkillFromTestDir('registered-skill-boot-events')
 
 		void skill.registerFeature('test', {
 			execute: async () => {

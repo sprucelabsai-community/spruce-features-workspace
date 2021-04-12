@@ -12,7 +12,7 @@ export default class AddsStoreFactoryToSkillContextTest extends AbstractStoreTes
 	}
 
 	private static async bootAndGetContext() {
-		const skill = this.SkillFromTestDir('one-good-store-skill')
+		const skill = await this.SkillFromTestDir('one-good-store-skill')
 
 		void skill.execute()
 

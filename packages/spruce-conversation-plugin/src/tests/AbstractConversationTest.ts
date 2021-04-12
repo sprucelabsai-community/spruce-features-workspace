@@ -23,7 +23,7 @@ export default abstract class AbstractConversationTest extends AbstractSpruceFix
 		delete process.env.FIRST_MESSAGE
 	}
 
-	protected static Skill(options?: SkillFactoryOptions) {
+	protected static async Skill(options?: SkillFactoryOptions) {
 		const { plugins = [eventPlugin, plugin] } = options ?? {}
 		return super.Skill({
 			plugins,

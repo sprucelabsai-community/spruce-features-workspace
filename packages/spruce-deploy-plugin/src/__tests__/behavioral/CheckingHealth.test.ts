@@ -17,14 +17,14 @@ export default class CheckingHealthTest extends AbstractDeployTest {
 
 	@test()
 	protected static registersWithSkill() {
-		const skill = this.Skill()
+		const skill = await this.Skill()
 		const features = skill.getFeatures()
 		assert.isLength(features, 1)
 	}
 
 	@test()
 	protected static async givesBackEmptyHealthByDefault() {
-		const skill = this.Skill()
+		const skill = await this.Skill()
 		const health = await skill.checkHealth()
 
 		assert.isTruthy(health.deploy)
@@ -39,7 +39,7 @@ export default class CheckingHealthTest extends AbstractDeployTest {
 		process.env.HEROKU_API_TOKEN = process.env.TEST_HEROKU_API_TOKEN
 		process.env.HEROKU_TEAM_NAME = 'sprucelabs'
 
-		const skill = this.Skill()
+		const skill = await this.Skill()
 		const health = await skill.checkHealth()
 
 		assert.isTruthy(health.deploy)
@@ -59,7 +59,7 @@ export default class CheckingHealthTest extends AbstractDeployTest {
 		process.env.HEROKU_API_TOKEN = process.env.TEST_HEROKU_API_TOKEN
 		process.env.HEROKU_TEAM_NAME = 'sprucelabs'
 
-		const skill = this.Skill()
+		const skill = await this.Skill()
 		const health = await skill.checkHealth()
 
 		assert.isTruthy(health.deploy)
@@ -83,7 +83,7 @@ export default class CheckingHealthTest extends AbstractDeployTest {
 		process.env.HEROKU_APP_NAME = APP_NAME_DEPLOYED
 		process.env.HEROKU_API_TOKEN = process.env.TEST_HEROKU_API_TOKEN
 
-		const skill = this.Skill()
+		const skill = await this.Skill()
 		const health = await skill.checkHealth()
 
 		assert.isTruthy(health.deploy)

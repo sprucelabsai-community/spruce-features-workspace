@@ -4,7 +4,7 @@ import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
 export default class DidBootFiresAfterSkillIsBootedTest extends AbstractEventPluginTest {
 	@test()
 	protected static async willBootCanFireFirstAndConfigureMercury() {
-		const skill = this.SkillFromTestDir('skill-did-boot-event')
+		const skill = await this.SkillFromTestDir('skill-did-boot-event')
 		let isBooted = false
 
 		void skill.registerFeature('test', {

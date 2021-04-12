@@ -21,7 +21,7 @@ export default class SkillTest extends AbstractSpruceTest {
 
 	@test()
 	protected static async throwsWhenCantFindFeatureByCode() {
-		const skill = this.Skill()
+		const skill = await this.Skill()
 		const err = assert.doesThrow(() => skill.getFeatureByCode('unknown'))
 
 		errorAssertUtil.assertError(err, 'INVALID_FEATURE_CODE', {
@@ -32,7 +32,7 @@ export default class SkillTest extends AbstractSpruceTest {
 
 	@test()
 	protected static async throwReturnsValidCodes() {
-		const skill = this.Skill()
+		const skill = await this.Skill()
 
 		//@ts-ignore
 		await skill.registerFeature('test', {})
@@ -47,7 +47,7 @@ export default class SkillTest extends AbstractSpruceTest {
 
 	@test()
 	protected static async canGetFeatureByCode() {
-		const skill = this.Skill()
+		const skill = await this.Skill()
 
 		//@ts-ignore
 		await skill.registerFeature('test', { test: true })
@@ -60,7 +60,7 @@ export default class SkillTest extends AbstractSpruceTest {
 
 	@test()
 	protected static async skillMarksAsRunning() {
-		const skill = this.Skill()
+		const skill = await this.Skill()
 		assert.isFalse(skill.isRunning())
 
 		void skill.execute()
@@ -73,14 +73,14 @@ export default class SkillTest extends AbstractSpruceTest {
 
 	@test()
 	protected static async skillMarksAsDoneRunningWhenFinished() {
-		const skill = this.Skill()
+		const skill = await this.Skill()
 		await skill.execute()
 		assert.isFalse(skill.isRunning())
 	}
 
 	@test()
 	protected static async killDestroysFeatures() {
-		const skill = this.Skill()
+		const skill = await this.Skill()
 		let wasDestroyCalled = false
 
 		skill.registerFeature('test', {
@@ -102,7 +102,7 @@ export default class SkillTest extends AbstractSpruceTest {
 
 	@test()
 	protected static async isBootedRightAwayIfNoFeatures() {
-		const skill = this.Skill()
+		const skill = await this.Skill()
 		void skill.execute()
 
 		assert.isTrue(skill.isBooted())
@@ -112,7 +112,7 @@ export default class SkillTest extends AbstractSpruceTest {
 
 	@test()
 	protected static async countsItselfAsBootedWhenAllFeaturesAreBooted() {
-		const skill = this.Skill()
+		const skill = await this.Skill()
 
 		let markAsBooted = false
 
@@ -139,7 +139,7 @@ export default class SkillTest extends AbstractSpruceTest {
 	protected static async logsSkillBootedWhenBooted() {
 		let log = ''
 
-		const skill = this.Skill({
+		const skill = await this.Skill({
 			log: {
 				prefix: '',
 				warn: () => '',
@@ -166,7 +166,7 @@ export default class SkillTest extends AbstractSpruceTest {
 		assert.isAbove(log.search('Skill booted'), -1)
 	}
 
-	private static Skill(options?: Partial<SkillOptions>) {
+	private static async Skill(options?: Partial<SkillOptions>) {
 		return new Skill({
 			shouldCountdownOnExit: false,
 			rootDir: this.cwd,

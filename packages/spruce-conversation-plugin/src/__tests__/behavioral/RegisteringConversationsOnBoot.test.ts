@@ -8,7 +8,7 @@ import AbstractConversationTest from '../../tests/AbstractConversationTest'
 export default class RegisteringConversationsOnBootTest extends AbstractConversationTest {
 	@test()
 	protected static async throwsWhenExecutingIfEventPluginMissing() {
-		const skill = this.Skill({ plugins: [plugin] })
+		const skill = await this.Skill({ plugins: [plugin] })
 		const err = await assert.doesThrowAsync(() => skill.execute())
 
 		errorAssertUtil.assertError(err, 'MISSING_DEPENDENCIES', {

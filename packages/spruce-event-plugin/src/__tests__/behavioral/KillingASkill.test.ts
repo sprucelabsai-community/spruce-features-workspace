@@ -5,7 +5,7 @@ import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
 export default class KillingTheSkillTest extends AbstractEventPluginTest {
 	@test()
 	protected static async killingSkillDisconnectsClient() {
-		const skill = this.Skill()
+		const skill = await this.Skill()
 		void skill.execute()
 
 		const plugin = skill.getFeatureByCode('event') as EventFeaturePlugin
@@ -22,7 +22,7 @@ export default class KillingTheSkillTest extends AbstractEventPluginTest {
 	@test()
 	protected static async bootEventCrashingSkillCausesConnectToApiToThrow() {
 		this.cwd = this.resolveTestPath('skill-will-boot-throws')
-		const skill = this.Skill()
+		const skill = await this.Skill()
 
 		void skill.execute().catch((err: any) => {
 			assert.isEqual(err.message, 'what the!')

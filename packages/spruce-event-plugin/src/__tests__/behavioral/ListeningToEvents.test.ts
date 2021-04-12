@@ -62,7 +62,7 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 		process.env.SKILL_ID = skill.id
 		process.env.SKILL_API_KEY = skill.apiKey
 
-		const runningSkill = this.Skill()
+		const runningSkill = await this.Skill()
 		void runningSkill.registerFeature('test', {
 			execute: async () => {
 				const events = runningSkill.getFeatureByCode('event') as EventFeature

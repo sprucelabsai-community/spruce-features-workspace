@@ -33,7 +33,7 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		return FixtureFactory.Fixture(name)
 	}
 
-	protected static async bootAndRegisterSkill(
+	protected static async bootAndRegisterNewSkill(
 		options: SkillFactoryOptions & { name: string; slug?: string }
 	) {
 		const { name, slug, ...skillOptions } = options
@@ -57,7 +57,7 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		return messageTestUtility.buildMessage(values)
 	}
 
-	protected static async bootAndRegisterTestSkill(key: string) {
+	protected static async bootAndRegisterSkillFromTestDir(key: string) {
 		const registeredSkill = await this.Fixture('skill').seedDemoSkill({
 			name: 'my test skill',
 		})
@@ -65,7 +65,7 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		process.env.SKILL_ID = registeredSkill.id
 		process.env.SKILL_API_KEY = registeredSkill.apiKey
 
-		const skill = await this.bootTestSkillAndWait(key)
+		const skill = await this.bootSkillFromTestDirAndWait(key)
 
 		return skill
 	}

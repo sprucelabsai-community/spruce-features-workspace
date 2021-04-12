@@ -33,7 +33,7 @@ export default class LoggingInAsCurrentSkillTest extends AbstractEventPluginTest
 		process.env.SKILL_ID = 'aosenuth'
 		process.env.SKILL_API_KEY = 'aosenuth'
 
-		const runningSkill = this.Skill()
+		const runningSkill = await this.Skill()
 		const feature = runningSkill.getFeatureByCode('event') as EventFeaturePlugin
 
 		await assert.doesThrowAsync(() => feature.connectToApi())
@@ -49,7 +49,7 @@ export default class LoggingInAsCurrentSkillTest extends AbstractEventPluginTest
 	}
 
 	private static async login() {
-		const skill = this.Skill()
+		const skill = await this.Skill()
 		const feature = skill.getFeatureByCode('event') as EventFeaturePlugin
 		const client = await feature.connectToApi()
 		const results = await client.emit('whoami::v2020_12_25')

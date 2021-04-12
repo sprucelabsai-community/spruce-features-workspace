@@ -23,7 +23,7 @@ export default class StoreFeaturePluginTest extends AbstractStoreTest {
 	}
 
 	private static async checkHealth(key: string) {
-		const skill = this.SkillFromTestDir(key)
+		const skill = await this.SkillFromTestDir(key)
 		const health = await skill.checkHealth()
 
 		return health

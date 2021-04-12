@@ -5,7 +5,7 @@ import ThrowingFeature from '../support/ThrowingFeature'
 export default class UsingFeaturesTest extends AbstractSkillTest {
 	@test()
 	protected static async throwsWhenFeatureThrows() {
-		const skill = this.Skill()
+		const skill = await this.Skill()
 		const throwing = new ThrowingFeature()
 
 		await skill.registerFeature('test', throwing)

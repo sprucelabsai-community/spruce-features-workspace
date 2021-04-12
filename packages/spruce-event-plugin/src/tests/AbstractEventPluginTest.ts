@@ -17,12 +17,15 @@ export default class AbstractEventPluginTest extends AbstractSpruceFixtureTest {
 		EventFeaturePlugin.shouldClientUseEventContracts(false)
 	}
 
-	protected static Skill(options?: SkillFactoryOptions) {
+	protected static async Skill(options?: SkillFactoryOptions) {
 		const { plugins = [plugin] } = options ?? {}
-		return super.Skill({
+
+		const skill = await super.Skill({
 			plugins,
 			...options,
 		})
+
+		return skill
 	}
 
 	protected static resolveTestPath(pathAfterTestDirsAndFiles: string) {

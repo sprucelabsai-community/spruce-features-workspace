@@ -153,7 +153,7 @@ export default class RespondingToMessagesTest extends AbstractConversationTest {
 
 	private static async boot() {
 		if (!this.client) {
-			const { skill } = await this.bootAndRegisterSkill({
+			const { skill } = await this.bootAndRegisterNewSkill({
 				name: 'my skill yo',
 			})
 

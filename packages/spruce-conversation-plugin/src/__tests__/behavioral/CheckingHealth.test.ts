@@ -11,8 +11,8 @@ export default class CheckingHealthTest extends AbstractConversationTest {
 	}
 
 	@test()
-	protected static registersWithSkill() {
-		const skill = this.Skill()
+	protected static async registersWithSkill() {
+		const skill = await this.Skill()
 		const features = skill.getFeatures()
 		assert.isLength(features, 2)
 	}
@@ -41,7 +41,7 @@ export default class CheckingHealthTest extends AbstractConversationTest {
 	}
 
 	private static async checkHealth(options?: SkillFactoryOptions) {
-		const skill = this.Skill(options)
+		const skill = await this.Skill(options)
 		const healthCheck = await skill.checkHealth()
 		return healthCheck
 	}

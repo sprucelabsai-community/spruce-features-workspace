@@ -1,5 +1,5 @@
 import { SchemaRegistry } from '@sprucelabs/schema'
-import { mockLog } from '@sprucelabs/spruce-skill-utils'
+import { diskUtil, mockLog, pluginUtil } from '@sprucelabs/spruce-skill-utils'
 import AbstractSpruceTest, { assert } from '@sprucelabs/test'
 import Skill from '../skills/Skill'
 import { SkillFactoryOptions } from '../types/skill.types'
@@ -38,7 +38,7 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
 		this.skillBootError = undefined
 	}
 
-	protected static Skill(options?: SkillFactoryOptions) {
+	protected static async Skill(options?: SkillFactoryOptions) {
 		const { plugins = [], log = mockLog } = options ?? {}
 
 		const skill = new Skill({
@@ -54,13 +54,18 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
 			void plugin(skill)
 		}
 
+		if (diskUtil.doesHashSprucePathExist(this.cwd)) {
+			const dir = diskUtil.resolveHashSprucePath(this.cwd)
+			await pluginUtil.import([skill], dir)
+		}
+
 		this.skills.push(skill)
 
 		return skill
 	}
 
 	protected static async bootSkill(options?: SkillFactoryOptions) {
-		const skill = this.Skill(options)
+		const skill = await this.Skill(options)
 
 		await this.bootSkillAndWait(skill)
 
@@ -75,8 +80,8 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
 		await this.waitUntilSkillIsBooted(skill)
 	}
 
-	protected static async bootTestSkillAndWait(key: string) {
-		const skill = this.SkillFromTestDir(key)
+	protected static async bootSkillFromTestDirAndWait(key: string) {
+		const skill = await this.SkillFromTestDir(key)
 		await this.bootSkillAndWait(skill)
 
 		return skill
@@ -90,7 +95,7 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
 		await this.wait(100)
 	}
 
-	protected static SkillFromTestDir(key: string) {
+	protected static async SkillFromTestDir(key: string) {
 		this.cwd = this.resolvePath(
 			process.cwd(),
 			'build',
@@ -99,7 +104,7 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
 			key
 		)
 
-		const skill = this.Skill()
+		const skill = await this.Skill()
 
 		return skill
 	}

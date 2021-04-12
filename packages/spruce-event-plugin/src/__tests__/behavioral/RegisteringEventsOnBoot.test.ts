@@ -1,11 +1,11 @@
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { assert, test } from '@sprucelabs/test'
 import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
-
 export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest {
 	@test()
 	protected static async noEventsToStart() {
 		const contracts = await this.register2SkillsInstallAtOrgAndBootSkill()
+		debugger
 		assert.isLength(contracts, 1)
 	}
 
