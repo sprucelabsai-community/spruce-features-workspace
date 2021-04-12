@@ -3,7 +3,7 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "1.17.0",
+	"version": "1.17.3",
 	"files": [
 		"build/**/*",
 		"!build/__tests__",
@@ -52,13 +52,13 @@
 		"@sprucelabs/spruce-core-schemas": "latest",
 		"@sprucelabs/spruce-event-utils": "latest",
 		"@sprucelabs/spruce-skill-utils": "latest",
-		"@sprucelabs/spruce-test-fixtures": "^1.17.0"
+		"@sprucelabs/spruce-test-fixtures": "^1.17.3"
 	},
 	"devDependencies": {
-		"@sprucelabs/babel-plugin-schema": "latest",
 		"@sprucelabs/esm-postbuild": "latest",
 		"@sprucelabs/jest-json-reporter": "latest",
 		"@sprucelabs/mercury-client": "latest",
+		"@sprucelabs/resolve-path-aliases": "latest",
 		"@sprucelabs/semantic-release": "latest",
 		"@sprucelabs/test": "latest",
 		"@sprucelabs/test-utils": "latest",
@@ -66,7 +66,7 @@
 		"chokidar-cli": "^2.1.0",
 		"concurrently": "^6.0.1",
 		"conventional-changelog-sprucelabs": "latest",
-		"eslint": "^7.23.0",
+		"eslint": "^7.24.0",
 		"eslint-config-spruce": "latest"
 	},
 	"jest": {
@@ -90,12 +90,12 @@
 		"ignore": [
 			"socket.io",
 			"socket.io-client",
-			"@sprucelabs/babel-plugin-schema",
 			"@sprucelabs/error",
 			"@sprucelabs/esm-postbuild",
 			"@sprucelabs/jest-json-reporter",
 			"@sprucelabs/mercury-client",
 			"@sprucelabs/mercury-types",
+			"@sprucelabs/resolve-path-aliases",
 			"@sprucelabs/schema",
 			"@sprucelabs/semantic-release",
 			"@sprucelabs/spruce-core-schemas",
