@@ -16,7 +16,7 @@ export default class CheckingHealthTest extends AbstractDeployTest {
 	}
 
 	@test()
-	protected static registersWithSkill() {
+	protected static async registersWithSkill() {
 		const skill = await this.Skill()
 		const features = skill.getFeatures()
 		assert.isLength(features, 1)
