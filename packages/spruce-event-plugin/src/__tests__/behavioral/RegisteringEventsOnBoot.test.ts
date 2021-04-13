@@ -5,7 +5,7 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 	@test()
 	protected static async noEventsToStart() {
 		const contracts = await this.register2SkillsInstallAtOrgAndBootSkill()
-		debugger
+
 		assert.isLength(contracts, 1)
 	}
 
