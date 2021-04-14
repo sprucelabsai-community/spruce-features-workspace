@@ -3,7 +3,7 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "1.17.3",
+	"version": "2.0.0",
 	"files": [
 		"build/**/*",
 		"!build/__tests__",
@@ -52,7 +52,7 @@
 		"@sprucelabs/spruce-core-schemas": "latest",
 		"@sprucelabs/spruce-event-utils": "latest",
 		"@sprucelabs/spruce-skill-utils": "latest",
-		"@sprucelabs/spruce-test-fixtures": "^1.17.3"
+		"@sprucelabs/spruce-test-fixtures": "^2.0.0"
 	},
 	"devDependencies": {
 		"@sprucelabs/esm-postbuild": "latest",
