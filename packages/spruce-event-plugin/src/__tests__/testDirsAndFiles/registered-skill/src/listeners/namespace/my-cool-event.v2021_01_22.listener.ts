@@ -1,4 +1,4 @@
-import { EventContract } from '@sprucelabs/mercury-types'
+import { SkillEventContract } from '@sprucelabs/mercury-types'
 import {
 	EventTarget,
 	SpruceEvent,
@@ -9,7 +9,7 @@ import { assert } from '@sprucelabs/test'
 
 export default async (
 	event: SpruceEvent<
-		EventContract,
+		SkillEventContract,
 		{ payload: { foo: string; bar: string }; target: EventTarget }
 	>
 ): SpruceEventResponse<{ taco: string }> => {

@@ -1,4 +1,4 @@
-import { EventContract } from '@sprucelabs/mercury-types'
+import { SkillEventContract } from '@sprucelabs/mercury-types'
 import {
 	SpruceEvent,
 	SpruceEventResponse,
@@ -6,7 +6,10 @@ import {
 import { assert } from '@sprucelabs/test'
 
 export default async (
-	event: SpruceEvent<EventContract, { payload: { foo: string; bar: string } }>
+	event: SpruceEvent<
+		SkillEventContract,
+		{ payload: { foo: string; bar: string } }
+	>
 ): SpruceEventResponse<{ taco: string }> => {
 	assert.isTruthy(event.mercury)
 	assert.isTruthy(event.helloWorld)
