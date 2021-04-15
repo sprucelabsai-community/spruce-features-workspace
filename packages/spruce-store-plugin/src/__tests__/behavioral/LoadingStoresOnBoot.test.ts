@@ -1,3 +1,4 @@
+import { StoreLoader } from '@sprucelabs/data-stores'
 import { test, assert } from '@sprucelabs/test'
 import { errorAssertUtil } from '@sprucelabs/test-utils'
 import { StoreFeaturePlugin } from '../../plugins/store.plugin'
@@ -103,6 +104,24 @@ export default class LoadingStoresOnBootTest extends AbstractStoreTest {
 		const store = (await factory.Store('good')) as any
 		assert.isTruthy(store)
 		assert.isTrue(store instanceof OneGoodStore)
+	}
+
+	@test()
+	protected static async usesSharedStoreLoaderInstance() {
+		this.setCwd('one-good-store-skill')
+
+		const db = await this.connectToDatabase()
+		const loader = await StoreLoader.getInstance(this.resolvePath('src'), db)
+
+		loader.loadStoresAndErrors = () => {
+			throw new Error('FAIL')
+		}
+
+		await this.bootSkill()
+
+		assert.doesInclude(this.skillBootError.message, 'FAIL')
+
+		this.clearSkillBootErrors()
 	}
 
 	protected static setCwd(key: string) {

@@ -117,7 +117,8 @@ export class StoreFeaturePlugin implements SkillFeature {
 
 	public async loadStores(options?: DbConnectionOptions) {
 		const db = await this.connectToDatabase(options)
-		const loader = await StoreLoader.Loader(`${this.skill.activeDir}`, db)
+
+		const loader = await StoreLoader.getInstance(`${this.skill.activeDir}`, db)
 
 		const { factory, errors } = await loader.loadStoresAndErrors()
 		const results: StoreHealthCheckItem['stores'] = []

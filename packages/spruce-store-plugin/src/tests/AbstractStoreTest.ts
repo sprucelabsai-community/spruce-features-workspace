@@ -9,6 +9,12 @@ export default abstract class AbstractStoreTest extends AbstractSpruceFixtureTes
 		process.env.DB_NAME = 'mercury'
 	}
 
+	protected static async connectToDatabase() {
+		const dbFixture = this.Fixture('database')
+		const db = await dbFixture.connectToDatabase()
+		return db
+	}
+
 	protected static Skill(options?: SkillFactoryOptions) {
 		const { plugins = [plugin] } = options ?? {}
 

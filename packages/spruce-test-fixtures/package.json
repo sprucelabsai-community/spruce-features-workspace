@@ -53,6 +53,7 @@
 		"@sprucelabs/spruce-event-utils": "latest",
 		"@sprucelabs/spruce-skill-booter": "^1.17.3",
 		"@sprucelabs/spruce-skill-utils": "latest",
+		"@sprucelabs/data-stores": "latest",
 		"dotenv": "^8.2.0"
 	},
 	"devDependencies": {
@@ -109,7 +110,8 @@
 			"@sprucelabs/test-utils",
 			"conventional-changelog-sprucelabs",
 			"eslint-config-spruce",
-			"@sprucelabs/mercury-types"
+			"@sprucelabs/mercury-types",
+			"@sprucelabs/data-stores"
 		]
 	}
 }

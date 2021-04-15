@@ -16,15 +16,15 @@ export default class SpruceError extends BaseSpruceError<ErrorOptions> {
 			case 'INVALID_FIXTURE':
 				message = `"${
 					options.suppliedName
-				}" is not a valid fixture. Try: ${options.validNames.join(', ')}.`
+				}" is not a valid fixture name. Try: \n\n${options.validNames.join(
+					'\n'
+				)}`
 				break
 
 			default:
 				message = super.friendlyMessage()
 		}
 
-		// Drop on code and friendly message
-		message = `${options.code}: ${message}`
 		const fullMessage = `${message}${
 			options.friendlyMessage && options.friendlyMessage !== message
 				? `\n\n${options.friendlyMessage}`

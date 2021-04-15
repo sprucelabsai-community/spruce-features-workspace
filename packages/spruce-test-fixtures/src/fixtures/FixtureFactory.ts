@@ -1,9 +1,11 @@
+import { DatabaseFixture } from '@sprucelabs/data-stores'
 import SpruceError from '../errors/SpruceError'
 import { FixtureMap, FixtureName } from '../types/fixture.types'
 import MercuryFixture from './MercuryFixture'
 import OrganizationFixture from './OrganizationFixture'
 import PersonFixture from './PersonFixture'
 import { SkillFixture } from './SkillFixture'
+import StoreFixture from './StoreFixture'
 
 export default class FixtureFactory {
 	private static fixtures: any[] = []
@@ -42,6 +44,14 @@ export default class FixtureFactory {
 				) as any
 				break
 			}
+			case 'database': {
+				fixture = new DatabaseFixture() as any
+				break
+			}
+			case 'store': {
+				fixture = new StoreFixture() as any
+				break
+			}
 		}
 
 		if (fixture) {
@@ -52,7 +62,7 @@ export default class FixtureFactory {
 		throw new SpruceError({
 			code: 'INVALID_FIXTURE',
 			suppliedName: named,
-			validNames: ['skill', 'mercury', 'person'],
+			validNames: ['skill', 'mercury', 'person', 'organization', 'store'],
 		})
 	}
 
