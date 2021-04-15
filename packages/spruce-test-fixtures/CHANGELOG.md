@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.17.3...v2.0.0) (2021-04-14)
+
+
+### Breaking Changes
+
+* loads local plugins, Skill() is now async ([d706999](https://github.com/sprucelabsai/spruce-features-workspace/commit/d706999))
+
+
+
+
+
 ## [1.17.3](https://github.com/sprucelabsai/spruce-features-workspace/compare/v1.17.2...v1.17.3) (2021-04-11)
 
 **Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
