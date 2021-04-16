@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="1049px" preserveAspectRatio="none" style="width:1857px;height:1049px;" version="1.1" viewBox="0 0 1857 1049" width="1857px" zoomAndPan="magnify"><defs/><g><ellipse cx="509.1274" cy="906.742" fill="#F8F8F8" rx="25.6274" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="32" x="493.1274" y="910.4842">build</text><ellipse cx="122.5295" cy="54.5059" fill="#F8F8F8" rx="70.5295" ry="16.5059" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="114" x="65.5295" y="58.2481">build/event.types</text><ellipse cx="122.6652" cy="113.533" fill="#F8F8F8" rx="75.6652" ry="17.533" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="126" x="59.6652" y="117.2752">build/event.types.d</text><ellipse cx="508.8344" cy="958.6669" fill="#F8F8F8" rx="58.8344" ry="14.1669" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="85" x="466.3344" y="962.4091">build/index.d</text><ellipse cx="122.2659" cy="180.5532" fill="#F8F8F8" rx="110.7659" ry="24.5532" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="203" x="20.7659" y="184.2954">errors/eventPluginError.builder</text><ellipse cx="122.4349" cy="255.687" fill="#F8F8F8" rx="116.4349" ry="25.687" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="215" x="14.9349" y="259.4292">errors/eventPluginError.builder.d</text><ellipse cx="998.689" cy="1014.3378" fill="#F8F8F8" rx="67.189" ry="15.8378" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="106" x="945.689" y="1018.08">errors/SpruceError</text><!--MD5=[0df72be079b7be722000360c8a62aa36]
+entity _errors_SpruceError--><rect fill="#F8F8F8" height="34.4844" rx="3" ry="3" style="stroke: #000000; stroke-width: 0.5;" width="126" x="935.5" y="834.5"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="106" x="945.5" y="856.5059">errors/SpruceError</text><!--MD5=[8f883dc3c2ef28ef82b5a7d9e72891d4]
+entity _errors_SpruceError_d--><rect fill="#F8F8F8" height="34.4844" rx="3" ry="3" style="stroke: #000000; stroke-width: 0.5;" width="156" x="44.5" y="306.5"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="136" x="54.5" y="328.5059">errors/SpruceError.d</text><ellipse cx="508.799" cy="692.742" fill="#F8F8F8" rx="22.799" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="28" x="494.799" y="696.4842">esm</text><ellipse cx="122.3501" cy="381.67" fill="#F8F8F8" rx="68.8501" ry="16.17" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="110" x="67.3501" y="385.4122">esm/event.types</text><ellipse cx="508.9382" cy="54.6876" fill="#F8F8F8" rx="73.9382" ry="17.1876" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="122" x="447.9382" y="58.4298">esm/event.types.d</text><ellipse cx="508.8275" cy="744.3655" fill="#F8F8F8" rx="57.3275" ry="13.8655" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="81" x="468.3275" y="748.1077">esm/index.d</text><ellipse cx="509.1359" cy="141.6272" fill="#F8F8F8" rx="213.6359" ry="45.1272" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="415" x="301.6359" y="145.3694">my-skill-1614746189229/my-cool-event.v2021_01_22.listener</text><ellipse cx="509.049" cy="258.3098" fill="#F8F8F8" rx="219.549" ry="46.3098" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="427" x="295.549" y="262.052">my-skill-1614746189229/my-cool-event.v2021_01_22.listener.d</text><ellipse cx="509.1285" cy="375.7257" fill="#F8F8F8" rx="214.1285" ry="45.2257" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="416" x="301.1285" y="379.4679">my-skill-1614746789360/my-cool-event.v2021_01_22.listener</text><ellipse cx="509.042" cy="492.4084" fill="#F8F8F8" rx="220.042" ry="46.4084" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="428" x="295.042" y="496.1506">my-skill-1614746789360/my-cool-event.v2021_01_22.listener.d</text><ellipse cx="509.1434" cy="609.5287" fill="#F8F8F8" rx="213.1434" ry="45.0287" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="414" x="302.1434" y="613.2709">my-skill-1614960408734/my-cool-event.v2021_01_22.listener</text><ellipse cx="998.5561" cy="54.7112" fill="#F8F8F8" rx="219.0561" ry="46.2112" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="426" x="785.5561" y="58.4534">my-skill-1614960408734/my-cool-event.v2021_01_22.listener.d</text><ellipse cx="998.6359" cy="170.6272" fill="#F8F8F8" rx="213.6359" ry="45.1272" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="415" x="791.1359" y="174.3694">my-skill-1614961008466/my-cool-event.v2021_01_22.listener</text><ellipse cx="998.549" cy="287.3098" fill="#F8F8F8" rx="219.549" ry="46.3098" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="427" x="785.049" y="291.052">my-skill-1614961008466/my-cool-event.v2021_01_22.listener.d</text><ellipse cx="998.4977" cy="395.6995" fill="#F8F8F8" rx="168.9977" ry="36.1995" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="324" x="836.4977" y="399.4417">namespace/my-cool-event.v2021_01_22.listener</text><ellipse cx="998.3582" cy="494.3716" fill="#F8F8F8" rx="174.8582" ry="37.3716" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="336" x="830.3582" y="498.1138">namespace/my-cool-event.v2021_01_22.listener.d</text><!--MD5=[b9e478611fcca307e3c1e95eafa757be]
+entity _plugins_event_plugin--><rect fill="#F8F8F8" height="34.4844" rx="3" ry="3" style="stroke: #000000; stroke-width: 0.5;" width="134" x="442" y="834.5"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="114" x="452" y="856.5059">plugins/event.plugin</text><ellipse cx="509.0295" cy="1014.5059" fill="#F8F8F8" rx="70.5295" ry="16.5059" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="114" x="452.0295" y="1018.2481">plugins/event.plugin</text><!--MD5=[7614bce5e4295f98cbc9a9ca7d0e9cff]
+entity _plugins_event_plugin_d--><rect fill="#F8F8F8" height="34.4844" rx="3" ry="3" style="stroke: #000000; stroke-width: 0.5;" width="166" x="915.5" y="557.5"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="146" x="925.5" y="579.5059">plugins/event.plugin.d</text><ellipse cx="1399.7284" cy="54.4457" fill="#F8F8F8" rx="62.7284" ry="14.9457" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="95" x="1352.2284" y="58.1879">release.config</text><ellipse cx="1399.4532" cy="122.5906" fill="#F8F8F8" rx="125.9532" ry="27.5906" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="235" x="1281.9532" y="126.3328">skill/did-boot.v2021_02_08.listener</text><ellipse cx="1399.6992" cy="203.7398" fill="#F8F8F8" rx="131.6992" ry="28.7398" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="247" x="1276.1992" y="207.482">skill/did-boot.v2021_02_08.listener.d</text><ellipse cx="1399.4532" cy="284.5906" fill="#F8F8F8" rx="125.9532" ry="27.5906" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="235" x="1281.9532" y="288.3328">skill/did-boot.v2021_03_22.listener</text><ellipse cx="1399.6992" cy="365.7398" fill="#F8F8F8" rx="131.6992" ry="28.7398" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="247" x="1276.1992" y="369.482">skill/did-boot.v2021_03_22.listener.d</text><ellipse cx="1399.4092" cy="447.2818" fill="#F8F8F8" rx="126.9092" ry="27.7818" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="237" x="1280.9092" y="451.024">skill/will-boot.v2021_02_08.listener</text><ellipse cx="1713.6591" cy="54.4318" fill="#F8F8F8" rx="132.6591" ry="28.9318" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="249" x="1589.1591" y="58.174">skill/will-boot.v2021_02_08.listener.d</text><ellipse cx="1713.4092" cy="136.2818" fill="#F8F8F8" rx="126.9092" ry="27.7818" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="237" x="1594.9092" y="140.024">skill/will-boot.v2021_03_22.listener</text><ellipse cx="1713.6591" cy="218.4318" fill="#F8F8F8" rx="132.6591" ry="28.9318" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="249" x="1589.1591" y="222.174">skill/will-boot.v2021_03_22.listener.d</text><ellipse cx="508.8492" cy="796.742" fill="#F8F8F8" rx="17.8492" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="21" x="498.3492" y="800.4842">src</text><ellipse cx="1713.4562" cy="288.5912" fill="#F8F8F8" rx="65.9562" ry="15.5912" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="103" x="1661.9562" y="292.3334">src/event.types</text><!--MD5=[d389434ef4296722627fb2309f342203]
+entity _tests_AbstractEventPluginTest--><rect fill="#F8F8F8" height="34.4844" rx="3" ry="3" style="stroke: #000000; stroke-width: 0.5;" width="220" x="12.5" y="834.5"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="200" x="22.5" y="856.5059">tests/AbstractEventPluginTest</text><ellipse cx="122.3543" cy="1014.2709" fill="#F8F8F8" rx="109.3543" ry="24.2709" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="200" x="22.3543" y="1018.013">tests/AbstractEventPluginTest</text><!--MD5=[ed2df52a09c9b16fc7855987f36c422f]
+entity _tests_AbstractEventPluginTest_d--><rect fill="#F8F8F8" height="34.4844" rx="3" ry="3" style="stroke: #000000; stroke-width: 0.5;" width="232" x="1597.5" y="329.5"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="212" x="1607.5" y="351.5059">tests/AbstractEventPluginTest.d</text><!--MD5=[055b843e8dec9478b3cb9554cee0f379]
+link <b>build</b> to plugins/event.plugin--><path d="M485.847,900.789 C433.964,889.543 309.386,871.564 264,945 C223.946,1009.8083 348.82,1018.859 434.738,1017.8511 " fill="none" id="&lt;b&gt;build&lt;/b&gt;-&gt;plugins/event.plugin" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="439.824,1017.7793,430.7678,1013.9083,434.8245,1017.8507,430.8821,1021.9075,439.824,1017.7793" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[494d38bfbd391151875a45f4dccbe4a2]
+link <b>build/index.d</b> to plugins/event.plugin--><path d="M509,972.6504 C509,979.3507 509,986.051 509,992.7513 " fill="none" id="&lt;b&gt;build/index.d&lt;/b&gt;-&gt;plugins/event.plugin" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="509,997.875,513,988.875,509,992.875,505,988.875,509,997.875" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[302768742d0d52e8fe6b7a830fe9ceb8]
+link <b>esm</b> to _plugins_event_plugin--><path d="M487.753,687.207 C437.083,676.005 309.952,656.649 264,731 C245.541,760.867 245.541,780.133 264,810 C298.29,865.482 377.529,869.906 436.666,864.228 " fill="none" id="&lt;b&gt;esm&lt;/b&gt;-&gt;_plugins_event_plugin" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="441.964,863.687,432.6047,860.6205,436.9898,864.1941,433.4161,868.5792,441.964,863.687" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[0c6133ce4cf789b5a85774abe21fc7c3]
+link <b>esm/index.d</b> to _plugins_event_plugin--><path d="M465.855,735.098 C407.016,725.15 304.318,718.764 264,784 C223.747,849.131 350.659,856.977 436.592,855.274 " fill="none" id="&lt;b&gt;esm/index.d&lt;/b&gt;-&gt;_plugins_event_plugin" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="441.677,855.161,432.5901,851.3626,436.6782,855.2724,432.7684,859.3606,441.677,855.161" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[7ee6a35e92c3358da8519f1b807e1e57]
+link _plugins_event_plugin to _errors_SpruceError--><path d="M576.254,857.904 C669.002,861.35 836.635,861.365 930.032,857.948 " fill="none" id="_plugins_event_plugin-&gt;_errors_SpruceError" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="935.248,857.751,926.1025,854.0958,930.2516,857.941,926.4065,862.0901,935.248,857.751" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[7ee6a35e92c3358da8519f1b807e1e57]
+link _plugins_event_plugin to _errors_SpruceError--><path d="M576.254,844.563 C669.002,840.829 836.635,840.812 930.032,844.514 " fill="none" id="_plugins_event_plugin-&gt;_errors_SpruceError-1" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="935.248,844.728,926.4189,840.3636,930.2522,844.5237,926.0921,848.3569,935.248,844.728" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[d46adb42c93ab1ccc50858f28f80725c]
+link plugins/event.plugin to errors/SpruceError--><path d="M579.588,1014.5 C671.634,1014.5 833.039,1014.5 926.023,1014.5 " fill="none" id="plugins/event.plugin-&gt;errors/SpruceError" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="931.223,1014.5,922.223,1010.5,926.223,1014.5,922.223,1018.5,931.223,1014.5" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[63b0f957ba1f55876d188793b4124614]
+link <b>src</b> to _plugins_event_plugin--><path d="M509,809.793 C509,816.179 509,822.564 509,828.949 " fill="none" id="&lt;b&gt;src&lt;/b&gt;-&gt;_plugins_event_plugin" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="509,834.312,513,825.312,509,829.312,505,825.312,509,834.312" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[71ebe9b5b6445fae84a1d6b40219aea8]
+link _tests_AbstractEventPluginTest to _plugins_event_plugin--><path d="M232.654,859.707 C298.063,861.036 379.364,860.695 436.611,858.683 " fill="none" id="_tests_AbstractEventPluginTest-&gt;_plugins_event_plugin" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="441.728,858.496,432.5877,854.8279,436.7313,858.6789,432.8803,862.8225,441.728,858.496" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[71ebe9b5b6445fae84a1d6b40219aea8]
+link _tests_AbstractEventPluginTest to _plugins_event_plugin--><path d="M232.654,842.609 C298.063,841.169 379.364,841.539 436.611,843.719 " fill="none" id="_tests_AbstractEventPluginTest-&gt;_plugins_event_plugin-1" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="441.728,843.921,432.894,839.5667,436.7319,843.7224,432.5762,847.5604,441.728,843.921" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[e7bd6efae1b628a6824f09d4cfbc85c2]
+link <b>tests/AbstractEventPluginTest</b> to plugins/event.plugin--><path d="M232.141,1014.5 C296.379,1014.5 376.086,1014.5 433.277,1014.5 " fill="none" id="&lt;b&gt;tests/AbstractEventPluginTest&lt;/b&gt;-&gt;plugins/event.plugin" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="438.393,1014.5,429.393,1010.5,433.393,1014.5,429.393,1018.5,438.393,1014.5" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[d8a6547356c47b07a534edbbb69d29d8]
+link <b>build/event.types</b> to <b>build/event.types.d</b>--><!--MD5=[3506a905e249f614cc94e5b10e94354f]
+link <b>build/event.types.d</b> to <b>errors/eventPluginError.builder</b>--><!--MD5=[eb1237aa5b9a201b78a7131d30a3c54b]
+link <b>errors/eventPluginError.builder</b> to <b>errors/eventPluginError.builder.d</b>--><!--MD5=[126ef8796205374cee84acc0b3b90dc3]
+link <b>errors/eventPluginError.builder.d</b> to _errors_SpruceError_d--><!--MD5=[3cbd9c63028d58f480550c3718717572]
+link _errors_SpruceError_d to <b>esm/event.types</b>--><!--MD5=[8ed60dabe8c3a1a10d3f070ce961ce39]
+link <b>build/event.types</b> to <b>esm/event.types.d</b>--><!--MD5=[a60b37f33fbf10708a09d603400f4bdd]
+link <b>esm/event.types.d</b> to <b>my-skill-1614746189229/my-cool-event.v2021_01_22.listener</b>--><!--MD5=[a7c565caa2fd819a86a0ed32d2d36178]
+link <b>my-skill-1614746189229/my-cool-event.v2021_01_22.listener</b> to <b>my-skill-1614746189229/my-cool-event.v2021_01_22.listener.d</b>--><!--MD5=[f90a0844c453adb8454a586e0585bed2]
+link <b>my-skill-1614746189229/my-cool-event.v2021_01_22.listener.d</b> to <b>my-skill-1614746789360/my-cool-event.v2021_01_22.listener</b>--><!--MD5=[f37b331d5039df69c2100741b52bfd4c]
+link <b>my-skill-1614746789360/my-cool-event.v2021_01_22.listener</b> to <b>my-skill-1614746789360/my-cool-event.v2021_01_22.listener.d</b>--><!--MD5=[2a01c34f184b44afeac0d1b7c0923cad]
+link <b>my-skill-1614746789360/my-cool-event.v2021_01_22.listener.d</b> to <b>my-skill-1614960408734/my-cool-event.v2021_01_22.listener</b>--><!--MD5=[38fa1708bf60f1aa26fe6a6b3c81a002]
+link <b>esm/event.types.d</b> to <b>my-skill-1614960408734/my-cool-event.v2021_01_22.listener.d</b>--><!--MD5=[2aabc2e2c9e01d1b7e05bfc0e515cb53]
+link <b>my-skill-1614960408734/my-cool-event.v2021_01_22.listener.d</b> to <b>my-skill-1614961008466/my-cool-event.v2021_01_22.listener</b>--><!--MD5=[67355fb0bfb94aa6f54c1061f84839e9]
+link <b>my-skill-1614961008466/my-cool-event.v2021_01_22.listener</b> to <b>my-skill-1614961008466/my-cool-event.v2021_01_22.listener.d</b>--><!--MD5=[2640ac6e78f57f21233c9f9836b622f6]
+link <b>my-skill-1614961008466/my-cool-event.v2021_01_22.listener.d</b> to <b>namespace/my-cool-event.v2021_01_22.listener</b>--><!--MD5=[c818b265109dd28b7de52306cb255e2a]
+link <b>namespace/my-cool-event.v2021_01_22.listener</b> to <b>namespace/my-cool-event.v2021_01_22.listener.d</b>--><!--MD5=[8baee5799db5f6c84d1d1f994a757da0]
+link <b>namespace/my-cool-event.v2021_01_22.listener.d</b> to _plugins_event_plugin_d--><!--MD5=[c1a8678e1174c822c1dc56005aa4659e]
+link <b>my-skill-1614960408734/my-cool-event.v2021_01_22.listener.d</b> to <b>release.config</b>--><!--MD5=[87aed5abdb1742b976d6df6229dd67b3]
+link <b>release.config</b> to <b>skill/did-boot.v2021_02_08.listener</b>--><!--MD5=[09fd53fa942e877866101ff8f87e4567]
+link <b>skill/did-boot.v2021_02_08.listener</b> to <b>skill/did-boot.v2021_02_08.listener.d</b>--><!--MD5=[30f4c499bd723f21b70ffe98ec936d01]
+link <b>skill/did-boot.v2021_02_08.listener.d</b> to <b>skill/did-boot.v2021_03_22.listener</b>--><!--MD5=[b83c9cbbf871463ebc45188c11c30376]
+link <b>skill/did-boot.v2021_03_22.listener</b> to <b>skill/did-boot.v2021_03_22.listener.d</b>--><!--MD5=[ce9c0dfb4c7b279f997a82c3f4178af5]
+link <b>skill/did-boot.v2021_03_22.listener.d</b> to <b>skill/will-boot.v2021_02_08.listener</b>--><!--MD5=[d303c42233f867be41e80d61e2653caa]
+link <b>release.config</b> to <b>skill/will-boot.v2021_02_08.listener.d</b>--><!--MD5=[411435425be5cc9938c76218293adc69]
+link <b>skill/will-boot.v2021_02_08.listener.d</b> to <b>skill/will-boot.v2021_03_22.listener</b>--><!--MD5=[0d2926982153813b155db031a7234591]
+link <b>skill/will-boot.v2021_03_22.listener</b> to <b>skill/will-boot.v2021_03_22.listener.d</b>--><!--MD5=[135d246758ad1bbc20e7470517d5b876]
+link <b>skill/will-boot.v2021_03_22.listener.d</b> to <b>src/event.types</b>--><!--MD5=[1b273b4f09678df1bd3ae9a896df6435]
+link <b>src/event.types</b> to _tests_AbstractEventPluginTest_d--><script type="text/plantuml"><![CDATA[MD5=[e4a2527e40d5c900f5d4ffab27d88484]
+@startuml
+
+scale max 1920 width
+left to right direction
+
+skinparam nodesep 25
+skinparam ranksep 50
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Tahoma
+skinparam defaultFontSize 12
+skinparam roundCorner 6
+skinparam dpi 150
+skinparam arrowColor black
+skinparam arrowThickness 0.5
+skinparam packageTitleAlignment left
+
+skinparam usecase {
+  borderThickness 0.5
+}
+
+skinparam rectangle {
+  borderThickness 0.5
+}
+
+skinparam component {
+  borderThickness 1
+}
+
+
+(<b>build</b>)
+(<b>build/event.types</b>)
+(<b>build/event.types.d</b>)
+(<b>build/index.d</b>)
+(<b>errors/eventPluginError.builder</b>)
+(<b>errors/eventPluginError.builder</b>)
+(<b>errors/eventPluginError.builder</b>)
+(<b>errors/eventPluginError.builder.d</b>)
+(<b>errors/eventPluginError.builder.d</b>)
+(errors/SpruceError)
+rectangle "errors/SpruceError" as _errors_SpruceError
+rectangle "errors/SpruceError" as _errors_SpruceError
+rectangle "<b>errors/SpruceError.d</b>" as _errors_SpruceError_d
+rectangle "<b>errors/SpruceError.d</b>" as _errors_SpruceError_d
+(<b>esm</b>)
+(<b>esm/event.types</b>)
+(<b>esm/event.types.d</b>)
+(<b>esm/index.d</b>)
+(<b>my-skill-1614746189229/my-cool-event.v2021_01_22.listener</b>)
+(<b>my-skill-1614746189229/my-cool-event.v2021_01_22.listener.d</b>)
+(<b>my-skill-1614746789360/my-cool-event.v2021_01_22.listener</b>)
+(<b>my-skill-1614746789360/my-cool-event.v2021_01_22.listener.d</b>)
+(<b>my-skill-1614960408734/my-cool-event.v2021_01_22.listener</b>)
+(<b>my-skill-1614960408734/my-cool-event.v2021_01_22.listener.d</b>)
+(<b>my-skill-1614961008466/my-cool-event.v2021_01_22.listener</b>)
+(<b>my-skill-1614961008466/my-cool-event.v2021_01_22.listener.d</b>)
+(<b>namespace/my-cool-event.v2021_01_22.listener</b>)
+(<b>namespace/my-cool-event.v2021_01_22.listener</b>)
+(<b>namespace/my-cool-event.v2021_01_22.listener</b>)
+(<b>namespace/my-cool-event.v2021_01_22.listener</b>)
+(<b>namespace/my-cool-event.v2021_01_22.listener</b>)
+(<b>namespace/my-cool-event.v2021_01_22.listener</b>)
+(<b>namespace/my-cool-event.v2021_01_22.listener</b>)
+(<b>namespace/my-cool-event.v2021_01_22.listener</b>)
+(<b>namespace/my-cool-event.v2021_01_22.listener</b>)
+(<b>namespace/my-cool-event.v2021_01_22.listener</b>)
+(<b>namespace/my-cool-event.v2021_01_22.listener.d</b>)
+(<b>namespace/my-cool-event.v2021_01_22.listener.d</b>)
+(<b>namespace/my-cool-event.v2021_01_22.listener.d</b>)
+(<b>namespace/my-cool-event.v2021_01_22.listener.d</b>)
+(<b>namespace/my-cool-event.v2021_01_22.listener.d</b>)
+(<b>namespace/my-cool-event.v2021_01_22.listener.d</b>)
+rectangle "plugins/event.plugin" as _plugins_event_plugin
+(plugins/event.plugin)
+rectangle "plugins/event.plugin" as _plugins_event_plugin
+rectangle "<b>plugins/event.plugin.d</b>" as _plugins_event_plugin_d
+rectangle "<b>plugins/event.plugin.d</b>" as _plugins_event_plugin_d
+(<b>release.config</b>)
+(<b>skill/did-boot.v2021_02_08.listener</b>)
+(<b>skill/did-boot.v2021_02_08.listener</b>)
+(<b>skill/did-boot.v2021_02_08.listener</b>)
+(<b>skill/did-boot.v2021_02_08.listener</b>)
+(<b>skill/did-boot.v2021_02_08.listener</b>)
+(<b>skill/did-boot.v2021_02_08.listener</b>)
+(<b>skill/did-boot.v2021_02_08.listener</b>)
+(<b>skill/did-boot.v2021_02_08.listener</b>)
+(<b>skill/did-boot.v2021_02_08.listener.d</b>)
+(<b>skill/did-boot.v2021_02_08.listener.d</b>)
+(<b>skill/did-boot.v2021_02_08.listener.d</b>)
+(<b>skill/did-boot.v2021_02_08.listener.d</b>)
+(<b>skill/did-boot.v2021_02_08.listener.d</b>)
+(<b>skill/did-boot.v2021_03_22.listener</b>)
+(<b>skill/did-boot.v2021_03_22.listener</b>)
+(<b>skill/did-boot.v2021_03_22.listener</b>)
+(<b>skill/did-boot.v2021_03_22.listener</b>)
+(<b>skill/did-boot.v2021_03_22.listener.d</b>)
+(<b>skill/did-boot.v2021_03_22.listener.d</b>)
+(<b>skill/will-boot.v2021_02_08.listener</b>)
+(<b>skill/will-boot.v2021_02_08.listener</b>)
+(<b>skill/will-boot.v2021_02_08.listener</b>)
+(<b>skill/will-boot.v2021_02_08.listener</b>)
+(<b>skill/will-boot.v2021_02_08.listener</b>)
+(<b>skill/will-boot.v2021_02_08.listener</b>)
+(<b>skill/will-boot.v2021_02_08.listener</b>)
+(<b>skill/will-boot.v2021_02_08.listener</b>)
+(<b>skill/will-boot.v2021_02_08.listener</b>)
+(<b>skill/will-boot.v2021_02_08.listener.d</b>)
+(<b>skill/will-boot.v2021_02_08.listener.d</b>)
+(<b>skill/will-boot.v2021_02_08.listener.d</b>)
+(<b>skill/will-boot.v2021_02_08.listener.d</b>)
+(<b>skill/will-boot.v2021_02_08.listener.d</b>)
+(<b>skill/will-boot.v2021_02_08.listener.d</b>)
+(<b>skill/will-boot.v2021_03_22.listener</b>)
+(<b>skill/will-boot.v2021_03_22.listener</b>)
+(<b>skill/will-boot.v2021_03_22.listener</b>)
+(<b>skill/will-boot.v2021_03_22.listener.d</b>)
+(<b>skill/will-boot.v2021_03_22.listener.d</b>)
+(<b>src</b>)
+(<b>src/event.types</b>)
+rectangle "<b>tests/AbstractEventPluginTest</b>" as _tests_AbstractEventPluginTest
+(<b>tests/AbstractEventPluginTest</b>)
+rectangle "<b>tests/AbstractEventPluginTest</b>" as _tests_AbstractEventPluginTest
+rectangle "<b>tests/AbstractEventPluginTest.d</b>" as _tests_AbstractEventPluginTest_d
+rectangle "<b>tests/AbstractEventPluginTest.d</b>" as _tests_AbstractEventPluginTest_d
+
+
+(<b>build</b>) -[thickness=1]> (plugins/event.plugin)
+(<b>build/index.d</b>) -[thickness=1]> (plugins/event.plugin)
+(<b>esm</b>) -[thickness=1]> _plugins_event_plugin
+(<b>esm/index.d</b>) -[thickness=1]> _plugins_event_plugin
+_plugins_event_plugin --> _errors_SpruceError
+(plugins/event.plugin) --> (errors/SpruceError)
+_plugins_event_plugin --> _errors_SpruceError
+(<b>src</b>) -[thickness=1]> _plugins_event_plugin
+_tests_AbstractEventPluginTest --[thickness=1]> _plugins_event_plugin
+(<b>tests/AbstractEventPluginTest</b>) --[thickness=1]> (plugins/event.plugin)
+_tests_AbstractEventPluginTest --[thickness=1]> _plugins_event_plugin
+
+@enduml
+
+
+' View and edit on https://arkit.pro
+]]></script></g></svg>
