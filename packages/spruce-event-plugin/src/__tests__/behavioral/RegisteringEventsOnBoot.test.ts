@@ -1,25 +1,41 @@
-import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
+import {
+	eventContractUtil,
+	eventResponseUtil,
+} from '@sprucelabs/spruce-event-utils'
 import { assert, test } from '@sprucelabs/test'
 import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
 export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest {
 	@test()
 	protected static async noEventsToStart() {
-		const contracts = await this.register2SkillsInstallAtOrgAndBootSkill()
-
-		assert.isLength(contracts, 1)
+		const {
+			contracts,
+			registeredSkill,
+		} = await this.register2SkillsInstallAtOrgAndBootSkill()
+		assert.isFalse(this.doesIncudeEventBySkill(contracts, registeredSkill))
 	}
 
 	@test()
 	protected static async registersEventsOnBoot() {
 		this.cwd = this.resolveTestPath('skill')
 
-		const contracts = await this.register2SkillsInstallAtOrgAndBootSkill(
-			async (skill) => {
-				this.generateGoodContractFileForSkill(skill)
-			}
+		const {
+			contracts,
+			registeredSkill,
+		} = await this.register2SkillsInstallAtOrgAndBootSkill(async (skill) => {
+			this.generateGoodContractFileForSkill(skill)
+		})
+
+		assert.isTrue(this.doesIncudeEventBySkill(contracts, registeredSkill))
+	}
+
+	private static doesIncudeEventBySkill(contracts: any, registeredSkill: any) {
+		const unified = eventContractUtil.unifyContracts(contracts)
+		const names = eventContractUtil.getEventNames(
+			unified ?? { eventSignatures: {} },
+			registeredSkill.slug
 		)
 
-		assert.isLength(contracts, 2)
+		return names.length > 0
 	}
 
 	private static async register2SkillsInstallAtOrgAndBootSkill(
@@ -54,6 +70,7 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 
 		const payload = eventResponseUtil.getFirstResponseOrThrow(results)
 		const contracts = payload.contracts
-		return contracts
+
+		return { contracts, registeredSkill, skill2 }
 	}
 }
