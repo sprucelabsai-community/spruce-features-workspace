@@ -105,8 +105,7 @@
 						"canGetFunctioningStores": "I90"
 					}
 				}
-			],
-			"jest-junit"
+			]
 		]
 	},
 	"yarn-upgrade-all": {
