@@ -26,7 +26,8 @@
 	},
 	"include": [
 		"./*.ts",
-		"./**/*.ts"
+		"./**/*.ts",
+		"src/__tests__/testDirsAndFiles/bad-skill/build/conversations/bookAppointment.topic.js"
 	],
 	"exclude": [
 		"build"

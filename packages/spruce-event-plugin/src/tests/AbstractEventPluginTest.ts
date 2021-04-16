@@ -40,11 +40,16 @@ export default class AbstractEventPluginTest extends AbstractSpruceFixtureTest {
 
 	protected static generateGoodContractFileForSkill(skill: any) {
 		const sourceContents = diskUtil.readFile(
-			this.resolvePath('src', '.spruce', 'events', 'source.events.contract.js')
+			this.resolvePath(
+				'build',
+				'.spruce',
+				'events',
+				'source.events.contract.js'
+			)
 		)
 		const updatedContents = sourceContents.replace('{{namespace}}', skill.slug)
 		const destination = this.resolvePath(
-			'src',
+			'build',
 			'.spruce',
 			'events',
 			'events.contract.js'

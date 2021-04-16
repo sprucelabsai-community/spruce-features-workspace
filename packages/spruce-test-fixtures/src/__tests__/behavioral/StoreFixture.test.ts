@@ -26,7 +26,7 @@ export default class StoreFixtureTest extends AbstractSpruceTest {
 				'..',
 				'testDirsAndFiles',
 				'one-good-store-skill',
-				'src'
+				'build'
 			)
 		)
 

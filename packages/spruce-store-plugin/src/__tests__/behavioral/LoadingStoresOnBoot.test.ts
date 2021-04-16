@@ -3,7 +3,8 @@ import { test, assert } from '@sprucelabs/test'
 import { errorAssertUtil } from '@sprucelabs/test-utils'
 import { StoreFeaturePlugin } from '../../plugins/store.plugin'
 import AbstractStoreTest from '../../tests/AbstractStoreTest'
-import OneGoodStore from '../testDirsAndFiles/one-good-store-skill/src/stores/Good.store'
+// eslint-disable-next-line spruce/prohibit-import-from-build-folder
+import OneGoodStore from '../testDirsAndFiles/one-good-store-skill/build/stores/Good.store'
 
 export default class LoadingStoresOnBootTest extends AbstractStoreTest {
 	@test()
@@ -111,7 +112,7 @@ export default class LoadingStoresOnBootTest extends AbstractStoreTest {
 		this.setCwd('one-good-store-skill')
 
 		const db = await this.connectToDatabase()
-		const loader = await StoreLoader.getInstance(this.resolvePath('src'), db)
+		const loader = await StoreLoader.getInstance(this.resolvePath('build'), db)
 
 		loader.loadStoresAndErrors = () => {
 			throw new Error('FAIL')
@@ -119,7 +120,7 @@ export default class LoadingStoresOnBootTest extends AbstractStoreTest {
 
 		await this.bootSkill()
 
-		assert.doesInclude(this.skillBootError.message, 'FAIL')
+		assert.doesInclude(this.skillBootError?.message, 'FAIL')
 
 		this.clearSkillBootErrors()
 	}

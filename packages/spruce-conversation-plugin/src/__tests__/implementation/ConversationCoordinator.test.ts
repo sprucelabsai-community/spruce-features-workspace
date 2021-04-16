@@ -17,7 +17,7 @@ export default class TopicCoordinatorTest extends AbstractConversationTest {
 			sendMessageHandler: async (message) => {
 				this.sentMessages.push(message)
 			},
-			topicLookupPath: this.resolveTestPath('skill', 'src'),
+			topicLookupPath: this.resolveTestPath('skill', 'build'),
 		})
 	}
 

@@ -44,7 +44,7 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
 		const skill = new Skill({
 			rootDir: this.cwd,
 			shouldCountdownOnExit: false,
-			activeDir: this.resolvePath('src'),
+			activeDir: this.resolvePath('build'),
 			hashSpruceDir: this.cwd,
 			log,
 			...options,
