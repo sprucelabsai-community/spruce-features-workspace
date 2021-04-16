@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.2](https://github.com/sprucelabsai/spruce-features-workspace/compare/v2.0.1...v2.0.2) (2021-04-16)
+
+
+### Bug Fixes
+
+* remove jest-junit reference ([dee2875](https://github.com/sprucelabsai/spruce-features-workspace/commit/dee2875))
+
+
+
+
+
 ## [2.0.1](https://github.com/sprucelabsai/spruce-features-workspace/compare/v2.0.0...v2.0.1) (2021-04-15)
 
 **Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
