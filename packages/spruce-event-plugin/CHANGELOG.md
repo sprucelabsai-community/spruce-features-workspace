@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v2.0.3...v3.0.0) (2021-04-16)
+
+
+### Breaking Changes
+
+* booting a skill from test uses build dir vs src dir ([d0e3561](https://github.com/sprucelabsai/spruce-features-workspace/commit/d0e3561))
+
+
+
+
+
 ## [2.0.3](https://github.com/sprucelabsai/spruce-features-workspace/compare/v2.0.2...v2.0.3) (2021-04-16)
 
 **Note:** Version bump only for package @sprucelabs/spruce-event-plugin
