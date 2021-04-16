@@ -3,8 +3,6 @@ import { test, assert } from '@sprucelabs/test'
 import { errorAssertUtil } from '@sprucelabs/test-utils'
 import { StoreFeaturePlugin } from '../../plugins/store.plugin'
 import AbstractStoreTest from '../../tests/AbstractStoreTest'
-// eslint-disable-next-line spruce/prohibit-import-from-build-folder
-import OneGoodStore from '../testDirsAndFiles/one-good-store-skill/build/stores/Good.store'
 
 export default class LoadingStoresOnBootTest extends AbstractStoreTest {
 	@test()
@@ -104,6 +102,9 @@ export default class LoadingStoresOnBootTest extends AbstractStoreTest {
 		//@ts-ignore
 		const store = (await factory.Store('good')) as any
 		assert.isTruthy(store)
+
+		const OneGoodStore = require('../testDirsAndFiles/one-good-store-skill/build/stores/Good.store')
+			.default
 		assert.isTrue(store instanceof OneGoodStore)
 	}
 
