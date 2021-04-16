@@ -18,6 +18,10 @@ jobs:
               echo "[npm-publish] detected. No publish necessary 👊"
               circleci-agent step halt
             fi
+      - run:
+          name: "ENV file creation"
+          command: |
+            [ -n "$BASE64_ENV" ] && echo $BASE64_ENV | base64 --decode > packages/spruce-test-fixtures/.env
       - run: node -v && npm -v && yarn -v
       - run: which rsync || ( sudo apt-get update -y && sudo apt-get install rsync -y )
       - run: yarn install
@@ -26,9 +30,9 @@ jobs:
       - run:
           name: "set phone numbers for each pacakge"
           command: |
-            echo DEMO_NUMBER=555-001-0002 |tee packages/spruce-test-fixtures/.env
-            echo DEMO_NUMBER=555-002-0002 |tee packages/spruce-conversation-plugin/.env
-            echo DEMO_NUMBER=555-003-0002 |tee packages/spruce-event-plugin/.env
+            echo DEMO_NUMBER=555-001-0002 |tee -a packages/spruce-test-fixtures/.env
+            echo DEMO_NUMBER=555-002-0002 |tee -a packages/spruce-conversation-plugin/.env
+            echo DEMO_NUMBER=555-003-0002 |tee -a packages/spruce-event-plugin/.env
       - run: yarn test
       - run:
           name: Check branch for auto-upgrade
