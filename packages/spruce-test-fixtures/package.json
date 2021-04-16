@@ -63,6 +63,7 @@
 		"@sprucelabs/resolve-path-aliases": "latest",
 		"@sprucelabs/semantic-release": "latest",
 		"@sprucelabs/test": "latest",
+		"@sprucelabs/jest-sheets-reporter": "latest",
 		"@sprucelabs/test-utils": "latest",
 		"@types/node": "^14.14.37",
 		"chokidar-cli": "^2.1.0",
@@ -92,7 +93,21 @@
 		],
 		"moduleNameMapper": {
 			"^#spruce/(.*)$": "<rootDir>/build/.spruce/$1"
-		}
+		},
+		"reporters": [
+			"default",
+			[
+				"@sprucelabs/jest-sheets-reporter",
+				{
+					"sheetId": "1DoWM7mYgGDa-PJXptLomrZmbIBZiuxS1YiAsRXU2Gm0",
+					"worksheetId": 843037832,
+					"testMap": {
+						"canGetFunctioningStores": "I90"
+					}
+				}
+			],
+			"jest-junit"
+		]
 	},
 	"yarn-upgrade-all": {
 		"ignore": [
@@ -111,7 +126,8 @@
 			"conventional-changelog-sprucelabs",
 			"eslint-config-spruce",
 			"@sprucelabs/mercury-types",
-			"@sprucelabs/data-stores"
+			"@sprucelabs/data-stores",
+			"@sprucelabs/jest-sheets-reporter"
 		]
 	}
 }
