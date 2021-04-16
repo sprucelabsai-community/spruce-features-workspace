@@ -3,7 +3,7 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "2.0.0",
+	"version": "2.0.1",
 	"files": [
 		"build/**/*",
 		"!build/__tests__",
@@ -46,14 +46,14 @@
 		"watch.rebuild": "yarn clean.all && yarn && yarn watch.build.dev"
 	},
 	"dependencies": {
+		"@sprucelabs/data-stores": "latest",
 		"@sprucelabs/error": "latest",
 		"@sprucelabs/mercury-client": "latest",
 		"@sprucelabs/schema": "latest",
 		"@sprucelabs/spruce-core-schemas": "latest",
 		"@sprucelabs/spruce-event-utils": "latest",
-		"@sprucelabs/spruce-skill-booter": "^2.0.0",
+		"@sprucelabs/spruce-skill-booter": "^2.0.1",
 		"@sprucelabs/spruce-skill-utils": "latest",
-		"@sprucelabs/data-stores": "latest",
 		"dotenv": "^8.2.0"
 	},
 	"devDependencies": {
