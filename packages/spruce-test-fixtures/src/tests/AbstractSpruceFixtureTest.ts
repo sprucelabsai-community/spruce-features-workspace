@@ -14,8 +14,12 @@ export type Message = SpruceSchemas.Spruce.v2020_07_22.Message
 export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTest {
 	protected static async beforeAll() {
 		await super.beforeAll()
+
 		MercuryClientFactory.setIsTestMode(true)
 		MercuryClientFactory.setDefaultContract(coreEventContracts[0])
+
+		process.env.DB_CONNECTION_STRING = 'memory://'
+		process.env.DB_NAME = 'skill'
 	}
 
 	protected static async beforeEach() {

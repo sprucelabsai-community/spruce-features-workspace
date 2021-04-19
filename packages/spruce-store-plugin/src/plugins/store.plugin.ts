@@ -34,6 +34,7 @@ export class StoreFeaturePlugin implements SkillFeature {
 
 	public constructor(skill: Skill) {
 		this.skill = skill
+
 		this.dbConnectionString = process.env.DB_CONNECTION_STRING
 		this.dbName = process.env.DB_NAME
 	}
