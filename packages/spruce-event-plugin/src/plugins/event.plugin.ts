@@ -117,6 +117,7 @@ export class EventFeaturePlugin implements SkillFeature {
 				this.log.info('Connection to Mercury successful. Waiting for events.')
 
 				const { client } = await this.apiClientPromise
+				//@ts-ignore
 				this.skill.updateContext('mercury', client)
 
 				await new Promise((resolve, reject) => {
