@@ -18,7 +18,7 @@ export default class RegisteringConversationsOnBootTest extends AbstractConversa
 
 	@test()
 	protected static async noConvosToStart() {
-		const topics = await this.boot()
+		const topics = await this.registerAndBoot()
 		assert.isLength(topics, 0)
 	}
 
@@ -26,14 +26,15 @@ export default class RegisteringConversationsOnBootTest extends AbstractConversa
 	protected static async registersConvosOnBoot() {
 		this.cwd = this.resolveTestPath('skill')
 
-		const topics = await this.boot()
+		const topics = await this.registerAndBoot()
 
 		this.assertExpectedTopics(topics)
 	}
 
 	@test()
 	protected static async skillShutsDownWhenConvosFailToRegister() {
-		const skill = await super.bootSkill()
+		const skill = await super.bootSkill({ shouldSuppressBootErrors: true })
+
 		assert.isFalse(skill.isRunning())
 		this.clearSkillBootErrors()
 	}
@@ -42,11 +43,11 @@ export default class RegisteringConversationsOnBootTest extends AbstractConversa
 	protected static async canBootASecondTime() {
 		this.cwd = this.resolveTestPath('skill')
 
-		const topics = await this.boot()
+		const topics = await this.registerAndBoot()
 
 		this.assertExpectedTopics(topics)
 
-		const topics2 = await this.boot({
+		const topics2 = await this.registerAndBoot({
 			skillId: process.env.SKILL_ID as string,
 			apiKey: process.env.SKILL_API_KEY as string,
 		})
@@ -58,8 +59,8 @@ export default class RegisteringConversationsOnBootTest extends AbstractConversa
 	protected static async skillCanBootASecondTime() {
 		this.cwd = this.resolveTestPath('skill')
 
-		await this.boot()
-		await this.boot({
+		await this.registerAndBoot()
+		await this.registerAndBoot({
 			skillId: process.env.SKILL_ID as string,
 			apiKey: process.env.SKILL_API_KEY as string,
 		})
@@ -75,7 +76,10 @@ export default class RegisteringConversationsOnBootTest extends AbstractConversa
 		assert.doesInclude(topics, { key: 'mixedStringsAndCallbacks' })
 	}
 
-	private static async boot(options?: { skillId: string; apiKey: string }) {
+	private static async registerAndBoot(options?: {
+		skillId: string
+		apiKey: string
+	}) {
 		if (options?.skillId) {
 			process.env.SKILL_ID = options.skillId
 			process.env.SKILL_API_KEY = options.apiKey
@@ -88,7 +92,7 @@ export default class RegisteringConversationsOnBootTest extends AbstractConversa
 			process.env.SKILL_API_KEY = registeredSkill.apiKey
 		}
 
-		const skill = await super.bootSkill()
+		const skill = await this.bootSkill()
 
 		const eventFeature = skill.getFeatureByCode('event') as EventFeature
 

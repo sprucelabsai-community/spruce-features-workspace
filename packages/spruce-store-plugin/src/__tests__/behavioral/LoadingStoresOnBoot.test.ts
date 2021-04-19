@@ -8,7 +8,7 @@ export default class LoadingStoresOnBootTest extends AbstractStoreTest {
 	@test()
 	protected static async throwsWhenLoadingImproperlyImplementedStore() {
 		this.setCwd('one-bad-store-skill')
-		await this.bootSkill()
+		await this.bootSkill({ shouldSuppressBootErrors: true })
 		assert.isTruthy(this.skillBootError)
 
 		errorAssertUtil.assertError(this.skillBootError, 'FAILED_TO_LOAD_STORE', {
@@ -21,7 +21,7 @@ export default class LoadingStoresOnBootTest extends AbstractStoreTest {
 	@test()
 	protected static async throwsIfJustOneStoreIsBad() {
 		this.setCwd('one-good-one-bad-store-skill')
-		await this.bootSkill()
+		await this.bootSkill({ shouldSuppressBootErrors: true })
 		assert.isTruthy(this.skillBootError)
 
 		errorAssertUtil.assertError(this.skillBootError, 'FAILED_TO_LOAD_STORE', {
@@ -36,7 +36,7 @@ export default class LoadingStoresOnBootTest extends AbstractStoreTest {
 		delete process.env.DB_CONNECTION_STRING
 
 		this.setCwd('one-good-store-skill')
-		await this.bootSkill()
+		await this.bootSkill({ shouldSuppressBootErrors: true })
 
 		assert.isTruthy(this.skillBootError)
 
@@ -53,7 +53,7 @@ export default class LoadingStoresOnBootTest extends AbstractStoreTest {
 		delete process.env.DB_NAME
 
 		this.setCwd('one-good-store-skill')
-		await this.bootSkill()
+		await this.bootSkill({ shouldSuppressBootErrors: true })
 
 		assert.isTruthy(this.skillBootError)
 
@@ -70,7 +70,7 @@ export default class LoadingStoresOnBootTest extends AbstractStoreTest {
 		delete process.env.DB_CONNECTION_STRING
 
 		this.setCwd('one-good-store-skill')
-		await this.bootSkill()
+		await this.bootSkill({ shouldSuppressBootErrors: true })
 
 		assert.isTruthy(this.skillBootError)
 
@@ -84,7 +84,7 @@ export default class LoadingStoresOnBootTest extends AbstractStoreTest {
 	@test()
 	protected static async canGetStoreFactory() {
 		this.setCwd('one-good-store-skill')
-		const skill = await this.bootSkill()
+		const skill = await this.bootSkill({ shouldSuppressBootErrors: true })
 		const stores = skill.getFeatureByCode('store') as StoreFeaturePlugin
 
 		const factory = stores.getFactory()
@@ -94,7 +94,7 @@ export default class LoadingStoresOnBootTest extends AbstractStoreTest {
 	@test()
 	protected static async canGetStoreFromStoreFactory() {
 		this.setCwd('one-good-store-skill')
-		const skill = await this.bootSkill()
+		const skill = await this.bootSkill({ shouldSuppressBootErrors: true })
 		const stores = skill.getFeatureByCode('store') as StoreFeaturePlugin
 
 		const factory = stores.getFactory()
@@ -119,7 +119,7 @@ export default class LoadingStoresOnBootTest extends AbstractStoreTest {
 			throw new Error('FAIL')
 		}
 
-		await this.bootSkill()
+		await this.bootSkill({ shouldSuppressBootErrors: true })
 
 		assert.doesInclude(this.skillBootError?.message, 'FAIL')
 

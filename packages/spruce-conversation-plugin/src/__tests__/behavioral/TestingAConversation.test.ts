@@ -1,3 +1,4 @@
+import { TestBootOptions } from '@sprucelabs/spruce-skill-booter'
 import { test, assert } from '@sprucelabs/test'
 import { errorAssertUtil } from '@sprucelabs/test-utils'
 import { ConversationFeature } from '../../plugins/conversation.plugin'
@@ -16,7 +17,9 @@ export default class TestingAConversationTest extends AbstractConversationTest {
 
 	@test()
 	protected static async bootingNormallyDoesNotGoToTestMode() {
-		const conversation = await this.bootAndGetConversationFeature()
+		const conversation = await this.bootAndGetConversationFeature({
+			shouldSuppressBootErrors: true,
+		})
 
 		assert.isFalse(conversation.isTesting())
 		this.clearSkillBootErrors()
@@ -52,8 +55,10 @@ export default class TestingAConversationTest extends AbstractConversationTest {
 		errorAssertUtil.assertError(err, 'CONVERSATION_ABORTED')
 	}
 
-	private static async bootAndGetConversationFeature() {
-		const skill = await this.bootSkill()
+	private static async bootAndGetConversationFeature(
+		options?: TestBootOptions
+	) {
+		const skill = await this.bootSkill(options)
 		const conversation = skill.getFeatureByCode(
 			'conversation'
 		) as ConversationFeature

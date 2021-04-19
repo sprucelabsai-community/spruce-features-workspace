@@ -1,8 +1,17 @@
 import { SchemaRegistry } from '@sprucelabs/schema'
-import { diskUtil, mockLog, pluginUtil } from '@sprucelabs/spruce-skill-utils'
+import {
+	diskUtil,
+	mockLog,
+	pluginUtil,
+	Skill,
+} from '@sprucelabs/spruce-skill-utils'
 import AbstractSpruceTest, { assert } from '@sprucelabs/test'
-import Skill from '../skills/Skill'
-import { SkillFactoryOptions } from '../types/skill.types'
+import SkillImpl from '../skills/Skill'
+import {
+	SkillFactoryOptions,
+	TestBootOptions,
+	TestBootWaitOptions,
+} from '../types/skill.types'
 
 export default class AbstractSkillTest extends AbstractSpruceTest {
 	protected static skills: Skill[] = []
@@ -41,7 +50,7 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
 	protected static async Skill(options?: SkillFactoryOptions) {
 		const { plugins = [], log = mockLog } = options ?? {}
 
-		const skill = new Skill({
+		const skill = new SkillImpl({
 			rootDir: this.cwd,
 			shouldCountdownOnExit: false,
 			activeDir: this.resolvePath('build'),
@@ -51,7 +60,7 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
 		})
 
 		for (const plugin of plugins) {
-			void plugin(skill)
+			plugin(skill)
 		}
 
 		if (diskUtil.doesHashSprucePathExist(this.cwd)) {
@@ -61,26 +70,45 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
 
 		this.skills.push(skill)
 
-		return skill
+		return skill as Skill
 	}
 
-	protected static async bootSkill(options?: SkillFactoryOptions) {
+	protected static async bootSkill(options?: TestBootOptions) {
 		const skill = await this.Skill(options)
 
-		await this.bootSkillAndWait(skill)
+		await this.bootSkillAndWait(skill, options)
 
 		return skill
 	}
 
-	private static async bootSkillAndWait(skill: Skill) {
-		void skill.execute().catch((err) => {
-			this.skillBootError = err
-		})
+	private static async bootSkillAndWait(
+		skill: Skill,
+		options?: TestBootWaitOptions
+	) {
+		return new Promise((resolve, reject) => {
+			let error: any
 
-		await this.waitUntilSkillIsBooted(skill)
+			void skill.execute().catch((err) => {
+				if (!options?.shouldSuppressBootErrors) {
+					error = err
+				} else {
+					this.skillBootError = err
+				}
+			})
+
+			void this.waitUntilSkillIsBooted(skill)
+				.then(() => {
+					if (error) {
+						reject(error)
+					} else {
+						resolve(skill)
+					}
+				})
+				.catch(reject)
+		})
 	}
 
-	protected static async bootSkillFromTestDirAndWait(key: string) {
+	protected static async bootSkillFromTestDir(key: string) {
 		const skill = await this.SkillFromTestDir(key)
 		await this.bootSkillAndWait(skill)
 

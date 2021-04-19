@@ -8,3 +8,9 @@ export interface SkillFactoryOptions {
 	plugins?: ((skill: Skill) => void)[]
 	log?: Log
 }
+
+export type TestBootWaitOptions = {
+	shouldSuppressBootErrors?: boolean
+}
+
+export type TestBootOptions = SkillFactoryOptions & TestBootWaitOptions

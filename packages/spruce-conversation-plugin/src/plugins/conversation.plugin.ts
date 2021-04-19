@@ -137,20 +137,20 @@ export class ConversationFeature implements SkillFeature {
 
 		this.log.info(`Found ${topics.length} conversation topics.`)
 
+		const client = await this.connectToApi()
+
+		this.log.info('Unregistering all past conversation topics.')
+
+		const unregisterResults = await client.emit(
+			'unregister-conversation-topics::v2020_12_25',
+			{
+				payload: { shouldUnregisterAll: true },
+			}
+		)
+
+		eventResponseUtil.getFirstResponseOrThrow(unregisterResults)
+
 		if (topics.length > 0) {
-			const client = await this.connectToApi()
-
-			this.log.info('Unregistering past conversation topics.')
-
-			const unregisterResults = await client.emit(
-				'unregister-conversation-topics::v2020_12_25',
-				{
-					payload: { shouldUnregisterAll: true },
-				}
-			)
-
-			eventResponseUtil.getFirstResponseOrThrow(unregisterResults)
-
 			this.log.info(
 				`Registering new ${topics.length} topic${
 					topics.length === 1 ? '' : 's'

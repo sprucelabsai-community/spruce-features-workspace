@@ -1,14 +1,10 @@
-import {
-	buildLog,
-	diskUtil,
-	mockLog,
-	Skill as ISkill,
-} from '@sprucelabs/spruce-skill-utils'
-import AbstractSpruceTest, { test, assert } from '@sprucelabs/test'
+import { buildLog, diskUtil } from '@sprucelabs/spruce-skill-utils'
+import { test, assert } from '@sprucelabs/test'
 import { errorAssertUtil } from '@sprucelabs/test-utils'
-import Skill, { SkillOptions } from '../../skills/Skill'
+import Skill from '../../skills/Skill'
+import AbstractSkillTest from '../../tests/AbstractSkillTest'
 
-export default class SkillTest extends AbstractSpruceTest {
+export default class SkillTest extends AbstractSkillTest {
 	@test()
 	protected static async canCreatSkill() {
 		const skill = new Skill({
@@ -159,21 +155,31 @@ export default class SkillTest extends AbstractSpruceTest {
 
 		void skill.execute()
 
-		do {
-			await this.wait(500)
-		} while (!skill.isBooted() && skill.isRunning())
+		await this.waitUntilSkillIsBooted(skill)
 
 		assert.isAbove(log.search('Skill booted'), -1)
 	}
 
-	private static async Skill(options?: Partial<SkillOptions>) {
-		return new Skill({
-			shouldCountdownOnExit: false,
-			rootDir: this.cwd,
-			activeDir: this.cwd,
-			hashSpruceDir: this.cwd,
-			log: mockLog,
-			...options,
-		}) as ISkill
+	@test()
+	protected static async abstractSkillTestBootCrashesIfFeatureThrows() {
+		const err = await assert.doesThrowAsync(() =>
+			this.bootSkill({
+				plugins: [
+					(skill) => {
+						skill.registerFeature('test', {
+							execute: async () => {
+								throw new Error('test')
+							},
+							checkHealth: async () => ({ status: 'passed' }),
+							isInstalled: async () => true,
+							isBooted: () => false,
+							destroy: async () => {},
+						})
+					},
+				],
+			})
+		)
+
+		assert.doesInclude(err.message, 'test')
 	}
 }

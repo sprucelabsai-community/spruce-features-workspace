@@ -208,7 +208,7 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 		process.env.SKILL_API_KEY = skill2.apiKey
 		process.env.SKILL_ID = skill2.id
 
-		const skill = await this.bootSkill()
+		const skill = await this.bootSkill({ shouldSuppressBootErrors: true })
 
 		return { fqen, skill, client1, skill2 }
 	}

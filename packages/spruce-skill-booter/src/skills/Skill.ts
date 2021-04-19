@@ -47,10 +47,7 @@ export default class Skill implements ISkill {
 		return this.featureMap[featureCode].isInstalled()
 	}
 
-	public registerFeature = async (
-		featureCode: string,
-		feature: SkillFeature
-	) => {
+	public registerFeature = (featureCode: string, feature: SkillFeature) => {
 		this.log.info(`Registering feature.${featureCode}`)
 		this.featureMap[featureCode] = feature
 	}
