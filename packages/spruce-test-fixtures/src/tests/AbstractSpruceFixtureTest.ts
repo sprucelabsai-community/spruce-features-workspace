@@ -64,7 +64,7 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		process.env.SKILL_ID = registeredSkill.id
 		process.env.SKILL_API_KEY = registeredSkill.apiKey
 
-		const skill = await this.bootSkillFromTestDirAndWait(key)
+		const skill = await this.bootSkillFromTestDir(key)
 
 		return skill
 	}
