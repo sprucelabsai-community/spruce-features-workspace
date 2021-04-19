@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.0.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v3.0.0...v4.0.0) (2021-04-19)
+
+
+### Breaking Changes
+
+* booting skill crashing throws in tests ([d8dc7bc](https://github.com/sprucelabsai/spruce-features-workspace/commit/d8dc7bc))
+
+
+
+
+
 # [3.0.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v2.0.3...v3.0.0) (2021-04-16)
 
 
