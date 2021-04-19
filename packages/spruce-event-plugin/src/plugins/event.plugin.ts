@@ -44,12 +44,6 @@ type MercuryClient<
 	}>
 }
 
-declare module '@sprucelabs/spruce-skill-utils/build/types/skill.types' {
-	interface SkillContext {
-		mercury: MercuryClient
-	}
-}
-
 export class EventFeaturePlugin implements SkillFeature {
 	private skill: Skill
 	private listenersPath: string
