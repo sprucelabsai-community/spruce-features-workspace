@@ -3,7 +3,7 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "4.0.0",
+	"version": "4.0.1",
 	"files": [
 		"build/**/*",
 		"!build/__tests__",
@@ -52,7 +52,7 @@
 		"@sprucelabs/schema": "latest",
 		"@sprucelabs/spruce-core-schemas": "latest",
 		"@sprucelabs/spruce-event-utils": "latest",
-		"@sprucelabs/spruce-skill-booter": "^4.0.0",
+		"@sprucelabs/spruce-skill-booter": "^4.0.1",
 		"@sprucelabs/spruce-skill-utils": "latest",
 		"dotenv": "^8.2.0"
 	},
