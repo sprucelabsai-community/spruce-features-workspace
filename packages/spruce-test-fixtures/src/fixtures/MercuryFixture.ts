@@ -17,6 +17,7 @@ export default class MercuryFixture {
 
 		this.clientPromise = MercuryClientFactory.Client<any>({
 			host: TEST_HOST,
+			shouldReconnect: false,
 			allowSelfSignedCrt:
 				TEST_HOST.includes('https://localhost') ||
 				TEST_HOST.includes('https://127.0.0.1'),
