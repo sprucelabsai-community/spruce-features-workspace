@@ -58,7 +58,7 @@
 		"globby": "^11.0.3",
 		"inquirer": "^8.0.0",
 		"node-nlp": "^4.22.1",
-		"random": "^3.0.5"
+		"random": "^3.0.6"
 	},
 	"devDependencies": {
 		"@sprucelabs/esm-postbuild": "latest",
