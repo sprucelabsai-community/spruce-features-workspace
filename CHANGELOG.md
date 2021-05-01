@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.1.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v4.0.7...v4.1.0) (2021-05-01)
+
+
+### Features
+
+* abstract store test setups up store fixture ([8b1c940](https://github.com/sprucelabsai/spruce-features-workspace/commit/8b1c940))
+
+
+
+
+
 ## [4.0.7](https://github.com/sprucelabsai/spruce-features-workspace/compare/v4.0.6...v4.0.7) (2021-04-30)
 
 **Note:** Version bump only for package spruce-features-workspace
