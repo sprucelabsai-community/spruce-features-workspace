@@ -1,7 +1,7 @@
 import { test, assert } from '@sprucelabs/test'
-import AbstractStoreTest from '../../tests/AbstractStoreTest'
+import AbstractStorePluginTest from '../../tests/AbstractStorePluginTest'
 
-export default class GracefullyExitingOnErrorsTest extends AbstractStoreTest {
+export default class GracefullyExitingOnErrorsTest extends AbstractStorePluginTest {
 	protected static async beforeEach() {
 		await super.beforeEach()
 		this.cwd = this.resolvePath(
@@ -75,7 +75,6 @@ export default class GracefullyExitingOnErrorsTest extends AbstractStoreTest {
 		)
 
 		const skill = await this.Skill()
-
 		await assert.doesThrowAsync(() => skill.execute())
 	}
 }

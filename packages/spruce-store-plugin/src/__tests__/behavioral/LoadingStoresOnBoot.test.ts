@@ -2,9 +2,9 @@ import { StoreLoader } from '@sprucelabs/data-stores'
 import { test, assert } from '@sprucelabs/test'
 import { errorAssertUtil } from '@sprucelabs/test-utils'
 import { StoreFeaturePlugin } from '../../plugins/store.plugin'
-import AbstractStoreTest from '../../tests/AbstractStoreTest'
+import AbstractStorePluginTest from '../../tests/AbstractStorePluginTest'
 
-export default class LoadingStoresOnBootTest extends AbstractStoreTest {
+export default class LoadingStoresOnBootTest extends AbstractStorePluginTest {
 	@test()
 	protected static async throwsWhenLoadingImproperlyImplementedStore() {
 		this.setCwd('one-bad-store-skill')
@@ -84,6 +84,7 @@ export default class LoadingStoresOnBootTest extends AbstractStoreTest {
 	@test()
 	protected static async canGetStoreFactory() {
 		this.setCwd('one-good-store-skill')
+
 		const skill = await this.bootSkill({ shouldSuppressBootErrors: true })
 		const stores = skill.getFeatureByCode('store') as StoreFeaturePlugin
 

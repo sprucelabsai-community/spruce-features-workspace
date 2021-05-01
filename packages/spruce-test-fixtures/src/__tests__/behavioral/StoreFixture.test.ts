@@ -20,7 +20,7 @@ export default class StoreFixtureTest extends AbstractSpruceTest {
 
 	@test()
 	protected static async canGetFunctioningStores() {
-		StoreLoader.setCwd(
+		StoreLoader.setStoreDir(
 			this.resolvePath(
 				__dirname,
 				'..',

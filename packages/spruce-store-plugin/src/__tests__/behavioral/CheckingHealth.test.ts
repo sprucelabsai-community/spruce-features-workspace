@@ -1,8 +1,8 @@
 import { test, assert } from '@sprucelabs/test'
 import { errorAssertUtil } from '@sprucelabs/test-utils'
-import AbstractStoreTest from '../../tests/AbstractStoreTest'
+import AbstractStorePluginTest from '../../tests/AbstractStorePluginTest'
 
-export default class StoreFeaturePluginTest extends AbstractStoreTest {
+export default class StoreFeaturePluginTest extends AbstractStorePluginTest {
 	protected static async beforeEach() {
 		await super.beforeEach()
 		//@ts-ignore

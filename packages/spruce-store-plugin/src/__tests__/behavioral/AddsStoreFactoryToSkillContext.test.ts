@@ -1,8 +1,8 @@
 import { Database, StoreFactory } from '@sprucelabs/data-stores'
 import { test, assert } from '@sprucelabs/test'
-import AbstractStoreTest from '../../tests/AbstractStoreTest'
+import AbstractStorePluginTest from '../../tests/AbstractStorePluginTest'
 
-export default class AddsStoreFactoryToSkillContextTest extends AbstractStoreTest {
+export default class AddsStoreFactoryToSkillContextTest extends AbstractStorePluginTest {
 	@test()
 	protected static async canCreateAddsStoreFactoryToSkillContext() {
 		const context = await this.bootAndGetContext()
