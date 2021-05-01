@@ -3,7 +3,7 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "4.0.2",
+	"version": "4.0.7",
 	"files": [
 		"build/**/*",
 		"!build/__tests__",
@@ -36,7 +36,7 @@
 		"fix.lint": "eslint --fix '**/*.ts'",
 		"lint": "eslint '**/*.ts'",
 		"rebuild": "yarn clean.all && yarn && yarn build.dev",
-		"resolve-paths.lint": "yarn build.resolve-paths && yarn lint",
+		"resolve-paths.lint": "yarn lint ; yarn build.resolve-paths",
 		"test": "jest",
 		"upgrade.packages": "yarn-upgrade-all && rm yarn.lock ; yarn ; yarn fix.lint ; true",
 		"upgrade.packages.all": "yarn install && yarn upgrade.packages",
@@ -50,15 +50,15 @@
 		"@sprucelabs/error": "latest",
 		"@sprucelabs/schema": "latest",
 		"@sprucelabs/spruce-core-schemas": "latest",
-		"@sprucelabs/spruce-event-plugin": "^4.0.2",
+		"@sprucelabs/spruce-event-plugin": "^4.0.7",
 		"@sprucelabs/spruce-event-utils": "latest",
 		"@sprucelabs/spruce-skill-utils": "latest",
-		"@sprucelabs/spruce-test-fixtures": "^4.0.2",
+		"@sprucelabs/spruce-test-fixtures": "^4.0.7",
 		"fuzzyset": "^1.0.6",
 		"globby": "^11.0.3",
 		"inquirer": "^8.0.0",
 		"node-nlp": "^4.22.1",
-		"random": "^3.0.5"
+		"random": "^3.0.6"
 	},
 	"devDependencies": {
 		"@sprucelabs/esm-postbuild": "latest",
@@ -71,11 +71,11 @@
 		"@sprucelabs/test-utils": "latest",
 		"@types/fuzzyset": "^1.0.2",
 		"@types/inquirer": "^7.3.1",
-		"@types/node": "^14.14.41",
+		"@types/node": "^15.0.1",
 		"chokidar-cli": "^2.1.0",
 		"concurrently": "^6.0.2",
 		"conventional-changelog-sprucelabs": "latest",
-		"eslint": "^7.24.0",
+		"eslint": "^7.25.0",
 		"eslint-config-spruce": "latest",
 		"jest": "^26.6.3",
 		"jest-circus": "^26.6.3",
