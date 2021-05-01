@@ -2,7 +2,6 @@ import { test, assert } from '@sprucelabs/test'
 import { errorAssertUtil } from '@sprucelabs/test-utils'
 import AbstractStoreTest from '../../tests/AbstractStoreTest'
 
-//@ts-ignore
 export default class StoreFeaturePluginTest extends AbstractStoreTest {
 	protected static async beforeEach() {
 		await super.beforeEach()
@@ -96,6 +95,9 @@ export default class StoreFeaturePluginTest extends AbstractStoreTest {
 		if (!shouldSetEnv) {
 			delete process.env.DB_CONNECTION_STRING
 			delete process.env.DB_NAME
+		} else {
+			process.env.DB_CONNECTION_STRING = 'memory://'
+			process.env.DB_NAME = 'memory'
 		}
 	}
 }

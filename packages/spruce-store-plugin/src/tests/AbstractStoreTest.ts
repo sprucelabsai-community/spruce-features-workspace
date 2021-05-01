@@ -1,12 +1,24 @@
+import { StoreLoader } from '@sprucelabs/data-stores'
 import { SkillFactoryOptions } from '@sprucelabs/spruce-skill-booter'
 import { AbstractSpruceFixtureTest } from '@sprucelabs/spruce-test-fixtures'
 import plugin from '../plugins/store.plugin'
 
 export default abstract class AbstractStoreTest extends AbstractSpruceFixtureTest {
+	protected static async beforeAll() {
+		await super.beforeAll()
+
+		const db = await this.Fixture('database').connectToDatabase()
+		const cwd = this.resolvePath(__dirname, '../')
+
+		StoreLoader.setCwd(cwd)
+		StoreLoader.setDatabase(db)
+	}
+
 	protected static async beforeEach() {
 		await super.beforeEach()
-		process.env.DB_CONNECTION_STRING = 'memory://'
-		process.env.DB_NAME = 'mercury'
+
+		const db = await this.Fixture('database').connectToDatabase()
+		await db.dropDatabase()
 	}
 
 	protected static async connectToDatabase() {
