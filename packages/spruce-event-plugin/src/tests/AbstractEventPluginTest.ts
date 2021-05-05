@@ -6,13 +6,8 @@ import plugin, { EventFeaturePlugin } from './../plugins/event.plugin'
 export default class AbstractEventPluginTest extends AbstractSpruceFixtureTest {
 	protected static async beforeEach() {
 		await super.beforeEach()
-		this.cwd = this.resolvePath(
-			'build',
-			'..',
-			'..',
-			'testDirsAndFiles',
-			'skill'
-		)
+
+		this.cwd = this.resolveTestPath('skill')
 
 		EventFeaturePlugin.shouldClientUseEventContracts(false)
 	}

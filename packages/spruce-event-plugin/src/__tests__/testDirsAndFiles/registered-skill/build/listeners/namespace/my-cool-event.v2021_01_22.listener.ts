@@ -10,9 +10,10 @@ import { assert } from '@sprucelabs/test'
 export default async (
 	event: SpruceEvent<
 		SkillEventContract,
-		{ payload: { foo: string; bar: string }; target: EventTarget }
+		{ payload: { foo: string; bar: string, orgId: string }; target: EventTarget }
 	>
 ): SpruceEventResponse<{ taco: string }> => {
+	debugger
 	assert.isTruthy(event)
 	assert.isTrue(event.skill instanceof Skill)
 	assert.isTruthy(event.log)
@@ -21,8 +22,9 @@ export default async (
 
 	const { payload, target, source } = event
 
-	assert.isEqualDeep(payload, { foo: 'bar', bar: 'foo' })
-	assert.isEqualDeep(target, { organizationId: '1234' })
+	assert.isEqual(payload.foo, 'bar')
+	assert.isEqual(payload.bar, 'foo')
+	assert.isEqualDeep(target, { organizationId: payload.orgId })
 	assert.isString(source.skillId)
 
 	return {

@@ -99,7 +99,7 @@ export default class Skill implements ISkill {
 
 			await Promise.all(this.getFeatures().map((feature) => feature.execute()))
 		} catch (err) {
-			this.log.error('Execution error:\n\n' + err.message)
+			this.log.error('Execution error:\n\n' + err.stack)
 
 			await this.kill()
 

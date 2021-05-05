@@ -1,13 +1,13 @@
 import { MercuryClient, MercuryClientFactory } from '@sprucelabs/mercury-client'
-import { SkillEventContract } from '@sprucelabs/mercury-types'
+import { coreEventContracts } from '@sprucelabs/mercury-types'
 const env = require('dotenv')
 env.config()
 
 const TEST_HOST = process.env.TEST_HOST ?? 'https://sandbox.mercury.spruce.ai'
 
 export default class MercuryFixture {
-	/** @ts-ignore */
-	private clientPromise?: Promise<MercuryClient<SkillEventContract>>
+	private clientPromise?: Promise<MercuryClient>
+	private static originalHost: string | undefined
 
 	/** @ts-ignore */
 	public async connectToApi() {
@@ -29,5 +29,33 @@ export default class MercuryFixture {
 	/** @ts-ignore */
 	public getApiClientFactory() {
 		return this.connectToApi.bind(this)
+	}
+
+	public async destroy() {
+		if (this.clientPromise) {
+			const client = await this.clientPromise
+			await client.disconnect()
+			this.clientPromise = undefined
+		}
+	}
+
+	public static beforeAll() {
+		this.originalHost =
+			process.env.TEST_HOST ??
+			process.env.HOST ??
+			'https://sandbox.mercury.spruce.ai'
+
+		MercuryClientFactory.setIsTestMode(true)
+		MercuryClientFactory.setDefaultContract(coreEventContracts[0])
+	}
+
+	public static beforeEach() {
+		if (this.originalHost) {
+			process.env.HOST = this.originalHost
+		} else {
+			delete process.env.HOST
+		}
+
+		MercuryClientFactory.resetTestClient()
 	}
 }

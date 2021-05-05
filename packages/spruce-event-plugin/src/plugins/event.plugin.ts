@@ -253,6 +253,7 @@ export class EventFeaturePlugin implements SkillFeature {
 				const { client } = await this.apiClientPromise
 
 				await client.disconnect()
+
 				this.log.info(`Disconnected from Mercury.`)
 			}
 
@@ -280,27 +281,32 @@ export class EventFeaturePlugin implements SkillFeature {
 			return client
 		}
 
-		const contracts =
-			this.shouldConnectToApi() &&
-			EventFeaturePlugin.shouldPassEventContractsToMercury
-				? require(this.combinedContractsFile).default
-				: null
+		try {
+			const contracts =
+				this.shouldConnectToApi() &&
+				EventFeaturePlugin.shouldPassEventContractsToMercury
+					? require(this.combinedContractsFile).default
+					: null
 
-		const MercuryClientFactory = require('@sprucelabs/mercury-client')
-			.MercuryClientFactory
-		const host = process.env.HOST ?? 'https://sandbox.mercury.spruce.ai'
+			const MercuryClientFactory = require('@sprucelabs/mercury-client')
+				.MercuryClientFactory
+			const host = process.env.HOST
 
-		this.log.info('Connecting to Mercury at', host)
+			this.log.info('Connecting to Mercury at', host ?? 'Production')
 
-		this.apiClientPromise = this.connectAndAuthenticate(
-			MercuryClientFactory,
-			host,
-			contracts
-		)
+			this.apiClientPromise = this.connectAndAuthenticate(
+				MercuryClientFactory,
+				host,
+				contracts
+			)
 
-		const { client } = await this.apiClientPromise
+			const { client } = await this.apiClientPromise
 
-		return client
+			return client
+		} catch (err) {
+			this.apiClientPromise = undefined
+			throw err
+		}
 	}
 
 	public async getCurrentSkill() {
@@ -317,7 +323,7 @@ export class EventFeaturePlugin implements SkillFeature {
 
 	private async connectAndAuthenticate(
 		MercuryClientFactory: any,
-		host: string,
+		host: string | undefined,
 		contracts: any
 	) {
 		const client = await MercuryClientFactory.Client({
@@ -488,7 +494,7 @@ export class EventFeaturePlugin implements SkillFeature {
 	}
 
 	private shouldConnectToApi() {
-		return this._shouldConnectToApi
+		return this._shouldConnectToApi && !this.isDestroyed
 	}
 
 	public async isInstalled() {

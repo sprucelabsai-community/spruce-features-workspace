@@ -1,3 +1,4 @@
+import { eventErrorAssertUtil } from '@sprucelabs/spruce-event-utils'
 import { test, assert } from '@sprucelabs/test'
 import FixtureFactory from '../../fixtures/FixtureFactory'
 import { SkillFixture } from '../../fixtures/SkillFixture'
@@ -25,11 +26,22 @@ export default class SkillFixtureTest extends AbstractSpruceFixtureTest {
 	}
 
 	@test()
-	protected static async fixtureDestroysDependencies() {
-		const { client } = await this.Fixture('person').loginAsDemoPerson()
+	protected static async cleansUpSkillsAndNotCrashWithMultileDestroys() {
+		const skill = await this.fixture.seedDemoSkill({
+			name: 'skill1',
+		})
 
-		await this.fixture.destory()
+		await this.fixture.destroy()
+		await this.fixture.destroy()
 
-		assert.isFalse(client.isConnected())
+		const client = await this.Fixture('mercury').connectToApi()
+
+		const results = await client.emit('get-skill::v2020_12_25', {
+			target: {
+				skillId: skill.id,
+			},
+		})
+
+		eventErrorAssertUtil.assertErrorFromResponse(results, 'INVALID_TARGET')
 	}
 }

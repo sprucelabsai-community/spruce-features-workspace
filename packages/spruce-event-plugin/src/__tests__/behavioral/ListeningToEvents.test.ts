@@ -1,3 +1,4 @@
+import { MercuryClientFactory } from '@sprucelabs/mercury-client'
 import {
 	buildEmitTargetAndPayloadSchema,
 	eventResponseUtil,
@@ -15,6 +16,11 @@ declare module '@sprucelabs/spruce-skill-utils/build/types/skill.types' {
 }
 
 export default class ReceivingEventsTest extends AbstractEventPluginTest {
+	protected static async beforeAll() {
+		await super.beforeAll()
+		MercuryClientFactory.setIsTestMode(false)
+	}
+
 	@test()
 	protected static async bootEventsForUnregisteredSkillGetProperEventArg() {
 		this.cwd = this.resolveTestPath('skill-boot-events')
@@ -132,18 +138,16 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 			results.responses[0]?.errors?.[0].options.code,
 			'LISTENER_ERROR'
 		)
+		assert.doesInclude(results.responses[0]?.errors?.[0].message, 'Taco')
 	}
 
 	@test()
 	protected static async didBootErrorErrorsGetPassedBack() {
-		await this.setupTwoSkillsAndBoot(
-			'registered-skill-throw-in-will-boot-listener'
+		const err = await assert.doesThrowAsync(() =>
+			this.setupTwoSkillsAndBoot('registered-skill-throw-in-will-boot-listener')
 		)
 
-		assert.isTruthy(this.skillBootError)
-		assert.doesInclude(this.skillBootError.message, 'what the')
-
-		this.clearSkillBootErrors()
+		assert.doesInclude(err.message, 'what the')
 	}
 
 	@test()
@@ -170,29 +174,32 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 	}
 
 	private static async setupTwoSkillsRegisterEventsAndEmit(dirName: string) {
-		const { client1, fqen } = await this.setupTwoSkillsAndBoot(dirName)
+		const { client1, fqen, org } = await this.setupTwoSkillsAndBoot(dirName)
 
 		const results = await client1.emit(fqen as any, {
 			target: {
-				organizationId: '1234',
+				organizationId: org.id,
 			},
 			payload: {
 				foo: 'bar',
 				bar: 'foo',
+				orgId: org.id,
 			},
 		})
+
 		return results
 	}
 
 	private static async setupTwoSkillsAndBoot(dirName: string) {
 		this.cwd = await this.setupSkillDir(dirName)
 
-		const skills = this.Fixture('skill')
-
-		const { skill: skill1, client: client1 } = await skills.loginAsDemoSkill({
+		const { skill: skill1, client: client1 } = await this.Fixture(
+			'skill'
+		).loginAsDemoSkill({
 			name: 'skill1',
 		})
-		const { skill: skill2 } = await skills.loginAsDemoSkill({
+
+		const { skill: skill2 } = await this.Fixture('skill').loginAsDemoSkill({
 			name: 'skill2',
 		})
 
@@ -202,18 +209,25 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 		await this.registerEvents(client1, eventName)
 		;(client1 as any).mixinContract(this.buildContract(fqen))
 
-		this.setupListeners(skill1)
+		this.setupListenersForEventsRegisteredBySkill(skill1)
 		this.generateGoodContractFileForSkill(skill1)
 
-		process.env.SKILL_API_KEY = skill2.apiKey
+		const orgs = this.Fixture('organization')
+
+		const org = await orgs.seedDemoOrg({ name: 'my new org' })
+
+		await orgs.installSkill(skill1.id, org.id)
+		await orgs.installSkill(skill2.id, org.id)
+
 		process.env.SKILL_ID = skill2.id
+		process.env.SKILL_API_KEY = skill2.apiKey
 
-		const skill = await this.bootSkill({ shouldSuppressBootErrors: true })
+		const skill = await this.bootSkill()
 
-		return { fqen, skill, client1, skill2 }
+		return { fqen, skill, client1, skill1, skill2, org }
 	}
 
-	private static setupListeners(skill: any) {
+	private static setupListenersForEventsRegisteredBySkill(skill: any) {
 		diskUtil.moveDir(
 			this.resolvePath('build/listeners/namespace'),
 			this.resolvePath(`build/listeners/`, skill.slug)
@@ -253,6 +267,9 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 									type: 'text',
 								},
 								bar: {
+									type: 'text',
+								},
+								orgId: {
 									type: 'text',
 								},
 							},

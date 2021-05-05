@@ -1,8 +1,10 @@
+import { MercuryClient } from '@sprucelabs/mercury-client'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import PersonFixture from './PersonFixture'
 
 export default class OrganizationFixture {
 	private personFixture: PersonFixture
+	private organizations: { organization: any; client: MercuryClient }[] = []
 
 	public constructor(personFixture: PersonFixture) {
 		this.personFixture = personFixture
@@ -21,6 +23,8 @@ export default class OrganizationFixture {
 		})
 
 		const { organization } = eventResponseUtil.getFirstResponseOrThrow(results)
+
+		this.organizations.push({ organization, client })
 
 		return organization
 	}
@@ -41,6 +45,16 @@ export default class OrganizationFixture {
 	}
 
 	public async destory() {
+		for (const { organization, client } of this.organizations) {
+			const results = await client.emit('delete-organization::v2020_12_25', {
+				target: {
+					organizationId: organization.id,
+				},
+			})
+
+			eventResponseUtil.getFirstResponseOrThrow(results)
+		}
+
 		await this.personFixture.destroy()
 	}
 }

@@ -1,3 +1,4 @@
+import { formatPhoneNumber } from '@sprucelabs/schema'
 import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import dotenv from 'dotenv'
@@ -14,7 +15,6 @@ export default class PersonFixture<
 	Client = ClientPromise extends PromiseLike<infer C> ? C : ClientPromise
 > {
 	private apiClientFactory: Factory
-	private static clients: any[] = []
 
 	public constructor(apiClientFactory: Factory) {
 		this.apiClientFactory = apiClientFactory
@@ -30,10 +30,11 @@ export default class PersonFixture<
 			})
 		}
 
+		const formattedPhone = formatPhoneNumber(phone)
 		const client = (await this.apiClientFactory()) as any
 
 		//@ts-ignore
-		if (client.auth?.person?.phone === phone) {
+		if (client.auth?.person?.phone === formattedPhone) {
 			return {
 				//@ts-ignore
 				client,
@@ -62,15 +63,8 @@ export default class PersonFixture<
 		//@ts-ignore
 		client.auth = { person }
 
-		PersonFixture.clients.push(client)
-
 		return { person, client }
 	}
 
-	public async destroy() {
-		for (const client of PersonFixture.clients) {
-			await client.disconnect()
-		}
-		PersonFixture.clients = []
-	}
+	public async destroy() {}
 }

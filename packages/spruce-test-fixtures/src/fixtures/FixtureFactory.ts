@@ -56,6 +56,7 @@ export default class FixtureFactory {
 
 		if (fixture) {
 			this.fixtures.push(fixture)
+			this.fixtures.push(mercuryFixture)
 			return fixture
 		}
 

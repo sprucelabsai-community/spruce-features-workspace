@@ -1,3 +1,4 @@
+import { eventErrorAssertUtil } from '@sprucelabs/spruce-event-utils'
 import { test, assert } from '@sprucelabs/test'
 import OrganizationFixture from '../../fixtures/OrganizationFixture'
 import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
@@ -23,11 +24,18 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 	}
 
 	@test()
-	protected static async fixtureDestroysDependencies() {
-		const { client } = await this.Fixture('person').loginAsDemoPerson()
-
+	protected static async orgFixtureDestroysOrgs() {
+		const org = await this.fixture.seedDemoOrg({ name: 'my org' })
+		await this.fixture.destory()
 		await this.fixture.destory()
 
-		assert.isFalse(client.isConnected())
+		const client = await this.Fixture('mercury').connectToApi()
+		const results = await client.emit('get-organization::v2020_12_25', {
+			target: {
+				organizationId: org.id,
+			},
+		})
+
+		eventErrorAssertUtil.assertErrorFromResponse(results, 'INVALID_TARGET')
 	}
 }

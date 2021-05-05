@@ -5,6 +5,7 @@ import {
 import { assert } from '@sprucelabs/test'
 
 export default async (event: SpruceEvent): SpruceEventResponse => {
+	
 	//@ts-ignore
 	assert.isFalsy(event.apiClient)
 

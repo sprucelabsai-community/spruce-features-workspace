@@ -1,11 +1,11 @@
-import { MercuryClientFactory } from '@sprucelabs/mercury-client'
-import { coreEventContracts } from '@sprucelabs/mercury-types'
+import { DatabaseFixture } from '@sprucelabs/data-stores'
 import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
 import {
 	AbstractSkillTest,
 	SkillFactoryOptions,
 } from '@sprucelabs/spruce-skill-booter'
 import FixtureFactory from '../fixtures/FixtureFactory'
+import MercuryFixture from '../fixtures/MercuryFixture'
 import { FixtureName } from '../types/fixture.types'
 import messageTestUtility from './messageTest.utility'
 
@@ -15,16 +15,13 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 	protected static async beforeAll() {
 		await super.beforeAll()
 
-		MercuryClientFactory.setIsTestMode(true)
-		MercuryClientFactory.setDefaultContract(coreEventContracts[0])
-
-		process.env.DB_CONNECTION_STRING = 'memory://'
-		process.env.DB_NAME = 'skill'
+		MercuryFixture.beforeAll()
+		DatabaseFixture.beforeAll()
 	}
 
 	protected static async beforeEach() {
 		await super.beforeEach()
-		MercuryClientFactory.resetTestClient()
+		MercuryFixture.beforeEach()
 	}
 
 	protected static async afterEach() {

@@ -6,7 +6,8 @@ import { assert, test } from '@sprucelabs/test'
 import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
 export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest {
 	@test()
-	protected static async noEventsToStart() {
+	protected static async noEventsRegisteredWhenNoEventsCreated() {
+		this.cwd = this.resolveTestPath('empty-skill')
 		const {
 			contracts,
 			registeredSkill,
@@ -15,9 +16,13 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 	}
 
 	@test()
-	protected static async registersEventsOnBoot() {
-		this.cwd = this.resolveTestPath('skill')
+	protected static async badMercuryUrlCrashesSkillAsExpected() {
+		process.env.HOST = 'aoeu'
+		await assert.doesThrowAsync(() => this.bootSkill())
+	}
 
+	@test()
+	protected static async registersEventsOnBoot() {
 		const {
 			contracts,
 			registeredSkill,

@@ -1,5 +1,4 @@
 import { MercuryClient } from '@sprucelabs/mercury-client'
-import { EventContract, SkillEventContract } from '@sprucelabs/mercury-types'
 import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { ApiClientFactory } from '../types/fixture.types'
@@ -8,12 +7,11 @@ import PersonFixture from './PersonFixture'
 type Skill = SpruceSchemas.Spruce.v2020_07_22.Skill
 export class SkillFixture<
 	Factory extends ApiClientFactory = ApiClientFactory,
-	/** @ts-ignore */
-	Contract extends EventContract = SkillEventContract,
-	Client extends MercuryClient<Contract> = MercuryClient<Contract>
+	Client extends MercuryClient = MercuryClient
 > {
 	private personFixture: PersonFixture
 	private apiClientFactory: Factory
+	private skills: { client: MercuryClient; skill: Skill }[] = []
 
 	public constructor(personFixture: PersonFixture, apiClientFactory: Factory) {
 		this.apiClientFactory = apiClientFactory
@@ -31,6 +29,8 @@ export class SkillFixture<
 		})
 
 		const { skill } = eventResponseUtil.getFirstResponseOrThrow(results)
+
+		this.skills.push({ client, skill })
 
 		return skill as Skill
 	}
@@ -60,7 +60,17 @@ export class SkillFixture<
 		return { skill, client: skillClient }
 	}
 
-	public async destory() {
-		await this.personFixture.destroy()
+	public async destroy() {
+		for (const { skill, client } of this.skills) {
+			const results = await client.emit('unregister-skill::v2020_12_25', {
+				target: {
+					skillId: skill.id,
+				},
+			})
+
+			eventResponseUtil.getFirstResponseOrThrow(results)
+		}
+
+		this.skills = []
 	}
 }
