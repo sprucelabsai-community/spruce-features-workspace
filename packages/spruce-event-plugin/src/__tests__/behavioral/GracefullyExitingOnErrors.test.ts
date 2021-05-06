@@ -12,11 +12,15 @@ export default class GracefullyExitingOnErrorsTest extends AbstractEventPluginTe
 
 		const skill = await this.bootSkill({ shouldSuppressBootErrors: true })
 
+		const err = this.skillBootError
+
+		this.clearSkillBootErrors()
+
 		assert.isFalse(skill.isRunning())
 
-		assert.isTruthy(this.skillBootError, "Skill didn't error as expected")
-		errorAssertUtil.assertError(this.skillBootError, 'MERCURY_RESPONSE_ERROR')
-		this.clearSkillBootErrors()
+		debugger
+		assert.isTruthy(err, "Skill didn't error as expected")
+		errorAssertUtil.assertError(err, 'MERCURY_RESPONSE_ERROR')
 	}
 
 	@test()

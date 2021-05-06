@@ -419,6 +419,13 @@ export class EventFeaturePlugin implements SkillFeature {
 			return
 		}
 
+		if (this.eventsIRegistered.length === 0) {
+			this.log.info(
+				`I don't have any events to register with Mercury. Skipping event registration.`
+			)
+			return
+		}
+
 		const contract = {
 			eventSignatures: {},
 		}

@@ -7,9 +7,19 @@ export default class AbstractEventPluginTest extends AbstractSpruceFixtureTest {
 	protected static async beforeEach() {
 		await super.beforeEach()
 
-		this.cwd = this.resolveTestPath('skill')
+		this.cwd = await this.generateSkillFromTestPath('skill')
 
 		EventFeaturePlugin.shouldClientUseEventContracts(false)
+	}
+
+	protected static async generateSkillFromTestPath(
+		testDirName: string
+	): Promise<string> {
+		const destination = diskUtil.createRandomTempDir()
+		const source = this.resolveTestPath(testDirName)
+
+		await diskUtil.copyDir(source, destination)
+		return destination
 	}
 
 	protected static async Skill(options?: SkillFactoryOptions) {
@@ -42,6 +52,7 @@ export default class AbstractEventPluginTest extends AbstractSpruceFixtureTest {
 				'source.events.contract.js'
 			)
 		)
+
 		const updatedContents = sourceContents.replace('{{namespace}}', skill.slug)
 		const destination = this.resolvePath(
 			'build',
@@ -49,6 +60,7 @@ export default class AbstractEventPluginTest extends AbstractSpruceFixtureTest {
 			'events',
 			'events.contract.js'
 		)
+
 		diskUtil.writeFile(destination, updatedContents)
 	}
 }

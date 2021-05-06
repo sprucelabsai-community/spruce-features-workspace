@@ -6,13 +6,11 @@ import plugin from '../plugins/conversation.plugin'
 export default abstract class AbstractConversationTest extends AbstractSpruceFixtureTest {
 	protected static async beforeEach() {
 		await super.beforeEach()
-
 		this.resetEnv()
 	}
 
 	protected static async afterEach() {
 		await super.afterEach()
-
 		this.resetEnv()
 	}
 

@@ -7,7 +7,8 @@ import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
 export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest {
 	@test()
 	protected static async noEventsRegisteredWhenNoEventsCreated() {
-		this.cwd = this.resolveTestPath('empty-skill')
+		this.cwd = await this.generateSkillFromTestPath('empty-skill')
+
 		const {
 			contracts,
 			registeredSkill,
@@ -30,7 +31,10 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 			this.generateGoodContractFileForSkill(skill)
 		})
 
-		assert.isTrue(this.doesIncudeEventBySkill(contracts, registeredSkill))
+		assert.isTrue(
+			this.doesIncudeEventBySkill(contracts, registeredSkill),
+			'Event contract missing event registered by current skill'
+		)
 	}
 
 	private static doesIncudeEventBySkill(contracts: any, registeredSkill: any) {
@@ -46,14 +50,14 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 	private static async register2SkillsInstallAtOrgAndBootSkill(
 		afterRegisterSkillHandler?: (skill: any) => Promise<void>
 	) {
-		const registeredSkill = await this.Fixture('skill').seedDemoSkill({
+		const currentSkill = await this.Fixture('skill').seedDemoSkill({
 			name: 'my great skill',
 		})
 
-		await afterRegisterSkillHandler?.(registeredSkill)
+		await afterRegisterSkillHandler?.(currentSkill)
 
-		process.env.SKILL_ID = registeredSkill.id
-		process.env.SKILL_API_KEY = registeredSkill.apiKey
+		process.env.SKILL_ID = currentSkill.id
+		process.env.SKILL_API_KEY = currentSkill.apiKey
 
 		await this.bootSkill()
 
@@ -67,7 +71,7 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 		])
 
 		await Promise.all([
-			orgs.installSkill(registeredSkill.id, org.id),
+			orgs.installSkill(currentSkill.id, org.id),
 			orgs.installSkill(skill2.id, org.id),
 		])
 
@@ -76,6 +80,6 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 		const payload = eventResponseUtil.getFirstResponseOrThrow(results)
 		const contracts = payload.contracts
 
-		return { contracts, registeredSkill, skill2 }
+		return { contracts, registeredSkill: currentSkill, skill2 }
 	}
 }

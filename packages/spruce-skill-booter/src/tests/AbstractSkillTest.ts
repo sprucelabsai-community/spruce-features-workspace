@@ -124,16 +124,31 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
 	}
 
 	protected static async SkillFromTestDir(key: string) {
-		this.cwd = this.resolvePath(
+		this.cwd = await this.copySkillFromTestDirToTmpDir(key)
+		const skill = await this.Skill()
+
+		return skill
+	}
+
+	private static async copySkillFromTestDirToTmpDir(
+		testDirName: string
+	): Promise<string> {
+		const destination = this.resolvePath(
 			process.cwd(),
 			'build',
 			'__tests__',
 			'/testDirsAndFiles/',
-			key
+			`${new Date().getTime()}`
+		)
+		const source = this.resolvePath(
+			process.cwd(),
+			'build',
+			'__tests__',
+			'/testDirsAndFiles/',
+			testDirName
 		)
 
-		const skill = await this.Skill()
-
-		return skill
+		await diskUtil.copyDir(source, destination)
+		return destination
 	}
 }

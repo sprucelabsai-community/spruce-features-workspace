@@ -3,12 +3,6 @@ import { errorAssertUtil } from '@sprucelabs/test-utils'
 import AbstractStorePluginTest from '../../tests/AbstractStorePluginTest'
 
 export default class StoreFeaturePluginTest extends AbstractStorePluginTest {
-	protected static async beforeEach() {
-		await super.beforeEach()
-		//@ts-ignore
-		jest.resetModules()
-	}
-
 	@test('clean health with env', true)
 	@test('clean health without env', false)
 	protected static async cleanHealthCheckToStart(shouldSetEnv: boolean) {
