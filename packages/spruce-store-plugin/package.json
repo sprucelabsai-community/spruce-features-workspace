@@ -36,7 +36,7 @@
 		"fix.lint": "eslint --fix '**/*.ts'",
 		"lint": "eslint '**/*.ts'",
 		"rebuild": "yarn clean.all && yarn && yarn build.dev",
-		"resolve-paths.lint": "yarn lint ; yarn build.resolve-paths",
+		"resolve-paths.lint": "yarn build.resolve-paths ; yarn lint",
 		"no-test": "jest",
 		"upgrade.packages": "yarn-upgrade-all && rm yarn.lock ; yarn ; yarn fix.lint ; true",
 		"upgrade.packages.all": "yarn install && yarn upgrade.packages",
