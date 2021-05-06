@@ -18,7 +18,6 @@ export default class GracefullyExitingOnErrorsTest extends AbstractEventPluginTe
 
 		assert.isFalse(skill.isRunning())
 
-		debugger
 		assert.isTruthy(err, "Skill didn't error as expected")
 		errorAssertUtil.assertError(err, 'MERCURY_RESPONSE_ERROR')
 	}
