@@ -4,7 +4,7 @@ import { FixtureMap, FixtureName } from '../types/fixture.types'
 import MercuryFixture from './MercuryFixture'
 import OrganizationFixture from './OrganizationFixture'
 import PersonFixture from './PersonFixture'
-import { SkillFixture } from './SkillFixture'
+import SkillFixture from './SkillFixture'
 import StoreFixture from './StoreFixture'
 
 export default class FixtureFactory {

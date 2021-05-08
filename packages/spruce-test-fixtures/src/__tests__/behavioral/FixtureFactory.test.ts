@@ -4,7 +4,7 @@ import FixtureFactory from '../../fixtures/FixtureFactory'
 import MercuryFixture from '../../fixtures/MercuryFixture'
 import OrganizationFixture from '../../fixtures/OrganizationFixture'
 import PersonFixture from '../../fixtures/PersonFixture'
-import { SkillFixture } from '../../fixtures/SkillFixture'
+import SkillFixture from '../../fixtures/SkillFixture'
 
 export default class FixtureFactoryTest extends AbstractSpruceTest {
 	@test()
