@@ -1,3 +1,8 @@
 export { default as AbstractSpruceFixtureTest } from './tests/AbstractSpruceFixtureTest'
 export * from './types/fixture.types'
 export { default as messageTestUtility } from './tests/messageTest.utility'
+export { default as StoreFixture } from './fixtures/StoreFixture'
+export { default as MercuryFixture } from './fixtures/MercuryFixture'
+export { default as OrganizationFixture } from './fixtures/OrganizationFixture'
+export { default as PersonFixture } from './fixtures/PersonFixture'
+export { default as SkillFixture } from './fixtures/SkillFixture'
