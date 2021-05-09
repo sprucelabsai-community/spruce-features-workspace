@@ -9,10 +9,8 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 	protected static async noEventsRegisteredWhenNoEventsCreated() {
 		this.cwd = await this.generateSkillFromTestPath('empty-skill')
 
-		const {
-			contracts,
-			registeredSkill,
-		} = await this.register2SkillsInstallAtOrgAndBootSkill()
+		const { contracts, registeredSkill } =
+			await this.register2SkillsInstallAtOrgAndBootSkill()
 		assert.isFalse(this.doesIncudeEventBySkill(contracts, registeredSkill))
 	}
 
@@ -24,12 +22,10 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 
 	@test()
 	protected static async registersEventsOnBoot() {
-		const {
-			contracts,
-			registeredSkill,
-		} = await this.register2SkillsInstallAtOrgAndBootSkill(async (skill) => {
-			this.generateGoodContractFileForSkill(skill)
-		})
+		const { contracts, registeredSkill } =
+			await this.register2SkillsInstallAtOrgAndBootSkill(async (skill) => {
+				this.generateGoodContractFileForSkill(skill)
+			})
 
 		assert.isTrue(
 			this.doesIncudeEventBySkill(contracts, registeredSkill),

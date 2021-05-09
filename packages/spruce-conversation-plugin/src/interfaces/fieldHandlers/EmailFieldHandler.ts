@@ -26,11 +26,8 @@ export default class EmailFieldHandler {
 		},
 		attempt = 0
 	): Promise<string> {
-		const {
-			sendMessageHandler,
-			definition,
-			waitForNextMessageHandler,
-		} = options
+		const { sendMessageHandler, definition, waitForNextMessageHandler } =
+			options
 
 		definition.label &&
 			sendMessageHandler({

@@ -19,9 +19,8 @@ export default class RespondingToMessagesTest extends AbstractConversationTest {
 		this.cwd = this.resolveTestPath('skill')
 		const results = await this.sendMessage()
 
-		const { suggestedTopics } = eventResponseUtil.getFirstResponseOrThrow(
-			results
-		)
+		const { suggestedTopics } =
+			eventResponseUtil.getFirstResponseOrThrow(results)
 
 		assert.isArray(suggestedTopics)
 		assert.isLength(suggestedTopics, 1)
@@ -63,10 +62,8 @@ export default class RespondingToMessagesTest extends AbstractConversationTest {
 			message: { body: 'blue' },
 		})
 
-		const {
-			transitionConversationTo,
-			repairs,
-		} = eventResponseUtil.getFirstResponseOrThrow(results)
+		const { transitionConversationTo, repairs } =
+			eventResponseUtil.getFirstResponseOrThrow(results)
 
 		assert.isEqual(transitionConversationTo, 'discovery')
 		assert.isEqualDeep(repairs, ['go', 'team'])
@@ -86,10 +83,8 @@ export default class RespondingToMessagesTest extends AbstractConversationTest {
 			message: { body: 'blue' },
 		})
 
-		const {
-			transitionConversationTo,
-			topicChangers,
-		} = eventResponseUtil.getFirstResponseOrThrow(results)
+		const { transitionConversationTo, topicChangers } =
+			eventResponseUtil.getFirstResponseOrThrow(results)
 
 		assert.isEqual(transitionConversationTo, 'discovery')
 		assert.isEqualDeep(topicChangers, ['now', 'this'])

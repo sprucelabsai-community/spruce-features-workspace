@@ -118,10 +118,8 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 			'registered-skill'
 		)
 
-		const {
-			payloads,
-			errors,
-		} = eventResponseUtil.getAllResponsePayloadsAndErrors(results, SpruceError)
+		const { payloads, errors } =
+			eventResponseUtil.getAllResponsePayloadsAndErrors(results, SpruceError)
 
 		assert.isFalsy(errors)
 
