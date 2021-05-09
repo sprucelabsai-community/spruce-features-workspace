@@ -104,8 +104,8 @@ export default class LoadingStoresOnBootTest extends AbstractStorePluginTest {
 		const store = (await factory.Store('good')) as any
 		assert.isTruthy(store)
 
-		const OneGoodStore = require('../testDirsAndFiles/one-good-store-skill/build/stores/Good.store')
-			.default
+		const OneGoodStore =
+			require('../testDirsAndFiles/one-good-store-skill/build/stores/Good.store').default
 		assert.isTrue(store instanceof OneGoodStore)
 	}
 

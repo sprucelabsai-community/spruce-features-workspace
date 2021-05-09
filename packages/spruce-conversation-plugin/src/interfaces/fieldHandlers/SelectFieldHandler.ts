@@ -17,11 +17,8 @@ export default class SelectFieldHandler {
 	public static handle: FieldHandler<SelectFieldDefinition> = async (
 		options
 	) => {
-		const {
-			sendMessageHandler,
-			definition,
-			waitForNextMessageHandler,
-		} = options
+		const { sendMessageHandler, definition, waitForNextMessageHandler } =
+			options
 
 		let value: string | undefined
 

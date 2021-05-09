@@ -7,11 +7,8 @@ export default class TextFieldHandler {
 		waitForNextMessageHandler: () => Promise<string>
 		definition: TextFieldDefinition
 	}): Promise<string> {
-		const {
-			sendMessageHandler,
-			definition,
-			waitForNextMessageHandler,
-		} = options
+		const { sendMessageHandler, definition, waitForNextMessageHandler } =
+			options
 
 		definition.label &&
 			sendMessageHandler({

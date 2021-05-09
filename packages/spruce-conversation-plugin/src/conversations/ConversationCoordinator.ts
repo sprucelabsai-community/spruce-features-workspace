@@ -10,7 +10,8 @@ import TopicLoader from './TopicLoader'
 import { TopicScriptPlayer } from './TopicScriptPlayer'
 import { TopicSuggester } from './TopicSuggester'
 
-type MessageResponsePayloadSchema = CoreEventContract['eventSignatures']['did-message::v2020_12_25']['responsePayloadSchema']
+type MessageResponsePayloadSchema =
+	CoreEventContract['eventSignatures']['did-message::v2020_12_25']['responsePayloadSchema']
 type MessageResponsePayload = SchemaValues<MessageResponsePayloadSchema>
 
 export class ConversationCoordinator {
