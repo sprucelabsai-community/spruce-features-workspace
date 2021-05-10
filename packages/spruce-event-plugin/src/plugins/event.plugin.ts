@@ -28,21 +28,20 @@ import SpruceError from '../errors/SpruceError'
 
 require('dotenv').config()
 
-type MercuryClient<
-	Contract extends EventContract = EventContract
-> = MercuryEventEmitter<Contract> & {
-	isConnected: () => boolean
-	connect: () => Promise<void>
-	disconnect: () => Promise<void>
-	authenticate(options: {
-		skillId?: string
-		apiKey?: string
-		token?: string
-	}): Promise<{
-		skill?: SpruceSchemas.Spruce.v2020_07_22.Skill
-		person?: SpruceSchemas.Spruce.v2020_07_22.Person
-	}>
-}
+type MercuryClient<Contract extends EventContract = EventContract> =
+	MercuryEventEmitter<Contract> & {
+		isConnected: () => boolean
+		connect: () => Promise<void>
+		disconnect: () => Promise<void>
+		authenticate(options: {
+			skillId?: string
+			apiKey?: string
+			token?: string
+		}): Promise<{
+			skill?: SpruceSchemas.Spruce.v2020_07_22.Skill
+			person?: SpruceSchemas.Spruce.v2020_07_22.Person
+		}>
+	}
 
 export class EventFeaturePlugin implements SkillFeature {
 	private skill: Skill
@@ -288,8 +287,8 @@ export class EventFeaturePlugin implements SkillFeature {
 					? require(this.combinedContractsFile).default
 					: null
 
-			const MercuryClientFactory = require('@sprucelabs/mercury-client')
-				.MercuryClientFactory
+			const MercuryClientFactory =
+				require('@sprucelabs/mercury-client').MercuryClientFactory
 			const host = process.env.HOST
 
 			this.log.info('Connecting to Mercury at', host ?? 'Production')
@@ -534,11 +533,8 @@ export class EventFeaturePlugin implements SkillFeature {
 		const listeners: EventFeatureListener[] = []
 
 		listenerMatches.forEach((match) => {
-			const {
-				eventName,
-				eventNamespace,
-				version,
-			} = eventDiskUtil.splitPathToListener(match)
+			const { eventName, eventNamespace, version } =
+				eventDiskUtil.splitPathToListener(match)
 
 			const callback = require(match).default as
 				| EventFeatureListener['callback']

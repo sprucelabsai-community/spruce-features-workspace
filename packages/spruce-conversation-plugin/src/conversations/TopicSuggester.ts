@@ -6,9 +6,7 @@ import { LangEn } from '@nlpjs/lang-en'
 import { NluManager, NluNeural } from '@nlpjs/nlu'
 import { SuggestedConversationTopic, Topic } from '../types/conversation.types'
 
-type NlpProcessor = (
-	messageBody: string
-) => Promise<{
+type NlpProcessor = (messageBody: string) => Promise<{
 	classifications: {
 		score: number
 		intent: string

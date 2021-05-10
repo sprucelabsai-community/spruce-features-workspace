@@ -12,8 +12,10 @@ import MessageGraphicsInterface from '../interfaces/MessageGraphicsInterface'
 export type Message = SpruceSchemas.Spruce.v2020_07_22.Message
 export type SendMessage = SpruceSchemas.Spruce.v2020_07_22.SendMessage
 export type SendMessageHandler = (message: SendMessage) => Promise<void>
-export type DidMessageResponsePayloadSchema = CoreEventContract['eventSignatures']['did-message::v2020_12_25']['responsePayloadSchema']
-export type DidMessageResponsePayload = SchemaValues<DidMessageResponsePayloadSchema>
+export type DidMessageResponsePayloadSchema =
+	CoreEventContract['eventSignatures']['did-message::v2020_12_25']['responsePayloadSchema']
+export type DidMessageResponsePayload =
+	SchemaValues<DidMessageResponsePayloadSchema>
 
 export type ScriptLineCallbackOptions = {
 	ui: GraphicsInterface
@@ -62,8 +64,10 @@ export const suggestedConversationTopicSchema = buildSchema({
 	},
 })
 
-export type SuggestedConversationTopicSchema = typeof suggestedConversationTopicSchema
-export type SuggestedConversationTopic = SchemaValues<SuggestedConversationTopicSchema>
+export type SuggestedConversationTopicSchema =
+	typeof suggestedConversationTopicSchema
+export type SuggestedConversationTopic =
+	SchemaValues<SuggestedConversationTopicSchema>
 
 export interface Topic {
 	key: string
