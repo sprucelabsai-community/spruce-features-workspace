@@ -3,7 +3,7 @@ import { coreEventContracts } from '@sprucelabs/mercury-types'
 const env = require('dotenv')
 env.config()
 
-const TEST_HOST = process.env.TEST_HOST ?? 'https://sandbox.mercury.spruce.ai'
+const TEST_HOST = process.env.TEST_HOST ?? 'https://developer.mercury.spruce.ai'
 
 export default class MercuryFixture {
 	private clientPromise?: Promise<MercuryClient>
@@ -40,10 +40,7 @@ export default class MercuryFixture {
 	}
 
 	public static beforeAll() {
-		this.originalHost =
-			process.env.TEST_HOST ??
-			process.env.HOST ??
-			'https://sandbox.mercury.spruce.ai'
+		this.originalHost = process.env.TEST_HOST ?? process.env.HOST ?? TEST_HOST
 
 		MercuryClientFactory.setIsTestMode(true)
 		MercuryClientFactory.setDefaultContract(coreEventContracts[0])
