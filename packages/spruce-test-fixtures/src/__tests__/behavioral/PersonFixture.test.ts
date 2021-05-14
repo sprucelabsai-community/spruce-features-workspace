@@ -1,5 +1,5 @@
-import AbstractSpruceTest, { test, assert } from '@sprucelabs/test'
 import { errorAssertUtil } from '@sprucelabs/test-utils'
+import AbstractSpruceTest, { test, assert } from '@sprucelabs/test'
 import dotenv from 'dotenv'
 import FixtureFactory from '../../fixtures/FixtureFactory'
 import PersonFixture from '../../fixtures/PersonFixture'
