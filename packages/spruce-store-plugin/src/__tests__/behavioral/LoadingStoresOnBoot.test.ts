@@ -1,6 +1,6 @@
 import { StoreLoader } from '@sprucelabs/data-stores'
-import { test, assert } from '@sprucelabs/test'
 import { errorAssertUtil } from '@sprucelabs/test-utils'
+import { test, assert } from '@sprucelabs/test'
 import { StoreFeaturePlugin } from '../../plugins/store.plugin'
 import AbstractStorePluginTest from '../../tests/AbstractStorePluginTest'
 

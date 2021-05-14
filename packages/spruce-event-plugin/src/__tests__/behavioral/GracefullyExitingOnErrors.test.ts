@@ -1,5 +1,5 @@
-import { test, assert } from '@sprucelabs/test'
 import { errorAssertUtil } from '@sprucelabs/test-utils'
+import { test, assert } from '@sprucelabs/test'
 import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
 
 export default class GracefullyExitingOnErrorsTest extends AbstractEventPluginTest {

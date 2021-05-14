@@ -1,5 +1,5 @@
-import { test, assert } from '@sprucelabs/test'
 import { errorAssertUtil } from '@sprucelabs/test-utils'
+import { test, assert } from '@sprucelabs/test'
 import AbstractStorePluginTest from '../../tests/AbstractStorePluginTest'
 
 export default class StoreFeaturePluginTest extends AbstractStorePluginTest {

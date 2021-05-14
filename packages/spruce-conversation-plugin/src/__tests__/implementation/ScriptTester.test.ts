@@ -1,5 +1,5 @@
-import { test, assert } from '@sprucelabs/test'
 import { errorAssertUtil } from '@sprucelabs/test-utils'
+import { test, assert } from '@sprucelabs/test'
 import AbstractConversationTest from '../../tests/AbstractConversationTest'
 import ScriptTester, {
 	END_OF_LINE,
