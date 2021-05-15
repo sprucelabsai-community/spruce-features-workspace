@@ -1,5 +1,5 @@
-import { errorAssertUtil } from '@sprucelabs/test-utils'
 import { test, assert } from '@sprucelabs/test'
+import { errorAssertUtil } from '@sprucelabs/test-utils'
 import { ConversationCoordinator } from '../../conversations/ConversationCoordinator'
 import AbstractConversationTest from '../../tests/AbstractConversationTest'
 import { SendMessage } from '../../types/conversation.types'

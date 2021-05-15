@@ -1,7 +1,7 @@
 import { EventFeature } from '@sprucelabs/spruce-event-plugin'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
-import { errorAssertUtil } from '@sprucelabs/test-utils'
 import { test, assert } from '@sprucelabs/test'
+import { errorAssertUtil } from '@sprucelabs/test-utils'
 import plugin from '../../plugins/conversation.plugin'
 import AbstractConversationTest from '../../tests/AbstractConversationTest'
 

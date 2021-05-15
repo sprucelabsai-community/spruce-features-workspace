@@ -1,5 +1,5 @@
-import { errorAssertUtil } from '@sprucelabs/test-utils'
 import AbstractSpruceTest, { test, assert } from '@sprucelabs/test'
+import { errorAssertUtil } from '@sprucelabs/test-utils'
 import FixtureFactory from '../../fixtures/FixtureFactory'
 import MercuryFixture from '../../fixtures/MercuryFixture'
 import OrganizationFixture from '../../fixtures/OrganizationFixture'
