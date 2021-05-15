@@ -1,5 +1,5 @@
-import { errorAssertUtil } from '@sprucelabs/test-utils'
 import { test, assert } from '@sprucelabs/test'
+import { errorAssertUtil } from '@sprucelabs/test-utils'
 import AbstractGraphicsInterfaceTest from '../../../tests/AbstractGraphicsInterfaceTest'
 
 export default class MessageGraphicsInterfaceTest extends AbstractGraphicsInterfaceTest {
