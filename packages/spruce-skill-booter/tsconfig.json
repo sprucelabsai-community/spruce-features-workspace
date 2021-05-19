@@ -22,7 +22,8 @@
 	},
 	"include": [
 		"./*.ts",
-		"./**/*.ts"
+		"./**/*.ts",
+		"./src/__tests__/testDirsAndFiles/skill/build/.spruce/*"
 	],
 	"exclude": [
 		"build"
