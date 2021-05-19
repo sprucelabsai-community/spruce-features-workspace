@@ -4,6 +4,9 @@
 		"access": "public"
 	},
 	"version": "4.2.14",
+	"skill": {
+		"namespace": "event"
+	},
 	"files": [
 		"build/**/*",
 		"!build/__tests__",

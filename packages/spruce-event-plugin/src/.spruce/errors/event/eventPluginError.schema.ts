@@ -3,9 +3,9 @@ import { SpruceErrors } from '../errors.types'
 
 
 
-const eventPluginErrorSchema: SpruceErrors.SpruceEventUtils.EventPluginErrorSchema  = {
+const eventPluginErrorSchema: SpruceErrors.Event.EventPluginErrorSchema  = {
 	id: 'eventPluginError',
-	namespace: 'SpruceEventUtils',
+	namespace: 'Event',
 	name: 'event plugin error',
 	    fields: {
 	    }
