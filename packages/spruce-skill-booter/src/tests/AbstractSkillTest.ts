@@ -63,7 +63,7 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
 			plugin(skill)
 		}
 
-		debugger
+		
 		if (diskUtil.doesBuiltHashSprucePathExist(this.cwd)) {
 			const dir = diskUtil.resolveBuiltHashSprucePath(this.cwd)
 			await pluginUtil.import([skill], dir)
