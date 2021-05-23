@@ -150,7 +150,7 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 
 	@test()
 	protected static async sendsSkillContextToListeners() {
-		const { client1, fqen, skill, skill2 } = await this.setupTwoSkillsAndBoot(
+		const { client1, fqen, skill, org } = await this.setupTwoSkillsAndBoot(
 			'registered-skill-with-context-checks'
 		)
 
@@ -158,7 +158,7 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 
 		const results = await client1.emit(fqen as any, {
 			target: {
-				skillId: skill2.id,
+				organizationId: org.id,
 			},
 			payload: {
 				foo: 'bar',
@@ -258,7 +258,16 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 				[eventName]: {
 					emitPayloadSchema: buildEmitTargetAndPayloadSchema({
 						eventName,
-						emitPayloadSchema: {
+						targetSchema: {
+							id: 'emitTarget',
+							fields: {
+								organizationId: {
+									type: 'id',
+									isRequired: true,
+								},
+							},
+						},
+						payloadSchema: {
 							id: 'emitPayload',
 							fields: {
 								foo: {
