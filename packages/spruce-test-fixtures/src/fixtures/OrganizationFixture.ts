@@ -29,7 +29,7 @@ export default class OrganizationFixture {
 		return organization
 	}
 
-	public async installSkill(skillId: string, orgId: any): Promise<void> {
+	public async installSkill(skillId: string, orgId: string): Promise<void> {
 		const { client } = await this.personFixture.loginAsDemoPerson()
 
 		const results = await client.emit('install-skill::v2020_12_25', {
@@ -42,6 +42,65 @@ export default class OrganizationFixture {
 		})
 
 		eventResponseUtil.getFirstResponseOrThrow(results)
+	}
+
+	public async isPartOfOrg(personId: string, orgId: string) {
+		const { client } = await this.personFixture.loginAsDemoPerson()
+
+		const results = await client.emit('list-roles::v2020_12_25', {
+			payload: {
+				shouldIncludePrivateRoles: true,
+			},
+			target: {
+				organizationId: orgId,
+				personId,
+			},
+		})
+
+		const { roles } = eventResponseUtil.getFirstResponseOrThrow(results)
+
+		return roles.length > 0
+	}
+
+	public async addPerson(options: {
+		personId: string
+		organizationId: string
+		roleBase: string
+	}) {
+		const { personId, organizationId, roleBase } = options
+
+		const { client } = await this.personFixture.loginAsDemoPerson()
+
+		const roleResults = await client.emit('list-roles::v2020_12_25', {
+			payload: {
+				shouldIncludePrivateRoles: true,
+			},
+			target: {
+				organizationId,
+			},
+		})
+
+		const { roles } = eventResponseUtil.getFirstResponseOrThrow(roleResults)
+
+		const match = roles.find((r) => r.base === roleBase)
+
+		if (!match) {
+			throw Error(`Could not find role based on ${roleBase}.`)
+		}
+
+		const roleId = match.id
+
+		const setRoleResults = await client.emit('set-role::v2020_12_25', {
+			target: {
+				organizationId,
+			},
+			payload: {
+				personId,
+				roleId,
+			},
+		})
+
+		eventResponseUtil.getFirstResponseOrThrow(setRoleResults)
 	}
 
 	public async destory() {

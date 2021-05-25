@@ -38,4 +38,36 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 
 		eventErrorAssertUtil.assertErrorFromResponse(results, 'INVALID_TARGET')
 	}
+
+	@test()
+	protected static async isNotPartOfOrgtoStart() {
+		const people = this.Fixture('person')
+		const org = await this.fixture.seedDemoOrg({ name: 'my org' })
+
+		const { person } = await people.loginAsDemoPerson(
+			process.env.DEMO_NUMBER_HIRING
+		)
+
+		const isHired = await this.fixture.isPartOfOrg(person.id, org.id)
+		assert.isFalse(isHired)
+	}
+
+	@test()
+	protected static async canAttachPersonToOrg() {
+		const people = this.Fixture('person')
+		const org = await this.fixture.seedDemoOrg({ name: 'my org' })
+
+		const { person } = await people.loginAsDemoPerson(
+			process.env.DEMO_NUMBER_HIRING
+		)
+
+		await this.fixture.addPerson({
+			personId: person.id,
+			organizationId: org.id,
+			roleBase: 'guest',
+		})
+
+		const isHired = await this.fixture.isPartOfOrg(person.id, org.id)
+		assert.isTrue(isHired)
+	}
 }

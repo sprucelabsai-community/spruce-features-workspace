@@ -132,7 +132,9 @@ export class EventFeaturePlugin implements SkillFeature {
 				})
 			} else {
 				this.log.info(
-					"I couldn't find any events or remote listeners so I won't be connecting to Mercury. 🌲🤖"
+					this.isDestroyed
+						? 'Aborted setting client to skill context.'
+						: "I couldn't find any events or remote listeners so I won't be connecting to Mercury. 🌲🤖"
 				)
 				this._isBooted = true
 				this.isExecuting = false
@@ -454,21 +456,21 @@ export class EventFeaturePlugin implements SkillFeature {
 	private async registerListeners(client: any) {
 		for (const listener of this.listeners) {
 			if (listener.eventNamespace !== 'skill') {
-				const name = eventNameUtil.join({
+				const fqen = eventNameUtil.join({
 					eventName: listener.eventName,
 					eventNamespace: listener.eventNamespace,
 					version: listener.version,
 				})
 
-				await client.on(name, async (targetAndPayload: any) => {
-					this.log.info(`Incoming event - ${name}`)
-					const event = await this.buildSpruceEvent(name, targetAndPayload)
+				await client.on(fqen, async (targetAndPayload: any) => {
+					this.log.info(`Incoming event - ${fqen}`)
+					const event = await this.buildSpruceEvent(fqen, targetAndPayload)
 					const results = await listener.callback(event)
 
 					return results
 				})
 
-				this.log.info(`Registered listener for ${name}`)
+				this.log.info(`Registered listener for ${fqen}`)
 			}
 		}
 	}

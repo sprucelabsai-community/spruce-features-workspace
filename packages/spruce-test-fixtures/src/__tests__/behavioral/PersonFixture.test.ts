@@ -5,6 +5,8 @@ import FixtureFactory from '../../fixtures/FixtureFactory'
 import PersonFixture from '../../fixtures/PersonFixture'
 dotenv.config()
 
+const DEMO_NUMBER = process.env.DEMO_NUMBER
+
 export default class PersonFixtureTest extends AbstractSpruceTest {
 	private static fixture: PersonFixture
 
@@ -32,9 +34,7 @@ export default class PersonFixtureTest extends AbstractSpruceTest {
 
 	@test()
 	protected static async canLoginAsPerson() {
-		const { person, client } = await this.fixture.loginAsDemoPerson(
-			'555-001-0001'
-		)
+		const { person, client } = await this.fixture.loginAsDemoPerson(DEMO_NUMBER)
 
 		assert.isTruthy(person)
 		assert.isTruthy(client)
@@ -44,7 +44,7 @@ export default class PersonFixtureTest extends AbstractSpruceTest {
 
 	@test()
 	protected static async canLoginAsPersonWithEnv() {
-		process.env.DEMO_NUMBER = '555-001-0001'
+		process.env.DEMO_NUMBER = DEMO_NUMBER
 		const { person, client } = await this.fixture.loginAsDemoPerson()
 
 		assert.isTruthy(person)
