@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.3.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v4.2.26...v4.3.0) (2021-05-25)
+
+
+### Features
+
+* org fixture can hire and see if someone is hired ([00bc837](https://github.com/sprucelabsai/spruce-features-workspace/commit/00bc837))
+
+
+
+
+
 ## [4.2.26](https://github.com/sprucelabsai/spruce-features-workspace/compare/v4.2.25...v4.2.26) (2021-05-25)
 
 **Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
