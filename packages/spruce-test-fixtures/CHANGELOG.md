@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.4.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v4.3.1...v4.4.0) (2021-05-26)
+
+
+### Features
+
+* require host or crash ([65baf21](https://github.com/sprucelabsai/spruce-features-workspace/commit/65baf21))
+
+
+
+
+
 ## [4.3.1](https://github.com/sprucelabsai/spruce-features-workspace/compare/v4.3.0...v4.3.1) (2021-05-25)
 
 **Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
