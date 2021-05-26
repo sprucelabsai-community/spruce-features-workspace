@@ -1,12 +1,12 @@
 import { CoreEventContract } from '@sprucelabs/mercury-types'
 import { SchemaValues } from '@sprucelabs/schema'
 import SpruceError from '../errors/SpruceError'
+import TopicLoader from '../topics/TopicLoader'
 import {
 	LoadedTopicDefinition,
 	Message,
 	SendMessageHandler,
 } from '../types/conversation.types'
-import TopicLoader from './TopicLoader'
 import { TopicScriptPlayer } from './TopicScriptPlayer'
 import { TopicSuggester } from './TopicSuggester'
 

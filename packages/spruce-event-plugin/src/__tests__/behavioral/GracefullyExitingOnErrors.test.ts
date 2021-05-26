@@ -23,8 +23,11 @@ export default class GracefullyExitingOnErrorsTest extends AbstractEventPluginTe
 	}
 
 	@test()
-	protected static async skillIsKilledDifferentFeatureCrash() {
+	protected static async skillIsKilledWhenDifferentFeatureCrashes() {
 		const skill = await this.SkillFromTestDir('registered-skill-boot-events')
+
+		delete process.env.SKILL_ID
+		delete process.env.SKILL_API_KEY
 
 		void skill.registerFeature('test', {
 			execute: async () => {
@@ -37,6 +40,15 @@ export default class GracefullyExitingOnErrorsTest extends AbstractEventPluginTe
 			destroy: async () => {},
 		})
 
-		await assert.doesThrowAsync(() => skill.execute())
+		await assert.doesThrowAsync(() => skill.execute(), 'crash')
+	}
+
+	@test()
+	protected static async throwsIfHostNotSet() {
+		delete process.env.HOST
+		const err = await assert.doesThrowAsync(() => this.bootSkill())
+		errorAssertUtil.assertError(err, 'MISSING_PARAMETERS', {
+			parameters: ['env.HOST'],
+		})
 	}
 }

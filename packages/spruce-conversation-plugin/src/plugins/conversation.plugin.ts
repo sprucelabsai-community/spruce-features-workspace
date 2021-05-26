@@ -4,9 +4,9 @@ import { EventFeature } from '@sprucelabs/spruce-event-plugin'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { Log, Skill, SkillFeature } from '@sprucelabs/spruce-skill-utils'
 import { ConversationCoordinator } from '../conversations/ConversationCoordinator'
-import TopicLoader from '../conversations/TopicLoader'
 import SpruceError from '../errors/SpruceError'
 import ScriptTester from '../tests/ScriptTester'
+import TopicLoader from '../topics/TopicLoader'
 import {
 	ConversationHealthCheckItem,
 	LoadedTopicDefinition,

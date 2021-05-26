@@ -293,6 +293,14 @@ export class EventFeaturePlugin implements SkillFeature {
 				require('@sprucelabs/mercury-client').MercuryClientFactory
 			const host = process.env.HOST
 
+			if (!host) {
+				throw new SpruceError({
+					code: 'MISSING_PARAMETERS',
+					parameters: ['env.HOST'],
+					friendlyMessage: `Stop! I need you to run \`spruce set.remote\` so I know where to connect! Or, you can set HOST in the env directly.`,
+				})
+			}
+
 			this.log.info('Connecting to Mercury at', host ?? 'Production')
 
 			this.apiClientPromise = this.connectAndAuthenticate(

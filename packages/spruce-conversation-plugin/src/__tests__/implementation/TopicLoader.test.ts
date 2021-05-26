@@ -1,7 +1,7 @@
 import { test, assert } from '@sprucelabs/test'
 import { errorAssertUtil } from '@sprucelabs/test-utils'
-import TopicLoader from '../../conversations/TopicLoader'
 import AbstractConversationTest from '../../tests/AbstractConversationTest'
+import TopicLoader from '../../topics/TopicLoader'
 
 export default class TopicLoaderTest extends AbstractConversationTest {
 	@test()

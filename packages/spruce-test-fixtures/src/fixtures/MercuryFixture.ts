@@ -1,9 +1,10 @@
 import { MercuryClient, MercuryClientFactory } from '@sprucelabs/mercury-client'
 import { coreEventContracts } from '@sprucelabs/mercury-types'
+import SpruceError from '../errors/SpruceError'
 const env = require('dotenv')
 env.config()
 
-const TEST_HOST = process.env.TEST_HOST ?? 'https://developer.mercury.spruce.ai'
+const TEST_HOST = process.env.TEST_HOST ?? process.env.HOST
 
 export default class MercuryFixture {
 	private clientPromise?: Promise<MercuryClient>
@@ -13,6 +14,14 @@ export default class MercuryFixture {
 	public async connectToApi() {
 		if (this.clientPromise) {
 			return this.clientPromise
+		}
+
+		if (!TEST_HOST) {
+			throw new SpruceError({
+				code: 'MISSING_PARAMETERS',
+				parameters: ['env.HOST'],
+				friendlyMessage: `Oops! Before you can do any tests that involve Mercury you need to run \`spruce set.remote\` to point to an environment of your choosing.`,
+			})
 		}
 
 		this.clientPromise = MercuryClientFactory.Client<any>({
