@@ -1,10 +1,10 @@
 import inquirer from 'inquirer'
-import { TopicScriptPlayer } from '../conversations/TopicScriptPlayer'
-import { TopicSuggester } from '../conversations/TopicSuggester'
 import SpruceError from '../errors/SpruceError'
 import TestGraphicsInterface, {
 	PromptHandler,
 } from '../interfaces/TestGraphicsInterface'
+import { TopicScriptPlayer } from '../topics/TopicScriptPlayer'
+import { TopicSuggester } from '../topics/TopicSuggester'
 import { LoadedTopicDefinition, Message } from '../types/conversation.types'
 import randomUtil from '../utilities/random.utility'
 

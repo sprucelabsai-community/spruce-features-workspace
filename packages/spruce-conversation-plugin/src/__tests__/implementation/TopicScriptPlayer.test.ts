@@ -1,7 +1,7 @@
 import { AbstractSpruceFixtureTest } from '@sprucelabs/spruce-test-fixtures'
 import { test, assert } from '@sprucelabs/test'
 import { errorAssertUtil } from '@sprucelabs/test-utils'
-import { TopicScriptPlayer } from '../../conversations/TopicScriptPlayer'
+import { TopicScriptPlayer } from '../../topics/TopicScriptPlayer'
 import {
 	Script,
 	ScriptPlayerOptions,

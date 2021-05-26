@@ -1,5 +1,5 @@
 import AbstractSpruceTest, { test, assert } from '@sprucelabs/test'
-import { TopicSuggester } from '../../conversations/TopicSuggester'
+import { TopicSuggester } from '../../topics/TopicSuggester'
 
 export default class TopicSuggesterTest extends AbstractSpruceTest {
 	@test()

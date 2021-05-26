@@ -1,5 +1,5 @@
 import FuzzySet from 'fuzzyset'
-import { TopicSuggester } from '../conversations/TopicSuggester'
+import { TopicSuggester } from '../topics/TopicSuggester'
 
 type Suggestion = {
 	key: string

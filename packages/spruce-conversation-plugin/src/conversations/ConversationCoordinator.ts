@@ -2,13 +2,13 @@ import { CoreEventContract } from '@sprucelabs/mercury-types'
 import { SchemaValues } from '@sprucelabs/schema'
 import SpruceError from '../errors/SpruceError'
 import TopicLoader from '../topics/TopicLoader'
+import { TopicScriptPlayer } from '../topics/TopicScriptPlayer'
+import { TopicSuggester } from '../topics/TopicSuggester'
 import {
 	LoadedTopicDefinition,
 	Message,
 	SendMessageHandler,
 } from '../types/conversation.types'
-import { TopicScriptPlayer } from './TopicScriptPlayer'
-import { TopicSuggester } from './TopicSuggester'
 
 type MessageResponsePayloadSchema =
 	CoreEventContract['eventSignatures']['did-message::v2020_12_25']['responsePayloadSchema']
