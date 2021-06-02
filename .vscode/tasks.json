@@ -17,6 +17,29 @@
             }
         },
         {
+            "label": "view.test.reporter",
+            "command": "spruce",
+            "args": [
+                "test",
+                "--shouldHoldAtStart",
+                "true",
+                "--watchMode",
+                "smart"
+            ],
+            "runOptions": {
+                "runOn": "folderOpen"
+            },
+            "promptOnClose": false,
+            "options": {
+                "cwd": "${workspaceFolder}/packages/spruce-view-plugin"
+            },
+            "group": "test",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        },
+        {
             "label": "conversation.test.reporter",
             "command": "spruce",
             "args": [
