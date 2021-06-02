@@ -1,12 +1,11 @@
 import { MercuryClient } from '@sprucelabs/mercury-client'
-import { CoreEventContract } from '@sprucelabs/mercury-types'
 import { EventFeature } from '@sprucelabs/spruce-event-plugin'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { test, assert } from '@sprucelabs/test'
 import AbstractConversationTest from '../../tests/AbstractConversationTest'
 
 export default class RespondingToMessagesTest extends AbstractConversationTest {
-	private static client: MercuryClient<CoreEventContract>
+	private static client: MercuryClient
 
 	protected static async beforeEach() {
 		await super.beforeEach()
@@ -153,7 +152,7 @@ export default class RespondingToMessagesTest extends AbstractConversationTest {
 			})
 
 			const events = skill.getFeatureByCode('event') as EventFeature
-			const client = await events.connectToApi<CoreEventContract>()
+			const client = await events.connectToApi()
 
 			this.client = client
 		}

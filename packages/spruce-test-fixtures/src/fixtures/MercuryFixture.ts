@@ -52,6 +52,7 @@ export default class MercuryFixture {
 		this.originalHost = process.env.TEST_HOST ?? process.env.HOST ?? TEST_HOST
 
 		MercuryClientFactory.setIsTestMode(true)
+		//@ts-ignore
 		MercuryClientFactory.setDefaultContract(coreEventContracts[0])
 	}
 

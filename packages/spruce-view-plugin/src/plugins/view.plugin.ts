@@ -1,5 +1,5 @@
 import { Skill, SkillFeature } from '@sprucelabs/spruce-skill-utils'
-import { ViewHealthCheckItem, HealthCheckView } from '../types/view.types'
+import { ViewHealthCheckItem } from '../types/view.types'
 
 export class ViewFeature implements SkillFeature {
 	private _isBooted = false
@@ -13,7 +13,6 @@ export class ViewFeature implements SkillFeature {
 			views: [],
 		}
 	}
-
 
 	public async isInstalled(): Promise<boolean> {
 		return false

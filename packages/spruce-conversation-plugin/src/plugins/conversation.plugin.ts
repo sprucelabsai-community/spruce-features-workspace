@@ -1,5 +1,4 @@
 import { MercuryClient } from '@sprucelabs/mercury-client'
-import { EventContract, CoreEventContract } from '@sprucelabs/mercury-types'
 import { EventFeature } from '@sprucelabs/spruce-event-plugin'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { Log, Skill, SkillFeature } from '@sprucelabs/spruce-skill-utils'
@@ -90,9 +89,7 @@ export class ConversationFeature implements SkillFeature {
 		})
 	}
 
-	private async startConversationCoordinator(
-		client: MercuryClient<CoreEventContract>
-	) {
+	private async startConversationCoordinator(client: MercuryClient) {
 		await client.on('did-message::v2020_12_25', async (targetAndPayload) => {
 			const { message, topic } = targetAndPayload.payload
 			const coordinator = await this.getCoordinatorForPerson(
@@ -168,12 +165,10 @@ export class ConversationFeature implements SkillFeature {
 		}
 	}
 
-	private async connectToApi<
-		Contract extends EventContract = CoreEventContract
-	>() {
+	private async connectToApi() {
 		const events = this.skill.getFeatureByCode('event') as EventFeature
 
-		const client = await events.connectToApi<Contract>()
+		const client = await events.connectToApi()
 		return client
 	}
 

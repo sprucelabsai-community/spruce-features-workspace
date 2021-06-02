@@ -2,6 +2,7 @@ import pathUtil from 'path'
 import {
 	EventContract,
 	MercuryEventEmitter,
+	SkillEventContract,
 	SpruceSchemas,
 } from '@sprucelabs/mercury-types'
 import {
@@ -28,7 +29,8 @@ import SpruceError from '../errors/SpruceError'
 
 require('dotenv').config()
 
-type MercuryClient<Contract extends EventContract = EventContract> =
+type MercuryClient<Contract extends SkillEventContract = SkillEventContract> =
+	/** @ts-ignore */
 	MercuryEventEmitter<Contract> & {
 		isConnected: () => boolean
 		connect: () => Promise<void>
@@ -266,9 +268,9 @@ export class EventFeaturePlugin implements SkillFeature {
 		await Promise.all([this.loadContracts(), this.loadListeners()])
 	}
 
-	public async connectToApi<Contract extends EventContract = any>(options?: {
+	public async connectToApi(options?: {
 		shouldWaitForWillBoot?: boolean
-	}): Promise<MercuryClient<Contract>> {
+	}): Promise<MercuryClient> {
 		if (options?.shouldWaitForWillBoot !== false) {
 			await this.willBootPromise
 		}
