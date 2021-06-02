@@ -61,7 +61,13 @@ export class ViewFeature implements SkillFeature {
 		} & HealthCheckView)[] = []
 
 		for (const file of search) {
-			const item: Partial<HealthCheckView & { Class?: any }> = { file }
+			const item: Partial<HealthCheckView & { Class?: any }> & {
+				id: string
+				file: string
+			} = {
+				id: '',
+				file,
+			}
 			let c: any
 			try {
 				c = require(diskUtil.resolvePath(this.skill.activeDir, file)).default
