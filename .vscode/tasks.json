@@ -181,6 +181,9 @@
             "label": "shell",
             "type": "shell",
             "command": "${input:command} ${input:optionsCommand}",
+            "options": {
+                "cwd": "${workspaceFolder}/packages/spruce-${input:pluginName}-plugin"
+            },
             "problemMatcher": [],
             "presentation": {
                 "reveal": "always",

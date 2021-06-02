@@ -8,22 +8,59 @@ import * as SpruceSchema from '@sprucelabs/schema'
 
 
 
-export declare namespace SpruceErrors.SpruceDeployPlugin {
+export declare namespace SpruceErrors.View {
 
 	
-	export interface HerokuError {
+	export interface UnknownViewControllerError {
 		
+			
+			'file': string
 	}
 
-	export interface HerokuErrorSchema extends SpruceSchema.Schema {
-		id: 'herokuError',
-		namespace: 'SpruceDeployPlugin',
-		name: 'Heroku Error',
+	export interface UnknownViewControllerErrorSchema extends SpruceSchema.Schema {
+		id: 'unknownViewControllerError',
+		namespace: 'View',
+		name: 'Unkown view controller error',
 		    fields: {
+		            /** . */
+		            'file': {
+		                type: 'text',
+		                isRequired: true,
+		                options: undefined
+		            },
 		    }
 	}
 
-	export type HerokuErrorEntity = SchemaEntity<SpruceErrors.SpruceDeployPlugin.HerokuErrorSchema>
+	export type UnknownViewControllerErrorEntity = SchemaEntity<SpruceErrors.View.UnknownViewControllerErrorSchema>
+
+}
+
+
+
+export declare namespace SpruceErrors.View {
+
+	
+	export interface InvalidViewController {
+		
+			
+			'file': string
+	}
+
+	export interface InvalidViewControllerSchema extends SpruceSchema.Schema {
+		id: 'invalidViewController',
+		namespace: 'View',
+		name: 'Invalid view controller',
+		    fields: {
+		            /** . */
+		            'file': {
+		                type: 'text',
+		                isRequired: true,
+		                options: undefined
+		            },
+		    }
+	}
+
+	export type InvalidViewControllerEntity = SchemaEntity<SpruceErrors.View.InvalidViewControllerSchema>
 
 }
 

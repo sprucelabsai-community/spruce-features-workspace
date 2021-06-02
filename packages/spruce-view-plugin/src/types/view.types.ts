@@ -1,7 +1,10 @@
+import AbstractSpruceError from '@sprucelabs/error'
 import { HealthCheckItem } from '@sprucelabs/spruce-skill-utils'
 
 export interface HealthCheckView {
-	name: string
+	id: string
+	error?: AbstractSpruceError
+	file: string
 }
 
 export interface ViewHealthCheckItem extends HealthCheckItem {

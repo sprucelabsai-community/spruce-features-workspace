@@ -15,7 +15,7 @@ export default class CheckingHealthTest extends AbstractViewTest {
 
 		assert.isFalsy(health.view)
 	}
-	
+
 	@test()
 	protected static async healthCheckReturnsNoViewsToStart() {
 		const skill = await this.SkillFromTestDir('installed-skill')
@@ -23,10 +23,9 @@ export default class CheckingHealthTest extends AbstractViewTest {
 
 		assert.isTruthy(health.view)
 		assert.isArray(health.view.skillViewControllers)
-		assert.isLength(health.view.skillViewControllers,0)
+		assert.isLength(health.view.skillViewControllers, 0)
 		assert.isArray(health.view.viewControllers)
-		assert.isLength(health.view.viewControllers,0)
-
+		assert.isLength(health.view.viewControllers, 0)
 	}
 
 	@test()
@@ -35,8 +34,22 @@ export default class CheckingHealthTest extends AbstractViewTest {
 		const health = await skill.checkHealth()
 
 		assert.isTruthy(health.view)
-		assert.isLength(health.view.skillViewControllers,1)
+		assert.isFalsy(health.view.errors)
+		assert.isLength(health.view.skillViewControllers, 1)
+		assert.doesInclude(health.view.skillViewControllers, { id: 'book' })
+		assert.isFalsy(health.view.skillViewControllers[0].error)
+
+		assert.isLength(health.view.viewControllers, 1)
+		assert.doesInclude(health.view.viewControllers, { id: 'book-form' })
 	}
 
-	
+	@test()
+	protected static async helpfulErrorIfVcIsBroken() {
+		const skill = await this.SkillFromTestDir('broken-skill')
+		const health = await skill.checkHealth()
+
+		assert.isTruthy(health.view)
+		assert.isTruthy(health.view.errors)
+		assert.isTruthy(health.view.viewControllers[0].error)
+	}
 }
