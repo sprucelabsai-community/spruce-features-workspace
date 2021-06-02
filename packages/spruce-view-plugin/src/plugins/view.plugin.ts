@@ -54,14 +54,14 @@ export class ViewFeature implements SkillFeature {
 		})
 
 		const vcs: ({
-			Class: BuiltSkillViewController<any>
+			Class?: BuiltSkillViewController<any>
 		} & HealthCheckView)[] = []
 		const svcs: ({
-			Class: BuiltSkillViewController
+			Class?: BuiltSkillViewController
 		} & HealthCheckView)[] = []
 
 		for (const file of search) {
-			const item: Partial<HealthCheckView & { Class: any }> = { file }
+			const item: Partial<HealthCheckView & { Class?: any }> = { file }
 			let c: any
 			try {
 				c = require(diskUtil.resolvePath(this.skill.activeDir, file)).default
@@ -82,7 +82,7 @@ export class ViewFeature implements SkillFeature {
 						code: 'UNKNOWN_VIEW_CONTROLLER_ERROR',
 						originalError: err,
 						file,
-					})
+					}) as any
 				}
 			}
 
