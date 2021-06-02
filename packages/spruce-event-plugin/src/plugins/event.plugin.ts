@@ -29,6 +29,7 @@ import SpruceError from '../errors/SpruceError'
 
 require('dotenv').config()
 
+// so we don't have to require mercury to run this plugin
 type MercuryClient<Contract extends SkillEventContract = SkillEventContract> =
 	/** @ts-ignore */
 	MercuryEventEmitter<Contract> & {

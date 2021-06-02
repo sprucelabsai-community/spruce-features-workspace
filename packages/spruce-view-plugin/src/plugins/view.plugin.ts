@@ -1,31 +1,36 @@
-import { Skill, SkillFeature } from '@sprucelabs/spruce-skill-utils'
+import { SettingsService, Skill, SkillFeature } from '@sprucelabs/spruce-skill-utils'
 import { ViewHealthCheckItem } from '../types/view.types'
 
 export class ViewFeature implements SkillFeature {
-	private _isBooted = false
+	private skill: Skill
 
-	public constructor() {}
+	public constructor(skill: Skill) {
+		this.skill = skill
+	}
 
 	public async execute(): Promise<void> {}
 	public async checkHealth(): Promise<ViewHealthCheckItem> {
+		
 		return {
 			status: 'passed',
-			views: [],
+			skillViewControllers: [],
+			viewControllers: []
 		}
 	}
 
 	public async isInstalled(): Promise<boolean> {
-		return false
+		const settings = new SettingsService(this.skill.rootDir)
+		return settings.isMarkedAsInstalled('view')
 	}
 
 	public async destroy() {}
 
 	public isBooted() {
-		return this._isBooted
+		return false
 	}
 }
 
 export default (skill: Skill) => {
-	const feature = new ViewFeature()
+	const feature = new ViewFeature(skill)
 	skill.registerFeature('view', feature)
 }

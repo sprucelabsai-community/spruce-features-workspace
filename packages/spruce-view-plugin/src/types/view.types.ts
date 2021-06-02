@@ -5,7 +5,8 @@ export interface HealthCheckView {
 }
 
 export interface ViewHealthCheckItem extends HealthCheckItem {
-	views: HealthCheckView[]
+	viewControllers: HealthCheckView[]
+	skillViewControllers: HealthCheckView[]
 }
 
 declare module '@sprucelabs/spruce-skill-utils/build/types/skill.types' {
