@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="538px" preserveAspectRatio="none" style="width:629px;height:538px;" version="1.1" viewBox="0 0 629 538" width="629px" zoomAndPan="magnify"><defs/><g><ellipse cx="347.1274" cy="180.242" fill="#F8F8F8" rx="25.6274" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="32" x="331.1274" y="183.9842">build</text><ellipse cx="346.8344" cy="225.1669" fill="#F8F8F8" rx="58.8344" ry="14.1669" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="85" x="304.3344" y="228.9091">build/index.d</text><ellipse cx="107.8126" cy="30.1625" fill="#F8F8F8" rx="96.3126" ry="21.6625" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="172" x="21.8126" y="33.9047">errors/herokuError.builder</text><ellipse cx="107.8698" cy="92.774" fill="#F8F8F8" rx="101.8698" ry="22.774" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="184" x="15.8698" y="96.5161">errors/herokuError.builder.d</text><ellipse cx="551.189" cy="273.8378" fill="#F8F8F8" rx="67.189" ry="15.8378" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="106" x="498.189" y="277.58">errors/SpruceError</text><!--MD5=[0df72be079b7be722000360c8a62aa36]
+entity _errors_SpruceError--><rect fill="#F8F8F8" height="34.4844" rx="3" ry="3" style="stroke: #000000; stroke-width: 0.5;" width="126" x="488" y="493"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="106" x="498" y="515.0059">errors/SpruceError</text><!--MD5=[8f883dc3c2ef28ef82b5a7d9e72891d4]
+entity _errors_SpruceError_d--><rect fill="#F8F8F8" height="34.4844" rx="3" ry="3" style="stroke: #000000; stroke-width: 0.5;" width="156" x="30" y="134"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="136" x="40" y="156.0059">errors/SpruceError.d</text><ellipse cx="346.799" cy="322.242" fill="#F8F8F8" rx="22.799" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="28" x="332.799" y="325.9842">esm</text><ellipse cx="346.8275" cy="410.8655" fill="#F8F8F8" rx="57.3275" ry="13.8655" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="81" x="306.3275" y="414.6077">esm/index.d</text><!--MD5=[810c39fb6b9203efabb9c7c8973f7687]
+entity _plugins_deploy_plugin--><rect fill="#F8F8F8" height="34.4844" rx="3" ry="3" style="stroke: #000000; stroke-width: 0.5;" width="141" x="276.5" y="493"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="121" x="286.5" y="515.0059">plugins/deploy.plugin</text><ellipse cx="347.0087" cy="274.1017" fill="#F8F8F8" rx="73.5087" ry="17.1017" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="121" x="286.5087" y="277.8439">plugins/deploy.plugin</text><!--MD5=[f8096b9544074b580051367d4068cf41]
+entity _plugins_deploy_plugin_d--><rect fill="#F8F8F8" height="34.4844" rx="3" ry="3" style="stroke: #000000; stroke-width: 0.5;" width="174" x="21" y="441"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="154" x="31" y="463.0059">plugins/deploy.plugin.d</text><ellipse cx="347.2284" cy="29.9457" fill="#F8F8F8" rx="62.7284" ry="14.9457" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="95" x="299.7284" y="33.6879">release.config</text><ellipse cx="346.8492" cy="366.242" fill="#F8F8F8" rx="17.8492" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="21" x="336.3492" y="369.9842">src</text><!--MD5=[c5c377a9046cc425bf98f2eddece6b9d]
+entity _tests_AbstractDeployTest--><rect fill="#F8F8F8" height="34.4844" rx="3" ry="3" style="stroke: #000000; stroke-width: 0.5;" width="190" x="13" y="493"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="170" x="23" y="515.0059">tests/AbstractDeployTest</text><ellipse cx="107.8917" cy="273.9783" fill="#F8F8F8" rx="95.3917" ry="21.4783" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="170" x="22.8917" y="277.7205">tests/AbstractDeployTest</text><!--MD5=[d79d4e2ecf3fe329670bc3eb94849cb8]
+entity _tests_AbstractDeployTest_d--><rect fill="#F8F8F8" height="34.4844" rx="3" ry="3" style="stroke: #000000; stroke-width: 0.5;" width="202" x="246" y="63"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="182" x="256" y="85.0059">tests/AbstractDeployTest.d</text><ellipse cx="347.0172" cy="459.0034" fill="#F8F8F8" rx="68.0172" ry="16.0034" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="108" x="293.0172" y="462.7456">types/deploy.types</text><!--MD5=[398d2aaa67176df153c4fc1af371909a]
+entity _types_deploy_types--><rect fill="#F8F8F8" height="34.4844" rx="3" ry="3" style="stroke: #000000; stroke-width: 0.5;" width="128" x="487" y="395"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="108" x="497" y="417.0059">types/deploy.types</text><!--MD5=[83c3266f974fef5436120f58fd49cf29]
+entity _types_deploy_types_d--><rect fill="#F8F8F8" height="34.4844" rx="3" ry="3" style="stroke: #000000; stroke-width: 0.5;" width="158" x="268" y="115"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="138" x="278" y="137.0059">types/deploy.types.d</text><!--MD5=[5b334cdd7632dc55ed3c9d0a8446102f]
+link <b>build</b> to plugins/deploy.plugin--><path d="M321.682,177.673 C292.754,176.629 246.968,180.308 228,211 C221.458,221.586 221.458,228.414 228,239 C237.469,254.321 253.452,263.367 270.683,268.603 " fill="none" id="&lt;b&gt;build&lt;/b&gt;-&gt;plugins/deploy.plugin" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="275.572,269.98,267.9959,263.687,270.7598,268.6226,265.8241,271.3865,275.572,269.98" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[5cb01be36d3a73201ebcc46a58ba3b43]
+link <b>build</b> to types/deploy.types--><path d="M321.682,177.673 C292.754,176.629 246.968,180.308 228,211 C215.499,231.227 215.499,404.773 228,425 C238.119,441.3726 255.727,450.4501 274.343,455.3333 " fill="none" id="&lt;b&gt;build&lt;/b&gt;-&gt;types/deploy.types" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="279.616,456.6019,271.8019,450.6069,274.7548,455.4319,269.9299,458.3848,279.616,456.6019" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[95b11f9f5175238a3ef0391bb793d9e6]
+link <b>build/index.d</b> to plugins/deploy.plugin--><path d="M347,239.397 C347,243.47 347,247.542 347,251.615 " fill="none" id="&lt;b&gt;build/index.d&lt;/b&gt;-&gt;plugins/deploy.plugin" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="347,256.773,351,247.773,347,251.773,343,247.773,347,256.773" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[43594f6c0b8ba7a79217049f39b6ec92]
+link <b>build/index.d</b> to types/deploy.types--><path d="M287.732,224.727 C264.515,228.101 240.485,236.8 228,257 C208.373,288.758 208.373,393.242 228,425 C238.119,441.3726 255.727,450.4501 274.343,455.3333 " fill="none" id="&lt;b&gt;build/index.d&lt;/b&gt;-&gt;types/deploy.types" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="279.616,456.6019,271.8019,450.6069,274.7548,455.4319,269.9299,458.3848,279.616,456.6019" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[82bccf97180c2eb2d70689dc46f7deba]
+link <b>esm</b> to _plugins_deploy_plugin--><path d="M324.205,319.778 C295.486,318.435 247.53,321.4 228,353 C213.747,376.062 213.747,451.9379 228,475 C237.572,490.4885 253.803,499.5639 271.248,504.7729 " fill="none" id="&lt;b&gt;esm&lt;/b&gt;-&gt;_plugins_deploy_plugin" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="276.197,506.1417,268.5889,499.8873,271.3779,504.8089,266.4564,507.5979,276.197,506.1417" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[0dabbfb9d6168ae97ca230ccf16d2a29]
+link <b>esm</b> to types/deploy.types--><path d="M324.205,319.778 C295.486,318.435 247.53,321.4 228,353 C211.177,380.221 211.177,397.779 228,425 C238.119,441.3726 255.727,450.4501 274.343,455.3333 " fill="none" id="&lt;b&gt;esm&lt;/b&gt;-&gt;types/deploy.types" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="279.616,456.6019,271.8019,450.6069,274.7548,455.4319,269.9299,458.3848,279.616,456.6019" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[06027302611f8d442ac85f7c606d8876]
+link <b>esm/index.d</b> to _plugins_deploy_plugin--><path d="M289.299,410.507 C265.603,413.715 240.766,422.345 228,443 C220.523,455.0981 220.523,462.9019 228,475 C237.572,490.4885 253.803,499.5639 271.248,504.7729 " fill="none" id="&lt;b&gt;esm/index.d&lt;/b&gt;-&gt;_plugins_deploy_plugin" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="276.197,506.1417,268.5889,499.8873,271.3779,504.8089,266.4564,507.5979,276.197,506.1417" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[394c73c3de1dd9e388e9b5f7089da686]
+link <b>esm/index.d</b> to types/deploy.types--><path d="M347,425.443 C347,429.5289 347,433.6144 347,437.7 " fill="none" id="&lt;b&gt;esm/index.d&lt;/b&gt;-&gt;types/deploy.types" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="347,442.875,351,433.875,347,437.875,343,433.875,347,442.875" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[4afd051749412f62c220c0a57ad26211]
+link _plugins_deploy_plugin to _errors_SpruceError--><path d="M417.517,516.4497 C438.648,516.8653 461.821,516.8495 482.797,516.4022 " fill="none" id="_plugins_deploy_plugin-&gt;_errors_SpruceError" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="487.797,516.2864,478.7068,512.4958,482.7983,516.4021,478.892,520.4936,487.797,516.2864" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[4afd051749412f62c220c0a57ad26211]
+link _plugins_deploy_plugin to _errors_SpruceError--><path d="M417.517,503.5503 C438.648,503.1347 461.821,503.1505 482.797,503.5978 " fill="none" id="_plugins_deploy_plugin-&gt;_errors_SpruceError-1" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="487.797,503.7136,478.892,499.5064,482.7983,503.5979,478.7068,507.5042,487.797,503.7136" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[bf1419bfedbdcaa38d34243fb44f4989]
+link plugins/deploy.plugin to errors/SpruceError--><path d="M420.641,274 C439.458,274 459.704,274 478.463,274 " fill="none" id="plugins/deploy.plugin-&gt;errors/SpruceError" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="483.712,274,474.712,270,478.712,274,474.712,278,483.712,274" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[86c4c96d0484c9e16345aaf9945c8cf0]
+link _plugins_deploy_plugin to _types_deploy_types--><path d="M417.724,495.3406 C428.091,492.174 438.481,488.4176 448,484 C476.881,470.5965 506.201,448.8696 525.947,432.784 " fill="none" id="_plugins_deploy_plugin-&gt;_types_deploy_types" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="530.259,429.2372,520.7671,431.8646,526.3972,432.4132,525.8486,438.0434,530.259,429.2372" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[b33d6992e0e36fb8e5b89bbdebfcd3bb]
+link _plugins_deploy_plugin_d to types/deploy.types--><path d="M195.233,464.8863 C222.53,465.3954 252.301,465.4035 278.122,464.8833 " fill="none" id="_plugins_deploy_plugin_d-&gt;types/deploy.types" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="283.232,464.7723,274.1473,460.9687,278.2332,464.8809,274.321,468.9668,283.232,464.7723" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[b33d6992e0e36fb8e5b89bbdebfcd3bb]
+link _plugins_deploy_plugin_d to types/deploy.types--><path d="M195.233,451.8414 C222.903,451.5588 253.113,451.8126 279.176,452.5743 " fill="none" id="_plugins_deploy_plugin_d-&gt;types/deploy.types-1" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="284.332,452.7334,275.4597,448.4576,279.3344,452.5791,275.2129,456.4538,284.332,452.7334" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[40cf7f236b14f8ff700aef75080c14bd]
+link <b>src</b> to _plugins_deploy_plugin--><path d="M328.956,364.047 C301.092,362.189 248.652,363.584 228,397 C209.775,426.489 209.775,445.5108 228,475 C237.572,490.4885 253.803,499.5639 271.248,504.7729 " fill="none" id="&lt;b&gt;src&lt;/b&gt;-&gt;_plugins_deploy_plugin" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="276.197,506.1417,268.5889,499.8873,271.3779,504.8089,266.4564,507.5979,276.197,506.1417" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[c9bb8fe180e2f1697fe96c5fe9fba058]
+link <b>src</b> to _types_deploy_types--><path d="M364.649,369.585 C384.51,373.88 418.707,381.332 448,388 C458.921,390.486 470.49,393.165 481.762,395.799 " fill="none" id="&lt;b&gt;src&lt;/b&gt;-&gt;_types_deploy_types" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="486.917,397.006,479.066,391.0595,482.0487,395.8661,477.2421,398.8488,486.917,397.006" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[9cc72ffb9b365317352c897b6147260e]
+link _tests_AbstractDeployTest to _plugins_deploy_plugin--><path d="M203.009,516.6202 C225.622,516.863 249.479,516.7651 271.089,516.3266 " fill="none" id="_tests_AbstractDeployTest-&gt;_plugins_deploy_plugin" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="276.241,516.2145,267.1563,512.4109,271.2422,516.3231,267.33,520.409,276.241,516.2145" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[9cc72ffb9b365317352c897b6147260e]
+link _tests_AbstractDeployTest to _plugins_deploy_plugin--><path d="M203.009,503.3798 C225.622,503.137 249.479,503.2349 271.089,503.6734 " fill="none" id="_tests_AbstractDeployTest-&gt;_plugins_deploy_plugin-1" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="276.241,503.7855,267.33,499.591,271.2422,503.6769,267.1563,507.5891,276.241,503.7855" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[afc575942fe6676bca3dd4966b9c2e37]
+link <b>tests/AbstractDeployTest</b> to plugins/deploy.plugin--><path d="M203.69,274 C225.085,274 247.56,274 268.168,274 " fill="none" id="&lt;b&gt;tests/AbstractDeployTest&lt;/b&gt;-&gt;plugins/deploy.plugin" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="273.365,274,264.365,270,268.365,274,264.365,278,273.365,274" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[1b9506ce1de58aed14bce8d284401eab]
+link <b>errors/herokuError.builder</b> to <b>errors/herokuError.builder.d</b>--><!--MD5=[6d08d9e36ad8ad163e9000689a04ede9]
+link <b>errors/herokuError.builder.d</b> to _errors_SpruceError_d--><!--MD5=[1304b79ce482d7f99d5aa1a82e9262c4]
+link <b>errors/herokuError.builder</b> to <b>release.config</b>--><!--MD5=[2c55d9f310b7e5b0ba20da8fa45e874b]
+link <b>release.config</b> to _tests_AbstractDeployTest_d--><!--MD5=[24eeb7bcb7b4b36435abf1c833205ada]
+link _tests_AbstractDeployTest_d to _types_deploy_types_d--><script type="text/plantuml"><![CDATA[MD5=[132c907aefaabd024b1c43e7aac1f630]
+@startuml
+
+scale max 1920 width
+left to right direction
+
+skinparam nodesep 18
+skinparam ranksep 36
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Tahoma
+skinparam defaultFontSize 12
+skinparam roundCorner 6
+skinparam dpi 150
+skinparam arrowColor black
+skinparam arrowThickness 0.5
+skinparam packageTitleAlignment left
+
+skinparam usecase {
+  borderThickness 0.5
+}
+
+skinparam rectangle {
+  borderThickness 0.5
+}
+
+skinparam component {
+  borderThickness 1
+}
+
+
+(<b>build</b>)
+(<b>build/index.d</b>)
+(<b>errors/herokuError.builder</b>)
+(<b>errors/herokuError.builder</b>)
+(<b>errors/herokuError.builder</b>)
+(<b>errors/herokuError.builder.d</b>)
+(<b>errors/herokuError.builder.d</b>)
+(errors/SpruceError)
+rectangle "errors/SpruceError" as _errors_SpruceError
+rectangle "errors/SpruceError" as _errors_SpruceError
+rectangle "<b>errors/SpruceError.d</b>" as _errors_SpruceError_d
+rectangle "<b>errors/SpruceError.d</b>" as _errors_SpruceError_d
+(<b>esm</b>)
+(<b>esm/index.d</b>)
+rectangle "plugins/deploy.plugin" as _plugins_deploy_plugin
+(plugins/deploy.plugin)
+rectangle "plugins/deploy.plugin" as _plugins_deploy_plugin
+rectangle "<b>plugins/deploy.plugin.d</b>" as _plugins_deploy_plugin_d
+rectangle "<b>plugins/deploy.plugin.d</b>" as _plugins_deploy_plugin_d
+(<b>release.config</b>)
+(<b>src</b>)
+rectangle "<b>tests/AbstractDeployTest</b>" as _tests_AbstractDeployTest
+(<b>tests/AbstractDeployTest</b>)
+rectangle "<b>tests/AbstractDeployTest</b>" as _tests_AbstractDeployTest
+rectangle "<b>tests/AbstractDeployTest.d</b>" as _tests_AbstractDeployTest_d
+rectangle "<b>tests/AbstractDeployTest.d</b>" as _tests_AbstractDeployTest_d
+(types/deploy.types)
+(types/deploy.types)
+rectangle "types/deploy.types" as _types_deploy_types
+rectangle "<b>types/deploy.types.d</b>" as _types_deploy_types_d
+rectangle "<b>types/deploy.types.d</b>" as _types_deploy_types_d
+
+
+(<b>build</b>) -[thickness=1]> (plugins/deploy.plugin)
+(<b>build</b>) -[thickness=1]> (types/deploy.types)
+(<b>build/index.d</b>) -[thickness=1]> (plugins/deploy.plugin)
+(<b>build/index.d</b>) -[thickness=1]> (types/deploy.types)
+(<b>esm</b>) -[thickness=1]> _plugins_deploy_plugin
+(<b>esm</b>) -[thickness=1]> (types/deploy.types)
+(<b>esm/index.d</b>) -[thickness=1]> _plugins_deploy_plugin
+(<b>esm/index.d</b>) -[thickness=1]> (types/deploy.types)
+_plugins_deploy_plugin --> _errors_SpruceError
+(plugins/deploy.plugin) --> (errors/SpruceError)
+_plugins_deploy_plugin --> _errors_SpruceError
+_plugins_deploy_plugin --> _types_deploy_types
+_plugins_deploy_plugin_d --[thickness=1]> (types/deploy.types)
+_plugins_deploy_plugin_d --[thickness=1]> (types/deploy.types)
+(<b>src</b>) -[thickness=1]> _plugins_deploy_plugin
+(<b>src</b>) -[thickness=1]> _types_deploy_types
+_tests_AbstractDeployTest --[thickness=1]> _plugins_deploy_plugin
+(<b>tests/AbstractDeployTest</b>) --[thickness=1]> (plugins/deploy.plugin)
+_tests_AbstractDeployTest --[thickness=1]> _plugins_deploy_plugin
+
+@enduml
+
+
+' View and edit on https://arkit.pro
+]]></script></g></svg>
