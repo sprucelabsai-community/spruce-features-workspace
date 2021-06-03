@@ -13,7 +13,7 @@ export default async (
 		{ payload: { foo: string; bar: string, orgId: string }; target: EventTarget }
 	>
 ): SpruceEventResponse<{ taco: string }> => {
-	debugger
+	
 	assert.isTruthy(event)
 	assert.isTrue(event.skill instanceof Skill)
 	assert.isTruthy(event.log)

@@ -7,6 +7,7 @@ import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 import { assert, test } from '@sprucelabs/test'
 import { EventFeature } from '../..'
 import SpruceError from '../../errors/SpruceError'
+import { EventFeaturePlugin } from '../../plugins/event.plugin'
 import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
 
 declare module '@sprucelabs/spruce-skill-utils/build/types/skill.types' {
@@ -21,10 +22,21 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 		MercuryClientFactory.setIsTestMode(false)
 	}
 
+	protected static async beforeEach() {
+		await super.beforeEach()
+		delete process.env.DID_BOOT_FIRED
+		delete process.env.WILL_BOOT_FIRED
+		delete process.env.DID_BOOT_FIRED_2
+		delete process.env.WILL_BOOT_FIRED_2
+	}
+
 	@test()
 	protected static async bootEventsForUnregisteredSkillGetProperEventArg() {
 		this.cwd = this.resolveTestPath('skill-boot-events')
 		await this.bootSkill()
+
+		assert.isEqual(process.env.DID_BOOT_FIRED, 'true')
+		assert.isEqual(process.env.WILL_BOOT_FIRED, 'true')
 	}
 
 	@test()
@@ -40,7 +52,14 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 		process.env.TO_COPY_SKILL_API_KEY = skill.apiKey
 		process.env.TO_COPY_SKILL_ID = skill.id
 
-		await this.bootSkill()
+		const booted = await this.bootSkill()
+		const events = booted.getFeatureByCode('event') as EventFeaturePlugin
+		const client = await events.connectToApi()
+
+		//@ts-ignore
+		assert.isTruthy(client.auth.skill)
+		//@ts-ignore
+		assert.isEqual(client.auth.skill.id, skill.id)
 	}
 
 	@test()
@@ -54,6 +73,17 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 		process.env.SKILL_ID = skill.id
 
 		await this.bootSkill()
+	}
+
+	@test()
+	protected static async picksTheNewerDidAndWillBootListeners() {
+		this.cwd = this.resolveTestPath('skill-versioned-boot-events')
+		await this.bootSkill()
+
+		assert.isFalsy(process.env.DID_BOOT_FIRED)
+		assert.isFalsy(process.env.WILL_BOOT_FIRED)
+		assert.isEqual(process.env.DID_BOOT_FIRED_2, 'true')
+		assert.isEqual(process.env.WILL_BOOT_FIRED_2, 'true')
 	}
 
 	@test()

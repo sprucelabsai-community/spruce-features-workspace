@@ -575,6 +575,10 @@ export class EventFeaturePlugin implements SkillFeature {
 			})
 		})
 
+		listeners.sort((a, b) => {
+			return a.version > b.version ? -1 : 1
+		})
+
 		this.listeners = listeners
 	}
 

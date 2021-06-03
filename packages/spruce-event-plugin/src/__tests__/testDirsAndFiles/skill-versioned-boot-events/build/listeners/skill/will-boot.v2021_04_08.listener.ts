@@ -11,7 +11,7 @@ export default async (event: SpruceEvent): SpruceEventResponse => {
 	assert.isTruthy(event.log)
 	assert.isFunction(event.log.buildLog)
 
-	process.env.WILL_BOOT_FIRED = 'true'
+	process.env.WILL_BOOT_FIRED_2 = 'true'
 
 	return
 }
