@@ -112,8 +112,8 @@ export class EventFeaturePlugin implements SkillFeature {
 			re()
 
 			await this.loadEvents()
-
-			await Promise.all([this.reRegisterListeners(), this.reRegisterEvents()])
+			await this.reRegisterEvents()
+			await this.reRegisterListeners()
 
 			if (this.apiClientPromise) {
 				this.log.info('Connection to Mercury successful. Waiting for events.')

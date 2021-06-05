@@ -1,5 +1,7 @@
+import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 import { test, assert } from '@sprucelabs/test'
 import { errorAssertUtil } from '@sprucelabs/test-utils'
+import { EventFeaturePlugin } from '../../plugins/event.plugin'
 import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
 
 export default class GracefullyExitingOnErrorsTest extends AbstractEventPluginTest {
@@ -50,5 +52,64 @@ export default class GracefullyExitingOnErrorsTest extends AbstractEventPluginTe
 		errorAssertUtil.assertError(err, 'MISSING_PARAMETERS', {
 			parameters: ['env.HOST'],
 		})
+	}
+
+	@test()
+	protected static async throwsWhenRegisteringBadContract() {
+		this.cwd = await this.generateSkillFromTestPath(
+			'registered-skill-bad-signature'
+		)
+
+		const { skill } = await this.Fixture('skill').loginAsDemoSkill({
+			name: 'boot-events',
+		})
+
+		process.env.SKILL_ID = skill.id
+		process.env.SKILL_API_KEY = skill.apiKey
+
+		this.generateGoodContractFileForSkill(skill)
+		this.setupListenersForEventsRegisteredBySkill(skill)
+
+		const err = await assert.doesThrowAsync(() => this.bootSkill())
+
+		errorAssertUtil.assertError(err, 'INVALID_PAYLOAD')
+	}
+
+	@test()
+	protected static async throwsWhenRegisteringBadContractIgnoringBadListenerError() {
+		this.cwd = await this.generateSkillFromTestPath(
+			'registered-skill-bad-signature'
+		)
+
+		const { skill } = await this.Fixture('skill').loginAsDemoSkill({
+			name: 'boot-events',
+		})
+
+		process.env.SKILL_ID = skill.id
+		process.env.SKILL_API_KEY = skill.apiKey
+
+		this.generateGoodContractFileForSkill(skill)
+		this.setupListenersForEventsRegisteredBySkill(skill)
+
+		const booted = await this.Skill()
+
+		const events = booted.getFeatureByCode('event') as EventFeaturePlugin
+		const client = await events.connectToApi()
+
+		await client.on('unregister-events::v2020_12_25', async () => {
+			await new Promise((resolve) => setTimeout(resolve, 1000))
+
+			return {}
+		})
+
+		const err = await assert.doesThrowAsync(() => booted.execute())
+		errorAssertUtil.assertError(err, 'INVALID_PAYLOAD')
+	}
+
+	private static setupListenersForEventsRegisteredBySkill(skill: any) {
+		diskUtil.moveDir(
+			this.resolvePath('build/listeners/namespace'),
+			this.resolvePath(`build/listeners/`, skill.slug)
+		)
 	}
 }

@@ -1,3 +1,4 @@
+import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
 import { SkillFactoryOptions } from '@sprucelabs/spruce-skill-booter'
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 import { AbstractSpruceFixtureTest } from '@sprucelabs/spruce-test-fixtures'
@@ -43,7 +44,9 @@ export default class AbstractEventPluginTest extends AbstractSpruceFixtureTest {
 		)
 	}
 
-	protected static generateGoodContractFileForSkill(skill: any) {
+	protected static generateGoodContractFileForSkill(
+		skill: SpruceSchemas.Spruce.v2020_07_22.Skill
+	) {
 		const sourceContents = diskUtil.readFile(
 			this.resolvePath(
 				'build',
