@@ -16,10 +16,10 @@ export default class RegistringSkillViewsOnBootTest extends AbstractViewTest {
 
 		const skill = await this.bootSkill()
 		const events = skill.getFeatureByCode('event') as EventFeature
-		const client = await events.connectToApi() as MercuryClient<CoreEventContract>
+		const client =
+			(await events.connectToApi()) as MercuryClient<CoreEventContract>
 
-		const results = await client.emit('hea')
-
-		debugger
+		// const results = await client.emit('m')
+		assert.isTruthy(client)
 	}
 }
