@@ -3,7 +3,7 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "4.6.1",
+	"version": "4.6.3",
 	"files": [
 		"build/**/*",
 		"!build/__tests__",
@@ -26,7 +26,7 @@
 	},
 	"scripts": {
 		"build.copy-files": "mkdir -p build && rsync -avzq --exclude='*.ts' ./src/ ./build/",
-		"build.dev": "yarn build.tsc && yarn resolve-paths.lint",
+		"build.dev": "yarn buld.tsc ; yarn resolve-paths.lint",
 		"build.dist": "yarn build.tsc && tsc --project tsconfig.dist.json && yarn build.resolve-paths && yarn build.esm-postbuild",
 		"build.esm-postbuild": "esm-postbuild --target build/esm --patterns '**/*.js'",
 		"build.resolve-paths": "resolve-path-aliases --target build --patterns '**/*.js,**/*.d.ts'",
@@ -52,7 +52,7 @@
 		"@sprucelabs/schema": "latest",
 		"@sprucelabs/spruce-core-schemas": "latest",
 		"@sprucelabs/spruce-event-utils": "latest",
-		"@sprucelabs/spruce-skill-booter": "^4.6.1",
+		"@sprucelabs/spruce-skill-booter": "^4.6.3",
 		"@sprucelabs/spruce-skill-utils": "latest",
 		"dotenv": "^10.0.0"
 	},
@@ -65,7 +65,7 @@
 		"@sprucelabs/semantic-release": "latest",
 		"@sprucelabs/test": "latest",
 		"@sprucelabs/test-utils": "latest",
-		"@types/node": "^15.9.0",
+		"@types/node": "^15.12.0",
 		"chokidar-cli": "^2.1.0",
 		"concurrently": "^6.2.0",
 		"conventional-changelog-sprucelabs": "latest",

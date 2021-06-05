@@ -3,7 +3,7 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "4.6.1",
+	"version": "4.6.3",
 	"files": [
 		"build/**/*",
 		"!build/__tests__",
@@ -26,7 +26,7 @@
 	},
 	"scripts": {
 		"build.copy-files": "mkdir -p build && rsync -avzq --exclude='*.ts' ./src/ ./build/",
-		"build.dev": "yarn build.tsc && yarn resolve-paths.lint",
+		"build.dev": "yarn buld.tsc ; yarn resolve-paths.lint",
 		"build.dist": "yarn build.tsc && tsc --project tsconfig.dist.json && yarn build.resolve-paths && yarn build.esm-postbuild",
 		"build.esm-postbuild": "esm-postbuild --target build/esm --patterns '**/*.js'",
 		"build.resolve-paths": "resolve-path-aliases --target build --patterns '**/*.js,**/*.d.ts'",
@@ -49,7 +49,7 @@
 		"@sprucelabs/error": "latest",
 		"@sprucelabs/schema": "latest",
 		"@sprucelabs/spruce-skill-utils": "latest",
-		"@sprucelabs/spruce-test-fixtures": "^4.6.1",
+		"@sprucelabs/spruce-test-fixtures": "^4.6.3",
 		"heroku-client": "^3.1.0"
 	},
 	"devDependencies": {
@@ -62,7 +62,7 @@
 		"@sprucelabs/test": "latest",
 		"@sprucelabs/test-utils": "latest",
 		"@types/inquirer": "^7.3.1",
-		"@types/node": "^15.9.0",
+		"@types/node": "^15.12.0",
 		"chokidar-cli": "^2.1.0",
 		"concurrently": "^6.2.0",
 		"conventional-changelog-sprucelabs": "latest",
