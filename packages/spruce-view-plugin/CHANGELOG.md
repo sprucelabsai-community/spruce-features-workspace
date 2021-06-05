@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.6.4](https://github.com/sprucelabsai/spruce-features-workspace/compare/v4.6.3...v4.6.4) (2021-06-05)
+
+**Note:** Version bump only for package @sprucelabs/spruce-view-plugin
+
+
+
+
+
 ## [4.6.3](https://github.com/sprucelabsai/spruce-features-workspace/compare/v4.6.2...v4.6.3) (2021-06-03)
 
 **Note:** Version bump only for package @sprucelabs/spruce-view-plugin
