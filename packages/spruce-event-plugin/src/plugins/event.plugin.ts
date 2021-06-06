@@ -447,6 +447,9 @@ export class EventFeaturePlugin implements SkillFeature {
 				eventName: event.eventName,
 				version: event.version,
 			})
+
+			this.log.info(`Found local event named ${name}`)
+
 			//@ts-ignore
 			contract.eventSignatures[name] = event.signature
 		}
@@ -458,7 +461,7 @@ export class EventFeaturePlugin implements SkillFeature {
 		eventResponseUtil.getFirstResponseOrThrow(registerResults)
 
 		this.log.info(
-			`Registered ${this.eventsIRegistered.length} event contract${
+			`Registered ${this.eventsIRegistered.length} event signature${
 				this.eventsIRegistered.length === 1 ? '' : 's'
 			}`
 		)
