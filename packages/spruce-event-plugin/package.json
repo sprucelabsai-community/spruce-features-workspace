@@ -6,7 +6,7 @@
 	"skill": {
 		"namespace": "event"
 	},
-	"version": "4.6.4",
+	"version": "4.6.5",
 	"files": [
 		"build/**/*",
 		"!build/__tests__",
@@ -55,7 +55,7 @@
 		"@sprucelabs/spruce-core-schemas": "latest",
 		"@sprucelabs/spruce-event-utils": "latest",
 		"@sprucelabs/spruce-skill-utils": "latest",
-		"@sprucelabs/spruce-test-fixtures": "^4.6.4"
+		"@sprucelabs/spruce-test-fixtures": "^4.6.5"
 	},
 	"devDependencies": {
 		"@sprucelabs/esm-postbuild": "latest",
