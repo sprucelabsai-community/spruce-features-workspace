@@ -44,13 +44,15 @@
 		"./packages/spruce-store-plugin",
 		"./packages/spruce-view-plugin"
 	],
+	"eslint.lintTask.options": "--cache",
 	"eslint.options": {
 		"extensions": [
 			".js",
 			".jsx",
 			".ts",
 			".tsx"
-		]
+		],
+		"cache": true
 	},
 	"typescript.preferences.importModuleSpecifier": "relative",
 	"editor.codeActionsOnSave": {

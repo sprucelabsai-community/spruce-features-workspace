@@ -34,7 +34,7 @@
 		"clean": "rm -rf build/",
 		"clean.all": "rm -rf node_modules/ yarn.lock ; yarn clean",
 		"fix.lint": "eslint --fix '**/*.ts'",
-		"lint": "eslint '**/*.ts'",
+		"lint": "eslint --cache '**/*.ts'",
 		"rebuild": "yarn clean.all && yarn && yarn build.dev",
 		"resolve-paths.lint": "yarn build.resolve-paths ; yarn lint",
 		"no-test": "jest",

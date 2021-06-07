@@ -9,6 +9,7 @@ __TEST__/
 
 # Mac
 .DS_Store
+.eslintcache
 
 # Logs
 *.log
