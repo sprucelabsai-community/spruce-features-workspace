@@ -12,7 +12,7 @@
 			"pull.event.contracts": "--destination ./src/tests"
 		}
 	},
-	"version": "4.6.22",
+	"version": "4.6.23",
 	"files": [
 		"build/**/*",
 		"!build/__tests__",
@@ -58,21 +58,21 @@
 		"@sprucelabs/error": "latest",
 		"@sprucelabs/heartwood-view-controllers": "latest",
 		"@sprucelabs/schema": "latest",
+		"@sprucelabs/spruce-event-plugin": "^4.6.23",
 		"@sprucelabs/spruce-event-utils": "latest",
 		"@sprucelabs/spruce-skill-utils": "latest",
-		"@sprucelabs/spruce-event-plugin": "^4.6.22",
-		"@sprucelabs/spruce-test-fixtures": "^4.6.22",
+		"@sprucelabs/spruce-test-fixtures": "^4.6.23",
 		"globby": "^11.0.3"
 	},
 	"devDependencies": {
 		"@sprucelabs/esm-postbuild": "latest",
-		"@sprucelabs/spruce-skill-booter": "^4.6.22",
 		"@sprucelabs/jest-json-reporter": "latest",
 		"@sprucelabs/jest-sheets-reporter": "^1.2.44",
 		"@sprucelabs/mercury-client": "latest",
 		"@sprucelabs/mercury-types": "latest",
 		"@sprucelabs/resolve-path-aliases": "latest",
 		"@sprucelabs/semantic-release": "latest",
+		"@sprucelabs/spruce-skill-booter": "^4.6.23",
 		"@sprucelabs/test": "latest",
 		"@sprucelabs/test-utils": "latest",
 		"@types/inquirer": "^7.3.1",
