@@ -7511,41 +7511,92 @@ const eventContracts = [buildEventContract({
 }),
 buildEventContract({
   "eventSignatures": {
-    "my-new-skill-1621887616743-count-54.my-fantastically-amazing-event::v2021_05_24": {
+    "heartwood.register-skill-views::v2021_02_11": {
       "isGlobal": true,
-      "responsePayloadSchema": null,
-      "emitPayloadSchema": null,
-      "listenPermissionContract": {
-        "id": "myFantasticallyAmazingEventListenPermissions",
-        "name": "my fantastically amazing event",
-        "description": null,
-        "requireAllPermissions": false,
-        "permissions": [
-          {
-            "id": "can-high-five",
-            "name": "Can give high five",
-            "description": "Will this person be allowed to high five?",
-            "requireAllStatuses": false,
-            "defaults": null,
-            "can": null
+      "emitPayloadSchema": {
+        "id": "registerSkillViewsEmitTargetAndPayload",
+        "version": "v2021_02_11",
+        "namespace": "Heartwood",
+        "name": "",
+        "fields": {
+          "payload": {
+            "type": "schema",
+            "isRequired": true,
+            "options": {
+              "schema": {
+                "id": "registerSkillViewsEmitPayload",
+                "version": "v2021_02_11",
+                "namespace": "Heartwood",
+                "name": "",
+                "fields": {
+                  "ids": {
+                    "type": "text",
+                    "isRequired": true,
+                    "isArray": true
+                  },
+                  "source": {
+                    "type": "text",
+                    "isRequired": true
+                  }
+                }
+              }
+            }
           }
-        ]
+        }
+      }
+    },
+    "heartwood.get-skill-views::v2021_02_11": {
+      "isGlobal": true,
+      "emitPayloadSchema": {
+        "id": "getSkillViewsEmitTargetAndPayload",
+        "version": "v2021_02_11",
+        "namespace": "Heartwood",
+        "name": "",
+        "fields": {
+          "payload": {
+            "type": "schema",
+            "isRequired": true,
+            "options": {
+              "schema": {
+                "id": "getViewControllersEmitPayload",
+                "version": "v2021_02_11",
+                "namespace": "Heartwood",
+                "name": "",
+                "fields": {
+                  "namespace": {
+                    "type": "text",
+                    "isRequired": true
+                  }
+                }
+              }
+            }
+          }
+        }
       },
-      "emitPermissionContract": {
-        "id": "myFantasticallyAmazingEventEmitPermissions",
-        "name": "my fantastically amazing event",
-        "description": null,
-        "requireAllPermissions": false,
-        "permissions": [
-          {
-            "id": "can-high-five",
-            "name": "Can give high five",
-            "description": "Will this person be allowed to high five?",
-            "requireAllStatuses": false,
-            "defaults": null,
-            "can": null
+      "responsePayloadSchema": {
+        "id": "getSkillViewsResponsePayload",
+        "version": "v2021_02_11",
+        "namespace": "Heartwood",
+        "name": "",
+        "fields": {
+          "id": {
+            "type": "id",
+            "isRequired": true
+          },
+          "namespace": {
+            "type": "text",
+            "isRequired": true
+          },
+          "ids": {
+            "type": "text",
+            "isRequired": true,
+            "isArray": true
+          },
+          "source": {
+            "type": "text",
+            "isRequired": true
           }
-        ]
+        }
       }
     }
   }

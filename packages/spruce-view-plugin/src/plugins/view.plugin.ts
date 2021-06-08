@@ -1,5 +1,8 @@
 import AbstractSpruceError from '@sprucelabs/error'
-import { BuiltSkillViewController } from '@sprucelabs/heartwood-view-controllers'
+import {
+	BuiltSkillViewController,
+	ViewControllerExporter,
+} from '@sprucelabs/heartwood-view-controllers'
 import {
 	diskUtil,
 	SettingsService,
@@ -12,12 +15,38 @@ import { HealthCheckView, ViewHealthCheckItem } from '../types/view.types'
 
 export class ViewFeature implements SkillFeature {
 	private skill: Skill
+	private _isBooted = false
 
 	public constructor(skill: Skill) {
 		this.skill = skill
 	}
 
-	public async execute(): Promise<void> {}
+	public async execute(): Promise<void> {
+		const exporter = ViewControllerExporter.Exporter(this.skill.rootDir)
+		const source = diskUtil.resolveHashSprucePath(
+			this.skill.rootDir,
+			'views',
+			'views.ts'
+		)
+
+		if (diskUtil.doesFileExist(source)) {
+			const destination = diskUtil.resolvePath(
+				diskUtil.createRandomTempDir(),
+				'bundle.js'
+			)
+			debugger
+
+			await exporter.export({
+				source,
+				destination,
+			})
+
+			debugger
+		}
+
+		this._isBooted = true
+	}
+
 	public async checkHealth(): Promise<ViewHealthCheckItem> {
 		const { svcs, vcs } = await this.loadViewControllers()
 
@@ -109,7 +138,7 @@ export class ViewFeature implements SkillFeature {
 	public async destroy() {}
 
 	public isBooted() {
-		return false
+		return this._isBooted
 	}
 }
 
