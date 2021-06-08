@@ -56,13 +56,12 @@
 	},
 	"dependencies": {
 		"@sprucelabs/error": "latest",
-		"@sprucelabs/heartwood-view-controllers": "^4.1.19",
+		"@sprucelabs/heartwood-view-controllers": "latest",
 		"@sprucelabs/schema": "latest",
-		"@sprucelabs/spruce-event-utils": "^14.1.23",
+		"@sprucelabs/spruce-event-utils": "latest",
 		"@sprucelabs/spruce-event-plugin": "^4.6.20",
 		"@sprucelabs/spruce-skill-utils": "latest",
-		"@sprucelabs/spruce-test-fixtures": "^4.6.20",
-		"globby": "^11.0.3"
+		"@sprucelabs/spruce-test-fixtures": "^4.6.20"
 	},
 	"devDependencies": {
 		"@sprucelabs/esm-postbuild": "latest",
@@ -114,7 +113,8 @@
 					"sheetId": "1DoWM7mYgGDa-PJXptLomrZmbIBZiuxS1YiAsRXU2Gm0",
 					"worksheetId": 843037832,
 					"testMap": {
-						"helpfulErrorIfVcIsBroken": "I155"
+						"helpfulErrorIfVcIsBroken": "I155",
+						"registersViewsOnBoot": "I162"
 					}
 				}
 			]
@@ -136,7 +136,9 @@
 			"conventional-changelog-sprucelabs",
 			"@sprucelabs/mercury-client",
 			"eslint-config-spruce",
-			"@sprucelabs/mercury-types"
+			"@sprucelabs/mercury-types",
+			"@sprucelabs/heartwood-view-controllers",
+			"@sprucelabs/spruce-event-utils"
 		]
 	}
 }

@@ -1,8 +1,8 @@
 import dotenv from 'dotenv'
-import { AbstractSkillViewController } from '@sprucelabs/heartwood-view-controllers'
+import { AbstractViewController } from '@sprucelabs/heartwood-view-controllers'
 
-export class BookFormViewController extends AbstractSkillViewController {
-	public static id = 'book-form'
+export default class BookFormViewController extends AbstractViewController<any> {
+	// public static id = 'book-form'
 
 	//@ts-ignore
 	public render() {
@@ -25,6 +25,6 @@ export class BookFormViewController extends AbstractSkillViewController {
 			msg: 'what the?',
 			//@ts-ignore
 			globalHack2Value: global.__hack2,
-		}
+		} as any
 	}
 }

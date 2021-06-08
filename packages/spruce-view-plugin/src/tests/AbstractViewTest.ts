@@ -12,4 +12,16 @@ export default abstract class AbstractViewTest extends AbstractSpruceFixtureTest
 			...options,
 		})
 	}
+
+	protected static resolveTestPathSrc(...pathAfterTestDirsAndFiles: string[]) {
+		return this.resolvePath(
+			__dirname,
+			'..',
+			'..',
+			'src',
+			'__tests__',
+			'testDirsAndFiles',
+			...pathAfterTestDirsAndFiles
+		)
+	}
 }

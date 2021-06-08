@@ -5,9 +5,11 @@ export default buildErrorSchema({
 	name: 'Unkown view controller error',
 	description: '',
 	fields: {
-		file: {
+		id: {
 			type: 'text',
-			isRequired: true,
+		},
+		name: {
+			type: 'text',
 		},
 	},
 })

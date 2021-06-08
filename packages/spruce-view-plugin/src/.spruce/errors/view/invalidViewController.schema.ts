@@ -9,9 +9,13 @@ const invalidViewControllerSchema: SpruceErrors.View.InvalidViewControllerSchema
 	name: 'Invalid view controller',
 	    fields: {
 	            /** . */
-	            'file': {
+	            'name': {
 	                type: 'text',
-	                isRequired: true,
+	                options: undefined
+	            },
+	            /** . */
+	            'id': {
+	                type: 'text',
 	                options: undefined
 	            },
 	    }

@@ -51,5 +51,9 @@ export default class CheckingHealthTest extends AbstractViewTest {
 		assert.isTruthy(health.view)
 		assert.isTruthy(health.view.errors)
 		assert.isTruthy(health.view.viewControllers[0].error)
+		assert.doesInclude(
+			health.view.viewControllers[0].error.message,
+			'BookFormViewController'
+		)
 	}
 }

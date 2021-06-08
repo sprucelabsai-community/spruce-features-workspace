@@ -9,9 +9,13 @@ const unknownViewControllerErrorSchema: SpruceErrors.View.UnknownViewControllerE
 	name: 'Unkown view controller error',
 	    fields: {
 	            /** . */
-	            'file': {
+	            'id': {
 	                type: 'text',
-	                isRequired: true,
+	                options: undefined
+	            },
+	            /** . */
+	            'name': {
+	                type: 'text',
 	                options: undefined
 	            },
 	    }

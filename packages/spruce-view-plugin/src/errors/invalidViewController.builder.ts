@@ -5,9 +5,11 @@ export default buildErrorSchema({
 	name: 'Invalid view controller',
 	description: '',
 	fields: {
-		file: {
+		name: {
 			type: 'text',
-			isRequired: true,
+		},
+		id: {
+			type: 'text',
 		},
 	},
 })

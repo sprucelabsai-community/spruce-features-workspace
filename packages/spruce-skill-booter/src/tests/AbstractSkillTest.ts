@@ -74,7 +74,7 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
 	}
 
 	protected static async bootSkill(options?: TestBootOptions) {
-		const skill = await this.Skill(options)
+		const skill = options?.skill ?? (await this.Skill(options))
 
 		await this.bootSkillAndWait(skill, options)
 

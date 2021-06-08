@@ -1,16 +1,21 @@
 import AbstractSpruceError from '@sprucelabs/error'
 import {
 	BuiltSkillViewController,
+	BuiltViewController,
 	ViewControllerExporter,
+	AbstractSkillViewController,
 } from '@sprucelabs/heartwood-view-controllers'
+import { MercuryClient } from '@sprucelabs/mercury-client'
+import { EventFeature } from '@sprucelabs/spruce-event-plugin'
+import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import {
 	diskUtil,
 	SettingsService,
 	Skill,
 	SkillFeature,
 } from '@sprucelabs/spruce-skill-utils'
-import globby from 'globby'
 import SpruceError from '../errors/SpruceError'
+import { CoreEventContract } from '../tests/events.contract'
 import { HealthCheckView, ViewHealthCheckItem } from '../types/view.types'
 
 export class ViewFeature implements SkillFeature {
@@ -22,29 +27,58 @@ export class ViewFeature implements SkillFeature {
 	}
 
 	public async execute(): Promise<void> {
-		const exporter = ViewControllerExporter.Exporter(this.skill.rootDir)
-		const source = diskUtil.resolveHashSprucePath(
-			this.skill.rootDir,
-			'views',
-			'views.ts'
-		)
+		const viewsPath = this.getCombinedViewsPath()
 
-		if (diskUtil.doesFileExist(source)) {
+		if (diskUtil.doesFileExist(viewsPath)) {
+			const exporter = ViewControllerExporter.Exporter(this.skill.rootDir)
 			const destination = diskUtil.resolvePath(
 				diskUtil.createRandomTempDir(),
 				'bundle.js'
 			)
-			debugger
 
 			await exporter.export({
-				source,
+				source: viewsPath,
 				destination,
 			})
 
-			debugger
+			const source = diskUtil.readFile(destination)
+
+			const { ids } = await this.loadViewControllers()
+
+			const events = this.skill.getFeatureByCode('event') as EventFeature
+			const client =
+				(await events.connectToApi()) as MercuryClient<CoreEventContract>
+
+			const results = await client.emit(
+				'heartwood.register-skill-views::v2021_02_11',
+				{
+					payload: {
+						source,
+						ids,
+					},
+				}
+			)
+
+			eventResponseUtil.getFirstResponseOrThrow(results)
 		}
 
 		this._isBooted = true
+	}
+
+	private getCombinedBuiltViewsPath() {
+		return diskUtil.resolveBuiltHashSprucePath(
+			this.skill.rootDir,
+			'views',
+			'views.js'
+		)
+	}
+
+	private getCombinedViewsPath() {
+		return diskUtil.resolveHashSprucePath(
+			this.skill.rootDir,
+			'views',
+			'views.ts'
+		)
 	}
 
 	public async checkHealth(): Promise<ViewHealthCheckItem> {
@@ -55,7 +89,6 @@ export class ViewFeature implements SkillFeature {
 		const map = (svc: any) => {
 			const item: any = {
 				id: svc.id,
-				file: svc.file,
 			}
 			if (svc.error) {
 				item.error = svc.error
@@ -78,35 +111,45 @@ export class ViewFeature implements SkillFeature {
 	}
 
 	private async loadViewControllers() {
-		const search = await globby(['**/*.svc.js', '**/*.vc.js'], {
-			cwd: this.skill.activeDir,
-		})
+		const path = this.getCombinedBuiltViewsPath()
+
+		if (!diskUtil.doesFileExist(path)) {
+			return {
+				svcs: [],
+				vcs: [],
+				ids: [],
+			}
+		}
+
+		const controllerMap = require(path).default
+		const controllers = Object.values(controllerMap) as (
+			| (BuiltViewController & { name?: string })
+			| (BuiltSkillViewController & { name?: string })
+		)[]
 
 		const vcs: ({
-			Class?: BuiltSkillViewController<any>
+			Class?: BuiltViewController
 		} & HealthCheckView)[] = []
+
 		const svcs: ({
 			Class?: BuiltSkillViewController
 		} & HealthCheckView)[] = []
 
-		for (const file of search) {
+		const ids: string[] = []
+
+		for (const controller of controllers) {
 			const item: Partial<HealthCheckView & { Class?: any }> & {
 				id: string
-				file: string
 			} = {
-				id: '',
-				file,
+				Class: controller,
+				id: controller.id,
 			}
-			let c: any
 			try {
-				c = require(diskUtil.resolvePath(this.skill.activeDir, file)).default
-				item.Class = c
-				item.id = c.id
-
 				if (!item.id) {
 					throw new SpruceError({
 						code: 'INVALID_VIEW_CONTROLLER',
-						file,
+						id: controller.id,
+						name: controller.name,
 					})
 				}
 			} catch (err) {
@@ -116,18 +159,22 @@ export class ViewFeature implements SkillFeature {
 					item.error = new SpruceError({
 						code: 'UNKNOWN_VIEW_CONTROLLER_ERROR',
 						originalError: err,
-						file,
+						id: controller.id,
+						name: controller.name,
 					}) as any
 				}
 			}
 
-			if (file.search('.svc.js') > -1) {
+			ids.push(item.id)
+
+			//@ts-ignore
+			if (controller.prototype instanceof AbstractSkillViewController) {
 				svcs.push(item)
 			} else {
 				vcs.push(item)
 			}
 		}
-		return { svcs, vcs }
+		return { svcs, vcs, ids }
 	}
 
 	public async isInstalled(): Promise<boolean> {

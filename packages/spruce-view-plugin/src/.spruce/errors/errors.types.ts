@@ -14,7 +14,9 @@ export declare namespace SpruceErrors.View {
 	export interface UnknownViewControllerError {
 		
 			
-			'file': string
+			'id'?: string| undefined | null
+			
+			'name'?: string| undefined | null
 	}
 
 	export interface UnknownViewControllerErrorSchema extends SpruceSchema.Schema {
@@ -23,9 +25,13 @@ export declare namespace SpruceErrors.View {
 		name: 'Unkown view controller error',
 		    fields: {
 		            /** . */
-		            'file': {
+		            'id': {
 		                type: 'text',
-		                isRequired: true,
+		                options: undefined
+		            },
+		            /** . */
+		            'name': {
+		                type: 'text',
 		                options: undefined
 		            },
 		    }
@@ -43,7 +49,9 @@ export declare namespace SpruceErrors.View {
 	export interface InvalidViewController {
 		
 			
-			'file': string
+			'name'?: string| undefined | null
+			
+			'id'?: string| undefined | null
 	}
 
 	export interface InvalidViewControllerSchema extends SpruceSchema.Schema {
@@ -52,9 +60,13 @@ export declare namespace SpruceErrors.View {
 		name: 'Invalid view controller',
 		    fields: {
 		            /** . */
-		            'file': {
+		            'name': {
 		                type: 'text',
-		                isRequired: true,
+		                options: undefined
+		            },
+		            /** . */
+		            'id': {
+		                type: 'text',
 		                options: undefined
 		            },
 		    }

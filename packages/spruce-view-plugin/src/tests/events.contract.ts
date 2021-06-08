@@ -7511,39 +7511,12 @@ const eventContracts = [buildEventContract({
 }),
 buildEventContract({
   "eventSignatures": {
-    "heartwood.register-skill-views::v2021_02_11": {
+    "a-temp-skill-1623109032184-count-100.test-sync::v2021_01_01": {
       "isGlobal": true,
-      "emitPayloadSchema": {
-        "id": "registerSkillViewsEmitTargetAndPayload",
-        "version": "v2021_02_11",
-        "namespace": "Heartwood",
-        "name": "",
-        "fields": {
-          "payload": {
-            "type": "schema",
-            "isRequired": true,
-            "options": {
-              "schema": {
-                "id": "registerSkillViewsEmitPayload",
-                "version": "v2021_02_11",
-                "namespace": "Heartwood",
-                "name": "",
-                "fields": {
-                  "ids": {
-                    "type": "text",
-                    "isRequired": true,
-                    "isArray": true
-                  },
-                  "source": {
-                    "type": "text",
-                    "isRequired": true
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+      "responsePayloadSchema": null,
+      "emitPayloadSchema": null,
+      "listenPermissionContract": null,
+      "emitPermissionContract": null
     },
     "heartwood.get-skill-views::v2021_02_11": {
       "isGlobal": true,
@@ -7595,6 +7568,53 @@ buildEventContract({
           "source": {
             "type": "text",
             "isRequired": true
+          }
+        }
+      }
+    },
+    "heartwood.register-skill-views::v2021_02_11": {
+      "isGlobal": true,
+      "emitPayloadSchema": {
+        "id": "registerSkillViewsEmitTargetAndPayload",
+        "version": "v2021_02_11",
+        "namespace": "Heartwood",
+        "name": "",
+        "fields": {
+          "payload": {
+            "type": "schema",
+            "isRequired": true,
+            "options": {
+              "schema": {
+                "id": "registerSkillViewsEmitPayload",
+                "version": "v2021_02_11",
+                "namespace": "Heartwood",
+                "name": "",
+                "fields": {
+                  "ids": {
+                    "type": "text",
+                    "isRequired": true,
+                    "isArray": true
+                  },
+                  "source": {
+                    "type": "text",
+                    "isRequired": true
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "responsePayloadSchema": {
+        "id": "registerSkillViewsResponsePayload",
+        "version": "v2021_02_11",
+        "namespace": "Heartwood",
+        "name": "",
+        "fields": {
+          "totalRegistered": {
+            "type": "number",
+            "isRequired": true,
+            "hint": "Views that were registered. Will match the number of ids you sent."
           }
         }
       }

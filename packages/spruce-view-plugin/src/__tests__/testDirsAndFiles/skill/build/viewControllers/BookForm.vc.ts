@@ -1,7 +1,7 @@
+import {  AbstractViewController } from '@sprucelabs/heartwood-view-controllers'
 import dotenv from 'dotenv'
-import { AbstractSkillViewController } from '@sprucelabs/heartwood-view-controllers'
 
-export default class BookFormViewController extends AbstractSkillViewController {
+export default class BookFormViewController extends AbstractViewController<any> {
 	public static id = 'book-form'
 
 	//@ts-ignore

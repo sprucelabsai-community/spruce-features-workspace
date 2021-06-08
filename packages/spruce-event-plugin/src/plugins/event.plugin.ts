@@ -179,19 +179,11 @@ export class EventFeaturePlugin implements SkillFeature {
 		eventName: string,
 		targetAndPayload?: any
 	): Promise<SpruceEvent<any, any>> {
-		let apiClient: any
-
-		if (this.apiClientPromise) {
-			const { client } = await this.apiClientPromise
-			apiClient = client
-		}
-
 		return {
 			skill: this.skill,
 			log: this.log.buildLog(eventName),
 			...targetAndPayload,
 			...this.skill.getContext(),
-			mercury: apiClient,
 		} as any
 	}
 

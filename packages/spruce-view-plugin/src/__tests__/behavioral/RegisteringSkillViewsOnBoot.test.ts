@@ -42,33 +42,20 @@ export default class RegistringSkillViewsOnBootTest extends AbstractViewTest {
 		)
 	}
 
-	@test.only()
+	@test()
 	protected static async registersViewsOnBoot() {
-		this.cwd = this.resolveTestPath('src', 'skill-source')
-		debugger
-		const skill = await this.bootSkill()
+		const skill = await this.SkillFromTestDir('skill')
+		const source = this.resolveTestPathSrc('skill', 'src')
+		const destination = diskUtil.resolvePath(skill.rootDir, 'src')
+		await diskUtil.copyDir(source, destination)
 
-		debugger
+		await this.bootSkill({ skill })
 
 		const results = await this.getSkillViews(skill)
 
-		const { ids } = eventResponseUtil.getFirstResponseOrThrow(results)
-	}
+		const registered = eventResponseUtil.getFirstResponseOrThrow(results)
 
-	protected static resolveTestPath(
-		buildOrSrc: 'build' | 'src',
-		...pathAfterTestDirsAndFiles: string[]
-	) {
-		return this.resolvePath(
-			__dirname,
-			'..',
-			'..',
-			'..',
-			buildOrSrc,
-			'__tests__',
-			'testDirsAndFiles',
-			...pathAfterTestDirsAndFiles
-		)
+		assert.isEqualDeep(registered.ids, ['book', 'book-form'])
 	}
 
 	private static async getSkillViews(skill: Skill) {

@@ -8,11 +8,15 @@ export default class SpruceError extends BaseSpruceError<ErrorOptions> {
 		let message
 		switch (options?.code) {
 			case 'INVALID_VIEW_CONTROLLER':
-				message = `Dang! The view controller defined at ${options.file} does not seem to export a class as default.`
+				message = `Dang! The view controller named ${
+					options.name ?? options.id
+				} is not valid..`
 				break
 
 			case 'UNKNOWN_VIEW_CONTROLLER_ERROR':
-				message = `No idea what happened when trying to load the view controller at ${options.file}! The original error is:\n\n${options.originalError?.stack}`
+				message = `No idea what happened when trying to load the view controller ${
+					options.name ?? options.id
+				}! The original error is:\n\n${options.originalError?.stack}`
 				break
 
 			default:
