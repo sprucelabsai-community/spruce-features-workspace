@@ -6,7 +6,7 @@
 	"skill": {
 		"namespace": "event"
 	},
-	"version": "4.6.17",
+	"version": "4.6.20",
 	"files": [
 		"build/**/*",
 		"!build/__tests__",
@@ -55,7 +55,7 @@
 		"@sprucelabs/spruce-core-schemas": "latest",
 		"@sprucelabs/spruce-event-utils": "latest",
 		"@sprucelabs/spruce-skill-utils": "latest",
-		"@sprucelabs/spruce-test-fixtures": "^4.6.17"
+		"@sprucelabs/spruce-test-fixtures": "^4.6.20"
 	},
 	"devDependencies": {
 		"@sprucelabs/esm-postbuild": "latest",
@@ -65,7 +65,7 @@
 		"@sprucelabs/semantic-release": "latest",
 		"@sprucelabs/test": "latest",
 		"@sprucelabs/test-utils": "latest",
-		"@types/node": "^15.12.1",
+		"@types/node": "^15.12.2",
 		"chokidar-cli": "^2.1.0",
 		"concurrently": "^6.2.0",
 		"conventional-changelog-sprucelabs": "latest",
