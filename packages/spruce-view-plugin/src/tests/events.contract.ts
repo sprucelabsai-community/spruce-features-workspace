@@ -7511,13 +7511,6 @@ const eventContracts = [buildEventContract({
 }),
 buildEventContract({
   "eventSignatures": {
-    "a-temp-skill-1623109032184-count-100.test-sync::v2021_01_01": {
-      "isGlobal": true,
-      "responsePayloadSchema": null,
-      "emitPayloadSchema": null,
-      "listenPermissionContract": null,
-      "emitPermissionContract": null
-    },
     "heartwood.get-skill-views::v2021_02_11": {
       "isGlobal": true,
       "emitPayloadSchema": {
@@ -7526,12 +7519,12 @@ buildEventContract({
         "namespace": "Heartwood",
         "name": "",
         "fields": {
-          "payload": {
+          "target": {
             "type": "schema",
             "isRequired": true,
             "options": {
               "schema": {
-                "id": "getViewControllersEmitPayload",
+                "id": "getViewControllersEmitTarget",
                 "version": "v2021_02_11",
                 "namespace": "Heartwood",
                 "name": "",
@@ -7568,6 +7561,79 @@ buildEventContract({
           "source": {
             "type": "text",
             "isRequired": true
+          },
+          "theme": {
+            "type": "schema",
+            "options": {
+              "schema": {
+                "id": "theme",
+                "version": "v2021_02_11",
+                "namespace": "Heartwood",
+                "name": "Theme",
+                "fields": {
+                  "color1": {
+                    "label": "Color 1",
+                    "type": "text",
+                    "hint": "Used to color anything overlayed on the background (color1Inverse or color1InverseGradient)."
+                  },
+                  "color1Inverse": {
+                    "label": "Color 1 (inverse)",
+                    "type": "text",
+                    "hint": "Background color of the view if color1InverseGradient is not set"
+                  },
+                  "color1InverseGradient": {
+                    "label": "Color 1 Gradient (inverse)",
+                    "type": "text",
+                    "hint": "Background griedent applied to view."
+                  },
+                  "color2": {
+                    "label": "Color 2",
+                    "type": "text",
+                    "hint": "The color of anything overlayed on the background of a card (color2Inverse)"
+                  },
+                  "color2InverseTransparent": {
+                    "label": "Color 2 (inverse with transparency)",
+                    "type": "text",
+                    "hint": "Background color used when some transparency is needed for context."
+                  },
+                  "color2Inverse": {
+                    "label": "Color",
+                    "type": "text",
+                    "hint": "Background color of cards."
+                  },
+                  "color3": {
+                    "label": "Color 3",
+                    "type": "text",
+                    "hint": "Subtitle and label colors."
+                  },
+                  "color4": {
+                    "label": "Color 4",
+                    "type": "text",
+                    "hint": "Buttons, borders, outlines, and highlights"
+                  },
+                  "color4Inverse": {
+                    "label": "Color",
+                    "type": "text",
+                    "hint": "Should compliment color 4"
+                  },
+                  "controlBarBg": {
+                    "label": "Color",
+                    "type": "text",
+                    "hint": "The background color of the control bar."
+                  },
+                  "errorColor1": {
+                    "label": "Color",
+                    "type": "text",
+                    "hint": "Errors overlayed on a background colored with errorColor1Inverse."
+                  },
+                  "errorColor1Inverse": {
+                    "label": "Color",
+                    "type": "text",
+                    "hint": "The background used when rendering errors."
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -7598,6 +7664,79 @@ buildEventContract({
                   "source": {
                     "type": "text",
                     "isRequired": true
+                  },
+                  "theme": {
+                    "type": "schema",
+                    "options": {
+                      "schema": {
+                        "id": "theme",
+                        "version": "v2021_02_11",
+                        "namespace": "Heartwood",
+                        "name": "Theme",
+                        "fields": {
+                          "color1": {
+                            "label": "Color 1",
+                            "type": "text",
+                            "hint": "Used to color anything overlayed on the background (color1Inverse or color1InverseGradient)."
+                          },
+                          "color1Inverse": {
+                            "label": "Color 1 (inverse)",
+                            "type": "text",
+                            "hint": "Background color of the view if color1InverseGradient is not set"
+                          },
+                          "color1InverseGradient": {
+                            "label": "Color 1 Gradient (inverse)",
+                            "type": "text",
+                            "hint": "Background griedent applied to view."
+                          },
+                          "color2": {
+                            "label": "Color 2",
+                            "type": "text",
+                            "hint": "The color of anything overlayed on the background of a card (color2Inverse)"
+                          },
+                          "color2InverseTransparent": {
+                            "label": "Color 2 (inverse with transparency)",
+                            "type": "text",
+                            "hint": "Background color used when some transparency is needed for context."
+                          },
+                          "color2Inverse": {
+                            "label": "Color",
+                            "type": "text",
+                            "hint": "Background color of cards."
+                          },
+                          "color3": {
+                            "label": "Color 3",
+                            "type": "text",
+                            "hint": "Subtitle and label colors."
+                          },
+                          "color4": {
+                            "label": "Color 4",
+                            "type": "text",
+                            "hint": "Buttons, borders, outlines, and highlights"
+                          },
+                          "color4Inverse": {
+                            "label": "Color",
+                            "type": "text",
+                            "hint": "Should compliment color 4"
+                          },
+                          "controlBarBg": {
+                            "label": "Color",
+                            "type": "text",
+                            "hint": "The background color of the control bar."
+                          },
+                          "errorColor1": {
+                            "label": "Color",
+                            "type": "text",
+                            "hint": "Errors overlayed on a background colored with errorColor1Inverse."
+                          },
+                          "errorColor1Inverse": {
+                            "label": "Color",
+                            "type": "text",
+                            "hint": "The background used when rendering errors."
+                          }
+                        }
+                      }
+                    }
                   }
                 }
               }

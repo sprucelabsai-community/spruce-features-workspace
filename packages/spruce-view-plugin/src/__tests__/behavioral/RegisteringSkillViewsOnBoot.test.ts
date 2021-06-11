@@ -62,7 +62,7 @@ export default class RegistringSkillViewsOnBootTest extends AbstractViewTest {
 		const client = await this.connectToApi(skill)
 
 		return await client.emit('heartwood.get-skill-views::v2021_02_11', {
-			payload: {
+			target: {
 				namespace: this.currentSkill.slug,
 			},
 		})
