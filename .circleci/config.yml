@@ -28,7 +28,7 @@ jobs:
       - run: which rsync || ( sudo apt-get update -y && sudo apt-get install rsync -y )
       - run: yarn install
       - run: yarn clean
-      - run: yarn build.dev
+      - run: yarn build.ci
       - run:
           name: "set phone numbers for each pacakge"
           command: |
