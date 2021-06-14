@@ -1,4 +1,4 @@
-import { StoreLoader } from '@sprucelabs/data-stores'
+import { StoreLoader, StoreName } from '@sprucelabs/data-stores'
 import { AbstractSpruceFixtureTest } from '@sprucelabs/spruce-test-fixtures'
 
 export default abstract class AbstractStoreTest extends AbstractSpruceFixtureTest {
@@ -30,5 +30,9 @@ export default abstract class AbstractStoreTest extends AbstractSpruceFixtureTes
 		const dbFixture = this.Fixture('database')
 		const db = await dbFixture.connectToDatabase()
 		return db
+	}
+
+	protected static async Store<N extends StoreName>(name: N) {
+		return this.Fixture('store').Store(name)
 	}
 }
