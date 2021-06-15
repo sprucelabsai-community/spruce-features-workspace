@@ -1,6 +1,6 @@
 import { StoreLoader } from '@sprucelabs/data-stores'
 import AbstractSpruceTest, { assert, test } from '@sprucelabs/test'
-import FixtureFactory from '../../fixtures/FixtureFactory'
+import FixtureFactory from '../../tests/fixtures/FixtureFactory'
 
 declare module '@sprucelabs/data-stores/build/types/stores.types' {
 	interface StoreMap {

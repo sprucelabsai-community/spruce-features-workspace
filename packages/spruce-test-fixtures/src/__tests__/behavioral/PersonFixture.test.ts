@@ -1,8 +1,8 @@
 import AbstractSpruceTest, { test, assert } from '@sprucelabs/test'
 import { errorAssertUtil } from '@sprucelabs/test-utils'
 import dotenv from 'dotenv'
-import FixtureFactory from '../../fixtures/FixtureFactory'
-import PersonFixture from '../../fixtures/PersonFixture'
+import FixtureFactory from '../../tests/fixtures/FixtureFactory'
+import PersonFixture from '../../tests/fixtures/PersonFixture'
 dotenv.config()
 
 const DEMO_NUMBER = process.env.DEMO_NUMBER

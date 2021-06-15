@@ -1,7 +1,7 @@
 import { MercuryClient } from '@sprucelabs/mercury-client'
 import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
-import { ApiClientFactory } from '../types/fixture.types'
+import { ApiClientFactory } from '../../types/fixture.types'
 import PersonFixture from './PersonFixture'
 
 type Skill = SpruceSchemas.Spruce.v2020_07_22.Skill

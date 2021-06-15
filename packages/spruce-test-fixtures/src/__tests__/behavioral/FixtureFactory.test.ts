@@ -1,10 +1,10 @@
 import AbstractSpruceTest, { test, assert } from '@sprucelabs/test'
 import { errorAssertUtil } from '@sprucelabs/test-utils'
-import FixtureFactory from '../../fixtures/FixtureFactory'
-import MercuryFixture from '../../fixtures/MercuryFixture'
-import OrganizationFixture from '../../fixtures/OrganizationFixture'
-import PersonFixture from '../../fixtures/PersonFixture'
-import SkillFixture from '../../fixtures/SkillFixture'
+import FixtureFactory from '../../tests/fixtures/FixtureFactory'
+import MercuryFixture from '../../tests/fixtures/MercuryFixture'
+import OrganizationFixture from '../../tests/fixtures/OrganizationFixture'
+import PersonFixture from '../../tests/fixtures/PersonFixture'
+import SkillFixture from '../../tests/fixtures/SkillFixture'
 
 export default class FixtureFactoryTest extends AbstractSpruceTest {
 	@test()

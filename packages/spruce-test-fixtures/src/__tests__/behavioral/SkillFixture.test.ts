@@ -1,8 +1,8 @@
 import { eventErrorAssertUtil } from '@sprucelabs/spruce-event-utils'
 import { test, assert } from '@sprucelabs/test'
-import FixtureFactory from '../../fixtures/FixtureFactory'
-import SkillFixture from '../../fixtures/SkillFixture'
 import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
+import FixtureFactory from '../../tests/fixtures/FixtureFactory'
+import SkillFixture from '../../tests/fixtures/SkillFixture'
 
 export default class SkillFixtureTest extends AbstractSpruceFixtureTest {
 	private static fixture: SkillFixture

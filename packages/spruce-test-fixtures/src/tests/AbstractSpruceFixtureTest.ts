@@ -4,9 +4,9 @@ import {
 	AbstractSkillTest,
 	SkillFactoryOptions,
 } from '@sprucelabs/spruce-skill-booter'
-import FixtureFactory from '../fixtures/FixtureFactory'
-import MercuryFixture from '../fixtures/MercuryFixture'
 import { FixtureName } from '../types/fixture.types'
+import FixtureFactory from './fixtures/FixtureFactory'
+import MercuryFixture from './fixtures/MercuryFixture'
 import messageTestUtility from './messageTest.utility'
 
 export type Message = SpruceSchemas.Spruce.v2020_07_22.Message

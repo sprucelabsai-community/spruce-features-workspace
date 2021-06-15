@@ -1,6 +1,6 @@
 import { MercuryClient, MercuryClientFactory } from '@sprucelabs/mercury-client'
 import { coreEventContracts } from '@sprucelabs/mercury-types'
-import SpruceError from '../errors/SpruceError'
+import SpruceError from '../../errors/SpruceError'
 const env = require('dotenv')
 env.config()
 

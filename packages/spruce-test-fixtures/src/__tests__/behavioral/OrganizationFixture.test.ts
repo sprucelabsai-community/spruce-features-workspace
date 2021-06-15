@@ -1,7 +1,7 @@
 import { eventErrorAssertUtil } from '@sprucelabs/spruce-event-utils'
 import { test, assert } from '@sprucelabs/test'
-import OrganizationFixture from '../../fixtures/OrganizationFixture'
 import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
+import OrganizationFixture from '../../tests/fixtures/OrganizationFixture'
 
 export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 	private static fixture: OrganizationFixture

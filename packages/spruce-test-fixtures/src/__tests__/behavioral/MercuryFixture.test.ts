@@ -1,6 +1,6 @@
 import AbstractSpruceTest, { test, assert } from '@sprucelabs/test'
-import FixtureFactory from '../../fixtures/FixtureFactory'
-import MercuryFixture from '../../fixtures/MercuryFixture'
+import FixtureFactory from '../../tests/fixtures/FixtureFactory'
+import MercuryFixture from '../../tests/fixtures/MercuryFixture'
 
 export default class MercuryFixtureTest extends AbstractSpruceTest {
 	private static fixture: MercuryFixture

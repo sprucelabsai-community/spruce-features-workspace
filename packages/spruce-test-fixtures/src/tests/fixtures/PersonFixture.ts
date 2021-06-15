@@ -2,8 +2,8 @@ import { formatPhoneNumber } from '@sprucelabs/schema'
 import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import dotenv from 'dotenv'
-import SpruceError from '../errors/SpruceError'
-import { ApiClientFactory } from '../types/fixture.types'
+import SpruceError from '../../errors/SpruceError'
+import { ApiClientFactory } from '../../types/fixture.types'
 
 dotenv.config()
 

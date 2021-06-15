@@ -1,6 +1,6 @@
 import { DatabaseFixture } from '@sprucelabs/data-stores'
-import SpruceError from '../errors/SpruceError'
-import { FixtureMap, FixtureName } from '../types/fixture.types'
+import SpruceError from '../../errors/SpruceError'
+import { FixtureMap, FixtureName } from '../../types/fixture.types'
 import MercuryFixture from './MercuryFixture'
 import OrganizationFixture from './OrganizationFixture'
 import PersonFixture from './PersonFixture'
