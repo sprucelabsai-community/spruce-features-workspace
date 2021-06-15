@@ -12,7 +12,7 @@
 			"pull.event.contracts": "--destination ./src/tests"
 		}
 	},
-	"version": "4.7.0",
+	"version": "4.7.3",
 	"files": [
 		"build/**/*",
 		"!build/__tests__",
@@ -41,11 +41,14 @@
 		"build.esm-postbuild": "esm-postbuild --target build/esm --patterns '**/*.js'",
 		"build.resolve-paths": "resolve-path-aliases --target build --patterns '**/*.js,**/*.d.ts'",
 		"build.tsc": "yarn build.copy-files && tsc",
-		"clean": "rm -rf build/",
-		"clean.all": "rm -rf node_modules/ yarn.lock ; yarn clean",
+		"clean": "yarn clean.build",
+		"clean.all": "yarn clean.build && yarn clean.dependencies",
+		"clean.build": "rm -rf build/",
+		"clean.dependencies": "rm -rf node_modules/ package-lock.json yarn.lock",
 		"fix.lint": "eslint --fix '**/*.ts'",
 		"lint": "eslint --cache '**/*.ts'",
 		"rebuild": "cd .. && yarn rebuild",
+		"rebuild.dependencies": "yarn clean.dependencies && yarn",
 		"resolve-paths.lint": "yarn build.resolve-paths ; yarn lint",
 		"test": "jest",
 		"upgrade.packages": "yarn-upgrade-all && rm -f yarn.lock ; yarn ; yarn fix.lint ; true",
@@ -59,11 +62,11 @@
 		"@sprucelabs/error": "latest",
 		"@sprucelabs/heartwood-view-controllers": "latest",
 		"@sprucelabs/schema": "latest",
-		"@sprucelabs/spruce-event-plugin": "^4.7.0",
+		"@sprucelabs/spruce-event-plugin": "^4.7.3",
 		"@sprucelabs/spruce-event-utils": "latest",
-		"@sprucelabs/spruce-skill-booter": "^4.7.0",
+		"@sprucelabs/spruce-skill-booter": "^4.7.3",
 		"@sprucelabs/spruce-skill-utils": "latest",
-		"@sprucelabs/spruce-test-fixtures": "^4.7.0",
+		"@sprucelabs/spruce-test-fixtures": "^4.7.3",
 		"globby": "^11.0.3"
 	},
 	"devDependencies": {
