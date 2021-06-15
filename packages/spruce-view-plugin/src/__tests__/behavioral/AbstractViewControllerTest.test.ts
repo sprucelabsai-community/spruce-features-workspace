@@ -6,7 +6,7 @@ import BookSkillViewController from '../testDirsAndFiles/skill/build/skillViewCo
 
 declare module '@sprucelabs/heartwood-view-controllers/build/types/heartwood.types' {
 	interface ViewControllerMap {
-		book: BookSkillViewController
+		book: typeof BookSkillViewController
 	}
 }
 
