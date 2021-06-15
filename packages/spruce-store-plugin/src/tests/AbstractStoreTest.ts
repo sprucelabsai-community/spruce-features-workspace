@@ -1,8 +1,12 @@
 import { StoreLoader, StoreName } from '@sprucelabs/data-stores'
+import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 import { AbstractSpruceFixtureTest } from '@sprucelabs/spruce-test-fixtures'
 
 export default abstract class AbstractStoreTest extends AbstractSpruceFixtureTest {
-	protected static storeDir: string
+	protected static storeDir: string = diskUtil.resolvePath(
+		process.cwd(),
+		'build'
+	)
 
 	protected static async beforeAll() {
 		await super.beforeAll()
