@@ -8,14 +8,14 @@ import {
 } from '@sprucelabs/spruce-event-utils'
 import { diskUtil, Skill } from '@sprucelabs/spruce-skill-utils'
 import { assert, test } from '@sprucelabs/test'
-import AbstractViewTest from '../../tests/AbstractViewTest'
+import AbstractViewPluginTest from '../../tests/AbstractViewPluginTest'
 import coreEventContracts, {
 	CoreEventContract,
 } from '../../tests/events.contract'
 
 type RegisteredSkill = SpruceSchemas.Spruce.v2020_07_22.Skill
 
-export default class RegistringSkillViewsOnBootTest extends AbstractViewTest {
+export default class RegistringSkillViewsOnBootTest extends AbstractViewPluginTest {
 	private static currentSkill: RegisteredSkill
 
 	protected static async beforeEach() {

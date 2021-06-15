@@ -1,8 +1,8 @@
 import { test, assert } from '@sprucelabs/test'
 import plugin from '../../plugins/view.plugin'
-import AbstractViewTest from '../../tests/AbstractViewTest'
+import AbstractViewPluginTest from '../../tests/AbstractViewPluginTest'
 
-export default class CheckingHealthTest extends AbstractViewTest {
+export default class CheckingHealthTest extends AbstractViewPluginTest {
 	@test()
 	protected static async pluginReturnsInstance() {
 		assert.isTruthy(plugin instanceof Function)

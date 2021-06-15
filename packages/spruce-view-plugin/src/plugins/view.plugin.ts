@@ -1,10 +1,5 @@
 import AbstractSpruceError from '@sprucelabs/error'
-import {
-	BuiltSkillViewController,
-	BuiltViewController,
-	ViewControllerExporter,
-	AbstractSkillViewController,
-} from '@sprucelabs/heartwood-view-controllers'
+import { ViewControllerExporter } from '@sprucelabs/heartwood-view-controllers'
 import { MercuryClient } from '@sprucelabs/mercury-client'
 import { EventFeature } from '@sprucelabs/spruce-event-plugin'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
@@ -14,9 +9,9 @@ import {
 	Skill,
 	SkillFeature,
 } from '@sprucelabs/spruce-skill-utils'
-import SpruceError from '../errors/SpruceError'
 import { CoreEventContract } from '../tests/events.contract'
-import { HealthCheckView, ViewHealthCheckItem } from '../types/view.types'
+import { ViewHealthCheckItem } from '../types/view.types'
+import viewControllerUtil from '../utilities/viewController.utility'
 
 export class ViewFeature implements SkillFeature {
 	private skill: Skill
@@ -43,7 +38,9 @@ export class ViewFeature implements SkillFeature {
 
 			const source = diskUtil.readFile(destination)
 
-			const { ids } = await this.loadViewControllers()
+			const { ids } = await viewControllerUtil.loadViewControllers(
+				this.skill.rootDir
+			)
 
 			const events = this.skill.getFeatureByCode('event') as EventFeature
 			const client =
@@ -65,14 +62,6 @@ export class ViewFeature implements SkillFeature {
 		this._isBooted = true
 	}
 
-	private getCombinedBuiltViewsPath() {
-		return diskUtil.resolveBuiltHashSprucePath(
-			this.skill.rootDir,
-			'views',
-			'views.js'
-		)
-	}
-
 	private getCombinedViewsPath() {
 		return diskUtil.resolveHashSprucePath(
 			this.skill.rootDir,
@@ -82,7 +71,16 @@ export class ViewFeature implements SkillFeature {
 	}
 
 	public async checkHealth(): Promise<ViewHealthCheckItem> {
-		const { svcs, vcs } = await this.loadViewControllers()
+		let svcs: any[] = []
+		let vcs: any[] = []
+
+		try {
+			const loaded = viewControllerUtil.loadViewControllers(this.skill.rootDir)
+
+			svcs = loaded.svcs
+			vcs = loaded.vcs
+			// eslint-disable-next-line no-empty
+		} catch {}
 
 		const errors: AbstractSpruceError[] = []
 
@@ -108,73 +106,6 @@ export class ViewFeature implements SkillFeature {
 		}
 
 		return health
-	}
-
-	private async loadViewControllers() {
-		const path = this.getCombinedBuiltViewsPath()
-
-		if (!diskUtil.doesFileExist(path)) {
-			return {
-				svcs: [],
-				vcs: [],
-				ids: [],
-			}
-		}
-
-		const controllerMap = require(path).default
-		const controllers = Object.values(controllerMap) as (
-			| (BuiltViewController & { name?: string })
-			| (BuiltSkillViewController & { name?: string })
-		)[]
-
-		const vcs: ({
-			Class?: BuiltViewController
-		} & HealthCheckView)[] = []
-
-		const svcs: ({
-			Class?: BuiltSkillViewController
-		} & HealthCheckView)[] = []
-
-		const ids: string[] = []
-
-		for (const controller of controllers) {
-			const item: Partial<HealthCheckView & { Class?: any }> & {
-				id: string
-			} = {
-				Class: controller,
-				id: controller.id,
-			}
-			try {
-				if (!item.id) {
-					throw new SpruceError({
-						code: 'INVALID_VIEW_CONTROLLER',
-						id: controller.id,
-						name: controller.name,
-					})
-				}
-			} catch (err) {
-				if (err instanceof AbstractSpruceError) {
-					item.error = err
-				} else {
-					item.error = new SpruceError({
-						code: 'UNKNOWN_VIEW_CONTROLLER_ERROR',
-						originalError: err,
-						id: controller.id,
-						name: controller.name,
-					}) as any
-				}
-			}
-
-			ids.push(item.id)
-
-			//@ts-ignore
-			if (controller.prototype instanceof AbstractSkillViewController) {
-				svcs.push(item)
-			} else {
-				vcs.push(item)
-			}
-		}
-		return { svcs, vcs, ids }
 	}
 
 	public async isInstalled(): Promise<boolean> {
