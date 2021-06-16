@@ -5,6 +5,7 @@ import { EventFeature } from '@sprucelabs/spruce-event-plugin'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import {
 	diskUtil,
+	Log,
 	SettingsService,
 	Skill,
 	SkillFeature,
@@ -16,21 +17,26 @@ import viewControllerUtil from '../utilities/viewController.utility'
 export class ViewFeature implements SkillFeature {
 	private skill: Skill
 	private _isBooted = false
+	private log: Log
 
 	public constructor(skill: Skill) {
 		this.skill = skill
+		this.log = skill.buildLog('View.Feature')
 	}
 
 	public async execute(): Promise<void> {
 		const viewsPath = this.getCombinedViewsPath()
 
 		if (diskUtil.doesFileExist(viewsPath)) {
+			this.log.info('Importing local views.')
+
 			const exporter = ViewControllerExporter.Exporter(this.skill.rootDir)
 			const destination = diskUtil.resolvePath(
 				diskUtil.createRandomTempDir(),
 				'bundle.js'
 			)
 
+			this.log.info('Bundling local views.')
 			await exporter.export({
 				source: viewsPath,
 				destination,
@@ -40,6 +46,10 @@ export class ViewFeature implements SkillFeature {
 
 			const { ids } = viewControllerUtil.loadViewControllers(
 				this.skill.activeDir
+			)
+
+			this.log.info(
+				`Bundled ${ids.length} view controllers. Registering now...`
 			)
 
 			const events = this.skill.getFeatureByCode('event') as EventFeature
@@ -56,6 +66,7 @@ export class ViewFeature implements SkillFeature {
 				}
 			)
 
+			this.log.info('Done registering view controllers.')
 			eventResponseUtil.getFirstResponseOrThrow(results)
 		}
 
