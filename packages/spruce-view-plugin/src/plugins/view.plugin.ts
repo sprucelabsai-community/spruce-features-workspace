@@ -38,8 +38,8 @@ export class ViewFeature implements SkillFeature {
 
 			const source = diskUtil.readFile(destination)
 
-			const { ids } = await viewControllerUtil.loadViewControllers(
-				this.skill.rootDir
+			const { ids } = viewControllerUtil.loadViewControllers(
+				this.skill.activeDir
 			)
 
 			const events = this.skill.getFeatureByCode('event') as EventFeature
@@ -75,8 +75,9 @@ export class ViewFeature implements SkillFeature {
 		let vcs: any[] = []
 
 		try {
-			const loaded = viewControllerUtil.loadViewControllers(this.skill.rootDir)
-
+			const loaded = viewControllerUtil.loadViewControllers(
+				this.skill.activeDir
+			)
 			svcs = loaded.svcs
 			vcs = loaded.vcs
 			// eslint-disable-next-line no-empty
