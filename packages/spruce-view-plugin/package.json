@@ -72,7 +72,7 @@
 	"devDependencies": {
 		"@sprucelabs/esm-postbuild": "latest",
 		"@sprucelabs/jest-json-reporter": "latest",
-		"@sprucelabs/jest-sheets-reporter": "^1.2.45",
+		"@sprucelabs/jest-sheets-reporter": "^1.2.46",
 		"@sprucelabs/mercury-client": "latest",
 		"@sprucelabs/mercury-types": "latest",
 		"@sprucelabs/resolve-path-aliases": "latest",
@@ -86,7 +86,7 @@
 		"conventional-changelog-sprucelabs": "latest",
 		"eslint": "^7.28.0",
 		"eslint-config-spruce": "latest",
-		"inquirer": "^8.1.0",
+		"inquirer": "^8.1.1",
 		"jest": "^27.0.4",
 		"jest-circus": "^27.0.4",
 		"prettier": "^2.3.1",
