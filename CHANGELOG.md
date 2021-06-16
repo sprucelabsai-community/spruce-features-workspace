@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.8.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v4.7.3...v4.8.0) (2021-06-16)
+
+
+### Features
+
+* abstract view controller test ([a0efafe](https://github.com/sprucelabsai/spruce-features-workspace/commit/a0efafe))
+
+
+
+
+
 ## [4.7.3](https://github.com/sprucelabsai/spruce-features-workspace/compare/v4.7.2...v4.7.3) (2021-06-15)
 
 **Note:** Version bump only for package spruce-features-workspace
