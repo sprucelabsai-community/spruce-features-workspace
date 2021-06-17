@@ -1,5 +1,6 @@
 import { eventErrorAssertUtil } from '@sprucelabs/spruce-event-utils'
 import { test, assert } from '@sprucelabs/test'
+import { errorAssertUtil } from '@sprucelabs/test-utils'
 import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
 import OrganizationFixture from '../../tests/fixtures/OrganizationFixture'
 
@@ -69,5 +70,58 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 
 		const isHired = await this.fixture.isPartOfOrg(person.id, org.id)
 		assert.isTrue(isHired)
+	}
+
+	@test()
+	protected static async isNotInstalledByDefault() {
+		const { skill, org } = await OrganizationFixtureTest.seedOrgAndSkill()
+		const isInstalled = await this.fixture.isSkillInstalled(skill.id, org.id)
+		assert.isFalse(isInstalled)
+	}
+
+	@test()
+	protected static async showsAsInstalled() {
+		const { skill, org } = await OrganizationFixtureTest.seedOrgAndSkill()
+		await this.fixture.installSkill(skill.id, org.id)
+		await this.assertSkillIsInstalled(skill.id, org.id)
+	}
+
+	@test()
+	protected static async cantInstallWithBadSkill() {
+		const { org } = await OrganizationFixtureTest.seedOrgAndSkill()
+		const err = await assert.doesThrowAsync(() =>
+			this.fixture.installSkillsBySlug({
+				organizationId: org.id,
+				slugs: ['aoeuaoeu'],
+			})
+		)
+
+		errorAssertUtil.assertError(err, 'SKILL_NOT_FOUND', {
+			slug: 'aoeuaoeu',
+		})
+	}
+
+	@test()
+	protected static async canInstallWithSlug() {
+		const { skill, org } = await OrganizationFixtureTest.seedOrgAndSkill()
+		await this.fixture.installSkillsBySlug({
+			organizationId: org.id,
+			slugs: [skill.slug],
+		})
+
+		await this.assertSkillIsInstalled(skill.id, org.id)
+	}
+
+	private static async assertSkillIsInstalled(skillId: string, orgId: string) {
+		const isInstalled = await this.fixture.isSkillInstalled(skillId, orgId)
+		assert.isTrue(isInstalled)
+	}
+
+	private static async seedOrgAndSkill() {
+		const skill = await this.Fixture('skill').seedDemoSkill({
+			name: 'testing testy',
+		})
+		const org = await this.fixture.seedDemoOrg({ name: 'my org' })
+		return { skill, org }
 	}
 }
