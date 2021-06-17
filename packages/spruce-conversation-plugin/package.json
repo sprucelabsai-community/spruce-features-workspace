@@ -3,7 +3,7 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "4.10.0",
+	"version": "4.10.1",
 	"files": [
 		"build/**/*",
 		"!build/__tests__",
@@ -55,10 +55,10 @@
 		"@sprucelabs/error": "latest",
 		"@sprucelabs/schema": "latest",
 		"@sprucelabs/spruce-core-schemas": "latest",
-		"@sprucelabs/spruce-event-plugin": "^4.10.0",
+		"@sprucelabs/spruce-event-plugin": "^4.10.1",
 		"@sprucelabs/spruce-event-utils": "latest",
 		"@sprucelabs/spruce-skill-utils": "latest",
-		"@sprucelabs/spruce-test-fixtures": "^4.10.0",
+		"@sprucelabs/spruce-test-fixtures": "^4.10.1",
 		"fuzzyset": "^1.0.6",
 		"globby": "^11.0.4",
 		"inquirer": "^8.1.1",
