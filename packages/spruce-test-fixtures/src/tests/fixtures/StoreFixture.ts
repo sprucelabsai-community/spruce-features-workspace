@@ -3,6 +3,7 @@ import {
 	StoreLoader,
 	StoreMap,
 	StoreName,
+	StoreOptions,
 } from '@sprucelabs/data-stores'
 
 export default class StoreFixture {
@@ -10,9 +11,12 @@ export default class StoreFixture {
 	private loader?: Promise<StoreLoader>
 	private stores?: Promise<StoreFactory>
 
-	public async Store<N extends StoreName>(name: N): Promise<StoreMap[N]> {
+	public async Store<N extends StoreName, O extends StoreOptions<N>>(
+		name: N,
+		options?: O
+	): Promise<StoreMap[N]> {
 		const factory = await this.getStoreFactory()
-		return factory.Store(name)
+		return factory.Store(name, options)
 	}
 
 	public async getStoreFactory() {

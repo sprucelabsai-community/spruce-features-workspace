@@ -1,4 +1,4 @@
-import { StoreLoader, StoreName } from '@sprucelabs/data-stores'
+import { StoreLoader, StoreName, StoreOptions } from '@sprucelabs/data-stores'
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 import { AbstractSpruceFixtureTest } from '@sprucelabs/spruce-test-fixtures'
 
@@ -36,7 +36,10 @@ export default abstract class AbstractStoreTest extends AbstractSpruceFixtureTes
 		return db
 	}
 
-	protected static async Store<N extends StoreName>(name: N) {
-		return this.Fixture('store').Store(name)
+	protected static async Store<N extends StoreName, O extends StoreOptions<N>>(
+		name: N,
+		options?: O
+	) {
+		return this.Fixture('store').Store(name, options)
 	}
 }
