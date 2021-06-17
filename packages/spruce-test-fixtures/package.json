@@ -3,6 +3,9 @@
 	"publishConfig": {
 		"access": "public"
 	},
+	"skill": {
+		"namespace": "spruceTestFixtures"
+	},
 	"version": "4.10.2",
 	"files": [
 		"build/**/*",

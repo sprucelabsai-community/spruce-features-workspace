@@ -21,6 +21,10 @@ export default class SpruceError extends BaseSpruceError<ErrorOptions> {
 				)}`
 				break
 
+			case 'SKILL_NOT_FOUND':
+				message = `Couldn't find skill with slug ${options.slug}!`
+				break
+
 			default:
 				message = super.friendlyMessage()
 		}

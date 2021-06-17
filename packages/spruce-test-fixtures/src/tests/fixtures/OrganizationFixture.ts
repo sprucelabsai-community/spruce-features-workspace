@@ -1,5 +1,6 @@
 import { MercuryClient } from '@sprucelabs/mercury-client'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
+import SpruceError from '../../errors/SpruceError'
 import PersonFixture from './PersonFixture'
 
 export default class OrganizationFixture {
@@ -101,6 +102,43 @@ export default class OrganizationFixture {
 		})
 
 		eventResponseUtil.getFirstResponseOrThrow(setRoleResults)
+	}
+
+	public async isSkillInstalled(skillId: string, organizationId: string) {
+		const { client } = await this.personFixture.loginAsDemoPerson()
+
+		const results = await client.emit('is-skill-installed::v2020_12_25', {
+			target: {
+				organizationId,
+			},
+			payload: {
+				skillId,
+			},
+		})
+
+		const { isInstalled } = eventResponseUtil.getFirstResponseOrThrow(results)
+
+		return isInstalled
+	}
+
+	public async installSkillsBySlug(options: {
+		organizationId: string
+		slugs: string[]
+	}) {
+		const { organizationId, slugs } = options
+		const { client } = await this.personFixture.loginAsDemoPerson()
+		const skillResults = await client.emit('list-skills::v2020_12_25')
+		const { skills } = eventResponseUtil.getFirstResponseOrThrow(skillResults)
+
+		for (const slug of slugs) {
+			const match = skills.find((s) => s.slug === slug)
+
+			if (!match) {
+				throw new SpruceError({ code: 'SKILL_NOT_FOUND', slug })
+			}
+
+			await this.installSkill(match.id, organizationId)
+		}
 	}
 
 	public async destory() {

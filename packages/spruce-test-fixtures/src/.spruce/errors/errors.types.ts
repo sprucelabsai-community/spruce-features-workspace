@@ -11,6 +11,35 @@ import * as SpruceSchema from '@sprucelabs/schema'
 export declare namespace SpruceErrors.SpruceTestFixtures {
 
 	
+	export interface SkillNotFound {
+		
+			
+			'slug': string
+	}
+
+	export interface SkillNotFoundSchema extends SpruceSchema.Schema {
+		id: 'skillNotFound',
+		namespace: 'SpruceTestFixtures',
+		name: 'Skill not found',
+		    fields: {
+		            /** . */
+		            'slug': {
+		                type: 'text',
+		                isRequired: true,
+		                options: undefined
+		            },
+		    }
+	}
+
+	export type SkillNotFoundEntity = SchemaEntity<SpruceErrors.SpruceTestFixtures.SkillNotFoundSchema>
+
+}
+
+
+
+export declare namespace SpruceErrors.SpruceTestFixtures {
+
+	
 	export interface InvalidFixture {
 		
 			
