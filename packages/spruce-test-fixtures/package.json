@@ -53,7 +53,7 @@
 	"dependencies": {
 		"@sprucelabs/data-stores": "latest",
 		"@sprucelabs/error": "latest",
-		"@sprucelabs/heartwood-view-controllers": "^7.0.7",
+		"@sprucelabs/heartwood-view-controllers": "^7.0.8",
 		"@sprucelabs/mercury-client": "latest",
 		"@sprucelabs/schema": "latest",
 		"@sprucelabs/spruce-core-schemas": "latest",
