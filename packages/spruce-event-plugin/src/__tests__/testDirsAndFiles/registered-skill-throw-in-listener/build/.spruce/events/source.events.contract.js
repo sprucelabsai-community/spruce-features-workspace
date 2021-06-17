@@ -18,7 +18,7 @@ module.exports = {
                                         }
                                     }
                                 }
-                            }
+                            },
                             payload: {
                                 type: 'schema',
                                 options: {
