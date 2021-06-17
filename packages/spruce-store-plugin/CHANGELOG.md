@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.10.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v4.9.0...v4.10.0) (2021-06-17)
+
+
+### Features
+
+* options to store factory methods ([16e0135](https://github.com/sprucelabsai/spruce-features-workspace/commit/16e0135))
+
+
+
+
+
 # [4.9.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v4.8.0...v4.9.0) (2021-06-17)
 
 **Note:** Version bump only for package @sprucelabs/spruce-store-plugin
