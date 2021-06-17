@@ -21,6 +21,19 @@ module.exports = {
                                         }
                                     }
                                 }
+                            },
+                            target: {
+                                type: 'schema',
+                                options: {
+                                    schema: {
+                                        id: 'target',
+                                        fields: {
+                                            organizationId: {
+                                                type: 'text'
+                                            },
+                                        }
+                                    }
+                                }
                             }
                         }
                     },
