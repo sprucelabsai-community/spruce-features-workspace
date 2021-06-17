@@ -1,4 +1,4 @@
-import { AbstractStore, StoreOptions } from '@sprucelabs/data-stores'
+import { AbstractStore, UniversalStoreOptions } from '@sprucelabs/data-stores'
 import { buildSchema } from '@sprucelabs/schema'
 
 const fullSchema = buildSchema({
@@ -16,7 +16,7 @@ export default class GoodStore extends AbstractStore<FullSchema> {
 	protected fullSchema = fullSchema
 	protected databaseSchema = fullSchema
 
-	public static Store(options: StoreOptions) {
+	public static Store(options: UniversalStoreOptions) {
 		return new this(options.db)
 	}
 }
