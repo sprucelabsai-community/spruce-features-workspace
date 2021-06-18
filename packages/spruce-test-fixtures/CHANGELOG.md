@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.11.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v4.10.2...v4.11.0) (2021-06-18)
+
+
+### Features
+
+* can install skills by slug in org fixture ([0e96d55](https://github.com/sprucelabsai/spruce-features-workspace/commit/0e96d55))
+
+
+
+
+
 ## [4.10.2](https://github.com/sprucelabsai/spruce-features-workspace/compare/v4.10.1...v4.10.2) (2021-06-17)
 
 **Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
