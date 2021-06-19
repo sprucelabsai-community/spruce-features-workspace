@@ -23,7 +23,7 @@ export default class SkillFixture<
 
 		const results = await client.emit('register-skill::v2020_12_25', {
 			payload: {
-				slug: `my-skill-${new Date().getTime()}`,
+				slug: this.generateSkillSlug(),
 				...values,
 			},
 		})
@@ -35,6 +35,10 @@ export default class SkillFixture<
 		return skill as Skill
 	}
 
+	private generateSkillSlug(): string | null | undefined {
+		return `my-skill-${new Date().getTime()}`
+	}
+
 	public async loginAsDemoSkill(values: {
 		name: string
 		slug?: string
@@ -43,7 +47,7 @@ export default class SkillFixture<
 
 		const results = await client.emit('register-skill::v2020_12_25', {
 			payload: {
-				slug: `my-skill-${new Date().getTime()}`,
+				slug: this.generateSkillSlug(),
 				...values,
 			},
 		})

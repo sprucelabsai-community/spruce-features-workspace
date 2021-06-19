@@ -126,6 +126,10 @@ export class EventFeaturePlugin implements SkillFeature {
 			await this.loadEvents()
 			if (this.hasLocalContractBeenUpdated) {
 				await this.reRegisterEvents()
+			} else {
+				this.log.info(
+					'Skipping re-registering events because events.contract has not changed.'
+				)
 			}
 
 			await this.reRegisterListeners()
@@ -399,9 +403,12 @@ export class EventFeaturePlugin implements SkillFeature {
 						shouldUnregisterAll: true,
 					},
 				})
+			} else {
+				this.log.info('Unregistered all existing registered listeners')
+				this.log.info(
+					'Skipping re-registering of listeners because they have not changed.'
+				)
 			}
-
-			this.log.info('Unregistered all existing registered listeners')
 
 			await this.registerListeners(client)
 		}
@@ -570,7 +577,8 @@ export class EventFeaturePlugin implements SkillFeature {
 
 		this.haveListenersChaged = listenerCacheKey !== newListenerCacheKey
 
-		settings.set('events.listenerCacheKey', newListenerCacheKey)
+		newListenerCacheKey &&
+			settings.set('events.listenerCacheKey', newListenerCacheKey)
 
 		const listeners: EventFeatureListener[] = []
 

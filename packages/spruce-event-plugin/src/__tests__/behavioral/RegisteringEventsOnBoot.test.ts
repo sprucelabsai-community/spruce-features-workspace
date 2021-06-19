@@ -2,6 +2,7 @@ import {
 	eventContractUtil,
 	eventResponseUtil,
 } from '@sprucelabs/spruce-event-utils'
+import { testLog } from '@sprucelabs/spruce-skill-utils'
 import { assert, test } from '@sprucelabs/test'
 import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
 export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest {
@@ -50,6 +51,20 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 		await this.bootSkill()
 
 		assert.isEqual(registerEventCount, 2)
+	}
+
+	@test()
+	protected static async canBootSkill20TimesAtOnce() {
+		const currentSkill = await this.registerCurrentSkill()
+		this.generateGoodContractFileForSkill(currentSkill)
+
+		const promises = Array(20)
+			.fill(0)
+			.map(() => {
+				return this.bootSkill({ log: testLog })
+			})
+
+		await Promise.all(promises)
 	}
 
 	private static doesIncudeEventBySkill(contracts: any, registeredSkill: any) {
