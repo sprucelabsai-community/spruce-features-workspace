@@ -36,6 +36,7 @@ type MercuryClient<Contract extends SkillEventContract = SkillEventContract> =
 		isConnected: () => boolean
 		connect: () => Promise<void>
 		disconnect: () => Promise<void>
+		setShouldAutoRegisterListeners: (should: boolean) => void
 		authenticate(options: {
 			skillId?: string
 			apiKey?: string
