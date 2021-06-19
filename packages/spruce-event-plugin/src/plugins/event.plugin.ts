@@ -25,12 +25,15 @@ import {
 	Log,
 } from '@sprucelabs/spruce-skill-utils'
 import globby from 'globby'
+import ListenerCacher from '../cache/ListenerCacher'
 import SpruceError from '../errors/SpruceError'
 
 require('dotenv').config()
 
 // so we don't have to require mercury to run this plugin
-type MercuryClient<Contract extends SkillEventContract = SkillEventContract> =
+export type MercuryClient<
+	Contract extends SkillEventContract = SkillEventContract
+> =
 	/** @ts-ignore */
 	MercuryEventEmitter<Contract> & {
 		isConnected: () => boolean
@@ -70,6 +73,7 @@ export class EventFeaturePlugin implements SkillFeature {
 	private hasLocalContractBeenUpdated = true
 	private haveListenersChaged = true
 	private _settings?: SettingsService
+	private listenerCacher?: ListenerCacher
 
 	private get settings() {
 		if (!this._settings) {
@@ -319,7 +323,7 @@ export class EventFeaturePlugin implements SkillFeature {
 
 			const MercuryClientFactory =
 				require('@sprucelabs/mercury-client').MercuryClientFactory
-			const host = process.env.HOST
+			const host = this.getHost()
 
 			if (!host) {
 				throw new SpruceError({
@@ -578,15 +582,18 @@ export class EventFeaturePlugin implements SkillFeature {
 			`${this.listenersPath}/**/*.listener.[j|t]s`
 		)
 
-		const listenerCacheKey = this.getListenerCacheKey()
-		const newListenerCacheKey = listenerMatches
-			.map((m) => m.replace(this.listenersPath, ''))
-			.sort()
-			.join()
+		const cacher = new ListenerCacher({
+			cwd: this.skill.rootDir,
+			listenerPaths: listenerMatches,
+			host: this.getHost() ?? '***NO HOST SET***',
+		})
 
-		this.haveListenersChaged = listenerCacheKey !== newListenerCacheKey
+		this.listenerCacher = cacher //exposed for testing
+		this.haveListenersChaged = cacher.haveListenersChanged()
 
-		newListenerCacheKey && this.setListenerCacheKey(newListenerCacheKey)
+		if (this.haveListenersChaged) {
+			cacher.cacheListeners()
+		}
 
 		const listeners: EventFeatureListener[] = []
 
@@ -627,12 +634,8 @@ export class EventFeaturePlugin implements SkillFeature {
 		this.listeners = listeners
 	}
 
-	private setListenerCacheKey(newListenerCacheKey: string) {
-		return this.settings.set('events.listenerCacheKey', newListenerCacheKey)
-	}
-
-	private getListenerCacheKey() {
-		return this.settings.get('events.listenerCacheKey')
+	private getHost(): string | undefined {
+		return process.env.HOST
 	}
 
 	private async loadEvents() {

@@ -8,7 +8,7 @@ import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 import { assert, test } from '@sprucelabs/test'
 import { EventFeature } from '../..'
 import SpruceError from '../../errors/SpruceError'
-import { EventFeaturePlugin } from '../../plugins/event.plugin'
+import { EventFeaturePlugin, MercuryClient } from '../../plugins/event.plugin'
 import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
 
 declare module '@sprucelabs/spruce-skill-utils/build/types/skill.types' {
@@ -203,72 +203,34 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 
 	@test()
 	protected static async wontReRegisterListenersIfListenersHaveNotChanged() {
-		MercuryClientFactory.setIsTestMode(true)
-
-		this.cwd = await this.setupSkillDir('registered-skill')
-
-		const { skill, client } = await this.Fixture('skill').loginAsDemoSkill({
-			name: 'skill1',
-		})
-
-		const eventName = `my-cool-event::v2021_01_22`
-		const fqen = `${skill.slug}.${eventName}`
-
-		await this.registerEvents(client, eventName)
-		//@ts-ignore
-		client.mixinContract(this.buildContract(fqen))
-		this.setupListenersForEventsRegisteredBySkill(skill)
-		this.generateGoodContractFileForSkill(skill)
-
-		const client2 = await this.Fixture('mercury').connectToApi()
 		let unRegisterListenerCount = 0
-		await client2.on('unregister-listeners::v2020_12_25', async () => {
-			unRegisterListenerCount++
-			return { unregisterCount: 0 }
-		})
-
-		process.env.SKILL_ID = skill.id
-		process.env.SKILL_API_KEY = skill.apiKey
-
-		const bootedSkill = await this.Skill()
-		const events = bootedSkill.getFeatureByCode('event') as EventFeaturePlugin
-
-		//@ts-ignore
-		const oldRegister = events.registerListeners.bind(events)
-
-		//@ts-ignore
-		events.registerListeners = async (client: any) => {
-			const results = await oldRegister(client)
-			assert.isTrue(client.shouldAutoRegisterListeners)
-			return results
-		}
-
-		const oldConnect = events.connectToApi.bind(events)
 		const autoRegisterCalls: boolean[] = []
 		const autoRegisterForOn: boolean[] = []
 
-		events.connectToApi = async (options: any) => {
-			const client = await oldConnect(options)
-
-			//@ts-ignore
-			client.setShouldAutoRegisterListeners = (should: boolean) => {
+		const { bootedSkill, events } = await this.registerSkillAndSetupListeners({
+			onUnregisterListeners: () => {
+				unRegisterListenerCount++
+			},
+			onAttachListeners: (client) => {
 				//@ts-ignore
-				client.shouldAutoRegisterListeners = should
+				assert.isTrue(client.shouldAutoRegisterListeners)
+			},
+			onSetShouldAutoRegisterListeners: (should) => {
 				autoRegisterCalls.push(should)
-			}
-
-			//@ts-ignore
-			client.on = () => {
+			},
+			onAttachListener: (client) => {
 				//@ts-ignore
 				autoRegisterForOn.push(client.shouldAutoRegisterListeners)
-			}
-
-			return client
-		}
+			},
+		})
 
 		await this.bootKillAndResetSkill(bootedSkill, events)
 
-		assert.isLength(autoRegisterCalls, 2)
+		assert.isLength(
+			autoRegisterCalls,
+			2,
+			'setShouldAutoRegisterListeners not called enough.'
+		)
 		assert.isTrue(autoRegisterCalls[0])
 		assert.isTrue(autoRegisterCalls[1])
 		assert.isTrue(autoRegisterForOn[0])
@@ -300,9 +262,27 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 		assert.isTrue(autoRegisterForOn[2])
 
 		//@ts-ignore
-		const cacheKey = events.getListenerCacheKey()
+		const cacheKey = events.listenerCacher.loadCurrentCacheKey()
 
 		assert.doesNotInclude(cacheKey, this.cwd)
+	}
+
+	@test()
+	protected static async willlReRegisterListenersWithDifferentHost() {
+		let unRegisterListenerCount = 0
+
+		const { bootedSkill, events } = await this.registerSkillAndSetupListeners({
+			onUnregisterListeners: () => {
+				unRegisterListenerCount++
+			},
+		})
+
+		await this.bootKillAndResetSkill(bootedSkill, events)
+		process.env.HOST = process.env.HOST + ':443'
+
+		await this.bootKillAndResetSkill(bootedSkill, events)
+
+		assert.isEqual(unRegisterListenerCount, 2)
 	}
 
 	@test()
@@ -459,5 +439,79 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 				},
 			},
 		}
+	}
+
+	protected static async registerSkillAndSetupListeners(options?: {
+		onUnregisterListeners?: () => void
+		onAttachListeners?: (client: MercuryClient) => void
+		onSetShouldAutoRegisterListeners?: (should: boolean) => void
+		onAttachListener?: (client: MercuryClient) => void
+	}) {
+		MercuryClientFactory.setIsTestMode(true)
+
+		this.cwd = await this.setupSkillDir('registered-skill')
+
+		const { skill, client } = await this.Fixture('skill').loginAsDemoSkill({
+			name: 'skill1',
+		})
+
+		const eventName = `my-cool-event::v2021_01_22`
+		const fqen = `${skill.slug}.${eventName}`
+
+		await this.registerEvents(client, eventName)
+		//@ts-ignore
+		client.mixinContract(this.buildContract(fqen))
+		this.setupListenersForEventsRegisteredBySkill(skill)
+		this.generateGoodContractFileForSkill(skill)
+
+		process.env.SKILL_ID = skill.id
+		process.env.SKILL_API_KEY = skill.apiKey
+
+		if (options?.onUnregisterListeners) {
+			const client2 = await this.Fixture('mercury').connectToApi()
+			await client2.on('unregister-listeners::v2020_12_25', async () => {
+				options?.onUnregisterListeners?.()
+				return { unregisterCount: 0 }
+			})
+		}
+
+		const bootedSkill = await this.Skill()
+		const events = bootedSkill.getFeatureByCode('event') as EventFeaturePlugin
+
+		if (options?.onAttachListeners) {
+			//@ts-ignore
+			const oldAttachListeners = events.attachListeners.bind(events)
+
+			//@ts-ignore
+			events.attachListeners = async (client: any) => {
+				const results = await oldAttachListeners(client)
+				options?.onAttachListeners?.(client)
+				return results
+			}
+		}
+
+		if (options?.onSetShouldAutoRegisterListeners) {
+			const oldConnect = events.connectToApi.bind(events)
+			events.connectToApi = async (connectOptions: any) => {
+				const client = await oldConnect(connectOptions)
+
+				//@ts-ignore
+				client.setShouldAutoRegisterListeners = (should: boolean) => {
+					//@ts-ignore
+					client.shouldAutoRegisterListeners = should
+					options?.onSetShouldAutoRegisterListeners?.(should)
+				}
+
+				//@ts-ignore
+				client.on = () => {
+					//@ts-ignore
+					options?.onAttachListener?.(client)
+				}
+
+				return client
+			}
+		}
+
+		return { bootedSkill, events }
 	}
 }
