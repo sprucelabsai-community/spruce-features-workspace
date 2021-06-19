@@ -73,7 +73,8 @@ export class EventFeaturePlugin implements SkillFeature {
 	private hasLocalContractBeenUpdated = true
 	private haveListenersChaged = true
 	private _settings?: SettingsService
-	private listenerCacher?: ListenerCacher
+	//@ts-ignore
+	private listenerCacher?: ListenerCacher // for testing
 
 	private get settings() {
 		if (!this._settings) {
