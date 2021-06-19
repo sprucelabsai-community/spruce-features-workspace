@@ -69,6 +69,7 @@ export class EventFeaturePlugin implements SkillFeature {
 	private executeReject?: (reason?: any) => void
 	private hasLocalContractBeenUpdated = true
 	private haveListenersChaged = true
+	private settings: SettingsService
 
 	public static shouldClientUseEventContracts(should: boolean) {
 		this.shouldPassEventContractsToMercury = should
@@ -98,6 +99,7 @@ export class EventFeaturePlugin implements SkillFeature {
 		}
 
 		this.log = skill.buildLog('Event.Feature')
+		this.settings = new SettingsService(this.skill.rootDir)
 	}
 
 	public async execute() {
@@ -545,8 +547,7 @@ export class EventFeaturePlugin implements SkillFeature {
 	}
 
 	public async isInstalled() {
-		const settingsService = new SettingsService(this.skill.rootDir)
-		const isInstalled = settingsService.isMarkedAsInstalled('event')
+		const isInstalled = this.settings.isMarkedAsInstalled('event')
 
 		return isInstalled
 	}
@@ -571,14 +572,14 @@ export class EventFeaturePlugin implements SkillFeature {
 			`${this.listenersPath}/**/*.listener.[j|t]s`
 		)
 
-		const settings = new SettingsService(this.skill.rootDir)
-		const listenerCacheKey = settings.get('events.listenerCacheKey')
-		const newListenerCacheKey = listenerMatches.join()
+		const listenerCacheKey = this.getListenerCacheKey()
+		const newListenerCacheKey = listenerMatches
+			.map((m) => m.replace(this.listenersPath, ''))
+			.join()
 
 		this.haveListenersChaged = listenerCacheKey !== newListenerCacheKey
 
-		newListenerCacheKey &&
-			settings.set('events.listenerCacheKey', newListenerCacheKey)
+		newListenerCacheKey && this.setListenerCacheKey(newListenerCacheKey)
 
 		const listeners: EventFeatureListener[] = []
 
@@ -617,6 +618,14 @@ export class EventFeaturePlugin implements SkillFeature {
 		})
 
 		this.listeners = listeners
+	}
+
+	private setListenerCacheKey(newListenerCacheKey: string) {
+		return this.settings.set('events.listenerCacheKey', newListenerCacheKey)
+	}
+
+	private getListenerCacheKey() {
+		return this.settings.get('events.listenerCacheKey')
 	}
 
 	private async loadEvents() {

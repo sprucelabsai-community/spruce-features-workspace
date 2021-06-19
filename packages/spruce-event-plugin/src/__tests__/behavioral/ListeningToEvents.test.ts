@@ -298,6 +298,11 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 		assert.isTrue(autoRegisterCalls[4])
 		assert.isTrue(autoRegisterCalls[5])
 		assert.isTrue(autoRegisterForOn[2])
+
+		//@ts-ignore
+		const cacheKey = events.getListenerCacheKey()
+
+		assert.doesNotInclude(cacheKey, this.cwd)
 	}
 
 	private static async bootKillAndResetSkill(
