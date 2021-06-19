@@ -53,7 +53,7 @@ export class EventFeaturePlugin implements SkillFeature {
 	private eventsIRegistered: Required<NamedEventSignature>[] = []
 	private allEventSignatures: NamedEventSignature[] = []
 	private combinedContractsFile: string
-	private _shouldConnectToApi: boolean
+	private _shouldConnectToApi = false
 	private apiClientPromise?: Promise<{
 		client?: any
 		currentSkill?: SpruceSchemas.Spruce.v2020_07_22.Skill
@@ -66,6 +66,8 @@ export class EventFeaturePlugin implements SkillFeature {
 	private static shouldPassEventContractsToMercury = true
 	private willBootPromise?: Promise<unknown>
 	private executeReject?: (reason?: any) => void
+	private hasLocalContractBeenUpdated = true
+	private haveListenersChaged = true
 
 	public static shouldClientUseEventContracts(should: boolean) {
 		this.shouldPassEventContractsToMercury = should
@@ -81,9 +83,18 @@ export class EventFeaturePlugin implements SkillFeature {
 			'events.contract'
 		)
 
-		this._shouldConnectToApi =
-			diskUtil.doesFileExist(this.combinedContractsFile + '.ts') ||
-			diskUtil.doesFileExist(this.combinedContractsFile + '.js')
+		const combinedContractsFileWithExtension = diskUtil.doesFileExist(
+			this.combinedContractsFile + '.ts'
+		)
+			? this.combinedContractsFile + '.ts'
+			: this.combinedContractsFile + '.js'
+
+		if (diskUtil.doesFileExist(combinedContractsFileWithExtension)) {
+			this._shouldConnectToApi = true
+			this.hasLocalContractBeenUpdated = diskUtil.hasFileChanged(
+				combinedContractsFileWithExtension
+			)
+		}
 
 		this.log = skill.buildLog('Event.Feature')
 	}
@@ -112,7 +123,10 @@ export class EventFeaturePlugin implements SkillFeature {
 			re()
 
 			await this.loadEvents()
-			await this.reRegisterEvents()
+			if (this.hasLocalContractBeenUpdated) {
+				await this.reRegisterEvents()
+			}
+
 			await this.reRegisterListeners()
 
 			if (this.apiClientPromise) {
@@ -254,7 +268,12 @@ export class EventFeaturePlugin implements SkillFeature {
 			}
 
 			this.apiClientPromise = undefined
+			this._isBooted = false
 		}
+	}
+
+	public reset() {
+		this.isDestroyed = false
 	}
 
 	private async loadLocal() {
@@ -373,11 +392,13 @@ export class EventFeaturePlugin implements SkillFeature {
 		const currentSkill = await this.getCurrentSkill()
 
 		if (client && currentSkill) {
-			await client.emit('unregister-listeners::v2020_12_25', {
-				payload: {
-					shouldUnregisterAll: true,
-				},
-			})
+			if (this.haveListenersChaged) {
+				await client.emit('unregister-listeners::v2020_12_25', {
+					payload: {
+						shouldUnregisterAll: true,
+					},
+				})
+			}
 
 			this.log.info('Unregistered all existing registered listeners')
 
@@ -460,6 +481,8 @@ export class EventFeaturePlugin implements SkillFeature {
 	}
 
 	private async registerListeners(client: any) {
+		client.setShouldAutoRegisterListeners(this.haveListenersChaged)
+
 		for (const listener of this.listeners) {
 			if (listener.eventNamespace !== 'skill') {
 				const fqen = eventNameUtil.join({
@@ -479,6 +502,8 @@ export class EventFeaturePlugin implements SkillFeature {
 				this.log.info(`Registered listener for ${fqen}`)
 			}
 		}
+
+		client.setShouldAutoRegisterListeners(true)
 	}
 
 	private async loadContracts() {
@@ -537,6 +562,14 @@ export class EventFeaturePlugin implements SkillFeature {
 		const listenerMatches = await globby(
 			`${this.listenersPath}/**/*.listener.[j|t]s`
 		)
+
+		const settings = new SettingsService(this.skill.rootDir)
+		const listenerCacheKey = settings.get('events.listenerCacheKey')
+		const newListenerCacheKey = listenerMatches.join()
+
+		this.haveListenersChaged = listenerCacheKey !== newListenerCacheKey
+
+		settings.set('events.listenerCacheKey', newListenerCacheKey)
 
 		const listeners: EventFeatureListener[] = []
 

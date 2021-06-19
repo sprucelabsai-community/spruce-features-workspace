@@ -9,9 +9,9 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 	protected static async noEventsRegisteredWhenNoEventsCreated() {
 		this.cwd = await this.generateSkillFromTestPath('empty-skill')
 
-		const { contracts, registeredSkill } =
+		const { contracts, currentSkill: currentSkill } =
 			await this.register2SkillsInstallAtOrgAndBootSkill()
-		assert.isFalse(this.doesIncudeEventBySkill(contracts, registeredSkill))
+		assert.isFalse(this.doesIncudeEventBySkill(contracts, currentSkill))
 	}
 
 	@test()
@@ -22,15 +22,34 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 
 	@test()
 	protected static async registersEventsOnBoot() {
-		const { contracts, registeredSkill } =
+		const { contracts, currentSkill: currentSkill } =
 			await this.register2SkillsInstallAtOrgAndBootSkill(async (skill) => {
 				this.generateGoodContractFileForSkill(skill)
 			})
 
 		assert.isTrue(
-			this.doesIncudeEventBySkill(contracts, registeredSkill),
+			this.doesIncudeEventBySkill(contracts, currentSkill),
 			'Event contract missing event registered by current skill'
 		)
+	}
+
+	@test()
+	protected static async wontRegisterTheSecondTimeBecauseFilesHaveNotChanged() {
+		const currentSkill = await this.registerCurrentSkill()
+		this.generateGoodContractFileForSkill(currentSkill)
+		const client = await this.Fixture('mercury').connectToApi()
+
+		let registerEventCount = 0
+		await client.on('register-events::v2020_12_25', async () => {
+			registerEventCount++
+		})
+
+		await this.bootSkill()
+		await this.bootSkill()
+		this.generateGoodContractFileForSkill(currentSkill)
+		await this.bootSkill()
+
+		assert.isEqual(registerEventCount, 2)
 	}
 
 	private static doesIncudeEventBySkill(contracts: any, registeredSkill: any) {
@@ -46,14 +65,9 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 	private static async register2SkillsInstallAtOrgAndBootSkill(
 		afterRegisterSkillHandler?: (skill: any) => Promise<void>
 	) {
-		const currentSkill = await this.Fixture('skill').seedDemoSkill({
-			name: 'my great skill',
-		})
+		const currentSkill = await this.registerCurrentSkill()
 
 		await afterRegisterSkillHandler?.(currentSkill)
-
-		process.env.SKILL_ID = currentSkill.id
-		process.env.SKILL_API_KEY = currentSkill.apiKey
 
 		await this.bootSkill()
 
@@ -76,6 +90,16 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 		const payload = eventResponseUtil.getFirstResponseOrThrow(results)
 		const contracts = payload.contracts
 
-		return { contracts, registeredSkill: currentSkill, skill2 }
+		return { contracts, currentSkill, skill2 }
+	}
+
+	private static async registerCurrentSkill() {
+		const currentSkill = await this.Fixture('skill').seedDemoSkill({
+			name: 'my great skill',
+		})
+
+		process.env.SKILL_ID = currentSkill.id
+		process.env.SKILL_API_KEY = currentSkill.apiKey
+		return currentSkill
 	}
 }

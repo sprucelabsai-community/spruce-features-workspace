@@ -1,6 +1,7 @@
 import { MercuryClientFactory } from '@sprucelabs/mercury-client'
 import {
 	buildEmitTargetAndPayloadSchema,
+	eventDiskUtil,
 	eventResponseUtil,
 } from '@sprucelabs/spruce-event-utils'
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
@@ -19,11 +20,11 @@ declare module '@sprucelabs/spruce-skill-utils/build/types/skill.types' {
 export default class ReceivingEventsTest extends AbstractEventPluginTest {
 	protected static async beforeAll() {
 		await super.beforeAll()
-		MercuryClientFactory.setIsTestMode(false)
 	}
 
 	protected static async beforeEach() {
 		await super.beforeEach()
+		MercuryClientFactory.setIsTestMode(false)
 		delete process.env.DID_BOOT_FIRED
 		delete process.env.WILL_BOOT_FIRED
 		delete process.env.DID_BOOT_FIRED_2
@@ -180,11 +181,10 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 
 	@test()
 	protected static async sendsSkillContextToListeners() {
-		const { client1, fqen, skill, org } = await this.setupTwoSkillsAndBoot(
-			'registered-skill-with-context-checks'
-		)
+		const { client1, fqen, currentSkill, org } =
+			await this.setupTwoSkillsAndBoot('registered-skill-with-context-checks')
 
-		skill.updateContext('helloWorld', 'yes please')
+		currentSkill.updateContext('helloWorld', 'yes please')
 
 		const results = await client1.emit(fqen as any, {
 			target: {
@@ -199,6 +199,115 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 		const { taco } = eventResponseUtil.getFirstResponseOrThrow(results)
 
 		assert.isEqual(taco, 'yes please')
+	}
+
+	@test()
+	protected static async wontReRegisterListenersIfListenersHaveNotChanged() {
+		MercuryClientFactory.setIsTestMode(true)
+
+		this.cwd = await this.setupSkillDir('registered-skill')
+
+		const { skill, client } = await this.Fixture('skill').loginAsDemoSkill({
+			name: 'skill1',
+		})
+
+		const eventName = `my-cool-event::v2021_01_22`
+		const fqen = `${skill.slug}.${eventName}`
+
+		await this.registerEvents(client, eventName)
+		//@ts-ignore
+		client.mixinContract(this.buildContract(fqen))
+		this.setupListenersForEventsRegisteredBySkill(skill)
+		this.generateGoodContractFileForSkill(skill)
+
+		const client2 = await this.Fixture('mercury').connectToApi()
+		let unRegisterListenerCount = 0
+		await client2.on('unregister-listeners::v2020_12_25', async () => {
+			unRegisterListenerCount++
+			return { unregisterCount: 0 }
+		})
+
+		process.env.SKILL_ID = skill.id
+		process.env.SKILL_API_KEY = skill.apiKey
+
+		const bootedSkill = await this.Skill()
+		const events = bootedSkill.getFeatureByCode('event') as EventFeaturePlugin
+
+		//@ts-ignore
+		const oldRegister = events.registerListeners.bind(events)
+
+		//@ts-ignore
+		events.registerListeners = async (client: any) => {
+			const results = await oldRegister(client)
+			assert.isTrue(client.shouldAutoRegisterListeners)
+			return results
+		}
+
+		const oldConnect = events.connectToApi.bind(events)
+		const autoRegisterCalls: boolean[] = []
+		const autoRegisterForOn: boolean[] = []
+
+		events.connectToApi = async (options: any) => {
+			const client = await oldConnect(options)
+
+			//@ts-ignore
+			client.setShouldAutoRegisterListeners = (should: boolean) => {
+				//@ts-ignore
+				client.shouldAutoRegisterListeners = should
+				autoRegisterCalls.push(should)
+			}
+
+			//@ts-ignore
+			client.on = () => {
+				//@ts-ignore
+				autoRegisterForOn.push(client.shouldAutoRegisterListeners)
+			}
+
+			return client
+		}
+
+		await this.bootKillAndResetSkill(bootedSkill, events)
+
+		assert.isLength(autoRegisterCalls, 2)
+		assert.isTrue(autoRegisterCalls[0])
+		assert.isTrue(autoRegisterCalls[1])
+		assert.isTrue(autoRegisterForOn[0])
+
+		await this.bootKillAndResetSkill(bootedSkill, events)
+
+		assert.isLength(autoRegisterCalls, 4)
+		assert.isFalse(autoRegisterCalls[2])
+		assert.isTrue(autoRegisterCalls[3])
+		assert.isFalse(autoRegisterForOn[1])
+
+		const listenerDest = eventDiskUtil
+			.resolveListenerPath(this.resolvePath('build/listeners'), {
+				eventName: 'test',
+				eventNamespace: 'test',
+				version: 'v2020_01_01',
+			})
+			.replace('.ts', '.js')
+
+		assert.isEqual(unRegisterListenerCount, 1)
+
+		diskUtil.writeFile(listenerDest, 'exports.default = function() {}')
+
+		await this.bootKillAndResetSkill(bootedSkill, events)
+
+		assert.isLength(autoRegisterCalls, 6)
+		assert.isTrue(autoRegisterCalls[4])
+		assert.isTrue(autoRegisterCalls[5])
+		assert.isTrue(autoRegisterForOn[2])
+	}
+
+	private static async bootKillAndResetSkill(
+		bootedSkill: any,
+		events: EventFeaturePlugin
+	) {
+		await this.bootSkill({ skill: bootedSkill })
+		await bootedSkill.kill()
+		events.reset()
+		bootedSkill.isKilling = false
 	}
 
 	private static async setupTwoSkillsRegisterEventsAndEmit(dirName: string) {
@@ -250,9 +359,9 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 		process.env.SKILL_ID = skill2.id
 		process.env.SKILL_API_KEY = skill2.apiKey
 
-		const skill = await this.bootSkill()
+		const currentSkill = await this.bootSkill()
 
-		return { fqen, skill, client1, skill1, skill2, org }
+		return { fqen, currentSkill, client1, skill1, skill2, org }
 	}
 
 	private static setupListenersForEventsRegisteredBySkill(skill: any) {
