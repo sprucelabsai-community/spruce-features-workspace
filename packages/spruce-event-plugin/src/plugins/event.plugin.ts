@@ -266,7 +266,7 @@ export class EventFeaturePlugin implements SkillFeature {
 			}
 
 			if (this.isExecuting) {
-				this.log.info('Waiting for tear down until main execution completes.')
+				this.log.info('Waiting to tear down until main execution completes.')
 			}
 
 			while (this.isExecuting) {
@@ -412,14 +412,14 @@ export class EventFeaturePlugin implements SkillFeature {
 						shouldUnregisterAll: true,
 					},
 				})
-			} else {
 				this.log.info('Unregistered all existing registered listeners')
+			} else {
 				this.log.info(
 					'Skipping re-registering of listeners because they have not changed.'
 				)
 			}
 
-			await this.registerListeners(client)
+			await this.attachListeners(client)
 		}
 	}
 
@@ -497,7 +497,7 @@ export class EventFeaturePlugin implements SkillFeature {
 		)
 	}
 
-	private async registerListeners(client: any) {
+	private async attachListeners(client: any) {
 		client.setShouldAutoRegisterListeners(this.haveListenersChaged)
 
 		for (const listener of this.listeners) {
@@ -516,7 +516,7 @@ export class EventFeaturePlugin implements SkillFeature {
 					return results
 				})
 
-				this.log.info(`Registered listener for ${fqen}`)
+				this.log.info(`Listening to ${fqen}`)
 			}
 		}
 
