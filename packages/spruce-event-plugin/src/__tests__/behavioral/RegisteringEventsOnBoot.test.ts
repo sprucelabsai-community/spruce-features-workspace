@@ -2,7 +2,6 @@ import {
 	eventContractUtil,
 	eventResponseUtil,
 } from '@sprucelabs/spruce-event-utils'
-import { testLog } from '@sprucelabs/spruce-skill-utils'
 import { assert, test } from '@sprucelabs/test'
 import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
 export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest {
@@ -61,7 +60,7 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 		const promises = Array(20)
 			.fill(0)
 			.map(() => {
-				return this.bootSkill({ log: testLog })
+				return this.bootSkill()
 			})
 
 		await Promise.all(promises)
