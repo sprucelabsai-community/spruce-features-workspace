@@ -6,7 +6,7 @@
 	"skill": {
 		"namespace": "spruceTestFixtures"
 	},
-	"version": "4.11.1",
+	"version": "4.11.4",
 	"files": [
 		"build/**/*",
 		"!build/__tests__",
@@ -56,12 +56,12 @@
 	"dependencies": {
 		"@sprucelabs/data-stores": "latest",
 		"@sprucelabs/error": "latest",
-		"@sprucelabs/heartwood-view-controllers": "^7.0.12",
+		"@sprucelabs/heartwood-view-controllers": "^7.0.16",
 		"@sprucelabs/mercury-client": "latest",
 		"@sprucelabs/schema": "latest",
 		"@sprucelabs/spruce-core-schemas": "latest",
 		"@sprucelabs/spruce-event-utils": "latest",
-		"@sprucelabs/spruce-skill-booter": "^4.11.1",
+		"@sprucelabs/spruce-skill-booter": "^4.11.4",
 		"@sprucelabs/spruce-skill-utils": "latest",
 		"dotenv": "^10.0.0"
 	},
@@ -74,11 +74,11 @@
 		"@sprucelabs/semantic-release": "latest",
 		"@sprucelabs/test": "latest",
 		"@sprucelabs/test-utils": "latest",
-		"@types/node": "^15.12.3",
+		"@types/node": "^15.12.4",
 		"chokidar-cli": "^2.1.0",
 		"concurrently": "^6.2.0",
 		"conventional-changelog-sprucelabs": "latest",
-		"eslint": "^7.28.0",
+		"eslint": "^7.29.0",
 		"eslint-config-spruce": "latest",
 		"jest": "^27.0.4",
 		"jest-circus": "^27.0.4",

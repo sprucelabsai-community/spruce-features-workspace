@@ -3,7 +3,7 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "4.11.1",
+	"version": "4.11.4",
 	"files": [
 		"build/**/*",
 		"!build/__tests__",
@@ -62,11 +62,11 @@
 		"@sprucelabs/semantic-release": "latest",
 		"@sprucelabs/test": "latest",
 		"@sprucelabs/test-utils": "latest",
-		"@types/node": "^15.12.3",
+		"@types/node": "^15.12.4",
 		"chokidar-cli": "^2.1.0",
 		"concurrently": "^6.2.0",
 		"conventional-changelog-sprucelabs": "latest",
-		"eslint": "^7.28.0",
+		"eslint": "^7.29.0",
 		"eslint-config-spruce": "latest",
 		"jest": "^27.0.4",
 		"jest-circus": "^27.0.4",
