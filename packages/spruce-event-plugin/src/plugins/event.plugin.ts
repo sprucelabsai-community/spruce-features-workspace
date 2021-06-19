@@ -69,7 +69,15 @@ export class EventFeaturePlugin implements SkillFeature {
 	private executeReject?: (reason?: any) => void
 	private hasLocalContractBeenUpdated = true
 	private haveListenersChaged = true
-	private settings: SettingsService
+	private _settings?: SettingsService
+
+	private get settings() {
+		if (!this._settings) {
+			this._settings = new SettingsService(this.skill.rootDir)
+		}
+
+		return this._settings
+	}
 
 	public static shouldClientUseEventContracts(should: boolean) {
 		this.shouldPassEventContractsToMercury = should
@@ -99,7 +107,6 @@ export class EventFeaturePlugin implements SkillFeature {
 		}
 
 		this.log = skill.buildLog('Event.Feature')
-		this.settings = new SettingsService(this.skill.rootDir)
 	}
 
 	public async execute() {
@@ -548,7 +555,6 @@ export class EventFeaturePlugin implements SkillFeature {
 
 	public async isInstalled() {
 		const isInstalled = this.settings.isMarkedAsInstalled('event')
-
 		return isInstalled
 	}
 
@@ -575,6 +581,7 @@ export class EventFeaturePlugin implements SkillFeature {
 		const listenerCacheKey = this.getListenerCacheKey()
 		const newListenerCacheKey = listenerMatches
 			.map((m) => m.replace(this.listenersPath, ''))
+			.sort()
 			.join()
 
 		this.haveListenersChaged = listenerCacheKey !== newListenerCacheKey

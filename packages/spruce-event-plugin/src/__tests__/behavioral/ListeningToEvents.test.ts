@@ -305,6 +305,28 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 		assert.doesNotInclude(cacheKey, this.cwd)
 	}
 
+	@test()
+	protected static async doesNotDestroySettingsFile() {
+		const { client1, fqen, currentSkill, org } =
+			await this.setupTwoSkillsAndBoot('registered-skill-with-context-checks')
+
+		currentSkill.updateContext('helloWorld', 'yes please')
+
+		const results = await client1.emit(fqen as any, {
+			target: {
+				organizationId: org.id,
+			},
+			payload: {
+				foo: 'bar',
+				bar: 'foo',
+			},
+		})
+
+		const { taco } = eventResponseUtil.getFirstResponseOrThrow(results)
+
+		assert.isEqual(taco, 'yes please')
+	}
+
 	private static async bootKillAndResetSkill(
 		bootedSkill: any,
 		events: EventFeaturePlugin
