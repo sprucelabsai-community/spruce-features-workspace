@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.13.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v4.12.0...v4.13.0) (2021-06-21)
+
+
+### Features
+
+* ts support for imports ([c63e09a](https://github.com/sprucelabsai/spruce-features-workspace/commit/c63e09a))
+
+
+
+
+
 # [4.12.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v4.11.9...v4.12.0) (2021-06-21)
 
 
