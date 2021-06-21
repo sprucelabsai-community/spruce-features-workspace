@@ -44,7 +44,7 @@ export default class AbstractViewControllerTestTest extends AbstractViewControll
 
 	@test()
 	protected static async canBuildControllersSourcedFromTsFiles() {
-		this.cwd = await this.copySkillFromTestDirToTmpDir('skill')
+		this.cwd = await this.copySkillFromTestDirToTmpDir2('skill')
 		this.vcDir = this.resolvePath(this.cwd, 'build')
 
 		const matches = await globby(this.resolvePath('build', '**/*.js'), {
@@ -61,7 +61,7 @@ export default class AbstractViewControllerTestTest extends AbstractViewControll
 		assert.isTruthy(model)
 	}
 
-	private static async copySkillFromTestDirToTmpDir(
+	private static async copySkillFromTestDirToTmpDir2(
 		testDirName: string
 	): Promise<string> {
 		const destination = this.resolvePath(
