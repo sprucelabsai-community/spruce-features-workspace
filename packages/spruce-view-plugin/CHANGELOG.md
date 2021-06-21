@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.12.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v4.11.9...v4.12.0) (2021-06-21)
+
+
+### Features
+
+* view controller importer generates map ([f5f01ac](https://github.com/sprucelabsai/spruce-features-workspace/commit/f5f01ac))
+
+
+
+
+
 ## [4.11.9](https://github.com/sprucelabsai/spruce-features-workspace/compare/v4.11.8...v4.11.9) (2021-06-21)
 
 **Note:** Version bump only for package @sprucelabs/spruce-view-plugin
