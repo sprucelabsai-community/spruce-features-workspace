@@ -11,16 +11,13 @@ import { HealthCheckView } from '../types/view.types'
 
 const viewControllerUtil = {
 	loadViewControllers(vcDir: string) {
-		const path = diskUtil.resolvePath(
-			vcDir,
-			HASH_SPRUCE_DIR_NAME,
-			'views',
-			'views.js'
+		const path = require.resolve(
+			diskUtil.resolvePath(vcDir, HASH_SPRUCE_DIR_NAME, 'views', 'views')
 		)
 
 		if (!diskUtil.doesFileExist(path)) {
 			throw new Error(
-				`Make your vcDir is pointing to the directory that holds the .spruce dir.`
+				`Could not find \`${path}\`. Running \`spruce sync.views\` may help.`
 			)
 		}
 

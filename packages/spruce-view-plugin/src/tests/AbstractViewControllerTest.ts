@@ -32,7 +32,7 @@ export default abstract class AbstractViewControllerTest extends AbstractSpruceF
 			throw new SpruceError({
 				code: 'INVALID_PARAMETERS',
 				parameters: ['vcDir'],
-				friendlyMessage: `${this.name} needs \`protected static vcDir = diskUtil.resolvePath(__dirname,'..','..')\`. Make it point to the directory that contains the \`.spruce\` directory.`,
+				friendlyMessage: `${this.name} needs \`protected static vcDir = diskUtil.resolvePath(__dirname,'..','..')\`. Make it point to the directory that contains the \`.spruce\` directory. Running \`spruce sync.views\` may help too!`,
 			})
 		}
 

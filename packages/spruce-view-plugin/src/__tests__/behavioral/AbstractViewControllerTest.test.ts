@@ -1,5 +1,6 @@
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 import { assert, test } from '@sprucelabs/test'
+import globby from 'globby'
 import AbstractViewControllerTest from '../../tests/AbstractViewControllerTest'
 // eslint-disable-next-line spruce/prohibit-import-from-build-folder
 import BookSkillViewController from '../testDirsAndFiles/skill/build/skillViewControllers/Book.svc'
@@ -39,5 +40,46 @@ export default class AbstractViewControllerTestTest extends AbstractViewControll
 		assert.isTruthy(vc)
 		const model = vc.render()
 		assert.isTruthy(model)
+	}
+
+	@test()
+	protected static async canBuildControllersSourcedFromTsFiles() {
+		this.cwd = await this.copySkillFromTestDirToTmpDir('skill')
+		this.vcDir = this.resolvePath(this.cwd, 'build')
+
+		const matches = await globby(this.resolvePath('build', '**/*.js'), {
+			dot: true,
+		})
+		for (const source of matches) {
+			const destination = source.replace('.js', '.ts')
+			diskUtil.moveFile(source, destination)
+		}
+
+		const vc = this.Controller('book', {})
+		assert.isTruthy(vc)
+		const model = vc.render()
+		assert.isTruthy(model)
+	}
+
+	private static async copySkillFromTestDirToTmpDir(
+		testDirName: string
+	): Promise<string> {
+		const destination = this.resolvePath(
+			process.cwd(),
+			'build',
+			'__tests__',
+			'/testDirsAndFiles/',
+			`${new Date().getTime()}`
+		)
+		const source = this.resolvePath(
+			process.cwd(),
+			'build',
+			'__tests__',
+			'/testDirsAndFiles/',
+			testDirName
+		)
+
+		await diskUtil.copyDir(source, destination)
+		return destination
 	}
 }
