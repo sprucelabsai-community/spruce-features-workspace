@@ -6,7 +6,7 @@
 	"skill": {
 		"namespace": "spruceTestFixtures"
 	},
-	"version": "4.11.6",
+	"version": "4.11.9",
 	"files": [
 		"build/**/*",
 		"!build/__tests__",
@@ -43,9 +43,9 @@
 		"fix.lint.local": "eslint --fix --cache '**/*.ts'",
 		"lint": "eslint --cache '**/*.ts'",
 		"rebuild": "cd .. && yarn rebuild",
-		"rebuild.dependencies": "cd ../ && yarn rebuild.dependencies",
 		"resolve-paths.lint": "yarn build.resolve-paths ; yarn lint",
 		"test": "jest",
+		"update.dependencies": "cd ../ && yarn rebuild.dependencies",
 		"upgrade.packages": "yarn-upgrade-all && rm -f yarn.lock ; yarn ; yarn fix.lint ; true",
 		"upgrade.packages.all": "yarn install && yarn upgrade.packages",
 		"upgrade.packages.test": "yarn upgrade.packages.all && yarn lint && yarn build.dev && yarn test",
@@ -56,12 +56,12 @@
 	"dependencies": {
 		"@sprucelabs/data-stores": "latest",
 		"@sprucelabs/error": "latest",
-		"@sprucelabs/heartwood-view-controllers": "^7.0.16",
+		"@sprucelabs/heartwood-view-controllers": "^10.0.3",
 		"@sprucelabs/mercury-client": "latest",
 		"@sprucelabs/schema": "latest",
 		"@sprucelabs/spruce-core-schemas": "latest",
 		"@sprucelabs/spruce-event-utils": "latest",
-		"@sprucelabs/spruce-skill-booter": "^4.11.6",
+		"@sprucelabs/spruce-skill-booter": "^4.11.9",
 		"@sprucelabs/spruce-skill-utils": "latest",
 		"dotenv": "^10.0.0"
 	},

@@ -3,7 +3,7 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "4.11.6",
+	"version": "4.11.9",
 	"files": [
 		"build/**/*",
 		"!build/__tests__",
@@ -40,9 +40,9 @@
 		"fix.lint.local": "eslint --fix --cache '**/*.ts'",
 		"lint": "eslint --cache '**/*.ts'",
 		"rebuild": "cd .. && yarn rebuild",
-		"rebuild.dependencies": "cd ../ && yarn rebuild.dependencies",
 		"resolve-paths.lint": "yarn build.resolve-paths ; yarn lint",
 		"test": "jest",
+		"update.dependencies": "cd ../ && yarn rebuild.dependencies",
 		"upgrade.packages": "yarn-upgrade-all && rm -f yarn.lock ; yarn ; yarn fix.lint ; true",
 		"upgrade.packages.all": "yarn install && yarn upgrade.packages",
 		"upgrade.packages.test": "yarn upgrade.packages.all && yarn lint && yarn build.dev && yarn test",
@@ -54,7 +54,7 @@
 		"@sprucelabs/error": "latest",
 		"@sprucelabs/schema": "latest",
 		"@sprucelabs/spruce-skill-utils": "latest",
-		"@sprucelabs/spruce-test-fixtures": "^4.11.6",
+		"@sprucelabs/spruce-test-fixtures": "^4.11.9",
 		"heroku-client": "^3.1.0"
 	},
 	"devDependencies": {
@@ -66,7 +66,7 @@
 		"@sprucelabs/semantic-release": "latest",
 		"@sprucelabs/test": "latest",
 		"@sprucelabs/test-utils": "latest",
-		"@types/inquirer": "^7.3.1",
+		"@types/inquirer": "^7.3.2",
 		"@types/node": "^15.12.4",
 		"chokidar-cli": "^2.1.0",
 		"concurrently": "^6.2.0",

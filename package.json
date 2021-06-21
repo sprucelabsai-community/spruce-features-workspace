@@ -21,8 +21,8 @@
 		"lint": "lerna run lint",
 		"publish": "lerna publish",
 		"rebuild": "yarn clean.all && yarn && yarn build.dev",
-		"rebuild.dependencies": "yarn clean.dependencies && yarn",
 		"test": "lerna run test --parallel --stream",
+		"update.dependencies": "yarn clean.dependencies && yarn",
 		"upgrade.packages": "yarn upgrade --latest && rm -f yarn.lock && yarn ; yarn fix.lint ; true",
 		"upgrade.packages.workspaces": "yarn && for d in packages/*; do cd $d; yarn-upgrade-all; cd ../..; done",
 		"upgrade.packages.all": "yarn install && yarn upgrade.packages.workspaces && yarn upgrade.packages",
@@ -33,7 +33,7 @@
 	},
 	"dependencies": {},
 	"devDependencies": {
-		"@sprucelabs/resolve-path-aliases": "1.0.22",
+		"@sprucelabs/resolve-path-aliases": "1.0.24",
 		"conventional-changelog-sprucelabs": "latest",
 		"eslint": "^7.23.0",
 		"eslint-config-spruce": "latest",
