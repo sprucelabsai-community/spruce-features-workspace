@@ -3,6 +3,7 @@ import {
 	BuiltViewController,
 	BuiltSkillViewController,
 	AbstractSkillViewController,
+	ViewControllerMap,
 } from '@sprucelabs/heartwood-view-controllers'
 import { diskUtil, HASH_SPRUCE_DIR_NAME } from '@sprucelabs/spruce-skill-utils'
 import SpruceError from '../errors/SpruceError'
@@ -77,6 +78,22 @@ const viewControllerUtil = {
 			}
 		}
 		return { svcs, vcs, ids }
+	},
+
+	buildControllerMap(vcDir: string) {
+		const { vcs, svcs } = this.loadViewControllers(vcDir)
+		const map: Partial<ViewControllerMap> = {}
+
+		const all = [...vcs, ...svcs]
+
+		for (const item of all) {
+			if (item.Class) {
+				//@ts-ignore
+				map[item.id] = item.Class
+			}
+		}
+
+		return map
 	},
 }
 

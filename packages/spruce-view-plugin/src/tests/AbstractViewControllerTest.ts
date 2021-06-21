@@ -37,7 +37,7 @@ export default abstract class AbstractViewControllerTest extends AbstractSpruceF
 		}
 
 		const mercury = this.Fixture('mercury')
-		const controllerMap = {}
+		const controllerMap = viewControllerUtil.buildControllerMap(this.vcDir)
 
 		this.vcFactory = ViewControllerFactory.Factory({
 			controllerMap,
@@ -45,11 +45,6 @@ export default abstract class AbstractViewControllerTest extends AbstractSpruceF
 				return mercury.connectToApi()
 			},
 		})
-
-		const { vcs, svcs } = viewControllerUtil.loadViewControllers(this.vcDir)
-		const all = [...vcs.map((i) => i.Class), ...svcs.map((i) => i.Class)]
-
-		this.vcFactory.importControllers(all as any)
 
 		return this.vcFactory
 	}
