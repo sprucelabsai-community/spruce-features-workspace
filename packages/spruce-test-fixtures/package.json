@@ -6,7 +6,7 @@
 	"skill": {
 		"namespace": "spruceTestFixtures"
 	},
-	"version": "4.13.12",
+	"version": "4.13.13",
 	"files": [
 		"build/**/*",
 		"!build/__tests__",
@@ -61,7 +61,7 @@
 		"@sprucelabs/schema": "latest",
 		"@sprucelabs/spruce-core-schemas": "latest",
 		"@sprucelabs/spruce-event-utils": "latest",
-		"@sprucelabs/spruce-skill-booter": "^4.13.12",
+		"@sprucelabs/spruce-skill-booter": "^4.13.13",
 		"@sprucelabs/spruce-skill-utils": "latest",
 		"dotenv": "^10.0.0"
 	},
