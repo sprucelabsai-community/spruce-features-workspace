@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.14.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v4.13.41...v4.14.0) (2021-07-02)
+
+
+### Features
+
+* default load local event contracts ([f4c5028](https://github.com/sprucelabsai/spruce-features-workspace/commit/f4c5028))
+
+
+
+
+
 ## [4.13.41](https://github.com/sprucelabsai/spruce-features-workspace/compare/v4.13.40...v4.13.41) (2021-06-29)
 
 **Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
