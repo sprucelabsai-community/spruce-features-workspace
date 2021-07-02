@@ -1,3 +1,5 @@
+import { MercuryClientFactory } from '@sprucelabs/mercury-client'
+import { diskUtil, HASH_SPRUCE_BUILD_DIR } from '@sprucelabs/spruce-skill-utils'
 import AbstractSpruceTest, { test, assert } from '@sprucelabs/test'
 import FixtureFactory from '../../tests/fixtures/FixtureFactory'
 import MercuryFixture from '../../tests/fixtures/MercuryFixture'
@@ -7,7 +9,8 @@ export default class MercuryFixtureTest extends AbstractSpruceTest {
 
 	protected static async beforeEach() {
 		await super.beforeEach()
-		this.fixture = FixtureFactory.Fixture('mercury')
+		MercuryClientFactory.clearDefaultContract()
+		this.fixture = new FixtureFactory({ cwd: this.cwd }).Fixture('mercury')
 	}
 
 	@test()
@@ -32,5 +35,46 @@ export default class MercuryFixtureTest extends AbstractSpruceTest {
 		assert.isTrue(client2.__monkeyPatch)
 		await client.disconnect()
 		assert.isFalse(client2.isConnected())
+	}
+
+	@test('auto imports signature 1', [
+		{
+			eventSignatures: {
+				['taco-bravo']: true,
+			},
+		},
+	])
+	@test('auto imports signature 2', [
+		{
+			eventSignatures: {
+				['taco-bravo2']: true,
+			},
+		},
+	])
+	protected static async importsContractIfLocalOneIsGenerated(sigs: any[]) {
+		this.cwd = diskUtil.createRandomTempDir()
+
+		const destination = diskUtil.resolvePath(
+			this.cwd,
+			HASH_SPRUCE_BUILD_DIR,
+			'events/events.contract.js'
+		)
+
+		const contents = `exports["default"] = ${JSON.stringify(sigs)};`
+
+		diskUtil.writeFile(destination, contents)
+
+		const client = await new FixtureFactory({ cwd: this.cwd })
+			.Fixture('mercury')
+			.connectToApi()
+
+		//@ts-ignore
+		assert.isTruthy(client.eventContract)
+
+		assert.isEqualDeep(
+			//@ts-ignore
+			client.eventContract.eventSignatures,
+			sigs[0].eventSignatures
+		)
 	}
 }

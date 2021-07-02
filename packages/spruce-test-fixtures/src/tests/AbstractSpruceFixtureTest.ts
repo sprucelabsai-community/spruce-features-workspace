@@ -30,7 +30,7 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 	}
 
 	protected static Fixture<Name extends FixtureName>(name: Name) {
-		return FixtureFactory.Fixture(name)
+		return new FixtureFactory({ cwd: this.cwd }).Fixture(name)
 	}
 
 	protected static async bootAndRegisterNewSkill(

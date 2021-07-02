@@ -18,7 +18,6 @@ import {
 import {
 	SkillFeature,
 	Skill,
-	HASH_SPRUCE_DIR_NAME,
 	SettingsService,
 	diskUtil,
 	HealthCheckItem,
@@ -56,7 +55,7 @@ export class EventFeaturePlugin implements SkillFeature {
 	private listeners: EventFeatureListener[] = []
 	private eventsIRegistered: Required<NamedEventSignature>[] = []
 	private allEventSignatures: NamedEventSignature[] = []
-	private combinedContractsFile: string
+	private combinedContractsFile?: string
 	private _shouldConnectToApi = false
 	private apiClientPromise?: Promise<{
 		client?: any
@@ -90,28 +89,24 @@ export class EventFeaturePlugin implements SkillFeature {
 
 	public constructor(skill: Skill) {
 		this.skill = skill
+
 		this.listenersPath = pathUtil.join(this.skill.activeDir, 'listeners')
-		this.combinedContractsFile = pathUtil.join(
-			this.skill.activeDir,
-			HASH_SPRUCE_DIR_NAME,
-			'events',
-			'events.contract'
-		)
-
-		const combinedContractsFileWithExtension = diskUtil.doesFileExist(
-			this.combinedContractsFile + '.ts'
-		)
-			? this.combinedContractsFile + '.ts'
-			: this.combinedContractsFile + '.js'
-
-		if (diskUtil.doesFileExist(combinedContractsFileWithExtension)) {
-			this._shouldConnectToApi = true
-			this.hasLocalContractBeenUpdated = diskUtil.hasFileChanged(
-				combinedContractsFileWithExtension
-			)
-		}
 
 		this.log = skill.buildLog('Event.Feature')
+
+		try {
+			this.combinedContractsFile =
+				eventDiskUtil.resolveCombinedEventsContractFile(this.skill.rootDir)
+
+			this.hasLocalContractBeenUpdated = diskUtil.hasFileChanged(
+				this.combinedContractsFile
+			)
+
+			this._shouldConnectToApi = true
+		} catch {
+			this.log.info('Events have not been synced locally.')
+			this._shouldConnectToApi = false
+		}
 	}
 
 	public async execute() {
@@ -170,7 +165,7 @@ export class EventFeaturePlugin implements SkillFeature {
 				this.log.info(
 					this.isDestroyed
 						? 'Aborted setting client to skill context.'
-						: "I couldn't find any events or remote listeners so I won't be connecting to Mercury. 🌲🤖"
+						: "I couldn't find any events or remote listeners so I'll hold of connecting to Mercury. 🌲🤖"
 				)
 				this._isBooted = true
 				this.isExecuting = false
@@ -318,7 +313,8 @@ export class EventFeaturePlugin implements SkillFeature {
 		try {
 			const contracts =
 				this.shouldConnectToApi() &&
-				EventFeaturePlugin.shouldPassEventContractsToMercury
+				EventFeaturePlugin.shouldPassEventContractsToMercury &&
+				this.combinedContractsFile
 					? require(this.combinedContractsFile).default
 					: null
 
@@ -529,7 +525,7 @@ export class EventFeaturePlugin implements SkillFeature {
 	}
 
 	private async loadContracts() {
-		if (this.shouldConnectToApi()) {
+		if (this.shouldConnectToApi() && this.combinedContractsFile) {
 			const contracts = require(this.combinedContractsFile).default
 
 			this.log.info(`Loading ${contracts.length} contracts.`)

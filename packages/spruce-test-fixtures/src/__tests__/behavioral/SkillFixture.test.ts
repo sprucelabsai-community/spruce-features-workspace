@@ -8,7 +8,7 @@ export default class SkillFixtureTest extends AbstractSpruceFixtureTest {
 	private static fixture: SkillFixture
 
 	protected static async beforeEach() {
-		this.fixture = FixtureFactory.Fixture('skill')
+		this.fixture = new FixtureFactory({ cwd: this.cwd }).Fixture('skill')
 	}
 
 	@test()

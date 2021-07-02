@@ -1,5 +1,10 @@
 import { MercuryClient, MercuryClientFactory } from '@sprucelabs/mercury-client'
 import { coreEventContracts } from '@sprucelabs/mercury-types'
+import {
+	eventContractUtil,
+	eventDiskUtil,
+} from '@sprucelabs/spruce-event-utils'
+import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 import SpruceError from '../../errors/SpruceError'
 const env = require('dotenv')
 env.config()
@@ -9,6 +14,18 @@ const TEST_HOST = process.env.TEST_HOST ?? process.env.HOST
 export default class MercuryFixture {
 	private clientPromise?: Promise<MercuryClient>
 	private static originalHost: string | undefined
+	private cwd: string
+
+	public constructor(cwd: string) {
+		this.cwd = cwd
+		if (!this.cwd) {
+			throw new SpruceError({
+				code: 'MISSING_PARAMETERS',
+				friendlyMessage: 'Mercury fixture needs cwd.',
+				parameters: ['options.cwd'],
+			})
+		}
+	}
 
 	/** @ts-ignore */
 	public async connectToApi() {
@@ -22,6 +39,25 @@ export default class MercuryFixture {
 				parameters: ['env.HOST'],
 				friendlyMessage: `Oops! Before you can do any tests that involve Mercury you need to run \`spruce set.remote\` to point to an environment of your choosing.`,
 			})
+		}
+
+		if (
+			!MercuryClientFactory.hasDefaultContract() &&
+			diskUtil.doesBuiltHashSprucePathExist(this.cwd)
+		) {
+			try {
+				const combinedContract =
+					eventDiskUtil.resolveCombinedEventsContractFile(this.cwd)
+
+				const contracts = require(combinedContract).default
+				const combined = eventContractUtil.unifyContracts(contracts as any)
+
+				if (combined) {
+					MercuryClientFactory.setDefaultContract(combined)
+				}
+			} catch {
+				//ignored
+			}
 		}
 
 		this.clientPromise = MercuryClientFactory.Client<any>({

@@ -7,7 +7,7 @@ export default class StoreFixtureTest extends AbstractSpruceTest {
 
 	protected static async beforeEach() {
 		await super.beforeEach()
-		this.fixture = FixtureFactory.Fixture('database')
+		this.fixture = new FixtureFactory({ cwd: this.cwd }).Fixture('database')
 	}
 
 	@test()

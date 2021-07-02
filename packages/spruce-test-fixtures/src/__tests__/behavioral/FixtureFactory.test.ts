@@ -10,7 +10,7 @@ export default class FixtureFactoryTest extends AbstractSpruceTest {
 	@test()
 	protected static throwsWithBadFixture() {
 		//@ts-ignore
-		const err = assert.doesThrow(() => FixtureFactory.Fixture('taco'))
+		const err = assert.doesThrow(() => this.Fixture().Fixture('taco'))
 		errorAssertUtil.assertError(err, 'INVALID_FIXTURE', {
 			suppliedName: 'taco',
 		})
@@ -22,15 +22,19 @@ export default class FixtureFactoryTest extends AbstractSpruceTest {
 	@test('skill fixture', 'skill', SkillFixture)
 	protected static getsFixture(name: string, Class: any) {
 		//@ts-ignore
-		const fixture = FixtureFactory.Fixture(name)
+		const fixture = this.Fixture().Fixture(name)
 		assert.isTrue(fixture instanceof Class)
+	}
+
+	private static Fixture() {
+		return new FixtureFactory({ cwd: this.cwd })
 	}
 
 	@test()
 	protected static async destroyDisconnectsClient() {
-		const { client } = await FixtureFactory.Fixture(
-			'person'
-		).loginAsDemoPerson()
+		const { client } = await this.Fixture()
+			.Fixture('person')
+			.loginAsDemoPerson()
 
 		assert.isTrue(client.isConnected())
 

@@ -9,11 +9,21 @@ import StoreFixture from './StoreFixture'
 
 export default class FixtureFactory {
 	private static fixtures: any[] = []
+	private cwd: string
 
-	public static Fixture<Name extends FixtureName>(
-		named: Name
-	): FixtureMap[Name] {
-		const mercuryFixture = new MercuryFixture()
+	public constructor(options: { cwd: string }) {
+		this.cwd = options.cwd
+		if (!this.cwd) {
+			throw new SpruceError({
+				code: 'MISSING_PARAMETERS',
+				friendlyMessage: 'Mercury fixture needs cwd.',
+				parameters: ['options.cwd'],
+			})
+		}
+	}
+
+	public Fixture<Name extends FixtureName>(named: Name): FixtureMap[Name] {
+		const mercuryFixture = new MercuryFixture(this.cwd)
 		let fixture: FixtureMap[Name] | undefined
 
 		switch (named) {
@@ -55,8 +65,8 @@ export default class FixtureFactory {
 		}
 
 		if (fixture) {
-			this.fixtures.push(fixture)
-			this.fixtures.push(mercuryFixture)
+			FixtureFactory.fixtures.push(fixture)
+			FixtureFactory.fixtures.push(mercuryFixture)
 			return fixture
 		}
 

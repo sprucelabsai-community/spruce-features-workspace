@@ -13,7 +13,7 @@ export default class PersonFixtureTest extends AbstractSpruceTest {
 	protected static async beforeEach() {
 		await super.beforeEach()
 
-		this.fixture = FixtureFactory.Fixture('person')
+		this.fixture = new FixtureFactory({ cwd: this.cwd }).Fixture('person')
 	}
 
 	@test()
