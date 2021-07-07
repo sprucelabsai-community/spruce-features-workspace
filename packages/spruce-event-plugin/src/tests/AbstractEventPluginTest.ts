@@ -1,7 +1,10 @@
 import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
 import { SkillFactoryOptions } from '@sprucelabs/spruce-skill-booter'
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
-import { AbstractSpruceFixtureTest } from '@sprucelabs/spruce-test-fixtures'
+import {
+	AbstractSpruceFixtureTest,
+	MercuryFixture,
+} from '@sprucelabs/spruce-test-fixtures'
 import plugin, { EventFeaturePlugin } from './../plugins/event.plugin'
 
 export default class AbstractEventPluginTest extends AbstractSpruceFixtureTest {
@@ -11,6 +14,7 @@ export default class AbstractEventPluginTest extends AbstractSpruceFixtureTest {
 		this.cwd = await this.generateSkillFromTestPath('skill')
 
 		EventFeaturePlugin.shouldClientUseEventContracts(false)
+		MercuryFixture.shouldAutoImportContracts = true
 	}
 
 	protected static async generateSkillFromTestPath(

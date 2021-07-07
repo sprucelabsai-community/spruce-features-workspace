@@ -16,6 +16,8 @@ export default class MercuryFixture {
 	private static originalHost: string | undefined
 	private cwd: string
 
+	public static shouldAutoImportContracts = true
+
 	public constructor(cwd: string) {
 		this.cwd = cwd
 		if (!this.cwd) {
@@ -55,7 +57,10 @@ export default class MercuryFixture {
 	}
 
 	private setDefaultContractToLocalEventsIfExist() {
-		if (diskUtil.doesBuiltHashSprucePathExist(this.cwd)) {
+		if (
+			MercuryFixture.shouldAutoImportContracts &&
+			diskUtil.doesBuiltHashSprucePathExist(this.cwd)
+		) {
 			try {
 				const combinedContract =
 					eventDiskUtil.resolveCombinedEventsContractFile(this.cwd)

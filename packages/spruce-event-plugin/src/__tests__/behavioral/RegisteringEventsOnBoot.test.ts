@@ -3,8 +3,14 @@ import {
 	eventResponseUtil,
 } from '@sprucelabs/spruce-event-utils'
 import { assert, test } from '@sprucelabs/test'
+import { MercuryFixture } from '../../../../spruce-test-fixtures/build'
 import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
 export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest {
+	protected static async beforeEach() {
+		await super.beforeEach()
+		MercuryFixture.shouldAutoImportContracts = false
+	}
+
 	@test()
 	protected static async noEventsRegisteredWhenNoEventsCreated() {
 		this.cwd = await this.generateSkillFromTestPath('empty-skill')

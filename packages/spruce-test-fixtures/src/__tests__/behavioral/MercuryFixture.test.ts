@@ -80,8 +80,6 @@ export default class MercuryFixtureTest extends AbstractSpruceTest {
 
 		diskUtil.writeFile(destination, contents)
 
-		MercuryFixture.beforeAll()
-
 		const client = await new FixtureFactory({ cwd: this.cwd })
 			.Fixture('mercury')
 			.connectToApi()
