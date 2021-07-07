@@ -41,7 +41,7 @@ export default class MercuryFixture {
 			})
 		}
 
-		this.setDefaultContractIfNotSet()
+		this.setDefaultContractToLocalEventsIfExist()
 
 		this.clientPromise = MercuryClientFactory.Client<any>({
 			host: TEST_HOST,
@@ -54,17 +54,17 @@ export default class MercuryFixture {
 		return this.clientPromise
 	}
 
-	private setDefaultContractIfNotSet() {
-		if (
-			!MercuryClientFactory.hasDefaultContract() &&
-			diskUtil.doesBuiltHashSprucePathExist(this.cwd)
-		) {
+	private setDefaultContractToLocalEventsIfExist() {
+		if (diskUtil.doesBuiltHashSprucePathExist(this.cwd)) {
 			try {
 				const combinedContract =
 					eventDiskUtil.resolveCombinedEventsContractFile(this.cwd)
 
 				const contracts = require(combinedContract).default
-				const combined = eventContractUtil.unifyContracts(contracts as any)
+				const combined = eventContractUtil.unifyContracts([
+					...contracts,
+					...coreEventContracts,
+				])
 
 				if (combined) {
 					MercuryClientFactory.setDefaultContract(combined)
@@ -72,11 +72,6 @@ export default class MercuryFixture {
 			} catch {
 				//ignored
 			}
-		}
-
-		if (!MercuryClientFactory.hasDefaultContract()) {
-			//@ts-ignore
-			MercuryClientFactory.setDefaultContract(coreEventContracts[0])
 		}
 	}
 
@@ -95,8 +90,6 @@ export default class MercuryFixture {
 
 	public static beforeAll() {
 		this.originalHost = process.env.TEST_HOST ?? process.env.HOST ?? TEST_HOST
-
-		MercuryClientFactory.setIsTestMode(true)
 	}
 
 	public static beforeEach() {
@@ -106,7 +99,10 @@ export default class MercuryFixture {
 			delete process.env.HOST
 		}
 
-		MercuryClientFactory.clearDefaultContract()
 		MercuryClientFactory.resetTestClient()
+		MercuryClientFactory.setIsTestMode(true)
+
+		//@ts-ignore
+		MercuryClientFactory.setDefaultContract(coreEventContracts[0])
 	}
 }

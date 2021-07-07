@@ -89,7 +89,7 @@ export default class MercuryFixtureTest extends AbstractSpruceTest {
 		//@ts-ignore
 		assert.isTruthy(client.eventContract)
 
-		assert.isEqualDeep(
+		assert.doesInclude(
 			//@ts-ignore
 			client.eventContract.eventSignatures,
 			sigs[0].eventSignatures
