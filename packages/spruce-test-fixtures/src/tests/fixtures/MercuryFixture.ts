@@ -41,6 +41,20 @@ export default class MercuryFixture {
 			})
 		}
 
+		this.setDefaultContractIfNotSet()
+
+		this.clientPromise = MercuryClientFactory.Client<any>({
+			host: TEST_HOST,
+			shouldReconnect: false,
+			allowSelfSignedCrt:
+				TEST_HOST.includes('https://localhost') ||
+				TEST_HOST.includes('https://127.0.0.1'),
+		})
+
+		return this.clientPromise
+	}
+
+	private setDefaultContractIfNotSet() {
 		if (
 			!MercuryClientFactory.hasDefaultContract() &&
 			diskUtil.doesBuiltHashSprucePathExist(this.cwd)
@@ -60,15 +74,10 @@ export default class MercuryFixture {
 			}
 		}
 
-		this.clientPromise = MercuryClientFactory.Client<any>({
-			host: TEST_HOST,
-			shouldReconnect: false,
-			allowSelfSignedCrt:
-				TEST_HOST.includes('https://localhost') ||
-				TEST_HOST.includes('https://127.0.0.1'),
-		})
-
-		return this.clientPromise
+		if (!MercuryClientFactory.hasDefaultContract()) {
+			//@ts-ignore
+			MercuryClientFactory.setDefaultContract(coreEventContracts[0])
+		}
 	}
 
 	/** @ts-ignore */
@@ -88,8 +97,6 @@ export default class MercuryFixture {
 		this.originalHost = process.env.TEST_HOST ?? process.env.HOST ?? TEST_HOST
 
 		MercuryClientFactory.setIsTestMode(true)
-		//@ts-ignore
-		MercuryClientFactory.setDefaultContract(coreEventContracts[0])
 	}
 
 	public static beforeEach() {
@@ -99,6 +106,7 @@ export default class MercuryFixture {
 			delete process.env.HOST
 		}
 
+		MercuryClientFactory.clearDefaultContract()
 		MercuryClientFactory.resetTestClient()
 	}
 }
