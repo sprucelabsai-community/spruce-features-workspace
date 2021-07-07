@@ -1,4 +1,5 @@
 import { MercuryClientFactory } from '@sprucelabs/mercury-client'
+import { coreEventContracts } from '@sprucelabs/mercury-types'
 import { diskUtil, HASH_SPRUCE_BUILD_DIR } from '@sprucelabs/spruce-skill-utils'
 import AbstractSpruceTest, { test, assert } from '@sprucelabs/test'
 import FixtureFactory from '../../tests/fixtures/FixtureFactory'
@@ -76,5 +77,16 @@ export default class MercuryFixtureTest extends AbstractSpruceTest {
 			client.eventContract.eventSignatures,
 			sigs[0].eventSignatures
 		)
+	}
+
+	@test()
+	protected static async hasDefaultContractByDefault() {
+		const client = await this.fixture.connectToApi()
+
+		//@ts-ignore
+		assert.isTruthy(client.eventContract)
+
+		//@ts-ignore
+		assert.isEqual(client.eventContract, coreEventContracts[0])
 	}
 }

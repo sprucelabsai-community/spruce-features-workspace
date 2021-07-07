@@ -12,6 +12,7 @@ export default class SkillFixture<
 	private personFixture: PersonFixture
 	private apiClientFactory: Factory
 	private skills: { client: MercuryClient; skill: Skill }[] = []
+	private skillCounter = process.pid
 
 	public constructor(personFixture: PersonFixture, apiClientFactory: Factory) {
 		this.apiClientFactory = apiClientFactory
@@ -36,7 +37,7 @@ export default class SkillFixture<
 	}
 
 	private generateSkillSlug(): string | null | undefined {
-		return `my-skill-${new Date().getTime()}`
+		return `my-skill-${new Date().getTime()}-${this.skillCounter++}`
 	}
 
 	public async loginAsDemoSkill(values: {

@@ -1,7 +1,7 @@
 import AbstractSpruceError from '@sprucelabs/error'
 import {
-	BuiltViewController,
-	BuiltSkillViewController,
+	ViewController,
+	SkillViewController,
 	AbstractSkillViewController,
 	ViewControllerMap,
 } from '@sprucelabs/heartwood-view-controllers'
@@ -23,16 +23,16 @@ const viewControllerUtil = {
 
 		const controllerMap = require(path).default
 		const controllers = Object.values(controllerMap) as (
-			| (BuiltViewController & { name?: string })
-			| (BuiltSkillViewController & { name?: string })
+			| (ViewController<any> & { name?: string })
+			| (SkillViewController & { name?: string })
 		)[]
 
 		const vcs: ({
-			Class?: BuiltViewController
+			Class?: ViewController<any>
 		} & HealthCheckView)[] = []
 
 		const svcs: ({
-			Class?: BuiltSkillViewController
+			Class?: SkillViewController
 		} & HealthCheckView)[] = []
 
 		const ids: string[] = []
@@ -42,12 +42,14 @@ const viewControllerUtil = {
 				id: string
 			} = {
 				Class: controller,
+				//@ts-ignore
 				id: controller.id,
 			}
 			try {
 				if (!item.id) {
 					throw new SpruceError({
 						code: 'INVALID_VIEW_CONTROLLER',
+						//@ts-ignore
 						id: controller.id,
 						name: controller.name,
 					})
@@ -59,6 +61,7 @@ const viewControllerUtil = {
 					item.error = new SpruceError({
 						code: 'UNKNOWN_VIEW_CONTROLLER_ERROR',
 						originalError: err,
+						//@ts-ignore
 						id: controller.id,
 						name: controller.name,
 					}) as any
