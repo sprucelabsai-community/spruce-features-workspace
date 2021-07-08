@@ -35,7 +35,7 @@ export default class GracefullyExitingOnErrorsTest extends AbstractStorePluginTe
 
 		void skill.registerFeature('test', {
 			execute: async () => {
-				await new Promise((r) => setTimeout(r, 1000))
+				await new Promise<void>((r) => setTimeout(r, 1000))
 				throw new Error('crash!')
 			},
 			checkHealth: async () => ({ status: 'passed' }),

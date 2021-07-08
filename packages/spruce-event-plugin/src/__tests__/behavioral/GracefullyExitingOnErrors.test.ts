@@ -33,7 +33,7 @@ export default class GracefullyExitingOnErrorsTest extends AbstractEventPluginTe
 
 		void skill.registerFeature('test', {
 			execute: async () => {
-				await new Promise((r) => setTimeout(r, 1000))
+				await new Promise<void>((r) => setTimeout(r, 1000))
 				throw new Error('crash!')
 			},
 			checkHealth: async () => ({ status: 'passed' }),
@@ -97,7 +97,7 @@ export default class GracefullyExitingOnErrorsTest extends AbstractEventPluginTe
 		const client = await events.connectToApi()
 
 		await client.on('unregister-events::v2020_12_25', async () => {
-			await new Promise((resolve) => setTimeout(resolve, 1000))
+			await new Promise<void>((resolve) => setTimeout(resolve, 1000))
 
 			return {}
 		})

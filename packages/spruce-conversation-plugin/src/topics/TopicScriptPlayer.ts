@@ -97,7 +97,9 @@ export class TopicScriptPlayer {
 			const line = this.script[idx]
 
 			if (!isFirstLine) {
-				await new Promise((resolve) => setTimeout(resolve, this.lineDelay))
+				await new Promise<void>((resolve) =>
+					setTimeout(resolve, this.lineDelay)
+				)
 			}
 
 			isFirstLine = false
@@ -160,7 +162,7 @@ export class TopicScriptPlayer {
 			let done = false
 
 			do {
-				await new Promise((resolve) => setTimeout(resolve, 10))
+				await new Promise<void>((resolve) => setTimeout(resolve, 10))
 
 				done =
 					this.runningLine?.isDone || this.graphicsInterface.isWaitingForInput()
