@@ -658,7 +658,7 @@ export class EventFeaturePlugin implements SkillFeature {
 			})
 
 			this.log.info(
-				`Found ${this.eventsIRegistered.length} events defined locally.`
+				`Found ${this.eventsIRegistered.length} events defined locally for skill slug ${currentSkill.slug}.`
 			)
 		} else {
 			this.log.info(
