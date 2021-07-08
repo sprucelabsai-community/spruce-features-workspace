@@ -186,7 +186,7 @@ export class EventFeaturePlugin implements SkillFeature {
 	private async queueDidBoot(didBoot: (event: SpruceEvent) => Promise<void>) {
 		try {
 			do {
-				await new Promise((r) => setTimeout(r, 100))
+				await new Promise<void>((r) => setTimeout(r, 100))
 			} while (!this.skill.isBooted() && !this.isDestroyed)
 
 			this.log.info(`Emitting skill.didBoot internally.`)
@@ -270,7 +270,7 @@ export class EventFeaturePlugin implements SkillFeature {
 			}
 
 			while (this.isExecuting) {
-				await new Promise((resolve) => setTimeout(resolve, 100))
+				await new Promise<void>((resolve) => setTimeout(resolve, 100))
 			}
 
 			if (this.apiClientPromise) {

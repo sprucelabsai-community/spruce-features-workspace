@@ -77,7 +77,7 @@ export class ConversationFeature implements SkillFeature {
 		const tester = await ScriptTester.Tester({ topics })
 
 		while (!this.skill.isBooted()) {
-			await new Promise((resolve) => setTimeout(resolve, 10))
+			await new Promise<void>((resolve) => setTimeout(resolve, 10))
 		}
 
 		console.clear()
@@ -216,7 +216,7 @@ export class ConversationFeature implements SkillFeature {
 		this.executeResolver = undefined
 
 		while (this.isExecuting) {
-			await new Promise((resolve) => setTimeout(resolve, 250))
+			await new Promise<void>((resolve) => setTimeout(resolve, 250))
 		}
 	}
 

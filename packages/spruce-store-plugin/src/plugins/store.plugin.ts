@@ -156,7 +156,7 @@ export class StoreFeaturePlugin implements SkillFeature {
 
 	public async destroy(): Promise<void> {
 		do {
-			await new Promise((resolve) => setTimeout(resolve, 100))
+			await new Promise<void>((resolve) => setTimeout(resolve, 100))
 		} while (this.isExecuting)
 
 		if (this.db) {

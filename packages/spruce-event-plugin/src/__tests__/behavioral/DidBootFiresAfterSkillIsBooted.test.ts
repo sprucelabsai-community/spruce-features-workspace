@@ -9,7 +9,7 @@ export default class DidBootFiresAfterSkillIsBootedTest extends AbstractEventPlu
 
 		void skill.registerFeature('test', {
 			execute: async () => {
-				await new Promise((r) => setTimeout(r, 1000))
+				await new Promise<void>((r) => setTimeout(r, 1000))
 				isBooted = true
 			},
 			checkHealth: async () => ({ status: 'passed' }),
