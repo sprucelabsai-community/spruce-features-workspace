@@ -76,7 +76,7 @@
 		"@sprucelabs/test-utils": "latest",
 		"@types/fuzzyset": "^1.0.2",
 		"@types/inquirer": "^7.3.3",
-		"@types/node": "^16.0.1",
+		"@types/node": "^16.0.2",
 		"chokidar-cli": "^2.1.0",
 		"concurrently": "^6.2.0",
 		"conventional-changelog-sprucelabs": "latest",
