@@ -1,3 +1,14 @@
+import {
+	cardSchema,
+	CardViewController,
+	formSchema,
+	renderUtil,
+	SpruceSchemas,
+	ViewController,
+	ViewControllerId,
+} from '@sprucelabs/heartwood-view-controllers'
+import { RenderOptions } from '@sprucelabs/heartwood-view-controllers/build/utilities/render.utility'
+import { validateSchemaValues, Schema } from '@sprucelabs/schema'
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 import { assert, test } from '@sprucelabs/test'
 import globby from 'globby'
@@ -59,6 +70,26 @@ export default class AbstractViewControllerTestTest extends AbstractViewControll
 		assert.isTruthy(vc)
 		const model = vc.render()
 		assert.isTruthy(model)
+	}
+
+	@test('can render card', 'card', cardSchema)
+	@test('can render form', 'form', formSchema, {
+		id: 'test',
+		schema: { id: 'test', fields: {} },
+		setValue: () => {},
+		sections: [{}],
+	})
+	protected static async canRenderSkillViewController(
+		id: ViewControllerId,
+		schema: Schema,
+		options: any = {}
+	) {
+		const model = this.render(this.Controller(id, options))
+		validateSchemaValues(schema, model)
+	}
+
+	protected static render(vc: ViewController<any>, options?: RenderOptions) {
+		return renderUtil.render(vc, options)
 	}
 
 	private static async copySkillFromTestDirToTmpDir2(
