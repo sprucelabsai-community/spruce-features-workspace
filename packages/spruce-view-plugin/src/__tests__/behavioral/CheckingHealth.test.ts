@@ -35,8 +35,9 @@ export default class CheckingHealthTest extends AbstractViewPluginTest {
 
 		assert.isTruthy(health.view)
 		assert.isFalsy(health.view.errors)
-		assert.isLength(health.view.skillViewControllers, 1)
+		assert.isLength(health.view.skillViewControllers, 2)
 		assert.doesInclude(health.view.skillViewControllers, { id: 'book' })
+		assert.doesInclude(health.view.skillViewControllers, { id: 'spy' })
 		assert.isFalsy(health.view.skillViewControllers[0].error)
 
 		assert.isLength(health.view.viewControllers, 1)

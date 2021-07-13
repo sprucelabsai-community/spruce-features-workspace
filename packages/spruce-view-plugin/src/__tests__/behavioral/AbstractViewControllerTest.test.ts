@@ -1,13 +1,14 @@
 import {
 	cardSchema,
-	CardViewController,
 	formSchema,
 	renderUtil,
-	SpruceSchemas,
 	ViewController,
 	ViewControllerId,
+	RenderOptions,
+	SkillViewController,
+	Router,
+	Authenticator,
 } from '@sprucelabs/heartwood-view-controllers'
-import { RenderOptions } from '@sprucelabs/heartwood-view-controllers/build/utilities/render.utility'
 import { validateSchemaValues, Schema } from '@sprucelabs/schema'
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 import { assert, test } from '@sprucelabs/test'
@@ -15,11 +16,19 @@ import globby from 'globby'
 import AbstractViewControllerTest from '../../tests/AbstractViewControllerTest'
 // eslint-disable-next-line spruce/prohibit-import-from-build-folder
 import BookSkillViewController from '../testDirsAndFiles/skill/build/skillViewControllers/Book.svc'
+// eslint-disable-next-line spruce/prohibit-import-from-build-folder
+import SpySkillViewController from '../testDirsAndFiles/skill/build/skillViewControllers/Spy.svc'
 
 declare module '@sprucelabs/heartwood-view-controllers/build/types/heartwood.types' {
 	interface ViewControllerMap {
 		book: BookSkillViewController
+		spy: SpySkillViewController
 	}
+}
+
+class TestRouter implements Router {
+	public async redirect() {}
+	public async back() {}
 }
 
 export default class AbstractViewControllerTestTest extends AbstractViewControllerTest {
@@ -86,6 +95,20 @@ export default class AbstractViewControllerTestTest extends AbstractViewControll
 	) {
 		const model = this.render(this.Controller(id, options))
 		validateSchemaValues(schema, model)
+	}
+
+	@test()
+	protected static async canLoadSvc() {
+		const spySvc = this.Controller('spy', {})
+		await this.load(spySvc)
+	}
+
+	protected static async load(spySvc: SkillViewController) {
+		await spySvc.load({
+			router: new TestRouter(),
+			authenticator: Authenticator.getInstance(),
+			args: {},
+		})
 	}
 
 	protected static render(vc: ViewController<any>, options?: RenderOptions) {
