@@ -1,6 +1,7 @@
 import {
 	cardSchema,
 	formSchema,
+	FormViewController,
 	ViewControllerId,
 } from '@sprucelabs/heartwood-view-controllers'
 import { validateSchemaValues, Schema } from '@sprucelabs/schema'
@@ -90,6 +91,25 @@ export default class AbstractViewControllerTestTest extends AbstractViewControll
 	protected static async canLoadSvc() {
 		const spySvc = this.Controller('spy', {})
 		await this.load(spySvc)
+	}
+
+	@test()
+	protected static async usesThisControllerMapIfPresent() {
+		//@ts-ignore
+		assert.doesThrow(() => this.Controller('cheesey', {}))
+
+		this.controllerMap = {
+			cheesey: FormViewController,
+		}
+
+		//@ts-ignore
+		this.vcFactory = null
+
+		//@ts-ignore
+		const vc = this.Controller('cheesey', {})
+
+		assert.doesThrow(() => this.Controller('spy', {}))
+		assert.isTrue(vc instanceof FormViewController)
 	}
 
 	private static async copySkillFromTestDirToTmpDir2(

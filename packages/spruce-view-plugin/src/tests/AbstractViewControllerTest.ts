@@ -19,6 +19,7 @@ import { TestRouter } from './routers/TestRouter'
 export default abstract class AbstractViewControllerTest extends AbstractSpruceFixtureTest {
 	protected static vcDir: string = diskUtil.resolvePath(process.cwd(), 'build')
 	private static vcFactory: ViewControllerFactory
+	protected static controllerMap: Record<string, any> | undefined
 
 	protected static async beforeEach() {
 		await super.beforeEach()
@@ -33,16 +34,23 @@ export default abstract class AbstractViewControllerTest extends AbstractSpruceF
 			return this.vcFactory
 		}
 
-		if (!this.vcDir) {
+		const mercury = this.Fixture('mercury')
+		let controllerMap: any
+
+		try {
+			if (!this.vcDir) {
+				throw new Error('Missing vc directory')
+			}
+
+			controllerMap =
+				this.controllerMap ?? viewControllerUtil.buildControllerMap(this.vcDir)
+		} catch {
 			throw new SpruceError({
 				code: 'INVALID_PARAMETERS',
 				parameters: ['vcDir'],
 				friendlyMessage: `${this.name} needs \`protected static vcDir = diskUtil.resolvePath(__dirname,'..','..')\`. Make it point to the directory that contains the \`.spruce\` directory. Running \`spruce sync.views\` may help too!`,
 			})
 		}
-
-		const mercury = this.Fixture('mercury')
-		const controllerMap = viewControllerUtil.buildControllerMap(this.vcDir)
 
 		this.vcFactory = ViewControllerFactory.Factory({
 			controllerMap,
