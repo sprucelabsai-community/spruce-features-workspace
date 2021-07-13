@@ -25,6 +25,7 @@ export default abstract class AbstractViewControllerTest extends AbstractSpruceF
 		await super.beforeEach()
 		Authenticator.reset()
 		Authenticator.setStorage(new MockStorage())
+		process.env.SHOULD_REGISTER_VIEWS = 'false'
 		//@ts-ignore
 		this.vcFactory = null
 	}

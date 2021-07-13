@@ -14,6 +14,8 @@ import { CoreEventContract } from '../tests/events.contract'
 import { ViewHealthCheckItem } from '../types/view.types'
 import viewControllerUtil from '../utilities/viewController.utility'
 
+require('dotenv').config()
+
 export class ViewFeature implements SkillFeature {
 	private skill: Skill
 	private _isBooted = false
@@ -27,50 +29,56 @@ export class ViewFeature implements SkillFeature {
 	public async execute(): Promise<void> {
 		const viewsPath = this.getCombinedViewsPath()
 
-		if (diskUtil.doesFileExist(viewsPath)) {
-			this.log.info('Importing local views.')
-
-			const exporter = ViewControllerExporter.Exporter(this.skill.rootDir)
-			const destination = diskUtil.resolvePath(
-				diskUtil.createRandomTempDir(),
-				'bundle.js'
-			)
-
-			this.log.info('Bundling local views.')
-			await exporter.export({
-				source: viewsPath,
-				destination,
-			})
-
-			const source = diskUtil.readFile(destination)
-
-			const { ids } = viewControllerUtil.loadViewControllers(
-				this.skill.activeDir
-			)
-
-			this.log.info(
-				`Bundled ${ids.length} view controllers. Registering now...`
-			)
-
-			const events = this.skill.getFeatureByCode('event') as EventFeature
-			const client =
-				(await events.connectToApi()) as MercuryClient<CoreEventContract>
-
-			const results = await client.emit(
-				'heartwood.register-skill-views::v2021_02_11',
-				{
-					payload: {
-						source,
-						ids,
-					},
-				}
-			)
-
-			this.log.info('Done registering view controllers.')
+		if (
+			diskUtil.doesFileExist(viewsPath) &&
+			process.env.SHOULD_REGISTER_VIEWS !== 'false'
+		) {
+			const results = await this.importAndRegisterSkillViews()
 			eventResponseUtil.getFirstResponseOrThrow(results)
 		}
 
 		this._isBooted = true
+	}
+
+	private async importAndRegisterSkillViews() {
+		this.log.info('Importing local views.')
+
+		const viewsPath = this.getCombinedViewsPath()
+		const exporter = ViewControllerExporter.Exporter(this.skill.rootDir)
+		const destination = diskUtil.resolvePath(
+			diskUtil.createRandomTempDir(),
+			'bundle.js'
+		)
+
+		this.log.info('Bundling local views.')
+		await exporter.export({
+			source: viewsPath,
+			destination,
+		})
+
+		const source = diskUtil.readFile(destination)
+
+		const { ids } = viewControllerUtil.loadViewControllers(this.skill.activeDir)
+
+		this.log.info(`Bundled ${ids.length} view controllers. Registering now...`)
+
+		const events = this.skill.getFeatureByCode('event') as EventFeature
+		const client =
+			(await events.connectToApi()) as MercuryClient<CoreEventContract>
+
+		const results = await client.emit(
+			'heartwood.register-skill-views::v2021_02_11',
+			{
+				payload: {
+					source,
+					ids,
+				},
+			}
+		)
+
+		this.log.info('Done registering view controllers.')
+
+		return results
 	}
 
 	private getCombinedViewsPath() {

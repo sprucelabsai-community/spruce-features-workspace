@@ -14,6 +14,8 @@ import BookSkillViewController from '../testDirsAndFiles/skill/build/skillViewCo
 // eslint-disable-next-line spruce/prohibit-import-from-build-folder
 import SpySkillViewController from '../testDirsAndFiles/skill/build/skillViewControllers/Spy.svc'
 
+require('dotenv').config()
+
 declare module '@sprucelabs/heartwood-view-controllers/build/types/heartwood.types' {
 	interface ViewControllerMap {
 		book: BookSkillViewController
@@ -33,6 +35,11 @@ export default class AbstractViewControllerTestTest extends AbstractViewControll
 	@test()
 	protected static hasControllerFactoryMethod() {
 		assert.isFunction(this.Controller)
+	}
+
+	@test()
+	protected static registeringSkillviewsFalseByDefault() {
+		assert.isEqual(process.env.SHOULD_REGISTER_VIEWS, 'false')
 	}
 
 	@test()

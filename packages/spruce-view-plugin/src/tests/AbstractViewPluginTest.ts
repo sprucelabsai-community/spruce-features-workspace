@@ -4,6 +4,10 @@ import { AbstractSpruceFixtureTest } from '@sprucelabs/spruce-test-fixtures'
 import plugin from '../plugins/view.plugin'
 
 export default abstract class AbstractViewPluginTest extends AbstractSpruceFixtureTest {
+	protected static async beforeEach() {
+		await super.beforeEach()
+	}
+
 	protected static Skill(options?: SkillFactoryOptions) {
 		const { plugins = [eventPlugin, plugin] } = options ?? {}
 

@@ -8,6 +8,7 @@ import {
 } from '@sprucelabs/spruce-event-utils'
 import { diskUtil, Skill } from '@sprucelabs/spruce-skill-utils'
 import { assert, test } from '@sprucelabs/test'
+import { ViewFeature } from '../../plugins/view.plugin'
 import AbstractViewPluginTest from '../../tests/AbstractViewPluginTest'
 import coreEventContracts, {
 	CoreEventContract,
@@ -44,10 +45,7 @@ export default class RegistringSkillViewsOnBootTest extends AbstractViewPluginTe
 
 	@test()
 	protected static async registersViewsOnBoot() {
-		const skill = await this.SkillFromTestDir('skill')
-		const source = this.resolveTestPathSrc('skill', 'src')
-		const destination = diskUtil.resolvePath(skill.rootDir, 'src')
-		await diskUtil.copyDir(source, destination)
+		const skill = await this.GoodSkill()
 
 		await this.bootSkill({ skill })
 
@@ -55,6 +53,28 @@ export default class RegistringSkillViewsOnBootTest extends AbstractViewPluginTe
 		const registered = eventResponseUtil.getFirstResponseOrThrow(results)
 
 		assert.isEqualDeep(registered.ids, ['book', 'book-form', 'spy'])
+	}
+
+	@test()
+	protected static async canControlRegisteringViewsWithEnvFlag() {
+		process.env.SHOULD_REGISTER_VIEWS = 'false'
+		const skill = await this.GoodSkill()
+		const viewsPlugin = skill.getFeatureByCode('view') as ViewFeature
+
+		//@ts-ignore
+		viewsPlugin.importAndRegisterSkillViews = () => {
+			throw Error('should not be hit')
+		}
+
+		await this.bootSkill({ skill })
+	}
+
+	private static async GoodSkill() {
+		const skill = await this.SkillFromTestDir('skill')
+		const source = this.resolveTestPathSrc('skill', 'src')
+		const destination = diskUtil.resolvePath(skill.rootDir, 'src')
+		await diskUtil.copyDir(source, destination)
+		return skill
 	}
 
 	private static async getSkillViews(skill: Skill) {
