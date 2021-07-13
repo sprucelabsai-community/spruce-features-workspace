@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.15.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v4.14.7...v4.15.0) (2021-07-13)
+
+
+### Features
+
+* skill view loading and rendering ([2c7cff7](https://github.com/sprucelabsai/spruce-features-workspace/commit/2c7cff7))
+
+
+
+
+
 ## [4.14.7](https://github.com/sprucelabsai/spruce-features-workspace/compare/v4.14.6...v4.14.7) (2021-07-10)
 
 **Note:** Version bump only for package @sprucelabs/spruce-store-plugin
