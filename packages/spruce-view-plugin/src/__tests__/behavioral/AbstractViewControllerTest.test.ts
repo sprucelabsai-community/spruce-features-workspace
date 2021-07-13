@@ -1,13 +1,7 @@
 import {
 	cardSchema,
 	formSchema,
-	renderUtil,
-	ViewController,
 	ViewControllerId,
-	RenderOptions,
-	SkillViewController,
-	Router,
-	Authenticator,
 } from '@sprucelabs/heartwood-view-controllers'
 import { validateSchemaValues, Schema } from '@sprucelabs/schema'
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
@@ -24,11 +18,6 @@ declare module '@sprucelabs/heartwood-view-controllers/build/types/heartwood.typ
 		book: BookSkillViewController
 		spy: SpySkillViewController
 	}
-}
-
-class TestRouter implements Router {
-	public async redirect() {}
-	public async back() {}
 }
 
 export default class AbstractViewControllerTestTest extends AbstractViewControllerTest {
@@ -101,18 +90,6 @@ export default class AbstractViewControllerTestTest extends AbstractViewControll
 	protected static async canLoadSvc() {
 		const spySvc = this.Controller('spy', {})
 		await this.load(spySvc)
-	}
-
-	protected static async load(spySvc: SkillViewController) {
-		await spySvc.load({
-			router: new TestRouter(),
-			authenticator: Authenticator.getInstance(),
-			args: {},
-		})
-	}
-
-	protected static render(vc: ViewController<any>, options?: RenderOptions) {
-		return renderUtil.render(vc, options)
 	}
 
 	private static async copySkillFromTestDirToTmpDir2(

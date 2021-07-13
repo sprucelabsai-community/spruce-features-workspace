@@ -5,11 +5,16 @@ import {
 	AbstractViewController,
 	ControllerOptions,
 	MockStorage,
+	SkillViewController,
+	RenderOptions,
+	ViewController,
+	renderUtil,
 } from '@sprucelabs/heartwood-view-controllers'
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 import { AbstractSpruceFixtureTest } from '@sprucelabs/spruce-test-fixtures'
 import SpruceError from '../errors/SpruceError'
 import viewControllerUtil from '../utilities/viewController.utility'
+import { TestRouter } from './routers/TestRouter'
 
 export default abstract class AbstractViewControllerTest extends AbstractSpruceFixtureTest {
 	protected static vcDir: string = diskUtil.resolvePath(process.cwd(), 'build')
@@ -23,7 +28,7 @@ export default abstract class AbstractViewControllerTest extends AbstractSpruceF
 		this.vcFactory = null
 	}
 
-	private static getFactory() {
+	protected static getFactory() {
 		if (this.vcFactory) {
 			return this.vcFactory
 		}
@@ -69,5 +74,14 @@ export default abstract class AbstractViewControllerTest extends AbstractSpruceF
 		}
 
 		return controller
+	}
+
+	protected static async load(spySvc: SkillViewController) {
+		const router = new TestRouter(this.getFactory())
+		await spySvc.load(router.buildLoadOptions())
+	}
+
+	protected static render(vc: ViewController<any>, options?: RenderOptions) {
+		return renderUtil.render(vc, options)
 	}
 }

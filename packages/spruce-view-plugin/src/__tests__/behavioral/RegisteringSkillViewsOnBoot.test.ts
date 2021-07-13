@@ -52,10 +52,9 @@ export default class RegistringSkillViewsOnBootTest extends AbstractViewPluginTe
 		await this.bootSkill({ skill })
 
 		const results = await this.getSkillViews(skill)
-
 		const registered = eventResponseUtil.getFirstResponseOrThrow(results)
 
-		assert.isEqualDeep(registered.ids, ['book', 'book-form'])
+		assert.isEqualDeep(registered.ids, ['book', 'book-form', 'spy'])
 	}
 
 	private static async getSkillViews(skill: Skill) {
