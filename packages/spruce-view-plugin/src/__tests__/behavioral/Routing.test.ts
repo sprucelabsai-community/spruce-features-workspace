@@ -1,8 +1,5 @@
 /* eslint-disable spruce/prohibit-import-from-build-folder */
-import {
-	SkillViewControllerId,
-	ViewController,
-} from '@sprucelabs/heartwood-view-controllers'
+import { SkillViewControllerId } from '@sprucelabs/heartwood-view-controllers'
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 import { test, assert } from '@sprucelabs/test'
 import { errorAssertUtil } from '@sprucelabs/test-utils'
