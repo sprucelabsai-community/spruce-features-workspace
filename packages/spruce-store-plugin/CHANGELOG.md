@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.16.2](https://github.com/sprucelabsai/spruce-features-workspace/compare/v4.16.1...v4.16.2) (2021-07-14)
+
+**Note:** Version bump only for package @sprucelabs/spruce-store-plugin
+
+
+
+
+
+## [4.16.1](https://github.com/sprucelabsai/spruce-features-workspace/compare/v4.16.0...v4.16.1) (2021-07-14)
+
+**Note:** Version bump only for package @sprucelabs/spruce-store-plugin
+
+
+
+
+
+# [4.16.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v4.15.1...v4.16.0) (2021-07-13)
+
+**Note:** Version bump only for package @sprucelabs/spruce-store-plugin
+
+
+
+
+
 ## [4.15.1](https://github.com/sprucelabsai/spruce-features-workspace/compare/v4.15.0...v4.15.1) (2021-07-13)
 
 **Note:** Version bump only for package @sprucelabs/spruce-store-plugin

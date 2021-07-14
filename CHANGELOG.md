@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.16.2](https://github.com/sprucelabsai/spruce-features-workspace/compare/v4.16.1...v4.16.2) (2021-07-14)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+## [4.16.1](https://github.com/sprucelabsai/spruce-features-workspace/compare/v4.16.0...v4.16.1) (2021-07-14)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+# [4.16.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v4.15.1...v4.16.0) (2021-07-13)
+
+
+### Features
+
+* can eneable/disable skill view registering with process.env.SHOULD_REGISTER_VIEWS as is default false in tests ([5a90522](https://github.com/sprucelabsai/spruce-features-workspace/commit/5a90522))
+
+
+
+
+
 ## [4.15.1](https://github.com/sprucelabsai/spruce-features-workspace/compare/v4.15.0...v4.15.1) (2021-07-13)
 
 **Note:** Version bump only for package spruce-features-workspace
