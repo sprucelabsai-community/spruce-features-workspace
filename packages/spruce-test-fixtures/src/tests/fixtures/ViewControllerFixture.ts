@@ -47,7 +47,7 @@ export default class ViewControllerFixture {
 				friendlyMessage: `Running \`spruce sync.views\` may help here! You'll need make sure there is a views.[ts|js] in ${this.vcDir.replace(
 					'/',
 					''
-				)}`,
+				)}/.spruce/views/views.\n\nOriginal error:\n\n${err.stack}`,
 			})
 		}
 
