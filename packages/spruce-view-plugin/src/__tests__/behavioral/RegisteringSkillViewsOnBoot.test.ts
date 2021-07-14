@@ -45,6 +45,7 @@ export default class RegistringSkillViewsOnBootTest extends AbstractViewPluginTe
 
 	@test()
 	protected static async registersViewsOnBoot() {
+		process.env.SHOULD_REGISTER_VIEWS = 'true'
 		const skill = await this.GoodSkill()
 
 		await this.bootSkill({ skill })
@@ -57,7 +58,6 @@ export default class RegistringSkillViewsOnBootTest extends AbstractViewPluginTe
 
 	@test()
 	protected static async canControlRegisteringViewsWithEnvFlag() {
-		process.env.SHOULD_REGISTER_VIEWS = 'false'
 		const skill = await this.GoodSkill()
 		const viewsPlugin = skill.getFeatureByCode('view') as ViewFeature
 
