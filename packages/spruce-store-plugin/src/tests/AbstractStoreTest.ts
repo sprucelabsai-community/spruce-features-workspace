@@ -1,9 +1,11 @@
 import { StoreName, StoreOptions } from '@sprucelabs/data-stores'
-import { AbstractSkillTest } from '@sprucelabs/spruce-skill-booter'
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
-import { StoreFixture } from '@sprucelabs/spruce-test-fixtures'
+import {
+	AbstractSpruceFixtureTest,
+	StoreFixture,
+} from '@sprucelabs/spruce-test-fixtures'
 
-export default abstract class AbstractStoreTest extends AbstractSkillTest {
+export default abstract class AbstractStoreTest extends AbstractSpruceFixtureTest {
 	protected static storeDir: string = diskUtil.resolvePath(
 		process.cwd(),
 		'build'
