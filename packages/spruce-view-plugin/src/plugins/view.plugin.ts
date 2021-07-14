@@ -10,8 +10,10 @@ import {
 	Skill,
 	SkillFeature,
 } from '@sprucelabs/spruce-skill-utils'
-import { ViewHealthCheckItem } from '../../../spruce-test-fixtures/src/types/view.types'
-import vcFixtureUtil from '../../../spruce-test-fixtures/src/utilities/vcFixture.utility'
+import {
+	vcFixtureUtil,
+	ViewHealthCheckItem,
+} from '@sprucelabs/spruce-test-fixtures'
 import { CoreEventContract } from '../tests/events.contract'
 
 require('dotenv').config()

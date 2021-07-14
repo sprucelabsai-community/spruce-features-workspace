@@ -1,13 +1,11 @@
 import { plugin as eventPlugin } from '@sprucelabs/spruce-event-plugin'
-import {
-	AbstractSkillTest,
-	SkillFactoryOptions,
-} from '@sprucelabs/spruce-skill-booter'
+import { SkillFactoryOptions } from '@sprucelabs/spruce-skill-booter'
+import { AbstractSpruceFixtureTest } from '@sprucelabs/spruce-test-fixtures'
 import plugin from '../plugins/conversation.plugin'
 import { Message } from '../types/conversation.types'
 import messageTestUtility from './messageTest.utility'
 
-export default abstract class AbstractConversationTest extends AbstractSkillTest {
+export default abstract class AbstractConversationTest extends AbstractSpruceFixtureTest {
 	protected static async beforeEach() {
 		await super.beforeEach()
 		this.resetEnv()

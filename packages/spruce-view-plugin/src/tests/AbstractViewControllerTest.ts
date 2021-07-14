@@ -14,7 +14,10 @@ export default abstract class AbstractViewControllerTest extends AbstractSpruceF
 
 	private static getViewControllerFixture() {
 		return this.Fixture('vc', {
-			controllerMap: this.controllerMap,
+			controllerMap:
+				Object.keys(this.controllerMap ?? {}).length > 0
+					? this.controllerMap
+					: undefined,
 			vcDir: this.vcDir,
 		})
 	}

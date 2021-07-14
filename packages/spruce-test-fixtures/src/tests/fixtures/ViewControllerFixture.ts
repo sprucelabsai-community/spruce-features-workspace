@@ -8,23 +8,24 @@ import {
 } from '@sprucelabs/heartwood-view-controllers'
 import { SpruceError } from '@sprucelabs/schema'
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
-import vcFixtureUtil from '../../utilities/vcFixture.utility'
 import { TestRouter } from '../routers/TestRouter'
+import vcFixtureUtil from '../utilities/vcFixture.utility'
 import MercuryFixture from './MercuryFixture'
 
 export default class ViewControllerFixture {
 	protected vcDir: string
 	private vcFactory?: ViewControllerFactory
-	private controllerMap: Record<string, any>
+	private controllerMap?: Record<string, any>
 	private mercuryFixture: MercuryFixture
 
-	public constructor(
-		mercuryFixture: MercuryFixture,
-		options?: { vcDir?: string; controllerMap?: Record<string, any> }
-	) {
-		this.mercuryFixture = mercuryFixture
+	public constructor(options: {
+		mercuryFixture: MercuryFixture
+		vcDir?: string
+		controllerMap?: Record<string, any>
+	}) {
+		this.mercuryFixture = options.mercuryFixture
 		this.vcDir = options?.vcDir ?? diskUtil.resolvePath(process.cwd(), 'build')
-		this.controllerMap = options?.controllerMap ?? {}
+		this.controllerMap = options?.controllerMap
 	}
 
 	public getFactory() {
@@ -43,7 +44,10 @@ export default class ViewControllerFixture {
 				code: 'INVALID_PARAMETERS',
 				parameters: ['vcDir'],
 				originalError: err,
-				friendlyMessage: `Running \`spruce sync.views\` may help here!`,
+				friendlyMessage: `Running \`spruce sync.views\` may help here! You'll need make sure there is a views.[ts|js] in ${this.vcDir.replace(
+					'/',
+					''
+				)}`,
 			})
 		}
 

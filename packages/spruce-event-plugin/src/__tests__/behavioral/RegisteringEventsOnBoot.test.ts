@@ -2,8 +2,8 @@ import {
 	eventContractUtil,
 	eventResponseUtil,
 } from '@sprucelabs/spruce-event-utils'
+import { MercuryFixture } from '@sprucelabs/spruce-test-fixtures'
 import { assert, test } from '@sprucelabs/test'
-import { MercuryFixture } from '../../../../spruce-test-fixtures/build'
 import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
 export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest {
 	protected static async beforeEach() {

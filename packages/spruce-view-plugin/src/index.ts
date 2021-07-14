@@ -1,5 +1,2 @@
 export { default as plugin } from './plugins/view.plugin'
-export * from '../../spruce-test-fixtures/src/types/view.types'
-export { default as vcFixtureUtil } from '../../spruce-test-fixtures/src/utilities/vcFixture.utility'
 export { default as AbstractViewControllerTest } from './tests/AbstractViewControllerTest'
-export { default as ViewControllerFixture } from './tests/fixtures/ViewControllerFixture'

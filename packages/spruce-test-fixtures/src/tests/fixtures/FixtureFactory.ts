@@ -1,6 +1,10 @@
 import { DatabaseFixture } from '@sprucelabs/data-stores'
 import SpruceError from '../../errors/SpruceError'
-import { FixtureMap, FixtureName } from '../../types/fixture.types'
+import {
+	FixtureConstructorOptionsMap,
+	FixtureMap,
+	FixtureName,
+} from '../../types/fixture.types'
 import MercuryFixture from './MercuryFixture'
 import OrganizationFixture from './OrganizationFixture'
 import PersonFixture from './PersonFixture'
@@ -23,7 +27,10 @@ export default class FixtureFactory {
 		}
 	}
 
-	public Fixture<Name extends FixtureName>(named: Name): FixtureMap[Name] {
+	public Fixture<Name extends FixtureName>(
+		named: Name,
+		options?: Partial<FixtureConstructorOptionsMap[Name]>
+	): FixtureMap[Name] {
 		const mercuryFixture = new MercuryFixture(this.cwd)
 		let fixture: FixtureMap[Name] | undefined
 
@@ -64,7 +71,10 @@ export default class FixtureFactory {
 				break
 			}
 			case 'vc': {
-				fixture = new ViewControllerFixture(mercuryFixture) as any
+				fixture = new ViewControllerFixture({
+					mercuryFixture,
+					...options,
+				}) as any
 				break
 			}
 		}

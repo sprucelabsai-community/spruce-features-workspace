@@ -1,13 +1,13 @@
 import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
-import {
-	AbstractSkillTest,
-	SkillFactoryOptions,
-} from '@sprucelabs/spruce-skill-booter'
+import { SkillFactoryOptions } from '@sprucelabs/spruce-skill-booter'
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
-import { MercuryFixture } from '@sprucelabs/spruce-test-fixtures'
+import {
+	MercuryFixture,
+	AbstractSpruceFixtureTest,
+} from '@sprucelabs/spruce-test-fixtures'
 import plugin, { EventFeaturePlugin } from './../plugins/event.plugin'
 
-export default class AbstractEventPluginTest extends AbstractSkillTest {
+export default class AbstractEventPluginTest extends AbstractSpruceFixtureTest {
 	protected static async beforeEach() {
 		await super.beforeEach()
 

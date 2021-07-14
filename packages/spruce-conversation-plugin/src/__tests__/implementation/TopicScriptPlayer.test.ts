@@ -1,6 +1,6 @@
-import { AbstractSpruceFixtureTest } from '@sprucelabs/spruce-test-fixtures'
 import { test, assert } from '@sprucelabs/test'
 import { errorAssertUtil } from '@sprucelabs/test-utils'
+import AbstractConversationTest from '../../tests/AbstractConversationTest'
 import { TopicScriptPlayer } from '../../topics/TopicScriptPlayer'
 import {
 	Script,
@@ -8,7 +8,7 @@ import {
 	SendMessage,
 } from '../../types/conversation.types'
 
-export default class TopicScriptPlayerTest extends AbstractSpruceFixtureTest {
+export default class TopicScriptPlayerTest extends AbstractConversationTest {
 	@test()
 	protected static async throwsWhenRequiredOptionsNotSent() {
 		//@ts-ignore

@@ -8,12 +8,11 @@ import { ApiClientFactory } from '../../types/fixture.types'
 dotenv.config()
 
 type Person = SpruceSchemas.Spruce.v2020_07_22.Person
+type Factory = ApiClientFactory
+type ClientPromise = ReturnType<Factory>
+type Client = ClientPromise extends PromiseLike<infer C> ? C : ClientPromise
 
-export default class PersonFixture<
-	Factory extends ApiClientFactory = ApiClientFactory,
-	ClientPromise extends ReturnType<Factory> = ReturnType<Factory>,
-	Client = ClientPromise extends PromiseLike<infer C> ? C : ClientPromise
-> {
+export default class PersonFixture {
 	private apiClientFactory: Factory
 
 	public constructor(apiClientFactory: Factory) {

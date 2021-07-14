@@ -6,8 +6,8 @@ import {
 	ViewControllerMap,
 } from '@sprucelabs/heartwood-view-controllers'
 import { diskUtil, HASH_SPRUCE_DIR_NAME } from '@sprucelabs/spruce-skill-utils'
-import SpruceError from '../errors/SpruceError'
-import { HealthCheckView } from '../types/view.types'
+import SpruceError from '../../errors/SpruceError'
+import { HealthCheckView } from '../../types/view.types'
 
 const vcFixtureUtil = {
 	loadViewControllers(vcDir: string) {

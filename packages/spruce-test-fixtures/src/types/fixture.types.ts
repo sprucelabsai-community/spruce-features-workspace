@@ -9,14 +9,22 @@ import ViewControllerFixture from '../tests/fixtures/ViewControllerFixture'
 
 export type ApiClientFactory = () => Promise<MercuryClient>
 
-export interface FixtureMap {
-	person: PersonFixture
-	organization: OrganizationFixture
-	skill: SkillFixture
-	mercury: MercuryFixture
-	store: StoreFixture
-	database: DatabaseFixture
-	vc: ViewControllerFixture
+export interface FixtureClassMap {
+	person: typeof PersonFixture
+	organization: typeof OrganizationFixture
+	skill: typeof SkillFixture
+	mercury: typeof MercuryFixture
+	store: typeof StoreFixture
+	database: typeof DatabaseFixture
+	vc: typeof ViewControllerFixture
+}
+
+export type FixtureMap = {
+	[K in keyof FixtureClassMap]: InstanceType<FixtureClassMap[K]>
+}
+
+export type FixtureConstructorOptionsMap = {
+	[K in keyof FixtureClassMap]: ConstructorParameters<FixtureClassMap[K]>[0]
 }
 
 export type FixtureName = keyof FixtureMap

@@ -26,10 +26,8 @@
 	},
 	"include": [
 		"./*.ts",
-		"./**/*.ts",
-		"../spruce-test-fixtures/src/errors/invalidViewController.builder.ts",
-		"../spruce-test-fixtures/src/__tests__/behavioral/Routing.test.ts"
-, "../spruce-test-fixtures/src/errors/unknownViewControllerError.builder.ts"	],
+		"./**/*.ts"
+	],
 	"exclude": [
 		"build"
 	]

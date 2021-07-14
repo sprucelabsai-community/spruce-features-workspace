@@ -5,10 +5,10 @@ import { ApiClientFactory } from '../../types/fixture.types'
 import PersonFixture from './PersonFixture'
 
 type Skill = SpruceSchemas.Spruce.v2020_07_22.Skill
-export default class SkillFixture<
-	Factory extends ApiClientFactory = ApiClientFactory,
-	Client extends MercuryClient = MercuryClient
-> {
+type Factory = ApiClientFactory
+type Client = MercuryClient
+
+export default class SkillFixture {
 	private personFixture: PersonFixture
 	private apiClientFactory: Factory
 	private skills: { client: MercuryClient; skill: Skill }[] = []

@@ -2,7 +2,10 @@ import {
 	AbstractSkillTest,
 	SkillFactoryOptions,
 } from '@sprucelabs/spruce-skill-booter'
-import { FixtureName } from '../types/fixture.types'
+import {
+	FixtureConstructorOptionsMap,
+	FixtureName,
+} from '../types/fixture.types'
 import FixtureFactory from './fixtures/FixtureFactory'
 
 export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTest {
@@ -21,8 +24,11 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		await FixtureFactory.destroy()
 	}
 
-	protected static Fixture<Name extends FixtureName>(name: Name) {
-		return new FixtureFactory({ cwd: this.cwd }).Fixture(name)
+	protected static Fixture<Name extends FixtureName>(
+		name: Name,
+		options?: Partial<FixtureConstructorOptionsMap[Name]>
+	) {
+		return new FixtureFactory({ cwd: this.cwd }).Fixture(name, options)
 	}
 
 	protected static async bootAndRegisterNewSkill(
