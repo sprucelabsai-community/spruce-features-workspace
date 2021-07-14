@@ -110,6 +110,9 @@ export default class AbstractViewControllerTestTest extends AbstractViewControll
 		}
 
 		//@ts-ignore
+		this.fixture = undefined
+
+		//@ts-ignore
 		const vc = this.Controller('cheesey', {})
 
 		assert.doesThrow(() => this.Controller('spy', {}))

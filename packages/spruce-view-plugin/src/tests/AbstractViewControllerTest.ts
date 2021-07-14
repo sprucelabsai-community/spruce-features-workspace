@@ -14,7 +14,12 @@ import {
 export default abstract class AbstractViewControllerTest extends AbstractSpruceFixtureTest {
 	protected static vcDir?: string
 	protected static controllerMap: Record<string, any> | undefined
-	private static fixture: ViewControllerFixture
+	private static fixture?: ViewControllerFixture
+
+	protected static async beforeEach() {
+		await super.beforeEach()
+		this.fixture = undefined
+	}
 
 	private static getViewControllerFixture() {
 		if (!this.fixture) {
