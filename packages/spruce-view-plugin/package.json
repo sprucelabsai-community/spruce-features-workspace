@@ -65,6 +65,7 @@
 		"@sprucelabs/schema": "latest",
 		"@sprucelabs/spruce-event-utils": "latest",
 		"@sprucelabs/spruce-skill-utils": "latest",
+		"@sprucelabs/spruce-test-fixtures": "^4.17.0",
 		"globby": "^11.0.4"
 	},
 	"devDependencies": {
@@ -77,7 +78,6 @@
 		"@sprucelabs/semantic-release": "latest",
 		"@sprucelabs/spruce-event-plugin": "^4.17.0",
 		"@sprucelabs/spruce-skill-booter": "^4.17.0",
-		"@sprucelabs/spruce-test-fixtures": "^4.17.0",
 		"@sprucelabs/test": "latest",
 		"@sprucelabs/test-utils": "latest",
 		"@types/inquirer": "^7.3.3",

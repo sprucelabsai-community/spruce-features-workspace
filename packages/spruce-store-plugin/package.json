@@ -56,7 +56,8 @@
 		"@sprucelabs/schema": "latest",
 		"@sprucelabs/spruce-skill-utils": "latest",
 		"globby": "^11.0.4",
-		"heroku-client": "^3.1.0"
+		"heroku-client": "^3.1.0",
+		"@sprucelabs/spruce-test-fixtures": "^4.17.0"
 	},
 	"devDependencies": {
 		"@sprucelabs/esm-postbuild": "latest",
@@ -66,7 +67,6 @@
 		"@sprucelabs/resolve-path-aliases": "latest",
 		"@sprucelabs/semantic-release": "latest",
 		"@sprucelabs/spruce-skill-booter": "^4.17.0",
-		"@sprucelabs/spruce-test-fixtures": "^4.17.0",
 		"@sprucelabs/test": "latest",
 		"@sprucelabs/test-utils": "latest",
 		"@types/inquirer": "^7.3.3",
