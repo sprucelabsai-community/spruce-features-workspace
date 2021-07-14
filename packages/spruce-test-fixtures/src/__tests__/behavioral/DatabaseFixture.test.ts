@@ -1,6 +1,6 @@
 import { DatabaseFixture } from '@sprucelabs/data-stores'
 import AbstractSpruceTest, { assert, test } from '@sprucelabs/test'
-import FixtureFactory from '../../tests/fixtures/FixtureFactory'
+import FixtureFactory from '../../../../spruce-test-fixtures/src/tests/fixtures/FixtureFactory'
 
 export default class StoreFixtureTest extends AbstractSpruceTest {
 	private static fixture: DatabaseFixture

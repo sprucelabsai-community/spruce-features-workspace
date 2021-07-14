@@ -1,8 +1,10 @@
-import { SkillFactoryOptions } from '@sprucelabs/spruce-skill-booter'
-import { AbstractSpruceFixtureTest } from '@sprucelabs/spruce-test-fixtures'
+import {
+	SkillFactoryOptions,
+	AbstractSkillTest,
+} from '@sprucelabs/spruce-skill-booter'
 import plugin from '../plugins/deploy.plugin'
 
-export default abstract class AbstractDeployTest extends AbstractSpruceFixtureTest {
+export default abstract class AbstractDeployTest extends AbstractSkillTest {
 	protected static async afterAll() {
 		delete process.env.HEROKU_APP_NAME
 		delete process.env.HEROKU_API_TOKEN

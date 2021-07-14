@@ -10,9 +10,9 @@ import {
 	Skill,
 	SkillFeature,
 } from '@sprucelabs/spruce-skill-utils'
+import { ViewHealthCheckItem } from '../../../spruce-test-fixtures/src/types/view.types'
+import vcFixtureUtil from '../../../spruce-test-fixtures/src/utilities/vcFixture.utility'
 import { CoreEventContract } from '../tests/events.contract'
-import { ViewHealthCheckItem } from '../types/view.types'
-import viewControllerUtil from '../utilities/viewController.utility'
 
 require('dotenv').config()
 
@@ -58,7 +58,7 @@ export class ViewFeature implements SkillFeature {
 
 		const source = diskUtil.readFile(destination)
 
-		const { ids } = viewControllerUtil.loadViewControllers(this.skill.activeDir)
+		const { ids } = vcFixtureUtil.loadViewControllers(this.skill.activeDir)
 
 		this.log.info(`Bundled ${ids.length} view controllers. Registering now...`)
 
@@ -94,9 +94,7 @@ export class ViewFeature implements SkillFeature {
 		let vcs: any[] = []
 
 		try {
-			const loaded = viewControllerUtil.loadViewControllers(
-				this.skill.activeDir
-			)
+			const loaded = vcFixtureUtil.loadViewControllers(this.skill.activeDir)
 			svcs = loaded.svcs
 			vcs = loaded.vcs
 			// eslint-disable-next-line no-empty

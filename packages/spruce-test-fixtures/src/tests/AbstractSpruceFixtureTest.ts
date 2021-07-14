@@ -1,27 +1,19 @@
-import { DatabaseFixture } from '@sprucelabs/data-stores'
-import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
 import {
 	AbstractSkillTest,
 	SkillFactoryOptions,
 } from '@sprucelabs/spruce-skill-booter'
 import { FixtureName } from '../types/fixture.types'
 import FixtureFactory from './fixtures/FixtureFactory'
-import MercuryFixture from './fixtures/MercuryFixture'
-import messageTestUtility from './messageTest.utility'
-
-export type Message = SpruceSchemas.Spruce.v2020_07_22.Message
 
 export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTest {
 	protected static async beforeAll() {
 		await super.beforeAll()
-
-		MercuryFixture.beforeAll()
-		DatabaseFixture.beforeAll()
+		await FixtureFactory.beforeAll()
 	}
 
 	protected static async beforeEach() {
 		await super.beforeEach()
-		MercuryFixture.beforeEach()
+		await FixtureFactory.beforeEach()
 	}
 
 	protected static async afterEach() {
@@ -49,12 +41,6 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		const bootedSkill = await this.bootSkill(skillOptions)
 
 		return { skill: bootedSkill, client }
-	}
-
-	protected static buildMessage<T extends Partial<Message>>(
-		values: T
-	): Message & T {
-		return messageTestUtility.buildMessage(values)
 	}
 
 	protected static async bootAndRegisterSkillFromTestDir(key: string) {

@@ -3,7 +3,7 @@ import { SkillViewControllerId } from '@sprucelabs/heartwood-view-controllers'
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 import { test, assert } from '@sprucelabs/test'
 import { errorAssertUtil } from '@sprucelabs/test-utils'
-import AbstractViewControllerTest from '../../tests/AbstractViewControllerTest'
+import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
 import { TestRouter } from '../../tests/routers/TestRouter'
 import BookSkillViewController from '../testDirsAndFiles/skill/build/skillViewControllers/Book.svc'
 import SpySkillViewController from '../testDirsAndFiles/skill/build/skillViewControllers/Spy.svc'
@@ -20,7 +20,7 @@ declare module '@sprucelabs/heartwood-view-controllers/build/types/heartwood.typ
 	}
 }
 
-export default class RoutingTest extends AbstractViewControllerTest {
+export default class RoutingTest extends AbstractSpruceFixtureTest {
 	private static router: TestRouter
 	protected static vcDir = diskUtil.resolvePath(
 		__dirname,
@@ -32,7 +32,7 @@ export default class RoutingTest extends AbstractViewControllerTest {
 
 	@test()
 	protected static async canCreateRouter() {
-		this.router = new TestRouter(this.getFactory())
+		this.router = new TestRouter(this.Fixture('vc').getFactory())
 		assert.isTruthy(this.router)
 	}
 

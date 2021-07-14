@@ -1,45 +1,36 @@
-import { StoreLoader, StoreName, StoreOptions } from '@sprucelabs/data-stores'
+import { StoreName, StoreOptions } from '@sprucelabs/data-stores'
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
-import { AbstractSpruceFixtureTest } from '@sprucelabs/spruce-test-fixtures'
+import { StoreFixture } from '@sprucelabs/spruce-test-fixtures'
+import { AbstractSkillTest } from '../../../spruce-skill-booter/build'
 
-export default abstract class AbstractStoreTest extends AbstractSpruceFixtureTest {
+export default abstract class AbstractStoreTest extends AbstractSkillTest {
 	protected static storeDir: string = diskUtil.resolvePath(
 		process.cwd(),
 		'build'
 	)
+	private static storeFixture: StoreFixture
 
 	protected static async beforeAll() {
 		await super.beforeAll()
-
-		const db = await this.Fixture('database').connectToDatabase()
-
-		if (!this.storeDir) {
-			throw new Error(
-				`AbstractStoreTest needs \`protected static storeDir = diskUtil.resolvePath(__dirname,'..','..')\`. Make it point to the directory that contains the \`stores\` directory.`
-			)
-		}
-
-		StoreLoader.setStoreDir(this.storeDir)
-		StoreLoader.setDatabase(db)
+		await StoreFixture.beforeAll()
 	}
 
 	protected static async beforeEach() {
-		await super.beforeEach()
-
-		const db = await this.Fixture('database').connectToDatabase()
-		await db.dropDatabase()
+		await StoreFixture.beforeEach()
 	}
 
 	protected static async connectToDatabase() {
-		const dbFixture = this.Fixture('database')
-		const db = await dbFixture.connectToDatabase()
-		return db
+		return StoreFixture.DatabaseFixture().connectToDatabase()
 	}
 
 	protected static async Store<N extends StoreName, O extends StoreOptions<N>>(
 		name: N,
 		options?: O
 	) {
-		return this.Fixture('store').Store(name, options)
+		if (!this.storeFixture) {
+			this.storeFixture = new StoreFixture()
+		}
+
+		return this.storeFixture.Store(name, options)
 	}
 }

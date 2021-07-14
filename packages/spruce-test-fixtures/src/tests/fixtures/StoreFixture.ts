@@ -1,10 +1,12 @@
 import {
+	DatabaseFixture,
 	StoreFactory,
 	StoreLoader,
 	StoreMap,
 	StoreName,
 	StoreOptions,
 } from '@sprucelabs/data-stores'
+import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 
 export default class StoreFixture {
 	private storeFactory?: Promise<StoreFactory>
@@ -32,5 +34,25 @@ export default class StoreFixture {
 
 		const factory = await this.storeFactory
 		return factory as StoreFactory
+	}
+
+	public static async beforeAll() {
+		const db = await new DatabaseFixture().connectToDatabase()
+		const cwd = diskUtil.resolvePath(process.cwd(), 'build')
+
+		StoreLoader.setStoreDir(cwd)
+		StoreLoader.setDatabase(db)
+	}
+
+	public static async beforeEach() {
+		process.env.DB_NAME = 'memory'
+		process.env.DB_CONNECTION_STRING = 'memory://'
+
+		const db = await this.DatabaseFixture().connectToDatabase()
+		await db.dropDatabase()
+	}
+
+	public static DatabaseFixture() {
+		return new DatabaseFixture()
 	}
 }

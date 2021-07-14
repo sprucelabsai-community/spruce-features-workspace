@@ -1,10 +1,11 @@
 import { coreEventContracts } from '@sprucelabs/mercury-types'
 import { diskUtil, HASH_SPRUCE_BUILD_DIR } from '@sprucelabs/spruce-skill-utils'
-import AbstractSpruceTest, { test, assert } from '@sprucelabs/test'
+import { test, assert } from '@sprucelabs/test'
+import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
 import FixtureFactory from '../../tests/fixtures/FixtureFactory'
 import MercuryFixture from '../../tests/fixtures/MercuryFixture'
 
-export default class MercuryFixtureTest extends AbstractSpruceTest {
+export default class MercuryFixtureTest extends AbstractSpruceFixtureTest {
 	private static fixture: MercuryFixture
 
 	protected static async beforeAll() {
@@ -14,8 +15,7 @@ export default class MercuryFixtureTest extends AbstractSpruceTest {
 
 	protected static async beforeEach() {
 		await super.beforeEach()
-		MercuryFixture.beforeEach()
-		this.fixture = new FixtureFactory({ cwd: this.cwd }).Fixture('mercury')
+		this.fixture = this.Fixture('mercury')
 	}
 
 	@test()

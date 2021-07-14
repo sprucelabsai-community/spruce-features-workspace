@@ -1,6 +1,6 @@
 import { MercuryClient } from '@sprucelabs/mercury-client'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
-import SpruceError from '../../errors/SpruceError'
+import SpruceError from '../../../../spruce-test-fixtures/src/errors/SpruceError'
 import PersonFixture from './PersonFixture'
 
 export default class OrganizationFixture {

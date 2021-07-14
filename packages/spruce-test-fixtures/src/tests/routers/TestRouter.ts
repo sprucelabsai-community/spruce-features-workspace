@@ -35,7 +35,7 @@ export class TestRouter implements Router {
 		//@ts-ignore
 		this.presentVc = this.vcFactory.Controller(id, {})
 
-		await this.presentVc.load(this.buildLoadOptions(args))
+		await this.presentVc?.load(this.buildLoadOptions(args))
 
 		return this.presentVc as any
 	}

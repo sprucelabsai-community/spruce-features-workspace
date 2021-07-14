@@ -3,9 +3,9 @@ import { SpruceErrors } from '../errors.types'
 
 
 
-const unknownViewControllerErrorSchema: SpruceErrors.View.UnknownViewControllerErrorSchema  = {
+const unknownViewControllerErrorSchema: SpruceErrors.SpruceTestFixtures.UnknownViewControllerErrorSchema  = {
 	id: 'unknownViewControllerError',
-	namespace: 'View',
+	namespace: 'SpruceTestFixtures',
 	name: 'Unkown view controller error',
 	    fields: {
 	            /** . */

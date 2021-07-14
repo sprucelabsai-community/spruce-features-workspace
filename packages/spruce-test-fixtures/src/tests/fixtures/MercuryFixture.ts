@@ -98,6 +98,8 @@ export default class MercuryFixture {
 	}
 
 	public static beforeEach() {
+		MercuryFixture.shouldAutoImportContracts = true
+
 		if (this.originalHost) {
 			process.env.HOST = this.originalHost
 		} else {

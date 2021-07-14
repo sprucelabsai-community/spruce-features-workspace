@@ -1,14 +1,13 @@
 import { eventErrorAssertUtil } from '@sprucelabs/spruce-event-utils'
 import { test, assert } from '@sprucelabs/test'
 import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
-import FixtureFactory from '../../tests/fixtures/FixtureFactory'
 import SkillFixture from '../../tests/fixtures/SkillFixture'
 
 export default class SkillFixtureTest extends AbstractSpruceFixtureTest {
 	private static fixture: SkillFixture
 
 	protected static async beforeEach() {
-		this.fixture = new FixtureFactory({ cwd: this.cwd }).Fixture('skill')
+		this.fixture = this.Fixture('skill')
 	}
 
 	@test()

@@ -3,9 +3,9 @@ import { SpruceErrors } from '../errors.types'
 
 
 
-const invalidViewControllerSchema: SpruceErrors.View.InvalidViewControllerSchema  = {
+const invalidViewControllerSchema: SpruceErrors.SpruceTestFixtures.InvalidViewControllerSchema  = {
 	id: 'invalidViewController',
-	namespace: 'View',
+	namespace: 'SpruceTestFixtures',
 	name: 'Invalid view controller',
 	    fields: {
 	            /** . */

@@ -11,6 +11,41 @@ import * as SpruceSchema from '@sprucelabs/schema'
 export declare namespace SpruceErrors.SpruceTestFixtures {
 
 	
+	export interface UnknownViewControllerError {
+		
+			
+			'id'?: string| undefined | null
+			
+			'name'?: string| undefined | null
+	}
+
+	export interface UnknownViewControllerErrorSchema extends SpruceSchema.Schema {
+		id: 'unknownViewControllerError',
+		namespace: 'SpruceTestFixtures',
+		name: 'Unkown view controller error',
+		    fields: {
+		            /** . */
+		            'id': {
+		                type: 'text',
+		                options: undefined
+		            },
+		            /** . */
+		            'name': {
+		                type: 'text',
+		                options: undefined
+		            },
+		    }
+	}
+
+	export type UnknownViewControllerErrorEntity = SchemaEntity<SpruceErrors.SpruceTestFixtures.UnknownViewControllerErrorSchema>
+
+}
+
+
+
+export declare namespace SpruceErrors.SpruceTestFixtures {
+
+	
 	export interface SkillNotFound {
 		
 			
@@ -32,6 +67,41 @@ export declare namespace SpruceErrors.SpruceTestFixtures {
 	}
 
 	export type SkillNotFoundEntity = SchemaEntity<SpruceErrors.SpruceTestFixtures.SkillNotFoundSchema>
+
+}
+
+
+
+export declare namespace SpruceErrors.SpruceTestFixtures {
+
+	
+	export interface InvalidViewController {
+		
+			
+			'name'?: string| undefined | null
+			
+			'id'?: string| undefined | null
+	}
+
+	export interface InvalidViewControllerSchema extends SpruceSchema.Schema {
+		id: 'invalidViewController',
+		namespace: 'SpruceTestFixtures',
+		name: 'Invalid view controller',
+		    fields: {
+		            /** . */
+		            'name': {
+		                type: 'text',
+		                options: undefined
+		            },
+		            /** . */
+		            'id': {
+		                type: 'text',
+		                options: undefined
+		            },
+		    }
+	}
+
+	export type InvalidViewControllerEntity = SchemaEntity<SpruceErrors.SpruceTestFixtures.InvalidViewControllerSchema>
 
 }
 

@@ -6,6 +6,7 @@ import OrganizationFixture from './OrganizationFixture'
 import PersonFixture from './PersonFixture'
 import SkillFixture from './SkillFixture'
 import StoreFixture from './StoreFixture'
+import ViewControllerFixture from './ViewControllerFixture'
 
 export default class FixtureFactory {
 	private static fixtures: any[] = []
@@ -62,6 +63,10 @@ export default class FixtureFactory {
 				fixture = new StoreFixture() as any
 				break
 			}
+			case 'vc': {
+				fixture = new ViewControllerFixture(mercuryFixture) as any
+				break
+			}
 		}
 
 		if (fixture) {
@@ -85,5 +90,17 @@ export default class FixtureFactory {
 		}
 
 		this.fixtures = []
+	}
+
+	public static async beforeAll() {
+		await MercuryFixture.beforeAll()
+		await DatabaseFixture.beforeAll()
+		await StoreFixture.beforeAll()
+	}
+
+	public static async beforeEach() {
+		await ViewControllerFixture.beforeEach()
+		await MercuryFixture.beforeEach()
+		await StoreFixture.beforeEach()
 	}
 }

@@ -5,6 +5,7 @@ import OrganizationFixture from '../tests/fixtures/OrganizationFixture'
 import PersonFixture from '../tests/fixtures/PersonFixture'
 import SkillFixture from '../tests/fixtures/SkillFixture'
 import StoreFixture from '../tests/fixtures/StoreFixture'
+import ViewControllerFixture from '../tests/fixtures/ViewControllerFixture'
 
 export type ApiClientFactory = () => Promise<MercuryClient>
 
@@ -15,6 +16,7 @@ export interface FixtureMap {
 	mercury: MercuryFixture
 	store: StoreFixture
 	database: DatabaseFixture
+	vc: ViewControllerFixture
 }
 
 export type FixtureName = keyof FixtureMap

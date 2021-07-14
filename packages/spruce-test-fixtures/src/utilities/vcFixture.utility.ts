@@ -9,7 +9,7 @@ import { diskUtil, HASH_SPRUCE_DIR_NAME } from '@sprucelabs/spruce-skill-utils'
 import SpruceError from '../errors/SpruceError'
 import { HealthCheckView } from '../types/view.types'
 
-const viewControllerUtil = {
+const vcFixtureUtil = {
 	loadViewControllers(vcDir: string) {
 		const path = require.resolve(
 			diskUtil.resolvePath(vcDir, HASH_SPRUCE_DIR_NAME, 'views', 'views')
@@ -97,4 +97,4 @@ const viewControllerUtil = {
 	},
 }
 
-export default viewControllerUtil
+export default vcFixtureUtil

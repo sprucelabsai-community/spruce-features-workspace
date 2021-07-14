@@ -5,7 +5,6 @@ import MercuryFixture from '../../tests/fixtures/MercuryFixture'
 import OrganizationFixture from '../../tests/fixtures/OrganizationFixture'
 import PersonFixture from '../../tests/fixtures/PersonFixture'
 import SkillFixture from '../../tests/fixtures/SkillFixture'
-
 export default class FixtureFactoryTest extends AbstractSpruceTest {
 	@test()
 	protected static throwsWithBadFixture() {
