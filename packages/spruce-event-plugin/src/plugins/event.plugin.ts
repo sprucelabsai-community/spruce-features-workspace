@@ -410,17 +410,20 @@ export class EventFeaturePlugin implements SkillFeature {
 		const currentSkill = await this.getCurrentSkill()
 
 		if (client && currentSkill) {
-			if (this.haveListenersChaged) {
+			if (
+				!this.haveListenersChaged &&
+				process.env.SHOULD_CACHE_LISTENER_REGISTRATIONS === 'true'
+			) {
+				this.log.info(
+					'Skipping re-registering of listeners because they have not changed.'
+				)
+			} else {
 				await client.emit('unregister-listeners::v2020_12_25', {
 					payload: {
 						shouldUnregisterAll: true,
 					},
 				})
 				this.log.info('Unregistered all existing registered listeners')
-			} else {
-				this.log.info(
-					'Skipping re-registering of listeners because they have not changed.'
-				)
 			}
 
 			await this.attachListeners(client)

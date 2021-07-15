@@ -204,7 +204,7 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 	@test()
 	protected static async wontReRegisterListenersIfListenersHaveNotChanged() {
 		let unRegisterListenerCount = 0
-		const autoRegisterCalls: boolean[] = []
+		const setShouldAutoRegistrationInvocations: boolean[] = []
 		const autoRegisterForOn: boolean[] = []
 
 		const { bootedSkill, events } = await this.registerSkillAndSetupListeners({
@@ -216,7 +216,7 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 				assert.isTrue(client.shouldAutoRegisterListeners)
 			},
 			onSetShouldAutoRegisterListeners: (should) => {
-				autoRegisterCalls.push(should)
+				setShouldAutoRegistrationInvocations.push(should)
 			},
 			onAttachListener: (client) => {
 				//@ts-ignore
@@ -227,19 +227,19 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 		await this.bootKillAndResetSkill(bootedSkill, events)
 
 		assert.isLength(
-			autoRegisterCalls,
+			setShouldAutoRegistrationInvocations,
 			2,
 			'setShouldAutoRegisterListeners not called enough.'
 		)
-		assert.isTrue(autoRegisterCalls[0])
-		assert.isTrue(autoRegisterCalls[1])
+		assert.isTrue(setShouldAutoRegistrationInvocations[0])
+		assert.isTrue(setShouldAutoRegistrationInvocations[1])
 		assert.isTrue(autoRegisterForOn[0])
 
 		await this.bootKillAndResetSkill(bootedSkill, events)
 
-		assert.isLength(autoRegisterCalls, 4)
-		assert.isFalse(autoRegisterCalls[2])
-		assert.isTrue(autoRegisterCalls[3])
+		assert.isLength(setShouldAutoRegistrationInvocations, 4)
+		assert.isFalse(setShouldAutoRegistrationInvocations[2])
+		assert.isTrue(setShouldAutoRegistrationInvocations[3])
 		assert.isFalse(autoRegisterForOn[1])
 
 		const listenerDest = eventDiskUtil
@@ -256,15 +256,36 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 
 		await this.bootKillAndResetSkill(bootedSkill, events)
 
-		assert.isLength(autoRegisterCalls, 6)
-		assert.isTrue(autoRegisterCalls[4])
-		assert.isTrue(autoRegisterCalls[5])
+		assert.isLength(setShouldAutoRegistrationInvocations, 6)
+		assert.isTrue(setShouldAutoRegistrationInvocations[4])
+		assert.isTrue(setShouldAutoRegistrationInvocations[5])
 		assert.isTrue(autoRegisterForOn[2])
 
 		//@ts-ignore
 		const cacheKey = events.listenerCacher.loadCurrentCacheKey()
 
 		assert.doesNotInclude(cacheKey, this.cwd)
+	}
+
+	@test()
+	protected static async shouldRegisterListenersEachBootIfEnvNotSet() {
+		delete process.env.SHOULD_CACHE_LISTENER_REGISTRATIONS
+
+		let unRegisterListenerCount = 0
+
+		const { bootedSkill, events } = await this.registerSkillAndSetupListeners({
+			onUnregisterListeners: () => {
+				unRegisterListenerCount++
+			},
+			onAttachListeners: () => {},
+			onSetShouldAutoRegisterListeners: () => {},
+			onAttachListener: () => {},
+		})
+
+		await this.bootKillAndResetSkill(bootedSkill, events)
+		await this.bootKillAndResetSkill(bootedSkill, events)
+
+		assert.isEqual(unRegisterListenerCount, 2)
 	}
 
 	@test()
