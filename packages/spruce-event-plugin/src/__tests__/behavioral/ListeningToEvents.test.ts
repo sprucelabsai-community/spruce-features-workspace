@@ -272,13 +272,16 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 		delete process.env.SHOULD_CACHE_LISTENER_REGISTRATIONS
 
 		let unRegisterListenerCount = 0
+		const shoulds: boolean[] = []
 
 		const { bootedSkill, events } = await this.registerSkillAndSetupListeners({
 			onUnregisterListeners: () => {
 				unRegisterListenerCount++
 			},
 			onAttachListeners: () => {},
-			onSetShouldAutoRegisterListeners: () => {},
+			onSetShouldAutoRegisterListeners: (should) => {
+				shoulds.push(should)
+			},
 			onAttachListener: () => {},
 		})
 
@@ -286,6 +289,9 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 		await this.bootKillAndResetSkill(bootedSkill, events)
 
 		assert.isEqual(unRegisterListenerCount, 2)
+		assert.isLength(shoulds, 2)
+		assert.isTrue(shoulds[0])
+		assert.isTrue(shoulds[1])
 	}
 
 	@test()

@@ -410,10 +410,7 @@ export class EventFeaturePlugin implements SkillFeature {
 		const currentSkill = await this.getCurrentSkill()
 
 		if (client && currentSkill) {
-			if (
-				!this.haveListenersChaged &&
-				process.env.SHOULD_CACHE_LISTENER_REGISTRATIONS === 'true'
-			) {
+			if (this.areListenersCached()) {
 				this.log.info(
 					'Skipping re-registering of listeners because they have not changed.'
 				)
@@ -428,6 +425,13 @@ export class EventFeaturePlugin implements SkillFeature {
 
 			await this.attachListeners(client)
 		}
+	}
+
+	private areListenersCached() {
+		return (
+			!this.haveListenersChaged &&
+			process.env.SHOULD_CACHE_LISTENER_REGISTRATIONS === 'true'
+		)
 	}
 
 	private async reRegisterEvents() {
@@ -505,7 +509,7 @@ export class EventFeaturePlugin implements SkillFeature {
 	}
 
 	private async attachListeners(client: any) {
-		client.setShouldAutoRegisterListeners(this.haveListenersChaged)
+		client.setShouldAutoRegisterListeners(!this.areListenersCached())
 
 		for (const listener of this.listeners) {
 			if (listener.eventNamespace !== 'skill') {
