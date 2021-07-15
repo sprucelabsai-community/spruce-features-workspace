@@ -289,9 +289,11 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 		await this.bootKillAndResetSkill(bootedSkill, events)
 
 		assert.isEqual(unRegisterListenerCount, 2)
-		assert.isLength(shoulds, 2)
+		assert.isLength(shoulds, 4)
 		assert.isTrue(shoulds[0])
 		assert.isTrue(shoulds[1])
+		assert.isTrue(shoulds[2])
+		assert.isTrue(shoulds[3])
 	}
 
 	@test()
