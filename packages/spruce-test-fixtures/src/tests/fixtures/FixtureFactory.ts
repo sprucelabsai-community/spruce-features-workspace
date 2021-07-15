@@ -5,6 +5,7 @@ import {
 	FixtureMap,
 	FixtureName,
 } from '../../types/fixture.types'
+import EventFixture from './EventFixture'
 import MercuryFixture from './MercuryFixture'
 import OrganizationFixture from './OrganizationFixture'
 import PersonFixture from './PersonFixture'
@@ -103,14 +104,19 @@ export default class FixtureFactory {
 	}
 
 	public static async beforeAll() {
-		await MercuryFixture.beforeAll()
-		await DatabaseFixture.beforeAll()
-		await StoreFixture.beforeAll()
+		await Promise.all([
+			MercuryFixture.beforeAll(),
+			DatabaseFixture.beforeAll(),
+			StoreFixture.beforeAll(),
+		])
 	}
 
 	public static async beforeEach() {
-		await ViewControllerFixture.beforeEach()
-		await MercuryFixture.beforeEach()
-		await StoreFixture.beforeEach()
+		await Promise.all([
+			ViewControllerFixture.beforeEach(),
+			MercuryFixture.beforeEach(),
+			StoreFixture.beforeEach(),
+			EventFixture.beforeEach(),
+		])
 	}
 }

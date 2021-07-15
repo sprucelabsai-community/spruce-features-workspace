@@ -133,12 +133,15 @@ export class EventFeaturePlugin implements SkillFeature {
 			re()
 
 			await this.loadEvents()
-			if (this.hasLocalContractBeenUpdated) {
-				await this.reRegisterEvents()
-			} else {
+			if (
+				!this.hasLocalContractBeenUpdated &&
+				process.env.SHOULD_CACHE_EVENT_REGISTRATIONS === 'true'
+			) {
 				this.log.info(
 					'Skipping re-registering events because events.contract has not changed.'
 				)
+			} else {
+				await this.reRegisterEvents()
 			}
 
 			await this.reRegisterListeners()

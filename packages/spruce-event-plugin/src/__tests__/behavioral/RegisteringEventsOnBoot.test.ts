@@ -39,8 +39,13 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 		)
 	}
 
-	@test()
-	protected static async wontRegisterTheSecondTimeBecauseFilesHaveNotChanged() {
+	@test('will register listeners if env is not set', undefined, 3)
+	@test('wont re-register listeners if env is set', 'true', 2)
+	protected static async wontRegisterTheSecondTimeBecauseFilesHaveNotChanged(
+		shouldCache: string | undefined,
+		expectedRegisterCount: number
+	) {
+		process.env.SHOULD_CACHE_EVENT_REGISTRATIONS = shouldCache
 		const currentSkill = await this.registerCurrentSkill()
 		this.generateGoodContractFileForSkill(currentSkill)
 		const client = await this.Fixture('mercury').connectToApi()
@@ -55,7 +60,7 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 		this.generateGoodContractFileForSkill(currentSkill)
 		await this.bootSkill()
 
-		assert.isEqual(registerEventCount, 2)
+		assert.isEqual(registerEventCount, expectedRegisterCount)
 	}
 
 	@test()
