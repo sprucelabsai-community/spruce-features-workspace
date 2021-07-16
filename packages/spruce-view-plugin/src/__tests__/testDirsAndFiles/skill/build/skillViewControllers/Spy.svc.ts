@@ -9,7 +9,15 @@ export default class SpySkillViewController extends AbstractSkillViewController 
 
     public render(): SpruceSchemas.Heartwood.v2021_02_11.SkillView {
         return {
-            layouts: [],
+            layouts: [
+                {
+                    cards: [{
+                        header: {
+                            title: 'hey!'
+                        }
+                    }]
+                }
+            ],
         }
     }
 }

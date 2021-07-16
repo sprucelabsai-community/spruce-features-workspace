@@ -3,6 +3,7 @@ import {
 	ControllerOptions,
 	MockStorage,
 	SkillViewController,
+	vcAssertUtil,
 	ViewControllerFactory,
 	ViewControllerId,
 } from '@sprucelabs/heartwood-view-controllers'
@@ -57,6 +58,8 @@ export default class ViewControllerFixture {
 				return mercury.connectToApi()
 			},
 		})
+
+		vcAssertUtil._setVcFactory(this.vcFactory)
 
 		return this.vcFactory
 	}
