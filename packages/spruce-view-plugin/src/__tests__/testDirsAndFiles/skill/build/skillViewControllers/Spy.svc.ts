@@ -7,7 +7,7 @@ export default class SpySkillViewController extends AbstractSkillViewController 
         this.loads.push(options)
     }
 
-    public render(): SpruceSchemas.Heartwood.v2021_02_11.SkillView {
+    public render(): SpruceSchemas.HeartwoodViewControllers.v2021_02_11.SkillView {
         return {
             layouts: [
                 {
