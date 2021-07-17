@@ -8,7 +8,7 @@ import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
 export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest {
 	protected static async beforeEach() {
 		await super.beforeEach()
-		MercuryFixture.shouldAutoImportContracts = false
+		MercuryFixture.setShouldAutoImportContracts(false)
 	}
 
 	@test()
