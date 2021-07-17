@@ -7,6 +7,7 @@ import {
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 import { assert, test } from '@sprucelabs/test'
 import { EventFeature } from '../..'
+import { MercuryFixture } from '../../../../spruce-test-fixtures/build'
 import SpruceError from '../../errors/SpruceError'
 import { EventFeaturePlugin, MercuryClient } from '../../plugins/event.plugin'
 import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
@@ -25,6 +26,9 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 	protected static async beforeEach() {
 		await super.beforeEach()
 		MercuryClientFactory.setIsTestMode(false)
+
+		MercuryFixture.setShouldMixinCoreEventContractsWhenImportingLocal(true)
+
 		delete process.env.DID_BOOT_FIRED
 		delete process.env.WILL_BOOT_FIRED
 		delete process.env.DID_BOOT_FIRED_2

@@ -16,7 +16,8 @@ export default class MercuryFixture {
 	private static originalHost: string | undefined
 	private cwd: string
 
-	public static shouldAutoImportContracts = true
+	private static shouldAutoImportContracts = true
+	private static shouldMixinCoreEventContractWhenImportingLocal = false
 
 	public constructor(cwd: string) {
 		this.cwd = cwd
@@ -65,14 +66,27 @@ export default class MercuryFixture {
 				const combinedContract =
 					eventDiskUtil.resolveCombinedEventsContractFile(this.cwd)
 
-				const contracts = require(combinedContract).default
+				let contracts = require(combinedContract).default
+
+				if (MercuryFixture.shouldMixinCoreEventContractWhenImportingLocal) {
+					contracts = [...contracts, ...coreEventContracts]
+				}
+
 				const combined = eventContractUtil.unifyContracts(contracts)
 
 				if (combined) {
 					MercuryClientFactory.setDefaultContract(combined)
 				}
-			} catch {
-				//ignored
+			} catch (err) {
+				//since we default to the
+				if (err.options?.code === 'EVENT_CONTRACTS_NOT_SYNCED') {
+					return
+				}
+
+				throw new Error(
+					'Mixing in local event contracts failed. Original error:\n\n' +
+						err.stack
+				)
 			}
 		}
 	}
@@ -108,5 +122,15 @@ export default class MercuryFixture {
 
 		//@ts-ignore
 		MercuryClientFactory.setDefaultContract(coreEventContracts[0])
+	}
+
+	public static setShouldMixinCoreEventContractsWhenImportingLocal(
+		shouldMixin: boolean
+	) {
+		this.shouldMixinCoreEventContractWhenImportingLocal = shouldMixin
+	}
+
+	public static setShouldAutoImportContracts(shouldImport: boolean) {
+		MercuryFixture.shouldAutoImportContracts = shouldImport
 	}
 }
