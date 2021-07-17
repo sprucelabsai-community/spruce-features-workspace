@@ -66,10 +66,7 @@ export default class MercuryFixture {
 					eventDiskUtil.resolveCombinedEventsContractFile(this.cwd)
 
 				const contracts = require(combinedContract).default
-				const combined = eventContractUtil.unifyContracts([
-					...contracts,
-					...coreEventContracts,
-				])
+				const combined = eventContractUtil.unifyContracts(contracts)
 
 				if (combined) {
 					MercuryClientFactory.setDefaultContract(combined)

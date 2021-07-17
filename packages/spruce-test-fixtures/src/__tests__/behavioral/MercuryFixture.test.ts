@@ -1,4 +1,5 @@
 import { coreEventContracts } from '@sprucelabs/mercury-types'
+import { eventContractUtil } from '@sprucelabs/spruce-event-utils'
 import { diskUtil, HASH_SPRUCE_BUILD_DIR } from '@sprucelabs/spruce-skill-utils'
 import { test, assert } from '@sprucelabs/test'
 import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
@@ -91,6 +92,15 @@ export default class MercuryFixtureTest extends AbstractSpruceFixtureTest {
 			//@ts-ignore
 			client.eventContract.eventSignatures,
 			sigs[0].eventSignatures
+		)
+
+		//should never include core event contracts, those are added
+		//to events.contract.ts
+		assert.doesThrow(() =>
+			eventContractUtil.getSignatureByName(
+				client.eventContract,
+				'set-role::v2020_12_25'
+			)
 		)
 	}
 }
