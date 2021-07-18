@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.18.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v4.17.13...v4.18.0) (2021-07-18)
+
+
+### Features
+
+* token returned login on person fixture ([7cea382](https://github.com/sprucelabsai/spruce-features-workspace/commit/7cea382))
+
+
+
+
+
 ## [4.17.13](https://github.com/sprucelabsai/spruce-features-workspace/compare/v4.17.12...v4.17.13) (2021-07-18)
 
 **Note:** Version bump only for package spruce-features-workspace
