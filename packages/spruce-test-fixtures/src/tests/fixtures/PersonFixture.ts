@@ -21,7 +21,7 @@ export default class PersonFixture {
 
 	public async loginAsDemoPerson(
 		phone: string = process.env.DEMO_NUMBER ?? ''
-	): Promise<{ person: Person; client: Client }> {
+	): Promise<{ person: Person; client: Client; token: string }> {
 		if (!phone || phone.length === 0) {
 			throw new SpruceError({
 				code: 'MISSING_PARAMETERS',
@@ -54,13 +54,13 @@ export default class PersonFixture {
 			payload: { challenge, pin },
 		})
 
-		const { person } =
+		const { person, token } =
 			eventResponseUtil.getFirstResponseOrThrow(confirmPinResults)
 
 		//@ts-ignore
 		client.auth = { person }
 
-		return { person, client }
+		return { person, client, token }
 	}
 
 	public async destroy() {}
