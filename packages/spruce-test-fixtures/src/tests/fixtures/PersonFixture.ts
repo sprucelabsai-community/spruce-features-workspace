@@ -35,10 +35,9 @@ export default class PersonFixture {
 		//@ts-ignore
 		if (client.auth?.person?.phone === formattedPhone) {
 			return {
-				//@ts-ignore
 				client,
-				//@ts-ignore
 				person: client.auth.person,
+				token: client.auth.token,
 			}
 		}
 
@@ -58,7 +57,7 @@ export default class PersonFixture {
 			eventResponseUtil.getFirstResponseOrThrow(confirmPinResults)
 
 		//@ts-ignore
-		client.auth = { person }
+		client.auth = { person, token }
 
 		return { person, client, token }
 	}
