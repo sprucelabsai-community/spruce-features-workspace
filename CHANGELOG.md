@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.19.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v4.18.1...v4.19.0) (2021-07-19)
+
+
+### Features
+
+* testrouter  singleton and did-redirect event ([01ad39d](https://github.com/sprucelabsai/spruce-features-workspace/commit/01ad39d))
+
+
+
+
+
 ## [4.18.1](https://github.com/sprucelabsai/spruce-features-workspace/compare/v4.18.0...v4.18.1) (2021-07-19)
 
 **Note:** Version bump only for package spruce-features-workspace
