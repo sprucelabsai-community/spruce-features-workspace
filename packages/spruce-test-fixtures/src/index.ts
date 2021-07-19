@@ -9,3 +9,4 @@ export { default as ViewControllerFixture } from './tests/fixtures/ViewControlle
 export { default as MercuryFixture } from './tests/fixtures/MercuryFixture'
 export { default as vcFixtureUtil } from './tests/utilities/vcFixture.utility'
 export { default as TestRouter } from './tests/routers/TestRouter'
+export * from '#spruce/schemas/schemas.types'
