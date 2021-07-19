@@ -4,7 +4,7 @@ import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 import { test, assert } from '@sprucelabs/test'
 import { errorAssertUtil } from '@sprucelabs/test-utils'
 import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
-import { TestRouter } from '../../tests/routers/TestRouter'
+import TestRouter from '../../tests/routers/TestRouter'
 import BookSkillViewController from '../testDirsAndFiles/skill/build/skillViewControllers/Book.svc'
 import SpySkillViewController from '../testDirsAndFiles/skill/build/skillViewControllers/Spy.svc'
 
@@ -32,9 +32,7 @@ export default class RoutingTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async canCreateRouter() {
-		this.router = new TestRouter(
-			this.Fixture('vc', { vcDir: this.vcDir }).getFactory()
-		)
+		this.router = this.Fixture('vc', { vcDir: this.vcDir }).getRouter()
 		assert.isTruthy(this.router)
 	}
 
@@ -74,5 +72,25 @@ export default class RoutingTest extends AbstractSpruceFixtureTest {
 		const lastLoad = vc.loads.pop()
 		assert.isTruthy(lastLoad)
 		assert.isEqualDeep(lastLoad.args, args)
+	}
+
+	@test()
+	protected static async canHookIntoRedirectEvents() {
+		let wasHit = false
+		let passedId = ''
+		let passedVc: any = null
+
+		await this.router.on('did-redirect', ({ id, vc }) => {
+			wasHit = true
+			passedId = id
+			passedVc = vc
+		})
+
+		await this.router.redirect('book')
+
+		assert.isTrue(wasHit)
+		assert.isEqual(passedId, 'book')
+		assert.isTruthy(passedVc)
+		assert.isTrue(passedVc instanceof BookSkillViewController)
 	}
 }

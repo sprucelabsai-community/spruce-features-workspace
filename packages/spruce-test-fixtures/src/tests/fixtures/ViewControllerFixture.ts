@@ -9,7 +9,7 @@ import {
 } from '@sprucelabs/heartwood-view-controllers'
 import { SpruceError } from '@sprucelabs/schema'
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
-import { TestRouter } from '../routers/TestRouter'
+import TestRouter from '../routers/TestRouter'
 import vcFixtureUtil from '../utilities/vcFixture.utility'
 import MercuryFixture from './MercuryFixture'
 
@@ -79,7 +79,11 @@ export default class ViewControllerFixture {
 	}
 
 	public async load(vc: SkillViewController) {
-		const router = new TestRouter(this.getFactory())
-		await vc.load(router.buildLoadOptions())
+		await vc.load(this.getRouter().buildLoadOptions())
+	}
+
+	public getRouter(): TestRouter {
+		TestRouter.setup({ vcFactory: this.getFactory() })
+		return TestRouter.getInstance()
 	}
 }

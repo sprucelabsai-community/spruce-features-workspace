@@ -4,7 +4,10 @@
 		"access": "public"
 	},
 	"skill": {
-		"namespace": "spruceTestFixtures"
+		"namespace": "spruceTestFixtures",
+		"commandOverrides": {
+			"sync.schemas": "--shouldFetchCoreSchemas false"
+		}
 	},
 	"version": "4.18.0",
 	"files": [
@@ -69,6 +72,7 @@
 		"@sprucelabs/esm-postbuild": "latest",
 		"@sprucelabs/jest-json-reporter": "latest",
 		"@sprucelabs/jest-sheets-reporter": "latest",
+		"@sprucelabs/mercury-event-emitter": "^16.8.2",
 		"@sprucelabs/mercury-types": "latest",
 		"@sprucelabs/resolve-path-aliases": "latest",
 		"@sprucelabs/semantic-release": "latest",
