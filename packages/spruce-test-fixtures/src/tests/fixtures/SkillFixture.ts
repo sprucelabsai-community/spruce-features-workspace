@@ -1,4 +1,5 @@
 import { MercuryClient } from '@sprucelabs/mercury-client'
+import { SpruceError } from '@sprucelabs/schema'
 import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { ApiClientFactory } from '../../types/fixture.types'
@@ -63,6 +64,49 @@ export default class SkillFixture {
 		})
 
 		return { skill, client: skillClient }
+	}
+
+	public async loginAsCurrentSkill(): Promise<{
+		client: Client
+		skill: Skill
+	}> {
+		const missing: string[] = []
+
+		if (!process.env.SKILL_ID) {
+			missing.push('env.SKILL_ID')
+		}
+
+		if (!process.env.SKILL_API_KEY) {
+			missing.push('env.SKILL_API_KEY')
+		}
+
+		if (missing.length > 0) {
+			throw new SpruceError({
+				code: 'MISSING_PARAMETERS',
+				parameters: missing,
+			})
+		}
+
+		const client = await this.apiClientFactory()
+		const { skill } = await client.authenticate({
+			skillId: process.env.SKILL_ID,
+			apiKey: process.env.SKILL_API_KEY,
+		})
+
+		if (!skill) {
+			throw new SpruceError({
+				code: 'INVALID_PARAMETERS',
+				parameters: ['env.SKILL_ID', 'env.SKILL_API_KEY'],
+			})
+		}
+
+		return {
+			client,
+			skill: {
+				...skill,
+				apiKey: process.env.SKILL_API_KEY as string,
+			},
+		}
 	}
 
 	public async destroy() {

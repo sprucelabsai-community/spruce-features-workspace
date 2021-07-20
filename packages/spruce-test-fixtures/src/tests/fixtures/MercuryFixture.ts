@@ -30,8 +30,7 @@ export default class MercuryFixture {
 		}
 	}
 
-	/** @ts-ignore */
-	public async connectToApi() {
+	public async connectToApi(): Promise<MercuryClient> {
 		if (this.clientPromise) {
 			return this.clientPromise
 		}
