@@ -79,6 +79,7 @@ export default class TestRouter
 		await (this as MercuryEventEmitter<Contract>).emit('did-redirect', {
 			id: id as string,
 			vc: this.presentVc as any,
+			args,
 		})
 
 		return this.presentVc as any

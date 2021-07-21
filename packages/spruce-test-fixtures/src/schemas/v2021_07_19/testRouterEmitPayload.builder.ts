@@ -18,5 +18,11 @@ export default buildSchema({
 				valueType: 'HeartwoodViewController.SkillViewController',
 			},
 		},
+		args: {
+			type: 'raw',
+			options: {
+				valueType: 'Record<string, any>',
+			},
+		},
 	},
 })

@@ -74,23 +74,27 @@ export default class RoutingTest extends AbstractSpruceFixtureTest {
 		assert.isEqualDeep(lastLoad.args, args)
 	}
 
-	@test()
-	protected static async canHookIntoRedirectEvents() {
+	@test('can hook into redirect no args', undefined)
+	@test('can hook into redirect args 1', { taco: 'bell' })
+	protected static async canHookIntoRedirectEvents(expectedArgs: any) {
 		let wasHit = false
 		let passedId = ''
 		let passedVc: any = null
+		let passedArgs: any = null
 
-		await this.router.on('did-redirect', ({ id, vc }) => {
+		await this.router.on('did-redirect', ({ id, vc, args }) => {
 			wasHit = true
 			passedId = id
 			passedVc = vc
+			passedArgs = args
 		})
 
-		await this.router.redirect('book')
+		await this.router.redirect('book', expectedArgs)
 
 		assert.isTrue(wasHit)
 		assert.isEqual(passedId, 'book')
 		assert.isTruthy(passedVc)
 		assert.isTrue(passedVc instanceof BookSkillViewController)
+		assert.isEqualDeep(passedArgs, expectedArgs)
 	}
 }

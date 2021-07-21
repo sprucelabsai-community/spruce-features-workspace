@@ -21,6 +21,11 @@ const testRouterEmitPayloadSchema: SpruceSchemas.SpruceTestFixtures.v2021_07_19.
 	                isRequired: true,
 	                options: {valueType: `HeartwoodViewController.SkillViewController`,}
 	            },
+	            /** . */
+	            'args': {
+	                type: 'raw',
+	                options: {valueType: `Record<string, any>`,}
+	            },
 	    }
 }
 
