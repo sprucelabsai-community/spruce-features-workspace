@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.20.1](https://github.com/sprucelabsai/spruce-features-workspace/compare/v4.20.0...v4.20.1) (2021-07-21)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+# [4.20.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v4.19.0...v4.20.0) (2021-07-20)
+
+
+### Features
+
+* skill loginAsCurrentSkill ([c3e5d5a](https://github.com/sprucelabsai/spruce-features-workspace/commit/c3e5d5a))
+
+
+
+
+
 # [4.19.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v4.18.1...v4.19.0) (2021-07-19)
 
 

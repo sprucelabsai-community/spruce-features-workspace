@@ -12,7 +12,7 @@
 			"pull.event.contracts": "--destination ./src/tests"
 		}
 	},
-	"version": "4.19.0",
+	"version": "4.20.1",
 	"files": [
 		"build/**/*",
 		"!build/__tests__",
@@ -63,11 +63,11 @@
 		"@sprucelabs/error": "latest",
 		"@sprucelabs/heartwood-view-controllers": "latest",
 		"@sprucelabs/schema": "latest",
-		"@sprucelabs/spruce-event-plugin": "^4.19.0",
+		"@sprucelabs/spruce-event-plugin": "^4.20.1",
 		"@sprucelabs/spruce-event-utils": "latest",
-		"@sprucelabs/spruce-skill-booter": "^4.19.0",
+		"@sprucelabs/spruce-skill-booter": "^4.20.1",
 		"@sprucelabs/spruce-skill-utils": "latest",
-		"@sprucelabs/spruce-test-fixtures": "^4.19.0",
+		"@sprucelabs/spruce-test-fixtures": "^4.20.1",
 		"globby": "^11.0.4"
 	},
 	"devDependencies": {
@@ -81,7 +81,7 @@
 		"@sprucelabs/test": "latest",
 		"@sprucelabs/test-utils": "latest",
 		"@types/inquirer": "^7.3.3",
-		"@types/node": "^16.3.3",
+		"@types/node": "^16.4.0",
 		"chokidar-cli": "^2.1.0",
 		"concurrently": "^6.2.0",
 		"conventional-changelog-sprucelabs": "latest",

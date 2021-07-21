@@ -9,7 +9,7 @@
 			"sync.schemas": "--shouldFetchCoreSchemas false"
 		}
 	},
-	"version": "4.19.0",
+	"version": "4.20.1",
 	"files": [
 		"build/**/*",
 		"!build/__tests__",
@@ -64,7 +64,7 @@
 		"@sprucelabs/schema": "latest",
 		"@sprucelabs/spruce-core-schemas": "latest",
 		"@sprucelabs/spruce-event-utils": "latest",
-		"@sprucelabs/spruce-skill-booter": "^4.19.0",
+		"@sprucelabs/spruce-skill-booter": "^4.20.1",
 		"@sprucelabs/spruce-skill-utils": "latest",
 		"dotenv": "^10.0.0"
 	},
@@ -78,7 +78,7 @@
 		"@sprucelabs/semantic-release": "latest",
 		"@sprucelabs/test": "latest",
 		"@sprucelabs/test-utils": "latest",
-		"@types/node": "^16.3.3",
+		"@types/node": "^16.4.0",
 		"chokidar-cli": "^2.1.0",
 		"concurrently": "^6.2.0",
 		"conventional-changelog-sprucelabs": "latest",
