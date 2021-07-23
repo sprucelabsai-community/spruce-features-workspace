@@ -9,7 +9,6 @@ import {
 	SettingsService,
 	Skill,
 	SkillFeature,
-	testLog,
 } from '@sprucelabs/spruce-skill-utils'
 import {
 	vcFixtureUtil,
