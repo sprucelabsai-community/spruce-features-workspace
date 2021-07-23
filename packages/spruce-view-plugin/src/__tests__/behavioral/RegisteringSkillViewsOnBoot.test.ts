@@ -8,6 +8,7 @@ import {
 } from '@sprucelabs/spruce-event-utils'
 import { diskUtil, Skill } from '@sprucelabs/spruce-skill-utils'
 import { assert, test } from '@sprucelabs/test'
+import { errorAssertUtil } from '@sprucelabs/test-utils'
 import { ViewFeature } from '../../plugins/view.plugin'
 import AbstractViewPluginTest from '../../tests/AbstractViewPluginTest'
 import coreEventContracts, {
@@ -69,9 +70,25 @@ export default class RegistringSkillViewsOnBootTest extends AbstractViewPluginTe
 		await this.bootSkill({ skill })
 	}
 
+	@test()
+	protected static async throwsHelpfulMessageWithBadSkillView() {
+		process.env.SHOULD_REGISTER_VIEWS = 'true'
+		const skill = await this.BadSkill()
+		const err = await assert.doesThrowAsync(() => this.bootSkill({ skill }))
+		errorAssertUtil.assertError(err, 'INVALID_VIEW_CONTROLLER')
+	}
+
 	private static async GoodSkill() {
-		const skill = await this.SkillFromTestDir('skill')
-		const source = this.resolveTestPathSrc('skill', 'src')
+		return this.TestSkillWithViewFilesInPlace('skill')
+	}
+
+	private static async BadSkill() {
+		return this.TestSkillWithViewFilesInPlace('broken-skill')
+	}
+
+	private static async TestSkillWithViewFilesInPlace(testDir: string) {
+		const skill = await this.SkillFromTestDir(testDir)
+		const source = this.resolveTestPathSrc(testDir, 'src')
 		const destination = diskUtil.resolvePath(skill.rootDir, 'src')
 		await diskUtil.copyDir(source, destination)
 		return skill

@@ -5,17 +5,23 @@ import {
 	AbstractSkillViewController,
 	ViewControllerMap,
 } from '@sprucelabs/heartwood-view-controllers'
-import { diskUtil, HASH_SPRUCE_DIR_NAME } from '@sprucelabs/spruce-skill-utils'
+import {
+	diskUtil,
+	HASH_SPRUCE_DIR_NAME,
+	namesUtil,
+} from '@sprucelabs/spruce-skill-utils'
 import SpruceError from '../../errors/SpruceError'
 import { HealthCheckView } from '../../types/view.types'
 
 const vcFixtureUtil = {
-	loadViewControllers(vcDir: string) {
-		const path = require.resolve(
-			diskUtil.resolvePath(vcDir, HASH_SPRUCE_DIR_NAME, 'views', 'views')
-		)
+	loadViewControllers(
+		activeDir: string,
+		options?: { shouldThrowOnError: boolean }
+	) {
+		const { shouldThrowOnError = true } = options ?? {}
+		const path = this.resolveCombinedViewsPath(activeDir)
 
-		if (!diskUtil.doesFileExist(path)) {
+		if (!path) {
 			throw new Error(
 				`Could not find \`${path}\`. Running \`spruce sync.views\` may help.`
 			)
@@ -47,8 +53,14 @@ const vcFixtureUtil = {
 			}
 			try {
 				if (!item.id) {
+					const name = controller.name ?? 'Unknown View Controller'
 					throw new SpruceError({
 						code: 'INVALID_VIEW_CONTROLLER',
+						friendlyMessage: `${name} is missing \`public static id = '${namesUtil.toKebab(
+							name
+								.replace('ViewController', '')
+								.replace('SkillViewController', '')
+						)}'\``,
 						//@ts-ignore
 						id: controller.id,
 						name: controller.name,
@@ -56,6 +68,9 @@ const vcFixtureUtil = {
 				}
 			} catch (err) {
 				if (err instanceof AbstractSpruceError) {
+					if (shouldThrowOnError) {
+						throw err
+					}
 					item.error = err
 				} else {
 					item.error = new SpruceError({
@@ -94,6 +109,16 @@ const vcFixtureUtil = {
 		}
 
 		return map
+	},
+
+	resolveCombinedViewsPath(activeDir: string) {
+		try {
+			return require.resolve(
+				diskUtil.resolvePath(activeDir, HASH_SPRUCE_DIR_NAME, 'views', 'views')
+			)
+		} catch {
+			return false
+		}
 	},
 }
 

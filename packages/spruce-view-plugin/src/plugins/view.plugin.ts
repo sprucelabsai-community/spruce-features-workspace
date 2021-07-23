@@ -31,10 +31,7 @@ export class ViewFeature implements SkillFeature {
 	public async execute(): Promise<void> {
 		const viewsPath = this.getCombinedViewsPath()
 
-		if (
-			diskUtil.doesFileExist(viewsPath) &&
-			process.env.SHOULD_REGISTER_VIEWS !== 'false'
-		) {
+		if (viewsPath && process.env.SHOULD_REGISTER_VIEWS !== 'false') {
 			const results = await this.importAndRegisterSkillViews()
 			eventResponseUtil.getFirstResponseOrThrow(results)
 		}
@@ -44,6 +41,8 @@ export class ViewFeature implements SkillFeature {
 
 	private async importAndRegisterSkillViews() {
 		this.log.info('Importing local views.')
+
+		const { ids } = vcFixtureUtil.loadViewControllers(this.skill.activeDir)
 
 		const viewsPath = this.getCombinedViewsPath()
 		const exporter = ViewControllerExporter.Exporter(this.skill.rootDir)
@@ -59,8 +58,6 @@ export class ViewFeature implements SkillFeature {
 		})
 
 		const source = diskUtil.readFile(destination)
-
-		const { ids } = vcFixtureUtil.loadViewControllers(this.skill.activeDir)
 
 		this.log.info(`Bundled ${ids.length} view controllers. Registering now...`)
 
@@ -84,11 +81,7 @@ export class ViewFeature implements SkillFeature {
 	}
 
 	private getCombinedViewsPath() {
-		return diskUtil.resolveHashSprucePath(
-			this.skill.rootDir,
-			'views',
-			'views.ts'
-		)
+		return vcFixtureUtil.resolveCombinedViewsPath(this.skill.activeDir)
 	}
 
 	public async checkHealth(): Promise<ViewHealthCheckItem> {
