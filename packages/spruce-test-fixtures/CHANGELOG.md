@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.1.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.0.0...v5.1.0) (2021-07-23)
+
+
+### Features
+
+* can pass args to org ([a8fd75b](https://github.com/sprucelabsai/spruce-features-workspace/commit/a8fd75b))
+
+
+
+
+
 # [5.0.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v4.20.4...v5.0.0) (2021-07-23)
 
 
