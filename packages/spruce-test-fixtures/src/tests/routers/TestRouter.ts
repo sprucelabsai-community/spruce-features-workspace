@@ -67,7 +67,7 @@ export default class TestRouter
 		if (!this.vcFactory.hasController(id)) {
 			throw new SpruceError({
 				code: 'INVALID_VIEW_CONTROLLER',
-				name: 'waka.waka',
+				name: id,
 			})
 		}
 
