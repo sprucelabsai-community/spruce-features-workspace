@@ -1,4 +1,4 @@
-import { AbstractSkillViewController } from "@sprucelabs/heartwood-view-controllers"
+import { AbstractSkillViewController } from '@sprucelabs/heartwood-view-controllers'
 
 export default class BookSkillViewController extends AbstractSkillViewController {
 	public static id = 'book'
