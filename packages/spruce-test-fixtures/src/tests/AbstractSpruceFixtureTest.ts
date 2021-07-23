@@ -30,18 +30,11 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		options?: Partial<FixtureConstructorOptionsMap[Name]>
 	) {
 		const pkg = diskUtil.resolvePath(this.cwd, 'package.json')
-		if (!diskUtil.doesFileExist(pkg)) {
-			throw new Error(
-				'Tests that use fixtures need to be in a directory with a package.json with skill.namespace set.'
-			)
-		}
+		let namespace: undefined | string
 
-		const values = JSON.parse(diskUtil.readFile(pkg))
-		const namespace = values?.skill?.namespace
-		if (!namespace) {
-			throw new Error(
-				'Tests that use fixtures need to be in a directory with a package.json with skill.namespace set.'
-			)
+		if (diskUtil.doesFileExist(pkg)) {
+			const values = JSON.parse(diskUtil.readFile(pkg))
+			namespace = values?.skill?.namespace
 		}
 
 		return new FixtureFactory({ cwd: this.cwd, namespace }).Fixture(
