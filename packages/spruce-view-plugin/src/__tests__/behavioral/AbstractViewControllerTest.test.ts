@@ -101,6 +101,14 @@ export default class AbstractViewControllerTestTest extends AbstractViewControll
 		await this.load(spySvc)
 	}
 
+	@test('can pass through args 1')
+	@test('can pass through args 2', { hello: 'again' })
+	protected static async canPassArgsThroughToLoad(args = { hello: 'world' }) {
+		const spySvc = this.Controller('view.spy', {})
+		await this.load(spySvc, args)
+		assert.isEqualDeep(spySvc.loads.pop()?.args, args)
+	}
+
 	@test()
 	protected static async usesThisControllerMapIfPresent() {
 		//@ts-ignore

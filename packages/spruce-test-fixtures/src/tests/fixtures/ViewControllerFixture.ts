@@ -82,8 +82,8 @@ export default class ViewControllerFixture {
 		process.env.SHOULD_REGISTER_VIEWS = 'false'
 	}
 
-	public async load(vc: SkillViewController) {
-		await vc.load(this.getRouter().buildLoadOptions())
+	public async load(vc: SkillViewController, args: Record<string, any> = {}) {
+		await vc.load(this.getRouter().buildLoadOptions(args))
 	}
 
 	public getRouter(): TestRouter {

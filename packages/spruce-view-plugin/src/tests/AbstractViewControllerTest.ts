@@ -45,8 +45,11 @@ export default abstract class AbstractViewControllerTest extends AbstractSpruceF
 		return this.getViewControllerFixture().getFactory()
 	}
 
-	protected static async load(vc: SkillViewController) {
-		return this.getViewControllerFixture().load(vc)
+	protected static async load(
+		vc: SkillViewController,
+		args: Record<string, any> = {}
+	) {
+		return this.getViewControllerFixture().load(vc, args)
 	}
 
 	protected static render<VC extends ViewController<any>>(
