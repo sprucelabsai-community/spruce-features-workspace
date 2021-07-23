@@ -13,7 +13,6 @@ import {
 	MercuryEventEmitter,
 } from '@sprucelabs/mercury-types'
 import testRouterEmitPayloadSchema from '#spruce/schemas/spruceTestFixtures/v2021_07_19/testRouterEmitPayload.schema'
-import SpruceError from '../../errors/SpruceError'
 
 const contract = buildEventContract({
 	eventSignatures: {
