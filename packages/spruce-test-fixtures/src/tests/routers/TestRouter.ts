@@ -1,5 +1,5 @@
 import {
-	Authenticator,
+	AuthenticatorImpl,
 	Router,
 	SkillViewController,
 	SkillViewControllerArgs,
@@ -84,7 +84,7 @@ export default class TestRouter
 	public buildLoadOptions(args: any = {}) {
 		return {
 			router: this as TestRouter,
-			authenticator: Authenticator.getInstance(),
+			authenticator: AuthenticatorImpl.getInstance(),
 			args,
 		}
 	}
