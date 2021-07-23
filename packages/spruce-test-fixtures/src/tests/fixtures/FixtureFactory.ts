@@ -16,9 +16,9 @@ import ViewControllerFixture from './ViewControllerFixture'
 export default class FixtureFactory {
 	private static fixtures: any[] = []
 	private cwd: string
-	private namespace: string
+	private namespace?: string
 
-	public constructor(options: { cwd: string; namespace: string }) {
+	public constructor(options: { cwd: string; namespace?: string }) {
 		this.cwd = options.cwd
 		if (!this.cwd) {
 			throw new SpruceError({
@@ -75,6 +75,11 @@ export default class FixtureFactory {
 				break
 			}
 			case 'vc': {
+				if (!this.namespace) {
+					throw new Error(
+						'You need to be in a registerid skill to load view controllers.'
+					)
+				}
 				fixture = new ViewControllerFixture({
 					mercuryFixture,
 					namespace: this.namespace,
