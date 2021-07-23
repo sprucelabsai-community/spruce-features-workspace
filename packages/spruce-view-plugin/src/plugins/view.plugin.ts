@@ -32,19 +32,18 @@ export class ViewFeature implements SkillFeature {
 		const viewsPath = this.getCombinedViewsPath()
 
 		if (viewsPath && process.env.SHOULD_REGISTER_VIEWS !== 'false') {
-			const results = await this.importAndRegisterSkillViews()
+			const results = await this.importAndRegisterSkillViews(viewsPath)
 			eventResponseUtil.getFirstResponseOrThrow(results)
 		}
 
 		this._isBooted = true
 	}
 
-	private async importAndRegisterSkillViews() {
+	private async importAndRegisterSkillViews(viewsPath: string) {
 		this.log.info('Importing local views.')
 
 		const { ids } = vcFixtureUtil.loadViewControllers(this.skill.activeDir)
 
-		const viewsPath = this.getCombinedViewsPath()
 		const exporter = ViewControllerExporter.Exporter(this.skill.rootDir)
 		const destination = diskUtil.resolvePath(
 			diskUtil.createRandomTempDir(),
