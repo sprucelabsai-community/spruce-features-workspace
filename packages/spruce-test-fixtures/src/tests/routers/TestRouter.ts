@@ -64,13 +64,6 @@ export default class TestRouter
 		id: Id,
 		args?: SkillViewControllerArgs<Id>
 	): Promise<SkillViewControllerMap[Id]> {
-		if (!this.vcFactory.hasController(id)) {
-			throw new SpruceError({
-				code: 'INVALID_VIEW_CONTROLLER',
-				name: id,
-			})
-		}
-
 		//@ts-ignore
 		this.presentVc = this.vcFactory.Controller(id, {})
 

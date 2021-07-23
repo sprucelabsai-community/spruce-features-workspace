@@ -18,15 +18,18 @@ export default class ViewControllerFixture {
 	private vcFactory?: ViewControllerFactory
 	private controllerMap?: Record<string, any>
 	private mercuryFixture: MercuryFixture
+	private namespace: string
 
 	public constructor(options: {
 		mercuryFixture: MercuryFixture
 		vcDir?: string
 		controllerMap?: Record<string, any>
+		namespace: string
 	}) {
 		this.mercuryFixture = options.mercuryFixture
 		this.vcDir = options?.vcDir ?? diskUtil.resolvePath(process.cwd(), 'build')
 		this.controllerMap = options?.controllerMap
+		this.namespace = options.namespace
 	}
 
 	public getFactory() {
@@ -39,7 +42,8 @@ export default class ViewControllerFixture {
 
 		try {
 			controllerMap =
-				this.controllerMap ?? vcFixtureUtil.buildControllerMap(this.vcDir)
+				this.controllerMap ??
+				vcFixtureUtil.buildControllerMap(this.namespace, this.vcDir)
 		} catch (err) {
 			throw new SpruceError({
 				code: 'INVALID_PARAMETERS',

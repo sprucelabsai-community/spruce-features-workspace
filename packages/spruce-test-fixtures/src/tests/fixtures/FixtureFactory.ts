@@ -16,8 +16,9 @@ import ViewControllerFixture from './ViewControllerFixture'
 export default class FixtureFactory {
 	private static fixtures: any[] = []
 	private cwd: string
+	private namespace: string
 
-	public constructor(options: { cwd: string }) {
+	public constructor(options: { cwd: string; namespace: string }) {
 		this.cwd = options.cwd
 		if (!this.cwd) {
 			throw new SpruceError({
@@ -26,6 +27,8 @@ export default class FixtureFactory {
 				parameters: ['options.cwd'],
 			})
 		}
+
+		this.namespace = options.namespace
 	}
 
 	public Fixture<Name extends FixtureName>(
@@ -74,6 +77,7 @@ export default class FixtureFactory {
 			case 'vc': {
 				fixture = new ViewControllerFixture({
 					mercuryFixture,
+					namespace: this.namespace,
 					...options,
 				}) as any
 				break

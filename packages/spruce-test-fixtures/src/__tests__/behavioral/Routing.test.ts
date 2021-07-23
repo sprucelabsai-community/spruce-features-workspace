@@ -10,13 +10,13 @@ import SpySkillViewController from '../testDirsAndFiles/skill/build/skillViewCon
 
 declare module '@sprucelabs/heartwood-view-controllers/build/types/heartwood.types' {
 	interface ViewControllerMap {
-		book: BookSkillViewController
-		spy: SpySkillViewController
+		'spruceTestFixtures.book': BookSkillViewController
+		'spruceTestFixtures.spy': SpySkillViewController
 	}
 
 	interface SkillViewControllerMap {
-		book: BookSkillViewController
-		spy: SpySkillViewController
+		'spruceTestFixtures.book': BookSkillViewController
+		'spruceTestFixtures.spy': SpySkillViewController
 	}
 }
 
@@ -43,7 +43,7 @@ export default class RoutingTest extends AbstractSpruceFixtureTest {
 			this.router.redirect('waka.waka')
 		)
 
-		errorAssertUtil.assertError(err, 'INVALID_VIEW_CONTROLLER', {
+		errorAssertUtil.assertError(err, 'INVALID_VIEW_CONTROLLER_NAME', {
 			name: 'waka.waka',
 		})
 	}
@@ -53,8 +53,8 @@ export default class RoutingTest extends AbstractSpruceFixtureTest {
 		assert.isFalsy(this.router.getPresentVc())
 	}
 
-	@test('can get book svc', 'book', BookSkillViewController)
-	@test('can get spy svc', 'spy', SpySkillViewController)
+	@test('can get book svc', 'spruceTestFixtures.book', BookSkillViewController)
+	@test('can get spy svc', 'spruceTestFixtures.spy', SpySkillViewController)
 	protected static async canRedirectToGoodSvcWithoutNamespace(
 		id: SkillViewControllerId,
 		Vc: any
@@ -68,7 +68,7 @@ export default class RoutingTest extends AbstractSpruceFixtureTest {
 	@test('redirect passes through args 2', { what: 'the!?' })
 	protected static async redirectTriggersLoadWithExpectedItems(args: any) {
 		//@ts-ignore
-		const vc = await this.router.redirect('spy', args)
+		const vc = await this.router.redirect('spruceTestFixtures.spy', args)
 		const lastLoad = vc.loads.pop()
 		assert.isTruthy(lastLoad)
 		assert.isEqualDeep(lastLoad.args, args)
@@ -89,10 +89,10 @@ export default class RoutingTest extends AbstractSpruceFixtureTest {
 			passedArgs = args
 		})
 
-		await this.router.redirect('book', expectedArgs)
+		await this.router.redirect('spruceTestFixtures.book', expectedArgs)
 
 		assert.isTrue(wasHit)
-		assert.isEqual(passedId, 'book')
+		assert.isEqual(passedId, 'spruceTestFixtures.book')
 		assert.isTruthy(passedVc)
 		assert.isTrue(passedVc instanceof BookSkillViewController)
 		assert.isEqualDeep(passedArgs, expectedArgs)

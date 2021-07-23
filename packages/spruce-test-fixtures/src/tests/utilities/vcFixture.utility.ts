@@ -80,7 +80,7 @@ const vcFixtureUtil = {
 		return { svcs, vcs, ids }
 	},
 
-	buildControllerMap(vcDir: string) {
+	buildControllerMap(namespace: string, vcDir: string) {
 		const { vcs, svcs } = this.loadViewControllers(vcDir)
 		const map: Partial<ViewControllerMap> = {}
 
@@ -89,7 +89,7 @@ const vcFixtureUtil = {
 		for (const item of all) {
 			if (item.Class) {
 				//@ts-ignore
-				map[item.id] = item.Class
+				map[`${namespace}.${item.id}`] = item.Class
 			}
 		}
 

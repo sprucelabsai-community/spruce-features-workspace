@@ -20,6 +20,7 @@
 		"fix.lint": "lerna run fix.lint.local",
 		"lint": "lerna run lint",
 		"publish": "lerna publish",
+		"build.resolve-paths": "lerna run build.resolve-paths",
 		"rebuild": "yarn clean.all && yarn && yarn build.dev",
 		"test": "lerna run test --parallel --stream",
 		"update.dependencies": "yarn clean.dependencies && yarn",

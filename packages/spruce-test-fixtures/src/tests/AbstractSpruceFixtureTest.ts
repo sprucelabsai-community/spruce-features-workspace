@@ -2,6 +2,7 @@ import {
 	AbstractSkillTest,
 	SkillFactoryOptions,
 } from '@sprucelabs/spruce-skill-booter'
+import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 import {
 	FixtureConstructorOptionsMap,
 	FixtureName,
@@ -28,7 +29,25 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		name: Name,
 		options?: Partial<FixtureConstructorOptionsMap[Name]>
 	) {
-		return new FixtureFactory({ cwd: this.cwd }).Fixture(name, options)
+		const pkg = diskUtil.resolvePath(this.cwd, 'package.json')
+		if (!diskUtil.doesFileExist(pkg)) {
+			throw new Error(
+				'Tests that use fixtures need to be in a directory with a package.json with skill.namespace set.'
+			)
+		}
+
+		const values = JSON.parse(diskUtil.readFile(pkg))
+		const namespace = values?.skill?.namespace
+		if (!namespace) {
+			throw new Error(
+				'Tests that use fixtures need to be in a directory with a package.json with skill.namespace set.'
+			)
+		}
+
+		return new FixtureFactory({ cwd: this.cwd, namespace }).Fixture(
+			name,
+			options
+		)
 	}
 
 	protected static async bootAndRegisterNewSkill(

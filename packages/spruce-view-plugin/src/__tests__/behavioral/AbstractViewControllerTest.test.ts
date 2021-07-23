@@ -19,8 +19,8 @@ require('dotenv').config()
 
 declare module '@sprucelabs/heartwood-view-controllers/build/types/heartwood.types' {
 	interface ViewControllerMap {
-		book: BookSkillViewController
-		spy: SpySkillViewController
+		'view.book': BookSkillViewController
+		'view.spy': SpySkillViewController
 	}
 }
 
@@ -47,14 +47,14 @@ export default class AbstractViewControllerTestTest extends AbstractViewControll
 	protected static async throwsErrorWithBadDir() {
 		const oldDir = this.vcDir
 		this.vcDir = 'taco'
-		const err = assert.doesThrow(() => this.Controller('book', {}))
+		const err = assert.doesThrow(() => this.Controller('view.book', {}))
 		assert.doesInclude(err.message, '.spruce')
 		this.vcDir = oldDir
 	}
 
 	@test()
 	protected static async buildController() {
-		const vc = this.Controller('book', {})
+		const vc = this.Controller('view.book', {})
 		assert.isTruthy(vc)
 		const model = vc.render()
 		assert.isTruthy(model)
@@ -73,7 +73,7 @@ export default class AbstractViewControllerTestTest extends AbstractViewControll
 			diskUtil.moveFile(source, destination)
 		}
 
-		const vc = this.Controller('book', {})
+		const vc = this.Controller('view.book', {})
 		assert.isTruthy(vc)
 		const model = vc.render()
 		assert.isTruthy(model)
@@ -97,7 +97,7 @@ export default class AbstractViewControllerTestTest extends AbstractViewControll
 
 	@test()
 	protected static async canLoadSvc() {
-		const spySvc = this.Controller('spy', {})
+		const spySvc = this.Controller('view.spy', {})
 		await this.load(spySvc)
 	}
 
@@ -116,17 +116,17 @@ export default class AbstractViewControllerTestTest extends AbstractViewControll
 		//@ts-ignore
 		const vc = this.Controller('cheesey', {})
 
-		assert.doesThrow(() => this.Controller('spy', {}))
+		assert.doesThrow(() => this.Controller('view.spy', {}))
 		assert.isTrue(vc instanceof FormViewController)
 	}
 
 	@test()
 	protected static canUseVcAssertUtil() {
 		this.controllerMap = {
-			spy: SpySkillViewController,
+			[`view.spy`]: SpySkillViewController,
 		}
 
-		const svc = this.Controller('spy', {})
+		const svc = this.Controller('view.spy', {})
 		vcAssertUtil.assertSkillViewRendersCard(svc)
 	}
 
