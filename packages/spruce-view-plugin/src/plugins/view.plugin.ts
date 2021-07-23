@@ -9,6 +9,7 @@ import {
 	SettingsService,
 	Skill,
 	SkillFeature,
+	testLog,
 } from '@sprucelabs/spruce-skill-utils'
 import {
 	vcFixtureUtil,
@@ -51,6 +52,10 @@ export class ViewFeature implements SkillFeature {
 		)
 
 		this.log.info('Bundling local views.')
+		const events = this.skill.getFeatureByCode('event') as EventFeature
+		const client =
+			(await events.connectToApi()) as MercuryClient<CoreEventContract>
+
 		await exporter.export({
 			source: viewsPath,
 			destination,
@@ -59,10 +64,6 @@ export class ViewFeature implements SkillFeature {
 		const source = diskUtil.readFile(destination)
 
 		this.log.info(`Bundled ${ids.length} view controllers. Registering now...`)
-
-		const events = this.skill.getFeatureByCode('event') as EventFeature
-		const client =
-			(await events.connectToApi()) as MercuryClient<CoreEventContract>
 
 		const results = await client.emit(
 			'heartwood.register-skill-views::v2021_02_11',
@@ -80,7 +81,9 @@ export class ViewFeature implements SkillFeature {
 	}
 
 	private getCombinedViewsPath() {
-		return vcFixtureUtil.resolveCombinedViewsPath(this.skill.activeDir)
+		return vcFixtureUtil.resolveCombinedViewsPath(
+			diskUtil.resolvePath(this.skill.rootDir, 'src')
+		)
 	}
 
 	public async checkHealth(): Promise<ViewHealthCheckItem> {

@@ -47,6 +47,7 @@ export default class RegistringSkillViewsOnBootTest extends AbstractViewPluginTe
 	@test()
 	protected static async registersViewsOnBoot() {
 		process.env.SHOULD_REGISTER_VIEWS = 'true'
+
 		const skill = await this.GoodSkill()
 
 		await this.bootSkill({ skill })
