@@ -7,7 +7,6 @@ import {
 	ViewControllerFactory,
 	ViewControllerId,
 } from '@sprucelabs/heartwood-view-controllers'
-import AuthenticatorImpl from '@sprucelabs/heartwood-view-controllers/build/auth/Authenticator'
 import { SpruceError } from '@sprucelabs/schema'
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 import TestRouter from '../routers/TestRouter'
