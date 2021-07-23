@@ -88,7 +88,9 @@ export class ViewFeature implements SkillFeature {
 		let vcs: any[] = []
 
 		try {
-			const loaded = vcFixtureUtil.loadViewControllers(this.skill.activeDir)
+			const loaded = vcFixtureUtil.loadViewControllers(this.skill.activeDir, {
+				shouldThrowOnError: false,
+			})
 			svcs = loaded.svcs
 			vcs = loaded.vcs
 			// eslint-disable-next-line no-empty
@@ -100,10 +102,12 @@ export class ViewFeature implements SkillFeature {
 			const item: any = {
 				id: svc.id,
 			}
+
 			if (svc.error) {
 				item.error = svc.error
 				errors.push(svc.error)
 			}
+
 			return item
 		}
 

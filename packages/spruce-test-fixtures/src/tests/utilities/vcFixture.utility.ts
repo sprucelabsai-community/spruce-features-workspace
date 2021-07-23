@@ -16,7 +16,7 @@ import { HealthCheckView } from '../../types/view.types'
 const vcFixtureUtil = {
 	loadViewControllers(
 		activeDir: string,
-		options?: { shouldThrowOnError: boolean }
+		options?: { shouldThrowOnError?: boolean }
 	) {
 		const { shouldThrowOnError = true } = options ?? {}
 		const path = this.resolveCombinedViewsPath(activeDir)
