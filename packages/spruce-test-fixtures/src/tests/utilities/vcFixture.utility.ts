@@ -112,13 +112,12 @@ const vcFixtureUtil = {
 	},
 
 	resolveCombinedViewsPath(activeDir: string) {
-		try {
-			return require.resolve(
-				diskUtil.resolvePath(activeDir, HASH_SPRUCE_DIR_NAME, 'views', 'views')
-			)
-		} catch {
-			return false
-		}
+		return diskUtil.resolveFile(
+			activeDir,
+			HASH_SPRUCE_DIR_NAME,
+			'views',
+			'views'
+		)
 	},
 }
 
