@@ -512,7 +512,7 @@ export class EventFeaturePlugin implements SkillFeature {
 	private async attachListeners(client: any) {
 		client.setShouldAutoRegisterListeners(!this.areListenersCached())
 
-		for (const listener of this.listeners) {
+		const all = this.listeners.map(async (listener) => {
 			if (listener.eventNamespace !== 'skill') {
 				const fqen = eventNameUtil.join({
 					eventName: listener.eventName,
@@ -530,7 +530,9 @@ export class EventFeaturePlugin implements SkillFeature {
 
 				this.log.info(`Listening to ${fqen}`)
 			}
-		}
+		})
+
+		await Promise.all(all)
 
 		client.setShouldAutoRegisterListeners(true)
 	}
