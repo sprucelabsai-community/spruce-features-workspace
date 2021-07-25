@@ -1,7 +1,7 @@
 import {
 	cardSchema,
 	formSchema,
-	FormViewController,
+	FormViewControllerImpl,
 	vcAssertUtil,
 	ViewControllerId,
 } from '@sprucelabs/heartwood-view-controllers'
@@ -115,7 +115,7 @@ export default class AbstractViewControllerTestTest extends AbstractViewControll
 		assert.doesThrow(() => this.Controller('cheesey', {}))
 
 		this.controllerMap = {
-			cheesey: FormViewController,
+			cheesey: FormViewControllerImpl,
 		}
 
 		//@ts-ignore
@@ -125,7 +125,7 @@ export default class AbstractViewControllerTestTest extends AbstractViewControll
 		const vc = this.Controller('cheesey', {})
 
 		assert.doesThrow(() => this.Controller('view.spy', {}))
-		assert.isTrue(vc instanceof FormViewController)
+		assert.isTrue(vc instanceof FormViewControllerImpl)
 	}
 
 	@test()
