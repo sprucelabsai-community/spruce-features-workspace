@@ -141,7 +141,8 @@
 			"eslint-config-spruce",
 			"@sprucelabs/mercury-types",
 			"@sprucelabs/heartwood-view-controllers",
-			"@sprucelabs/spruce-event-utils"
+			"@sprucelabs/spruce-event-utils",
+			"globby"
 		]
 	}
 }

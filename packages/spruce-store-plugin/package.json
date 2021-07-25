@@ -118,7 +118,8 @@
 			"@sprucelabs/mercury-client",
 			"eslint-config-spruce",
 			"@sprucelabs/mercury-types",
-			"@sprucelabs/data-stores"
+			"@sprucelabs/data-stores",
+			"globby"
 		]
 	}
 }
