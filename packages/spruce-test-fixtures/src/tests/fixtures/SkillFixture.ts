@@ -88,10 +88,15 @@ export default class SkillFixture {
 		}
 
 		const client = await this.apiClientFactory()
-		const { skill } = await client.authenticate({
-			skillId: process.env.SKILL_ID,
-			apiKey: process.env.SKILL_API_KEY,
-		})
+		let skill = client.auth.skill
+
+		if (!skill) {
+			const auth = await client.authenticate({
+				skillId: process.env.SKILL_ID,
+				apiKey: process.env.SKILL_API_KEY,
+			})
+			skill = auth.skill
+		}
 
 		if (!skill) {
 			throw new SpruceError({
