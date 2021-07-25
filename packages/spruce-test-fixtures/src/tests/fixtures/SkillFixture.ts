@@ -88,7 +88,7 @@ export default class SkillFixture {
 		}
 
 		const client = await this.apiClientFactory()
-		//@tsi-ignore
+		//@ts-ignore
 		let skill = client.auth?.skill
 
 		if (!skill) {
