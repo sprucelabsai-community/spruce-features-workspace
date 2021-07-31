@@ -56,6 +56,7 @@ export default class RegistringSkillViewsOnBootTest extends AbstractViewPluginTe
 		const registered = eventResponseUtil.getFirstResponseOrThrow(results)
 
 		assert.isEqualDeep(registered.ids, ['book', 'book-form', 'spy'])
+		assert.isFalsy(registered.theme)
 	}
 
 	@test()
@@ -79,8 +80,26 @@ export default class RegistringSkillViewsOnBootTest extends AbstractViewPluginTe
 		errorAssertUtil.assertError(err, 'INVALID_VIEW_CONTROLLER')
 	}
 
+	@test()
+	protected static async registersThemeWithSkillView() {
+		process.env.SHOULD_REGISTER_VIEWS = 'true'
+
+		const skill = await this.GoodSkillWithTheme()
+
+		await this.bootSkill({ skill })
+
+		const results = await this.getSkillViews(skill)
+		const registered = eventResponseUtil.getFirstResponseOrThrow(results)
+
+		assert.isTruthy(registered.theme)
+	}
+
 	private static async GoodSkill() {
 		return this.TestSkillWithViewFilesInPlace('skill')
+	}
+
+	private static async GoodSkillWithTheme() {
+		return this.TestSkillWithViewFilesInPlace('skill-with-theme')
 	}
 
 	private static async BadSkill() {

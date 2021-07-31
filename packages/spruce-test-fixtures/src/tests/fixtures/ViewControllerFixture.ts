@@ -9,8 +9,8 @@ import {
 } from '@sprucelabs/heartwood-view-controllers'
 import { SpruceError } from '@sprucelabs/schema'
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
+import vcDiskUtil from '../../utilities/vcDisk.utility'
 import TestRouter from '../routers/TestRouter'
-import vcFixtureUtil from '../utilities/vcFixture.utility'
 import MercuryFixture from './MercuryFixture'
 
 export default class ViewControllerFixture {
@@ -43,7 +43,7 @@ export default class ViewControllerFixture {
 		try {
 			controllerMap =
 				this.controllerMap ??
-				vcFixtureUtil.buildControllerMap(this.namespace, this.vcDir)
+				vcDiskUtil.loadViewControllersAndBuildMap(this.namespace, this.vcDir)
 		} catch (err) {
 			throw new SpruceError({
 				code: 'INVALID_PARAMETERS',

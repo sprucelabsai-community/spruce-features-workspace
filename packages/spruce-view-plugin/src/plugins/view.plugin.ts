@@ -11,7 +11,7 @@ import {
 	SkillFeature,
 } from '@sprucelabs/spruce-skill-utils'
 import {
-	vcFixtureUtil,
+	vcDiskUtil,
 	ViewHealthCheckItem,
 } from '@sprucelabs/spruce-test-fixtures'
 import { CoreEventContract } from '../tests/events.contract'
@@ -42,7 +42,7 @@ export class ViewFeature implements SkillFeature {
 	private async importAndRegisterSkillViews(viewsPath: string) {
 		this.log.info('Importing local views.')
 
-		const { ids } = vcFixtureUtil.loadViewControllers(this.skill.activeDir)
+		const { ids, theme } = vcDiskUtil.loadViewControllers(this.skill.activeDir)
 
 		const exporter = ViewControllerExporter.Exporter(this.skill.rootDir)
 		const destination = diskUtil.resolvePath(
@@ -70,6 +70,7 @@ export class ViewFeature implements SkillFeature {
 				payload: {
 					source,
 					ids,
+					theme,
 				},
 			}
 		)
@@ -80,7 +81,7 @@ export class ViewFeature implements SkillFeature {
 	}
 
 	private getCombinedViewsPath() {
-		return vcFixtureUtil.resolveCombinedViewsPath(
+		return vcDiskUtil.resolveCombinedViewsPath(
 			diskUtil.resolvePath(this.skill.rootDir, 'src')
 		)
 	}
@@ -90,7 +91,7 @@ export class ViewFeature implements SkillFeature {
 		let vcs: any[] = []
 
 		try {
-			const loaded = vcFixtureUtil.loadViewControllers(this.skill.activeDir, {
+			const loaded = vcDiskUtil.loadViewControllers(this.skill.activeDir, {
 				shouldThrowOnError: false,
 			})
 			svcs = loaded.svcs

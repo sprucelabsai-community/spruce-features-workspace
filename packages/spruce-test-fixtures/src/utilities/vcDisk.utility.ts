@@ -4,16 +4,17 @@ import {
 	SkillViewController,
 	AbstractSkillViewController,
 	ViewControllerMap,
+	SpruceSchemas,
 } from '@sprucelabs/heartwood-view-controllers'
 import {
 	diskUtil,
 	HASH_SPRUCE_DIR_NAME,
 	namesUtil,
 } from '@sprucelabs/spruce-skill-utils'
-import SpruceError from '../../errors/SpruceError'
-import { HealthCheckView } from '../../types/view.types'
+import SpruceError from '../errors/SpruceError'
+import { HealthCheckView } from '../types/view.types'
 
-const vcFixtureUtil = {
+const vcDiskUtil = {
 	loadViewControllers(
 		activeDir: string,
 		options?: { shouldThrowOnError?: boolean }
@@ -92,10 +93,20 @@ const vcFixtureUtil = {
 				vcs.push(item)
 			}
 		}
-		return { svcs, vcs, ids }
+
+		let theme:
+			| SpruceSchemas.HeartwoodViewControllers.v2021_02_11.Theme
+			| undefined
+
+		const file = this.resolveThemeFile(activeDir)
+		if (file && diskUtil.doesFileExist(file)) {
+			theme = {}
+		}
+
+		return { svcs, vcs, ids, theme }
 	},
 
-	buildControllerMap(namespace: string, vcDir: string) {
+	loadViewControllersAndBuildMap(namespace: string, vcDir: string) {
 		const { vcs, svcs } = this.loadViewControllers(vcDir)
 		const map: Partial<ViewControllerMap> = {}
 
@@ -119,6 +130,10 @@ const vcFixtureUtil = {
 			'views'
 		)
 	},
+
+	resolveThemeFile(activeDir: string) {
+		return diskUtil.resolveFile(activeDir, 'themes', 'skill.theme')
+	},
 }
 
-export default vcFixtureUtil
+export default vcDiskUtil
