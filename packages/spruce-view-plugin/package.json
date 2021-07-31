@@ -12,7 +12,7 @@
 			"pull.event.contracts": "--destination ./src/tests"
 		}
 	},
-	"version": "5.1.14",
+	"version": "5.1.15",
 	"files": [
 		"build/**/*",
 		"!build/__tests__",
@@ -63,11 +63,11 @@
 		"@sprucelabs/error": "latest",
 		"@sprucelabs/heartwood-view-controllers": "latest",
 		"@sprucelabs/schema": "latest",
-		"@sprucelabs/spruce-event-plugin": "^5.1.14",
+		"@sprucelabs/spruce-event-plugin": "^5.1.15",
 		"@sprucelabs/spruce-event-utils": "latest",
-		"@sprucelabs/spruce-skill-booter": "^5.1.14",
+		"@sprucelabs/spruce-skill-booter": "^5.1.15",
 		"@sprucelabs/spruce-skill-utils": "latest",
-		"@sprucelabs/spruce-test-fixtures": "^5.1.14",
+		"@sprucelabs/spruce-test-fixtures": "^5.1.15",
 		"globby": "^11.0.4"
 	},
 	"devDependencies": {
