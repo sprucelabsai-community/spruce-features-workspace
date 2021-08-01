@@ -7,6 +7,7 @@ import {
 	eventResponseUtil,
 } from '@sprucelabs/spruce-event-utils'
 import { diskUtil, Skill } from '@sprucelabs/spruce-skill-utils'
+import { vcDiskUtil } from '@sprucelabs/spruce-test-fixtures'
 import { assert, test } from '@sprucelabs/test'
 import { errorAssertUtil } from '@sprucelabs/test-utils'
 import { ViewFeature } from '../../plugins/view.plugin'
@@ -83,7 +84,13 @@ export default class RegistringSkillViewsOnBootTest extends AbstractViewPluginTe
 	@test()
 	protected static async registersThemeWithSkillView() {
 		process.env.SHOULD_REGISTER_VIEWS = 'true'
+		const themeFile = vcDiskUtil.resolveThemeFile(
+			this.resolveTestPathSrc('skill-with-theme', 'build')
+		)
 
+		assert.isString(themeFile)
+
+		const expected = require(themeFile).default
 		const skill = await this.GoodSkillWithTheme()
 
 		await this.bootSkill({ skill })
@@ -92,6 +99,7 @@ export default class RegistringSkillViewsOnBootTest extends AbstractViewPluginTe
 		const registered = eventResponseUtil.getFirstResponseOrThrow(results)
 
 		assert.isTruthy(registered.theme)
+		assert.isEqualDeep(registered.theme.props, expected)
 	}
 
 	private static async GoodSkill() {

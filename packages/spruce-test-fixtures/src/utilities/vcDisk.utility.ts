@@ -100,7 +100,10 @@ const vcDiskUtil = {
 
 		const file = this.resolveThemeFile(activeDir)
 		if (file && diskUtil.doesFileExist(file)) {
-			theme = {}
+			const props = require(file).default
+			theme = {
+				props,
+			}
 		}
 
 		return { svcs, vcs, ids, theme }

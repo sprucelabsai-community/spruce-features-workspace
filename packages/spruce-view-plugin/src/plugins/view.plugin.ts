@@ -29,8 +29,7 @@ export class ViewFeature implements SkillFeature {
 	}
 
 	public async execute(): Promise<void> {
-		const viewsPath = this.getCombinedViewsPath()
-
+		const viewsPath = this.getCombinedViewsSourcePath()
 		if (viewsPath && process.env.SHOULD_REGISTER_VIEWS !== 'false') {
 			const results = await this.importAndRegisterSkillViews(viewsPath)
 			eventResponseUtil.getFirstResponseOrThrow(results)
@@ -80,7 +79,7 @@ export class ViewFeature implements SkillFeature {
 		return results
 	}
 
-	private getCombinedViewsPath() {
+	private getCombinedViewsSourcePath() {
 		return vcDiskUtil.resolveCombinedViewsPath(
 			diskUtil.resolvePath(this.skill.rootDir, 'src')
 		)
