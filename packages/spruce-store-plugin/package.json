@@ -3,7 +3,7 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "5.1.15",
+	"version": "5.1.16",
 	"files": [
 		"build/**/*",
 		"!build/__tests__",
@@ -54,9 +54,9 @@
 		"@sprucelabs/data-stores": "latest",
 		"@sprucelabs/error": "latest",
 		"@sprucelabs/schema": "latest",
-		"@sprucelabs/spruce-skill-booter": "^5.1.15",
+		"@sprucelabs/spruce-skill-booter": "^5.1.16",
 		"@sprucelabs/spruce-skill-utils": "latest",
-		"@sprucelabs/spruce-test-fixtures": "^5.1.15",
+		"@sprucelabs/spruce-test-fixtures": "^5.1.16",
 		"globby": "^11.0.4",
 		"heroku-client": "^3.1.0"
 	},
@@ -70,7 +70,7 @@
 		"@sprucelabs/test": "latest",
 		"@sprucelabs/test-utils": "latest",
 		"@types/inquirer": "^7.3.3",
-		"@types/node": "^16.4.8",
+		"@types/node": "^16.4.9",
 		"chokidar-cli": "^3.0.0",
 		"concurrently": "^6.2.0",
 		"conventional-changelog-sprucelabs": "latest",
