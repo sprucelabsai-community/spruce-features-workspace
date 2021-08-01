@@ -62,7 +62,7 @@
 		"@sprucelabs/semantic-release": "latest",
 		"@sprucelabs/test": "latest",
 		"@sprucelabs/test-utils": "latest",
-		"@types/node": "^16.4.8",
+		"@types/node": "^16.4.9",
 		"chokidar-cli": "^3.0.0",
 		"concurrently": "^6.2.0",
 		"conventional-changelog-sprucelabs": "latest",
