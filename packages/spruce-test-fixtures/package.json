@@ -72,7 +72,7 @@
 		"@sprucelabs/esm-postbuild": "latest",
 		"@sprucelabs/jest-json-reporter": "latest",
 		"@sprucelabs/jest-sheets-reporter": "latest",
-		"@sprucelabs/mercury-event-emitter": "^16.8.13",
+		"@sprucelabs/mercury-event-emitter": "^16.8.15",
 		"@sprucelabs/mercury-types": "latest",
 		"@sprucelabs/resolve-path-aliases": "latest",
 		"@sprucelabs/semantic-release": "latest",
