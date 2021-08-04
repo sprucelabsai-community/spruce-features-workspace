@@ -405,9 +405,8 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 	}
 
 	private static setupListenersForEventsRegisteredBySkill(skill: any) {
-		diskUtil.moveDir(
-			this.resolvePath('build/listeners/namespace'),
-			this.resolvePath(`build/listeners/`, skill.slug)
+		return this.EventFixture().setupListenersForEventsRegisteredBySkill(
+			skill.slug
 		)
 	}
 
