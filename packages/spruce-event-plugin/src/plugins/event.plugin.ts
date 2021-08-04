@@ -22,6 +22,7 @@ import {
 	diskUtil,
 	HealthCheckItem,
 	Log,
+	functionDelegationUtil,
 } from '@sprucelabs/spruce-skill-utils'
 import globby from 'globby'
 import ListenerCacher from '../cache/ListenerCacher'
@@ -134,6 +135,7 @@ export class EventFeaturePlugin implements SkillFeature {
 			re()
 
 			await this.loadEvents()
+
 			if (
 				!this.hasLocalContractBeenUpdated &&
 				process.env.SHOULD_CACHE_EVENT_REGISTRATIONS === 'true'
@@ -151,6 +153,7 @@ export class EventFeaturePlugin implements SkillFeature {
 				this.log.info('Connection to Mercury successful. Waiting for events.')
 
 				const { client } = await this.apiClientPromise
+
 				//@ts-ignore
 				this.skill.updateContext('mercury', client)
 
@@ -522,7 +525,30 @@ export class EventFeaturePlugin implements SkillFeature {
 
 				await client.on(fqen, async (targetAndPayload: any) => {
 					this.log.info(`Incoming event - ${fqen}`)
+
 					const event = await this.buildSpruceEvent(fqen, targetAndPayload)
+					const newClient = {
+						//@ts-ignore
+						emit: (eventName, tp, cb) => {
+							let builtTp = tp
+
+							if (targetAndPayload.source.proxyToken) {
+								if (!builtTp) {
+									builtTp = {}
+								}
+								builtTp.source = {
+									...builtTp?.source,
+									proxyToken: targetAndPayload.source.proxyToken,
+								}
+							}
+
+							return client.emit(eventName, builtTp, cb)
+						},
+					}
+
+					functionDelegationUtil.delegateFunctionCalls(newClient, event.mercury)
+					event.mercury = newClient
+
 					const results = await listener.callback(event)
 
 					return results

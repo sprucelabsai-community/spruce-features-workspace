@@ -87,6 +87,7 @@ export default class EventFixture {
 	}
 
 	public async registerSkillAndSetupListeners(options?: {
+		skillDir?: string
 		onUnregisterListeners?: () => void
 		onAttachListeners?: (client: MercuryClient) => void
 		onSetShouldAutoRegisterListeners?: (should: boolean) => void
@@ -118,8 +119,8 @@ export default class EventFixture {
 			})
 		}
 
-		const bootedSkill = await this.Skill()
-		const events = bootedSkill.getFeatureByCode('event') as EventFeaturePlugin
+		const currentSkill = await this.Skill()
+		const events = currentSkill.getFeatureByCode('event') as EventFeaturePlugin
 
 		if (options?.onAttachListeners) {
 			//@ts-ignore
@@ -155,7 +156,7 @@ export default class EventFixture {
 			}
 		}
 
-		return { bootedSkill, events }
+		return { currentSkill, events, fqen }
 	}
 
 	public generateGoodContractFileForSkill(slug: string) {

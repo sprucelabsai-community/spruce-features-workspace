@@ -5,9 +5,9 @@ import {
 	eventResponseUtil,
 } from '@sprucelabs/spruce-event-utils'
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
+import { MercuryFixture } from '@sprucelabs/spruce-test-fixtures'
 import { assert, test } from '@sprucelabs/test'
 import { EventFeature } from '../..'
-import { MercuryFixture } from '../../../../spruce-test-fixtures/build'
 import SpruceError from '../../errors/SpruceError'
 import { EventFeaturePlugin } from '../../plugins/event.plugin'
 import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
@@ -19,14 +19,10 @@ declare module '@sprucelabs/spruce-skill-utils/build/types/skill.types' {
 }
 
 export default class ReceivingEventsTest extends AbstractEventPluginTest {
-	protected static async beforeAll() {
-		await super.beforeAll()
-	}
-
 	protected static async beforeEach() {
 		await super.beforeEach()
-		MercuryClientFactory.setIsTestMode(false)
 
+		MercuryClientFactory.setIsTestMode(false)
 		MercuryFixture.setShouldMixinCoreEventContractsWhenImportingLocal(true)
 
 		delete process.env.DID_BOOT_FIRED
@@ -211,7 +207,7 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 		const setShouldAutoRegistrationInvocations: boolean[] = []
 		const autoRegisterForOn: boolean[] = []
 
-		const { bootedSkill, events } = await this.registerSkillAndSetupListeners({
+		const { currentSkill, events } = await this.registerSkillAndSetupListeners({
 			onUnregisterListeners: () => {
 				unRegisterListenerCount++
 			},
@@ -228,7 +224,7 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 			},
 		})
 
-		await this.bootKillAndResetSkill(bootedSkill, events)
+		await this.bootKillAndResetSkill(currentSkill, events)
 
 		assert.isLength(
 			setShouldAutoRegistrationInvocations,
@@ -239,7 +235,7 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 		assert.isTrue(setShouldAutoRegistrationInvocations[1])
 		assert.isTrue(autoRegisterForOn[0])
 
-		await this.bootKillAndResetSkill(bootedSkill, events)
+		await this.bootKillAndResetSkill(currentSkill, events)
 
 		assert.isLength(setShouldAutoRegistrationInvocations, 4)
 		assert.isFalse(setShouldAutoRegistrationInvocations[2])
@@ -258,7 +254,7 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 
 		diskUtil.writeFile(listenerDest, 'exports.default = function() {}')
 
-		await this.bootKillAndResetSkill(bootedSkill, events)
+		await this.bootKillAndResetSkill(currentSkill, events)
 
 		assert.isLength(setShouldAutoRegistrationInvocations, 6)
 		assert.isTrue(setShouldAutoRegistrationInvocations[4])
@@ -278,7 +274,7 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 		let unRegisterListenerCount = 0
 		const shoulds: boolean[] = []
 
-		const { bootedSkill, events } = await this.registerSkillAndSetupListeners({
+		const { currentSkill, events } = await this.registerSkillAndSetupListeners({
 			onUnregisterListeners: () => {
 				unRegisterListenerCount++
 			},
@@ -289,8 +285,8 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 			onAttachListener: () => {},
 		})
 
-		await this.bootKillAndResetSkill(bootedSkill, events)
-		await this.bootKillAndResetSkill(bootedSkill, events)
+		await this.bootKillAndResetSkill(currentSkill, events)
+		await this.bootKillAndResetSkill(currentSkill, events)
 
 		assert.isEqual(unRegisterListenerCount, 2)
 		assert.isLength(shoulds, 4)
@@ -304,16 +300,16 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 	protected static async willlReRegisterListenersWithDifferentHost() {
 		let unRegisterListenerCount = 0
 
-		const { bootedSkill, events } = await this.registerSkillAndSetupListeners({
+		const { currentSkill, events } = await this.registerSkillAndSetupListeners({
 			onUnregisterListeners: () => {
 				unRegisterListenerCount++
 			},
 		})
 
-		await this.bootKillAndResetSkill(bootedSkill, events)
+		await this.bootKillAndResetSkill(currentSkill, events)
 		process.env.HOST = process.env.HOST + ':443'
 
-		await this.bootKillAndResetSkill(bootedSkill, events)
+		await this.bootKillAndResetSkill(currentSkill, events)
 
 		assert.isEqual(unRegisterListenerCount, 2)
 	}
