@@ -154,6 +154,7 @@ export default class RespondingToMessagesTest extends AbstractConversationTest {
 			const events = skill.getFeatureByCode('event') as EventFeature
 			const client = await events.connectToApi()
 
+			//@ts-ignore
 			this.client = client
 		}
 
