@@ -6,6 +6,7 @@ import PersonFixture from './PersonFixture'
 export default class OrganizationFixture {
 	private personFixture: PersonFixture
 	private organizations: { organization: any; client: MercuryClient }[] = []
+	private orgCounter = process.pid
 
 	public constructor(personFixture: PersonFixture) {
 		this.personFixture = personFixture
@@ -13,7 +14,7 @@ export default class OrganizationFixture {
 
 	public async seedDemoOrg(values: { name: string; slug?: string }) {
 		const allValues = {
-			slug: `my-org-${new Date().getTime()}`,
+			slug: this.generateOrgSlug(),
 			...values,
 		}
 
@@ -28,6 +29,10 @@ export default class OrganizationFixture {
 		this.organizations.push({ organization, client })
 
 		return organization
+	}
+
+	private generateOrgSlug(): string {
+		return `my-org-${new Date().getTime()}-${this.orgCounter++}`
 	}
 
 	public async installSkill(skillId: string, orgId: string): Promise<void> {

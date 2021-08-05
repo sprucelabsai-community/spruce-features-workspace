@@ -37,7 +37,7 @@ export default class SkillFixture {
 		return skill as Skill
 	}
 
-	private generateSkillSlug(): string | null | undefined {
+	private generateSkillSlug(): string {
 		return `my-skill-${new Date().getTime()}-${this.skillCounter++}`
 	}
 
