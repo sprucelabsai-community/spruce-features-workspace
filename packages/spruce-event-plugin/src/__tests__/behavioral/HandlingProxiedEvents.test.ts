@@ -20,7 +20,8 @@ export default class HandlingProxiedEventsTest extends AbstractEventPluginTest {
 
 		const { client } = await this.Fixture('person').loginAsDemoPerson()
 
-		const { token } = await client.emit('register-proxy-token::v2020_12_25', {})
+		const proxyResults = await client.emit('register-proxy-token::v2020_12_25')
+		const { token } = eventResponseUtil.getFirstResponseOrThrow(proxyResults)
 
 		client.setProxyToken(token)
 
