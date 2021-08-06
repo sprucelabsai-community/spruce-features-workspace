@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.4.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.3.2...v5.4.0) (2021-08-06)
+
+
+### Features
+
+* log transport loading on skill boot ([5c17094](https://github.com/sprucelabsai/spruce-features-workspace/commit/5c17094))
+
+
+
+
+
 ## [5.3.2](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.3.1...v5.3.2) (2021-08-05)
 
 **Note:** Version bump only for package @sprucelabs/spruce-skill-booter
