@@ -5,6 +5,9 @@ import {
 	Skill as ISkill,
 	SkillContext,
 	SkillFeature,
+	pluginUtil,
+	LogOptions,
+	Level,
 } from '@sprucelabs/spruce-skill-utils'
 import SpruceError from '../errors/SpruceError'
 
@@ -22,7 +25,14 @@ export default class Skill implements ISkill {
 	public hashSpruceDir
 
 	private featureMap: Record<string, SkillFeature> = {}
-	private log: Log
+	private _log?: Log
+	private get log() {
+		if (!this._log) {
+			return buildLog('Skill')
+		}
+
+		return this._log
+	}
 	private _isRunning = false
 	private shutdownTimeout: any
 	private isKilling = false
@@ -35,7 +45,7 @@ export default class Skill implements ISkill {
 		this.rootDir = options.rootDir
 		this.activeDir = options.activeDir
 		this.hashSpruceDir = options.hashSpruceDir
-		this.log = options.log ?? buildLog('Skill')
+		this._log = options.log
 		this.shouldCountdownOnExit = options.shouldCountdownOnExit ?? true
 	}
 
@@ -89,6 +99,8 @@ export default class Skill implements ISkill {
 		this._isRunning = true
 
 		try {
+			await this.loadLogTransports()
+
 			this.bootLoggerInterval = setInterval(() => {
 				if (this.isBooted()) {
 					clearInterval(this.bootLoggerInterval)
@@ -217,5 +229,37 @@ export default class Skill implements ISkill {
 		value: SkillContext[Key]
 	) {
 		this.context[key] = value
+	}
+
+	private async loadLogTransports() {
+		const matches = await pluginUtil.import([], this.activeDir, 'logTransports')
+
+		if (matches.length > 0) {
+			const transportsByLevel: Partial<LogOptions['transportsByLevel']> = {}
+
+			for (const first of matches) {
+				if (!Array.isArray(first.levels)) {
+					throw new SpruceError({
+						//@ts-ignore
+						code: 'INVALID_LOG_TRANSPORT',
+						friendlyMessage: `The log transport you supplied is invalid. Make sure it exports a function by default and returns an object that looks like:
+						
+		{ 
+			level: string[], 
+			transport: (...messageParts: string[]) => void
+		}
+		`,
+					})
+				}
+
+				first.levels.forEach((level: Level) => {
+					transportsByLevel[level] = first.transport
+				})
+			}
+
+			this._log = buildLog('Skill', {
+				transportsByLevel,
+			})
+		}
 	}
 }
