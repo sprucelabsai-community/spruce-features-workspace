@@ -24,7 +24,7 @@ export default class KillingTheSkillTest extends AbstractEventPluginTest {
 		this.cwd = this.resolveTestPath('skill-will-boot-throws')
 		const skill = await this.Skill()
 
-		void skill.execute().catch((err: any) => {
+		await skill.execute().catch((err: any) => {
 			assert.isEqual(err.message, 'what the!')
 		})
 
