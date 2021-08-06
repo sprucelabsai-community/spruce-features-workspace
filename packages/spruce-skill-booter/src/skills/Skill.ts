@@ -253,6 +253,13 @@ export default class Skill implements ISkill {
 				}
 
 				first.levels.forEach((level: Level) => {
+					if (transportsByLevel[level]) {
+						throw new SpruceError({
+							//@ts-ignore
+							code: 'DUPLICATE_LOG_TRANSPORT',
+							friendlyMessage: `You have two transports handling '${level}' and that is not supported.`,
+						})
+					}
 					transportsByLevel[level] = first.transport
 				})
 			}

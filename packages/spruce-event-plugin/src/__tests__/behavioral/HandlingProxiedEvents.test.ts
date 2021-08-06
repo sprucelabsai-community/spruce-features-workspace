@@ -20,15 +20,9 @@ export default class HandlingProxiedEventsTest extends AbstractEventPluginTest {
 
 		const { client } = await this.Fixture('person').loginAsDemoPerson()
 
-		const proxyToken = `${Math.random()}`
+		const { token } = await client.emit('register-proxy-token::v2020_12_25', {})
 
-		await client.emit('register-proxy-token::v2020_12_25', {
-			payload: {
-				token: proxyToken,
-			},
-		})
-
-		client.setProxyToken(proxyToken)
+		client.setProxyToken(token)
 
 		//@ts-ignore
 		client.mixinContract({
@@ -50,7 +44,7 @@ export default class HandlingProxiedEventsTest extends AbstractEventPluginTest {
 
 		eventResponseUtil.getFirstResponseOrThrow(results)
 
-		assert.isEqual(passedSource.proxyToken, proxyToken)
+		assert.isEqual(passedSource.proxyToken, token)
 
 		await this.assertPrimaryMercuryClientDoesNotHaveProxyTokenSet(events)
 	}

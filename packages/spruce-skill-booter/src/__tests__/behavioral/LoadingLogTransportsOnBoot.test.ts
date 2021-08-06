@@ -90,4 +90,13 @@ export default class LoadingLogTransportsOnBootTest extends AbstractSkillTest {
 		assert.doesNotInclude(errContents, 'whaaa!?')
 		assert.doesInclude(errContents, 'nooo')
 	}
+
+	@test()
+	protected static async cantSetSameLevelFor2Transports() {
+		const err = await assert.doesThrowAsync(() =>
+			this.bootSkillFromTestDir('skill-with-duplicate-transports')
+		)
+
+		errorAssertUtil.assertError(err, 'DUPLICATE_LOG_TRANSPORT')
+	}
 }
