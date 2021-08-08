@@ -9,7 +9,7 @@
 			"sync.schemas": "--shouldFetchCoreSchemas false"
 		}
 	},
-	"version": "5.3.2",
+	"version": "5.4.1",
 	"files": [
 		"build/**/*",
 		"!build/__tests__",
@@ -65,7 +65,7 @@
 		"@sprucelabs/schema": "latest",
 		"@sprucelabs/spruce-core-schemas": "latest",
 		"@sprucelabs/spruce-event-utils": "latest",
-		"@sprucelabs/spruce-skill-booter": "^5.3.2",
+		"@sprucelabs/spruce-skill-booter": "^5.4.1",
 		"@sprucelabs/spruce-skill-utils": "latest",
 		"dotenv": "^10.0.0"
 	},
@@ -73,13 +73,13 @@
 		"@sprucelabs/esm-postbuild": "latest",
 		"@sprucelabs/jest-json-reporter": "latest",
 		"@sprucelabs/jest-sheets-reporter": "latest",
-		"@sprucelabs/mercury-event-emitter": "^16.10.3",
+		"@sprucelabs/mercury-event-emitter": "^16.10.4",
 		"@sprucelabs/mercury-types": "latest",
 		"@sprucelabs/resolve-path-aliases": "latest",
 		"@sprucelabs/semantic-release": "latest",
 		"@sprucelabs/test": "latest",
 		"@sprucelabs/test-utils": "latest",
-		"@types/node": "^16.4.12",
+		"@types/node": "^16.4.13",
 		"chokidar-cli": "^3.0.0",
 		"concurrently": "^6.2.0",
 		"conventional-changelog-sprucelabs": "latest",

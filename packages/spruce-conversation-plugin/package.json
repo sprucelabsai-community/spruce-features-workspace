@@ -3,7 +3,7 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "5.3.2",
+	"version": "5.4.1",
 	"files": [
 		"build/**/*",
 		"!build/__tests__",
@@ -56,11 +56,11 @@
 		"@sprucelabs/error": "latest",
 		"@sprucelabs/schema": "latest",
 		"@sprucelabs/spruce-core-schemas": "latest",
-		"@sprucelabs/spruce-event-plugin": "^5.3.2",
+		"@sprucelabs/spruce-event-plugin": "^5.4.1",
 		"@sprucelabs/spruce-event-utils": "latest",
-		"@sprucelabs/spruce-skill-booter": "^5.3.2",
+		"@sprucelabs/spruce-skill-booter": "^5.4.1",
 		"@sprucelabs/spruce-skill-utils": "latest",
-		"@sprucelabs/spruce-test-fixtures": "^5.3.2",
+		"@sprucelabs/spruce-test-fixtures": "^5.4.1",
 		"fuzzyset": "^1.0.6",
 		"globby": "^11.0.4",
 		"inquirer": "^8.1.2",
@@ -78,7 +78,7 @@
 		"@sprucelabs/test-utils": "latest",
 		"@types/fuzzyset": "^1.0.2",
 		"@types/inquirer": "^7.3.3",
-		"@types/node": "^16.4.12",
+		"@types/node": "^16.4.13",
 		"chokidar-cli": "^3.0.0",
 		"concurrently": "^6.2.0",
 		"conventional-changelog-sprucelabs": "latest",
