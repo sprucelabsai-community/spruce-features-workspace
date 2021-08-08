@@ -238,6 +238,9 @@ export default class Skill implements ISkill {
 			const transportsByLevel: Partial<LogOptions['transportsByLevel']> = {}
 
 			for (const first of matches) {
+				if (!first) {
+					continue
+				}
 				if (!Array.isArray(first.levels)) {
 					throw new SpruceError({
 						//@ts-ignore

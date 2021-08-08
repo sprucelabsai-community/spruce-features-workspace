@@ -99,4 +99,9 @@ export default class LoadingLogTransportsOnBootTest extends AbstractSkillTest {
 
 		errorAssertUtil.assertError(err, 'DUPLICATE_LOG_TRANSPORT')
 	}
+
+	@test()
+	protected static async returningNullFromTransportIsIgnored() {
+		await this.bootSkillFromTestDir('skill-with-null-log-transport')
+	}
 }
