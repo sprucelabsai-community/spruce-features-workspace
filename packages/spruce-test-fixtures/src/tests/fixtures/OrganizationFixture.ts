@@ -1,6 +1,5 @@
 import { MercuryClient } from '@sprucelabs/mercury-client'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
-import SpruceError from '../../errors/SpruceError'
 import PersonFixture from './PersonFixture'
 
 export default class OrganizationFixture {
@@ -132,30 +131,31 @@ export default class OrganizationFixture {
 	}) {
 		const { organizationId, slugs } = options
 		const { client } = await this.personFixture.loginAsDemoPerson()
-		const skillResults = await client.emit('list-skills::v2020_12_25')
+		const skillResults = await client.emit('list-skills::v2020_12_25', {
+			payload: {
+				namespaces: slugs,
+			},
+		})
+
 		const { skills } = eventResponseUtil.getFirstResponseOrThrow(skillResults)
 
-		for (const slug of slugs) {
-			const match = skills.find((s) => s.slug === slug)
-
-			if (!match) {
-				throw new SpruceError({ code: 'SKILL_NOT_FOUND', slug })
-			}
-
-			await this.installSkill(match.id, organizationId)
-		}
+		await Promise.all(
+			skills.map((skill) => this.installSkill(skill.id, organizationId))
+		)
 	}
 
 	public async destory() {
-		for (const { organization, client } of this.organizations) {
-			const results = await client.emit('delete-organization::v2020_12_25', {
-				target: {
-					organizationId: organization.id,
-				},
-			})
+		await Promise.all(
+			this.organizations.map(async ({ organization, client }) => {
+				const results = await client.emit('delete-organization::v2020_12_25', {
+					target: {
+						organizationId: organization.id,
+					},
+				})
 
-			eventResponseUtil.getFirstResponseOrThrow(results)
-		}
+				eventResponseUtil.getFirstResponseOrThrow(results)
+			})
+		)
 
 		await this.personFixture.destroy()
 	}

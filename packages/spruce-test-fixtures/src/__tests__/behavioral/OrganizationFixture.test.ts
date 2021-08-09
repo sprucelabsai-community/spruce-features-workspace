@@ -2,6 +2,10 @@ import { eventErrorAssertUtil } from '@sprucelabs/spruce-event-utils'
 import { test, assert } from '@sprucelabs/test'
 import { errorAssertUtil } from '@sprucelabs/test-utils'
 import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
+import {
+	DEMO_NUMBER_HIRING,
+	DEMO_NUMBER_INSTALLING_SKILLS,
+} from '../../tests/constants'
 import OrganizationFixture from '../../tests/fixtures/OrganizationFixture'
 
 export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
@@ -45,9 +49,7 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 		const people = this.Fixture('person')
 		const org = await this.fixture.seedDemoOrg({ name: 'my org' })
 
-		const { person } = await people.loginAsDemoPerson(
-			process.env.DEMO_NUMBER_HIRING
-		)
+		const { person } = await people.loginAsDemoPerson(DEMO_NUMBER_HIRING)
 
 		const isHired = await this.fixture.isPartOfOrg(person.id, org.id)
 		assert.isFalse(isHired)
@@ -58,9 +60,7 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 		const people = this.Fixture('person')
 		const org = await this.fixture.seedDemoOrg({ name: 'my org' })
 
-		const { person } = await people.loginAsDemoPerson(
-			process.env.DEMO_NUMBER_HIRING
-		)
+		const { person } = await people.loginAsDemoPerson(DEMO_NUMBER_HIRING)
 
 		await this.fixture.addPerson({
 			personId: person.id,
@@ -74,21 +74,21 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async isNotInstalledByDefault() {
-		const { skill, org } = await OrganizationFixtureTest.seedOrgAndSkill()
+		const { skill, org } = await this.seedOrgAndSkill()
 		const isInstalled = await this.fixture.isSkillInstalled(skill.id, org.id)
 		assert.isFalse(isInstalled)
 	}
 
 	@test()
 	protected static async showsAsInstalled() {
-		const { skill, org } = await OrganizationFixtureTest.seedOrgAndSkill()
+		const { skill, org } = await this.seedOrgAndSkill()
 		await this.fixture.installSkill(skill.id, org.id)
 		await this.assertSkillIsInstalled(skill.id, org.id)
 	}
 
 	@test()
 	protected static async cantInstallWithBadSkill() {
-		const { org } = await OrganizationFixtureTest.seedOrgAndSkill()
+		const { org } = await this.seedOrgAndSkill()
 		const err = await assert.doesThrowAsync(() =>
 			this.fixture.installSkillsBySlug({
 				organizationId: org.id,
@@ -103,13 +103,31 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async canInstallWithSlug() {
-		const { skill, org } = await OrganizationFixtureTest.seedOrgAndSkill()
+		const { skill, org } = await this.seedOrgAndSkill()
 		await this.fixture.installSkillsBySlug({
 			organizationId: org.id,
 			slugs: [skill.slug],
 		})
 
 		await this.assertSkillIsInstalled(skill.id, org.id)
+	}
+
+	@test()
+	protected static async canInstallSkillFromAnotherPerson() {
+		const { skill, org } = await this.seedOrgAndSkill()
+
+		const skill2 = await this.Fixture('skill').seedDemoSkill({
+			name: 'testing testy 2',
+			creatorPhone: DEMO_NUMBER_INSTALLING_SKILLS,
+		})
+
+		await this.fixture.installSkillsBySlug({
+			organizationId: org.id,
+			slugs: [skill.slug, skill2.slug],
+		})
+
+		await this.assertSkillIsInstalled(skill.id, org.id)
+		await this.assertSkillIsInstalled(skill2.id, org.id)
 	}
 
 	private static async assertSkillIsInstalled(skillId: string, orgId: string) {
