@@ -90,23 +90,23 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 	protected static async cantInstallWithBadSkill() {
 		const { org } = await this.seedOrgAndSkill()
 		const err = await assert.doesThrowAsync(() =>
-			this.fixture.installSkillsBySlug({
+			this.fixture.installSkillsByNamespace({
 				organizationId: org.id,
-				slugs: ['aoeuaoeu'],
+				namespaces: ['aoeuaoeu'],
 			})
 		)
 
-		errorAssertUtil.assertError(err, 'SKILL_NOT_FOUND', {
-			slug: 'aoeuaoeu',
+		eventErrorAssertUtil.assertError(err, 'INVALID_NAMESPACES', {
+			namespaces: ['aoeuaoeu'],
 		})
 	}
 
 	@test()
 	protected static async canInstallWithSlug() {
 		const { skill, org } = await this.seedOrgAndSkill()
-		await this.fixture.installSkillsBySlug({
+		await this.fixture.installSkillsByNamespace({
 			organizationId: org.id,
-			slugs: [skill.slug],
+			namespaces: [skill.slug],
 		})
 
 		await this.assertSkillIsInstalled(skill.id, org.id)
@@ -121,9 +121,9 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 			creatorPhone: DEMO_NUMBER_INSTALLING_SKILLS,
 		})
 
-		await this.fixture.installSkillsBySlug({
+		await this.fixture.installSkillsByNamespace({
 			organizationId: org.id,
-			slugs: [skill.slug, skill2.slug],
+			namespaces: [skill.slug, skill2.slug],
 		})
 
 		await this.assertSkillIsInstalled(skill.id, org.id)

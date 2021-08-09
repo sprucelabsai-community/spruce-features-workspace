@@ -125,15 +125,15 @@ export default class OrganizationFixture {
 		return isInstalled
 	}
 
-	public async installSkillsBySlug(options: {
+	public async installSkillsByNamespace(options: {
 		organizationId: string
-		slugs: string[]
+		namespaces: string[]
 	}) {
-		const { organizationId, slugs } = options
+		const { organizationId, namespaces } = options
 		const { client } = await this.personFixture.loginAsDemoPerson()
 		const skillResults = await client.emit('list-skills::v2020_12_25', {
 			payload: {
-				namespaces: slugs,
+				namespaces,
 			},
 		})
 
