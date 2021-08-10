@@ -28,7 +28,7 @@ export default class Skill implements ISkill {
 	private _log?: Log
 	private get log() {
 		if (!this._log) {
-			return buildLog('Skill')
+			return buildLog(`Skill (${process.pid})`)
 		}
 
 		return this._log
