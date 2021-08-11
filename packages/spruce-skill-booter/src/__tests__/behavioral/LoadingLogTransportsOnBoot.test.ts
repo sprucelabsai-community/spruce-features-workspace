@@ -104,4 +104,23 @@ export default class LoadingLogTransportsOnBootTest extends AbstractSkillTest {
 	protected static async returningNullFromTransportIsIgnored() {
 		await this.bootSkillFromTestDir('skill-with-null-log-transport')
 	}
+
+	@test()
+	protected static async logTransportIsSetOnContructionOfSkill() {
+		const skill = await this.SkillFromTestDir(
+			'skill-with-multiple-log-transports',
+			//@ts-ignore
+			{ log: null }
+		)
+
+		//@ts-ignore
+		assert.isTruthy(skill._log)
+	}
+
+	private static bootSkillFromTestDir(cacheDir: string) {
+		return super.bootSkillFromTestDir(
+			cacheDir, //@ts-ignore
+			{ log: null }
+		)
+	}
 }
