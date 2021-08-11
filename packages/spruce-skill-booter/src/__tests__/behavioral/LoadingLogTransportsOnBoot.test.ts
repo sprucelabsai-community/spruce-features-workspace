@@ -117,7 +117,7 @@ export default class LoadingLogTransportsOnBootTest extends AbstractSkillTest {
 		assert.isTruthy(skill._log)
 	}
 
-	private static bootSkillFromTestDir(cacheDir: string) {
+	protected static bootSkillFromTestDir(cacheDir: string) {
 		return super.bootSkillFromTestDir(
 			cacheDir, //@ts-ignore
 			{ log: null }
