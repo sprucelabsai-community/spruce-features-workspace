@@ -3,6 +3,54 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.4.15](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.4.14...v5.4.15) (2021-08-14)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [5.4.14](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.4.13...v5.4.14) (2021-08-13)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [5.4.13](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.4.12...v5.4.13) (2021-08-12)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [5.4.12](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.4.11...v5.4.12) (2021-08-12)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [5.4.11](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.4.10...v5.4.11) (2021-08-11)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [5.4.10](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.4.9...v5.4.10) (2021-08-11)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
 ## [5.4.9](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.4.8...v5.4.9) (2021-08-10)
 
 **Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
