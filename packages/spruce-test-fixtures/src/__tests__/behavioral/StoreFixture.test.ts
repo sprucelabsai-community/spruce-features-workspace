@@ -1,4 +1,8 @@
-import { DatabaseFixture, StoreLoader } from '@sprucelabs/data-stores'
+import {
+	DatabaseFixture,
+	StoreLoader,
+	StoreFactory,
+} from '@sprucelabs/data-stores'
 import AbstractSpruceTest, { assert, test } from '@sprucelabs/test'
 import FixtureFactory from '../../tests/fixtures/FixtureFactory'
 import StoreFixture from '../../tests/fixtures/StoreFixture'
@@ -85,6 +89,18 @@ export default class StoreFixtureTest extends AbstractSpruceTest {
 
 		//@ts-ignore
 		assert.isNotEqual(loader1.db, loader2.db)
+	}
+
+	@test()
+	protected static async storeFixtureCallsResetOnStoreFactory() {
+		let wasHit = false
+		//@ts-ignore
+		StoreFactory.reset = () => {
+			wasHit = true
+		}
+
+		await StoreFixture.beforeEach()
+		assert.isTrue(wasHit)
 	}
 
 	private static Fixture() {

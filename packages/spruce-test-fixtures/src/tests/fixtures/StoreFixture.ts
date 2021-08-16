@@ -50,6 +50,8 @@ export default class StoreFixture {
 
 		await DatabaseFixture.destroy()
 
+		StoreFactory.reset()
+
 		const db = await new DatabaseFixture().connectToDatabase()
 
 		StoreLoader.clearInstance()
