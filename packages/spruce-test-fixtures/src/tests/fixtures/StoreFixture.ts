@@ -37,19 +37,23 @@ export default class StoreFixture {
 	}
 
 	public static async beforeAll() {
-		const db = await new DatabaseFixture().connectToDatabase()
 		const cwd = diskUtil.resolvePath(process.cwd(), 'build')
 
 		StoreLoader.setStoreDir(cwd)
-		StoreLoader.setDatabase(db)
+
+		DatabaseFixture.beforeAll()
 	}
 
 	public static async beforeEach() {
 		process.env.DB_NAME = 'memory'
 		process.env.DB_CONNECTION_STRING = 'memory://'
 
-		const db = await this.DatabaseFixture().connectToDatabase()
-		await db.dropDatabase()
+		await DatabaseFixture.destroy()
+
+		const db = await new DatabaseFixture().connectToDatabase()
+
+		StoreLoader.clearInstance()
+		StoreLoader.setDatabase(db)
 	}
 
 	public static DatabaseFixture() {
