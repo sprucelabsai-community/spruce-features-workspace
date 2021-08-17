@@ -10,7 +10,12 @@ export default abstract class AbstractStoreTest extends AbstractSpruceFixtureTes
 		process.cwd(),
 		'build'
 	)
-	private static storeFixture: StoreFixture
+	private static storeFixture: StoreFixture | null = null
+
+	protected static async beforeEach() {
+		await super.beforeEach()
+		this.storeFixture = null
+	}
 
 	protected static async connectToDatabase() {
 		return this.Fixture('database').connectToDatabase()

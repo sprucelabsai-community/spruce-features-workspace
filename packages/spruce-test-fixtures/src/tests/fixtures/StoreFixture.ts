@@ -11,7 +11,6 @@ import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 export default class StoreFixture {
 	private storeFactory?: Promise<StoreFactory>
 	private loader?: Promise<StoreLoader>
-	private stores?: Promise<StoreFactory>
 
 	public async Store<N extends StoreName, O extends StoreOptions<N>>(
 		name: N,
@@ -22,7 +21,7 @@ export default class StoreFixture {
 	}
 
 	public async getStoreFactory() {
-		if (!this.stores) {
+		if (!this.storeFactory) {
 			if (!this.loader) {
 				this.loader = StoreLoader.getInstance()
 				await this.loader

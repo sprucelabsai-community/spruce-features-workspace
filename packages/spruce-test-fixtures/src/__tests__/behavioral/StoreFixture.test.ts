@@ -26,7 +26,7 @@ export default class StoreFixtureTest extends AbstractSpruceTest {
 
 	@test()
 	protected static async canGetFixture() {
-		assert.isTruthy(this.Fixture().Fixture('store'))
+		assert.isTruthy(this.FixtureFactory().Fixture('store'))
 	}
 
 	@test()
@@ -41,12 +41,12 @@ export default class StoreFixtureTest extends AbstractSpruceTest {
 			)
 		)
 
-		const dbFixture = this.Fixture().Fixture('database')
+		const dbFixture = this.FixtureFactory().Fixture('database')
 		const db = await dbFixture.connectToDatabase()
 
 		StoreLoader.setDatabase(db)
 
-		const fixture = this.Fixture().Fixture('store')
+		const fixture = this.FixtureFactory().Fixture('store')
 		const goodStore = await fixture.Store('good')
 		assert.isTruthy(goodStore)
 	}
@@ -103,7 +103,7 @@ export default class StoreFixtureTest extends AbstractSpruceTest {
 		assert.isTrue(wasHit)
 	}
 
-	private static Fixture() {
+	private static FixtureFactory() {
 		return new FixtureFactory({ cwd: this.cwd })
 	}
 }
