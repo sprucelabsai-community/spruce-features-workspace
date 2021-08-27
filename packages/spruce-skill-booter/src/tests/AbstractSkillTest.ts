@@ -108,8 +108,11 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
 		})
 	}
 
-	protected static async bootSkillFromTestDir(key: string) {
-		const skill = await this.SkillFromTestDir(key)
+	protected static async bootSkillFromTestDir(
+		key: string,
+		options?: SkillFactoryOptions
+	) {
+		const skill = await this.SkillFromTestDir(key, options)
 		await this.bootSkillAndWait(skill)
 
 		return skill
@@ -123,9 +126,12 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
 		await this.wait(100)
 	}
 
-	protected static async SkillFromTestDir(key: string) {
+	protected static async SkillFromTestDir(
+		key: string,
+		options?: SkillFactoryOptions
+	) {
 		this.cwd = await this.copySkillFromTestDirToTmpDir(key)
-		const skill = await this.Skill()
+		const skill = await this.Skill(options)
 
 		return skill
 	}

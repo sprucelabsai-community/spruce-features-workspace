@@ -6,6 +6,7 @@ import {
 	AbstractSpruceFixtureTest,
 } from '@sprucelabs/spruce-test-fixtures'
 import plugin, { EventFeaturePlugin } from './../plugins/event.plugin'
+import EventFixture from './fixtures/EventFixture'
 
 export default class AbstractEventPluginTest extends AbstractSpruceFixtureTest {
 	protected static async beforeEach() {
@@ -17,12 +18,13 @@ export default class AbstractEventPluginTest extends AbstractSpruceFixtureTest {
 	}
 
 	protected static async generateSkillFromTestPath(
-		testDirName: string
+		dirName: string
 	): Promise<string> {
-		const destination = diskUtil.createRandomTempDir()
-		const source = this.resolveTestPath(testDirName)
+		const source = this.resolveTestPath(dirName)
+		const destination = this.resolveTestPath(`${new Date().getTime()}/skill`)
 
 		await diskUtil.copyDir(source, destination)
+
 		return destination
 	}
 
@@ -45,6 +47,16 @@ export default class AbstractEventPluginTest extends AbstractSpruceFixtureTest {
 			'testDirsAndFiles',
 			pathAfterTestDirsAndFiles
 		)
+	}
+
+	protected static EventFixture() {
+		const fixture = new EventFixture({
+			cwd: this.cwd,
+			mercuryFixture: this.Fixture('mercury'),
+			skillFixture: this.Fixture('skill'),
+			SkillFactory: this.Skill.bind(this),
+		})
+		return fixture
 	}
 
 	protected static generateGoodContractFileForSkill(

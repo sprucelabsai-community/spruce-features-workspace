@@ -20,8 +20,14 @@ export default class SkillFixture {
 		this.personFixture = personFixture
 	}
 
-	public async seedDemoSkill(values: { name: string; slug?: string }) {
-		const { client } = await this.personFixture.loginAsDemoPerson()
+	public async seedDemoSkill(options: {
+		name: string
+		slug?: string
+		creatorPhone?: string
+	}) {
+		const { creatorPhone, ...values } = options
+
+		const { client } = await this.personFixture.loginAsDemoPerson(creatorPhone)
 
 		const results = await client.emit('register-skill::v2020_12_25', {
 			payload: {
@@ -37,7 +43,7 @@ export default class SkillFixture {
 		return skill as Skill
 	}
 
-	private generateSkillSlug(): string | null | undefined {
+	private generateSkillSlug(): string {
 		return `my-skill-${new Date().getTime()}-${this.skillCounter++}`
 	}
 
@@ -116,15 +122,17 @@ export default class SkillFixture {
 	}
 
 	public async destroy() {
-		for (const { skill, client } of this.skills) {
-			const results = await client.emit('unregister-skill::v2020_12_25', {
-				target: {
-					skillId: skill.id,
-				},
-			})
+		await Promise.all(
+			this.skills.map(async ({ skill, client }) => {
+				const results = await client.emit('unregister-skill::v2020_12_25', {
+					target: {
+						skillId: skill.id,
+					},
+				})
 
-			eventResponseUtil.getFirstResponseOrThrow(results)
-		}
+				eventResponseUtil.getFirstResponseOrThrow(results)
+			})
+		)
 
 		this.skills = []
 	}

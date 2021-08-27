@@ -11,7 +11,6 @@ import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 export default class StoreFixture {
 	private storeFactory?: Promise<StoreFactory>
 	private loader?: Promise<StoreLoader>
-	private stores?: Promise<StoreFactory>
 
 	public async Store<N extends StoreName, O extends StoreOptions<N>>(
 		name: N,
@@ -22,7 +21,7 @@ export default class StoreFixture {
 	}
 
 	public async getStoreFactory() {
-		if (!this.stores) {
+		if (!this.storeFactory) {
 			if (!this.loader) {
 				this.loader = StoreLoader.getInstance()
 				await this.loader
@@ -37,19 +36,25 @@ export default class StoreFixture {
 	}
 
 	public static async beforeAll() {
-		const db = await new DatabaseFixture().connectToDatabase()
 		const cwd = diskUtil.resolvePath(process.cwd(), 'build')
 
 		StoreLoader.setStoreDir(cwd)
-		StoreLoader.setDatabase(db)
+
+		DatabaseFixture.beforeAll()
 	}
 
 	public static async beforeEach() {
 		process.env.DB_NAME = 'memory'
 		process.env.DB_CONNECTION_STRING = 'memory://'
 
-		const db = await this.DatabaseFixture().connectToDatabase()
-		await db.dropDatabase()
+		await DatabaseFixture.destroy()
+
+		StoreFactory.reset()
+
+		const db = await new DatabaseFixture().connectToDatabase()
+
+		StoreLoader.clearInstance()
+		StoreLoader.setDatabase(db)
 	}
 
 	public static DatabaseFixture() {

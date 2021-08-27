@@ -1,11 +1,11 @@
 import { MercuryClient } from '@sprucelabs/mercury-client'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
-import SpruceError from '../../errors/SpruceError'
 import PersonFixture from './PersonFixture'
 
 export default class OrganizationFixture {
 	private personFixture: PersonFixture
 	private organizations: { organization: any; client: MercuryClient }[] = []
+	private orgCounter = process.pid
 
 	public constructor(personFixture: PersonFixture) {
 		this.personFixture = personFixture
@@ -13,7 +13,7 @@ export default class OrganizationFixture {
 
 	public async seedDemoOrg(values: { name: string; slug?: string }) {
 		const allValues = {
-			slug: `my-org-${new Date().getTime()}`,
+			slug: this.generateOrgSlug(),
 			...values,
 		}
 
@@ -28,6 +28,10 @@ export default class OrganizationFixture {
 		this.organizations.push({ organization, client })
 
 		return organization
+	}
+
+	private generateOrgSlug(): string {
+		return `my-org-${new Date().getTime()}-${this.orgCounter++}`
 	}
 
 	public async installSkill(skillId: string, orgId: string): Promise<void> {
@@ -121,36 +125,37 @@ export default class OrganizationFixture {
 		return isInstalled
 	}
 
-	public async installSkillsBySlug(options: {
+	public async installSkillsByNamespace(options: {
 		organizationId: string
-		slugs: string[]
+		namespaces: string[]
 	}) {
-		const { organizationId, slugs } = options
+		const { organizationId, namespaces } = options
 		const { client } = await this.personFixture.loginAsDemoPerson()
-		const skillResults = await client.emit('list-skills::v2020_12_25')
+		const skillResults = await client.emit('list-skills::v2020_12_25', {
+			payload: {
+				namespaces,
+			},
+		})
+
 		const { skills } = eventResponseUtil.getFirstResponseOrThrow(skillResults)
 
-		for (const slug of slugs) {
-			const match = skills.find((s) => s.slug === slug)
-
-			if (!match) {
-				throw new SpruceError({ code: 'SKILL_NOT_FOUND', slug })
-			}
-
-			await this.installSkill(match.id, organizationId)
-		}
+		await Promise.all(
+			skills.map((skill) => this.installSkill(skill.id, organizationId))
+		)
 	}
 
 	public async destory() {
-		for (const { organization, client } of this.organizations) {
-			const results = await client.emit('delete-organization::v2020_12_25', {
-				target: {
-					organizationId: organization.id,
-				},
-			})
+		await Promise.all(
+			this.organizations.map(async ({ organization, client }) => {
+				const results = await client.emit('delete-organization::v2020_12_25', {
+					target: {
+						organizationId: organization.id,
+					},
+				})
 
-			eventResponseUtil.getFirstResponseOrThrow(results)
-		}
+				eventResponseUtil.getFirstResponseOrThrow(results)
+			})
+		)
 
 		await this.personFixture.destroy()
 	}
