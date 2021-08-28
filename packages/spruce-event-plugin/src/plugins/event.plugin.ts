@@ -184,7 +184,7 @@ export class EventFeaturePlugin implements SkillFeature {
 					await this.queueDidBoot(didBoot)
 				}
 			}
-		} catch (err) {
+		} catch (err: any) {
 			rej(err)
 			this._isBooted = false
 			this.isExecuting = false
@@ -204,7 +204,7 @@ export class EventFeaturePlugin implements SkillFeature {
 			const event = await this.buildSpruceEvent('did-boot')
 
 			await didBoot(event)
-		} catch (err) {
+		} catch (err: any) {
 			if (!this.executeReject) {
 				throw err
 			}
@@ -351,7 +351,7 @@ export class EventFeaturePlugin implements SkillFeature {
 			const { client } = await this.apiClientPromise
 
 			return client
-		} catch (err) {
+		} catch (err: any) {
 			this.apiClientPromise = undefined
 			throw err
 		}
@@ -399,7 +399,7 @@ export class EventFeaturePlugin implements SkillFeature {
 				currentSkill = skill
 
 				this.log.info(`Authenticated as ${currentSkill?.slug}.`)
-			} catch (err) {
+			} catch (err: any) {
 				await client.disconnect()
 				this.apiClientPromise = undefined
 				throw err

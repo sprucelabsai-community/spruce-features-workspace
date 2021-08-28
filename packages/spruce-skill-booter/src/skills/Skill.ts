@@ -79,7 +79,7 @@ export default class Skill implements ISkill {
 						const item = await featureWithCode.feature.checkHealth()
 						//@ts-ignore
 						results[featureWithCode.code] = item
-					} catch (err) {
+					} catch (err: any) {
 						//@ts-ignore
 						results[featureWithCode.code] = {
 							status: 'failed',

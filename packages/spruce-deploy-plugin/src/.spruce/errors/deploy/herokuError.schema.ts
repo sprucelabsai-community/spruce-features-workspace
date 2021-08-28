@@ -3,9 +3,9 @@ import { SpruceErrors } from '../errors.types'
 
 
 
-const herokuErrorSchema: SpruceErrors.SpruceDeployPlugin.HerokuErrorSchema  = {
+const herokuErrorSchema: SpruceErrors.Deploy.HerokuErrorSchema  = {
 	id: 'herokuError',
-	namespace: 'SpruceDeployPlugin',
+	namespace: 'Deploy',
 	name: 'Heroku Error',
 	    fields: {
 	    }

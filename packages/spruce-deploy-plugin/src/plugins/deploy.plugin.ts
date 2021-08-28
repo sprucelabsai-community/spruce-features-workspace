@@ -24,7 +24,7 @@ export class DeployFeature implements SkillFeature {
 					status: 'passed',
 					deploys,
 				}
-			} catch (err) {
+			} catch (err: any) {
 				return {
 					status: 'failed',
 					deploys: [],

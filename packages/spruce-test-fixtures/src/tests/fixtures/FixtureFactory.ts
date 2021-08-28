@@ -1,4 +1,5 @@
 import { DatabaseFixture } from '@sprucelabs/data-stores'
+import { SchemaError } from '@sprucelabs/schema'
 import SpruceError from '../../errors/SpruceError'
 import {
 	FixtureConstructorOptionsMap,
@@ -21,7 +22,7 @@ export default class FixtureFactory {
 	public constructor(options: { cwd: string; namespace?: string }) {
 		this.cwd = options.cwd
 		if (!this.cwd) {
-			throw new SpruceError({
+			throw new SchemaError({
 				code: 'MISSING_PARAMETERS',
 				friendlyMessage: 'Mercury fixture needs cwd.',
 				parameters: ['options.cwd'],

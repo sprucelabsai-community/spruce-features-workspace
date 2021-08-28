@@ -1,8 +1,7 @@
-import { formatPhoneNumber } from '@sprucelabs/schema'
+import { formatPhoneNumber, SchemaError } from '@sprucelabs/schema'
 import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import dotenv from 'dotenv'
-import SpruceError from '../../errors/SpruceError'
 import { ApiClientFactory } from '../../types/fixture.types'
 
 dotenv.config()
@@ -23,7 +22,7 @@ export default class PersonFixture {
 		phone: string = process.env.DEMO_NUMBER ?? ''
 	): Promise<{ person: Person; client: Client; token: string }> {
 		if (!phone || phone.length === 0) {
-			throw new SpruceError({
+			throw new SchemaError({
 				code: 'MISSING_PARAMETERS',
 				parameters: ['env.DEMO_NUMBER'],
 			})

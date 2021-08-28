@@ -8,7 +8,7 @@ import * as SpruceSchema from '@sprucelabs/schema'
 
 
 
-export declare namespace SpruceErrors.SpruceStorePlugin {
+export declare namespace SpruceErrors.Store {
 
 	
 	export interface FailedToLoadStore {
@@ -19,7 +19,7 @@ export declare namespace SpruceErrors.SpruceStorePlugin {
 
 	export interface FailedToLoadStoreSchema extends SpruceSchema.Schema {
 		id: 'failedToLoadStore',
-		namespace: 'SpruceStorePlugin',
+		namespace: 'Store',
 		name: 'Failed to load store',
 		    fields: {
 		            /** . */
@@ -31,7 +31,7 @@ export declare namespace SpruceErrors.SpruceStorePlugin {
 		    }
 	}
 
-	export type FailedToLoadStoreEntity = SchemaEntity<SpruceErrors.SpruceStorePlugin.FailedToLoadStoreSchema>
+	export type FailedToLoadStoreEntity = SchemaEntity<SpruceErrors.Store.FailedToLoadStoreSchema>
 
 }
 
