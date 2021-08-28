@@ -5,6 +5,7 @@ import {
 	SkillEventContract,
 	SpruceSchemas,
 } from '@sprucelabs/mercury-types'
+import { SchemaError } from '@sprucelabs/schema'
 import {
 	eventContractUtil,
 	eventDiskUtil,
@@ -244,7 +245,7 @@ export class EventFeaturePlugin implements SkillFeature {
 			await this.destroy()
 
 			return health
-		} catch (err) {
+		} catch (err: any) {
 			const health: HealthCheckItem = {
 				status: 'failed',
 				errors: [
@@ -332,7 +333,7 @@ export class EventFeaturePlugin implements SkillFeature {
 			const host = this.getHost()
 
 			if (!host) {
-				throw new SpruceError({
+				throw new SchemaError({
 					code: 'MISSING_PARAMETERS',
 					parameters: ['env.HOST'],
 					friendlyMessage: `Stop! I need you to run \`spruce set.remote\` so I know where to connect! Or, you can set HOST in the env directly.`,

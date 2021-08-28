@@ -3,9 +3,9 @@ import { SpruceErrors } from '../errors.types'
 
 
 
-const missingDependenciesSchema: SpruceErrors.SpruceConversationPlugin.MissingDependenciesSchema  = {
+const missingDependenciesSchema: SpruceErrors.Conversation.MissingDependenciesSchema  = {
 	id: 'missingDependencies',
-	namespace: 'SpruceConversationPlugin',
+	namespace: 'Conversation',
 	name: 'Missing dependencies',
 	    fields: {
 	            /** . */

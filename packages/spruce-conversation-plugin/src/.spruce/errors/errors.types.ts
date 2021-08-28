@@ -8,7 +8,7 @@ import * as SpruceSchema from '@sprucelabs/schema'
 
 
 
-export declare namespace SpruceErrors.SpruceConversationPlugin {
+export declare namespace SpruceErrors.Conversation {
 
 	
 	export interface TopicNotFound {
@@ -21,7 +21,7 @@ export declare namespace SpruceErrors.SpruceConversationPlugin {
 
 	export interface TopicNotFoundSchema extends SpruceSchema.Schema {
 		id: 'topicNotFound',
-		namespace: 'SpruceConversationPlugin',
+		namespace: 'Conversation',
 		name: 'Topic not found',
 		    fields: {
 		            /** . */
@@ -40,13 +40,13 @@ export declare namespace SpruceErrors.SpruceConversationPlugin {
 		    }
 	}
 
-	export type TopicNotFoundEntity = SchemaEntity<SpruceErrors.SpruceConversationPlugin.TopicNotFoundSchema>
+	export type TopicNotFoundEntity = SchemaEntity<SpruceErrors.Conversation.TopicNotFoundSchema>
 
 }
 
 
 
-export declare namespace SpruceErrors.SpruceConversationPlugin {
+export declare namespace SpruceErrors.Conversation {
 
 	
 	export interface TesterNotStarted {
@@ -55,82 +55,19 @@ export declare namespace SpruceErrors.SpruceConversationPlugin {
 
 	export interface TesterNotStartedSchema extends SpruceSchema.Schema {
 		id: 'testerNotStarted',
-		namespace: 'SpruceConversationPlugin',
+		namespace: 'Conversation',
 		name: 'Tester not started',
 		    fields: {
 		    }
 	}
 
-	export type TesterNotStartedEntity = SchemaEntity<SpruceErrors.SpruceConversationPlugin.TesterNotStartedSchema>
+	export type TesterNotStartedEntity = SchemaEntity<SpruceErrors.Conversation.TesterNotStartedSchema>
 
 }
 
 
 
-export declare namespace SpruceErrors.SpruceConversationPlugin {
-
-	
-	export interface ConversationAborted {
-		
-	}
-
-	export interface ConversationAbortedSchema extends SpruceSchema.Schema {
-		id: 'conversationAborted',
-		namespace: 'SpruceConversationPlugin',
-		name: 'Conversation aborted',
-		    fields: {
-		    }
-	}
-
-	export type ConversationAbortedEntity = SchemaEntity<SpruceErrors.SpruceConversationPlugin.ConversationAbortedSchema>
-
-}
-
-
-
-export declare namespace SpruceErrors.SpruceConversationPlugin {
-
-	
-	export interface Abort {
-		
-	}
-
-	export interface AbortSchema extends SpruceSchema.Schema {
-		id: 'abort',
-		namespace: 'SpruceConversationPlugin',
-		name: 'Abort',
-		    fields: {
-		    }
-	}
-
-	export type AbortEntity = SchemaEntity<SpruceErrors.SpruceConversationPlugin.AbortSchema>
-
-}
-
-
-
-export declare namespace SpruceErrors.SpruceConversationPlugin {
-
-	
-	export interface ConversationPluginError {
-		
-	}
-
-	export interface ConversationPluginErrorSchema extends SpruceSchema.Schema {
-		id: 'conversationPluginError',
-		namespace: 'SpruceConversationPlugin',
-		name: 'Conversation plugin error',
-		    fields: {
-		    }
-	}
-
-	export type ConversationPluginErrorEntity = SchemaEntity<SpruceErrors.SpruceConversationPlugin.ConversationPluginErrorSchema>
-
-}
-
-
-
-export declare namespace SpruceErrors.SpruceConversationPlugin {
+export declare namespace SpruceErrors.Conversation {
 
 	
 	export interface MissingDependencies {
@@ -141,7 +78,7 @@ export declare namespace SpruceErrors.SpruceConversationPlugin {
 
 	export interface MissingDependenciesSchema extends SpruceSchema.Schema {
 		id: 'missingDependencies',
-		namespace: 'SpruceConversationPlugin',
+		namespace: 'Conversation',
 		name: 'Missing dependencies',
 		    fields: {
 		            /** . */
@@ -154,13 +91,13 @@ export declare namespace SpruceErrors.SpruceConversationPlugin {
 		    }
 	}
 
-	export type MissingDependenciesEntity = SchemaEntity<SpruceErrors.SpruceConversationPlugin.MissingDependenciesSchema>
+	export type MissingDependenciesEntity = SchemaEntity<SpruceErrors.Conversation.MissingDependenciesSchema>
 
 }
 
 
 
-export declare namespace SpruceErrors.SpruceConversationPlugin {
+export declare namespace SpruceErrors.Conversation {
 
 	
 	export interface InvalidTopic {
@@ -171,7 +108,7 @@ export declare namespace SpruceErrors.SpruceConversationPlugin {
 
 	export interface InvalidTopicSchema extends SpruceSchema.Schema {
 		id: 'invalidTopic',
-		namespace: 'SpruceConversationPlugin',
+		namespace: 'Conversation',
 		name: 'Invalid topic',
 		    fields: {
 		            /** . The script that I was attempting to load. Ends in .topic */
@@ -184,7 +121,70 @@ export declare namespace SpruceErrors.SpruceConversationPlugin {
 		    }
 	}
 
-	export type InvalidTopicEntity = SchemaEntity<SpruceErrors.SpruceConversationPlugin.InvalidTopicSchema>
+	export type InvalidTopicEntity = SchemaEntity<SpruceErrors.Conversation.InvalidTopicSchema>
+
+}
+
+
+
+export declare namespace SpruceErrors.Conversation {
+
+	
+	export interface ConversationPluginError {
+		
+	}
+
+	export interface ConversationPluginErrorSchema extends SpruceSchema.Schema {
+		id: 'conversationPluginError',
+		namespace: 'Conversation',
+		name: 'Conversation plugin error',
+		    fields: {
+		    }
+	}
+
+	export type ConversationPluginErrorEntity = SchemaEntity<SpruceErrors.Conversation.ConversationPluginErrorSchema>
+
+}
+
+
+
+export declare namespace SpruceErrors.Conversation {
+
+	
+	export interface ConversationAborted {
+		
+	}
+
+	export interface ConversationAbortedSchema extends SpruceSchema.Schema {
+		id: 'conversationAborted',
+		namespace: 'Conversation',
+		name: 'Conversation aborted',
+		    fields: {
+		    }
+	}
+
+	export type ConversationAbortedEntity = SchemaEntity<SpruceErrors.Conversation.ConversationAbortedSchema>
+
+}
+
+
+
+export declare namespace SpruceErrors.Conversation {
+
+	
+	export interface Abort {
+		
+	}
+
+	export interface AbortSchema extends SpruceSchema.Schema {
+		id: 'abort',
+		namespace: 'Conversation',
+		name: 'Abort',
+		    fields: {
+		    }
+	}
+
+	export type AbortEntity = SchemaEntity<SpruceErrors.Conversation.AbortSchema>
 
 }
 

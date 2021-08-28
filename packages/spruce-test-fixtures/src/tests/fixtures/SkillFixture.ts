@@ -1,5 +1,5 @@
 import { MercuryClient } from '@sprucelabs/mercury-client'
-import { SpruceError } from '@sprucelabs/schema'
+import { SchemaError } from '@sprucelabs/schema'
 import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { ApiClientFactory } from '../../types/fixture.types'
@@ -87,7 +87,7 @@ export default class SkillFixture {
 		}
 
 		if (missing.length > 0) {
-			throw new SpruceError({
+			throw new SchemaError({
 				code: 'MISSING_PARAMETERS',
 				parameters: missing,
 			})
@@ -106,7 +106,7 @@ export default class SkillFixture {
 		}
 
 		if (!skill) {
-			throw new SpruceError({
+			throw new SchemaError({
 				code: 'INVALID_PARAMETERS',
 				parameters: ['env.SKILL_ID', 'env.SKILL_API_KEY'],
 			})

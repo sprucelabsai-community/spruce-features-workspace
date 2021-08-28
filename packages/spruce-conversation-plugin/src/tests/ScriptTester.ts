@@ -1,3 +1,4 @@
+import { SchemaError } from '@sprucelabs/schema'
 import inquirer from 'inquirer'
 import SpruceError from '../errors/SpruceError'
 import TestGraphicsInterface, {
@@ -188,7 +189,7 @@ export default class ScriptTester {
 		}
 
 		if (missing.length > 0) {
-			throw new SpruceError({ code: 'MISSING_PARAMETERS', parameters: missing })
+			throw new SchemaError({ code: 'MISSING_PARAMETERS', parameters: missing })
 		}
 
 		return new ScriptTester(

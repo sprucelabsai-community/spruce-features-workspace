@@ -1,4 +1,5 @@
 import pathUtil from 'path'
+import { SchemaError } from '@sprucelabs/schema'
 import globby from 'globby'
 import SpruceError from '../errors/SpruceError'
 import { LoadedTopicDefinition } from '../types/conversation.types'
@@ -58,7 +59,7 @@ export default class TopicLoader {
 			throw new SpruceError({
 				code: 'INVALID_TOPIC',
 				topicScript: file,
-				originalError: new SpruceError({
+				originalError: new SchemaError({
 					code: 'MISSING_PARAMETERS',
 					parameters: missing,
 				}),

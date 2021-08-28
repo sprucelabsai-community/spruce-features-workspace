@@ -3,6 +3,9 @@
 	"publishConfig": {
 		"access": "public"
 	},
+	"skill": {
+		"namespace": "conversation"
+	},
 	"version": "5.4.23",
 	"files": [
 		"build/**/*",

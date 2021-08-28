@@ -1,5 +1,5 @@
+import { SchemaError } from '@sprucelabs/schema'
 import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
-import SpruceError from '../errors/SpruceError'
 import MessageGraphicsInterface from '../interfaces/MessageGraphicsInterface'
 import {
 	Script,
@@ -41,7 +41,7 @@ export class TopicScriptPlayer {
 		}
 
 		if (missing.length > 0) {
-			throw new SpruceError({
+			throw new SchemaError({
 				code: 'MISSING_PARAMETERS',
 				parameters: missing,
 			})
