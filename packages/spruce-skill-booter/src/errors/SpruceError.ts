@@ -1,5 +1,4 @@
 import AbstractSpruceError, {
-	SpruceErrorOptions,
 	ErrorOptions as IErrorOptions,
 } from '@sprucelabs/error'
 
@@ -17,7 +16,6 @@ interface InvalidFeatureCodeErrorOptions extends IErrorOptions {
 export type ErrorOptions =
 	| FailedToLoadPluginErrorOptions
 	| InvalidFeatureCodeErrorOptions
-	| SpruceErrorOptions
 
 export default class SpruceError extends AbstractSpruceError<ErrorOptions> {
 	public friendlyMessage() {
