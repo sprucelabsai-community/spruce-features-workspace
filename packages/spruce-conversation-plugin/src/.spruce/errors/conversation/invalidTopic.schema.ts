@@ -3,9 +3,9 @@ import { SpruceErrors } from '../errors.types'
 
 
 
-const invalidTopicSchema: SpruceErrors.SpruceConversationPlugin.InvalidTopicSchema  = {
+const invalidTopicSchema: SpruceErrors.Conversation.InvalidTopicSchema  = {
 	id: 'invalidTopic',
-	namespace: 'SpruceConversationPlugin',
+	namespace: 'Conversation',
 	name: 'Invalid topic',
 	    fields: {
 	            /** . The script that I was attempting to load. Ends in .topic */

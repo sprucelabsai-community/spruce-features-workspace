@@ -3,9 +3,9 @@ import { SpruceErrors } from '../errors.types'
 
 
 
-const failedToLoadStoreSchema: SpruceErrors.SpruceStorePlugin.FailedToLoadStoreSchema  = {
+const failedToLoadStoreSchema: SpruceErrors.Store.FailedToLoadStoreSchema  = {
 	id: 'failedToLoadStore',
-	namespace: 'SpruceStorePlugin',
+	namespace: 'Store',
 	name: 'Failed to load store',
 	    fields: {
 	            /** . */

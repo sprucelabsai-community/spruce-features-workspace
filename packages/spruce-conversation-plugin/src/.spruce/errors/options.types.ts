@@ -1,29 +1,28 @@
 import { SpruceErrors } from "#spruce/errors/errors.types"
-import { SpruceErrorOptions, ErrorOptions as ISpruceErrorOptions} from "@sprucelabs/error"
-import { SchemaErrorOptions } from '@sprucelabs/schema'
+import { ErrorOptions as ISpruceErrorOptions} from "@sprucelabs/error"
 
-export interface TopicNotFoundErrorOptions extends SpruceErrors.SpruceConversationPlugin.TopicNotFound, ISpruceErrorOptions {
+export interface TopicNotFoundErrorOptions extends SpruceErrors.Conversation.TopicNotFound, ISpruceErrorOptions {
 	code: 'TOPIC_NOT_FOUND'
 }
-export interface TesterNotStartedErrorOptions extends SpruceErrors.SpruceConversationPlugin.TesterNotStarted, ISpruceErrorOptions {
+export interface TesterNotStartedErrorOptions extends SpruceErrors.Conversation.TesterNotStarted, ISpruceErrorOptions {
 	code: 'TESTER_NOT_STARTED'
 }
-export interface ConversationAbortedErrorOptions extends SpruceErrors.SpruceConversationPlugin.ConversationAborted, ISpruceErrorOptions {
-	code: 'CONVERSATION_ABORTED'
-}
-export interface AbortErrorOptions extends SpruceErrors.SpruceConversationPlugin.Abort, ISpruceErrorOptions {
-	code: 'ABORT'
-}
-export interface ConversationPluginErrorErrorOptions extends SpruceErrors.SpruceConversationPlugin.ConversationPluginError, ISpruceErrorOptions {
-	code: 'CONVERSATION_PLUGIN_ERROR'
-}
-export interface MissingDependenciesErrorOptions extends SpruceErrors.SpruceConversationPlugin.MissingDependencies, ISpruceErrorOptions {
+export interface MissingDependenciesErrorOptions extends SpruceErrors.Conversation.MissingDependencies, ISpruceErrorOptions {
 	code: 'MISSING_DEPENDENCIES'
 }
-export interface InvalidTopicErrorOptions extends SpruceErrors.SpruceConversationPlugin.InvalidTopic, ISpruceErrorOptions {
+export interface InvalidTopicErrorOptions extends SpruceErrors.Conversation.InvalidTopic, ISpruceErrorOptions {
 	code: 'INVALID_TOPIC'
 }
+export interface ConversationPluginErrorErrorOptions extends SpruceErrors.Conversation.ConversationPluginError, ISpruceErrorOptions {
+	code: 'CONVERSATION_PLUGIN_ERROR'
+}
+export interface ConversationAbortedErrorOptions extends SpruceErrors.Conversation.ConversationAborted, ISpruceErrorOptions {
+	code: 'CONVERSATION_ABORTED'
+}
+export interface AbortErrorOptions extends SpruceErrors.Conversation.Abort, ISpruceErrorOptions {
+	code: 'ABORT'
+}
 
-type ErrorOptions = SchemaErrorOptions | SpruceErrorOptions | TopicNotFoundErrorOptions  | TesterNotStartedErrorOptions  | ConversationAbortedErrorOptions  | AbortErrorOptions  | ConversationPluginErrorErrorOptions  | MissingDependenciesErrorOptions  | InvalidTopicErrorOptions 
+type ErrorOptions =  | TopicNotFoundErrorOptions  | TesterNotStartedErrorOptions  | MissingDependenciesErrorOptions  | InvalidTopicErrorOptions  | ConversationPluginErrorErrorOptions  | ConversationAbortedErrorOptions  | AbortErrorOptions 
 
 export default ErrorOptions

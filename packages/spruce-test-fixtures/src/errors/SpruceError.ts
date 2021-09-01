@@ -6,12 +6,6 @@ export default class SpruceError extends BaseSpruceError<ErrorOptions> {
 		const { options } = this
 		let message
 		switch (options?.code) {
-			case 'MISSING_PARAMETERS':
-				message = `Looks like you're missing the following parameters: ${options.parameters.join(
-					', '
-				)}`
-				break
-
 			case 'INVALID_FIXTURE':
 				message = `"${
 					options.suppliedName

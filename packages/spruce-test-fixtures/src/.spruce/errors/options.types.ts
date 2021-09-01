@@ -1,6 +1,5 @@
 import { SpruceErrors } from "#spruce/errors/errors.types"
-import { SpruceErrorOptions, ErrorOptions as ISpruceErrorOptions} from "@sprucelabs/error"
-import { SchemaErrorOptions } from '@sprucelabs/schema'
+import { ErrorOptions as ISpruceErrorOptions} from "@sprucelabs/error"
 
 export interface UnknownViewControllerErrorErrorOptions extends SpruceErrors.SpruceTestFixtures.UnknownViewControllerError, ISpruceErrorOptions {
 	code: 'UNKNOWN_VIEW_CONTROLLER_ERROR'
@@ -15,6 +14,6 @@ export interface InvalidFixtureErrorOptions extends SpruceErrors.SpruceTestFixtu
 	code: 'INVALID_FIXTURE'
 }
 
-type ErrorOptions = SchemaErrorOptions | SpruceErrorOptions | UnknownViewControllerErrorErrorOptions  | SkillNotFoundErrorOptions  | InvalidViewControllerErrorOptions  | InvalidFixtureErrorOptions 
+type ErrorOptions =  | UnknownViewControllerErrorErrorOptions  | SkillNotFoundErrorOptions  | InvalidViewControllerErrorOptions  | InvalidFixtureErrorOptions 
 
 export default ErrorOptions

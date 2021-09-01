@@ -79,7 +79,7 @@ export default class Skill implements ISkill {
 						const item = await featureWithCode.feature.checkHealth()
 						//@ts-ignore
 						results[featureWithCode.code] = item
-					} catch (err) {
+					} catch (err: any) {
 						//@ts-ignore
 						results[featureWithCode.code] = {
 							status: 'failed',
@@ -106,7 +106,7 @@ export default class Skill implements ISkill {
 			}, 50)
 
 			await Promise.all(this.getFeatures().map((feature) => feature.execute()))
-		} catch (err) {
+		} catch (err: any) {
 			this.log.error('Execution error:\n\n' + (err.stack ?? err.message))
 
 			await this.kill()

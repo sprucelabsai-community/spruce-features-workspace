@@ -4,13 +4,13 @@ import {
 	StoreFactory,
 	StoreLoader,
 } from '@sprucelabs/data-stores'
+import { SchemaError } from '@sprucelabs/schema'
 import {
 	SkillFeature,
 	Skill,
 	SettingsService,
 	namesUtil,
 } from '@sprucelabs/spruce-skill-utils'
-import SpruceError from '../errors/SpruceError'
 import { StoreHealthCheckItem } from '../types/store.types'
 
 declare module '@sprucelabs/spruce-skill-utils/build/types/skill.types' {
@@ -99,7 +99,7 @@ export class StoreFeaturePlugin implements SkillFeature {
 			}
 
 			if (missing.length > 0) {
-				throw new SpruceError({
+				throw new SchemaError({
 					code: 'MISSING_PARAMETERS',
 					parameters: missing,
 				})

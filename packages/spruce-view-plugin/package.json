@@ -12,7 +12,7 @@
 			"pull.event.contracts": "--destination ./src/tests"
 		}
 	},
-	"version": "5.4.23",
+	"version": "5.4.29",
 	"files": [
 		"build/**/*",
 		"!build/__tests__",
@@ -65,11 +65,11 @@
 		"@sprucelabs/error": "latest",
 		"@sprucelabs/heartwood-view-controllers": "latest",
 		"@sprucelabs/schema": "latest",
-		"@sprucelabs/spruce-event-plugin": "^5.4.23",
+		"@sprucelabs/spruce-event-plugin": "^5.4.29",
 		"@sprucelabs/spruce-event-utils": "latest",
-		"@sprucelabs/spruce-skill-booter": "^5.4.23",
+		"@sprucelabs/spruce-skill-booter": "^5.4.29",
 		"@sprucelabs/spruce-skill-utils": "latest",
-		"@sprucelabs/spruce-test-fixtures": "^5.4.23",
+		"@sprucelabs/spruce-test-fixtures": "^5.4.29",
 		"globby": "^11.0.4"
 	},
 	"devDependencies": {
@@ -83,15 +83,15 @@
 		"@sprucelabs/test": "latest",
 		"@sprucelabs/test-utils": "latest",
 		"@types/inquirer": "^7.3.3",
-		"@types/node": "^16.7.1",
+		"@types/node": "^16.7.8",
 		"chokidar-cli": "^3.0.0",
 		"concurrently": "^6.2.1",
 		"conventional-changelog-sprucelabs": "latest",
 		"eslint": "^7.32.0",
 		"eslint-config-spruce": "latest",
 		"inquirer": "^8.1.2",
-		"jest": "^27.0.6",
-		"jest-circus": "^27.0.6",
+		"jest": "^27.1.0",
+		"jest-circus": "^27.1.0",
 		"tsc-watch": "^4.5.0",
 		"yarn-upgrade-all": "^0.5.4"
 	},

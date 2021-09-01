@@ -3,9 +3,9 @@ import { SpruceErrors } from '../errors.types'
 
 
 
-const topicNotFoundSchema: SpruceErrors.SpruceConversationPlugin.TopicNotFoundSchema  = {
+const topicNotFoundSchema: SpruceErrors.Conversation.TopicNotFoundSchema  = {
 	id: 'topicNotFound',
-	namespace: 'SpruceConversationPlugin',
+	namespace: 'Conversation',
 	name: 'Topic not found',
 	    fields: {
 	            /** . */

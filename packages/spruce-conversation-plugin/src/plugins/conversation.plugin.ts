@@ -120,7 +120,7 @@ export class ConversationFeature implements SkillFeature {
 					})
 
 					eventResponseUtil.getFirstResponseOrThrow(results)
-				} catch (err) {
+				} catch (err: any) {
 					this.log.error(err.message)
 				}
 			},
@@ -181,7 +181,7 @@ export class ConversationFeature implements SkillFeature {
 				status: 'passed',
 				topics: topics.map((t) => t.key),
 			}
-		} catch (err) {
+		} catch (err: any) {
 			return {
 				status: 'failed',
 				topics: [],

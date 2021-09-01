@@ -10,11 +10,6 @@ export default class SpruceError extends BaseSpruceError<ErrorOptions> {
 			case 'INVALID_TOPIC':
 				message = `The conversation topic defined in ${options.topicScript} is not valid.`
 				break
-			case 'MISSING_PARAMETERS':
-				message = `Looks like you're missing the following parameters: ${options.parameters.join(
-					', '
-				)}`
-				break
 
 			case 'CONVERSATION_PLUGIN_ERROR':
 				message = 'A Conversation plugin error just happened!'

@@ -1,11 +1,10 @@
 import { SpruceErrors } from "#spruce/errors/errors.types"
-import { SpruceErrorOptions, ErrorOptions as ISpruceErrorOptions} from "@sprucelabs/error"
-import { SchemaErrorOptions } from '@sprucelabs/schema'
+import { ErrorOptions as ISpruceErrorOptions} from "@sprucelabs/error"
 
-export interface FailedToLoadStoreErrorOptions extends SpruceErrors.SpruceStorePlugin.FailedToLoadStore, ISpruceErrorOptions {
+export interface FailedToLoadStoreErrorOptions extends SpruceErrors.Store.FailedToLoadStore, ISpruceErrorOptions {
 	code: 'FAILED_TO_LOAD_STORE'
 }
 
-type ErrorOptions = SchemaErrorOptions | SpruceErrorOptions | FailedToLoadStoreErrorOptions 
+type ErrorOptions =  | FailedToLoadStoreErrorOptions 
 
 export default ErrorOptions

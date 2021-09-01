@@ -67,7 +67,7 @@ const vcDiskUtil = {
 						name: controller.name,
 					})
 				}
-			} catch (err) {
+			} catch (err: any) {
 				if (err instanceof AbstractSpruceError) {
 					if (shouldThrowOnError) {
 						throw err

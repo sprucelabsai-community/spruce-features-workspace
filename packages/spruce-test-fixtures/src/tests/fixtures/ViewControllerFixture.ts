@@ -7,7 +7,7 @@ import {
 	ViewControllerFactory,
 	ViewControllerId,
 } from '@sprucelabs/heartwood-view-controllers'
-import { SpruceError } from '@sprucelabs/schema'
+import { SchemaError } from '@sprucelabs/schema'
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 import vcDiskUtil from '../../utilities/vcDisk.utility'
 import TestRouter from '../routers/TestRouter'
@@ -44,8 +44,8 @@ export default class ViewControllerFixture {
 			controllerMap =
 				this.controllerMap ??
 				vcDiskUtil.loadViewControllersAndBuildMap(this.namespace, this.vcDir)
-		} catch (err) {
-			throw new SpruceError({
+		} catch (err: any) {
+			throw new SchemaError({
 				code: 'INVALID_PARAMETERS',
 				parameters: ['vcDir'],
 				originalError: err,

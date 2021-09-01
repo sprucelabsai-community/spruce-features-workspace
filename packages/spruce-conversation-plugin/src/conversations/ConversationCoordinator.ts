@@ -1,5 +1,5 @@
 import { CoreEventContract } from '@sprucelabs/mercury-types'
-import { SchemaValues } from '@sprucelabs/schema'
+import { SchemaError, SchemaValues } from '@sprucelabs/schema'
 import SpruceError from '../errors/SpruceError'
 import TopicLoader from '../topics/TopicLoader'
 import { TopicScriptPlayer } from '../topics/TopicScriptPlayer'
@@ -55,7 +55,7 @@ export class ConversationCoordinator {
 		topic?: string
 	): Promise<MessageResponsePayload | void> {
 		if (!message.source.personId) {
-			throw new SpruceError({
+			throw new SchemaError({
 				code: 'MISSING_PARAMETERS',
 				parameters: ['source.personId'],
 			})
