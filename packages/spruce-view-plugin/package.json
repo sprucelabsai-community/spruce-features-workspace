@@ -95,10 +95,6 @@
 		"tsc-watch": "^4.5.0",
 		"yarn-upgrade-all": "^0.5.4"
 	},
-	"resolutions": {
-		"terser-webpack-plugin": "5.1.4",
-		"**/terser-webpack-plugin": "5.1.4"
-	},
 	"jest": {
 		"maxWorkers": 4,
 		"testTimeout": 300000,
