@@ -10,7 +10,6 @@
 		"packages/*"
 	],
 	"scripts": {
-		"preinstall": "git config core.hooksPath .githooks",
 		"build.ci": "lerna run build.ci",
 		"build.dev": "lerna run build.dev",
 		"build.dist": "lerna run build.dist",
