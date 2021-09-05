@@ -1,131 +1,138 @@
 {
-	"name": "@sprucelabs/spruce-store-plugin",
-	"publishConfig": {
-		"access": "public"
-	},
-	"version": "5.4.30",
-	"files": [
-		"build/**/*",
-		"!build/__tests__",
-		"!build/esm/__tests__",
-		"tsconfig.json"
-	],
-	"skill": {
-		"namespace": "store"
-	},
-	"main": "./build/index.js",
-	"types": "./build/index.d.ts",
-	"module": "./build/esm/index.js",
-	"sideEffects": false,
-	"license": "MIT",
-	"description": "Spruce Store! 🚀",
-	"keywords": [
-		"node",
-		"sprucelabs"
-	],
-	"homepage": "https://github.com/sprucelabsai/spruce-features-workspace",
-	"bugs": {
-		"url": "https://github.com/sprucelabsai/spruce-features-workspace/issues"
-	},
-	"scripts": {
-		"build.ci": "yarn build.tsc && yarn build.resolve-paths && yarn lint",
-		"build.copy-files": "mkdir -p build && rsync -avzq --exclude='*.ts' ./src/ ./build/",
-		"build.dev": "yarn build.tsc --sourceMap ; yarn resolve-paths.lint",
-		"build.dist": "yarn build.tsc && tsc --project tsconfig.dist.json && yarn build.resolve-paths && yarn build.esm-postbuild",
-		"build.esm-postbuild": "esm-postbuild --target build/esm --patterns '**/*.js'",
-		"build.resolve-paths": "resolve-path-aliases --target build --patterns '**/*.js,**/*.d.ts'",
-		"build.tsc": "yarn build.copy-files && tsc",
-		"clean": "yarn clean.build",
-		"clean.all": "yarn clean.dependencies && yarn clean.build",
-		"clean.build": "rm -rf build/",
-		"clean.dependencies": "rm -rf node_modules/ package-lock.json yarn.lock",
-		"fix.lint": "cd ../ && yarn fix.lint",
-		"fix.lint.local": "eslint --fix --cache '**/*.ts'",
-		"lint": "eslint --cache '**/*.ts'",
-		"rebuild": "cd .. && yarn rebuild",
-		"resolve-paths.lint": "yarn build.resolve-paths ; yarn lint",
-		"no-test": "jest",
-		"update.dependencies": "cd ../ && yarn update.dependencies",
-		"upgrade.packages": "yarn-upgrade-all && rm -f yarn.lock ; yarn ; yarn fix.lint ; true",
-		"upgrade.packages.all": "yarn install && yarn upgrade.packages",
-		"upgrade.packages.test": "yarn upgrade.packages.all && yarn lint && yarn build.dev && yarn test",
-		"post.watch.build": "yarn build.copy-files && yarn build.resolve-paths",
-		"watch.build.dev": "tsc-watch --sourceMap --onCompilationComplete 'yarn post.watch.build'",
-		"watch.lint": "concurrently 'yarn lint' \"chokidar 'src/**/*' -c 'yarn lint.tsc'\"",
-		"watch.rebuild": "yarn clean.all && yarn && yarn watch.build.dev",
-		"watch.tsc": "tsc -w"
-	},
-	"dependencies": {
-		"@sprucelabs/data-stores": "latest",
-		"@sprucelabs/error": "latest",
-		"@sprucelabs/schema": "latest",
-		"@sprucelabs/spruce-skill-booter": "^5.4.30",
-		"@sprucelabs/spruce-skill-utils": "latest",
-		"@sprucelabs/spruce-test-fixtures": "^5.4.30",
-		"globby": "^11.0.4",
-		"heroku-client": "^3.1.0"
-	},
-	"devDependencies": {
-		"@sprucelabs/esm-postbuild": "latest",
-		"@sprucelabs/jest-json-reporter": "latest",
-		"@sprucelabs/mercury-client": "latest",
-		"@sprucelabs/mercury-types": "latest",
-		"@sprucelabs/resolve-path-aliases": "latest",
-		"@sprucelabs/semantic-release": "latest",
-		"@sprucelabs/test": "latest",
-		"@sprucelabs/test-utils": "latest",
-		"@types/inquirer": "^7.3.3",
-		"@types/node": "^16.7.10",
-		"chokidar-cli": "^3.0.0",
-		"concurrently": "^6.2.1",
-		"conventional-changelog-sprucelabs": "latest",
-		"eslint": "^7.32.0",
-		"eslint-config-spruce": "latest",
-		"inquirer": "^8.1.2",
-		"jest": "^27.1.0",
-		"jest-circus": "^27.1.0",
-		"prettier": "^2.3.2",
-		"ts-node": "^10.2.1",
-		"tsc-watch": "^4.5.0",
-		"typescript": "^4.4.2",
-		"yarn-upgrade-all": "^0.5.4"
-	},
-	"jest": {
-		"maxWorkers": 4,
-		"testTimeout": 300000,
-		"testEnvironment": "node",
-		"testPathIgnorePatterns": [
-			"<rootDir>/tmp/",
-			"<rootDir>/src/",
-			"<rootDir>/node_modules/",
-			"<rootDir>/build/esm/"
-		],
-		"testMatch": [
-			"**/__tests__/**/*.test.js?(x)"
-		],
-		"moduleNameMapper": {
-			"^#spruce/(.*)$": "<rootDir>/build/.spruce/$1"
-		}
-	},
-	"yarn-upgrade-all": {
-		"ignore": [
-			"@sprucelabs/error",
-			"@sprucelabs/esm-postbuild",
-			"@sprucelabs/jest-json-reporter",
-			"@sprucelabs/resolve-path-aliases",
-			"@sprucelabs/schema",
-			"@sprucelabs/semantic-release",
-			"@sprucelabs/spruce-core-schemas",
-			"@sprucelabs/spruce-event-utils",
-			"@sprucelabs/spruce-skill-utils",
-			"@sprucelabs/test",
-			"@sprucelabs/test-utils",
-			"conventional-changelog-sprucelabs",
-			"@sprucelabs/mercury-client",
-			"eslint-config-spruce",
-			"@sprucelabs/mercury-types",
-			"@sprucelabs/data-stores",
-			"globby"
-		]
-	}
+  "name": "@sprucelabs/spruce-store-plugin",
+  "publishConfig": {
+    "access": "public"
+  },
+  "version": "5.4.30",
+  "files": [
+    "build/**/*",
+    "!build/__tests__",
+    "!build/esm/__tests__",
+    "tsconfig.json"
+  ],
+  "skill": {
+    "namespace": "store",
+    "upgradeIgnoreList": [
+      "globby"
+    ]
+  },
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "module": "./build/esm/index.js",
+  "sideEffects": false,
+  "license": "MIT",
+  "description": "Spruce Store! 🚀",
+  "keywords": [
+    "node",
+    "sprucelabs"
+  ],
+  "homepage": "https://github.com/sprucelabsai/spruce-features-workspace",
+  "bugs": {
+    "url": "https://github.com/sprucelabsai/spruce-features-workspace/issues"
+  },
+  "scripts": {
+    "build.ci": "yarn build.tsc && yarn build.resolve-paths && yarn lint",
+    "build.copy-files": "mkdir -p build && rsync -avzq --exclude='*.ts' ./src/ ./build/",
+    "build.dev": "yarn build.tsc --sourceMap ; yarn resolve-paths.lint",
+    "build.dist": "yarn build.tsc && tsc --project tsconfig.dist.json && yarn build.resolve-paths && yarn build.esm-postbuild",
+    "build.esm-postbuild": "esm-postbuild --target build/esm --patterns '**/*.js'",
+    "build.resolve-paths": "resolve-path-aliases --target build --patterns '**/*.js,**/*.d.ts'",
+    "build.tsc": "yarn build.copy-files && tsc",
+    "clean": "yarn clean.build",
+    "clean.all": "yarn clean.dependencies && yarn clean.build",
+    "clean.build": "rm -rf build/",
+    "clean.dependencies": "rm -rf node_modules/ package-lock.json yarn.lock",
+    "fix.lint": "cd ../ && yarn fix.lint",
+    "fix.lint.local": "eslint --fix --cache '**/*.ts'",
+    "lint": "eslint --cache '**/*.ts'",
+    "rebuild": "cd .. && yarn rebuild",
+    "resolve-paths.lint": "yarn build.resolve-paths ; yarn lint",
+    "no-test": "jest",
+    "update.dependencies": "cd ../ && yarn update.dependencies",
+    "upgrade.packages": "yarn-upgrade-all && rm -f yarn.lock ; yarn ; yarn fix.lint ; true",
+    "upgrade.packages.all": "yarn install && yarn upgrade.packages",
+    "upgrade.packages.test": "yarn upgrade.packages.all && yarn lint && yarn build.dev && yarn test",
+    "post.watch.build": "yarn build.copy-files && yarn build.resolve-paths",
+    "watch.build.dev": "tsc-watch --sourceMap --onCompilationComplete 'yarn post.watch.build'",
+    "watch.lint": "concurrently 'yarn lint' \"chokidar 'src/**/*' -c 'yarn lint.tsc'\"",
+    "watch.rebuild": "yarn clean.all && yarn && yarn watch.build.dev",
+    "watch.tsc": "tsc -w",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@sprucelabs/data-stores": "^5.2.27",
+    "@sprucelabs/error": "^5.0.3",
+    "@sprucelabs/schema": "^25.1.7",
+    "@sprucelabs/spruce-core-schemas": "^22.5.41",
+    "@sprucelabs/spruce-skill-booter": "^5.4.30",
+    "@sprucelabs/spruce-skill-utils": "^20.5.41",
+    "@sprucelabs/spruce-test-fixtures": "^5.4.30",
+    "globby": "^11.0.4",
+    "heroku-client": "^3.1.0"
+  },
+  "devDependencies": {
+    "@sprucelabs/esm-postbuild": "^1.0.35",
+    "@sprucelabs/jest-json-reporter": "^6.0.29",
+    "@sprucelabs/mercury-client": "^16.10.15",
+    "@sprucelabs/mercury-types": "^25.0.16",
+    "@sprucelabs/resolve-path-aliases": "^1.0.69",
+    "@sprucelabs/semantic-release": "^4.0.6",
+    "@sprucelabs/spruce-test-fixtures": "^5.4.30",
+    "@sprucelabs/test": "^7.7.56",
+    "@sprucelabs/test-utils": "^3.0.54",
+    "@types/inquirer": "^7.3.3",
+    "@types/node": "^16.7.10",
+    "chokidar-cli": "^3.0.0",
+    "concurrently": "^6.2.1",
+    "conventional-changelog-sprucelabs": "^1.1.2",
+    "eslint": "^7.32.0",
+    "eslint-config-spruce": "^10.10.10",
+    "inquirer": "^8.1.2",
+    "jest": "^27.1.0",
+    "jest-circus": "^27.1.0",
+    "prettier": "^2.3.2",
+    "ts-node": "^10.2.1",
+    "tsc-watch": "^4.5.0",
+    "tsconfig-paths": "^3.11.0",
+    "typescript": "^4.4.2",
+    "yarn-upgrade-all": "^0.5.4"
+  },
+  "jest": {
+    "maxWorkers": 4,
+    "testTimeout": 300000,
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": [
+      "<rootDir>/tmp/",
+      "<rootDir>/src/",
+      "<rootDir>/node_modules/",
+      "<rootDir>/build/esm/"
+    ],
+    "testMatch": [
+      "**/__tests__/**/*.test.js?(x)"
+    ],
+    "moduleNameMapper": {
+      "^#spruce/(.*)$": "<rootDir>/build/.spruce/$1"
+    }
+  },
+  "yarn-upgrade-all": {
+    "ignore": [
+      "@sprucelabs/error",
+      "@sprucelabs/esm-postbuild",
+      "@sprucelabs/jest-json-reporter",
+      "@sprucelabs/resolve-path-aliases",
+      "@sprucelabs/schema",
+      "@sprucelabs/semantic-release",
+      "@sprucelabs/spruce-core-schemas",
+      "@sprucelabs/spruce-event-utils",
+      "@sprucelabs/spruce-skill-utils",
+      "@sprucelabs/test",
+      "@sprucelabs/test-utils",
+      "conventional-changelog-sprucelabs",
+      "@sprucelabs/mercury-client",
+      "eslint-config-spruce",
+      "@sprucelabs/mercury-types",
+      "@sprucelabs/data-stores",
+      "globby"
+    ]
+  }
 }

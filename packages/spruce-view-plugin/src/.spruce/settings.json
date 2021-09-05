@@ -8,5 +8,12 @@
     "skill"
   ],
   "events.listenerCacheKey": "",
-  "events.listenerCacheKeys.httpsdevelopermercuryspruceai": ""
+  "events.listenerCacheKeys.httpsdevelopermercuryspruceai": "",
+  "scriptUpdater": {
+    "skipped": [
+      "fix.lint",
+      "rebuild",
+      "update.dependencies"
+    ]
+  }
 }

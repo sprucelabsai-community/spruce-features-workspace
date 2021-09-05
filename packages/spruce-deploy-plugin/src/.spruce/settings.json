@@ -6,5 +6,12 @@
   ],
   "skipped": [
     "skill"
-  ]
+  ],
+  "scriptUpdater": {
+    "skipped": [
+      "fix.lint",
+      "rebuild",
+      "update.dependencies"
+    ]
+  }
 }

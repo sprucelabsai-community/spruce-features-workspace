@@ -6,5 +6,12 @@
     "schema",
     "error",
     "test"
-  ]
+  ],
+  "scriptUpdater": {
+    "skipped": [
+      "fix.lint",
+      "rebuild",
+      "update.dependencies"
+    ]
+  }
 }
