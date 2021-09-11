@@ -33,7 +33,7 @@
 		"watch.tests": "lerna run watch.tests --parallel"
 	},
 	"devDependencies": {
-		"@sprucelabs/resolve-path-aliases": "1.0.71",
+		"@sprucelabs/resolve-path-aliases": "1.0.72",
 		"conventional-changelog-sprucelabs": "latest",
 		"eslint": "^7.23.0",
 		"eslint-config-spruce": "latest",
