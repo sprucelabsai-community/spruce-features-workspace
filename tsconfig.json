@@ -1,5 +1,6 @@
 {
 	"compilerOptions": {
+		"skipLibCheck": true,
 		"module": "commonjs",
 		"esModuleInterop": true,
 		"target": "es2019",
@@ -25,8 +26,8 @@
 		}
 	},
 	"include": [
-		"./*.ts",
-		"./**/*.ts"
+		"./**/src/*.ts",
+		"./**/src/**/*.ts"
 	],
 	"exclude": [
 		"build"
