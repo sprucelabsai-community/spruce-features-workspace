@@ -23,6 +23,7 @@
 		"build.resolve-paths": "lerna run build.resolve-paths",
 		"rebuild": "yarn clean.all && yarn && yarn build.dev",
 		"test": "lerna run test --parallel --stream",
+		"upgrade": "spruce upgrade; for d in packages/*; do echo $d; cd $d; spruce upgrade; cd ../..; done",
 		"update.dependencies": "yarn clean.dependencies && yarn",
 		"upgrade.packages": "yarn upgrade --latest && rm -f yarn.lock && yarn ; yarn fix.lint ; true",
 		"upgrade.packages.workspaces": "yarn && for d in packages/*; do cd $d; yarn-upgrade-all; cd ../..; done",
@@ -41,26 +42,5 @@
 		"prettier": "^2.3.0",
 		"typescript": "^4.1.2",
 		"yarn-upgrade-all": "^0.5.4"
-	},
-	"yarn-upgrade-all": {
-		"ignore": [
-			"socket.io",
-			"socket.io-client",
-			"@sprucelabs/error",
-			"@sprucelabs/jest-sheets-reporter",
-			"@sprucelabs/mercury-types",
-			"@sprucelabs/resolve-path-aliases",
-			"@sprucelabs/schema",
-			"@sprucelabs/semantic-release",
-			"@sprucelabs/spruce-core-schemas",
-			"@sprucelabs/spruce-skill-utils",
-			"@sprucelabs/test",
-			"@sprucelabs/test-utils",
-			"eslint-config-spruce",
-			"@sprucelabs/spruce-conversation-plugin",
-			"@sprucelabs/spruce-event-plugin",
-			"@sprucelabs/spruce-skill-booter",
-			"@sprucelabs/spruce-test-fixtures"
-		]
 	}
 }
