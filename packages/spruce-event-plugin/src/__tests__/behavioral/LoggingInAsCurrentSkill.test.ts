@@ -1,4 +1,5 @@
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
+import '@sprucelabs/mercury-core-events'
 import { test, assert } from '@sprucelabs/test'
 import { EventFeaturePlugin } from '../../plugins/event.plugin'
 import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'

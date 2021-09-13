@@ -1,9 +1,9 @@
+import '@sprucelabs/mercury-core-events'
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 import { test, assert } from '@sprucelabs/test'
 import { errorAssertUtil } from '@sprucelabs/test-utils'
 import { EventFeaturePlugin } from '../../plugins/event.plugin'
 import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
-
 export default class GracefullyExitingOnErrorsTest extends AbstractEventPluginTest {
 	@test()
 	protected static async skillIsKilledAfterAuthError() {
