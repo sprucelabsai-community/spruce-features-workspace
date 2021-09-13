@@ -69,6 +69,7 @@
     "@sprucelabs/spruce-skill-booter": "^5.4.49",
     "@sprucelabs/spruce-skill-utils": "^20.5.61",
     "@sprucelabs/spruce-test-fixtures": "^5.4.49",
+    "@sprucelabs/spruce-event-utils": "^16.0.4",
     "globby": "^11.0.4",
     "heroku-client": "^3.1.0"
   },
