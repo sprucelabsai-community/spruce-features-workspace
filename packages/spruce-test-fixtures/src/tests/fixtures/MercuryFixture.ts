@@ -1,5 +1,5 @@
 import { MercuryClient, MercuryClientFactory } from '@sprucelabs/mercury-client'
-import { coreEventContracts } from '@sprucelabs/mercury-types'
+import { coreEventContracts } from '@sprucelabs/mercury-core-events'
 import { SchemaError } from '@sprucelabs/schema'
 import {
 	eventContractUtil,

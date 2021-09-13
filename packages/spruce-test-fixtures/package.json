@@ -79,6 +79,7 @@
     "@sprucelabs/esm-postbuild": "^1.0.40",
     "@sprucelabs/jest-json-reporter": "^6.0.33",
     "@sprucelabs/jest-sheets-reporter": "^1.2.66",
+    "@sprucelabs/mercury-core-events": "^1.2.0",
     "@sprucelabs/mercury-event-emitter": "^16.10.44",
     "@sprucelabs/mercury-types": "^26.1.0",
     "@sprucelabs/resolve-path-aliases": "^1.0.74",

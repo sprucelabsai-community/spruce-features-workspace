@@ -1,4 +1,4 @@
-import { CoreEventContract } from '@sprucelabs/mercury-types'
+import { SkillEventContract } from '@sprucelabs/mercury-core-events'
 import { SchemaError, SchemaValues } from '@sprucelabs/schema'
 import SpruceError from '../errors/SpruceError'
 import TopicLoader from '../topics/TopicLoader'
@@ -11,7 +11,7 @@ import {
 } from '../types/conversation.types'
 
 type MessageResponsePayloadSchema =
-	CoreEventContract['eventSignatures']['did-message::v2020_12_25']['responsePayloadSchema']
+	SkillEventContract['eventSignatures']['did-message::v2020_12_25']['responsePayloadSchema']
 type MessageResponsePayload = SchemaValues<MessageResponsePayloadSchema>
 
 export class ConversationCoordinator {
