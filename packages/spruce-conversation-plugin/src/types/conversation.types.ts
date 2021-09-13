@@ -1,4 +1,4 @@
-import { CoreEventContract } from '@sprucelabs/mercury-types'
+import { SkillEventContract } from '@sprucelabs/mercury-core-events'
 import { buildSchema, SchemaValues } from '@sprucelabs/schema'
 import { FieldDefinitions } from '@sprucelabs/schema'
 import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
@@ -13,7 +13,7 @@ export type Message = SpruceSchemas.Spruce.v2020_07_22.Message
 export type SendMessage = SpruceSchemas.Spruce.v2020_07_22.SendMessage
 export type SendMessageHandler = (message: SendMessage) => Promise<void>
 export type DidMessageResponsePayloadSchema =
-	CoreEventContract['eventSignatures']['did-message::v2020_12_25']['responsePayloadSchema']
+	SkillEventContract['eventSignatures']['did-message::v2020_12_25']['responsePayloadSchema']
 export type DidMessageResponsePayload =
 	SchemaValues<DidMessageResponsePayloadSchema>
 
