@@ -65,9 +65,9 @@
     "@sprucelabs/schema": "^25.3.1",
     "@sprucelabs/spruce-core-schemas": "^22.5.49",
     "@sprucelabs/spruce-event-utils": "^16.0.7",
-    "@sprucelabs/spruce-skill-booter": "^5.4.50",
+    "@sprucelabs/spruce-skill-booter": "^5.4.51",
     "@sprucelabs/spruce-skill-utils": "^20.5.63",
-    "@sprucelabs/spruce-test-fixtures": "^5.4.50"
+    "@sprucelabs/spruce-test-fixtures": "^5.4.51"
   },
   "devDependencies": {
     "@sprucelabs/esm-postbuild": "^1.0.41",
