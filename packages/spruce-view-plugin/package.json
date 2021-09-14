@@ -16,7 +16,7 @@
       "@sprucelabs/spruce-test-fixtures"
     ]
   },
-  "version": "5.4.50",
+  "version": "5.4.51",
   "files": [
     "build/**/*",
     "!build/__tests__",
@@ -71,11 +71,11 @@
     "@sprucelabs/heartwood-view-controllers": "^33.0.81",
     "@sprucelabs/schema": "^25.3.1",
     "@sprucelabs/spruce-core-schemas": "^22.5.49",
-    "@sprucelabs/spruce-event-plugin": "^5.4.50",
+    "@sprucelabs/spruce-event-plugin": "^5.4.51",
     "@sprucelabs/spruce-event-utils": "^16.0.7",
-    "@sprucelabs/spruce-skill-booter": "^5.4.50",
+    "@sprucelabs/spruce-skill-booter": "^5.4.51",
     "@sprucelabs/spruce-skill-utils": "^20.5.63",
-    "@sprucelabs/spruce-test-fixtures": "^5.4.50",
+    "@sprucelabs/spruce-test-fixtures": "^5.4.51",
     "globby": "^11.0.4"
   },
   "devDependencies": {
