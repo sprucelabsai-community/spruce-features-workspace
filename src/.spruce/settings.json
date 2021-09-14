@@ -1,0 +1,24 @@
+{
+  "scriptUpdater": {
+    "skipped": [
+      "build.ci",
+      "build.dev",
+      "build.resolve-paths",
+      "clean",
+      "clean.build",
+      "clean.dependencies",
+      "fix.lint",
+      "lint",
+      "test",
+      "watch.build.dev",
+      "watch.lint",
+      "build.copy-files",
+      "build.tsc",
+      "lint.tsc",
+      "post.watch.build",
+      "resolve-paths.lint",
+      "watch.tsc",
+      "watch.rebuild"
+    ]
+  }
+}

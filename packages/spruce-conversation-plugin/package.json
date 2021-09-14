@@ -50,9 +50,6 @@
     "resolve-paths.lint": "yarn build.resolve-paths ; yarn lint",
     "test": "jest",
     "update.dependencies": "cd ../ && yarn update.dependencies",
-    "upgrade.packages": "yarn-upgrade-all && rm -f yarn.lock ; yarn ; yarn fix.lint ; true",
-    "upgrade.packages.all": "yarn install && yarn upgrade.packages",
-    "upgrade.packages.test": "yarn upgrade.packages.all && yarn lint && yarn build.dev && yarn test",
     "post.watch.build": "yarn build.copy-files && yarn build.resolve-paths",
     "watch.build.dev": "tsc-watch --sourceMap --onCompilationComplete 'yarn post.watch.build'",
     "watch.lint": "concurrently 'yarn lint' \"chokidar 'src/**/*' -c 'yarn lint.tsc'\"",
@@ -65,11 +62,11 @@
     "@sprucelabs/error": "^5.0.3",
     "@sprucelabs/mercury-core-events": "^1.2.5",
     "@sprucelabs/schema": "^25.3.1",
-    "@sprucelabs/spruce-core-schemas": "^22.5.49",
+    "@sprucelabs/spruce-core-schemas": "^22.5.50",
     "@sprucelabs/spruce-event-plugin": "^5.4.51",
-    "@sprucelabs/spruce-event-utils": "^16.0.7",
+    "@sprucelabs/spruce-event-utils": "^16.0.8",
     "@sprucelabs/spruce-skill-booter": "^5.4.51",
-    "@sprucelabs/spruce-skill-utils": "^20.5.63",
+    "@sprucelabs/spruce-skill-utils": "^20.5.64",
     "@sprucelabs/spruce-test-fixtures": "^5.4.51",
     "fuzzyset": "^1.0.6",
     "globby": "^11.0.4",
@@ -79,7 +76,7 @@
   },
   "devDependencies": {
     "@sprucelabs/esm-postbuild": "^1.0.41",
-    "@sprucelabs/jest-json-reporter": "^6.0.35",
+    "@sprucelabs/jest-json-reporter": "^6.0.36",
     "@sprucelabs/mercury-client": "^16.10.49",
     "@sprucelabs/mercury-types": "^26.1.4",
     "@sprucelabs/resolve-path-aliases": "^1.0.75",
@@ -100,8 +97,7 @@
     "ts-node": "^10.2.1",
     "tsc-watch": "^4.5.0",
     "tsconfig-paths": "^3.11.0",
-    "typescript": "^4.4.3",
-    "yarn-upgrade-all": "^0.5.4"
+    "typescript": "^4.4.3"
   },
   "jest": {
     "maxWorkers": 4,
