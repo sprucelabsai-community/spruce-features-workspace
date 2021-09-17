@@ -93,6 +93,10 @@ jobs:
             TARGETBRANCH=upgrade-$(date '+%Y-%m-%d')
             echo "export TARGETBRANCH=$TARGETBRANCH" >> $BASH_ENV
       - run:
+          name: "Install Spruce CLI"
+          command: |
+            yarn global add @sprucelabs/spruce-cli
+      - run:
           name: "Try to upgrade"
           command: |
             git checkout -b $TARGETBRANCH || git checkout $TARGETBRANCH

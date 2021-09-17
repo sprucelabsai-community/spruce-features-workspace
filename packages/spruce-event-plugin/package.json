@@ -9,7 +9,7 @@
       "@sprucelabs/spruce-test-fixtures"
     ]
   },
-  "version": "5.4.50",
+  "version": "5.4.55",
   "files": [
     "build/**/*",
     "!build/__tests__",
@@ -49,9 +49,6 @@
     "resolve-paths.lint": "yarn build.resolve-paths ; yarn lint",
     "test": "jest",
     "update.dependencies": "cd ../ && yarn update.dependencies",
-    "upgrade.packages": "yarn-upgrade-all && rm -f yarn.lock ; yarn ; yarn fix.lint ; true",
-    "upgrade.packages.all": "yarn install && yarn upgrade.packages",
-    "upgrade.packages.test": "yarn upgrade.packages.all && yarn lint && yarn build.dev && yarn test",
     "post.watch.build": "yarn build.copy-files && yarn build.resolve-paths",
     "watch.build.dev": "tsc-watch --sourceMap --onCompilationComplete 'yarn post.watch.build'",
     "watch.lint": "concurrently 'yarn lint' \"chokidar 'src/**/*' -c 'yarn lint.tsc'\"",
@@ -107,26 +104,5 @@
     "moduleNameMapper": {
       "^#spruce/(.*)$": "<rootDir>/build/.spruce/$1"
     }
-  },
-  "yarn-upgrade-all": {
-    "ignore": [
-      "socket.io",
-      "socket.io-client",
-      "@sprucelabs/error",
-      "@sprucelabs/esm-postbuild",
-      "@sprucelabs/jest-json-reporter",
-      "@sprucelabs/mercury-client",
-      "@sprucelabs/mercury-types",
-      "@sprucelabs/resolve-path-aliases",
-      "@sprucelabs/schema",
-      "@sprucelabs/semantic-release",
-      "@sprucelabs/spruce-core-schemas",
-      "@sprucelabs/spruce-event-utils",
-      "@sprucelabs/spruce-skill-utils",
-      "@sprucelabs/test",
-      "@sprucelabs/test-utils",
-      "conventional-changelog-sprucelabs",
-      "eslint-config-spruce"
-    ]
   }
 }
