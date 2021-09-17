@@ -41,8 +41,7 @@
 		"./packages/spruce-skill-booter",
 		"./packages/spruce-test-fixtures",
 		"./packages/spruce-deploy-plugin",
-		"./packages/spruce-store-plugin",
-		"./packages/spruce-view-plugin"
+		"./packages/spruce-store-plugin"
 	],
 	"eslint.lintTask.options": "--cache",
 	"eslint.options": {
