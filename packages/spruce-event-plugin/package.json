@@ -57,17 +57,17 @@
     "lint.tsc": "tsc -p . --noEmit"
   },
   "dependencies": {
-    "@sprucelabs/error": "^5.0.16",
-    "@sprucelabs/mercury-types": "^26.1.29",
-    "@sprucelabs/schema": "^25.3.20",
-    "@sprucelabs/spruce-core-schemas": "^22.5.81",
-    "@sprucelabs/spruce-event-utils": "^16.0.53",
+    "@sprucelabs/error": "^5.0.17",
+    "@sprucelabs/mercury-types": "^26.1.32",
+    "@sprucelabs/schema": "^25.3.22",
+    "@sprucelabs/spruce-core-schemas": "^22.5.83",
+    "@sprucelabs/spruce-event-utils": "^16.0.56",
     "@sprucelabs/spruce-skill-booter": "^5.4.61",
-    "@sprucelabs/spruce-skill-utils": "^20.5.97",
+    "@sprucelabs/spruce-skill-utils": "^20.5.99",
     "@sprucelabs/spruce-test-fixtures": "^5.4.61"
   },
   "devDependencies": {
-    "@sprucelabs/esm-postbuild": "^1.0.60",
+    "@sprucelabs/esm-postbuild": "^1.0.61",
     "@sprucelabs/jest-json-reporter": "^6.0.43",
     "@sprucelabs/mercury-client": "^16.10.50",
     "@sprucelabs/resolve-path-aliases": "^1.0.80",
