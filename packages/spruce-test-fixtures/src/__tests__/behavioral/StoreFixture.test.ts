@@ -15,13 +15,17 @@ declare module '@sprucelabs/data-stores/build/types/stores.types' {
 
 export default class StoreFixtureTest extends AbstractSpruceTest {
 	private static originalDestroy: () => Promise<void>
+	private static originalAfterEach: () => Promise<void>
+
 	protected static async beforeAll() {
 		await super.beforeAll()
 		this.originalDestroy = DatabaseFixture.destroy.bind(DatabaseFixture)
+		this.originalAfterEach = DatabaseFixture.afterEach.bind(DatabaseFixture)
 	}
 	protected static async beforeEach() {
 		await super.beforeEach()
 		DatabaseFixture.destroy = this.originalDestroy
+		DatabaseFixture.afterEach = this.originalAfterEach
 	}
 
 	@test()
@@ -75,6 +79,20 @@ export default class StoreFixtureTest extends AbstractSpruceTest {
 		}
 
 		await StoreFixture.beforeEach()
+
+		assert.isTrue(wasHit)
+	}
+
+	@test()
+	protected static async afterEachCallsAfterEachOnDatabaseFixture() {
+		let wasHit = false
+
+		//@ts-ignore
+		DatabaseFixture.afterEach = () => {
+			wasHit = true
+		}
+
+		await StoreFixture.afterEach()
 
 		assert.isTrue(wasHit)
 	}

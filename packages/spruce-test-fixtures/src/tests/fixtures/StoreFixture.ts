@@ -47,7 +47,7 @@ export default class StoreFixture {
 		process.env.DB_NAME = 'memory'
 		process.env.DB_CONNECTION_STRING = 'memory://'
 
-		await DatabaseFixture.destroy()
+		await DatabaseFixture.beforeEach()
 
 		StoreFactory.reset()
 
@@ -55,6 +55,10 @@ export default class StoreFixture {
 
 		StoreLoader.clearInstance()
 		StoreLoader.setDatabase(db)
+	}
+
+	public static async afterEach() {
+		await DatabaseFixture.afterEach()
 	}
 
 	public static DatabaseFixture() {
