@@ -129,4 +129,9 @@ export default class FixtureFactory {
 			EventFixture.beforeEach(),
 		])
 	}
+
+	public static async afterEach() {
+		await this.destroy()
+		await Promise.all([StoreFixture.afterEach()])
+	}
 }
