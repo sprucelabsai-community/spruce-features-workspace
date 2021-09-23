@@ -24,7 +24,7 @@
     "rebuild": "yarn clean.all && yarn && yarn build.dev",
     "test": "lerna run test --parallel --stream",
     "update.dependencies": "yarn clean.dependencies && yarn",
-    "upgrade.packages": "spruce upgrade && for d in packages/*; do echo $d; cd $d; spruce upgrade; cd ../..; done",
+    "upgrade.packages": "for d in packages/*; do echo $d; cd $d; spruce upgrade; cd ../..; done",
     "upgrade.packages.all": "yarn install && yarn upgrade.packages",
     "watch.build.dev": "lerna run watch.build.dev --stream --parallel",
     "watch.lint": "lerna run lint.watch --stream --parallel",
@@ -38,13 +38,6 @@
     "watch.rebuild": "true"
   },
   "devDependencies": {
-    "@sprucelabs/resolve-path-aliases": "1.0.72",
-    "conventional-changelog-sprucelabs": "latest",
-    "eslint": "^7.23.0",
-    "eslint-config-spruce": "latest",
-    "lerna": "^4.0.0",
-    "prettier": "^2.3.0",
-    "tsc-watch": "^4.5.0",
-    "typescript": "^4.1.2"
+    "lerna": "^4.0.0"
   }
 }
