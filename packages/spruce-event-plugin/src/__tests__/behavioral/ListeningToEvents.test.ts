@@ -1,5 +1,6 @@
 import { MercuryClientFactory } from '@sprucelabs/mercury-client'
 import { MercuryClient } from '@sprucelabs/mercury-client'
+import { EventSignature } from '@sprucelabs/mercury-types'
 import {
 	eventDiskUtil,
 	eventResponseUtil,
@@ -336,6 +337,48 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 		assert.isEqual(taco, 'yes please')
 	}
 
+	@test()
+	protected static async canEmitFromListenerOnAnonEvent() {
+		const { fqen, currentSkill } = await this.registerSkillAndSetupListeners({
+			testDir: 'registered-skill-proxied',
+			eventSignature: {
+				isGlobal: true,
+				emitPermissionContract: {
+					id: 'anon-can',
+					name: 'can anon',
+					permissions: [
+						{
+							id: 'can-emit',
+							name: 'can do it!',
+							defaults: {
+								anonymous: {
+									default: true,
+								},
+							},
+						},
+					],
+				},
+			},
+		})
+
+		await this.bootSkill({ skill: currentSkill })
+
+		const mercury = await this.Fixture('mercury')
+		const client = await mercury.connectToApi()
+
+		//@ts-ignore
+		client.mixinContract({
+			eventSignatures: { 'test-proxied-event::v1': {} },
+		})
+
+		//@ts-ignore
+		void client.on('test-proxied-event::v1', () => {})
+
+		const results = await client.emit(fqen as any)
+
+		eventResponseUtil.getFirstResponseOrThrow(results)
+	}
+
 	private static async bootKillAndResetSkill(
 		bootedSkill: any,
 		events: EventFeaturePlugin
@@ -420,8 +463,12 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 		onAttachListeners?: (client: MercuryClient) => void
 		onSetShouldAutoRegisterListeners?: (should: boolean) => void
 		onAttachListener?: (client: MercuryClient) => void
+		eventSignature?: EventSignature
+		testDir?: string
 	}) {
-		this.cwd = await this.generateSkillFromTestPath('registered-skill')
+		this.cwd = await this.generateSkillFromTestPath(
+			options?.testDir ?? 'registered-skill'
+		)
 		return this.EventFixture().registerSkillAndSetupListeners(options)
 	}
 }

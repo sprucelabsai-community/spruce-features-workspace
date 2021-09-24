@@ -1,4 +1,5 @@
 import { MercuryClient, MercuryClientFactory } from '@sprucelabs/mercury-client'
+import { EventSignature } from '@sprucelabs/mercury-types'
 import {
 	buildEmitTargetAndPayloadSchema,
 	eventResponseUtil,
@@ -32,10 +33,10 @@ export default class EventFixture {
 		)
 	}
 
-	public buildContract(eventName: string) {
+	public buildContract(eventName: string, eventSignature?: EventSignature) {
 		return {
 			eventSignatures: {
-				[eventName]: {
+				[eventName]: eventSignature ?? {
 					emitPayloadSchema: buildEmitTargetAndPayloadSchema({
 						eventName,
 						targetSchema: {
@@ -75,8 +76,12 @@ export default class EventFixture {
 		}
 	}
 
-	public async registerEvents(client: MercuryClient, eventName: string) {
-		const contract = this.buildContract(eventName)
+	public async registerEvents(
+		client: MercuryClient,
+		eventName: string,
+		eventSignature?: EventSignature
+	) {
+		const contract = this.buildContract(eventName, eventSignature)
 		const results = await client.emit(`register-events::v2020_12_25`, {
 			payload: {
 				contract,
@@ -92,6 +97,7 @@ export default class EventFixture {
 		onAttachListeners?: (client: MercuryClient) => void
 		onSetShouldAutoRegisterListeners?: (should: boolean) => void
 		onAttachListener?: (client: MercuryClient) => void
+		eventSignature?: EventSignature
 	}) {
 		MercuryClientFactory.setIsTestMode(true)
 
@@ -102,11 +108,14 @@ export default class EventFixture {
 		const eventName = `my-cool-event::v2021_01_22`
 		const fqen = `${skill.slug}.${eventName}`
 
-		await this.registerEvents(client, eventName)
+		await this.registerEvents(client, eventName, options?.eventSignature)
+
+		const contract = this.buildContract(fqen, options?.eventSignature)
+
 		//@ts-ignore
-		client.mixinContract(this.buildContract(fqen))
+		client.mixinContract(contract)
 		this.copyListenersIntoPlace(skill.slug)
-		this.generateGoodContractFileForSkill(skill.slug)
+		this.generateGoodContractFileForSkill(skill.slug, options?.eventSignature)
 
 		process.env.SKILL_ID = skill.id
 		process.env.SKILL_API_KEY = skill.apiKey
@@ -159,7 +168,10 @@ export default class EventFixture {
 		return { currentSkill, events, fqen }
 	}
 
-	public generateGoodContractFileForSkill(slug: string) {
+	public generateGoodContractFileForSkill(
+		slug: string,
+		eventSignature?: EventSignature
+	) {
 		const sourceContents = diskUtil.readFile(
 			diskUtil.resolvePath(
 				this.cwd,
@@ -170,7 +182,57 @@ export default class EventFixture {
 			)
 		)
 
-		const updatedContents = sourceContents.replace('{{namespace}}', slug)
+		let updatedContents = sourceContents.replace('{{namespace}}', slug)
+		updatedContents = updatedContents.replace(
+			'{{eventSignature}}',
+			JSON.stringify(
+				eventSignature ?? {
+					emitPayloadSchema: {
+						id: 'targetAndPayload',
+						fields: {
+							payload: {
+								type: 'schema',
+								options: {
+									schema: {
+										id: 'emitPayload',
+										fields: {
+											foo: {
+												type: 'text',
+											},
+											bar: {
+												type: 'text',
+											},
+										},
+									},
+								},
+							},
+							target: {
+								type: 'schema',
+								options: {
+									schema: {
+										id: 'target',
+										fields: {
+											organizationId: {
+												type: 'text',
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+					responsePayloadSchema: {
+						id: 'responsePayload',
+						fields: {
+							taco: {
+								type: 'text',
+							},
+						},
+					},
+				}
+			)
+		)
+
 		const destination = diskUtil.resolvePath(
 			this.cwd,
 			'build',

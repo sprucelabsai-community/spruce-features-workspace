@@ -62,23 +62,7 @@ export default class AbstractEventPluginTest extends AbstractSpruceFixtureTest {
 	protected static generateGoodContractFileForSkill(
 		skill: SpruceSchemas.Spruce.v2020_07_22.Skill
 	) {
-		const sourceContents = diskUtil.readFile(
-			this.resolvePath(
-				'build',
-				'.spruce',
-				'events',
-				'source.events.contract.js'
-			)
-		)
-
-		const updatedContents = sourceContents.replace('{{namespace}}', skill.slug)
-		const destination = this.resolvePath(
-			'build',
-			'.spruce',
-			'events',
-			'events.contract.js'
-		)
-
-		diskUtil.writeFile(destination, updatedContents)
+		const fixture = this.EventFixture()
+		return fixture.generateGoodContractFileForSkill(skill.slug)
 	}
 }

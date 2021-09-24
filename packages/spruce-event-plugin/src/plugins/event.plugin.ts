@@ -535,7 +535,7 @@ export class EventFeaturePlugin implements SkillFeature {
 						emit: (eventName, tp, cb) => {
 							let builtTp = tp
 
-							if (targetAndPayload.source.proxyToken) {
+							if (targetAndPayload?.source?.proxyToken) {
 								if (!builtTp) {
 									builtTp = {}
 								}
