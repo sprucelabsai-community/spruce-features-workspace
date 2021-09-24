@@ -60,16 +60,16 @@
   "dependencies": {
     "@sprucelabs/error": "^5.0.51",
     "@sprucelabs/schema": "^25.3.72",
-    "@sprucelabs/spruce-event-utils": "^16.0.138",
+    "@sprucelabs/spruce-event-utils": "^16.0.139",
     "@sprucelabs/spruce-skill-booter": "^5.4.82",
-    "@sprucelabs/spruce-skill-utils": "^20.6.0",
+    "@sprucelabs/spruce-skill-utils": "^20.6.1",
     "heroku-client": "^3.1.0"
   },
   "devDependencies": {
     "@sprucelabs/esm-postbuild": "^1.0.93",
     "@sprucelabs/jest-json-reporter": "^6.0.55",
-    "@sprucelabs/mercury-client": "^16.10.68",
-    "@sprucelabs/mercury-types": "^26.1.107",
+    "@sprucelabs/mercury-client": "^16.10.69",
+    "@sprucelabs/mercury-types": "^26.1.108",
     "@sprucelabs/resolve-path-aliases": "^1.0.86",
     "@sprucelabs/semantic-release": "^4.0.7",
     "@sprucelabs/test": "^7.7.66",
