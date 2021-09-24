@@ -24,7 +24,7 @@
     "rebuild": "yarn clean.all && yarn && yarn build.dev",
     "test": "lerna run test --parallel --stream",
     "update.dependencies": "yarn clean.dependencies && yarn",
-    "upgrade.packages": "for d in packages/*; do echo $d; cd $d; spruce upgrade; cd ../..; done",
+    "upgrade.packages": "yarn add -D lerna -W ; for d in packages/*; do echo $d; cd $d; spruce upgrade; cd ../..; done",
     "upgrade.packages.all": "yarn install && yarn upgrade.packages",
     "watch.build.dev": "lerna run watch.build.dev --stream --parallel",
     "watch.lint": "lerna run lint.watch --stream --parallel",
