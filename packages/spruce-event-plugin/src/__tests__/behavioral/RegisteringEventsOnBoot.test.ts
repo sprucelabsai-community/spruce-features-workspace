@@ -53,6 +53,7 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 		let registerEventCount = 0
 		await client.on('register-events::v2020_12_25', async () => {
 			registerEventCount++
+			return { fqens: [] }
 		})
 
 		await this.bootSkill()
