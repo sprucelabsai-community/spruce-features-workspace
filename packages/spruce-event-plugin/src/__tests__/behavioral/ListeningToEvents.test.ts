@@ -394,7 +394,7 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 			dirName
 		)
 
-		client2.disconnect()
+		await client2.disconnect()
 
 		const results = await client1.emit(fqen as any, {
 			target: {
