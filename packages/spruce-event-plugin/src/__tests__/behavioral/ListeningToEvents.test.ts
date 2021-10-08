@@ -390,7 +390,11 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 	}
 
 	private static async setupTwoSkillsRegisterEventsAndEmit(dirName: string) {
-		const { client1, fqen, org } = await this.setupTwoSkillsAndBoot(dirName)
+		const { client1, fqen, org, client2 } = await this.setupTwoSkillsAndBoot(
+			dirName
+		)
+
+		client2.disconnect()
 
 		const results = await client1.emit(fqen as any, {
 			target: {
@@ -415,7 +419,9 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 			name: 'skill1',
 		})
 
-		const { skill: skill2 } = await this.Fixture('skill').loginAsDemoSkill({
+		const { skill: skill2, client: client2 } = await this.Fixture(
+			'skill'
+		).loginAsDemoSkill({
 			name: 'skill2',
 		})
 
@@ -440,7 +446,7 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 
 		const currentSkill = await this.bootSkill()
 
-		return { fqen, currentSkill, client1, skill1, skill2, org }
+		return { fqen, currentSkill, client1, skill1, skill2, org, client2 }
 	}
 
 	private static setupListenersForEventsRegisteredBySkill(skill: any) {
