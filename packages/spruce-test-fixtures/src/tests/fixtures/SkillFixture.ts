@@ -57,6 +57,7 @@ export default class SkillFixture {
 			payload: {
 				slug: this.generateSkillSlug(),
 				...values,
+				name: `${values.name} (SkillFixture)`,
 			},
 		})
 
