@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.5.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.4.165...v5.5.0) (2021-10-18)
+
+
+### Features
+
+* skills name appended with "skillfixture" for origin tracking ([e3dbddb](https://github.com/sprucelabsai/spruce-features-workspace/commit/e3dbddb))
+
+
+
+
+
 ## [5.4.165](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.4.164...v5.4.165) (2021-10-18)
 
 **Note:** Version bump only for package spruce-features-workspace

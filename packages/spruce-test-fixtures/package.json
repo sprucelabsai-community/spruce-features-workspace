@@ -12,7 +12,7 @@
       "@sprucelabs/spruce-test-fixtures"
     ]
   },
-  "version": "5.4.165",
+  "version": "5.5.0",
   "files": [
     "build/**/*",
     "!build/__tests__",
@@ -68,7 +68,7 @@
     "@sprucelabs/schema": "^25.3.333",
     "@sprucelabs/spruce-core-schemas": "^22.5.425",
     "@sprucelabs/spruce-event-utils": "^16.0.454",
-    "@sprucelabs/spruce-skill-booter": "^5.4.165",
+    "@sprucelabs/spruce-skill-booter": "^5.5.0",
     "@sprucelabs/spruce-skill-utils": "^20.6.275",
     "dotenv": "^10.0.0"
   },
