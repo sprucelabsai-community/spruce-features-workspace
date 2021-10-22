@@ -65,9 +65,9 @@
     "@sprucelabs/mercury-client": "^16.13.112",
     "@sprucelabs/mercury-core-events": "^1.2.602",
     "@sprucelabs/mercury-event-emitter": "^16.13.112",
-    "@sprucelabs/schema": "^25.3.365",
+    "@sprucelabs/schema": "^25.3.366",
     "@sprucelabs/spruce-core-schemas": "^22.5.478",
-    "@sprucelabs/spruce-event-utils": "^16.0.524",
+    "@sprucelabs/spruce-event-utils": "^16.0.526",
     "@sprucelabs/spruce-skill-booter": "^5.5.18",
     "@sprucelabs/spruce-skill-utils": "^20.6.312",
     "dotenv": "^10.0.0"
