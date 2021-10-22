@@ -49,7 +49,7 @@ export default class ViewControllerFixture {
 				code: 'INVALID_PARAMETERS',
 				parameters: ['vcDir'],
 				originalError: err,
-				friendlyMessage: `Running \`spruce sync.views\` may help here! You'll need make sure there is a views.[ts|js] in ${this.vcDir.replace(
+				friendlyMessage: `No views found! If you are testing, running \`spruce create.view\` will get you started. If you already have views, running \`spruce sync.views\` should help! Heads up, I'm looking for a file called views.[ts|js] in ${this.vcDir.replace(
 					'/',
 					''
 				)}/.spruce/views/views.\n\nOriginal error:\n\n${err.stack}`,
