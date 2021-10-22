@@ -3,6 +3,126 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.5.17](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.16...v5.5.17) (2021-10-22)
+
+**Note:** Version bump only for package @sprucelabs/spruce-event-plugin
+
+
+
+
+
+## [5.5.16](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.15...v5.5.16) (2021-10-21)
+
+**Note:** Version bump only for package @sprucelabs/spruce-event-plugin
+
+
+
+
+
+## [5.5.15](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.14...v5.5.15) (2021-10-21)
+
+**Note:** Version bump only for package @sprucelabs/spruce-event-plugin
+
+
+
+
+
+## [5.5.14](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.13...v5.5.14) (2021-10-21)
+
+**Note:** Version bump only for package @sprucelabs/spruce-event-plugin
+
+
+
+
+
+## [5.5.13](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.12...v5.5.13) (2021-10-20)
+
+**Note:** Version bump only for package @sprucelabs/spruce-event-plugin
+
+
+
+
+
+## [5.5.12](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.11...v5.5.12) (2021-10-20)
+
+**Note:** Version bump only for package @sprucelabs/spruce-event-plugin
+
+
+
+
+
+## [5.5.11](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.10...v5.5.11) (2021-10-20)
+
+**Note:** Version bump only for package @sprucelabs/spruce-event-plugin
+
+
+
+
+
+## [5.5.10](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.9...v5.5.10) (2021-10-20)
+
+**Note:** Version bump only for package @sprucelabs/spruce-event-plugin
+
+
+
+
+
+## [5.5.9](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.8...v5.5.9) (2021-10-20)
+
+**Note:** Version bump only for package @sprucelabs/spruce-event-plugin
+
+
+
+
+
+## [5.5.8](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.7...v5.5.8) (2021-10-20)
+
+**Note:** Version bump only for package @sprucelabs/spruce-event-plugin
+
+
+
+
+
+## [5.5.7](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.6...v5.5.7) (2021-10-19)
+
+**Note:** Version bump only for package @sprucelabs/spruce-event-plugin
+
+
+
+
+
+## [5.5.6](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.5...v5.5.6) (2021-10-19)
+
+**Note:** Version bump only for package @sprucelabs/spruce-event-plugin
+
+
+
+
+
+## [5.5.5](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.4...v5.5.5) (2021-10-19)
+
+**Note:** Version bump only for package @sprucelabs/spruce-event-plugin
+
+
+
+
+
+## [5.5.4](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.3...v5.5.4) (2021-10-19)
+
+**Note:** Version bump only for package @sprucelabs/spruce-event-plugin
+
+
+
+
+
+## [5.5.3](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.2...v5.5.3) (2021-10-19)
+
+**Note:** Version bump only for package @sprucelabs/spruce-event-plugin
+
+
+
+
+
 ## [5.5.2](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.1...v5.5.2) (2021-10-18)
 
 **Note:** Version bump only for package @sprucelabs/spruce-event-plugin
