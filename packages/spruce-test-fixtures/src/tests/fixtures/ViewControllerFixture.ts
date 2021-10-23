@@ -9,6 +9,7 @@ import {
 } from '@sprucelabs/heartwood-view-controllers'
 import { SchemaError } from '@sprucelabs/schema'
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
+import SpruceError from '../../errors/SpruceError'
 import vcDiskUtil from '../../utilities/vcDisk.utility'
 import TestRouter from '../routers/TestRouter'
 import MercuryFixture from './MercuryFixture'
@@ -72,8 +73,21 @@ export default class ViewControllerFixture {
 		name: N,
 		options: ControllerOptions<N>
 	) {
-		const controller = this.getFactory().Controller(name, options)
-		return controller
+		try {
+			const controller = this.getFactory().Controller(name, options)
+			return controller
+		} catch (err: any) {
+			if (err.options?.code === 'MISSING_STORAGE') {
+				throw new SpruceError({
+					...err.options,
+					friendlyMessage:
+						err.message +
+						"\n\nIf you are testing, make sure you're calling await super.beforeEach() in your test class.",
+				})
+			} else {
+				throw err
+			}
+		}
 	}
 
 	public static async beforeEach() {
