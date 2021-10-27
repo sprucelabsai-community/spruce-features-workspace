@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.0.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.48...v6.0.0) (2021-10-27)
+
+
+### Breaking Changes
+
+* view controller fixture now view fixture, has new login method to set auth ([d31aba4](https://github.com/sprucelabsai/spruce-features-workspace/commit/d31aba4))
+
+
+
+
+
 ## [5.5.48](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.47...v5.5.48) (2021-10-27)
 
 **Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
