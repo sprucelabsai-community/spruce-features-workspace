@@ -3,6 +3,198 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.5.48](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.47...v5.5.48) (2021-10-27)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+## [5.5.47](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.46...v5.5.47) (2021-10-27)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+## [5.5.46](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.45...v5.5.46) (2021-10-27)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+## [5.5.45](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.44...v5.5.45) (2021-10-27)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+## [5.5.44](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.43...v5.5.44) (2021-10-27)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+## [5.5.43](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.42...v5.5.43) (2021-10-26)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+## [5.5.42](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.41...v5.5.42) (2021-10-26)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+## [5.5.41](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.40...v5.5.41) (2021-10-26)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+## [5.5.40](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.39...v5.5.40) (2021-10-26)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+## [5.5.39](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.38...v5.5.39) (2021-10-26)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+## [5.5.38](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.37...v5.5.38) (2021-10-25)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+## [5.5.37](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.36...v5.5.37) (2021-10-25)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+## [5.5.36](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.35...v5.5.36) (2021-10-25)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+## [5.5.35](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.34...v5.5.35) (2021-10-25)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+## [5.5.34](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.33...v5.5.34) (2021-10-25)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+## [5.5.33](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.32...v5.5.33) (2021-10-24)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+## [5.5.32](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.31...v5.5.32) (2021-10-24)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+## [5.5.31](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.30...v5.5.31) (2021-10-24)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+## [5.5.30](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.29...v5.5.30) (2021-10-24)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+## [5.5.29](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.28...v5.5.29) (2021-10-23)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+## [5.5.28](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.27...v5.5.28) (2021-10-23)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+## [5.5.27](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.26...v5.5.27) (2021-10-23)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+## [5.5.26](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.25...v5.5.26) (2021-10-23)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+## [5.5.25](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.24...v5.5.25) (2021-10-23)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
 ## [5.5.24](https://github.com/sprucelabsai/spruce-features-workspace/compare/v5.5.23...v5.5.24) (2021-10-22)
 
 **Note:** Version bump only for package spruce-features-workspace
