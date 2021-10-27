@@ -5,7 +5,7 @@ import OrganizationFixture from '../tests/fixtures/OrganizationFixture'
 import PersonFixture from '../tests/fixtures/PersonFixture'
 import SkillFixture from '../tests/fixtures/SkillFixture'
 import StoreFixture from '../tests/fixtures/StoreFixture'
-import ViewControllerFixture from '../tests/fixtures/ViewControllerFixture'
+import ViewFixture from '../tests/fixtures/ViewFixture'
 
 export type ApiClientFactory = () => Promise<MercuryClient>
 
@@ -16,7 +16,7 @@ export interface FixtureClassMap {
 	mercury: typeof MercuryFixture
 	store: typeof StoreFixture
 	database: typeof DatabaseFixture
-	vc: typeof ViewControllerFixture
+	view: typeof ViewFixture
 }
 
 export type FixtureMap = {

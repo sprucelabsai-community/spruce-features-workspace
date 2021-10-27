@@ -5,7 +5,7 @@ export { default as OrganizationFixture } from './tests/fixtures/OrganizationFix
 export { default as StoreFixture } from './tests/fixtures/StoreFixture'
 export { default as PersonFixture } from './tests/fixtures/PersonFixture'
 export { default as SkillFixture } from './tests/fixtures/SkillFixture'
-export { default as ViewControllerFixture } from './tests/fixtures/ViewControllerFixture'
+export { default as ViewControllerFixture } from './tests/fixtures/ViewFixture'
 export { default as MercuryFixture } from './tests/fixtures/MercuryFixture'
 export { default as vcDiskUtil } from './utilities/vcDisk.utility'
 export { default as TestRouter } from './tests/routers/TestRouter'

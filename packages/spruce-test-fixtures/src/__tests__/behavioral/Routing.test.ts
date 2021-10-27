@@ -32,7 +32,7 @@ export default class RoutingTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async canCreateRouter() {
-		this.router = this.Fixture('vc', { vcDir: this.vcDir }).getRouter()
+		this.router = this.Fixture('view', { vcDir: this.vcDir }).getRouter()
 		assert.isTruthy(this.router)
 	}
 

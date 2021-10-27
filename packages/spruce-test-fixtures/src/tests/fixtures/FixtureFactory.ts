@@ -12,7 +12,7 @@ import OrganizationFixture from './OrganizationFixture'
 import PersonFixture from './PersonFixture'
 import SkillFixture from './SkillFixture'
 import StoreFixture from './StoreFixture'
-import ViewControllerFixture from './ViewControllerFixture'
+import ViewFixture from './ViewFixture'
 
 export default class FixtureFactory {
 	private static fixtures: any[] = []
@@ -75,13 +75,14 @@ export default class FixtureFactory {
 				fixture = new StoreFixture() as any
 				break
 			}
-			case 'vc': {
+			case 'view': {
 				if (!this.namespace) {
 					throw new Error(
 						'You need to be in a registerid skill to load view controllers.'
 					)
 				}
-				fixture = new ViewControllerFixture({
+				fixture = new ViewFixture({
+					personFixture: this.Fixture('person'),
 					mercuryFixture,
 					namespace: this.namespace,
 					...options,
@@ -123,7 +124,7 @@ export default class FixtureFactory {
 
 	public static async beforeEach() {
 		await Promise.all([
-			ViewControllerFixture.beforeEach(),
+			ViewFixture.beforeEach(),
 			MercuryFixture.beforeEach(),
 			StoreFixture.beforeEach(),
 			EventFixture.beforeEach(),

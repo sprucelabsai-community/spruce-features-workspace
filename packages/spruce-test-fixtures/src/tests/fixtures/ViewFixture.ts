@@ -13,21 +13,25 @@ import SpruceError from '../../errors/SpruceError'
 import vcDiskUtil from '../../utilities/vcDisk.utility'
 import TestRouter from '../routers/TestRouter'
 import MercuryFixture from './MercuryFixture'
+import PersonFixture from './PersonFixture'
 
-export default class ViewControllerFixture {
+export default class ViewFixture {
 	protected vcDir: string
 	private vcFactory?: ViewControllerFactory
 	private controllerMap?: Record<string, any>
 	private mercuryFixture: MercuryFixture
 	private namespace: string
+	private personFixture: PersonFixture
 
 	public constructor(options: {
 		mercuryFixture: MercuryFixture
+		personFixture: PersonFixture
 		vcDir?: string
 		controllerMap?: Record<string, any>
 		namespace: string
 	}) {
 		this.mercuryFixture = options.mercuryFixture
+		this.personFixture = options.personFixture
 		this.vcDir = options?.vcDir ?? diskUtil.resolvePath(process.cwd(), 'build')
 		this.controllerMap = options?.controllerMap
 		this.namespace = options.namespace
@@ -103,5 +107,14 @@ export default class ViewControllerFixture {
 	public getRouter(): TestRouter {
 		TestRouter.setup({ vcFactory: this.getFactory() })
 		return TestRouter.getInstance()
+	}
+
+	public async login(phone: string) {
+		const { person, token, client } =
+			await this.personFixture.loginAsDemoPerson(phone)
+
+		AuthenticatorImpl.getInstance().setSessionToken(token, person)
+
+		return { person, client }
 	}
 }
