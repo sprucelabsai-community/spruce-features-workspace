@@ -97,4 +97,9 @@ export default class RoutingTest extends AbstractSpruceFixtureTest {
 		assert.isTrue(passedVc instanceof BookSkillViewController)
 		assert.isEqualDeep(passedArgs, expectedArgs)
 	}
+
+	@test()
+	protected static async canFakeRedirectToHeartwoodRoot() {
+		await this.router.redirect('heartwood.root')
+	}
 }
