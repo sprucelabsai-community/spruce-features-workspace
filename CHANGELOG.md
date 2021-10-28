@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v6.1.3...v7.0.0) (2021-10-28)
+
+
+### Breaking Changes
+
+* Login as demo person rename in view fixture. default to DEMO_NUMBER ([14687b8](https://github.com/sprucelabsai/spruce-features-workspace/commit/14687b8))
+
+
+
+
+
 ## [6.1.3](https://github.com/sprucelabsai/spruce-features-workspace/compare/v6.1.2...v6.1.3) (2021-10-28)
 
 **Note:** Version bump only for package spruce-features-workspace
