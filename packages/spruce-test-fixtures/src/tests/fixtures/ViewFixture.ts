@@ -112,7 +112,7 @@ export default class ViewFixture {
 		return TestRouter.getInstance()
 	}
 
-	public async login(phone: string) {
+	public async loginAsDemoPerson(phone?: string) {
 		const { person, token, client } =
 			await this.personFixture.loginAsDemoPerson(phone)
 

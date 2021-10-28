@@ -8,7 +8,7 @@ export default class StoreFixtureTest extends AbstractSpruceFixtureTest {
 		const auth = AuthenticatorImpl.getInstance()
 		assert.isFalsy(auth.getPerson())
 
-		const { person } = await this.Fixture('view').login(
+		const { person } = await this.Fixture('view').loginAsDemoPerson(
 			process.env.DEMO_NUMBER as string
 		)
 
@@ -16,5 +16,11 @@ export default class StoreFixtureTest extends AbstractSpruceFixtureTest {
 
 		assert.isTruthy(loggedIn)
 		assert.isEqualDeep(loggedIn, person)
+	}
+
+	@test()
+	protected static async loginFallsBackToDemoNumber() {
+		const { person } = await this.Fixture('view').loginAsDemoPerson()
+		assert.isEqual(person.phone, process.env.DEMO_NUMBER)
 	}
 }
