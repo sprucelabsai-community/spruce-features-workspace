@@ -11,6 +11,7 @@ import { SchemaError } from '@sprucelabs/schema'
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 import SpruceError from '../../errors/SpruceError'
 import vcDiskUtil from '../../utilities/vcDisk.utility'
+import MockSkillViewController from '../Mock.svc'
 import TestRouter from '../routers/TestRouter'
 import MercuryFixture from './MercuryFixture'
 import PersonFixture from './PersonFixture'
@@ -60,6 +61,8 @@ export default class ViewFixture {
 				)}/.spruce/views/views.\n\nOriginal error:\n\n${err.stack}`,
 			})
 		}
+
+		controllerMap['heartwood.root'] = MockSkillViewController
 
 		this.vcFactory = ViewControllerFactory.Factory({
 			controllerMap,

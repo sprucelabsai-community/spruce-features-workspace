@@ -70,7 +70,6 @@ export default class TestRouter
 			//@ts-ignore
 			this.presentVc = this.vcFactory.Controller(id, {})
 		}
-
 		await this.presentVc?.load(this.buildLoadOptions(args))
 
 		await (this as MercuryEventEmitter<Contract>).emit('did-redirect', {

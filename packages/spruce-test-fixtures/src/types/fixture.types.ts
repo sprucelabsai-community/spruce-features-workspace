@@ -6,6 +6,7 @@ import PersonFixture from '../tests/fixtures/PersonFixture'
 import SkillFixture from '../tests/fixtures/SkillFixture'
 import StoreFixture from '../tests/fixtures/StoreFixture'
 import ViewFixture from '../tests/fixtures/ViewFixture'
+import MockSkillViewController from '../tests/Mock.svc'
 
 export type ApiClientFactory = () => Promise<MercuryClient>
 
