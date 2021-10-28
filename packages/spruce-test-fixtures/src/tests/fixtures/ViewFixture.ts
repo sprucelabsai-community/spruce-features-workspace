@@ -10,28 +10,30 @@ import {
 import { SchemaError } from '@sprucelabs/schema'
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 import SpruceError from '../../errors/SpruceError'
+import { ApiClientFactory } from '../../types/fixture.types'
 import vcDiskUtil from '../../utilities/vcDisk.utility'
 import MockSkillViewController from '../Mock.svc'
 import TestRouter from '../routers/TestRouter'
-import MercuryFixture from './MercuryFixture'
 import PersonFixture from './PersonFixture'
+
+type Factory = ApiClientFactory
 
 export default class ViewFixture {
 	protected vcDir: string
 	private vcFactory?: ViewControllerFactory
 	private controllerMap?: Record<string, any>
-	private mercuryFixture: MercuryFixture
+	private connectToApi: Factory
 	private namespace: string
 	private personFixture: PersonFixture
 
 	public constructor(options: {
-		mercuryFixture: MercuryFixture
+		connectToApi: Factory
 		personFixture: PersonFixture
 		vcDir?: string
 		controllerMap?: Record<string, any>
 		namespace: string
 	}) {
-		this.mercuryFixture = options.mercuryFixture
+		this.connectToApi = options.connectToApi
 		this.personFixture = options.personFixture
 		this.vcDir = options?.vcDir ?? diskUtil.resolvePath(process.cwd(), 'build')
 		this.controllerMap = options?.controllerMap
@@ -43,7 +45,6 @@ export default class ViewFixture {
 			return this.vcFactory
 		}
 
-		const mercury = this.mercuryFixture
 		let controllerMap: any
 
 		try {
@@ -66,9 +67,7 @@ export default class ViewFixture {
 
 		this.vcFactory = ViewControllerFactory.Factory({
 			controllerMap,
-			connectToApi: () => {
-				return mercury.connectToApi()
-			},
+			connectToApi: this.connectToApi,
 		})
 
 		vcAssertUtil._setVcFactory(this.vcFactory)

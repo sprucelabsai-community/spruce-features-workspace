@@ -83,7 +83,7 @@ export default class FixtureFactory {
 				}
 				fixture = new ViewFixture({
 					personFixture: this.Fixture('person'),
-					mercuryFixture,
+					connectToApi: mercuryFixture.getApiClientFactory(),
 					namespace: this.namespace,
 					...options,
 				}) as any
