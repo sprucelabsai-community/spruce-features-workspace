@@ -24,6 +24,7 @@ export default class PersonFixtureTest extends AbstractSpruceTest {
 	@test()
 	protected static async throwsWhenNoDummyNumberSetInEnv() {
 		delete process.env.DEMO_NUMBER
+
 		const err = await assert.doesThrowAsync(() =>
 			this.fixture.loginAsDemoPerson()
 		)

@@ -11,8 +11,6 @@ type Factory = ApiClientFactory
 type ClientPromise = ReturnType<Factory>
 type Client = ClientPromise extends PromiseLike<infer C> ? C : ClientPromise
 
-const DEMO_NUMBER = process.env.DEMO_NUMBER ?? ''
-
 export default class PersonFixture {
 	private apiClientFactory: Factory
 
@@ -21,7 +19,7 @@ export default class PersonFixture {
 	}
 
 	public async loginAsDemoPerson(
-		phone: string = DEMO_NUMBER
+		phone: string = process.env.DEMO_NUMBER ?? ''
 	): Promise<{ person: Person; client: Client; token: string }> {
 		if (!phone || phone.length === 0) {
 			throw new SchemaError({

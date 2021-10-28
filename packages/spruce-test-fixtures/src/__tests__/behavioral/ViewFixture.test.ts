@@ -1,4 +1,5 @@
 import { AuthenticatorImpl } from '@sprucelabs/heartwood-view-controllers'
+import { formatPhoneNumber } from '@sprucelabs/schema'
 import { assert, test } from '@sprucelabs/test'
 import { AbstractSpruceFixtureTest } from '../..'
 
@@ -21,6 +22,9 @@ export default class StoreFixtureTest extends AbstractSpruceFixtureTest {
 	@test()
 	protected static async loginFallsBackToDemoNumber() {
 		const { person } = await this.Fixture('view').loginAsDemoPerson()
-		assert.isEqual(person.phone, process.env.DEMO_NUMBER)
+		assert.isEqual(
+			person.phone,
+			formatPhoneNumber(process.env.DEMO_NUMBER ?? '')
+		)
 	}
 }
