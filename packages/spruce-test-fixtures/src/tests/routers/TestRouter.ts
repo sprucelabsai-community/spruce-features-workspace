@@ -60,16 +60,17 @@ export default class TestRouter
 	}
 
 	public async redirect<Id extends SkillViewControllerId>(
-		id: Id,
+		id: Id | 'heartwood.root',
 		args?: SkillViewControllerArgs<Id>
 	): Promise<SkillViewControllerMap[Id]> {
-		if (id !== 'heartwood.root') {
+		if (id === 'heartwood.root') {
 			//@ts-ignore
 			this.presentVc = { id: 'heartwood.root', __fake: true }
 		} else {
 			//@ts-ignore
 			this.presentVc = this.vcFactory.Controller(id, {})
 		}
+
 		await this.presentVc?.load(this.buildLoadOptions(args))
 
 		await (this as MercuryEventEmitter<Contract>).emit('did-redirect', {
