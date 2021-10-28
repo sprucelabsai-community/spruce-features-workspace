@@ -63,13 +63,8 @@ export default class TestRouter
 		id: Id | 'heartwood.root',
 		args?: SkillViewControllerArgs<Id>
 	): Promise<SkillViewControllerMap[Id]> {
-		if (id === 'heartwood.root') {
-			//@ts-ignore
-			this.presentVc = { id: 'heartwood.root', __fake: true }
-		} else {
-			//@ts-ignore
-			this.presentVc = this.vcFactory.Controller(id, {})
-		}
+		//@ts-ignore
+		this.presentVc = this.vcFactory.Controller(id, {})
 
 		await this.presentVc?.load(this.buildLoadOptions(args))
 
