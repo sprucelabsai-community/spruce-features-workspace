@@ -49,7 +49,7 @@ export default class PersonFixtureTest extends AbstractSpruceTest {
 		const { person, client } = await this.fixture.loginAsDemoPerson()
 
 		assert.isTruthy(person)
-		assert.isEqual(person.phone, DEMO_NUMBER)
+		assert.isEqual(person.phone, formatPhoneNumber(DEMO_NUMBER))
 		assert.isTruthy(client)
 
 		await client.disconnect()
