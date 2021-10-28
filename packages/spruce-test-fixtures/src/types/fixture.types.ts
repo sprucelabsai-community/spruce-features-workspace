@@ -6,6 +6,7 @@ import PersonFixture from '../tests/fixtures/PersonFixture'
 import SkillFixture from '../tests/fixtures/SkillFixture'
 import StoreFixture from '../tests/fixtures/StoreFixture'
 import ViewFixture from '../tests/fixtures/ViewFixture'
+import MockSkillViewController from '../tests/Mock.svc'
 
 export type ApiClientFactory = () => Promise<MercuryClient>
 
@@ -28,3 +29,17 @@ export type FixtureConstructorOptionsMap = {
 }
 
 export type FixtureName = keyof FixtureMap
+
+declare module '@sprucelabs/heartwood-view-controllers/build/types/heartwood.types' {
+	interface SkillViewControllerMap {
+		'heartwood.root': MockSkillViewController
+	}
+
+	interface SkillViewControllerArgsMap {
+		'heartwood.root': Parameters<MockSkillViewController['load']>[0]['args']
+	}
+
+	interface ViewControllerMap {
+		'heartwood.root': MockSkillViewController
+	}
+}

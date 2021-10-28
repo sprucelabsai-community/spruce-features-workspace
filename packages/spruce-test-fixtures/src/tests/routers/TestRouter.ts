@@ -60,7 +60,7 @@ export default class TestRouter
 	}
 
 	public async redirect<Id extends SkillViewControllerId>(
-		id: Id | 'heartwood.root',
+		id: Id,
 		args?: SkillViewControllerArgs<Id>
 	): Promise<SkillViewControllerMap[Id]> {
 		//@ts-ignore
