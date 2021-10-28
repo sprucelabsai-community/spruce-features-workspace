@@ -64,6 +64,7 @@ export default class TestRouter
 		args?: SkillViewControllerArgs<Id>
 	): Promise<SkillViewControllerMap[Id]> {
 		if (id !== 'heartwood.root') {
+			//@ts-ignore
 			this.presentVc = { id: 'heartwood.root', __fake: true }
 		} else {
 			//@ts-ignore
