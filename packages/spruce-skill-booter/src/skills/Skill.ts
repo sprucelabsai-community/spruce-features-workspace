@@ -101,7 +101,7 @@ export default class Skill implements ISkill {
 	public execute = async () => {
 		this._isRunning = true
 
-		const done = () => {
+		const done = async () => {
 			this.log.info('Skill booted!')
 			this.resolveBootHandlers()
 		}
@@ -110,7 +110,7 @@ export default class Skill implements ISkill {
 			const features = this.getFeatures()
 
 			if (features.length === 0) {
-				done()
+				await done()
 			} else {
 				let bootCount = 0
 
@@ -119,7 +119,7 @@ export default class Skill implements ISkill {
 						bootCount++
 
 						if (bootCount === features.length) {
-							done()
+							void done()
 						}
 					})
 				}
