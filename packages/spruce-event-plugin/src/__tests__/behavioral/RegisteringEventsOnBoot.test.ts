@@ -39,7 +39,7 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 		)
 	}
 
-	@test('will register listeners if env is not set', undefined, 3)
+	@test('will register listeners if env is not set', undefined, 4)
 	@test('wont re-register listeners if env is set', 'true', 2)
 	protected static async wontRegisterTheSecondTimeBecauseFilesHaveNotChanged(
 		shouldCache: string | undefined,
@@ -56,8 +56,8 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 			return { fqens: ['empty'] }
 		})
 
-		await this.bootSkill()
-		await this.bootSkill()
+		await Promise.all([this.bootSkill(), this.bootSkill(), this.bootSkill()])
+
 		this.generateGoodContractFileForSkill(currentSkill)
 		await this.bootSkill()
 
