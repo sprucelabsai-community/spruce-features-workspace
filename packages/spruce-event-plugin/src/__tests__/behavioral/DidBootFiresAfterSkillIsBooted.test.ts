@@ -6,20 +6,23 @@ export default class DidBootFiresAfterSkillIsBootedTest extends AbstractEventPlu
 	protected static async willBootCanFireFirstAndConfigureMercury() {
 		const skill = await this.SkillFromTestDir('skill-did-boot-event')
 		let isBooted = false
+		let cb: () => void
 
 		void skill.registerFeature('test', {
 			execute: async () => {
 				await new Promise<void>((r) => setTimeout(r, 1000))
 				isBooted = true
+				cb()
 			},
-			onBoot: () => {},
+			onBoot: (_cb: () => void) => {
+				cb = _cb
+			},
 			checkHealth: async () => ({ status: 'passed' }),
 			isInstalled: async () => true,
 			isBooted: () => isBooted,
 			destroy: async () => {},
 		})
 
-		void skill.execute()
-		await this.waitUntilSkillIsBooted(skill)
+		await this.bootSkill({ skill })
 	}
 }

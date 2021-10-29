@@ -111,12 +111,6 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
 		return skill
 	}
 
-	protected static async waitUntilSkillIsBooted(skill: Skill) {
-		await new Promise((resolve: any) => {
-			skill.onBoot(() => resolve())
-		})
-	}
-
 	protected static async SkillFromTestDir(
 		key: string,
 		options?: SkillFactoryOptions

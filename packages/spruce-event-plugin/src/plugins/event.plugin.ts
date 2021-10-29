@@ -189,8 +189,9 @@ export class EventFeaturePlugin implements SkillFeature {
 				this.isExecuting = false
 
 				if (didBoot) {
-					await this.queueDidBoot(didBoot)
+					void this.queueDidBoot(didBoot)
 				}
+
 				this.bootHandler?.()
 			}
 		} catch (err: any) {
