@@ -129,7 +129,7 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
 			'build',
 			'__tests__',
 			'/testDirsAndFiles/',
-			`${new Date().getTime()}`
+			`${new Date().getTime() * Math.random()}`
 		)
 		const source = this.resolvePath(
 			process.cwd(),
