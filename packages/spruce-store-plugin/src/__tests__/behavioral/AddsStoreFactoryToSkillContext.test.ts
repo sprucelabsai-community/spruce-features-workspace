@@ -14,9 +14,7 @@ export default class AddsStoreFactoryToSkillContextTest extends AbstractStorePlu
 	private static async bootAndGetContext() {
 		const skill = await this.SkillFromTestDir('one-good-store-skill')
 
-		void skill.execute()
-
-		await this.waitUntilSkillIsBooted(skill)
+		await this.bootSkill({ skill })
 
 		const context = skill.getContext()
 		return context

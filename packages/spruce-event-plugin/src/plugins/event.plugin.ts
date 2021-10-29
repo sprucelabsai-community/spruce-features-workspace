@@ -158,6 +158,17 @@ export class EventFeaturePlugin implements SkillFeature {
 
 			await this.reRegisterListeners()
 
+			const done = () => {
+				this.isExecuting = false
+				this._isBooted = true
+
+				if (didBoot) {
+					this.queueDidBoot(didBoot)
+				} else {
+					this.bootHandler?.()
+				}
+			}
+
 			if (this.apiClientPromise) {
 				this.log.info('Connection to Mercury successful. Waiting for events.')
 
@@ -170,14 +181,7 @@ export class EventFeaturePlugin implements SkillFeature {
 					this.executeResolve = resolve
 					this.executeReject = reject
 
-					this.isExecuting = false
-					this._isBooted = true
-
-					if (didBoot) {
-						void this.queueDidBoot(didBoot)
-					}
-
-					this.bootHandler?.()
+					done()
 				})
 			} else {
 				this.log.info(
@@ -185,14 +189,7 @@ export class EventFeaturePlugin implements SkillFeature {
 						? 'Aborted setting client to skill context.'
 						: "I couldn't find any events or remote listeners so I'll hold of connecting to Mercury. 🌲🤖"
 				)
-				this._isBooted = true
-				this.isExecuting = false
-
-				if (didBoot) {
-					void this.queueDidBoot(didBoot)
-				}
-
-				this.bootHandler?.()
+				done()
 			}
 		} catch (err: any) {
 			rej(err)
@@ -205,21 +202,17 @@ export class EventFeaturePlugin implements SkillFeature {
 
 	private async queueDidBoot(didBoot: (event: SpruceEvent) => Promise<void>) {
 		try {
-			await new Promise((resolve, reject) => {
-				this.skill.onBoot((err) => {
-					if (!err) {
-						resolve(undefined)
-					} else {
-						reject(err)
-					}
-				})
-			})
+			do {
+				await new Promise<void>((r) => setTimeout(r, 100))
+			} while (!this.skill.isBooted() && !this.isDestroyed)
 
 			this.log.info(`Emitting skill.didBoot internally.`)
 
 			const event = await this.buildSpruceEvent('did-boot')
 
 			await didBoot(event)
+
+			this.bootHandler?.()
 		} catch (err: any) {
 			if (!this.executeReject) {
 				throw err
