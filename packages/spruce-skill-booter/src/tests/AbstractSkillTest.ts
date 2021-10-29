@@ -86,25 +86,18 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
 		options?: TestBootWaitOptions
 	) {
 		return new Promise((resolve, reject) => {
-			let error: any
-
-			void skill.execute().catch((err) => {
-				if (!options?.shouldSuppressBootErrors) {
-					error = err
+			skill.onBoot((err) => {
+				if (err && !options?.shouldSuppressBootErrors) {
+					reject(err)
+					return
 				} else {
 					this.skillBootError = err
 				}
+
+				resolve(skill)
 			})
 
-			void this.waitUntilSkillIsBooted(skill)
-				.then(() => {
-					if (error) {
-						reject(error)
-					} else {
-						resolve(skill)
-					}
-				})
-				.catch(reject)
+			void skill.execute().catch(() => {})
 		})
 	}
 
@@ -119,11 +112,9 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
 	}
 
 	protected static async waitUntilSkillIsBooted(skill: Skill) {
-		do {
-			await this.wait(100)
-		} while (!skill.isBooted() && skill.isRunning())
-
-		await this.wait(100)
+		await new Promise((resolve: any) => {
+			skill.onBoot(() => resolve())
+		})
 	}
 
 	protected static async SkillFromTestDir(

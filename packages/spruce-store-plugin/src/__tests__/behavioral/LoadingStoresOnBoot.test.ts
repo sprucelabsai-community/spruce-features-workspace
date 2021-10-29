@@ -8,7 +8,9 @@ export default class LoadingStoresOnBootTest extends AbstractStorePluginTest {
 	@test()
 	protected static async throwsWhenLoadingImproperlyImplementedStore() {
 		this.setCwd('one-bad-store-skill')
+
 		await this.bootSkill({ shouldSuppressBootErrors: true })
+
 		assert.isTruthy(this.skillBootError)
 
 		errorAssertUtil.assertError(this.skillBootError, 'FAILED_TO_LOAD_STORE', {

@@ -12,6 +12,16 @@ import {
 } from '@sprucelabs/spruce-skill-utils'
 import SpruceError from '../errors/SpruceError'
 
+interface BootCallback {
+	(err?: Error): void
+}
+
+declare module '/Users/taylorromero/Development/SpruceLabs/spruce-features-workspace/node_modules/@sprucelabs/spruce-skill-utils/build/types/skill.types' {
+	interface Skill {
+		onBoot(cb: BootCallback): void
+	}
+}
+
 export interface SkillOptions {
 	rootDir: string
 	activeDir: string
@@ -27,6 +37,7 @@ export default class Skill implements ISkill {
 
 	private featureMap: Record<string, SkillFeature> = {}
 	private _log: Log
+	private bootCallback?: BootCallback
 	private get log() {
 		return this._log
 	}
@@ -45,6 +56,10 @@ export default class Skill implements ISkill {
 		this._log = options.log ?? this.buildLogWithTransports()
 
 		this.shouldCountdownOnExit = options.shouldCountdownOnExit ?? true
+	}
+
+	public onBoot(cb: BootCallback) {
+		this.bootCallback = cb
 	}
 
 	public isFeatureInstalled = async (featureCode: string) => {
@@ -111,6 +126,8 @@ export default class Skill implements ISkill {
 
 			await this.kill()
 
+			this.bootCallback?.(err)
+
 			throw err
 		}
 
@@ -121,6 +138,7 @@ export default class Skill implements ISkill {
 		if (this.bootLoggerInterval) {
 			clearInterval(this.bootLoggerInterval)
 			this.log.info('Skill booted!')
+			this.bootCallback?.()
 		}
 
 		this.log.info('All features have finished execution.')
