@@ -16,7 +16,7 @@ interface BootCallback {
 	(err?: Error): void
 }
 
-declare module '/Users/taylorromero/Development/SpruceLabs/spruce-features-workspace/node_modules/@sprucelabs/spruce-skill-utils/build/types/skill.types' {
+declare module '@sprucelabs/spruce-skill-utils/build/types/skill.types' {
 	interface Skill {
 		onBoot(cb: BootCallback): void
 	}
