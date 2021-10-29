@@ -20,7 +20,7 @@ export default class CheckingHealthTest extends AbstractEventPluginTest {
 		this.cwd = __dirname
 		const skill = await this.Skill()
 		const health = await skill.checkHealth()
-		//@ts-ignore
+
 		assert.isFalsy(health.event)
 	}
 
@@ -28,7 +28,7 @@ export default class CheckingHealthTest extends AbstractEventPluginTest {
 	protected static async givesBackEmptyHealthWhenInstalled() {
 		const skill = await this.Skill()
 		const health = await skill.checkHealth()
-		//@ts-ignore
+
 		assert.isTruthy(health.event)
 	}
 }
