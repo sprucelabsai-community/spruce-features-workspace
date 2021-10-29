@@ -5,6 +5,12 @@ import {
 } from '@sprucelabs/spruce-event-utils'
 import { assert } from '@sprucelabs/test'
 
+declare module '@sprucelabs/spruce-skill-utils/build/types/skill.types' {
+	interface SkillContext {
+		helloWorld: string
+	}
+}
+
 export default async (
 	event: SpruceEvent<
 		SkillEventContract,
