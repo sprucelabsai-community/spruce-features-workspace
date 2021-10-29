@@ -35,7 +35,6 @@ export default class Skill implements ISkill {
 	private _isRunning = false
 	private shutdownTimeout: any
 	private isKilling = false
-	private bootLoggerInterval: any
 	private shouldCountdownOnExit = true
 	//@ts-ignore
 	private context: SkillContext = {}
@@ -103,14 +102,6 @@ export default class Skill implements ISkill {
 		this._isRunning = true
 
 		try {
-			this.bootLoggerInterval = setInterval(() => {
-				if (this.isBooted()) {
-					clearInterval(this.bootLoggerInterval)
-					this.bootLoggerInterval = undefined
-					this.log.info('Skill booted!')
-				}
-			}, 50)
-
 			const features = this.getFeatures()
 
 			let bootCount = 0
@@ -120,12 +111,18 @@ export default class Skill implements ISkill {
 					bootCount++
 
 					if (bootCount === features.length) {
+						this.log.info('Skill booted!')
 						this.resolveBootHandlers()
 					}
 				})
 			}
 
 			await Promise.all(features.map((feature) => feature.execute()))
+
+			if (features.length === 0) {
+				this.log.info('Skill booted!')
+				this.resolveBootHandlers()
+			}
 		} catch (err: any) {
 			this.log.error('Execution error:\n\n' + (err.stack ?? err.message))
 
@@ -138,11 +135,6 @@ export default class Skill implements ISkill {
 
 		if (this.isKilling || !this._isRunning) {
 			return
-		}
-
-		if (this.bootLoggerInterval) {
-			clearInterval(this.bootLoggerInterval)
-			this.log.info('Skill booted!')
 		}
 
 		this.log.info('All features have finished execution.')
@@ -192,10 +184,6 @@ export default class Skill implements ISkill {
 
 			if (this.shutdownTimeout) {
 				clearTimeout(this.shutdownTimeout)
-			}
-
-			if (this.bootLoggerInterval) {
-				clearInterval(this.bootLoggerInterval)
 			}
 
 			await Promise.all(this.getFeatures().map((feature) => feature.destroy()))

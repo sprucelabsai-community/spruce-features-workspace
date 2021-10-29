@@ -147,18 +147,23 @@ export default class SkillTest extends AbstractSkillTest {
 			},
 		})
 
+		let cb = () => {}
+
 		skill.registerFeature('test', {
-			execute: async () => await new Promise(() => {}),
+			execute: async () =>
+				await new Promise(() => {
+					cb()
+				}),
 			checkHealth: async () => ({ status: 'passed' }),
-			onBoot: () => {},
+			onBoot: (_cb: () => void) => {
+				cb = _cb
+			},
 			isBooted: () => true,
 			destroy: async () => {},
 			isInstalled: async () => true,
 		})
 
-		void skill.execute()
-
-		await this.waitUntilSkillIsBooted(skill)
+		await this.bootSkill({ skill })
 
 		assert.isAbove(log.search('Skill booted'), -1)
 	}
