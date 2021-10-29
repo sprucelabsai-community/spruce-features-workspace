@@ -10,6 +10,7 @@ import {
 	Skill,
 	SettingsService,
 	namesUtil,
+	BootCallback,
 } from '@sprucelabs/spruce-skill-utils'
 import { StoreHealthCheckItem } from '../types/store.types'
 
@@ -31,12 +32,17 @@ export class StoreFeaturePlugin implements SkillFeature {
 	private db?: Promise<Database>
 	private storeFactory!: StoreFactory
 	private isExecuting = false
+	private bootHandler?: BootCallback
 
 	public constructor(skill: Skill) {
 		this.skill = skill
 
 		this.dbConnectionString = process.env.DB_CONNECTION_STRING
 		this.dbName = process.env.DB_NAME
+	}
+
+	public onBoot(cb: BootCallback): void {
+		this.bootHandler = cb
 	}
 
 	public async execute(): Promise<void> {
@@ -52,6 +58,8 @@ export class StoreFeaturePlugin implements SkillFeature {
 
 			this.skill.updateContext('storeFactory', this.storeFactory)
 			this.skill.updateContext('database', db)
+			debugger
+			this.bootHandler?.()
 		} finally {
 			this.isExecuting = false
 		}

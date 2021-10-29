@@ -72,6 +72,7 @@ export default class LoadingStoresOnBootTest extends AbstractStorePluginTest {
 		delete process.env.DB_CONNECTION_STRING
 
 		this.setCwd('one-good-store-skill')
+
 		await this.bootSkill({ shouldSuppressBootErrors: true })
 
 		assert.isTruthy(this.skillBootError)

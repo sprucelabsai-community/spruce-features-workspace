@@ -1,4 +1,8 @@
-import { Skill, SkillFeature } from '@sprucelabs/spruce-skill-utils'
+import {
+	BootCallback,
+	Skill,
+	SkillFeature,
+} from '@sprucelabs/spruce-skill-utils'
 //@ts-ignore
 import Heroku from 'heroku-client'
 import SpruceError from '../errors/SpruceError'
@@ -8,10 +12,18 @@ export class DeployFeature implements SkillFeature {
 	private _isBooted = false
 	//@ts-ignore
 	private executeResolver?: any
+	private bootHandler?: BootCallback
 
 	public constructor() {}
 
-	public async execute(): Promise<void> {}
+	public onBoot(cb: BootCallback): void {
+		this.bootHandler = cb
+	}
+
+	public async execute(): Promise<void> {
+		this.bootHandler?.()
+	}
+
 	public async checkHealth(): Promise<DeployHealthCheckItem> {
 		const token = process.env.HEROKU_API_TOKEN
 		const appName = process.env.HEROKU_APP_NAME

@@ -36,6 +36,7 @@ export default class GracefullyExitingOnErrorsTest extends AbstractEventPluginTe
 				await new Promise<void>((r) => setTimeout(r, 1000))
 				throw new Error('crash!')
 			},
+			onBoot: () => {},
 			checkHealth: async () => ({ status: 'passed' }),
 			isInstalled: async () => true,
 			isBooted: () => false,

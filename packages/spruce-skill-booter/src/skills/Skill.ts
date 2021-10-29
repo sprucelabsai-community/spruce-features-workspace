@@ -9,18 +9,9 @@ import {
 	LogOptions,
 	Level,
 	diskUtil,
+	BootCallback,
 } from '@sprucelabs/spruce-skill-utils'
 import SpruceError from '../errors/SpruceError'
-
-interface BootCallback {
-	(err?: Error): void
-}
-
-declare module '@sprucelabs/spruce-skill-utils/build/types/skill.types' {
-	interface Skill {
-		onBoot(cb: BootCallback): void
-	}
-}
 
 export interface SkillOptions {
 	rootDir: string
@@ -37,7 +28,7 @@ export default class Skill implements ISkill {
 
 	private featureMap: Record<string, SkillFeature> = {}
 	private _log: Log
-	private bootCallback?: BootCallback
+	private bootHandlers: BootCallback[] = []
 	private get log() {
 		return this._log
 	}
@@ -59,7 +50,7 @@ export default class Skill implements ISkill {
 	}
 
 	public onBoot(cb: BootCallback) {
-		this.bootCallback = cb
+		this.bootHandlers.push(cb)
 	}
 
 	public isFeatureInstalled = async (featureCode: string) => {
@@ -120,13 +111,27 @@ export default class Skill implements ISkill {
 				}
 			}, 50)
 
-			await Promise.all(this.getFeatures().map((feature) => feature.execute()))
+			const features = this.getFeatures()
+
+			let bootCount = 0
+
+			for (const feature of features) {
+				feature.onBoot(() => {
+					bootCount++
+
+					if (bootCount === features.length) {
+						this.resolveBootHandlers()
+					}
+				})
+			}
+
+			await Promise.all(features.map((feature) => feature.execute()))
 		} catch (err: any) {
 			this.log.error('Execution error:\n\n' + (err.stack ?? err.message))
 
 			await this.kill()
 
-			this.bootCallback?.(err)
+			this.resolveBootHandlers(err)
 
 			throw err
 		}
@@ -138,7 +143,6 @@ export default class Skill implements ISkill {
 		if (this.bootLoggerInterval) {
 			clearInterval(this.bootLoggerInterval)
 			this.log.info('Skill booted!')
-			this.bootCallback?.()
 		}
 
 		this.log.info('All features have finished execution.')
@@ -173,6 +177,12 @@ export default class Skill implements ISkill {
 
 		this.shutdownTimeout = undefined
 		this._isRunning = false
+	}
+
+	private resolveBootHandlers(err?: Error) {
+		for (const handler of this.bootHandlers) {
+			handler(err)
+		}
 	}
 
 	public async kill() {

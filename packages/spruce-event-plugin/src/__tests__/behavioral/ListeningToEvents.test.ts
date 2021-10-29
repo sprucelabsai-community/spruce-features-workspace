@@ -107,6 +107,7 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 				await events.connectToApi()
 				didHit = true
 			},
+			onBoot: () => {},
 			checkHealth: async () => ({ status: 'passed' }),
 			isInstalled: async () => true,
 			isBooted: () => didHit,
@@ -119,6 +120,7 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 				await events.connectToApi({ shouldWaitForWillBoot: false })
 				didHitForced = true
 			},
+			onBoot: () => {},
 			checkHealth: async () => ({ status: 'passed' }),
 			isInstalled: async () => true,
 			isBooted: () => didHitForced,

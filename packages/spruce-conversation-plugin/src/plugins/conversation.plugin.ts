@@ -1,7 +1,12 @@
 import { MercuryClient } from '@sprucelabs/mercury-client'
 import { EventFeature } from '@sprucelabs/spruce-event-plugin'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
-import { Log, Skill, SkillFeature } from '@sprucelabs/spruce-skill-utils'
+import {
+	BootCallback,
+	Log,
+	Skill,
+	SkillFeature,
+} from '@sprucelabs/spruce-skill-utils'
 import { ConversationCoordinator } from '../conversations/ConversationCoordinator'
 import SpruceError from '../errors/SpruceError'
 import ScriptTester from '../tests/ScriptTester'
@@ -20,10 +25,14 @@ export class ConversationFeature implements SkillFeature {
 	private _isTesting = false
 	private executeRejector?: (err: any) => void
 	private coordinatorsBySource: Record<string, any> = {}
+	private bootHandler?: BootCallback
 
 	public constructor(skill: Skill) {
 		this.skill = skill
 		this.log = skill.buildLog('Conversation.Feature')
+	}
+	public onBoot(cb: BootCallback): void {
+		this.bootHandler = cb
 	}
 
 	public async execute(): Promise<void> {
@@ -48,6 +57,8 @@ export class ConversationFeature implements SkillFeature {
 
 				this.log.info('Conversations loaded. Ready to chat when you are. 🤘')
 			}
+
+			this.bootHandler?.()
 		} finally {
 			this.isExecuting = false
 			this._isBooted = true

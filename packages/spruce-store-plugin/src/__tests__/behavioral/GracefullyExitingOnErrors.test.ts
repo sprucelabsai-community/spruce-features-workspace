@@ -21,6 +21,7 @@ export default class GracefullyExitingOnErrorsTest extends AbstractStorePluginTe
 				throw new Error('crash!')
 			},
 			checkHealth: async () => ({ status: 'passed' }),
+			onBoot: () => {},
 			isInstalled: async () => true,
 			isBooted: () => false,
 			destroy: async () => {},
@@ -38,6 +39,7 @@ export default class GracefullyExitingOnErrorsTest extends AbstractStorePluginTe
 				await new Promise<void>((r) => setTimeout(r, 1000))
 				throw new Error('crash!')
 			},
+			onBoot: () => {},
 			checkHealth: async () => ({ status: 'passed' }),
 			isInstalled: async () => true,
 			isBooted: () => false,

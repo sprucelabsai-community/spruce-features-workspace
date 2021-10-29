@@ -12,6 +12,7 @@ export default class DidBootFiresAfterSkillIsBootedTest extends AbstractEventPlu
 				await new Promise<void>((r) => setTimeout(r, 1000))
 				isBooted = true
 			},
+			onBoot: () => {},
 			checkHealth: async () => ({ status: 'passed' }),
 			isInstalled: async () => true,
 			isBooted: () => isBooted,

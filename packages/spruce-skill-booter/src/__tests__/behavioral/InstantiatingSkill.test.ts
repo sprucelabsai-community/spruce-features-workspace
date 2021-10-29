@@ -81,6 +81,7 @@ export default class SkillTest extends AbstractSkillTest {
 
 		skill.registerFeature('test', {
 			execute: async () => {},
+			onBoot: () => {},
 			checkHealth: async () => ({ status: 'passed' }),
 			isInstalled: async () => true,
 			isBooted: () => false,
@@ -117,6 +118,7 @@ export default class SkillTest extends AbstractSkillTest {
 			checkHealth: async () => ({ status: 'passed' }),
 			isInstalled: async () => true,
 			isBooted: () => markAsBooted,
+			onBoot: () => {},
 			destroy: async () => {},
 		})
 
@@ -148,6 +150,7 @@ export default class SkillTest extends AbstractSkillTest {
 		skill.registerFeature('test', {
 			execute: async () => await new Promise(() => {}),
 			checkHealth: async () => ({ status: 'passed' }),
+			onBoot: () => {},
 			isBooted: () => true,
 			destroy: async () => {},
 			isInstalled: async () => true,
@@ -170,6 +173,7 @@ export default class SkillTest extends AbstractSkillTest {
 							execute: async () => {
 								throw new Error('test')
 							},
+							onBoot: () => {},
 							checkHealth: async () => ({ status: 'passed' }),
 							isInstalled: async () => true,
 							isBooted: () => false,

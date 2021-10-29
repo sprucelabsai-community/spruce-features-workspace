@@ -79,6 +79,7 @@ export class EventFeaturePlugin implements SkillFeature {
 	private _settings?: SettingsService
 	//@ts-ignore
 	private listenerCacher?: ListenerCacher // for testing
+	private bootHandler?: () => void
 
 	private get settings() {
 		if (!this._settings) {
@@ -112,6 +113,10 @@ export class EventFeaturePlugin implements SkillFeature {
 			this.log.info('Events have not been synced locally.')
 			this._shouldConnectToApi = false
 		}
+	}
+
+	public onBoot(cb: () => void) {
+		this.bootHandler = cb
 	}
 
 	public async execute() {
@@ -180,6 +185,8 @@ export class EventFeaturePlugin implements SkillFeature {
 				this._isBooted = true
 				this.isExecuting = false
 
+				this.bootHandler?.()
+
 				if (didBoot) {
 					await this.queueDidBoot(didBoot)
 				}
@@ -195,9 +202,15 @@ export class EventFeaturePlugin implements SkillFeature {
 
 	private async queueDidBoot(didBoot: (event: SpruceEvent) => Promise<void>) {
 		try {
-			do {
-				await new Promise<void>((r) => setTimeout(r, 100))
-			} while (!this.skill.isBooted() && !this.isDestroyed)
+			await new Promise((resolve, reject) => {
+				this.skill.onBoot((err) => {
+					if (!err) {
+						resolve(undefined)
+					} else {
+						reject(err)
+					}
+				})
+			})
 
 			this.log.info(`Emitting skill.didBoot internally.`)
 
