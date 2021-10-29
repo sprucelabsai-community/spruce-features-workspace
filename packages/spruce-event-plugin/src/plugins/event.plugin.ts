@@ -163,7 +163,7 @@ export class EventFeaturePlugin implements SkillFeature {
 				this._isBooted = true
 
 				if (didBoot) {
-					this.queueDidBoot(didBoot)
+					void this.queueDidBoot(didBoot)
 				} else {
 					this.bootHandler?.()
 				}
