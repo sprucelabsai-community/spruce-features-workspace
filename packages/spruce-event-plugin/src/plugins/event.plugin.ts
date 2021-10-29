@@ -123,6 +123,7 @@ export class EventFeaturePlugin implements SkillFeature {
 		this.isExecuting = true
 		let re: any
 		let rej: any
+
 		this.willBootPromise = new Promise((resolve, reject) => {
 			re = resolve
 			rej = reject
@@ -175,6 +176,8 @@ export class EventFeaturePlugin implements SkillFeature {
 					if (didBoot) {
 						void this.queueDidBoot(didBoot)
 					}
+
+					this.bootHandler?.()
 				})
 			} else {
 				this.log.info(
@@ -188,9 +191,8 @@ export class EventFeaturePlugin implements SkillFeature {
 				if (didBoot) {
 					await this.queueDidBoot(didBoot)
 				}
+				this.bootHandler?.()
 			}
-
-			this.bootHandler?.()
 		} catch (err: any) {
 			rej(err)
 			this._isBooted = false

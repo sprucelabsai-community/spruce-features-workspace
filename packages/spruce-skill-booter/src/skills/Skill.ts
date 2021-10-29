@@ -1,3 +1,4 @@
+import { doesNotMatch } from 'assert'
 import {
 	buildLog,
 	HealthCheckResults,
@@ -101,27 +102,30 @@ export default class Skill implements ISkill {
 	public execute = async () => {
 		this._isRunning = true
 
+		const done = () => {
+			this.log.info('Skill booted!')
+			this.resolveBootHandlers()
+		}
+
 		try {
 			const features = this.getFeatures()
 
-			let bootCount = 0
-
-			for (const feature of features) {
-				feature.onBoot(() => {
-					bootCount++
-
-					if (bootCount === features.length) {
-						this.log.info('Skill booted!')
-						this.resolveBootHandlers()
-					}
-				})
-			}
-
-			await Promise.all(features.map((feature) => feature.execute()))
-
 			if (features.length === 0) {
-				this.log.info('Skill booted!')
-				this.resolveBootHandlers()
+				done()
+			} else {
+				let bootCount = 0
+
+				for (const feature of features) {
+					feature.onBoot(() => {
+						bootCount++
+
+						if (bootCount === features.length) {
+							done()
+						}
+					})
+				}
+
+				await Promise.all(features.map((feature) => feature.execute()))
 			}
 		} catch (err: any) {
 			this.log.error('Execution error:\n\n' + (err.stack ?? err.message))

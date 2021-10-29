@@ -26,7 +26,7 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 		await assert.doesThrowAsync(() => this.bootSkill())
 	}
 
-	@test.only()
+	@test()
 	protected static async registersEventsOnBoot() {
 		const { contracts, currentSkill: currentSkill } =
 			await this.register2SkillsInstallAtOrgAndBootSkill(async (skill) => {
