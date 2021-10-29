@@ -5,7 +5,7 @@ import {
 	eventDiskUtil,
 	eventResponseUtil,
 } from '@sprucelabs/spruce-event-utils'
-import { diskUtil } from '@sprucelabs/spruce-skill-utils'
+import { BootCallback, diskUtil } from '@sprucelabs/spruce-skill-utils'
 import { MercuryFixture } from '@sprucelabs/spruce-test-fixtures'
 import { assert, test } from '@sprucelabs/test'
 import { EventFeature } from '../..'
@@ -100,14 +100,20 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 		process.env.SKILL_ID = skill.id
 		process.env.SKILL_API_KEY = skill.apiKey
 
+		let cb: () => void
+		let cb2: () => void
+
 		const runningSkill = await this.Skill()
 		void runningSkill.registerFeature('test', {
 			execute: async () => {
 				const events = runningSkill.getFeatureByCode('event') as EventFeature
 				await events.connectToApi()
 				didHit = true
+				cb()
 			},
-			onBoot: () => {},
+			onBoot: (_cb: BootCallback) => {
+				cb = _cb
+			},
 			checkHealth: async () => ({ status: 'passed' }),
 			isInstalled: async () => true,
 			isBooted: () => didHit,
@@ -119,8 +125,11 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 				const events = runningSkill.getFeatureByCode('event') as EventFeature
 				await events.connectToApi({ shouldWaitForWillBoot: false })
 				didHitForced = true
+				cb2()
 			},
-			onBoot: () => {},
+			onBoot: (_cb: BootCallback) => {
+				cb2 = _cb
+			},
 			checkHealth: async () => ({ status: 'passed' }),
 			isInstalled: async () => true,
 			isBooted: () => didHitForced,
