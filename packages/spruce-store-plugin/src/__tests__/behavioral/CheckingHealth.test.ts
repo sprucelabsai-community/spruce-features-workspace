@@ -12,7 +12,7 @@ export default class StoreFeaturePluginTest extends AbstractStorePluginTest {
 
 		assert.isTruthy(health.store)
 		assert.isEqual(health.store.isConnected, shouldSetEnv)
-		assert.isLength(health.store.stores, 0)
+		assert.isEqualDeep(health.store.stores, [])
 	}
 
 	private static async checkHealth(key: string) {
