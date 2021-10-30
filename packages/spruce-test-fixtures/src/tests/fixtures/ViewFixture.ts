@@ -63,7 +63,9 @@ export default class ViewFixture {
 			})
 		}
 
-		controllerMap['heartwood.root'] = MockSkillViewController
+		if (!controllerMap['heartwood.root']) {
+			controllerMap['heartwood.root'] = MockSkillViewController
+		}
 
 		this.vcFactory = ViewControllerFactory.Factory({
 			controllerMap,

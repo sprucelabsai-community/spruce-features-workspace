@@ -27,4 +27,18 @@ export default class StoreFixtureTest extends AbstractSpruceFixtureTest {
 			formatPhoneNumber(process.env.DEMO_NUMBER ?? '')
 		)
 	}
+
+	@test()
+	protected static async canSetHeartwoodRoot() {
+		const fixture = this.Fixture('view', {
+			controllerMap: {
+				'heartwood.root': true,
+			},
+		})
+
+		const factory = fixture.getFactory()
+
+		//@ts-ignore
+		assert.isTrue(factory.controllerMap['heartwood.root'])
+	}
 }
