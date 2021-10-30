@@ -101,6 +101,9 @@ export default class ViewFixture {
 	public static async beforeEach() {
 		AuthenticatorImpl.reset()
 		AuthenticatorImpl.setStorage(new MockStorage())
+
+		TestRouter.setShouldThrowWhenRedirectingToBadSvc(true)
+
 		process.env.SHOULD_REGISTER_VIEWS = 'false'
 	}
 

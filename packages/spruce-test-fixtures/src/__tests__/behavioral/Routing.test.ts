@@ -1,5 +1,8 @@
 /* eslint-disable spruce/prohibit-import-from-build-folder */
-import { SkillViewControllerId } from '@sprucelabs/heartwood-view-controllers'
+import {
+	SkillViewControllerId,
+	ViewControllerFactory,
+} from '@sprucelabs/heartwood-view-controllers'
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 import { test, assert } from '@sprucelabs/test'
 import { errorAssertUtil } from '@sprucelabs/test-utils'
@@ -23,6 +26,8 @@ declare module '@sprucelabs/heartwood-view-controllers/build/types/heartwood.typ
 
 export default class RoutingTest extends AbstractSpruceFixtureTest {
 	private static router: TestRouter
+	private static factory: ViewControllerFactory
+
 	protected static vcDir = diskUtil.resolvePath(
 		__dirname,
 		'..',
@@ -31,10 +36,13 @@ export default class RoutingTest extends AbstractSpruceFixtureTest {
 		'build'
 	)
 
-	@test()
-	protected static async canCreateRouter() {
-		this.router = this.Fixture('view', { vcDir: this.vcDir }).getRouter()
-		assert.isTruthy(this.router)
+	protected static async beforeEach() {
+		await super.beforeEach()
+
+		const fixture = this.Fixture('view', { vcDir: this.vcDir })
+
+		this.router = fixture.getRouter()
+		this.factory = fixture.getFactory()
 	}
 
 	@test()
@@ -104,5 +112,25 @@ export default class RoutingTest extends AbstractSpruceFixtureTest {
 		const svc = await this.router.redirect('heartwood.root')
 
 		assert.isTrue(svc instanceof MockSkillViewController)
+	}
+
+	@test()
+	protected static async canSuppressBadControllerIdOnRedirect() {
+		TestRouter.setShouldThrowWhenRedirectingToBadSvc(false)
+
+		const id = `${new Date().getTime()}.root`
+
+		//@ts-ignore
+		this.factory.setController(id, null)
+
+		await this.router.redirect(id as any)
+	}
+
+	@test()
+	protected static async shouldThrowWithBadSvcBecauseTestRouterIsReset() {
+		await assert.doesThrowAsync(() =>
+			//@ts-ignore
+			this.router.redirect('waka.waka')
+		)
 	}
 }

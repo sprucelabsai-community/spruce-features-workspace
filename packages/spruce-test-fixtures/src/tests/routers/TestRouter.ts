@@ -32,6 +32,12 @@ export default class TestRouter
 	private static vcFactory: ViewControllerFactory
 	private static instance?: TestRouter
 
+	private static shouldThrowWhenRedirectingToBadSvc = true
+
+	public static setShouldThrowWhenRedirectingToBadSvc(shouldThrow: boolean) {
+		this.shouldThrowWhenRedirectingToBadSvc = shouldThrow
+	}
+
 	private constructor(vcFactory: ViewControllerFactory) {
 		super(contract)
 		this.vcFactory = vcFactory
@@ -63,14 +69,19 @@ export default class TestRouter
 		id: Id,
 		args?: SkillViewControllerArgs<Id>
 	): Promise<SkillViewControllerMap[Id]> {
-		//@ts-ignore
-		this.presentVc = this.vcFactory.Controller(id, {})
+		if (
+			TestRouter.shouldThrowWhenRedirectingToBadSvc ||
+			this.vcFactory.hasController(id)
+		) {
+			//@ts-ignore
+			this.presentVc = this.vcFactory.Controller(id, {})
+		}
 
 		await this.presentVc?.load(this.buildLoadOptions(args))
 
 		await (this as MercuryEventEmitter<Contract>).emit('did-redirect', {
 			id: id as string,
-			vc: this.presentVc as any,
+			vc: this.presentVc ?? {},
 			args,
 		})
 
