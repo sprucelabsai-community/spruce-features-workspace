@@ -102,11 +102,9 @@ export default class Skill implements ISkill {
 	public execute = async () => {
 		this._isRunning = true
 
-		const done = async (err?: Error) => {
-			if (!err) {
-				this.log.info('Skill booted!')
-			}
-			this.resolveBootHandlers(err)
+		const done = async () => {
+			this.log.info('Skill booted!')
+			this.resolveBootHandlers()
 		}
 
 		try {
@@ -175,11 +173,11 @@ export default class Skill implements ISkill {
 		this._isRunning = false
 	}
 
-	private resolveBootHandlers(err?: Error) {
+	private resolveBootHandlers() {
 		if (!this.hasInvokedBootHandlers) {
 			this.hasInvokedBootHandlers = true
 			for (const handler of this.bootHandlers) {
-				handler(err)
+				handler()
 			}
 		}
 	}
