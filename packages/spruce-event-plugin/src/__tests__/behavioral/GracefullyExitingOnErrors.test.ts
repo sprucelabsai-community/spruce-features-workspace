@@ -12,9 +12,7 @@ export default class GracefullyExitingOnErrorsTest extends AbstractEventPluginTe
 		process.env.SKILL_ID = '234'
 		process.env.SKILL_API_KEY = '234234'
 
-		debugger
 		const { skill } = await this.bootSkill({ shouldSuppressBootErrors: true })
-		debugger
 
 		const err = this.skillBootError
 

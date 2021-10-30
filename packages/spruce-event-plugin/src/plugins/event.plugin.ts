@@ -124,8 +124,6 @@ export class EventFeaturePlugin implements SkillFeature {
 		let re: any
 		let rej: any
 
-		debugger
-
 		this.willBootPromise = new Promise((resolve, reject) => {
 			re = resolve
 			rej = reject
