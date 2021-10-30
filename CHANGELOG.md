@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.1.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v7.0.16...v7.1.0) (2021-10-30)
+
+
+### Features
+
+* test router can redirect to bad svc when set to do so ([9e8f14a](https://github.com/sprucelabsai/spruce-features-workspace/commit/9e8f14a))
+
+
+
+
+
 ## [7.0.16](https://github.com/sprucelabsai/spruce-features-workspace/compare/v7.0.15...v7.0.16) (2021-10-30)
 
 **Note:** Version bump only for package spruce-features-workspace
