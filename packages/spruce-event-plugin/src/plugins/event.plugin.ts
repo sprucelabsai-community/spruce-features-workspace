@@ -124,6 +124,8 @@ export class EventFeaturePlugin implements SkillFeature {
 		let re: any
 		let rej: any
 
+		debugger
+
 		this.willBootPromise = new Promise((resolve, reject) => {
 			re = resolve
 			rej = reject
@@ -158,12 +160,12 @@ export class EventFeaturePlugin implements SkillFeature {
 
 			await this.reRegisterListeners()
 
-			const done = () => {
+			const done = async () => {
 				this.isExecuting = false
 				this._isBooted = true
 
 				if (didBoot) {
-					void this.queueDidBoot(didBoot)
+					await this.queueDidBoot(didBoot)
 				} else {
 					this.bootHandler?.()
 				}
@@ -181,7 +183,7 @@ export class EventFeaturePlugin implements SkillFeature {
 					this.executeResolve = resolve
 					this.executeReject = reject
 
-					done()
+					void done()
 				})
 			} else {
 				this.log.info(
@@ -189,7 +191,7 @@ export class EventFeaturePlugin implements SkillFeature {
 						? 'Aborted setting client to skill context.'
 						: "I couldn't find any events or remote listeners so I'll hold of connecting to Mercury. 🌲🤖"
 				)
-				done()
+				await done()
 			}
 		} catch (err: any) {
 			rej(err)
@@ -201,25 +203,26 @@ export class EventFeaturePlugin implements SkillFeature {
 	}
 
 	private async queueDidBoot(didBoot: (event: SpruceEvent) => Promise<void>) {
-		try {
-			do {
-				await new Promise<void>((r) => setTimeout(r, 100))
-			} while (!this.skill.isBooted() && !this.isDestroyed)
+		await new Promise((resolve, reject) => {
+			this.skill.onBoot(async () => {
+				try {
+					this.log.info(`Emitting skill.didBoot internally.`)
 
-			this.log.info(`Emitting skill.didBoot internally.`)
+					const event = await this.buildSpruceEvent('did-boot')
 
-			const event = await this.buildSpruceEvent('did-boot')
+					await didBoot(event)
 
-			await didBoot(event)
-
+					resolve(undefined)
+				} catch (err: any) {
+					if (!this.executeReject) {
+						throw reject(err)
+					} else {
+						this.executeReject?.(err)
+					}
+				}
+			})
 			this.bootHandler?.()
-		} catch (err: any) {
-			if (!this.executeReject) {
-				throw err
-			}
-
-			this.executeReject?.(err)
-		}
+		})
 	}
 
 	private async buildSpruceEvent(

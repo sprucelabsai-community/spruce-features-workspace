@@ -4,7 +4,7 @@ import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
 export default class AddsMercuryToTheSkillContextTest extends AbstractEventPluginTest {
 	@test()
 	protected static async addsMercuryToContext() {
-		const skill = await this.bootSkillFromTestDir('skill')
+		const { skill } = await this.bootSkillFromTestDir('skill')
 
 		const context = skill.getContext()
 

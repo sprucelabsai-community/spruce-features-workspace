@@ -103,7 +103,7 @@ export default class CheckingHealthTest extends AbstractDeployTest {
 
 	@test()
 	protected static async killingASkillKillsDeploy() {
-		const skill = await this.bootSkill({})
+		const { skill } = await this.bootSkill({})
 
 		await skill.kill()
 

@@ -76,28 +76,33 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
 	protected static async bootSkill(options?: TestBootOptions) {
 		const skill = options?.skill ?? (await this.Skill(options))
 
-		await this.bootSkillAndWait(skill, options)
-
-		return skill
+		return this.bootSkillAndWait(skill, options)
 	}
 
 	private static async bootSkillAndWait(
 		skill: Skill,
 		options?: TestBootWaitOptions
-	) {
+	): Promise<{
+		skill: Skill
+		executionPromise: Promise<void>
+	}> {
 		return new Promise((resolve, reject) => {
-			skill.onBoot((err) => {
-				if (err && !options?.shouldSuppressBootErrors) {
-					reject(err)
-					return
-				} else {
-					this.skillBootError = err
-				}
+			let executionPromise: Promise<any>
 
-				resolve(skill)
+			skill.onBoot(async () => {
+				resolve({ skill, executionPromise })
 			})
 
-			void skill.execute().catch(() => {})
+			executionPromise = skill.execute()
+
+			executionPromise.catch((err) => {
+				if (options?.shouldSuppressBootErrors) {
+					this.skillBootError = err
+					resolve({ skill, executionPromise })
+				} else {
+					reject(err)
+				}
+			})
 		})
 	}
 
@@ -106,9 +111,10 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
 		options?: SkillFactoryOptions
 	) {
 		const skill = await this.SkillFromTestDir(key, options)
-		await this.bootSkillAndWait(skill)
 
-		return skill
+		const results = await this.bootSkillAndWait(skill)
+
+		return results
 	}
 
 	protected static async SkillFromTestDir(

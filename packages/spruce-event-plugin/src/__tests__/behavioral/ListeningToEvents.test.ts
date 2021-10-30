@@ -44,6 +44,7 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 	@test()
 	protected static async willBootCanFireFirstAndConfigureMercury() {
 		this.cwd = this.resolveTestPath('registered-skill-boot-events')
+
 		const { skill } = await this.Fixture('skill').loginAsDemoSkill({
 			name: 'boot-events',
 		})
@@ -54,7 +55,8 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 		process.env.TO_COPY_SKILL_API_KEY = skill.apiKey
 		process.env.TO_COPY_SKILL_ID = skill.id
 
-		const booted = await this.bootSkill()
+		const { skill: booted } = await this.bootSkill()
+
 		const events = booted.getFeatureByCode('event') as EventFeaturePlugin
 		const client = await events.connectToApi()
 
@@ -75,6 +77,11 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 		process.env.SKILL_ID = skill.id
 
 		await this.bootSkill()
+
+		assert.isEqual(
+			process.env.REGISTER_SKILL_API_KEY_BOOT_EVENTS,
+			process.env.SKILL_API_KEY
+		)
 	}
 
 	@test()
@@ -184,9 +191,12 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 
 	@test()
 	protected static async didBootErrorErrorsGetPassedBack() {
-		const err = await assert.doesThrowAsync(() =>
-			this.setupTwoSkillsAndBoot('registered-skill-throw-in-will-boot-listener')
-		)
+		const err = await assert.doesThrowAsync(async () => {
+			const { executionPromise } = await this.setupTwoSkillsAndBoot(
+				'registered-skill-throw-in-will-boot-listener'
+			)
+			await executionPromise
+		})
 
 		assert.doesInclude(err.message, 'what the')
 	}
@@ -394,6 +404,7 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 		bootedSkill: any,
 		events: EventFeaturePlugin
 	) {
+		bootedSkill.hasInvokedBootHandlers = false
 		await this.bootSkill({ skill: bootedSkill })
 		await bootedSkill.kill()
 		events.reset()
@@ -455,9 +466,18 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 		process.env.SKILL_ID = skill2.id
 		process.env.SKILL_API_KEY = skill2.apiKey
 
-		const currentSkill = await this.bootSkill()
+		const { skill: currentSkill, executionPromise } = await this.bootSkill()
 
-		return { fqen, currentSkill, client1, skill1, skill2, org, client2 }
+		return {
+			fqen,
+			currentSkill,
+			client1,
+			skill1,
+			skill2,
+			org,
+			client2,
+			executionPromise,
+		}
 	}
 
 	private static setupListenersForEventsRegisteredBySkill(skill: any) {

@@ -56,9 +56,11 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		process.env.SKILL_ID = skill.id
 		process.env.SKILL_API_KEY = skill.apiKey
 
-		const bootedSkill = await this.bootSkill(skillOptions)
+		const { skill: bootedSkill, executionPromise } = await this.bootSkill(
+			skillOptions
+		)
 
-		return { skill: bootedSkill, client }
+		return { skill: bootedSkill, client, executionPromise }
 	}
 
 	protected static async bootAndRegisterSkillFromTestDir(key: string) {
@@ -69,8 +71,6 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		process.env.SKILL_ID = registeredSkill.id
 		process.env.SKILL_API_KEY = registeredSkill.apiKey
 
-		const skill = await this.bootSkillFromTestDir(key)
-
-		return skill
+		return this.bootSkillFromTestDir(key)
 	}
 }

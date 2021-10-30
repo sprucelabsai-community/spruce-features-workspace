@@ -1,4 +1,4 @@
-import { test } from '@sprucelabs/test'
+import { assert, test } from '@sprucelabs/test'
 import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
 
 export default class DidBootFiresAfterSkillIsBootedTest extends AbstractEventPluginTest {
@@ -8,7 +8,7 @@ export default class DidBootFiresAfterSkillIsBootedTest extends AbstractEventPlu
 		let isBooted = false
 		let cb: () => void
 
-		void skill.registerFeature('test', {
+		skill.registerFeature('test', {
 			execute: async () => {
 				await new Promise<void>((r) => setTimeout(r, 1000))
 				isBooted = true
@@ -23,6 +23,15 @@ export default class DidBootFiresAfterSkillIsBootedTest extends AbstractEventPlu
 			destroy: async () => {},
 		})
 
-		await this.bootSkill({ skill })
+		const promise = skill.execute()
+
+		do {
+			await this.wait(100)
+			assert.isNotEqual(process.env.DID_BOOT_LATE, 'true')
+		} while (process.env.DID_BOOT_EARLY !== 'true')
+
+		await promise
+
+		assert.isEqual(process.env.DID_BOOT_LATE, 'true')
 	}
 }

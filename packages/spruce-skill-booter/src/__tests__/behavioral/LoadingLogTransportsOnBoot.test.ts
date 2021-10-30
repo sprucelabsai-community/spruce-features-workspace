@@ -18,7 +18,10 @@ export default class LoadingLogTransportsOnBootTest extends AbstractSkillTest {
 	@test('logs expected value 2', 'there!')
 	@test('logs expected value 3', 'there!', 'error')
 	protected static async logTransportsSetAtBoot(value: string, level = 'info') {
-		const skill = await this.bootSkillFromTestDir('skill-with-log-transport')
+		const { skill } = await this.bootSkillFromTestDir(
+			'skill-with-log-transport'
+		)
+
 		const logDestination = diskUtil.resolvePath(this.cwd, 'log.txt')
 		assert.isTrue(
 			diskUtil.doesFileExist(logDestination),
@@ -37,7 +40,7 @@ export default class LoadingLogTransportsOnBootTest extends AbstractSkillTest {
 
 	@test()
 	protected static async transportHonorsLevel() {
-		const skill = await this.bootSkillFromTestDir(
+		const { skill } = await this.bootSkillFromTestDir(
 			'skill-with-log-transport-info-only'
 		)
 		const logDestination = diskUtil.resolvePath(this.cwd, 'log.txt')
@@ -60,7 +63,7 @@ export default class LoadingLogTransportsOnBootTest extends AbstractSkillTest {
 
 	@test()
 	protected static async canLoadMultipleTransports() {
-		const skill = await this.bootSkillFromTestDir(
+		const { skill } = await this.bootSkillFromTestDir(
 			'skill-with-multiple-log-transports'
 		)
 

@@ -33,7 +33,7 @@ export default class RegisteringConversationsOnBootTest extends AbstractConversa
 
 	@test()
 	protected static async skillShutsDownWhenConvosFailToRegister() {
-		const skill = await super.bootSkill({ shouldSuppressBootErrors: true })
+		const { skill } = await super.bootSkill({ shouldSuppressBootErrors: true })
 
 		assert.isFalse(skill.isRunning())
 		this.clearSkillBootErrors()
@@ -60,6 +60,7 @@ export default class RegisteringConversationsOnBootTest extends AbstractConversa
 		this.cwd = this.resolveTestPath('skill')
 
 		await this.registerAndBoot()
+
 		await this.registerAndBoot({
 			skillId: process.env.SKILL_ID as string,
 			apiKey: process.env.SKILL_API_KEY as string,
@@ -92,7 +93,7 @@ export default class RegisteringConversationsOnBootTest extends AbstractConversa
 			process.env.SKILL_API_KEY = registeredSkill.apiKey
 		}
 
-		const skill = await this.bootSkill()
+		const { skill } = await this.bootSkill()
 
 		const eventFeature = skill.getFeatureByCode('event') as EventFeature
 
@@ -102,6 +103,7 @@ export default class RegisteringConversationsOnBootTest extends AbstractConversa
 
 		const results = await client.emit('get-conversation-topics::v2020_12_25')
 		const payload = eventResponseUtil.getFirstResponseOrThrow(results)
+
 		topics = payload.topics
 
 		return topics

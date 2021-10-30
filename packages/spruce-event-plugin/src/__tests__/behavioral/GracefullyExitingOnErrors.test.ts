@@ -6,13 +6,15 @@ import { EventFeaturePlugin } from '../../plugins/event.plugin'
 import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
 export default class GracefullyExitingOnErrorsTest extends AbstractEventPluginTest {
 	@test()
-	protected static async skillIsKilledAfterAuthError() {
+	protected static async skillIsKilledOnAuthError() {
 		this.cwd = this.resolveTestPath('skill')
 
 		process.env.SKILL_ID = '234'
 		process.env.SKILL_API_KEY = '234234'
 
-		const skill = await this.bootSkill({ shouldSuppressBootErrors: true })
+		debugger
+		const { skill } = await this.bootSkill({ shouldSuppressBootErrors: true })
+		debugger
 
 		const err = this.skillBootError
 
@@ -49,7 +51,9 @@ export default class GracefullyExitingOnErrorsTest extends AbstractEventPluginTe
 	@test()
 	protected static async throwsIfHostNotSet() {
 		delete process.env.HOST
+
 		const err = await assert.doesThrowAsync(() => this.bootSkill())
+
 		errorAssertUtil.assertError(err, 'MISSING_PARAMETERS', {
 			parameters: ['env.HOST'],
 		})

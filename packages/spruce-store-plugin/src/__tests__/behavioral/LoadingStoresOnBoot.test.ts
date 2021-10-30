@@ -88,7 +88,7 @@ export default class LoadingStoresOnBootTest extends AbstractStorePluginTest {
 	protected static async canGetStoreFactory() {
 		this.setCwd('one-good-store-skill')
 
-		const skill = await this.bootSkill({ shouldSuppressBootErrors: true })
+		const { skill } = await this.bootSkill({ shouldSuppressBootErrors: true })
 		const stores = skill.getFeatureByCode('store') as StoreFeaturePlugin
 
 		const factory = stores.getFactory()
@@ -98,7 +98,7 @@ export default class LoadingStoresOnBootTest extends AbstractStorePluginTest {
 	@test()
 	protected static async canGetStoreFromStoreFactory() {
 		this.setCwd('one-good-store-skill')
-		const skill = await this.bootSkill({ shouldSuppressBootErrors: true })
+		const { skill } = await this.bootSkill({ shouldSuppressBootErrors: true })
 		const stores = skill.getFeatureByCode('store') as StoreFeaturePlugin
 
 		const factory = stores.getFactory()

@@ -8,5 +8,8 @@ export default async (event: SpruceEvent): SpruceEventResponse => {
 	
 	//@ts-ignore
 	assert.isTruthy(event.mercury)
+
+	process.env.REGISTER_SKILL_API_KEY_BOOT_EVENTS = process.env.SKILL_API_KEY
+
 	return
 }

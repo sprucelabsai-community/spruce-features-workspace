@@ -29,6 +29,7 @@ export default class Skill implements ISkill {
 	private featureMap: Record<string, SkillFeature> = {}
 	private _log: Log
 	private bootHandlers: BootCallback[] = []
+	private hasInvokedBootHandlers = false
 	private get log() {
 		return this._log
 	}
@@ -101,9 +102,11 @@ export default class Skill implements ISkill {
 	public execute = async () => {
 		this._isRunning = true
 
-		const done = async () => {
-			this.log.info('Skill booted!')
-			this.resolveBootHandlers()
+		const done = async (err?: Error) => {
+			if (!err) {
+				this.log.info('Skill booted!')
+			}
+			this.resolveBootHandlers(err)
 		}
 
 		try {
@@ -130,8 +133,6 @@ export default class Skill implements ISkill {
 			this.log.error('Execution error:\n\n' + (err.stack ?? err.message))
 
 			await this.kill()
-
-			this.resolveBootHandlers(err)
 
 			throw err
 		}
@@ -175,8 +176,11 @@ export default class Skill implements ISkill {
 	}
 
 	private resolveBootHandlers(err?: Error) {
-		for (const handler of this.bootHandlers) {
-			handler(err)
+		if (!this.hasInvokedBootHandlers) {
+			this.hasInvokedBootHandlers = true
+			for (const handler of this.bootHandlers) {
+				handler(err)
+			}
 		}
 	}
 
