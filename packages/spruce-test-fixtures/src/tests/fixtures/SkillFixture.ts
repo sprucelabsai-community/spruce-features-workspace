@@ -11,12 +11,12 @@ type Client = MercuryClient
 
 export default class SkillFixture {
 	private personFixture: PersonFixture
-	private apiClientFactory: Factory
+	private connectToApi: Factory
 	private skills: { client: MercuryClient; skill: Skill }[] = []
 	private skillCounter = process.pid
 
-	public constructor(personFixture: PersonFixture, apiClientFactory: Factory) {
-		this.apiClientFactory = apiClientFactory
+	public constructor(personFixture: PersonFixture, connectToApi: Factory) {
+		this.connectToApi = connectToApi
 		this.personFixture = personFixture
 	}
 
@@ -44,8 +44,9 @@ export default class SkillFixture {
 	}
 
 	private generateSkillSlug(): string {
-		return `skill-fixture-${new Date().getTime() * Math.random()}-${this
-			.skillCounter++}`
+		return `skill-fixture-${Math.round(
+			new Date().getTime() * Math.random()
+		)}-${this.skillCounter++}`
 	}
 
 	public async loginAsDemoSkill(values: {
@@ -64,12 +65,16 @@ export default class SkillFixture {
 
 		const { skill } = eventResponseUtil.getFirstResponseOrThrow(results)
 
-		const skillClient = (await this.apiClientFactory()) as any
+		const skillClient = (await this.connectToApi({
+			shouldReUseClient: false,
+		})) as any
 
 		await skillClient.authenticate({
 			skillId: skill.id,
 			apiKey: skill.apiKey,
 		})
+
+		// this.skills.push({ skill, client })
 
 		return { skill, client: skillClient }
 	}
@@ -95,7 +100,10 @@ export default class SkillFixture {
 			})
 		}
 
-		const client = await this.apiClientFactory()
+		const client = await this.connectToApi({
+			shouldReUseClient: false,
+		})
+
 		//@ts-ignore
 		let skill = client.auth?.skill
 

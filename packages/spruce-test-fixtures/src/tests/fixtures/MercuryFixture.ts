@@ -9,10 +9,14 @@ import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 const env = require('dotenv')
 env.config()
 
+export interface ApiClientFactoryOptions {
+	shouldReUseClient?: boolean
+}
+
 const TEST_HOST = process.env.TEST_HOST ?? process.env.HOST
 
 export default class MercuryFixture {
-	private clientPromise?: Promise<MercuryClient>
+	private clientPromises: Promise<MercuryClient>[] = []
 	private static originalHost: string | undefined
 	private cwd: string
 
@@ -30,9 +34,14 @@ export default class MercuryFixture {
 		}
 	}
 
-	public async connectToApi(): Promise<MercuryClient> {
-		if (this.clientPromise) {
-			return this.clientPromise
+	public async connectToApi(
+		options?: ApiClientFactoryOptions
+	): Promise<MercuryClient> {
+		if (
+			options?.shouldReUseClient !== false &&
+			this.clientPromises.length > 0
+		) {
+			return this.clientPromises[0]
 		}
 
 		if (!TEST_HOST) {
@@ -45,7 +54,7 @@ export default class MercuryFixture {
 
 		this.setDefaultContractToLocalEventsIfExist()
 
-		this.clientPromise = MercuryClientFactory.Client<any>({
+		const promise = MercuryClientFactory.Client<any>({
 			host: TEST_HOST,
 			shouldReconnect: false,
 			allowSelfSignedCrt:
@@ -53,7 +62,9 @@ export default class MercuryFixture {
 				TEST_HOST.includes('https://127.0.0.1'),
 		})
 
-		return this.clientPromise
+		this.clientPromises.push(promise)
+
+		return promise
 	}
 
 	private setDefaultContractToLocalEventsIfExist() {
@@ -96,11 +107,12 @@ export default class MercuryFixture {
 	}
 
 	public async destroy() {
-		if (this.clientPromise) {
-			const client = await this.clientPromise
+		for (const clientPromise of this.clientPromises) {
+			const client = await clientPromise
 			await client.disconnect()
-			this.clientPromise = undefined
 		}
+
+		this.clientPromises = []
 	}
 
 	public static beforeAll() {

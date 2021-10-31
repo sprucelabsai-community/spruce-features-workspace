@@ -1,6 +1,8 @@
 import { DatabaseFixture } from '@sprucelabs/data-stores'
 import { MercuryClient } from '@sprucelabs/mercury-client'
-import MercuryFixture from '../tests/fixtures/MercuryFixture'
+import MercuryFixture, {
+	ApiClientFactoryOptions,
+} from '../tests/fixtures/MercuryFixture'
 import OrganizationFixture from '../tests/fixtures/OrganizationFixture'
 import PersonFixture from '../tests/fixtures/PersonFixture'
 import SkillFixture from '../tests/fixtures/SkillFixture'
@@ -8,7 +10,9 @@ import StoreFixture from '../tests/fixtures/StoreFixture'
 import ViewFixture from '../tests/fixtures/ViewFixture'
 import MockSkillViewController from '../tests/Mock.svc'
 
-export type ApiClientFactory = () => Promise<MercuryClient>
+export type ApiClientFactory = (
+	options?: ApiClientFactoryOptions
+) => Promise<MercuryClient>
 
 export interface FixtureClassMap {
 	person: typeof PersonFixture

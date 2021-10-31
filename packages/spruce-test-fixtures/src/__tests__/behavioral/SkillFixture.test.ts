@@ -1,4 +1,7 @@
-import { eventErrorAssertUtil } from '@sprucelabs/spruce-event-utils'
+import {
+	eventErrorAssertUtil,
+	eventResponseUtil,
+} from '@sprucelabs/spruce-event-utils'
 import { test, assert } from '@sprucelabs/test'
 import { errorAssertUtil } from '@sprucelabs/test-utils'
 import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
@@ -87,5 +90,18 @@ export default class SkillFixtureTest extends AbstractSpruceFixtureTest {
 		assert.isTruthy(client)
 
 		assert.isEqualDeep(skill, demoSkill)
+	}
+
+	@test.skip()
+	protected static async shouldUnRegisterDemoSkills() {
+		const { client } = await this.fixture.loginAsDemoSkill({
+			name: 'Demo me!',
+		})
+
+		await this.fixture.destroy()
+
+		const results = await client.emit('whoami::v2020_12_25')
+
+		assert.doesThrow(() => eventResponseUtil.getFirstResponseOrThrow(results))
 	}
 }
