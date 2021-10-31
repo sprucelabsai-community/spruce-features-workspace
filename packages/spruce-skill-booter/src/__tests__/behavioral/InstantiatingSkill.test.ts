@@ -31,7 +31,7 @@ export default class SkillTest extends AbstractSkillTest {
 		const skill = await this.Skill()
 
 		//@ts-ignore
-		await skill.registerFeature('test', {})
+		skill.registerFeature('test', {})
 
 		const err = assert.doesThrow(() => skill.getFeatureByCode('unknown'))
 

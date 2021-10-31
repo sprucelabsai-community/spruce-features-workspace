@@ -109,6 +109,15 @@ export default class GracefullyExitingOnErrorsTest extends AbstractEventPluginTe
 		errorAssertUtil.assertError(err, 'INVALID_PAYLOAD')
 	}
 
+	@test()
+	protected static async executeThrowsOnLateDidBoot() {
+		const skill = await this.SkillFromTestDir('skill-did-boot-throws')
+
+		const err = await assert.doesThrowAsync(() => skill.execute())
+
+		assert.doesInclude(err.message, 'what the!')
+	}
+
 	private static setupListenersForEventsRegisteredBySkill(skill: any) {
 		diskUtil.moveDir(
 			this.resolvePath('build/listeners/namespace'),
