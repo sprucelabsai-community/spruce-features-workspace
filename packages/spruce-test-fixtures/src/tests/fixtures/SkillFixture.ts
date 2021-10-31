@@ -74,7 +74,7 @@ export default class SkillFixture {
 			apiKey: skill.apiKey,
 		})
 
-		// this.skills.push({ skill, client })
+		this.skills.push({ skill, client })
 
 		return { skill, client: skillClient }
 	}

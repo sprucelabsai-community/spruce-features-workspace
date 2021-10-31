@@ -92,7 +92,7 @@ export default class SkillFixtureTest extends AbstractSpruceFixtureTest {
 		assert.isEqualDeep(skill, demoSkill)
 	}
 
-	@test.skip()
+	@test()
 	protected static async shouldUnRegisterDemoSkills() {
 		const { client } = await this.fixture.loginAsDemoSkill({
 			name: 'Demo me!',
