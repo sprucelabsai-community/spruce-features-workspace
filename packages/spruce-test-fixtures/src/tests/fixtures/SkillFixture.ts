@@ -44,7 +44,8 @@ export default class SkillFixture {
 	}
 
 	private generateSkillSlug(): string {
-		return `my-skill-${new Date().getTime()}-${this.skillCounter++}`
+		return `skill-fixture-${new Date().getTime() * Math.random()}-${this
+			.skillCounter++}`
 	}
 
 	public async loginAsDemoSkill(values: {
