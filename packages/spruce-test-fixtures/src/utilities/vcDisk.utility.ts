@@ -24,7 +24,7 @@ const vcDiskUtil = {
 
 		if (!path) {
 			throw new Error(
-				`Could not find \`${path}\`. Running \`spruce sync.views\` may help.`
+				`Could not find path to skill views. Running \`spruce sync.views\` may help.`
 			)
 		}
 
