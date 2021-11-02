@@ -59,17 +59,17 @@
   },
   "dependencies": {
     "@sprucelabs/error": "^5.0.265",
-    "@sprucelabs/schema": "^25.3.439",
-    "@sprucelabs/spruce-event-utils": "^16.0.705",
+    "@sprucelabs/schema": "^25.3.440",
+    "@sprucelabs/spruce-event-utils": "^16.0.712",
     "@sprucelabs/spruce-skill-booter": "^7.1.4",
-    "@sprucelabs/spruce-skill-utils": "^22.0.9",
+    "@sprucelabs/spruce-skill-utils": "^22.0.10",
     "heroku-client": "^3.1.0"
   },
   "devDependencies": {
     "@sprucelabs/esm-postbuild": "^1.0.277",
     "@sprucelabs/jest-json-reporter": "^6.0.227",
     "@sprucelabs/mercury-client": "^16.13.231",
-    "@sprucelabs/mercury-types": "^26.1.675",
+    "@sprucelabs/mercury-types": "^26.1.680",
     "@sprucelabs/resolve-path-aliases": "^1.0.221",
     "@sprucelabs/semantic-release": "^4.0.8",
     "@sprucelabs/test": "^7.7.214",
