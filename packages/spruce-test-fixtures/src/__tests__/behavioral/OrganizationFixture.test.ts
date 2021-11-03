@@ -1,4 +1,5 @@
 import { eventErrorAssertUtil } from '@sprucelabs/spruce-event-utils'
+import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { test, assert } from '@sprucelabs/test'
 import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
 import {
@@ -127,6 +128,39 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 
 		await this.assertSkillIsInstalled(skill.id, org.id)
 		await this.assertSkillIsInstalled(skill2.id, org.id)
+	}
+
+	@test()
+	protected static async canDeleteAllExistingOrgs() {
+		const firstFixture = this.Fixture('organization')
+
+		await firstFixture.seedDemoOrg({
+			name: 'org 1',
+			phone: DEMO_NUMBER_INSTALLING_SKILLS,
+		})
+
+		await firstFixture.seedDemoOrg({
+			name: 'org 2',
+			phone: DEMO_NUMBER_INSTALLING_SKILLS,
+		})
+
+		const secondFixture = this.Fixture('organization')
+
+		await secondFixture.deleteAllOrgs(DEMO_NUMBER_INSTALLING_SKILLS)
+
+		const { client } = await this.Fixture('person').loginAsDemoPerson(
+			DEMO_NUMBER_INSTALLING_SKILLS
+		)
+
+		const results = await client.emit('list-organizations::v2020_12_25', {
+			payload: {
+				showMineOnly: true,
+			},
+		})
+
+		const { organizations } = eventResponseUtil.getFirstResponseOrThrow(results)
+
+		assert.isLength(organizations, 0)
 	}
 
 	private static async assertSkillIsInstalled(skillId: string, orgId: string) {
