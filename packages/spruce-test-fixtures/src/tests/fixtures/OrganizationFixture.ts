@@ -11,13 +11,19 @@ export default class OrganizationFixture {
 		this.personFixture = personFixture
 	}
 
-	public async seedDemoOrg(values: { name: string; slug?: string }) {
+	public async seedDemoOrg(values: {
+		name: string
+		slug?: string
+		phone?: string
+	}) {
+		const { phone, ...rest } = values
+
 		const allValues = {
 			slug: this.generateOrgSlug(),
-			...values,
+			...rest,
 		}
 
-		const { client } = await this.personFixture.loginAsDemoPerson()
+		const { client } = await this.personFixture.loginAsDemoPerson(phone)
 
 		const results = await client.emit('create-organization::v2020_12_25', {
 			payload: allValues,
@@ -141,6 +147,27 @@ export default class OrganizationFixture {
 
 		await Promise.all(
 			skills.map((skill) => this.installSkill(skill.id, organizationId))
+		)
+	}
+
+	public async deleteAllOrgs(phone?: string) {
+		const { client } = await this.personFixture.loginAsDemoPerson(phone)
+		const results = await client.emit('list-organizations::v2020_12_25', {
+			payload: {
+				showMineOnly: true,
+			},
+		})
+
+		const { organizations } = eventResponseUtil.getFirstResponseOrThrow(results)
+
+		await Promise.all(
+			organizations.map((org) =>
+				client.emit('delete-organization::v2020_12_25', {
+					target: {
+						organizationId: org.id,
+					},
+				})
+			)
 		)
 	}
 
