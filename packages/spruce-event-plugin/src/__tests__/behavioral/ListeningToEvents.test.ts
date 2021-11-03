@@ -30,6 +30,8 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 		delete process.env.WILL_BOOT_FIRED
 		delete process.env.DID_BOOT_FIRED_2
 		delete process.env.WILL_BOOT_FIRED_2
+		delete process.env.TO_COPY_SKILL_API_KEY
+		delete process.env.TO_COPY_SKILL_ID
 	}
 
 	@test()
