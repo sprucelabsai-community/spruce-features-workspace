@@ -90,7 +90,7 @@ export default class ViewFixture {
 					...err.options,
 					friendlyMessage:
 						err.message +
-						"\n\nIf you are testing, make sure you're calling await super.beforeEach() in your test class.",
+						"\n\nIf you are testing, make sure you're calling `await super.beforeEach()` in your test class.",
 				})
 			} else {
 				throw err
