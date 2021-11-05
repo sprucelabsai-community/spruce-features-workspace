@@ -1,4 +1,5 @@
 import { MercuryClient } from '@sprucelabs/mercury-client'
+import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import PersonFixture from './PersonFixture'
 
@@ -11,11 +12,15 @@ export default class OrganizationFixture {
 		this.personFixture = personFixture
 	}
 
-	public async seedDemoOrg(values: {
-		name: string
-		slug?: string
-		phone?: string
-	}) {
+	public async seedDemoOrg(
+		values: Omit<
+			SpruceSchemas.Mercury.v2020_12_25.CreateOrgEmitPayload,
+			'slug'
+		> & {
+			phone?: string
+			slug?: string
+		}
+	) {
 		const { phone, ...rest } = values
 
 		const allValues = {

@@ -163,6 +163,16 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 		assert.isLength(organizations, 0)
 	}
 
+	@test()
+	protected static async passesThroughAllFieldsToRequest() {
+		await assert.doesThrowAsync(() =>
+			this.Fixture('organization').seedDemoOrg({
+				//@ts-ignore
+				waka: 'tacas',
+			})
+		)
+	}
+
 	private static async assertSkillIsInstalled(skillId: string, orgId: string) {
 		const isInstalled = await this.fixture.isSkillInstalled(skillId, orgId)
 		assert.isTrue(isInstalled)
