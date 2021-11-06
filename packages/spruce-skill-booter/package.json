@@ -57,12 +57,12 @@
   },
   "dependencies": {
     "@sprucelabs/error": "^5.0.270",
-    "@sprucelabs/schema": "^25.3.452",
-    "@sprucelabs/spruce-skill-utils": "^22.0.23"
+    "@sprucelabs/schema": "^25.3.453",
+    "@sprucelabs/spruce-skill-utils": "^22.0.25"
   },
   "devDependencies": {
     "@sprucelabs/esm-postbuild": "^1.0.278",
-    "@sprucelabs/jest-json-reporter": "^6.0.230",
+    "@sprucelabs/jest-json-reporter": "^6.0.231",
     "@sprucelabs/resolve-path-aliases": "^1.0.222",
     "@sprucelabs/semantic-release": "^4.0.8",
     "@sprucelabs/test": "^7.7.217",
@@ -71,7 +71,7 @@
     "chokidar-cli": "^3.0.0",
     "concurrently": "^6.3.0",
     "conventional-changelog-sprucelabs": "^1.1.2",
-    "eslint": "^8.1.0",
+    "eslint": "^8.2.0",
     "eslint-config-spruce": "^10.10.15",
     "jest": "^27.3.1",
     "jest-circus": "^27.3.1",
