@@ -1,4 +1,4 @@
-import { eventErrorAssertUtil } from '@sprucelabs/spruce-event-utils'
+import { eventAssertUtil } from '@sprucelabs/spruce-event-utils'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { test, assert } from '@sprucelabs/test'
 import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
@@ -41,7 +41,7 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 			},
 		})
 
-		eventErrorAssertUtil.assertErrorFromResponse(results, 'INVALID_TARGET')
+		eventAssertUtil.assertErrorFromResponse(results, 'INVALID_TARGET')
 	}
 
 	@test()
@@ -96,7 +96,7 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 			})
 		)
 
-		eventErrorAssertUtil.assertError(err, 'INVALID_NAMESPACES', {
+		eventAssertUtil.assertError(err, 'INVALID_NAMESPACES', {
 			namespaces: ['aoeuaoeu'],
 		})
 	}

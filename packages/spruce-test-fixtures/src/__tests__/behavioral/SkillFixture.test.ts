@@ -1,5 +1,5 @@
 import {
-	eventErrorAssertUtil,
+	eventAssertUtil,
 	eventResponseUtil,
 } from '@sprucelabs/spruce-event-utils'
 import { test, assert } from '@sprucelabs/test'
@@ -48,7 +48,7 @@ export default class SkillFixtureTest extends AbstractSpruceFixtureTest {
 			},
 		})
 
-		eventErrorAssertUtil.assertErrorFromResponse(results, 'INVALID_TARGET')
+		eventAssertUtil.assertErrorFromResponse(results, 'INVALID_TARGET')
 	}
 
 	@test()
