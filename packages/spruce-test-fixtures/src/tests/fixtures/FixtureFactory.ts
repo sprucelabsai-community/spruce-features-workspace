@@ -37,7 +37,7 @@ export default class FixtureFactory {
 		named: Name,
 		options?: Partial<FixtureConstructorOptionsMap[Name]>
 	): FixtureMap[Name] {
-		const mercuryFixture = this.getMercuryFixture<Name>(named)
+		const mercuryFixture = this.getMercuryFixture(named)
 		let fixture: FixtureMap[Name] | undefined
 
 		switch (named) {
@@ -94,7 +94,6 @@ export default class FixtureFactory {
 
 		if (fixture) {
 			FixtureFactory.fixtures.push(fixture)
-
 			return fixture
 		}
 
