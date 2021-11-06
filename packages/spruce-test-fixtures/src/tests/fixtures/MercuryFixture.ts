@@ -32,6 +32,8 @@ export default class MercuryFixture {
 				parameters: ['options.cwd'],
 			})
 		}
+
+		this.connectToApi = this.connectToApi.bind(this)
 	}
 
 	public async connectToApi(
@@ -103,7 +105,7 @@ export default class MercuryFixture {
 
 	/** @ts-ignore */
 	public getApiClientFactory() {
-		return this.connectToApi.bind(this)
+		return this.connectToApi
 	}
 
 	public async destroy() {

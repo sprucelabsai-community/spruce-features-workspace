@@ -41,4 +41,12 @@ export default class StoreFixtureTest extends AbstractSpruceFixtureTest {
 		//@ts-ignore
 		assert.isTrue(factory.controllerMap['heartwood.root'])
 	}
+
+	@test()
+	protected static fixturesShouldShareConnectToApiReferences() {
+		const fixture1 = this.Fixture('view')
+		const fixture2 = this.Fixture('view')
+
+		assert.isEqual(fixture1.connectToApi, fixture2.connectToApi)
+	}
 }
