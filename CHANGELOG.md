@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.0.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v8.1.4...v9.0.0) (2021-11-07)
+
+
+### Breaking Changes
+
+* heartwood view controllers ([0796f08](https://github.com/sprucelabsai/spruce-features-workspace/commit/0796f08))
+
+
+
+
+
 ## [8.1.4](https://github.com/sprucelabsai/spruce-features-workspace/compare/v8.1.3...v8.1.4) (2021-11-07)
 
 **Note:** Version bump only for package spruce-features-workspace
