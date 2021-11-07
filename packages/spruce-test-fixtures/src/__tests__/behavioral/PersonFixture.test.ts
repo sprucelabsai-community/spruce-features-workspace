@@ -1,3 +1,4 @@
+import { MercuryClientFactory } from '@sprucelabs/mercury-client'
 import { formatPhoneNumber } from '@sprucelabs/schema'
 import AbstractSpruceTest, { test, assert } from '@sprucelabs/test'
 import { errorAssertUtil } from '@sprucelabs/test-utils'
@@ -65,5 +66,32 @@ export default class PersonFixtureTest extends AbstractSpruceTest {
 
 		assert.isEqual(person.phone, formatPhoneNumber(DEMO_NUMBER))
 		assert.isEqual(person2.phone, formatPhoneNumber(DEMO_NUMBER_SECOND_LOGIN))
+	}
+
+	@test()
+	protected static async loggingInWithoutNumberReturnsSameClientEveryTime() {
+		const { client } = await this.fixture.loginAsDemoPerson()
+
+		const { client: client1 } = await this.fixture.loginAsDemoPerson()
+
+		assert.isEqual(client, client1)
+	}
+
+	@test()
+	protected static async staysLoggedInAsThisPerson() {
+		MercuryClientFactory.setIsTestMode(true)
+
+		const { client } = await this.fixture.loginAsDemoPerson(
+			DEMO_NUMBER_SECOND_LOGIN
+		)
+
+		//@ts-ignore
+		client.emit = () => {
+			assert.fail('should reuse client')
+		}
+
+		const { client: client1 } = await this.fixture.loginAsDemoPerson()
+
+		assert.isEqual(client, client1)
 	}
 }

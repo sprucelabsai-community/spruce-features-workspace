@@ -13,14 +13,28 @@ type Client = ClientPromise extends PromiseLike<infer C> ? C : ClientPromise
 
 export default class PersonFixture {
 	private connectToApi: Factory
+	private lastLoggedIn?: {
+		person: Person
+		client: Client
+		token: string
+	}
 
 	public constructor(options: { connectToApi: Factory }) {
 		this.connectToApi = options.connectToApi
 	}
 
 	public async loginAsDemoPerson(
-		phone: string = process.env.DEMO_NUMBER ?? ''
+		phone?: string
 	): Promise<{ person: Person; client: Client; token: string }> {
+		if (
+			this.lastLoggedIn &&
+			(!phone || phone === this.lastLoggedIn.person.phone)
+		) {
+			return this.lastLoggedIn
+		}
+
+		phone = phone ?? process.env.DEMO_NUMBER
+
 		if (!phone || phone.length === 0) {
 			throw new SchemaError({
 				code: 'MISSING_PARAMETERS',
@@ -58,7 +72,9 @@ export default class PersonFixture {
 		//@ts-ignore
 		client.auth = { person, token }
 
-		return { person, client, token }
+		this.lastLoggedIn = { person, client, token }
+
+		return this.lastLoggedIn
 	}
 
 	public async destroy() {}
