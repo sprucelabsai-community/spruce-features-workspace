@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [8.1.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v8.0.0...v8.1.0) (2021-11-07)
+
+
+### Features
+
+* Much better handling of mercury clients, making testing even faster! ([0ae444c](https://github.com/sprucelabsai/spruce-features-workspace/commit/0ae444c))
+
+
+
+
+
 # [8.0.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v7.3.12...v8.0.0) (2021-11-07)
 
 
