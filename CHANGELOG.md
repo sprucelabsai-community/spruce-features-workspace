@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [8.0.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v7.3.12...v8.0.0) (2021-11-07)
+
+
+### Breaking Changes
+
+* Developers can work with testing fixtures in a more consistent and flexible way (better able to simulate logging in during tests) ([8d63511](https://github.com/sprucelabsai/spruce-features-workspace/commit/8d63511))
+
+
+
+
+
 ## [7.3.12](https://github.com/sprucelabsai/spruce-features-workspace/compare/v7.3.11...v7.3.12) (2021-11-07)
 
 **Note:** Version bump only for package spruce-features-workspace
