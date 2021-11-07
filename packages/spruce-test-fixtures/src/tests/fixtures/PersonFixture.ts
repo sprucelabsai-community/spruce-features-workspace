@@ -12,10 +12,10 @@ type ClientPromise = ReturnType<Factory>
 type Client = ClientPromise extends PromiseLike<infer C> ? C : ClientPromise
 
 export default class PersonFixture {
-	private apiClientFactory: Factory
+	private connectToApi: Factory
 
-	public constructor(apiClientFactory: Factory) {
-		this.apiClientFactory = apiClientFactory
+	public constructor(options: { connectToApi: Factory }) {
+		this.connectToApi = options.connectToApi
 	}
 
 	public async loginAsDemoPerson(
@@ -29,7 +29,7 @@ export default class PersonFixture {
 		}
 
 		const formattedPhone = formatPhoneNumber(phone)
-		const client = (await this.apiClientFactory()) as any
+		const client = (await this.connectToApi()) as any
 
 		//@ts-ignore
 		if (client.auth?.person?.phone === formattedPhone) {

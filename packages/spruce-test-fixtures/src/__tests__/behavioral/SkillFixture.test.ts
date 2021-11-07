@@ -104,4 +104,13 @@ export default class SkillFixtureTest extends AbstractSpruceFixtureTest {
 
 		assert.doesThrow(() => eventResponseUtil.getFirstResponseOrThrow(results))
 	}
+
+	@test()
+	protected static canPassThroughPersonFixture() {
+		const personFixture = this.Fixture('person')
+		const fixture = this.Fixture('skill', { personFixture })
+
+		//@ts-ignore
+		assert.isEqual(fixture.personFixture, personFixture)
+	}
 }

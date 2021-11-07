@@ -173,6 +173,15 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 		)
 	}
 
+	@test()
+	protected static canPassPersonFixture() {
+		const personFixture = this.Fixture('person')
+		const orgFixture = this.Fixture('organization', { personFixture })
+
+		//@ts-ignore
+		assert.isEqual(orgFixture.personFixture, personFixture)
+	}
+
 	private static async assertSkillIsInstalled(skillId: string, orgId: string) {
 		const isInstalled = await this.fixture.isSkillInstalled(skillId, orgId)
 		assert.isTrue(isInstalled)

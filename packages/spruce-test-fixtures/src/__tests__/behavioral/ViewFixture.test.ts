@@ -50,4 +50,13 @@ export default class StoreFixtureTest extends AbstractSpruceFixtureTest {
 		//@ts-ignore
 		assert.isEqual(fixture1.connectToApi, fixture2.connectToApi)
 	}
+
+	@test()
+	protected static canPassThroughPersonFixture() {
+		const personFixture = this.Fixture('person')
+		const viewFixture = this.Fixture('view', { personFixture })
+
+		//@ts-ignore
+		assert.isEqual(viewFixture.personFixture, personFixture)
+	}
 }

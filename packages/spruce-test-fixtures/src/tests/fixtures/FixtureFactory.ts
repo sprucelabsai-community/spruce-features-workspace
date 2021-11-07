@@ -45,27 +45,29 @@ export default class FixtureFactory {
 				fixture = mercuryFixture as FixtureMap[Name]
 				break
 			case 'person': {
-				fixture = new PersonFixture(
-					mercuryFixture.getApiClientFactory()
-				) as FixtureMap[Name]
+				fixture = new PersonFixture({
+					connectToApi: mercuryFixture.getApiClientFactory(),
+				}) as FixtureMap[Name]
 				break
 			}
 			case 'organization': {
-				const personFixture = new PersonFixture(
-					mercuryFixture.getApiClientFactory()
-				)
-				fixture = new OrganizationFixture(personFixture) as FixtureMap[Name]
+				const personFixture =
+					//@ts-ignore
+					options?.personFixture ??
+					new PersonFixture({
+						connectToApi: mercuryFixture.getApiClientFactory(),
+					})
+				fixture = new OrganizationFixture({ personFixture }) as FixtureMap[Name]
 				break
 			}
 			case 'skill': {
-				const personFixture = new PersonFixture(
-					mercuryFixture.getApiClientFactory()
-				)
+				//@ts-ignore
+				const personFixture = options?.personFixture ?? this.Fixture('person')
 
-				fixture = new SkillFixture(
+				fixture = new SkillFixture({
 					personFixture,
-					mercuryFixture.getApiClientFactory()
-				) as any
+					connectToApi: mercuryFixture.getApiClientFactory(),
+				}) as any
 				break
 			}
 			case 'database': {
@@ -83,7 +85,8 @@ export default class FixtureFactory {
 					)
 				}
 				fixture = new ViewFixture({
-					personFixture: this.Fixture('person'),
+					//@ts-ignore
+					personFixture: options?.personFixture ?? this.Fixture('person'),
 					connectToApi: mercuryFixture.getApiClientFactory(),
 					namespace: this.namespace,
 					...options,

@@ -8,8 +8,8 @@ export default class OrganizationFixture {
 	private organizations: { organization: any; client: MercuryClient }[] = []
 	private orgCounter = process.pid
 
-	public constructor(personFixture: PersonFixture) {
-		this.personFixture = personFixture
+	public constructor(options: { personFixture: PersonFixture }) {
+		this.personFixture = options.personFixture
 	}
 
 	public async seedDemoOrg(

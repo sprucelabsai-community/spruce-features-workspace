@@ -15,9 +15,12 @@ export default class SkillFixture {
 	private skills: { client: MercuryClient; skill: Skill }[] = []
 	private skillCounter = process.pid
 
-	public constructor(personFixture: PersonFixture, connectToApi: Factory) {
-		this.connectToApi = connectToApi
-		this.personFixture = personFixture
+	public constructor(options: {
+		personFixture: PersonFixture
+		connectToApi: Factory
+	}) {
+		this.connectToApi = options.connectToApi
+		this.personFixture = options.personFixture
 	}
 
 	public async seedDemoSkill(options: {
