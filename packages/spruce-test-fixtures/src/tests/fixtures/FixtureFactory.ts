@@ -93,7 +93,7 @@ export default class FixtureFactory {
 		}
 
 		if (fixture) {
-			FixtureFactory.fixtures.push(fixture)
+			FixtureFactory.fixtures.unshift(fixture)
 			return fixture
 		}
 
