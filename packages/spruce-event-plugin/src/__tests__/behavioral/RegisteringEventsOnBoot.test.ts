@@ -51,7 +51,7 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 		const client = await this.Fixture('mercury').connectToApi()
 
 		let registerEventCount = 0
-		await client.on('register-events::v2020_12_25', async () => {
+		await client.on('sync-event-contracts::v2020_12_25', async () => {
 			registerEventCount++
 			return { fqens: ['empty'] }
 		})

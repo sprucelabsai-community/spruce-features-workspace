@@ -82,7 +82,7 @@ export default class EventFixture {
 		eventSignature?: EventSignature
 	) {
 		const contract = this.buildContract(eventName, eventSignature)
-		const results = await client.emit(`register-events::v2020_12_25`, {
+		const results = await client.emit(`sync-event-contracts::v2020_12_25`, {
 			payload: {
 				contract,
 			},
