@@ -460,14 +460,6 @@ export class EventFeaturePlugin implements SkillFeature {
 		const currentSkill = await this.getCurrentSkill()
 
 		if (client && currentSkill) {
-			await client.emit('unregister-events::v2020_12_25', {
-				payload: {
-					shouldUnregisterAll: true,
-				},
-			})
-
-			this.log.info('Unregistered existing event contracts')
-
 			await this.registerEvents()
 		} else {
 			this.log.info(
@@ -512,9 +504,12 @@ export class EventFeaturePlugin implements SkillFeature {
 			contract.eventSignatures[name] = event.signature
 		}
 
-		const registerResults = await client.emit('register-events::v2020_12_25', {
-			payload: { contract },
-		})
+		const registerResults = await client.emit(
+			'sync-event-contracts::v2020_12_25',
+			{
+				payload: { contract },
+			}
+		)
 
 		eventResponseUtil.getFirstResponseOrThrow(registerResults)
 
