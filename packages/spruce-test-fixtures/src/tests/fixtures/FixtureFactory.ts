@@ -7,6 +7,7 @@ import {
 	FixtureName,
 } from '../../types/fixture.types'
 import EventFixture from './EventFixture'
+import LocationFixture from './LocationFixture'
 import MercuryFixture from './MercuryFixture'
 import OrganizationFixture from './OrganizationFixture'
 import PersonFixture from './PersonFixture'
@@ -78,6 +79,16 @@ export default class FixtureFactory {
 				fixture = new StoreFixture() as any
 				break
 			}
+			case 'location': {
+				fixture = new LocationFixture({
+					//@ts-ignore
+					personFixture: options?.personFixture ?? this.Fixture('person'),
+					organizationFixture:
+						//@ts-ignore
+						options?.organizationFixture ?? this.Fixture('organization'),
+				}) as any
+				break
+			}
 			case 'view': {
 				if (!this.namespace) {
 					throw new Error(
@@ -88,6 +99,7 @@ export default class FixtureFactory {
 					//@ts-ignore
 					personFixture: options?.personFixture ?? this.Fixture('person'),
 					connectToApi: mercuryFixture.getApiClientFactory(),
+					fixtureFactory: this,
 					namespace: this.namespace,
 					...options,
 				}) as any

@@ -1,9 +1,11 @@
 import {
 	AuthenticatorImpl,
 	Router,
+	Scope,
 	SkillViewController,
 	SkillViewControllerArgs,
 	SkillViewControllerId,
+	SkillViewControllerLoadOptions,
 	SkillViewControllerMap,
 	ViewControllerFactory,
 } from '@sprucelabs/heartwood-view-controllers'
@@ -31,21 +33,31 @@ export default class TestRouter
 	private presentVc?: SkillViewController<any>
 	private static vcFactory: ViewControllerFactory
 	private static instance?: TestRouter
+	private static scope: Scope
 
 	private static shouldThrowWhenRedirectingToBadSvc = true
+	private scope: Scope
 
 	public static setShouldThrowWhenRedirectingToBadSvc(shouldThrow: boolean) {
 		this.shouldThrowWhenRedirectingToBadSvc = shouldThrow
 	}
 
-	private constructor(vcFactory: ViewControllerFactory) {
+	private constructor(options: {
+		vcFactory: ViewControllerFactory
+		scope: Scope
+	}) {
 		super(contract)
-		this.vcFactory = vcFactory
+
+		this.vcFactory = options.vcFactory
+		this.scope = options.scope
 	}
 
 	public static getInstance() {
 		if (!this.instance) {
-			this.instance = new this(this.vcFactory)
+			this.instance = new this({
+				vcFactory: this.vcFactory,
+				scope: this.scope,
+			})
 		}
 
 		if (!this.vcFactory) {
@@ -57,8 +69,12 @@ export default class TestRouter
 		return this.instance
 	}
 
-	public static setup(options: { vcFactory: ViewControllerFactory }) {
+	public static setup(options: {
+		vcFactory: ViewControllerFactory
+		scope: Scope
+	}) {
 		this.vcFactory = options.vcFactory
+		this.scope = options.scope
 	}
 
 	public getPresentVc() {
@@ -92,11 +108,12 @@ export default class TestRouter
 		return this.presentVc
 	}
 
-	public buildLoadOptions(args: any = {}) {
+	public buildLoadOptions(args: any = {}): SkillViewControllerLoadOptions {
 		return {
 			router: this as TestRouter,
 			authenticator: AuthenticatorImpl.getInstance(),
 			args,
+			scope: this.scope,
 		}
 	}
 }

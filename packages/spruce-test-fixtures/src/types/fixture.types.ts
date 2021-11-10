@@ -1,5 +1,6 @@
 import { DatabaseFixture } from '@sprucelabs/data-stores'
 import { MercuryClient } from '@sprucelabs/mercury-client'
+import LocationFixture from '../tests/fixtures/LocationFixture'
 import MercuryFixture, {
 	ApiClientFactoryOptions,
 } from '../tests/fixtures/MercuryFixture'
@@ -22,6 +23,7 @@ export interface FixtureClassMap {
 	store: typeof StoreFixture
 	database: typeof DatabaseFixture
 	view: typeof ViewFixture
+	location: typeof LocationFixture
 }
 
 export type FixtureMap = {

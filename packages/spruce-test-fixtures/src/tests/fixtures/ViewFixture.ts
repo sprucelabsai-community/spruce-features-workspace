@@ -14,6 +14,9 @@ import { ApiClientFactory } from '../../types/fixture.types'
 import vcDiskUtil from '../../utilities/vcDisk.utility'
 import MockSkillViewController from '../Mock.svc'
 import TestRouter from '../routers/TestRouter'
+import FixtureFactory from './FixtureFactory'
+import LocationFixture from './LocationFixture'
+import OrganizationFixture from './OrganizationFixture'
 import PersonFixture from './PersonFixture'
 
 type Factory = ApiClientFactory
@@ -25,10 +28,13 @@ export default class ViewFixture {
 	private connectToApi: Factory
 	private namespace: string
 	private personFixture: PersonFixture
+	private organizationFixture: OrganizationFixture
+	private locationFixture: LocationFixture
 
 	public constructor(options: {
 		connectToApi: Factory
 		personFixture: PersonFixture
+		fixtureFactory: FixtureFactory
 		vcDir?: string
 		controllerMap?: Record<string, any>
 		namespace: string
@@ -38,6 +44,13 @@ export default class ViewFixture {
 		this.vcDir = options?.vcDir ?? diskUtil.resolvePath(process.cwd(), 'build')
 		this.controllerMap = options?.controllerMap
 		this.namespace = options.namespace
+		this.organizationFixture = options.fixtureFactory.Fixture('organization', {
+			personFixture: this.personFixture,
+		})
+		this.locationFixture = options.fixtureFactory.Fixture('location', {
+			personFixture: this.personFixture,
+			organizationFixture: this.organizationFixture,
+		})
 	}
 
 	public getFactory() {
@@ -112,7 +125,32 @@ export default class ViewFixture {
 	}
 
 	public getRouter(): TestRouter {
-		TestRouter.setup({ vcFactory: this.getFactory() })
+		let currentOrg: string | undefined
+		let currentLocation: string | undefined
+
+		TestRouter.setup({
+			vcFactory: this.getFactory(),
+			scope: {
+				getCurrentOrganization: async () => {
+					if (currentOrg) {
+						return this.organizationFixture.getOrganizationById(currentOrg)
+					}
+					return null
+				},
+				setCurrentOrganization(id: string) {
+					currentOrg = id
+				},
+				getCurrentLocation: async () => {
+					if (currentLocation) {
+						return this.locationFixture.getLocationById(currentLocation)
+					}
+					return null
+				},
+				setCurrentLocation: (id: string) => {
+					currentLocation = id
+				},
+			},
+		})
 		return TestRouter.getInstance()
 	}
 

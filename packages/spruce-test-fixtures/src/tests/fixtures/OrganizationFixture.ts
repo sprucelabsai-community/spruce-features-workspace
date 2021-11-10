@@ -41,6 +41,20 @@ export default class OrganizationFixture {
 		return organization
 	}
 
+	public async getOrganizationById(id: string) {
+		const { client } = await this.personFixture.loginAsDemoPerson()
+
+		const results = await client.emit('get-organization::v2020_12_25', {
+			target: {
+				organizationId: id,
+			},
+		})
+
+		const { organization } = eventResponseUtil.getFirstResponseOrThrow(results)
+
+		return organization
+	}
+
 	private generateOrgSlug(): string {
 		return `my-org-${new Date().getTime()}-${this.orgCounter++}`
 	}

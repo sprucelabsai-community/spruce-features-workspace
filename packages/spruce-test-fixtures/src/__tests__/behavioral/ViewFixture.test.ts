@@ -1,9 +1,33 @@
-import { AuthenticatorImpl } from '@sprucelabs/heartwood-view-controllers'
+import {
+	AbstractSkillViewController,
+	AuthenticatorImpl,
+	SkillViewControllerLoadOptions,
+} from '@sprucelabs/heartwood-view-controllers'
 import { formatPhoneNumber } from '@sprucelabs/schema'
 import { assert, test } from '@sprucelabs/test'
-import { AbstractSpruceFixtureTest } from '../..'
+import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
 
-export default class StoreFixtureTest extends AbstractSpruceFixtureTest {
+class ScopeSvc extends AbstractSkillViewController {
+	public loadOptions: SkillViewControllerLoadOptions | null = null
+
+	public async load(options: SkillViewControllerLoadOptions) {
+		this.loadOptions = options
+	}
+
+	public render() {
+		return {
+			layouts: [],
+		}
+	}
+}
+
+declare module '@sprucelabs/heartwood-view-controllers/build/types/heartwood.types' {
+	interface ViewControllerMap {
+		scope: ScopeSvc
+	}
+}
+
+export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 	@test()
 	protected static async canLogin() {
 		const auth = AuthenticatorImpl.getInstance()
@@ -58,5 +82,101 @@ export default class StoreFixtureTest extends AbstractSpruceFixtureTest {
 
 		//@ts-ignore
 		assert.isEqual(viewFixture.personFixture, personFixture)
+	}
+
+	@test()
+	protected static async feedsInScope() {
+		const { vc, fixture } = this.Scope()
+
+		assert.isNull(vc.loadOptions)
+
+		await fixture.load(vc)
+
+		assert.isTruthy(vc.loadOptions)
+		assert.isTruthy(vc.loadOptions.scope)
+	}
+
+	@test()
+	protected static async scopeCanGetAndSetOrganization() {
+		const { vc, fixture } = this.Scope()
+		await fixture.load(vc)
+
+		const scope = vc.loadOptions?.scope
+
+		assert.isTruthy(scope)
+
+		let org = await scope.getCurrentOrganization()
+		assert.isNull(org)
+
+		const created = await this.Fixture('organization').seedDemoOrg({
+			name: 'Scope org',
+		})
+
+		scope.setCurrentOrganization(created.id)
+
+		org = await scope.getCurrentOrganization()
+
+		assert.isEqualDeep(org, created)
+	}
+
+	@test()
+	protected static async scopeCanGetAndSetLocation() {
+		const { vc, fixture } = this.Scope()
+
+		await fixture.load(vc)
+
+		const scope = vc.loadOptions?.scope
+
+		assert.isTruthy(scope)
+
+		let location = await scope.getCurrentLocation()
+		assert.isNull(location)
+
+		const created = await this.Fixture('location').seedDemoLocation({
+			name: 'Scope org',
+		})
+
+		scope.setCurrentLocation(created.id)
+
+		location = await scope.getCurrentLocation()
+
+		assert.isEqualDeep(location, created)
+	}
+
+	@test()
+	protected static async sharesPersonFixture() {
+		const { fixture } = this.Scope()
+		assert.isEqual(
+			//@ts-ignore
+			fixture.personFixture,
+			//@ts-ignore
+			fixture.organizationFixture.personFixture
+		)
+
+		assert.isEqual(
+			//@ts-ignore
+			fixture.personFixture,
+			//@ts-ignore
+			fixture.locationFixture.personFixture
+		)
+
+		assert.isEqual(
+			//@ts-ignore
+			fixture.organizationFixture,
+			//@ts-ignore
+			fixture.locationFixture.organizationFixture
+		)
+	}
+
+	private static Scope() {
+		const fixture = this.Fixture('view', {
+			controllerMap: {
+				scope: ScopeSvc,
+			},
+		})
+		const factory = fixture.getFactory()
+
+		const vc = factory.Controller('scope', {})
+		return { vc, fixture }
 	}
 }
