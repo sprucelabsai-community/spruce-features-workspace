@@ -30,6 +30,7 @@ export default class LocationFixture {
 				organizationId: org.id,
 			},
 			payload: {
+				name: 'Location from fixture',
 				slug: this.generateLocationSlug(),
 				address: {
 					street1: '123 Main St',
