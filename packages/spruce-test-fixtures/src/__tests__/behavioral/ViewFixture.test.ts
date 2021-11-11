@@ -233,6 +233,24 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 		factory.Controller('new.view', {})
 	}
 
+	@test()
+	protected static fixturesContinueToMixinViewControllers() {
+		this.Fixture('view', {
+			controllerMap: {
+				'new.view': MockSkillViewController,
+			},
+		}).getFactory()
+
+		const fixture = this.Fixture('view', {
+			controllerMap: {
+				'new.view2': MockSkillViewController,
+			},
+		})
+
+		//@ts-ignore
+		fixture.getFactory().Controller('new.view2')
+	}
+
 	private static Scope() {
 		const fixture = this.Fixture('view', {
 			controllerMap: {

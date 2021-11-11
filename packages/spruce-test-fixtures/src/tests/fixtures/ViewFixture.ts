@@ -111,6 +111,10 @@ export default class ViewFixture {
 		connectToApi: Factory
 	}) {
 		if (this.vcFactory) {
+			if (options.controllerMap) {
+				this.vcFactory.mixinControllers(options.controllerMap)
+			}
+
 			return this.vcFactory
 		}
 
