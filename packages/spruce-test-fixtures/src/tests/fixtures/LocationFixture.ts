@@ -17,17 +17,26 @@ export default class LocationFixture {
 	}
 
 	public async seedDemoLocation(
-		values: Partial<SpruceSchemas.Mercury.v2020_12_25.CreateLocationEmitPayload>
+		values: Partial<SpruceSchemas.Mercury.v2020_12_25.CreateLocationEmitPayload> & {
+			phone: string
+			organizationId?: string
+		}
 	) {
-		const { client } = await this.personFixture.loginAsDemoPerson()
+		const { client } = await this.personFixture.loginAsDemoPerson(values.phone)
 
-		const org = await this.organizationFixture.seedDemoOrg({
-			name: 'Org to support seed location',
-		})
+		let orgId = values.organizationId
+
+		if (!orgId) {
+			const org = await this.organizationFixture.seedDemoOrg({
+				name: 'Org to support seed location',
+			})
+
+			orgId = org.id
+		}
 
 		const results = await client.emit('create-location::v2020_12_25', {
 			target: {
-				organizationId: org.id,
+				organizationId: orgId,
 			},
 			payload: {
 				name: 'Location from fixture',
