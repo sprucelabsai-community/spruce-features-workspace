@@ -199,6 +199,15 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 		assert.isNull(current)
 	}
 
+	@test()
+	protected static fixturesShareVcFactory() {
+		const fixture1 = this.Fixture('view')
+		const fixture2 = this.Fixture('view')
+
+		//@ts-ignore
+		assert.isEqual(fixture1.vcFactory, fixture2.vcFactory)
+	}
+
 	private static Scope() {
 		const fixture = this.Fixture('view', {
 			controllerMap: {
