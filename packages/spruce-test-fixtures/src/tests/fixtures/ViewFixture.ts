@@ -60,8 +60,8 @@ class TestScope implements Scope {
 }
 
 export default class ViewFixture {
+	private static vcFactory?: ViewControllerFactory
 	protected vcDir: string
-	private vcFactory?: ViewControllerFactory
 	private controllerMap?: Record<string, any>
 	private connectToApi: Factory
 	private namespace: string
@@ -96,35 +96,51 @@ export default class ViewFixture {
 	}
 
 	public getFactory() {
+		return ViewFixture.getSharedFactory({
+			namespace: this.namespace,
+			vcDir: this.vcDir,
+			controllerMap: this.controllerMap,
+			connectToApi: this.connectToApi,
+		})
+	}
+
+	private static getSharedFactory(options: {
+		namespace: string
+		vcDir: string
+		controllerMap?: any
+		connectToApi: Factory
+	}) {
 		if (this.vcFactory) {
 			return this.vcFactory
 		}
+
+		const { namespace, controllerMap: map, vcDir, connectToApi } = options
 
 		let controllerMap: any
 
 		try {
 			const loadedControllerMap = vcDiskUtil.loadViewControllersAndBuildMap(
-				this.namespace,
-				this.vcDir
+				namespace,
+				vcDir
 			)
 
 			controllerMap = {
 				...loadedControllerMap,
-				...this.controllerMap,
+				...map,
 			}
 		} catch (err: any) {
-			if (!this.controllerMap) {
+			if (!map) {
 				throw new SchemaError({
 					code: 'INVALID_PARAMETERS',
 					parameters: ['vcDir'],
 					originalError: err,
-					friendlyMessage: `No views found! If you are testing, running \`spruce create.view\` will get you started. If you already have views, running \`spruce sync.views\` should help! Heads up, I'm looking for a file called views.[ts|js] in ${this.vcDir.replace(
+					friendlyMessage: `No views found! If you are testing, running \`spruce create.view\` will get you started. If you already have views, running \`spruce sync.views\` should help! Heads up, I'm looking for a file called views.[ts|js] in ${vcDir.replace(
 						'/',
 						''
 					)}/.spruce/views/views.\n\nOriginal error:\n\n${err.stack}`,
 				})
 			} else {
-				controllerMap = this.controllerMap
+				controllerMap = map
 			}
 		}
 
@@ -134,7 +150,7 @@ export default class ViewFixture {
 
 		this.vcFactory = ViewControllerFactory.Factory({
 			controllerMap,
-			connectToApi: this.connectToApi,
+			connectToApi,
 		})
 
 		vcAssertUtil._setVcFactory(this.vcFactory)
@@ -172,6 +188,7 @@ export default class ViewFixture {
 		process.env.SHOULD_REGISTER_VIEWS = 'false'
 
 		ViewFixture.scope = undefined
+		ViewFixture.vcFactory = undefined
 	}
 
 	public async load(vc: SkillViewController, args: Record<string, any> = {}) {
