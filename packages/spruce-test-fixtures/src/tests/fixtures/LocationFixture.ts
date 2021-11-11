@@ -24,7 +24,7 @@ export default class LocationFixture {
 	) {
 		const { client } = await this.personFixture.loginAsDemoPerson(values.phone)
 
-		let orgId = values.organizationId
+		let { organizationId: orgId, ...rest } = values
 
 		if (!orgId) {
 			const org = await this.organizationFixture.seedDemoOrg({
@@ -48,7 +48,7 @@ export default class LocationFixture {
 					zip: '80211',
 					country: 'USA',
 				},
-				...values,
+				...rest,
 			},
 		})
 
