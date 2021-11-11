@@ -6,6 +6,7 @@ import {
 import { formatPhoneNumber } from '@sprucelabs/schema'
 import { assert, test } from '@sprucelabs/test'
 import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
+import { DEMO_NUMBER_VIEW_FIXTURE } from '../../tests/constants'
 
 class ScopeSvc extends AbstractSkillViewController {
 	public loadOptions: SkillViewControllerLoadOptions | null = null
@@ -34,7 +35,7 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 		assert.isFalsy(auth.getPerson())
 
 		const { person } = await this.Fixture('view').loginAsDemoPerson(
-			process.env.DEMO_NUMBER as string
+			process.env.DEMO_NUMBER_VIEW_FIXTURE as string
 		)
 
 		const loggedIn = auth.getPerson()
@@ -134,6 +135,7 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 
 		const created = await this.Fixture('location').seedDemoLocation({
 			name: 'Scope org',
+			phone: DEMO_NUMBER_VIEW_FIXTURE,
 		})
 
 		scope.setCurrentLocation(created.id)
@@ -166,6 +168,35 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 			//@ts-ignore
 			fixture.locationFixture.organizationFixture
 		)
+	}
+
+	@test()
+	protected static async canSetScopeForCurrentOrganizationAccrossViewFixtures() {
+		const org = await this.Fixture('organization').seedDemoOrg({
+			phone: DEMO_NUMBER_VIEW_FIXTURE,
+			name: 'My new org!',
+		})
+
+		this.Fixture('view').getScope().setCurrentOrganization(org.id)
+
+		const { vc, fixture } = this.Scope()
+
+		await fixture.load(vc)
+
+		const current = await vc.loadOptions?.scope.getCurrentOrganization()
+
+		assert.isEqualDeep(current, org)
+	}
+
+	@test()
+	protected static async scopeShouldBeResetEachRun() {
+		const { vc, fixture } = this.Scope()
+
+		await fixture.load(vc)
+
+		const current = await vc.loadOptions?.scope.getCurrentOrganization()
+
+		assert.isNull(current)
 	}
 
 	private static Scope() {

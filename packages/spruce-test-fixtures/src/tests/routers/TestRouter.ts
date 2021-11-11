@@ -108,6 +108,11 @@ export default class TestRouter
 		return this.presentVc
 	}
 
+	public static reset() {
+		TestRouter.setShouldThrowWhenRedirectingToBadSvc(true)
+		TestRouter.instance = undefined
+	}
+
 	public buildLoadOptions(args: any = {}): SkillViewControllerLoadOptions {
 		return {
 			router: this as TestRouter,

@@ -2,6 +2,7 @@ import {
 	AuthenticatorImpl,
 	ControllerOptions,
 	MockStorage,
+	Scope,
 	SkillViewController,
 	vcAssertUtil,
 	ViewControllerFactory,
@@ -21,6 +22,43 @@ import PersonFixture from './PersonFixture'
 
 type Factory = ApiClientFactory
 
+class TestScope implements Scope {
+	private currentOrg?: string
+	private currentLocation?: string
+	private organizationFixture: OrganizationFixture
+	private locationFixture: LocationFixture
+
+	public constructor(options: {
+		organizationFixture: OrganizationFixture
+		locationFixture: LocationFixture
+	}) {
+		this.organizationFixture = options.organizationFixture
+		this.locationFixture = options.locationFixture
+	}
+
+	public async getCurrentOrganization() {
+		if (this.currentOrg) {
+			return this.organizationFixture.getOrganizationById(this.currentOrg)
+		}
+		return null
+	}
+
+	public setCurrentOrganization(id: string) {
+		this.currentOrg = id
+	}
+
+	public async getCurrentLocation() {
+		if (this.currentLocation) {
+			return this.locationFixture.getLocationById(this.currentLocation)
+		}
+		return null
+	}
+
+	public setCurrentLocation(id: string) {
+		this.currentLocation = id
+	}
+}
+
 export default class ViewFixture {
 	protected vcDir: string
 	private vcFactory?: ViewControllerFactory
@@ -30,6 +68,7 @@ export default class ViewFixture {
 	private personFixture: PersonFixture
 	private organizationFixture: OrganizationFixture
 	private locationFixture: LocationFixture
+	private static scope?: Scope
 
 	public constructor(options: {
 		connectToApi: Factory
@@ -115,41 +154,31 @@ export default class ViewFixture {
 		AuthenticatorImpl.reset()
 		AuthenticatorImpl.setStorage(new MockStorage())
 
-		TestRouter.setShouldThrowWhenRedirectingToBadSvc(true)
+		TestRouter.reset()
 
 		process.env.SHOULD_REGISTER_VIEWS = 'false'
+
+		ViewFixture.scope = undefined
 	}
 
 	public async load(vc: SkillViewController, args: Record<string, any> = {}) {
 		await vc.load(this.getRouter().buildLoadOptions(args))
 	}
 
-	public getRouter(): TestRouter {
-		let currentOrg: string | undefined
-		let currentLocation: string | undefined
+	public getScope() {
+		if (!ViewFixture.scope) {
+			ViewFixture.scope = new TestScope({
+				organizationFixture: this.organizationFixture,
+				locationFixture: this.locationFixture,
+			})
+		}
+		return ViewFixture.scope
+	}
 
+	public getRouter(): TestRouter {
 		TestRouter.setup({
 			vcFactory: this.getFactory(),
-			scope: {
-				getCurrentOrganization: async () => {
-					if (currentOrg) {
-						return this.organizationFixture.getOrganizationById(currentOrg)
-					}
-					return null
-				},
-				setCurrentOrganization(id: string) {
-					currentOrg = id
-				},
-				getCurrentLocation: async () => {
-					if (currentLocation) {
-						return this.locationFixture.getLocationById(currentLocation)
-					}
-					return null
-				},
-				setCurrentLocation: (id: string) => {
-					currentLocation = id
-				},
-			},
+			scope: this.getScope(),
 		})
 		return TestRouter.getInstance()
 	}
