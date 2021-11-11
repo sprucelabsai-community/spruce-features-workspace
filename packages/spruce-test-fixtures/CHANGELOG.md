@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.3.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v9.2.0...v9.3.0) (2021-11-11)
+
+
+### Features
+
+* view fixture mixes in local views with controller map, making testing views much easier! ([c5c518c](https://github.com/sprucelabsai/spruce-features-workspace/commit/c5c518c))
+
+
+
+
+
 # [9.2.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v9.1.2...v9.2.0) (2021-11-11)
 
 
