@@ -101,6 +101,7 @@ export default class FixtureFactory {
 					connectToApi: mercuryFixture.getApiClientFactory(),
 					fixtureFactory: this,
 					namespace: this.namespace,
+					cwd: this.cwd,
 					...options,
 				}) as any
 				break

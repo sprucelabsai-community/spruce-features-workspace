@@ -75,12 +75,15 @@ export default class ViewFixture {
 		personFixture: PersonFixture
 		fixtureFactory: FixtureFactory
 		vcDir?: string
+		cwd?: string
 		controllerMap?: Record<string, any>
 		namespace: string
 	}) {
 		this.connectToApi = options.connectToApi
 		this.personFixture = options.personFixture
-		this.vcDir = options?.vcDir ?? diskUtil.resolvePath(process.cwd(), 'build')
+		this.vcDir =
+			options?.vcDir ??
+			diskUtil.resolvePath(options.cwd ?? process.cwd(), 'build')
 		this.controllerMap = options?.controllerMap
 		this.namespace = options.namespace
 		this.organizationFixture = options.fixtureFactory.Fixture('organization', {
@@ -100,19 +103,29 @@ export default class ViewFixture {
 		let controllerMap: any
 
 		try {
-			controllerMap =
-				this.controllerMap ??
-				vcDiskUtil.loadViewControllersAndBuildMap(this.namespace, this.vcDir)
+			const loadedControllerMap = vcDiskUtil.loadViewControllersAndBuildMap(
+				this.namespace,
+				this.vcDir
+			)
+
+			controllerMap = {
+				...loadedControllerMap,
+				...this.controllerMap,
+			}
 		} catch (err: any) {
-			throw new SchemaError({
-				code: 'INVALID_PARAMETERS',
-				parameters: ['vcDir'],
-				originalError: err,
-				friendlyMessage: `No views found! If you are testing, running \`spruce create.view\` will get you started. If you already have views, running \`spruce sync.views\` should help! Heads up, I'm looking for a file called views.[ts|js] in ${this.vcDir.replace(
-					'/',
-					''
-				)}/.spruce/views/views.\n\nOriginal error:\n\n${err.stack}`,
-			})
+			if (!this.controllerMap) {
+				throw new SchemaError({
+					code: 'INVALID_PARAMETERS',
+					parameters: ['vcDir'],
+					originalError: err,
+					friendlyMessage: `No views found! If you are testing, running \`spruce create.view\` will get you started. If you already have views, running \`spruce sync.views\` should help! Heads up, I'm looking for a file called views.[ts|js] in ${this.vcDir.replace(
+						'/',
+						''
+					)}/.spruce/views/views.\n\nOriginal error:\n\n${err.stack}`,
+				})
+			} else {
+				controllerMap = this.controllerMap
+			}
 		}
 
 		if (!controllerMap['heartwood.root']) {

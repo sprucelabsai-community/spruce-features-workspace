@@ -7,6 +7,7 @@ import { formatPhoneNumber } from '@sprucelabs/schema'
 import { assert, test } from '@sprucelabs/test'
 import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
 import { DEMO_NUMBER_VIEW_FIXTURE } from '../../tests/constants'
+import MockSkillViewController from '../../tests/Mock.svc'
 
 class ScopeSvc extends AbstractSkillViewController {
 	public loadOptions: SkillViewControllerLoadOptions | null = null
@@ -206,6 +207,25 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 
 		//@ts-ignore
 		assert.isEqual(fixture1.vcFactory, fixture2.vcFactory)
+	}
+
+	@test()
+	protected static async mixesInControllerMapWithLocalViews() {
+		await this.bootAndRegisterSkillFromTestDir('skill')
+
+		const fixture = this.Fixture('view', {
+			controllerMap: {
+				'new.view': MockSkillViewController,
+			},
+		})
+
+		const factory = fixture.getFactory()
+
+		//@ts-ignore
+		factory.Controller('views.book', {})
+
+		//@ts-ignore
+		factory.Controller('new.view', {})
 	}
 
 	private static Scope() {
