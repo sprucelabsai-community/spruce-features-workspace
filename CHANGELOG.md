@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.2.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v9.1.2...v9.2.0) (2021-11-11)
+
+
+### Features
+
+* exporting mock view controller for testing assistance ([4919913](https://github.com/sprucelabsai/spruce-features-workspace/commit/4919913))
+
+
+
+
+
 ## [9.1.2](https://github.com/sprucelabsai/spruce-features-workspace/compare/v9.1.1...v9.1.2) (2021-11-11)
 
 **Note:** Version bump only for package spruce-features-workspace
