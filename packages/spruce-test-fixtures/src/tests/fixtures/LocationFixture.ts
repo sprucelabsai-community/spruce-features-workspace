@@ -27,8 +27,9 @@ export default class LocationFixture {
 		let { organizationId: orgId, ...rest } = values
 
 		if (!orgId) {
-			const org = await this.organizationFixture.seedDemoOrg({
+			const org = await this.organizationFixture.seedDemoOrgOrganization({
 				name: 'Org to support seed location',
+				phone: values.phone,
 			})
 
 			orgId = org.id

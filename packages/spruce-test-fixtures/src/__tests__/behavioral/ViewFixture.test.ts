@@ -110,7 +110,7 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 		let org = await scope.getCurrentOrganization()
 		assert.isNull(org)
 
-		const created = await this.Fixture('organization').seedDemoOrg({
+		const created = await this.Fixture('organization').seedDemoOrgOrganization({
 			name: 'Scope org',
 		})
 
@@ -173,7 +173,7 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async canSetScopeForCurrentOrganizationAccrossViewFixtures() {
-		const org = await this.Fixture('organization').seedDemoOrg({
+		const org = await this.Fixture('organization').seedDemoOrgOrganization({
 			phone: DEMO_NUMBER_VIEW_FIXTURE,
 			name: 'My new org!',
 		})

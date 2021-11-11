@@ -23,14 +23,14 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async canSeedOrg() {
-		const org = await this.fixture.seedDemoOrg({ name: 'my org' })
+		const org = await this.fixture.seedDemoOrgOrganization({ name: 'my org' })
 		assert.isTruthy(org)
 		assert.isEqual(org.name, 'my org')
 	}
 
 	@test()
 	protected static async orgFixtureDestroysOrgs() {
-		const org = await this.fixture.seedDemoOrg({ name: 'my org' })
+		const org = await this.fixture.seedDemoOrgOrganization({ name: 'my org' })
 		await this.fixture.destory()
 		await this.fixture.destory()
 
@@ -47,7 +47,7 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 	@test()
 	protected static async isNotPartOfOrgtoStart() {
 		const people = this.Fixture('person')
-		const org = await this.fixture.seedDemoOrg({ name: 'my org' })
+		const org = await this.fixture.seedDemoOrgOrganization({ name: 'my org' })
 
 		const { person } = await people.loginAsDemoPerson(DEMO_NUMBER_HIRING)
 
@@ -58,7 +58,7 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 	@test()
 	protected static async canAttachPersonToOrg() {
 		const people = this.Fixture('person')
-		const org = await this.fixture.seedDemoOrg({ name: 'my org' })
+		const org = await this.fixture.seedDemoOrgOrganization({ name: 'my org' })
 
 		const { person } = await people.loginAsDemoPerson(DEMO_NUMBER_HIRING)
 
@@ -134,12 +134,12 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 	protected static async canDeleteAllExistingOrgs() {
 		const firstFixture = this.Fixture('organization')
 
-		await firstFixture.seedDemoOrg({
+		await firstFixture.seedDemoOrgOrganization({
 			name: 'org 1',
 			phone: DEMO_NUMBER_INSTALLING_SKILLS,
 		})
 
-		await firstFixture.seedDemoOrg({
+		await firstFixture.seedDemoOrgOrganization({
 			name: 'org 2',
 			phone: DEMO_NUMBER_INSTALLING_SKILLS,
 		})
@@ -166,7 +166,7 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 	@test()
 	protected static async passesThroughAllFieldsToRequest() {
 		await assert.doesThrowAsync(() =>
-			this.Fixture('organization').seedDemoOrg({
+			this.Fixture('organization').seedDemoOrgOrganization({
 				//@ts-ignore
 				waka: 'tacas',
 			})
@@ -191,7 +191,7 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 		const skill = await this.Fixture('skill').seedDemoSkill({
 			name: 'testing testy',
 		})
-		const org = await this.fixture.seedDemoOrg({ name: 'my org' })
+		const org = await this.fixture.seedDemoOrgOrganization({ name: 'my org' })
 		return { skill, org }
 	}
 }

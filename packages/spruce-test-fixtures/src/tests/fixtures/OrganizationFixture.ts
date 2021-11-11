@@ -12,7 +12,7 @@ export default class OrganizationFixture {
 		this.personFixture = options.personFixture
 	}
 
-	public async seedDemoOrg(
+	public async seedDemoOrgOrganization(
 		values: Omit<
 			SpruceSchemas.Mercury.v2020_12_25.CreateOrgEmitPayload,
 			'slug'
