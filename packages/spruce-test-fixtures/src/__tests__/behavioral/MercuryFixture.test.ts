@@ -117,4 +117,48 @@ export default class MercuryFixtureTest extends AbstractSpruceFixtureTest {
 
 		assert.isTruthy(value)
 	}
+
+	@test()
+	protected static async canSetDefaultClient() {
+		assert.isFunction(MercuryFixture.setDefaultClient)
+		const client = await this.Fixture('mercury').connectToApi()
+
+		MercuryFixture.setDefaultClient(client)
+	}
+
+	@test()
+	protected static async allClientsGoingForwardUseThatClient() {
+		const client = await this.Fixture('mercury').connectToApi()
+
+		MercuryFixture.setDefaultClient(client)
+
+		const client2 = await this.Fixture('mercury').connectToApi()
+
+		assert.isEqual(client, client2)
+	}
+
+	@test()
+	protected static async resetsDefaultClientBeforeEach() {
+		const client = await this.Fixture('mercury').connectToApi()
+
+		MercuryFixture.setDefaultClient(client)
+		MercuryFixture.beforeEach()
+
+		const client2 = await this.Fixture('mercury').connectToApi()
+
+		assert.isNotEqual(client, client2)
+	}
+
+	@test()
+	protected static async canForceNewClient() {
+		const client = await this.Fixture('mercury').connectToApi()
+
+		MercuryFixture.setDefaultClient(client)
+
+		const client2 = await this.Fixture('mercury').connectToApi({
+			shouldReUseClient: false,
+		})
+
+		assert.isNotEqual(client, client2)
+	}
 }

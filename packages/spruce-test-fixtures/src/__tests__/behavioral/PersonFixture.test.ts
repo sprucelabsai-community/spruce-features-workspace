@@ -3,6 +3,7 @@ import { formatPhoneNumber } from '@sprucelabs/schema'
 import AbstractSpruceTest, { test, assert } from '@sprucelabs/test'
 import { errorAssertUtil } from '@sprucelabs/test-utils'
 import dotenv from 'dotenv'
+import { MercuryFixture } from '../..'
 import { DEMO_NUMBER_SECOND_LOGIN, DEMO_NUMBER } from '../../tests/constants'
 import FixtureFactory from '../../tests/fixtures/FixtureFactory'
 import PersonFixture from '../../tests/fixtures/PersonFixture'
@@ -93,5 +94,18 @@ export default class PersonFixtureTest extends AbstractSpruceTest {
 		const { client: client1 } = await this.fixture.loginAsDemoPerson()
 
 		assert.isEqual(client, client1)
+	}
+
+	@test()
+	protected static async canOverrideDefaultClient() {
+		const { client } = await this.fixture.loginAsDemoPerson()
+
+		MercuryFixture.setDefaultClient(client)
+
+		const { client: client2 } = await this.fixture.loginAsDemoPerson(
+			DEMO_NUMBER_SECOND_LOGIN
+		)
+
+		assert.isNotEqual(client, client2)
 	}
 }

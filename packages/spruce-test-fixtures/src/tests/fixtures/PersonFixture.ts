@@ -33,17 +33,19 @@ export default class PersonFixture {
 			return this.lastLoggedIn
 		}
 
-		phone = phone ?? process.env.DEMO_NUMBER
+		let p = phone ?? process.env.DEMO_NUMBER
 
-		if (!phone || phone.length === 0) {
+		if (!p || p.length === 0) {
 			throw new SchemaError({
 				code: 'MISSING_PARAMETERS',
 				parameters: ['env.DEMO_NUMBER'],
 			})
 		}
 
-		const formattedPhone = formatPhoneNumber(phone)
-		const client = (await this.connectToApi()) as any
+		const formattedPhone = formatPhoneNumber(p)
+		const client = (await this.connectToApi({
+			shouldReUseClient: !phone,
+		})) as any
 
 		//@ts-ignore
 		if (client.auth?.person?.phone === formattedPhone) {
@@ -55,13 +57,13 @@ export default class PersonFixture {
 		}
 
 		const requestPinResults = await client.emit('request-pin::v2020_12_25', {
-			payload: { phone },
+			payload: { phone: p },
 		})
 
 		const { challenge } =
 			eventResponseUtil.getFirstResponseOrThrow(requestPinResults)
 
-		const pin = phone.substr(-4)
+		const pin = p.substr(-4)
 		const confirmPinResults = await client.emit('confirm-pin::v2020_12_25', {
 			payload: { challenge, pin },
 		})
