@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [13.1.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v13.0.2...v13.1.0) (2021-11-12)
+
+
+### Features
+
+* Can now set default mercury client to make authenticated view testing easy! ([8a7fd30](https://github.com/sprucelabsai/spruce-features-workspace/commit/8a7fd30))
+
+
+
+
+
 ## [13.0.2](https://github.com/sprucelabsai/spruce-features-workspace/compare/v13.0.1...v13.0.2) (2021-11-12)
 
 **Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
