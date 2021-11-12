@@ -5,6 +5,7 @@ export { default as OrganizationFixture } from './tests/fixtures/OrganizationFix
 export { default as StoreFixture } from './tests/fixtures/StoreFixture'
 export { default as PersonFixture } from './tests/fixtures/PersonFixture'
 export { default as SkillFixture } from './tests/fixtures/SkillFixture'
+export { default as LocationFixture } from './tests/fixtures/LocationFixture'
 export { default as ViewFixture } from './tests/fixtures/ViewFixture'
 export { default as ViewControllerFixture } from './tests/fixtures/ViewFixture'
 export { default as MercuryFixture } from './tests/fixtures/MercuryFixture'
