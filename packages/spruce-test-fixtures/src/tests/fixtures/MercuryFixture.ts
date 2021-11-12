@@ -6,6 +6,7 @@ import {
 	eventDiskUtil,
 } from '@sprucelabs/spruce-event-utils'
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
+import { TestConnectFactory } from '../..'
 const env = require('dotenv')
 env.config()
 
@@ -103,9 +104,8 @@ export default class MercuryFixture {
 		}
 	}
 
-	/** @ts-ignore */
 	public getConnectFactory() {
-		return this.connectToApi
+		return this.connectToApi as TestConnectFactory
 	}
 
 	public async destroy() {

@@ -1,5 +1,5 @@
 import { DatabaseFixture } from '@sprucelabs/data-stores'
-import { MercuryClient } from '@sprucelabs/mercury-client'
+import { ConnectionOptions, MercuryClient } from '@sprucelabs/mercury-client'
 import LocationFixture from '../tests/fixtures/LocationFixture'
 import MercuryFixture, {
 	ApiClientFactoryOptions,
@@ -12,7 +12,7 @@ import ViewFixture from '../tests/fixtures/ViewFixture'
 import MockSkillViewController from '../tests/Mock.svc'
 
 export type TestConnectFactory = (
-	options?: ApiClientFactoryOptions
+	options?: ApiClientFactoryOptions & ConnectionOptions
 ) => Promise<MercuryClient>
 
 export interface FixtureClassMap {

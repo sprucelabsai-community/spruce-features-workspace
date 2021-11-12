@@ -1,7 +1,9 @@
+import { MercuryConnectFactory } from '@sprucelabs/mercury-client'
 import { coreEventContracts } from '@sprucelabs/mercury-core-events'
 import { eventContractUtil } from '@sprucelabs/spruce-event-utils'
 import { diskUtil, HASH_SPRUCE_BUILD_DIR } from '@sprucelabs/spruce-skill-utils'
 import { test, assert } from '@sprucelabs/test'
+import { TestConnectFactory } from '../..'
 import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
 import FixtureFactory from '../../tests/fixtures/FixtureFactory'
 import MercuryFixture from '../../tests/fixtures/MercuryFixture'
@@ -103,5 +105,16 @@ export default class MercuryFixtureTest extends AbstractSpruceFixtureTest {
 				'set-role::v2020_12_25'
 			)
 		)
+	}
+
+	@test()
+	protected static async typesTestProperly() {
+		const test = () => {
+			return {} as TestConnectFactory
+		}
+
+		const value: MercuryConnectFactory = test()
+
+		assert.isTruthy(value)
 	}
 }
