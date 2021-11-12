@@ -2,6 +2,7 @@ import {
 	AuthenticatorImpl,
 	ControllerOptions,
 	MockStorage,
+	renderUtil,
 	Scope,
 	SkillViewController,
 	vcAssertUtil,
@@ -102,6 +103,10 @@ export default class ViewFixture {
 			controllerMap: this.controllerMap,
 			connectToApi: this.connectToApi,
 		})
+	}
+
+	public render(vc: any) {
+		return renderUtil.render(vc)
 	}
 
 	private static getSharedFactory(options: {
