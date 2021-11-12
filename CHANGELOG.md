@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [11.0.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v10.0.0...v11.0.0) (2021-11-12)
+
+
+### Breaking Changes
+
+* exporting location fixture for typing ([606e6a5](https://github.com/sprucelabsai/spruce-features-workspace/commit/606e6a5))
+
+
+
+
+
 # [10.0.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v9.3.3...v10.0.0) (2021-11-12)
 
 
