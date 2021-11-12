@@ -33,6 +33,18 @@ export default class PersonFixture {
 			return this.lastLoggedIn
 		}
 
+		const client = (await this.connectToApi({
+			shouldReUseClient: !phone,
+		})) as any
+
+		if (client.auth?.person) {
+			return {
+				client,
+				person: client.auth.person,
+				token: client.auth.token,
+			}
+		}
+
 		let p = phone ?? process.env.DEMO_NUMBER
 
 		if (!p || p.length === 0) {
@@ -43,9 +55,6 @@ export default class PersonFixture {
 		}
 
 		const formattedPhone = formatPhoneNumber(p)
-		const client = (await this.connectToApi({
-			shouldReUseClient: !phone,
-		})) as any
 
 		//@ts-ignore
 		if (client.auth?.person?.phone === formattedPhone) {

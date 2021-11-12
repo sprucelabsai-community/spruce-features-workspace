@@ -15,7 +15,11 @@ export default class PersonFixtureTest extends AbstractSpruceTest {
 	protected static async beforeEach() {
 		await super.beforeEach()
 
-		this.fixture = new FixtureFactory({ cwd: this.cwd }).Fixture('person')
+		this.fixture = this.Fixture()
+	}
+
+	private static Fixture(): PersonFixture {
+		return new FixtureFactory({ cwd: this.cwd }).Fixture('person')
 	}
 
 	@test()
@@ -107,5 +111,19 @@ export default class PersonFixtureTest extends AbstractSpruceTest {
 		)
 
 		assert.isNotEqual(client, client2)
+	}
+
+	@test()
+	protected static async honorsDefaultClientEvenWithoutDemoPhoneSet() {
+		const phone = process.env.DEMO_NUMBER
+		delete process.env.DEMO_NUMBER
+
+		const { client } = await this.Fixture().loginAsDemoPerson(phone)
+
+		MercuryFixture.setDefaultClient(client)
+
+		const { client: client2 } = await this.Fixture().loginAsDemoPerson()
+
+		assert.isEqual(client, client2)
 	}
 }
