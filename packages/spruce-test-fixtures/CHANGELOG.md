@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [12.0.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v11.0.0...v12.0.0) (2021-11-12)
+
+
+### Breaking Changes
+
+* ApiClientFactory renamed TestConnectFactory and other naming changes for consistency ([f2cb7d8](https://github.com/sprucelabsai/spruce-features-workspace/commit/f2cb7d8))
+
+
+### Features
+
+* Mocking skill view controllers got more powerful with some introspection ([d6b676f](https://github.com/sprucelabsai/spruce-features-workspace/commit/d6b676f))
+
+
+
+
+
 # [11.0.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v10.0.0...v11.0.0) (2021-11-12)
 
 
