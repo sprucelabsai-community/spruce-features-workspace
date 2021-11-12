@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [13.0.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v12.0.4...v13.0.0) (2021-11-12)
+
+
+### Breaking Changes
+
+* changed names of code to make it all more consistent ([926a33f](https://github.com/sprucelabsai/spruce-features-workspace/commit/926a33f))
+
+
+
+
+
 ## [12.0.4](https://github.com/sprucelabsai/spruce-features-workspace/compare/v12.0.3...v12.0.4) (2021-11-12)
 
 **Note:** Version bump only for package spruce-features-workspace
