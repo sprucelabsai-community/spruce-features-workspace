@@ -460,7 +460,7 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 
 		const orgs = this.Fixture('organization')
 
-		const org = await orgs.seedDemoOrg({ name: 'my new org' })
+		const org = await orgs.seedDemoOrganization({ name: 'my new org' })
 
 		await orgs.installSkill(skill1.id, org.id)
 		await orgs.installSkill(skill2.id, org.id)

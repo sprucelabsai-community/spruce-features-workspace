@@ -5,7 +5,7 @@ import { DEMO_NUMBER_MERCURY_FIXTURE } from '../../tests/constants'
 export default class LocationFixtureTest extends AbstractSpruceFixtureTest {
 	@test()
 	protected static async canCreateWithSpecificOrg() {
-		const org = await this.Fixture('organization').seedDemoOrgOrganization({
+		const org = await this.Fixture('organization').seedDemoOrganization({
 			name: 'Location fixture org',
 			phone: DEMO_NUMBER_MERCURY_FIXTURE,
 		})

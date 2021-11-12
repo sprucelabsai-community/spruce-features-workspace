@@ -12,7 +12,7 @@ export default class OrganizationFixture {
 		this.personFixture = options.personFixture
 	}
 
-	public async seedDemoOrgOrganization(
+	public async seedDemoOrganization(
 		values: Omit<
 			SpruceSchemas.Mercury.v2020_12_25.CreateOrgEmitPayload,
 			'slug'
@@ -169,7 +169,7 @@ export default class OrganizationFixture {
 		)
 	}
 
-	public async deleteAllOrgs(phone?: string) {
+	public async deleteAllOrganizations(phone?: string) {
 		const { client } = await this.personFixture.loginAsDemoPerson(phone)
 		const results = await client.emit('list-organizations::v2020_12_25', {
 			payload: {

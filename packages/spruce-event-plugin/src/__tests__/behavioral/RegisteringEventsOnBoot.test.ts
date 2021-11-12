@@ -103,7 +103,7 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 			await this.Fixture('skill').loginAsDemoSkill({
 				name: 'a killer skill',
 			}),
-			await orgs.seedDemoOrg({ name: 'my new org' }),
+			await orgs.seedDemoOrganization({ name: 'my new org' }),
 		])
 
 		await Promise.all([

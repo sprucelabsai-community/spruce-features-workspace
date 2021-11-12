@@ -6,7 +6,8 @@ import {
 import { formatPhoneNumber } from '@sprucelabs/schema'
 import { assert, test } from '@sprucelabs/test'
 import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
-import { DEMO_NUMBER_VIEW_FIXTURE } from '../../tests/constants'
+import { DEMO_NUMBER_VIEW_FIXTURE, DEMO_NUMBER } from '../../tests/constants'
+import ViewFixture from '../../tests/fixtures/ViewFixture'
 import MockSkillViewController from '../../tests/Mock.svc'
 
 class ScopeSvc extends AbstractSkillViewController {
@@ -30,13 +31,29 @@ declare module '@sprucelabs/heartwood-view-controllers/build/types/heartwood.typ
 }
 
 export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
+	private static fixture: ViewFixture
+
+	protected static async beforeEach() {
+		await super.beforeEach()
+
+		this.fixture = this.Fixture('view', {
+			controllerMap: {
+				scope: ScopeSvc,
+			},
+		})
+
+		await this.Fixture('organization').deleteAllOrganizations(
+			DEMO_NUMBER_VIEW_FIXTURE
+		)
+	}
+
 	@test()
 	protected static async canLogin() {
 		const auth = AuthenticatorImpl.getInstance()
 		assert.isFalsy(auth.getPerson())
 
 		const { person } = await this.Fixture('view').loginAsDemoPerson(
-			process.env.DEMO_NUMBER_VIEW_FIXTURE as string
+			DEMO_NUMBER_VIEW_FIXTURE
 		)
 
 		const loggedIn = auth.getPerson()
@@ -48,10 +65,7 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 	@test()
 	protected static async loginFallsBackToDemoNumber() {
 		const { person } = await this.Fixture('view').loginAsDemoPerson()
-		assert.isEqual(
-			person.phone,
-			formatPhoneNumber(process.env.DEMO_NUMBER ?? '')
-		)
+		assert.isEqual(person.phone, formatPhoneNumber(DEMO_NUMBER ?? ''))
 	}
 
 	@test()
@@ -110,8 +124,9 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 		let org = await scope.getCurrentOrganization()
 		assert.isNull(org)
 
-		const created = await this.Fixture('organization').seedDemoOrgOrganization({
+		const created = await this.Fixture('organization').seedDemoOrganization({
 			name: 'Scope org',
+			phone: DEMO_NUMBER_VIEW_FIXTURE,
 		})
 
 		scope.setCurrentOrganization(created.id)
@@ -123,6 +138,8 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async scopeCanGetAndSetLocation() {
+		await this.fixture.loginAsDemoPerson(DEMO_NUMBER_VIEW_FIXTURE)
+
 		const { vc, fixture } = this.Scope()
 
 		await fixture.load(vc)
@@ -173,7 +190,7 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async canSetScopeForCurrentOrganizationAccrossViewFixtures() {
-		const org = await this.Fixture('organization').seedDemoOrgOrganization({
+		const org = await this.Fixture('organization').seedDemoOrganization({
 			phone: DEMO_NUMBER_VIEW_FIXTURE,
 			name: 'My new org!',
 		})
@@ -252,14 +269,9 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 	}
 
 	private static Scope() {
-		const fixture = this.Fixture('view', {
-			controllerMap: {
-				scope: ScopeSvc,
-			},
-		})
-		const factory = fixture.getFactory()
-
+		const factory = this.fixture.getFactory()
 		const vc = factory.Controller('scope', {})
-		return { vc, fixture }
+
+		return { vc, fixture: this.fixture }
 	}
 }
