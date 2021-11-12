@@ -104,7 +104,7 @@ export default class MercuryFixture {
 	}
 
 	/** @ts-ignore */
-	public getApiClientFactory() {
+	public getConnectFactory() {
 		return this.connectToApi
 	}
 

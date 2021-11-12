@@ -2,11 +2,11 @@ import { MercuryClient } from '@sprucelabs/mercury-client'
 import { SchemaError } from '@sprucelabs/schema'
 import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
-import { ApiClientFactory } from '../../types/fixture.types'
+import { TestConnectFactory } from '../../types/fixture.types'
 import PersonFixture from './PersonFixture'
 
 type Skill = SpruceSchemas.Spruce.v2020_07_22.Skill
-type Factory = ApiClientFactory
+type Factory = TestConnectFactory
 type Client = MercuryClient
 
 export default class SkillFixture {

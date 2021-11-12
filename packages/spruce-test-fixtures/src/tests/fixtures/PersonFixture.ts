@@ -2,12 +2,12 @@ import { formatPhoneNumber, SchemaError } from '@sprucelabs/schema'
 import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import dotenv from 'dotenv'
-import { ApiClientFactory } from '../../types/fixture.types'
+import { TestConnectFactory } from '../../types/fixture.types'
 
 dotenv.config()
 
 type Person = SpruceSchemas.Spruce.v2020_07_22.Person
-type Factory = ApiClientFactory
+type Factory = TestConnectFactory
 type ClientPromise = ReturnType<Factory>
 type Client = ClientPromise extends PromiseLike<infer C> ? C : ClientPromise
 

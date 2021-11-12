@@ -11,7 +11,7 @@ import {
 import { SchemaError } from '@sprucelabs/schema'
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 import SpruceError from '../../errors/SpruceError'
-import { ApiClientFactory } from '../../types/fixture.types'
+import { TestConnectFactory } from '../../types/fixture.types'
 import vcDiskUtil from '../../utilities/vcDisk.utility'
 import MockSkillViewController from '../Mock.svc'
 import TestRouter from '../routers/TestRouter'
@@ -20,7 +20,7 @@ import LocationFixture from './LocationFixture'
 import OrganizationFixture from './OrganizationFixture'
 import PersonFixture from './PersonFixture'
 
-type Factory = ApiClientFactory
+type Factory = TestConnectFactory
 
 class TestScope implements Scope {
 	private currentOrg?: string

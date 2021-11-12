@@ -47,7 +47,7 @@ export default class FixtureFactory {
 				break
 			case 'person': {
 				fixture = new PersonFixture({
-					connectToApi: mercuryFixture.getApiClientFactory(),
+					connectToApi: mercuryFixture.getConnectFactory(),
 				}) as FixtureMap[Name]
 				break
 			}
@@ -56,7 +56,7 @@ export default class FixtureFactory {
 					//@ts-ignore
 					options?.personFixture ??
 					new PersonFixture({
-						connectToApi: mercuryFixture.getApiClientFactory(),
+						connectToApi: mercuryFixture.getConnectFactory(),
 					})
 				fixture = new OrganizationFixture({ personFixture }) as FixtureMap[Name]
 				break
@@ -67,7 +67,7 @@ export default class FixtureFactory {
 
 				fixture = new SkillFixture({
 					personFixture,
-					connectToApi: mercuryFixture.getApiClientFactory(),
+					connectToApi: mercuryFixture.getConnectFactory(),
 				}) as any
 				break
 			}
@@ -98,7 +98,7 @@ export default class FixtureFactory {
 				fixture = new ViewFixture({
 					//@ts-ignore
 					personFixture: options?.personFixture ?? this.Fixture('person'),
-					connectToApi: mercuryFixture.getApiClientFactory(),
+					connectToApi: mercuryFixture.getConnectFactory(),
 					fixtureFactory: this,
 					namespace: this.namespace,
 					cwd: this.cwd,

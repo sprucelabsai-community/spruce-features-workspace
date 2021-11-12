@@ -11,7 +11,7 @@ import StoreFixture from '../tests/fixtures/StoreFixture'
 import ViewFixture from '../tests/fixtures/ViewFixture'
 import MockSkillViewController from '../tests/Mock.svc'
 
-export type ApiClientFactory = (
+export type TestConnectFactory = (
 	options?: ApiClientFactoryOptions
 ) => Promise<MercuryClient>
 
