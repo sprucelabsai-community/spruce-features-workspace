@@ -6,13 +6,12 @@ import {
 	eventDiskUtil,
 } from '@sprucelabs/spruce-event-utils'
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
-import { TestConnectFactory } from '../..'
+import {
+	TestConnectFactory,
+	TestConnectionOptions,
+} from '../../types/fixture.types'
 const env = require('dotenv')
 env.config()
-
-export interface ApiClientFactoryOptions {
-	shouldReUseClient?: boolean
-}
 
 const TEST_HOST = process.env.TEST_HOST ?? process.env.HOST
 
@@ -38,7 +37,7 @@ export default class MercuryFixture {
 	}
 
 	public async connectToApi(
-		options?: ApiClientFactoryOptions
+		options?: TestConnectionOptions
 	): Promise<MercuryClient> {
 		if (
 			options?.shouldReUseClient !== false &&

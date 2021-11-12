@@ -1,9 +1,7 @@
 import { DatabaseFixture } from '@sprucelabs/data-stores'
 import { ConnectionOptions, MercuryClient } from '@sprucelabs/mercury-client'
 import LocationFixture from '../tests/fixtures/LocationFixture'
-import MercuryFixture, {
-	ApiClientFactoryOptions,
-} from '../tests/fixtures/MercuryFixture'
+import MercuryFixture from '../tests/fixtures/MercuryFixture'
 import OrganizationFixture from '../tests/fixtures/OrganizationFixture'
 import PersonFixture from '../tests/fixtures/PersonFixture'
 import SkillFixture from '../tests/fixtures/SkillFixture'
@@ -11,8 +9,12 @@ import StoreFixture from '../tests/fixtures/StoreFixture'
 import ViewFixture from '../tests/fixtures/ViewFixture'
 import MockSkillViewController from '../tests/Mock.svc'
 
+export interface TestConnectionOptions {
+	shouldReUseClient?: boolean
+}
+
 export type TestConnectFactory = (
-	options?: ApiClientFactoryOptions & ConnectionOptions
+	options?: TestConnectionOptions & ConnectionOptions
 ) => Promise<MercuryClient>
 
 export interface FixtureClassMap {
