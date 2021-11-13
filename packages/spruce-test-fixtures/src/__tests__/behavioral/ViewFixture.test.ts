@@ -115,6 +115,9 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 	@test()
 	protected static async scopeCanGetAndSetOrganization() {
 		const { vc, fixture } = this.Scope()
+
+		await fixture.loginAsDemoPerson(DEMO_NUMBER_VIEW_FIXTURE)
+
 		await fixture.load(vc)
 
 		const scope = vc.loadOptions?.scope
@@ -268,6 +271,8 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 	@test()
 	protected static async scopeShouldBeResetEachRun() {
 		const { vc, fixture } = this.Scope()
+
+		await fixture.loginAsDemoPerson(DEMO_NUMBER_VIEW_FIXTURE)
 
 		await fixture.load(vc)
 
