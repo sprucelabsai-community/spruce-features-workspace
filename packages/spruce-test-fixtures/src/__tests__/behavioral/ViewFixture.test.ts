@@ -137,6 +137,65 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 	}
 
 	@test()
+	protected static async scopeGetsLastOrgByDefault() {
+		const organizationFixture = this.Fixture('organization')
+		await organizationFixture.seedDemoOrganization({
+			name: 'Scope org',
+			phone: DEMO_NUMBER_VIEW_FIXTURE,
+		})
+
+		await organizationFixture.seedDemoOrganization({
+			name: 'Scope org',
+			phone: DEMO_NUMBER_VIEW_FIXTURE,
+		})
+
+		const expected = await organizationFixture.seedDemoOrganization({
+			name: 'Scope org',
+			phone: DEMO_NUMBER_VIEW_FIXTURE,
+		})
+
+		const viewFixture = this.Fixture('view')
+		await viewFixture.loginAsDemoPerson(DEMO_NUMBER_VIEW_FIXTURE)
+
+		const current = await viewFixture.getScope().getCurrentOrganization()
+
+		assert.isEqualDeep(current, expected)
+	}
+
+	@test()
+	protected static async scopeGetsLastLocationByDefault() {
+		const organizationFixture = this.Fixture('organization')
+		const org = await organizationFixture.seedDemoOrganization({
+			name: 'Scope org',
+			phone: DEMO_NUMBER_VIEW_FIXTURE,
+		})
+
+		const locationFixture = this.Fixture('location')
+
+		await locationFixture.seedDemoLocation({
+			organizationId: org.id,
+			phone: DEMO_NUMBER_VIEW_FIXTURE,
+		})
+
+		await locationFixture.seedDemoLocation({
+			organizationId: org.id,
+			phone: DEMO_NUMBER_VIEW_FIXTURE,
+		})
+
+		const expected = await locationFixture.seedDemoLocation({
+			organizationId: org.id,
+			phone: DEMO_NUMBER_VIEW_FIXTURE,
+		})
+
+		const viewFixture = this.Fixture('view')
+		await viewFixture.loginAsDemoPerson(DEMO_NUMBER_VIEW_FIXTURE)
+
+		const current = await viewFixture.getScope().getCurrentLocation()
+
+		assert.isEqualDeep(current, expected)
+	}
+
+	@test()
 	protected static async scopeCanGetAndSetLocation() {
 		await this.fixture.loginAsDemoPerson(DEMO_NUMBER_VIEW_FIXTURE)
 

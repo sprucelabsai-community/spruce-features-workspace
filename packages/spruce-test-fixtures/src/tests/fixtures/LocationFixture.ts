@@ -76,5 +76,22 @@ export default class LocationFixture {
 		return location
 	}
 
+	public async getNewestLocation(organizationId: string) {
+		const { client } = await this.personFixture.loginAsDemoPerson()
+
+		const results = await client.emit('list-locations::v2020_12_25', {
+			target: {
+				organizationId,
+			},
+			payload: {
+				includePrivateLocations: true,
+			},
+		})
+
+		const { locations } = eventResponseUtil.getFirstResponseOrThrow(results)
+
+		return locations.pop() ?? null
+	}
+
 	public async destory() {}
 }

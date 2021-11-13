@@ -20,45 +20,9 @@ import FixtureFactory from './FixtureFactory'
 import LocationFixture from './LocationFixture'
 import OrganizationFixture from './OrganizationFixture'
 import PersonFixture from './PersonFixture'
+import TestScope from './TestScope'
 
 type Factory = TestConnectFactory
-
-class TestScope implements Scope {
-	private currentOrg?: string
-	private currentLocation?: string
-	private organizationFixture: OrganizationFixture
-	private locationFixture: LocationFixture
-
-	public constructor(options: {
-		organizationFixture: OrganizationFixture
-		locationFixture: LocationFixture
-	}) {
-		this.organizationFixture = options.organizationFixture
-		this.locationFixture = options.locationFixture
-	}
-
-	public async getCurrentOrganization() {
-		if (this.currentOrg) {
-			return this.organizationFixture.getOrganizationById(this.currentOrg)
-		}
-		return null
-	}
-
-	public setCurrentOrganization(id: string) {
-		this.currentOrg = id
-	}
-
-	public async getCurrentLocation() {
-		if (this.currentLocation) {
-			return this.locationFixture.getLocationById(this.currentLocation)
-		}
-		return null
-	}
-
-	public setCurrentLocation(id: string) {
-		this.currentLocation = id
-	}
-}
 
 export default class ViewFixture {
 	private static vcFactory?: ViewControllerFactory
