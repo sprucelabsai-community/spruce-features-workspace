@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [13.3.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v13.2.0...v13.3.0) (2021-11-13)
+
+
+### Features
+
+* can seed organizations and locations without passing any data, making testing even easier and faster! ([d1905b4](https://github.com/sprucelabsai/spruce-features-workspace/commit/d1905b4))
+
+
+
+
+
 # [13.2.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v13.1.1...v13.2.0) (2021-11-13)
 
 
