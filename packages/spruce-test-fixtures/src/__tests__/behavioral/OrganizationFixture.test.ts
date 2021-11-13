@@ -182,6 +182,12 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 		assert.isEqual(orgFixture.personFixture, personFixture)
 	}
 
+	@test()
+	protected static async canSeedOrgWithNoOptions() {
+		const org = this.Fixture('organization').seedDemoOrganization()
+		assert.isTruthy(org)
+	}
+
 	private static async assertSkillIsInstalled(skillId: string, orgId: string) {
 		const isInstalled = await this.fixture.isSkillInstalled(skillId, orgId)
 		assert.isTrue(isInstalled)

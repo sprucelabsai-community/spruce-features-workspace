@@ -13,7 +13,7 @@ export default class OrganizationFixture {
 	}
 
 	public async seedDemoOrganization(
-		values: Omit<
+		values?: Omit<
 			SpruceSchemas.Mercury.v2020_12_25.CreateOrgEmitPayload,
 			'slug'
 		> & {
@@ -21,10 +21,11 @@ export default class OrganizationFixture {
 			slug?: string
 		}
 	) {
-		const { phone, ...rest } = values
+		const { phone, ...rest } = values ?? {}
 
 		const allValues = {
 			slug: this.generateOrgSlug(),
+			name: 'Organization from fixture',
 			...rest,
 		}
 

@@ -18,4 +18,10 @@ export default class LocationFixtureTest extends AbstractSpruceFixtureTest {
 
 		assert.isEqual(org.id, location.organizationId)
 	}
+
+	@test()
+	protected static async canCreatLocationWithNoParams() {
+		const location = await this.Fixture('location').seedDemoLocation()
+		assert.isTruthy(location)
+	}
 }
