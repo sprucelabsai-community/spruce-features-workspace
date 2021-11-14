@@ -207,6 +207,7 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 		void tester.go('lets go!')
 
 		await this.wait(20)
+
 		const expected = [
 			'Are you sure?',
 			answer,
