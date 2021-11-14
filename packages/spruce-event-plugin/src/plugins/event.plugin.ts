@@ -44,7 +44,7 @@ export type MercuryClient<
 		setShouldAutoRegisterListeners: (should: boolean) => void
 		getProxyToken: () => string | null
 		setProxyToken: (token: string) => void
-		registerProxyToken: () => Promise<void>
+		registerProxyToken: () => Promise<string>
 		authenticate(options: {
 			skillId?: string
 			apiKey?: string
