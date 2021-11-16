@@ -59,7 +59,8 @@ export default class LocationFixture {
 	}
 
 	private generateLocationSlug(): string {
-		return `my-location-${new Date().getTime()}-${this.locationCounter++}`
+		return `my-location-${new Date().getTime()}-${this
+			.locationCounter++}-${Math.round(Math.random() * 1000)}`
 	}
 
 	public async getLocationById(id: string) {
