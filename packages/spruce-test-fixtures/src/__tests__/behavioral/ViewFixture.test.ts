@@ -353,6 +353,21 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 		vcAssertUtil.assertTriggerRenderCount(vc, 1)
 	}
 
+	@test()
+	protected static canGetAuthenticatorInstance() {
+		const viewFixture = this.Fixture('view', {
+			controllerMap: {
+				card: MockSkillViewController,
+			},
+		})
+
+		assert.isFunction(viewFixture.getAuthenticator)
+		assert.isEqual(
+			viewFixture.getAuthenticator(),
+			AuthenticatorImpl.getInstance()
+		)
+	}
+
 	private static Scope() {
 		const factory = this.fixture.getFactory()
 		const vc = factory.Controller('scope', {})
