@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [13.5.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v13.4.0...v13.5.0) (2021-11-17)
+
+
+### Features
+
+* View fixture exposes authenticator for use in tests! ([04824be](https://github.com/sprucelabsai/spruce-features-workspace/commit/04824be))
+
+
+
+
+
 # [13.4.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v13.3.9...v13.4.0) (2021-11-17)
 
 
