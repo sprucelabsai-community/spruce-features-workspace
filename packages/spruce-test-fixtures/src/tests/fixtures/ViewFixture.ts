@@ -128,6 +128,15 @@ export default class ViewFixture {
 
 		vcAssertUtil._setVcFactory(this.vcFactory)
 
+		const oldFactory = this.vcFactory.Controller.bind(this.vcFactory)
+
+		this.vcFactory.Controller = (...args: any[]) => {
+			//@ts-ignore
+			const vc = oldFactory(...args)
+			vcAssertUtil.attachTriggerRenderCounter(vc)
+			return vc
+		}
+
 		return this.vcFactory
 	}
 

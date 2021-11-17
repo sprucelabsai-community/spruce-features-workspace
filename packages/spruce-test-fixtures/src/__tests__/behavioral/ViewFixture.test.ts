@@ -2,6 +2,7 @@ import {
 	AbstractSkillViewController,
 	AuthenticatorImpl,
 	SkillViewControllerLoadOptions,
+	vcAssertUtil,
 } from '@sprucelabs/heartwood-view-controllers'
 import { formatPhoneNumber } from '@sprucelabs/schema'
 import { assert, test } from '@sprucelabs/test'
@@ -330,6 +331,26 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 
 		//@ts-ignore
 		fixture.getFactory().Controller('new.view2')
+	}
+
+	@test()
+	protected static fixtureAttachesRenderCount() {
+		const viewFixture = this.Fixture('view', {
+			controllerMap: {
+				card: MockSkillViewController,
+			},
+		})
+		const factory = viewFixture.getFactory()
+
+		const vc = factory.Controller('card', {
+			header: { title: 'hey' },
+		})
+
+		vcAssertUtil.assertTriggerRenderCount(vc, 0)
+
+		vc.triggerRender()
+
+		vcAssertUtil.assertTriggerRenderCount(vc, 1)
 	}
 
 	private static Scope() {
