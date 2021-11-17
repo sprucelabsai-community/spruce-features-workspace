@@ -188,7 +188,7 @@ export class EventFeaturePlugin implements SkillFeature {
 				this.log.info(
 					this.isDestroyed
 						? 'Aborted setting client to skill context.'
-						: "I couldn't find any events or remote listeners so I'll hold of connecting to Mercury. 🌲🤖"
+						: "I couldn't find any events or remote listeners so I'll hold off on connecting to Mercury. 🌲🤖"
 				)
 				await done()
 			}
