@@ -11,6 +11,7 @@ import LocationFixture from './LocationFixture'
 import MercuryFixture from './MercuryFixture'
 import OrganizationFixture from './OrganizationFixture'
 import PersonFixture from './PersonFixture'
+import RoleFixture from './RoleFixture'
 import SkillFixture from './SkillFixture'
 import StoreFixture from './StoreFixture'
 import ViewFixture from './ViewFixture'
@@ -48,6 +49,13 @@ export default class FixtureFactory {
 			case 'person': {
 				fixture = new PersonFixture({
 					connectToApi: mercuryFixture.getConnectFactory(),
+				}) as FixtureMap[Name]
+				break
+			}
+			case 'role': {
+				fixture = new RoleFixture({
+					connectToApi: mercuryFixture.getConnectFactory(),
+					organizationFixture: this.Fixture('organization'),
 				}) as FixtureMap[Name]
 				break
 			}

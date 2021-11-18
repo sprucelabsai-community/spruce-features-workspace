@@ -4,6 +4,7 @@ import LocationFixture from '../tests/fixtures/LocationFixture'
 import MercuryFixture from '../tests/fixtures/MercuryFixture'
 import OrganizationFixture from '../tests/fixtures/OrganizationFixture'
 import PersonFixture from '../tests/fixtures/PersonFixture'
+import RoleFixture from '../tests/fixtures/RoleFixture'
 import SkillFixture from '../tests/fixtures/SkillFixture'
 import StoreFixture from '../tests/fixtures/StoreFixture'
 import ViewFixture from '../tests/fixtures/ViewFixture'
@@ -26,6 +27,7 @@ export interface FixtureClassMap {
 	database: typeof DatabaseFixture
 	view: typeof ViewFixture
 	location: typeof LocationFixture
+	role: typeof RoleFixture
 }
 
 export type FixtureMap = {
