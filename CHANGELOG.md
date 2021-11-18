@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [13.6.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v13.5.0...v13.6.0) (2021-11-18)
+
+
+### Features
+
+* A new role fixture that allows devs to load roles with ease! ([69ec1ef](https://github.com/sprucelabsai/spruce-features-workspace/commit/69ec1ef))
+
+
+
+
+
 # [13.5.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v13.4.0...v13.5.0) (2021-11-17)
 
 
