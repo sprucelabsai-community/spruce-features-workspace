@@ -34,6 +34,7 @@ export default class TestRouter
 	private static vcFactory: ViewControllerFactory
 	private static instance?: TestRouter
 	private static scope: Scope
+	private static shouldLoadDestinationVc = false
 
 	private static shouldThrowWhenRedirectingToBadSvc = true
 	private scope: Scope
@@ -50,6 +51,10 @@ export default class TestRouter
 
 		this.vcFactory = options.vcFactory
 		this.scope = options.scope
+	}
+
+	public static setShouldLoadDestinationVc(shouldLoad: boolean) {
+		this.shouldLoadDestinationVc = shouldLoad
 	}
 
 	public static getInstance() {
@@ -92,8 +97,9 @@ export default class TestRouter
 			//@ts-ignore
 			this.presentVc = this.vcFactory.Controller(id, {})
 		}
-
-		await this.presentVc?.load(this.buildLoadOptions(args))
+		if (TestRouter.shouldLoadDestinationVc) {
+			await this.presentVc?.load(this.buildLoadOptions(args))
+		}
 
 		await (this as MercuryEventEmitter<Contract>).emit('did-redirect', {
 			id: id as string,

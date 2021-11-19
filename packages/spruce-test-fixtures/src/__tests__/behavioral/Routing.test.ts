@@ -73,14 +73,26 @@ export default class RoutingTest extends AbstractSpruceFixtureTest {
 		assert.isTrue(vc instanceof Vc)
 	}
 
-	@test('redirect passes through args 1', { hey: 'there' })
-	@test('redirect passes through args 2', { what: 'the!?' })
+	@test('redirect calls load on destination vc if set 1', { hey: 'there' })
+	@test('redirect calls load on destination vc if set 2', { what: 'the!?' })
 	protected static async redirectTriggersLoadWithExpectedItems(args: any) {
+		TestRouter.setShouldLoadDestinationVc(false)
+
 		//@ts-ignore
 		const vc = await this.router.redirect('spruceTestFixtures.spy', args)
 		const lastLoad = vc.loads.pop()
-		assert.isTruthy(lastLoad)
-		assert.isEqualDeep(lastLoad.args, args)
+		assert.isFalsy(lastLoad)
+	}
+
+	@test('redirect does not call load on destination vc 1', { hey: 'there' })
+	@test('redirect does not call load on destination vc 2', { what: 'the!?' })
+	protected static async redirectByDefaultDoesNotLoadWithExpectedItems(
+		args: any
+	) {
+		//@ts-ignore
+		const vc = await this.router.redirect('spruceTestFixtures.spy', args)
+		const lastLoad = vc.loads.pop()
+		assert.isFalsy(lastLoad)
 	}
 
 	@test('can hook into redirect no args', undefined)
