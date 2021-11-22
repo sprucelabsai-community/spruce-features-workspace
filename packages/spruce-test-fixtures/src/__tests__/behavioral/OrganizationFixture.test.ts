@@ -184,7 +184,7 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async canSeedOrgWithNoOptions() {
-		const org = this.Fixture('organization').seedDemoOrganization()
+		const org = await this.Fixture('organization').seedDemoOrganization()
 		assert.isTruthy(org)
 	}
 
