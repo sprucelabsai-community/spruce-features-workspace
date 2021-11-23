@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [14.1.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v14.0.6...v14.1.0) (2021-11-23)
+
+
+### Features
+
+* Devs can now more easily seed a bunch of organizations and locations! ([496c3f6](https://github.com/sprucelabsai/spruce-features-workspace/commit/496c3f6))
+
+
+
+
+
 ## [14.0.6](https://github.com/sprucelabsai/spruce-features-workspace/compare/v14.0.5...v14.0.6) (2021-11-23)
 
 **Note:** Version bump only for package spruce-features-workspace
