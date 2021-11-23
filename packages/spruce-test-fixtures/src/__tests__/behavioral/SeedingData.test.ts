@@ -32,13 +32,17 @@ export default class SeedingDataTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async canSeedManyOrgs() {
-		const organizations = await this.fixture.seedOrganizations({ totalOrgs: 5 })
+		const organizations = await this.fixture.seedOrganizations({
+			totalOrganizations: 5,
+		})
 		assert.isLength(organizations, 5)
 	}
 
 	@test()
 	protected static async actuallyCreatesOrgs() {
-		const organizations = await this.fixture.seedOrganizations({ totalOrgs: 3 })
+		const organizations = await this.fixture.seedOrganizations({
+			totalOrganizations: 3,
+		})
 		const results = await this.client.emit('list-organizations::v2020_12_25', {
 			payload: {
 				showMineOnly: true,
