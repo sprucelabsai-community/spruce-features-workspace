@@ -61,7 +61,7 @@ export default class OrganizationFixture {
 
 		const results = await client.emit('list-organizations::v2020_12_25', {
 			payload: {
-				showMineOnly: true,
+				shouldOnlyShowMine: true,
 			},
 		})
 
@@ -188,7 +188,7 @@ export default class OrganizationFixture {
 		const { client } = await this.personFixture.loginAsDemoPerson(phone)
 		const results = await client.emit('list-organizations::v2020_12_25', {
 			payload: {
-				showMineOnly: true,
+				shouldOnlyShowMine: true,
 			},
 		})
 

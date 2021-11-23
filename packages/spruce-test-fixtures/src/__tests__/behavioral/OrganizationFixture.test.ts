@@ -154,7 +154,7 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 
 		const results = await client.emit('list-organizations::v2020_12_25', {
 			payload: {
-				showMineOnly: true,
+				shouldOnlyShowMine: true,
 			},
 		})
 

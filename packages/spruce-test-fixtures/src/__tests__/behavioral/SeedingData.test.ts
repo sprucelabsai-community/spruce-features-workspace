@@ -45,7 +45,7 @@ export default class SeedingDataTest extends AbstractSpruceFixtureTest {
 		})
 		const results = await this.client.emit('list-organizations::v2020_12_25', {
 			payload: {
-				showMineOnly: true,
+				shouldOnlyShowMine: true,
 			},
 		})
 
@@ -137,7 +137,7 @@ export default class SeedingDataTest extends AbstractSpruceFixtureTest {
 	private static async assertOnlyOneOrgExists() {
 		const results = await this.client.emit('list-organizations::v2020_12_25', {
 			payload: {
-				showMineOnly: true,
+				shouldOnlyShowMine: true,
 			},
 		})
 
