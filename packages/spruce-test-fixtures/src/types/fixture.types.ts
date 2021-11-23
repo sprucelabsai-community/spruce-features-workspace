@@ -5,6 +5,7 @@ import MercuryFixture from '../tests/fixtures/MercuryFixture'
 import OrganizationFixture from '../tests/fixtures/OrganizationFixture'
 import PersonFixture from '../tests/fixtures/PersonFixture'
 import RoleFixture from '../tests/fixtures/RoleFixture'
+import SeedFixture from '../tests/fixtures/SeedFixture'
 import SkillFixture from '../tests/fixtures/SkillFixture'
 import StoreFixture from '../tests/fixtures/StoreFixture'
 import ViewFixture from '../tests/fixtures/ViewFixture'
@@ -28,6 +29,7 @@ export interface FixtureClassMap {
 	view: typeof ViewFixture
 	location: typeof LocationFixture
 	role: typeof RoleFixture
+	seed: typeof SeedFixture
 }
 
 export type FixtureMap = {

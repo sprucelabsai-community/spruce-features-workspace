@@ -12,6 +12,7 @@ import MercuryFixture from './MercuryFixture'
 import OrganizationFixture from './OrganizationFixture'
 import PersonFixture from './PersonFixture'
 import RoleFixture from './RoleFixture'
+import SeedFixture from './SeedFixture'
 import SkillFixture from './SkillFixture'
 import StoreFixture from './StoreFixture'
 import ViewFixture from './ViewFixture'
@@ -97,6 +98,12 @@ export default class FixtureFactory {
 				}) as any
 				break
 			}
+			case 'seed':
+				fixture = new SeedFixture({
+					organizationFixture: this.Fixture('organization'),
+					locationFixture: this.Fixture('location'),
+				}) as any
+				break
 			case 'view': {
 				if (!this.namespace) {
 					throw new Error(
@@ -124,7 +131,17 @@ export default class FixtureFactory {
 		throw new SpruceError({
 			code: 'INVALID_FIXTURE',
 			suppliedName: named,
-			validNames: ['skill', 'mercury', 'person', 'organization', 'store'],
+			validNames: [
+				'skill',
+				'mercury',
+				'person',
+				'organization',
+				'store',
+				'view',
+				'seed',
+				'location',
+				'role',
+			],
 		})
 	}
 
