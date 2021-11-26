@@ -35,7 +35,7 @@ export default class MercuryFixture {
 		this.defaultClient = undefined
 	}
 
-	public static getDefaultClient() {
+	public static getDefaultClient(): MercuryClient {
 		return this.defaultClient
 	}
 
