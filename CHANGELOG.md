@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [14.3.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v14.2.2...v14.3.0) (2021-11-26)
+
+
+### Features
+
+* StoreSeedOptions type exported ([bb8c0fe](https://github.com/sprucelabsai/spruce-features-workspace/commit/bb8c0fe))
+
+
+
+
+
 ## [14.2.2](https://github.com/sprucelabsai/spruce-features-workspace/compare/v14.2.1...v14.2.2) (2021-11-26)
 
 **Note:** Version bump only for package spruce-features-workspace
