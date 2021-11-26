@@ -1,5 +1,5 @@
 import { assert } from '@sprucelabs/test'
-import { MercuryFixture } from '../..'
+import { MercuryFixture, ViewFixture } from '../..'
 
 export default function login(phone: string) {
 	return function (constructor: any) {
@@ -9,6 +9,7 @@ export default function login(phone: string) {
 		)
 
 		MercuryFixture.setShouldAutomaticallyClearDefaultClient(false)
+		ViewFixture.setShouldAutomaticallyResetAuthenticator(false)
 
 		const beforeAll = constructor.beforeAll.bind(constructor)
 
@@ -16,7 +17,7 @@ export default function login(phone: string) {
 			await beforeAll()
 
 			const { client } = await constructor
-				.Fixture('person')
+				.Fixture('view')
 				.loginAsDemoPerson(phone)
 
 			MercuryFixture.setDefaultClient(client)

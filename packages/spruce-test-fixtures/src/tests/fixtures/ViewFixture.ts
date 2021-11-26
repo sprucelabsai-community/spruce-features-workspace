@@ -34,6 +34,11 @@ export default class ViewFixture {
 	private organizationFixture: OrganizationFixture
 	private locationFixture: LocationFixture
 	private static scope?: Scope
+	private static shouldAutomaticallyResetAuthenticator = true
+
+	public static setShouldAutomaticallyResetAuthenticator(shouldReset: false) {
+		this.shouldAutomaticallyResetAuthenticator = shouldReset
+	}
 
 	public constructor(options: {
 		connectToApi: Factory
@@ -161,9 +166,14 @@ export default class ViewFixture {
 		}
 	}
 
+	public static async beforeAll() {
+		this.resetAuthenticator()
+	}
+
 	public static async beforeEach() {
-		AuthenticatorImpl.reset()
-		AuthenticatorImpl.setStorage(new MockStorage())
+		if (this.shouldAutomaticallyResetAuthenticator) {
+			this.resetAuthenticator()
+		}
 
 		TestRouter.reset()
 
@@ -171,6 +181,11 @@ export default class ViewFixture {
 
 		ViewFixture.scope = undefined
 		ViewFixture.vcFactory = undefined
+	}
+
+	private static resetAuthenticator() {
+		AuthenticatorImpl.reset()
+		AuthenticatorImpl.setStorage(new MockStorage())
 	}
 
 	public async load(vc: SkillViewController, args: Record<string, any> = {}) {

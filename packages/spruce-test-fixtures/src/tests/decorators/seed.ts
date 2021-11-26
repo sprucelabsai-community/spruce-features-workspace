@@ -9,7 +9,6 @@ export default function seed(storeName: SeedTarget, totalToSeed?: number) {
 		attachAccountResetter(Class)
 
 		const seed = attachSeeder(storeName, Class, totalToSeed)
-
 		const bound = descriptor?.value?.bind?.(Class)
 
 		descriptor.value = async () => {

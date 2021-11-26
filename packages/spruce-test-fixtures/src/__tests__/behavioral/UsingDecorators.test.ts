@@ -1,4 +1,5 @@
 import { AbstractStore } from '@sprucelabs/data-stores'
+import { AuthenticatorImpl } from '@sprucelabs/heartwood-view-controllers'
 import { MercuryClient } from '@sprucelabs/mercury-client'
 import { buildSchema } from '@sprucelabs/schema'
 import { test, assert } from '@sprucelabs/test'
@@ -20,12 +21,20 @@ export default class UsingDecoratorsTest extends AbstractSpruceFixtureTest {
 	protected static async beforeEach() {
 		await super.beforeEach()
 
+		const auth = AuthenticatorImpl.getInstance()
+		assert.isTruthy(auth.getSessionToken())
+
 		const client = MercuryFixture.getDefaultClient()
 
 		assert.isTruthy(client)
 		assert.isTrue(client.isConnected())
 
 		this.lastClient = client
+
+		//@ts-ignore
+		assert.isEqualDeep(auth.getPerson(), client.auth.person)
+		//@ts-ignore
+		assert.isEqualDeep(auth.getSessionToken(), client.auth.token)
 
 		StoreFixture.setStore('dummies', DummyStore)
 	}
@@ -96,6 +105,11 @@ export default class UsingDecoratorsTest extends AbstractSpruceFixtureTest {
 			totalToSeed: 10,
 			TestClass: this,
 		})
+	}
+
+	@test()
+	protected static logsInViewAuthenticator() {
+		assert.isTruthy(AuthenticatorImpl.getInstance().getSessionToken())
 	}
 
 	private static async assertCountOrgs(expected: number) {
