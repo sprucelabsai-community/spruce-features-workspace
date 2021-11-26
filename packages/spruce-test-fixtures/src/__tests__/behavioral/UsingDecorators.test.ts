@@ -1,6 +1,6 @@
 import { AbstractStore } from '@sprucelabs/data-stores'
 import { AuthenticatorImpl } from '@sprucelabs/heartwood-view-controllers'
-import { MercuryClient } from '@sprucelabs/mercury-client'
+import { MercuryClient, MercuryClientFactory } from '@sprucelabs/mercury-client'
 import { buildSchema } from '@sprucelabs/schema'
 import { test, assert } from '@sprucelabs/test'
 import { MercuryFixture, StoreFixture } from '../..'
@@ -14,11 +14,9 @@ import { StoreSeedOptions } from '../../types/store.types'
 export default class UsingDecoratorsTest extends AbstractSpruceFixtureTest {
 	private static lastClient: MercuryClient
 
-	protected static async beforeAll() {
-		await super.beforeAll()
-	}
-
 	protected static async beforeEach() {
+		assert.isTrue(MercuryClientFactory.isInTestMode())
+
 		await super.beforeEach()
 
 		const auth = AuthenticatorImpl.getInstance()
@@ -28,6 +26,7 @@ export default class UsingDecoratorsTest extends AbstractSpruceFixtureTest {
 
 		assert.isTruthy(client)
 		assert.isTrue(client.isConnected())
+		assert.isTrue(client.getIsTestClient())
 
 		this.lastClient = client
 

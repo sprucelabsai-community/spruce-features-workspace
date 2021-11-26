@@ -26,7 +26,9 @@ export default class LocationFixture {
 		let { organizationId: orgId, ...rest } = values ?? {}
 
 		if (!orgId) {
-			const last = await this.organizationFixture.getNewestOrganization()
+			const last = await this.organizationFixture.getNewestOrganization(
+				values?.phone
+			)
 			if (last) {
 				orgId = last.id
 			} else {

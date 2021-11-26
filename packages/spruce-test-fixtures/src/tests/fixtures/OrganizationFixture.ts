@@ -56,8 +56,8 @@ export default class OrganizationFixture {
 		return organization
 	}
 
-	public async getNewestOrganization() {
-		const { client } = await this.personFixture.loginAsDemoPerson()
+	public async getNewestOrganization(phone?: string) {
+		const { client } = await this.personFixture.loginAsDemoPerson(phone)
 
 		const results = await client.emit('list-organizations::v2020_12_25', {
 			payload: {

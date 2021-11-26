@@ -1,3 +1,4 @@
+import { MercuryClientFactory } from '@sprucelabs/mercury-client'
 import { assert } from '@sprucelabs/test'
 import { MercuryFixture, ViewFixture } from '../..'
 
@@ -14,6 +15,8 @@ export default function login(phone: string) {
 		const beforeAll = constructor.beforeAll.bind(constructor)
 
 		constructor.beforeAll = async () => {
+			MercuryClientFactory.setIsTestMode(true)
+
 			await beforeAll()
 
 			const { client } = await constructor
