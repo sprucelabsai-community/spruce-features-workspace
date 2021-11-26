@@ -45,6 +45,7 @@ export type MercuryClient<
 		getProxyToken: () => string | null
 		setProxyToken: (token: string) => void
 		registerProxyToken: () => Promise<string>
+		getIsTestClient(): boolean
 		authenticate(options: {
 			skillId?: string
 			apiKey?: string
