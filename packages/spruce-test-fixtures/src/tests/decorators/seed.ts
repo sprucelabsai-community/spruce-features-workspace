@@ -55,7 +55,7 @@ function attachSeeder(
 
 		assert.isFunction(
 			fixture[method],
-			`Your ${storeName} store needs a method called seed(options: StoreSeedOptions)`
+			`The '${storeName}' store you created needs a method called 'seed(options: StoreSeedOptions)' in order for seeding. You must implement it yourself.`
 		)
 
 		await fixture[method](options)
