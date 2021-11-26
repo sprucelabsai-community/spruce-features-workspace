@@ -23,16 +23,20 @@ export default class LocationFixture {
 		}
 	) {
 		const { client } = await this.personFixture.loginAsDemoPerson(values?.phone)
-
 		let { organizationId: orgId, ...rest } = values ?? {}
 
 		if (!orgId) {
-			const org = await this.organizationFixture.seedDemoOrganization({
-				name: 'Org to support seed location',
-				phone: values?.phone,
-			})
+			const last = await this.organizationFixture.getNewestOrganization()
+			if (last) {
+				orgId = last.id
+			} else {
+				const org = await this.organizationFixture.seedDemoOrganization({
+					name: 'Org to support seed location',
+					phone: values?.phone,
+				})
 
-			orgId = org.id
+				orgId = org.id
+			}
 		}
 
 		const results = await client.emit('create-location::v2020_12_25', {
@@ -92,6 +96,23 @@ export default class LocationFixture {
 		const { locations } = eventResponseUtil.getFirstResponseOrThrow(results)
 
 		return locations.pop() ?? null
+	}
+
+	public async listLocations(organizationId: string) {
+		const { client } = await this.personFixture.loginAsDemoPerson()
+
+		const results = await client.emit('list-locations::v2020_12_25', {
+			target: {
+				organizationId,
+			},
+			payload: {
+				includePrivateLocations: true,
+			},
+		})
+
+		const { locations } = eventResponseUtil.getFirstResponseOrThrow(results)
+
+		return locations
 	}
 
 	public async destory() {}

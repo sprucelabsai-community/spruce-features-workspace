@@ -31,8 +31,8 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 	@test()
 	protected static async orgFixtureDestroysOrgs() {
 		const org = await this.fixture.seedDemoOrganization({ name: 'my org' })
-		await this.fixture.destory()
-		await this.fixture.destory()
+		await this.fixture.destroy()
+		await this.fixture.destroy()
 
 		const client = await this.Fixture('mercury').connectToApi()
 		const results = await client.emit('get-organization::v2020_12_25', {

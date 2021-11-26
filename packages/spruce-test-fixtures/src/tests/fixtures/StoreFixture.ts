@@ -11,6 +11,11 @@ import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 export default class StoreFixture {
 	private storeFactory?: Promise<StoreFactory>
 	private loader?: Promise<StoreLoader>
+	private static storeMap: Record<string, any> = {}
+
+	public static setStore(name: StoreName, Class: any) {
+		this.storeMap[name] = Class
+	}
 
 	public async Store<N extends StoreName, O extends StoreOptions<N>>(
 		name: N,
@@ -27,11 +32,15 @@ export default class StoreFixture {
 				await this.loader
 			}
 			const loader = await this.loader
-
 			this.storeFactory = loader.loadStores()
 		}
 
 		const factory = await this.storeFactory
+
+		Object.keys(StoreFixture.storeMap).forEach((name) => {
+			factory.setStore(name, StoreFixture.storeMap[name])
+		})
+
 		return factory as StoreFactory
 	}
 

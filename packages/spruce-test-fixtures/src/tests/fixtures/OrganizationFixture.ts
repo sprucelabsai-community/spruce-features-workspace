@@ -205,7 +205,21 @@ export default class OrganizationFixture {
 		)
 	}
 
-	public async destory() {
+	public async listOrganizations() {
+		const { client } = await this.personFixture.loginAsDemoPerson()
+
+		const results = await client.emit('list-organizations::v2020_12_25', {
+			payload: {
+				shouldOnlyShowMine: true,
+			},
+		})
+
+		const { organizations } = eventResponseUtil.getFirstResponseOrThrow(results)
+
+		return organizations
+	}
+
+	public async destroy() {
 		await Promise.all(
 			this.organizations.map(async ({ organization, client }) => {
 				const results = await client.emit('delete-organization::v2020_12_25', {

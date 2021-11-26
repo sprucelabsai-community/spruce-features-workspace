@@ -12,4 +12,7 @@ export { default as MercuryFixture } from './tests/fixtures/MercuryFixture'
 export { default as MockSkillViewController } from './tests/Mock.svc'
 export { default as vcDiskUtil } from './utilities/vcDisk.utility'
 export { default as TestRouter } from './tests/routers/TestRouter'
+export { default as seed } from './tests/decorators/seed'
+export { default as login } from './tests/decorators/login'
+
 export * from '#spruce/schemas/schemas.types'

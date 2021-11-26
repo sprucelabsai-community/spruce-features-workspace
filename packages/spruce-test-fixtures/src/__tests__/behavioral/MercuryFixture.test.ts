@@ -124,6 +124,8 @@ export default class MercuryFixtureTest extends AbstractSpruceFixtureTest {
 		const client = await this.Fixture('mercury').connectToApi()
 
 		MercuryFixture.setDefaultClient(client)
+
+		assert.isEqual(MercuryFixture.getDefaultClient(), client)
 	}
 
 	@test()

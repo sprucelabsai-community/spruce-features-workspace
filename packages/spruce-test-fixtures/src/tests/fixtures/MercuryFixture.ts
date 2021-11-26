@@ -23,13 +23,24 @@ export default class MercuryFixture {
 	private static shouldAutoImportContracts = true
 	private static shouldMixinCoreEventContractWhenImportingLocal = false
 	private static defaultClient?: MercuryClient
+	private static shouldAutomaticallyClearDefaultClient = true
 
 	public static setDefaultClient(client: MercuryClient) {
+		//@ts-ignore
+		client.shouldDestroy = this.shouldAutomaticallyClearDefaultClient
 		this.defaultClient = client
 	}
 
 	public static clearDefaultClient() {
 		this.defaultClient = undefined
+	}
+
+	public static getDefaultClient() {
+		return this.defaultClient
+	}
+
+	public static setShouldAutomaticallyClearDefaultClient(shouldClear: boolean) {
+		this.shouldAutomaticallyClearDefaultClient = shouldClear
 	}
 
 	public constructor(cwd: string) {
@@ -121,7 +132,10 @@ export default class MercuryFixture {
 	public async destroy() {
 		for (const clientPromise of this.clientPromises) {
 			const client = await clientPromise
-			await client.disconnect()
+			//@ts-ignore
+			if (client.shouldDestroy !== false) {
+				await client.disconnect()
+			}
 		}
 
 		this.clientPromises = []
@@ -142,7 +156,10 @@ export default class MercuryFixture {
 
 		MercuryClientFactory.resetTestClient()
 		MercuryClientFactory.setIsTestMode(true)
-		this.clearDefaultClient()
+
+		if (this.shouldAutomaticallyClearDefaultClient) {
+			this.clearDefaultClient()
+		}
 
 		//@ts-ignore
 		MercuryClientFactory.setDefaultContract(coreEventContracts[0])
