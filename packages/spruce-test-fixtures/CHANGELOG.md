@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [14.2.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v14.1.11...v14.2.0) (2021-11-26)
+
+
+### Features
+
+* Devs can now easily login and seed data for tests. Like, REALLY easy! ([cb7d1b6](https://github.com/sprucelabsai/spruce-features-workspace/commit/cb7d1b6))
+
+
+
+
+
 ## [14.1.11](https://github.com/sprucelabsai/spruce-features-workspace/compare/v14.1.10...v14.1.11) (2021-11-25)
 
 **Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
