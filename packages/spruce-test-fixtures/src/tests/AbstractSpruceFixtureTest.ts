@@ -25,7 +25,7 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		await FixtureFactory.afterEach()
 	}
 
-	protected static Fixture<Name extends FixtureName>(
+	public static Fixture<Name extends FixtureName>(
 		name: Name,
 		options?: Partial<FixtureConstructorOptionsMap[Name]>
 	) {
