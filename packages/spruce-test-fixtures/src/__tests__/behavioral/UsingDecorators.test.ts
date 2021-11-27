@@ -14,10 +14,12 @@ import { StoreSeedOptions } from '../../types/store.types'
 export default class UsingDecoratorsTest extends AbstractSpruceFixtureTest {
 	private static lastClient: MercuryClient
 
+	@seed('good', 5)
 	@seed('dummies', 10)
 	protected static async beforeEach() {
 		assert.isTrue(MercuryClientFactory.isInTestMode())
 
+		await this.assertCountGoods(5)
 		await super.beforeEach()
 
 		const auth = AuthenticatorImpl.getInstance()
@@ -35,6 +37,8 @@ export default class UsingDecoratorsTest extends AbstractSpruceFixtureTest {
 		assert.isEqualDeep(auth.getPerson(), client.auth.person)
 		//@ts-ignore
 		assert.isEqualDeep(auth.getSessionToken(), client.auth.token)
+
+		await this.assertCountGoods(5)
 	}
 
 	protected static async afterAll() {
@@ -126,6 +130,12 @@ export default class UsingDecoratorsTest extends AbstractSpruceFixtureTest {
 		)
 
 		assert.isLength(locations, expected)
+	}
+
+	private static async assertCountGoods(expected: number) {
+		const goodStore = await this.Fixture('store').Store('good')
+		const count = await goodStore.count({})
+		assert.isEqual(count, expected)
 	}
 }
 

@@ -12,6 +12,7 @@ export default class StoreFixture {
 	private storeFactory?: Promise<StoreFactory>
 	private loader?: Promise<StoreLoader>
 	private static storeMap: Record<string, any> = {}
+	private static shouldAutomaticallyResetDatabase = true
 
 	public static setStore(name: StoreName, Class: any) {
 		this.storeMap[name] = Class
@@ -44,17 +45,26 @@ export default class StoreFixture {
 		return factory as StoreFactory
 	}
 
+	public static setShouldAutomaticallyResetDatabase(shouldReset: boolean) {
+		this.shouldAutomaticallyResetDatabase = shouldReset
+	}
+
 	public static async beforeAll() {
 		const cwd = diskUtil.resolvePath(process.cwd(), 'build')
 
 		StoreLoader.setStoreDir(cwd)
-
 		DatabaseFixture.beforeAll()
 
 		await this.setup()
 	}
 
 	public static async beforeEach() {
+		if (this.shouldAutomaticallyResetDatabase) {
+			await this.reset()
+		}
+	}
+
+	public static async reset() {
 		process.env.DB_NAME = 'memory'
 		process.env.DB_CONNECTION_STRING = 'memory://'
 

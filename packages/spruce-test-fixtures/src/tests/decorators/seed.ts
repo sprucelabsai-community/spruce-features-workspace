@@ -1,5 +1,6 @@
 import { StoreName } from '@sprucelabs/data-stores'
 import { assert } from '@sprucelabs/test'
+import { StoreFixture } from '../..'
 import SeedFixture from '../fixtures/SeedFixture'
 
 type SeedTarget = 'organizations' | 'locations' | StoreName
@@ -8,11 +9,29 @@ export default function seed(storeName: SeedTarget, totalToSeed?: number) {
 	return function (Class: any, key: string, descriptor: any) {
 		attachAccountResetter(Class)
 
+		StoreFixture.setShouldAutomaticallyResetDatabase(false)
+
 		const seed = attachSeeder(storeName, Class, totalToSeed)
 		const bound = descriptor?.value?.bind?.(Class)
 
+		if (!Class.__attachedStoreAfterEach) {
+			Class.__attachedStoreAfterEach = true
+			const afterEach = Class.afterEach.bind(Class)
+
+			Class.afterEach = async () => {
+				await afterEach?.()
+				delete Class.__lastReset
+			}
+		}
+
 		descriptor.value = async () => {
+			if (Class.__lastReset !== key) {
+				await StoreFixture.reset()
+				Class.__lastReset = key
+			}
+
 			await seed()
+
 			await bound?.()
 		}
 	}
