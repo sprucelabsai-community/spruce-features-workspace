@@ -51,7 +51,7 @@ export default class PersonFixture {
 			throw new SchemaError({
 				code: 'MISSING_PARAMETERS',
 				parameters: ['env.DEMO_NUMBER'],
-				friendlyMessage: `I don't know who to login as. You can set env.DEMO_NUMBER or you can use MercuryFixture.setDefaultClient(). See http://developer.spruce.ai/#/views/index?id=authentication`,
+				friendlyMessage: `I don't know who to login as. You can set env.DEMO_NUMBER, use the '@login()' decorator, or use 'MercuryFixture.setDefaultClient()' directly. See http://developer.spruce.ai/#/views/index?id=authentication`,
 			})
 		}
 
