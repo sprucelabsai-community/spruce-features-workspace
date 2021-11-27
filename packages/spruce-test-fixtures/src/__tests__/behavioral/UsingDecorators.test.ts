@@ -14,6 +14,7 @@ import { StoreSeedOptions } from '../../types/store.types'
 export default class UsingDecoratorsTest extends AbstractSpruceFixtureTest {
 	private static lastClient: MercuryClient
 
+	@seed('dummies', 10)
 	protected static async beforeEach() {
 		assert.isTrue(MercuryClientFactory.isInTestMode())
 
@@ -34,8 +35,6 @@ export default class UsingDecoratorsTest extends AbstractSpruceFixtureTest {
 		assert.isEqualDeep(auth.getPerson(), client.auth.person)
 		//@ts-ignore
 		assert.isEqualDeep(auth.getSessionToken(), client.auth.token)
-
-		StoreFixture.setStore('dummies', DummyStore)
 	}
 
 	protected static async afterAll() {
@@ -167,3 +166,5 @@ class DummyStore extends AbstractStore<DummySchema> {
 		DummyStore.seedOptions = options
 	}
 }
+
+StoreFixture.setStore('dummies', DummyStore)

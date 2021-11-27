@@ -50,6 +50,8 @@ export default class StoreFixture {
 		StoreLoader.setStoreDir(cwd)
 
 		DatabaseFixture.beforeAll()
+
+		await this.setup()
 	}
 
 	public static async beforeEach() {
@@ -60,6 +62,10 @@ export default class StoreFixture {
 
 		StoreFactory.reset()
 
+		await this.setup()
+	}
+
+	private static async setup() {
 		const db = await this.DatabaseFixture().connectToDatabase()
 
 		StoreLoader.clearInstance()
