@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [15.0.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v14.4.4...v15.0.0) (2021-11-29)
+
+
+### Breaking Changes
+
+* renamed 'getRoles' to 'listRoles' ot be more consistent with our list convention for endpoints that return a list ([712febe](https://github.com/sprucelabsai/spruce-features-workspace/commit/712febe))
+
+
+### Features
+
+* exporting role fixture ([55ac6d2](https://github.com/sprucelabsai/spruce-features-workspace/commit/55ac6d2))
+
+
+
+
+
 ## [14.4.4](https://github.com/sprucelabsai/spruce-features-workspace/compare/v14.4.3...v14.4.4) (2021-11-27)
 
 **Note:** Version bump only for package spruce-features-workspace
