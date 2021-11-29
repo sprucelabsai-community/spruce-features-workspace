@@ -29,7 +29,7 @@ export default class RoleFixtureTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async canGetRoleByBase() {
-		const roles = await this.fixture.getRoles()
+		const roles = await this.fixture.listRoles()
 
 		assert.isArray(roles)
 		assert.isAbove(roles.length, 0)
@@ -48,7 +48,7 @@ export default class RoleFixtureTest extends AbstractSpruceFixtureTest {
 	@test()
 	protected static async canPassOwnOrg() {
 		const org = await this.Fixture('organization').seedDemoOrganization()
-		const roles = await this.fixture.getRoles({ organizationId: org.id })
+		const roles = await this.fixture.listRoles({ organizationId: org.id })
 
 		assert.isEqual(roles[0].organizationId, org.id)
 	}
