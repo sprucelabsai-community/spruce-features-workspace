@@ -14,7 +14,7 @@ export default class RoleFixture {
 		this.organizationFixture = options.organizationFixture
 	}
 
-	public async getRoles(options?: { organizationId?: string }) {
+	public async listRoles(options?: { organizationId?: string }) {
 		const client = await this.connectToApi()
 		let orgId = options?.organizationId
 
