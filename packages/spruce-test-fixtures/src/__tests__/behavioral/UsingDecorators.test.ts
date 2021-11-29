@@ -114,6 +114,20 @@ export default class UsingDecoratorsTest extends AbstractSpruceFixtureTest {
 		assert.isTruthy(AuthenticatorImpl.getInstance().getSessionToken())
 	}
 
+	@test('passes through args 1', 1, 1, 1)
+	@seed('dummies', 3)
+	protected static passesThroughArgs(one: number, two: number, three: number) {
+		assert.isEqual(one, 1)
+		assert.isEqual(two, 1)
+		assert.isEqual(three, 1)
+	}
+
+	@test('passes through args 2', { hello: 'world' })
+	@seed('dummies', 3)
+	protected static passesThroughArgs2(one: any) {
+		assert.isEqualDeep(one, { hello: 'world' })
+	}
+
 	private static async assertCountOrgs(expected: number) {
 		const organizations = await this.Fixture('organization').listOrganizations()
 		assert.isLength(organizations, expected)

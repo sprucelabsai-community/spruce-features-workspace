@@ -7,8 +7,6 @@ type SeedTarget = 'organizations' | 'locations' | StoreName
 
 export default function seed(storeName: SeedTarget, totalToSeed?: number) {
 	return function (Class: any, key: string, descriptor: any) {
-		attachAccountResetter(Class)
-
 		StoreFixture.setShouldAutomaticallyResetDatabase(false)
 
 		const seed = attachSeeder(storeName, Class, totalToSeed)
@@ -24,15 +22,16 @@ export default function seed(storeName: SeedTarget, totalToSeed?: number) {
 			}
 		}
 
-		descriptor.value = async () => {
+		descriptor.value = async (...args: any[]) => {
 			if (Class.__lastReset !== key) {
+				await Class.Fixture('seed').resetAccount()
 				await StoreFixture.reset()
 				Class.__lastReset = key
 			}
 
 			await seed()
 
-			await bound?.()
+			await bound?.(...args)
 		}
 	}
 }
@@ -78,17 +77,5 @@ function attachSeeder(
 		)
 
 		await fixture[method](options)
-	}
-}
-
-function attachAccountResetter(_target: any) {
-	if (!_target.__isSeederAttached) {
-		_target.__isSeederAttached = true
-
-		const oldBeforeEach = _target?.beforeEach?.bind?.(_target)
-		_target.beforeEach = async () => {
-			await _target.Fixture('seed').resetAccount()
-			await oldBeforeEach?.()
-		}
 	}
 }
