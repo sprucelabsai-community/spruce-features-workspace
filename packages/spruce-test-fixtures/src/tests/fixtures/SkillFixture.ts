@@ -23,18 +23,19 @@ export default class SkillFixture {
 		this.personFixture = options.personFixture
 	}
 
-	public async seedDemoSkill(options: {
-		name: string
+	public async seedDemoSkill(options?: {
+		name?: string
 		slug?: string
 		creatorPhone?: string
 	}) {
-		const { creatorPhone, ...values } = options
+		const { creatorPhone, ...values } = options ?? {}
 
 		const { client } = await this.personFixture.loginAsDemoPerson(creatorPhone)
 
 		const results = await client.emit('register-skill::v2020_12_25', {
 			payload: {
 				slug: this.generateSkillSlug(),
+				name: this.generateSkillName(),
 				...values,
 			},
 		})
@@ -46,8 +47,12 @@ export default class SkillFixture {
 		return skill as Skill
 	}
 
+	private generateSkillName() {
+		return `Seeded skill ` + this.skillCounter
+	}
+
 	private generateSkillSlug(): string {
-		return `skill-fixture-${Math.round(
+		return `seed-skill-${Math.round(
 			new Date().getTime() * Math.random()
 		)}-${this.skillCounter++}`
 	}

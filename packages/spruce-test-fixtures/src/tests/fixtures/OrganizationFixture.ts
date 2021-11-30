@@ -1,4 +1,5 @@
 import { MercuryClient } from '@sprucelabs/mercury-client'
+import { assertOptions } from '@sprucelabs/schema'
 import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import PersonFixture from './PersonFixture'
@@ -177,6 +178,9 @@ export default class OrganizationFixture {
 		namespaces: string[]
 	}) {
 		const { organizationId, namespaces } = options
+
+		assertOptions(options, ['organizationId', 'namespaces'])
+
 		const { client } = await this.personFixture.loginAsDemoPerson()
 		const skillResults = await client.emit('list-skills::v2020_12_25', {
 			payload: {
