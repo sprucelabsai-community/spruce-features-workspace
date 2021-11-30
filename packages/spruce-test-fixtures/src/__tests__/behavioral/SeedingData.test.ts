@@ -143,5 +143,7 @@ export default class SeedingDataTest extends AbstractSpruceFixtureTest {
 
 		const { organizations } = eventResponseUtil.getFirstResponseOrThrow(results)
 		assert.isLength(organizations, 1)
+
+		assert.isObject(organizations[0].address)
 	}
 }

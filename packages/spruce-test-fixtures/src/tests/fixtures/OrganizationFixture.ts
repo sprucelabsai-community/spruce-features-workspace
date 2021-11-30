@@ -26,6 +26,13 @@ export default class OrganizationFixture {
 		const allValues = {
 			slug: this.generateOrgSlug(),
 			name: 'Organization from fixture',
+			address: {
+				street1: `${Math.round(Math.random() * 9999)} Main St.`,
+				city: 'Denver',
+				province: 'CO',
+				zip: '80212',
+				country: 'USA',
+			},
 			...rest,
 		}
 
