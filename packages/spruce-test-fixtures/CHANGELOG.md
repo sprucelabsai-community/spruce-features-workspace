@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [15.1.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v15.0.6...v15.1.0) (2021-11-30)
+
+
+### Features
+
+* Devs can now easily install their skill for much faster testing! ([00308b9](https://github.com/sprucelabsai/spruce-features-workspace/commit/00308b9))
+
+
+
+
+
 ## [15.0.6](https://github.com/sprucelabsai/spruce-features-workspace/compare/v15.0.5...v15.0.6) (2021-11-30)
 
 **Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
