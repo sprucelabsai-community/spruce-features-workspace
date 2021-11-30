@@ -15,5 +15,10 @@
       "update.dependencies",
       "watch.build.dev"
     ]
+  },
+  "writer": {
+    "skipped": [
+      "tsconfig.json"
+    ]
   }
 }
