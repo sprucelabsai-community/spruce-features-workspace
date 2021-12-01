@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [16.0.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v15.1.2...v16.0.0) (2021-12-01)
+
+
+### Breaking Changes
+
+* active record card now throws on error, making it easier to know when things go wrong during testing ([5e92815](https://github.com/sprucelabsai/spruce-features-workspace/commit/5e92815))
+
+
+
+
+
 ## [15.1.2](https://github.com/sprucelabsai/spruce-features-workspace/compare/v15.1.1...v15.1.2) (2021-12-01)
 
 **Note:** Version bump only for package @sprucelabs/spruce-skill-booter
