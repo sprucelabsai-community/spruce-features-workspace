@@ -1,4 +1,5 @@
 import {
+	ActiveRecordCardViewController,
 	AuthenticatorImpl,
 	ControllerOptions,
 	MockStorage,
@@ -176,6 +177,8 @@ export default class ViewFixture {
 		}
 
 		TestRouter.reset()
+
+		ActiveRecordCardViewController.setShouldThrowOnResponseError(true)
 
 		process.env.SHOULD_REGISTER_VIEWS = 'false'
 

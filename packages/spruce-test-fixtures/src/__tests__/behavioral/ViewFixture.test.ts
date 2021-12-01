@@ -1,5 +1,6 @@
 import {
 	AbstractSkillViewController,
+	ActiveRecordCardViewController,
 	AuthenticatorImpl,
 	SkillViewControllerLoadOptions,
 	vcAssertUtil,
@@ -366,6 +367,19 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 			viewFixture.getAuthenticator(),
 			AuthenticatorImpl.getInstance()
 		)
+	}
+
+	@test()
+	protected static activeRecordThrowsByDefault() {
+		//@ts-ignore
+		assert.isTrue(ActiveRecordCardViewController.shouldThrowOnResponseError)
+		ActiveRecordCardViewController.setShouldThrowOnResponseError(false)
+	}
+
+	@test()
+	protected static activeRecordThrowReset() {
+		//@ts-ignore
+		assert.isTrue(ActiveRecordCardViewController.shouldThrowOnResponseError)
 	}
 
 	private static Scope() {
