@@ -140,6 +140,12 @@ export default class UsingDecoratorsTest extends AbstractSpruceFixtureTest {
 		await this.assertCountGoods(6)
 	}
 
+	@test()
+	protected static async canGetClientOffLogin() {
+		assert.isFunction(login.getClient)
+		assert.isEqual(login.getClient(), MercuryFixture.getDefaultClient())
+	}
+
 	private static async assertCountOrgs(expected: number) {
 		const organizations = await this.Fixture('organization').listOrganizations()
 		assert.isLength(organizations, expected)

@@ -1,4 +1,4 @@
-import { MercuryClientFactory } from '@sprucelabs/mercury-client'
+import { MercuryClientFactory, MercuryClient } from '@sprucelabs/mercury-client'
 import { assert } from '@sprucelabs/test'
 import { MercuryFixture, ViewFixture } from '../..'
 
@@ -36,4 +36,15 @@ export default function login(phone: string) {
 			await afterAll()
 		}
 	}
+}
+
+login.getClient = () => {
+	const client = MercuryFixture.getDefaultClient()
+	if (!client) {
+		assert.fail(
+			`You must @login() on your test class before getting the client`
+		)
+	}
+
+	return client as MercuryClient
 }
