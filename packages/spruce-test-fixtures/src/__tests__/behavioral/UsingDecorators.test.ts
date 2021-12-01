@@ -128,6 +128,18 @@ export default class UsingDecoratorsTest extends AbstractSpruceFixtureTest {
 		assert.isEqualDeep(one, { hello: 'world' })
 	}
 
+	@test()
+	@seed('good', 5)
+	protected static async seedsAddToBeforeEach() {
+		await this.assertCountGoods(10)
+	}
+
+	@test()
+	@seed('good', 1)
+	protected static async seedsAddToBeforeEachButNotLastRun() {
+		await this.assertCountGoods(6)
+	}
+
 	private static async assertCountOrgs(expected: number) {
 		const organizations = await this.Fixture('organization').listOrganizations()
 		assert.isLength(organizations, expected)

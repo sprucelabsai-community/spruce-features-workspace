@@ -25,8 +25,10 @@ export default function seed(storeName: SeedTarget, totalToSeed?: number) {
 }
 async function optionallyReset(Class: any, key: string) {
 	if (Class.__lastReset !== key) {
-		await Class.Fixture('seed').resetAccount()
-		await StoreFixture.reset()
+		if (Class.__lastReset !== 'beforeEach') {
+			await Class.Fixture('seed').resetAccount()
+			await StoreFixture.reset()
+		}
 		Class.__lastReset = key
 	}
 }
