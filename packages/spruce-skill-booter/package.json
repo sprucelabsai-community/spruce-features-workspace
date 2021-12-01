@@ -56,24 +56,24 @@
     "lint.tsc": "tsc -p . --noEmit"
   },
   "dependencies": {
-    "@sprucelabs/error": "^5.0.306",
-    "@sprucelabs/schema": "^25.4.43",
-    "@sprucelabs/spruce-skill-utils": "^22.1.23"
+    "@sprucelabs/error": "^5.0.309",
+    "@sprucelabs/schema": "^25.4.48",
+    "@sprucelabs/spruce-skill-utils": "^22.1.28"
   },
   "devDependencies": {
-    "@sprucelabs/esm-postbuild": "^1.0.292",
-    "@sprucelabs/jest-json-reporter": "^6.0.258",
-    "@sprucelabs/resolve-path-aliases": "^1.0.232",
+    "@sprucelabs/esm-postbuild": "^1.0.294",
+    "@sprucelabs/jest-json-reporter": "^6.0.260",
+    "@sprucelabs/resolve-path-aliases": "^1.0.234",
     "@sprucelabs/semantic-release": "^4.0.8",
-    "@sprucelabs/test": "^7.7.241",
-    "@sprucelabs/test-utils": "^3.0.289",
+    "@sprucelabs/test": "^7.7.243",
+    "@sprucelabs/test-utils": "^3.0.292",
     "@types/node": "^16.11.11",
     "chokidar-cli": "^3.0.0",
     "concurrently": "^6.4.0",
     "conventional-changelog-sprucelabs": "^1.1.2",
     "eslint": "^8.3.0",
     "eslint-config-spruce": "^10.10.16",
-    "jest": "^27.4.2",
+    "jest": "^27.4.3",
     "jest-circus": "^27.4.2",
     "prettier": "^2.5.0",
     "ts-node": "^10.4.0",
