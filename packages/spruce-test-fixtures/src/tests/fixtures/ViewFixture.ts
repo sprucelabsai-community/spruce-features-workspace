@@ -140,6 +140,7 @@ export default class ViewFixture {
 			//@ts-ignore
 			const vc = oldFactory(...args)
 			vcAssertUtil.attachTriggerRenderCounter(vc)
+			vcAssertUtil.patchAlertToThrow(vc)
 			return vc
 		}
 

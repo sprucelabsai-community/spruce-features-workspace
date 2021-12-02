@@ -336,22 +336,21 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static fixtureAttachesRenderCount() {
-		const viewFixture = this.Fixture('view', {
-			controllerMap: {
-				card: MockSkillViewController,
-			},
-		})
-		const factory = viewFixture.getFactory()
-
-		const vc = factory.Controller('card', {
-			header: { title: 'hey' },
-		})
+		const vc = this.MockVc()
 
 		vcAssertUtil.assertTriggerRenderCount(vc, 0)
 
 		vc.triggerRender()
 
 		vcAssertUtil.assertTriggerRenderCount(vc, 1)
+	}
+
+	@test()
+	protected static async fixturePatchesAlertToThrow() {
+		const vc = this.MockVc()
+		assert.isFunction(vc._originalAlert)
+		//@ts-ignore
+		await assert.doesThrowAsync(() => vc.alert())
 	}
 
 	@test()
@@ -387,5 +386,19 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 		const vc = factory.Controller('scope', {})
 
 		return { vc, fixture: this.fixture }
+	}
+
+	private static MockVc() {
+		const viewFixture = this.Fixture('view', {
+			controllerMap: {
+				card: MockSkillViewController,
+			},
+		})
+		const factory = viewFixture.getFactory()
+
+		const vc = factory.Controller('card', {
+			header: { title: 'hey' },
+		})
+		return vc
 	}
 }
