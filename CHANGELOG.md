@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [17.0.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v16.2.0...v17.0.0) (2021-12-02)
+
+
+### Breaking Changes
+
+* listing roles does not magically create an org for you! ([26b0548](https://github.com/sprucelabsai/spruce-features-workspace/commit/26b0548))
+
+
+
+
+
 # [16.2.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v16.1.0...v16.2.0) (2021-12-02)
 
 
