@@ -2,6 +2,8 @@ import { MercuryClientFactory, MercuryClient } from '@sprucelabs/mercury-client'
 import { assert } from '@sprucelabs/test'
 import { MercuryFixture, ViewFixture } from '../..'
 
+type Client = MercuryClient
+
 export default function login(phone: string) {
 	return function (constructor: any) {
 		assert.isFunction(
@@ -38,7 +40,7 @@ export default function login(phone: string) {
 	}
 }
 
-login.getClient = () => {
+login.getClient = (): Client => {
 	const client = MercuryFixture.getDefaultClient()
 	if (!client) {
 		assert.fail(
@@ -46,5 +48,5 @@ login.getClient = () => {
 		)
 	}
 
-	return client as MercuryClient
+	return client as any
 }
