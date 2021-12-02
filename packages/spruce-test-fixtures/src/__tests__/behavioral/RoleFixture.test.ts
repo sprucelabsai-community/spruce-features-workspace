@@ -1,11 +1,14 @@
 import { MercuryClient } from '@sprucelabs/mercury-client'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { assert, test } from '@sprucelabs/test'
+import { errorAssertUtil } from '@sprucelabs/test-utils'
+import { login } from '../..'
 import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
 import { DEMO_NUMBER_ROLE_FIXTURE } from '../../tests/constants'
-import MercuryFixture from '../../tests/fixtures/MercuryFixture'
+import seed from '../../tests/decorators/seed'
 import RoleFixture from '../../tests/fixtures/RoleFixture'
 
+@login(DEMO_NUMBER_ROLE_FIXTURE)
 export default class RoleFixtureTest extends AbstractSpruceFixtureTest {
 	private static fixture: RoleFixture
 	private static client: MercuryClient
@@ -13,13 +16,7 @@ export default class RoleFixtureTest extends AbstractSpruceFixtureTest {
 	protected static async beforeEach() {
 		await super.beforeEach()
 		this.fixture = this.Fixture('role')
-
-		const { client } = await this.Fixture('person').loginAsDemoPerson(
-			DEMO_NUMBER_ROLE_FIXTURE
-		)
-
-		MercuryFixture.setDefaultClient(client)
-		this.client = client
+		this.client = login.getClient()
 	}
 
 	@test()
@@ -28,6 +25,15 @@ export default class RoleFixtureTest extends AbstractSpruceFixtureTest {
 	}
 
 	@test()
+	protected static async cantListRolesWithoutOrg() {
+		const err = await assert.doesThrowAsync(() => this.fixture.listRoles())
+		errorAssertUtil.assertError(err, 'MISSING_PARAMETERS', {
+			parameters: ['organizationId'],
+		})
+	}
+
+	@test()
+	@seed('organizations', 1)
 	protected static async canGetRoleByBase() {
 		const roles = await this.fixture.listRoles()
 
@@ -46,8 +52,10 @@ export default class RoleFixtureTest extends AbstractSpruceFixtureTest {
 	}
 
 	@test()
+	@seed('organizations', 3)
 	protected static async canPassOwnOrg() {
-		const org = await this.Fixture('organization').seedDemoOrganization()
+		const orgs = await this.Fixture('organization').listOrganizations()
+		const org = orgs[2]
 		const roles = await this.fixture.listRoles({ organizationId: org.id })
 
 		assert.isEqual(roles[0].organizationId, org.id)

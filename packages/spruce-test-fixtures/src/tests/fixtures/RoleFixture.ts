@@ -1,4 +1,5 @@
 import { MercuryConnectFactory } from '@sprucelabs/mercury-client'
+import { SchemaError } from '@sprucelabs/schema'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import OrganizationFixture from './OrganizationFixture'
 
@@ -19,8 +20,17 @@ export default class RoleFixture {
 		let orgId = options?.organizationId
 
 		if (!orgId) {
-			const org = await this.organizationFixture.seedDemoOrganization()
-			orgId = org.id
+			const latest = await this.organizationFixture.getNewestOrganization()
+			orgId = latest?.id
+		}
+
+		if (!orgId) {
+			throw new SchemaError({
+				code: 'MISSING_PARAMETERS',
+				parameters: ['organizationId'],
+				friendlyMessage:
+					"You gotta @seed('organizations',1) before listing roles!",
+			})
 		}
 
 		const results = await client.emit('list-roles::v2020_12_25', {
