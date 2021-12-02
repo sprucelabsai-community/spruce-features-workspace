@@ -348,6 +348,7 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 	@test()
 	protected static async fixturePatchesAlertToThrow() {
 		const vc = this.MockVc()
+		//@ts-ignore
 		assert.isFunction(vc._originalAlert)
 		//@ts-ignore
 		await assert.doesThrowAsync(() => vc.alert())
