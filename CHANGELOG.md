@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [16.2.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v16.1.0...v16.2.0) (2021-12-02)
+
+
+### Features
+
+* unexpected alerts now throw to make debugging easier! ([f7dbf7e](https://github.com/sprucelabsai/spruce-features-workspace/commit/f7dbf7e))
+
+
+
+
+
 # [16.1.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v16.0.0...v16.1.0) (2021-12-02)
 
 
