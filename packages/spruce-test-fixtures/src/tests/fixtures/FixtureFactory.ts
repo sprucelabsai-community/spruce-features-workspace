@@ -12,6 +12,7 @@ import MercuryFixture from './MercuryFixture'
 import OrganizationFixture from './OrganizationFixture'
 import PersonFixture from './PersonFixture'
 import RoleFixture from './RoleFixture'
+import SchemaFixture from './SchemaFixture'
 import SeedFixture from './SeedFixture'
 import SkillFixture from './SkillFixture'
 import StoreFixture from './StoreFixture'
@@ -188,6 +189,7 @@ export default class FixtureFactory {
 			MercuryFixture.beforeEach(),
 			StoreFixture.beforeEach(),
 			EventFixture.beforeEach(),
+			SchemaFixture.beforeEach(),
 		])
 	}
 
