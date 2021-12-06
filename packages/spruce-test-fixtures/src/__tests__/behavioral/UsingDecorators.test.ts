@@ -9,6 +9,8 @@ import { DEMO_NUMBER_DECORATORS } from '../../tests/constants'
 import login from '../../tests/decorators/login'
 import seed from '../../tests/decorators/seed'
 import { StoreSeedOptions } from '../../types/store.types'
+// eslint-disable-next-line spruce/prohibit-import-from-build-folder
+import GoodStore from '../testDirsAndFiles/one-good-store-skill/build/stores/Good.store'
 
 @login(DEMO_NUMBER_DECORATORS)
 export default class UsingDecoratorsTest extends AbstractSpruceFixtureTest {
@@ -210,3 +212,4 @@ class DummyStore extends AbstractStore<DummySchema> {
 }
 
 StoreFixture.setStore('dummies', DummyStore)
+StoreFixture.setStore('good', GoodStore)

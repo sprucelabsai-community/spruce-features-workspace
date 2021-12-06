@@ -31,7 +31,8 @@
 		"./src/*.ts",
 		"./src/**/*.ts",
 		"./src/.spruce/**/*",
-		"./src/__tests__/**/.spruce/**/*.ts"
+		"./src/__tests__/**/.spruce/**/*.ts",
+		"./src/__tests__/**/build/**/*.ts"
 	],
 	"exclude": [
 		"build"

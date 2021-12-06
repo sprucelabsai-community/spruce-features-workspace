@@ -23,6 +23,7 @@ export default class StoreFixture {
 		options?: O
 	): Promise<StoreMap[N]> {
 		const factory = await this.getStoreFactory()
+
 		return factory.Store(name, options)
 	}
 
