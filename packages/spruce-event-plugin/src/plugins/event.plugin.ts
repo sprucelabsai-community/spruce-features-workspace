@@ -143,13 +143,6 @@ export class EventFeaturePlugin implements SkillFeature {
 		})
 
 		try {
-			if (!this.listenersPath) {
-				throw new SpruceError({
-					code: 'EVENT_PLUGIN_ERROR',
-					friendlyMessage: `I could not find your listener map at ${this.listenerLookup}. Try generating one with 'spruce sync.events'.`,
-				})
-			}
-
 			await this.loadLocal()
 
 			const willBoot = this.getListener('skill', 'will-boot')
@@ -646,8 +639,15 @@ export class EventFeaturePlugin implements SkillFeature {
 	private async loadListeners() {
 		this.log.info('Loading listeners')
 
+		if (!this.listenersPath) {
+			throw new SpruceError({
+				code: 'EVENT_PLUGIN_ERROR',
+				friendlyMessage: `I could not find your listener map at ${this.listenerLookup}. Try generating one with 'spruce sync.events'.`,
+			})
+		}
+
 		const listeners: EventFeatureListener[] = require(this
-			.listenersPath as string).default
+			.listenersPath).default
 
 		const cacher = new ListenerCacher({
 			cwd: this.skill.rootDir,
