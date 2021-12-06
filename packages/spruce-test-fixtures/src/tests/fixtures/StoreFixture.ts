@@ -34,6 +34,7 @@ export default class StoreFixture {
 				await this.loader
 			}
 			const loader = await this.loader
+
 			this.storeFactory = loader.loadStores()
 		}
 
