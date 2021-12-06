@@ -172,7 +172,7 @@ export default class EventFixture {
 				await attachOnListener()
 			}
 			//@ts-ignore
-			attachOnListener()
+			await attachOnListener()
 		}
 
 		if (options?.onAttachListeners) {
