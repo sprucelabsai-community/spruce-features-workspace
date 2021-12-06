@@ -647,7 +647,7 @@ export class EventFeaturePlugin implements SkillFeature {
 		}
 
 		const listeners: EventFeatureListener[] = require(this
-			.listenersPath).default
+			.listenersPath as string).default
 
 		const cacher = new ListenerCacher({
 			cwd: this.skill.rootDir,
