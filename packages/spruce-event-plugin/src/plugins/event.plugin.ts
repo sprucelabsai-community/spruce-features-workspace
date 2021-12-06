@@ -1,4 +1,3 @@
-import pathUtil from 'path'
 import {
 	EventContract,
 	MercuryEventEmitter,
@@ -24,8 +23,8 @@ import {
 	HealthCheckItem,
 	Log,
 	functionDelegationUtil,
+	HASH_SPRUCE_DIR_NAME,
 } from '@sprucelabs/spruce-skill-utils'
-import globby from 'globby'
 import ListenerCacher from '../cache/ListenerCacher'
 import SpruceError from '../errors/SpruceError'
 
@@ -98,7 +97,23 @@ export class EventFeaturePlugin implements SkillFeature {
 	public constructor(skill: Skill) {
 		this.skill = skill
 
-		this.listenersPath = pathUtil.join(this.skill.activeDir, 'listeners')
+		const resolved = diskUtil.resolvePath(
+			this.skill.activeDir,
+			HASH_SPRUCE_DIR_NAME,
+			'events',
+			'listeners'
+		)
+
+		const match = diskUtil.resolveFile(resolved)
+
+		if (!match) {
+			throw new SpruceError({
+				code: 'EVENT_PLUGIN_ERROR',
+				friendlyMessage: `I could not find your listener map. Try generating one with 'spruce sync.events'.`,
+			})
+		}
+
+		this.listenersPath = match
 
 		this.log = skill.buildLog('Event.Feature')
 
@@ -139,7 +154,9 @@ export class EventFeaturePlugin implements SkillFeature {
 
 			if (willBoot) {
 				this.log.info(`Emitting skill.willBoot internally`)
+
 				const event = await this.buildSpruceEvent('will-boot')
+
 				await willBoot(event)
 			}
 
@@ -158,7 +175,7 @@ export class EventFeaturePlugin implements SkillFeature {
 				await this.reRegisterEvents()
 			}
 
-			await this.reRegisterListeners()
+			await this.registerListeners()
 
 			const done = async () => {
 				this.isExecuting = false
@@ -308,8 +325,9 @@ export class EventFeaturePlugin implements SkillFeature {
 		}
 	}
 
-	public reset() {
+	public async reset() {
 		this.isDestroyed = false
+		this.apiClientPromise = undefined
 	}
 
 	private async loadLocal() {
@@ -420,7 +438,7 @@ export class EventFeaturePlugin implements SkillFeature {
 		return { client, currentSkill }
 	}
 
-	private async reRegisterListeners() {
+	private async registerListeners() {
 		if (!this.shouldConnectToApi()) {
 			return
 		}
@@ -546,6 +564,7 @@ export class EventFeaturePlugin implements SkillFeature {
 								if (!builtTp) {
 									builtTp = {}
 								}
+
 								builtTp.source = {
 									...builtTp?.source,
 									proxyToken: targetAndPayload.source.proxyToken,
@@ -624,13 +643,12 @@ export class EventFeaturePlugin implements SkillFeature {
 	private async loadListeners() {
 		this.log.info('Loading listeners')
 
-		const listenerMatches = await globby(
-			`${this.listenersPath}/**/*.listener.[j|t]s`
-		)
+		const listeners: EventFeatureListener[] = require(this
+			.listenersPath).default
 
 		const cacher = new ListenerCacher({
 			cwd: this.skill.rootDir,
-			listenerPaths: listenerMatches,
+			listeners,
 			host: this.getHost() ?? '***NO HOST SET***',
 		})
 
@@ -640,38 +658,6 @@ export class EventFeaturePlugin implements SkillFeature {
 		if (this.haveListenersChaged) {
 			cacher.cacheListeners()
 		}
-
-		const listeners: EventFeatureListener[] = []
-
-		listenerMatches.forEach((match) => {
-			const { eventName, eventNamespace, version } =
-				eventDiskUtil.splitPathToListener(match)
-
-			const callback = require(match).default as
-				| EventFeatureListener['callback']
-				| undefined
-
-			if (!callback || typeof callback !== 'function') {
-				throw new Error(
-					`The plugin at ${match} is missing a default export that is a function`
-				)
-			}
-
-			this.log.info(
-				`Found listener for ${eventNameUtil.join({
-					eventName,
-					eventNamespace,
-					version,
-				})}`
-			)
-
-			listeners.push({
-				eventName,
-				eventNamespace,
-				version,
-				callback,
-			})
-		})
 
 		listeners.sort((a, b) => {
 			return a.version > b.version ? -1 : 1

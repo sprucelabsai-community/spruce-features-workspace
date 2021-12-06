@@ -1,3 +1,4 @@
+import { EventFeatureListener } from '@sprucelabs/spruce-event-utils'
 import { SettingsService } from '@sprucelabs/spruce-skill-utils'
 
 const cleanKey = (str: string) => {
@@ -16,16 +17,16 @@ export default class ListenerCacher {
 
 	public constructor(options: {
 		cwd: string
-		listenerPaths: string[]
+		listeners: EventFeatureListener[]
 		host: string
 	}) {
-		const { cwd, listenerPaths, host } = options
+		const { cwd, listeners: listenerPaths, host } = options
 
 		this.cwd = cwd
 		this.host = host
 		this.listenerCacheKey = cleanKey(
 			listenerPaths
-				.map((m) => m.replace(this.cwd, ''))
+				.map((m) => `${m.eventName}-${m.eventNamespace}-${m.version}`)
 				.sort()
 				.join('')
 		)
@@ -45,6 +46,7 @@ export default class ListenerCacher {
 
 	public haveListenersChanged() {
 		const existingCache = this.loadCurrentCacheKey()
+
 		return existingCache !== this.listenerCacheKey
 	}
 

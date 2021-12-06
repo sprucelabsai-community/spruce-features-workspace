@@ -33,6 +33,19 @@ export default class EventFixture {
 		)
 	}
 
+	public dropInNamespaceToListenerMap(namespace: string) {
+		const path = diskUtil.resolvePath(
+			this.cwd,
+			'build/.spruce/events/listeners.js'
+		)
+
+		const content = diskUtil
+			.readFile(path)
+			.replace(/{{namespace}}/gi, namespace)
+
+		diskUtil.writeFile(path, content)
+	}
+
 	public buildContract(eventName: string, eventSignature?: EventSignature) {
 		return {
 			eventSignatures: {
@@ -97,6 +110,7 @@ export default class EventFixture {
 		onAttachListeners?: (client: MercuryClient) => void
 		onSetShouldAutoRegisterListeners?: (should: boolean) => void
 		onAttachListener?: (client: MercuryClient) => void
+		onSetListener?: (client: MercuryClient) => void
 		eventSignature?: EventSignature
 	}) {
 		MercuryClientFactory.setIsTestMode(true)
@@ -114,7 +128,9 @@ export default class EventFixture {
 
 		//@ts-ignore
 		client.mixinContract(contract)
+
 		this.copyListenersIntoPlace(skill.slug)
+		this.dropInNamespaceToListenerMap(skill.slug)
 		this.generateGoodContractFileForSkill(skill.slug, options?.eventSignature)
 
 		process.env.SKILL_ID = skill.id
@@ -130,6 +146,34 @@ export default class EventFixture {
 
 		const currentSkill = await this.Skill()
 		const events = currentSkill.getFeatureByCode('event') as EventFeaturePlugin
+
+		if (options?.onSetListener) {
+			const attachOnListener = async () => {
+				const pluginClient = await events.connectToApi()
+				const oldOn = pluginClient.on.bind(pluginClient)
+
+				//@ts-ignore
+				pluginClient.on = async (fqen: string, cb: any) => {
+					if (fqen.includes('seed-skill')) {
+						options?.onSetListener?.(pluginClient)
+					} else if (fqen.includes('test')) {
+						return
+					}
+
+					//@ts-ignore
+					return oldOn(fqen, cb)
+				}
+			}
+
+			const oldReset = events.reset.bind(events)
+
+			events.reset = async () => {
+				await oldReset()
+				await attachOnListener()
+			}
+			//@ts-ignore
+			attachOnListener()
+		}
 
 		if (options?.onAttachListeners) {
 			//@ts-ignore

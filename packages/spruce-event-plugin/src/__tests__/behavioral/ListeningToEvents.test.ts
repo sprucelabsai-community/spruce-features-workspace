@@ -228,67 +228,42 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 	@test()
 	protected static async wontReRegisterListenersIfListenersHaveNotChanged() {
 		let unRegisterListenerCount = 0
-		const setShouldAutoRegistrationInvocations: boolean[] = []
-		const autoRegisterForOn: boolean[] = []
+		let onSetListenerCount = 0
+		let shouldAutoRegisterListeners = false
+		let lastClient: any
 
 		const { currentSkill, events } = await this.registerSkillAndSetupListeners({
 			onUnregisterListeners: () => {
 				unRegisterListenerCount++
 			},
-			onAttachListeners: (client) => {
+			onSetListener: (client) => {
 				//@ts-ignore
-				assert.isTrue(client.shouldAutoRegisterListeners)
-			},
-			onSetShouldAutoRegisterListeners: (should) => {
-				setShouldAutoRegistrationInvocations.push(should)
-			},
-			onAttachListener: (client) => {
-				//@ts-ignore
-				autoRegisterForOn.push(client.shouldAutoRegisterListeners)
+				shouldAutoRegisterListeners = client.shouldAutoRegisterListeners
+				onSetListenerCount++
+				lastClient = client
 			},
 		})
 
 		await this.bootKillAndResetSkill(currentSkill, events)
 
-		assert.isLength(
-			setShouldAutoRegistrationInvocations,
-			2,
-			'setShouldAutoRegisterListeners not called enough.'
-		)
-		assert.isTrue(setShouldAutoRegistrationInvocations[0])
-		assert.isTrue(setShouldAutoRegistrationInvocations[1])
-		assert.isTrue(autoRegisterForOn[0])
-
-		await this.bootKillAndResetSkill(currentSkill, events)
-
-		assert.isLength(setShouldAutoRegistrationInvocations, 4)
-		assert.isFalse(setShouldAutoRegistrationInvocations[2])
-		assert.isTrue(setShouldAutoRegistrationInvocations[3])
-		assert.isFalse(autoRegisterForOn[1])
-
-		const listenerDest = eventDiskUtil
-			.resolveListenerPath(this.resolvePath('build/listeners'), {
-				eventName: 'test',
-				eventNamespace: 'test',
-				version: 'v2020_01_01',
-			})
-			.replace('.ts', '.js')
-
+		assert.isEqual(onSetListenerCount, 1)
 		assert.isEqual(unRegisterListenerCount, 1)
-
-		diskUtil.writeFile(listenerDest, 'exports.default = function() {}')
+		assert.isTrue(shouldAutoRegisterListeners)
 
 		await this.bootKillAndResetSkill(currentSkill, events)
 
-		assert.isLength(setShouldAutoRegistrationInvocations, 6)
-		assert.isTrue(setShouldAutoRegistrationInvocations[4])
-		assert.isTrue(setShouldAutoRegistrationInvocations[5])
-		assert.isTrue(autoRegisterForOn[2])
+		assert.isEqual(onSetListenerCount, 2)
+		assert.isEqual(unRegisterListenerCount, 1)
+		assert.isFalse(shouldAutoRegisterListeners)
 
-		//@ts-ignore
-		const cacheKey = events.listenerCacher.loadCurrentCacheKey()
+		this.addNewListener()
 
-		assert.doesNotInclude(cacheKey, this.cwd)
+		await this.bootKillAndResetSkill(currentSkill, events)
+
+		assert.isEqual(onSetListenerCount, 3)
+		assert.isEqual(unRegisterListenerCount, 2)
+		assert.isTrue(shouldAutoRegisterListeners)
+		assert.isTrue(lastClient.shouldAutoRegisterListeners)
 	}
 
 	@test()
@@ -402,14 +377,49 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 		eventResponseUtil.getFirstResponseOrThrow(results)
 	}
 
+	private static addNewListener() {
+		const listenerDest = eventDiskUtil
+			.resolveListenerPath(this.resolvePath('build/listeners'), {
+				eventName: 'test',
+				eventNamespace: 'test',
+				version: 'v2020_01_01',
+			})
+			.replace('.ts', '.js')
+
+		diskUtil.writeFile(listenerDest, 'exports.default = function() {}')
+
+		const mapPath = this.resolvePath('build/.spruce/events/listeners.js')
+		const content = diskUtil.readFile(mapPath).replace(
+			'},',
+			`},{
+			eventName: 'test',
+			eventNamespace: 'test',
+			version: 'v2020_01_01',
+			callback: require('../../listeners/test/test.v2020_01_01.listener').default
+		}`
+		)
+
+		const mockPath = mapPath.replace('/events/', '/events/__mocks__/')
+
+		const mockContent = content.replace(/..\/..\//gi, '../../../')
+		diskUtil.writeFile(mockPath, mockContent)
+
+		//@ts-ignore
+		jest.mock(mapPath)
+	}
+
 	private static async bootKillAndResetSkill(
 		bootedSkill: any,
 		events: EventFeaturePlugin
 	) {
 		bootedSkill.hasInvokedBootHandlers = false
+
 		await this.bootSkill({ skill: bootedSkill })
+
 		await bootedSkill.kill()
-		events.reset()
+
+		await events.reset()
+
 		bootedSkill.isKilling = false
 	}
 
@@ -483,7 +493,9 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 	}
 
 	private static setupListenersForEventsRegisteredBySkill(skill: any) {
-		return this.EventFixture().copyListenersIntoPlace(skill.slug)
+		const eventFixture = this.EventFixture()
+		eventFixture.copyListenersIntoPlace(skill.slug)
+		eventFixture.dropInNamespaceToListenerMap(skill.slug)
 	}
 
 	private static async registerEvents(
@@ -502,6 +514,7 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 		onAttachListeners?: (client: MercuryClient) => void
 		onSetShouldAutoRegisterListeners?: (should: boolean) => void
 		onAttachListener?: (client: MercuryClient) => void
+		onSetListener?: (client: MercuryClient) => void
 		eventSignature?: EventSignature
 		testDir?: string
 	}) {
