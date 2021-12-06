@@ -26,6 +26,11 @@ export default class EventFixture {
 		this.Skill = options.SkillFactory
 	}
 
+	public setupListeners(namespace: string) {
+		this.copyListenersIntoPlace(namespace)
+		this.dropInNamespaceToListenerMap(namespace)
+	}
+
 	public copyListenersIntoPlace(slug: string) {
 		diskUtil.moveDir(
 			diskUtil.resolvePath(this.cwd, 'build/listeners/namespace'),

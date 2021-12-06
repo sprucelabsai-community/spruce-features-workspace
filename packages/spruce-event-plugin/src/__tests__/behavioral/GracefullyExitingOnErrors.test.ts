@@ -1,5 +1,4 @@
 import '@sprucelabs/mercury-core-events'
-import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 import { test, assert } from '@sprucelabs/test'
 import { errorAssertUtil } from '@sprucelabs/test-utils'
 import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
@@ -102,16 +101,12 @@ export default class GracefullyExitingOnErrorsTest extends AbstractEventPluginTe
 	@test()
 	protected static async executeThrowsOnLateDidBoot() {
 		const skill = await this.SkillFromTestDir('skill-did-boot-throws')
-
 		const err = await assert.doesThrowAsync(() => skill.execute())
 
 		assert.doesInclude(err.message, 'what the!')
 	}
 
 	private static setupListenersForEventsRegisteredBySkill(skill: any) {
-		diskUtil.moveDir(
-			this.resolvePath('build/listeners/namespace'),
-			this.resolvePath(`build/listeners/`, skill.slug)
-		)
+		this.EventFixture().setupListeners(skill.slug)
 	}
 }

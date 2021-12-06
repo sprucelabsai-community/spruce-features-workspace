@@ -57,12 +57,14 @@ export type MercuryClient<
 
 export class EventFeaturePlugin implements SkillFeature {
 	private skill: Skill
-	private listenersPath: string
+	private listenersPath: string | boolean
+	private listenerLookup: string
 	private listeners: EventFeatureListener[] = []
 	private eventsIRegistered: Required<NamedEventSignature>[] = []
 	private allEventSignatures: NamedEventSignature[] = []
 	private combinedContractsFile?: string
 	private _shouldConnectToApi = false
+
 	private apiClientPromise?: Promise<{
 		client?: any
 		currentSkill?: SpruceSchemas.Spruce.v2020_07_22.Skill
@@ -106,14 +108,8 @@ export class EventFeaturePlugin implements SkillFeature {
 
 		const match = diskUtil.resolveFile(resolved)
 
-		if (!match) {
-			throw new SpruceError({
-				code: 'EVENT_PLUGIN_ERROR',
-				friendlyMessage: `I could not find your listener map. Try generating one with 'spruce sync.events'.`,
-			})
-		}
-
 		this.listenersPath = match
+		this.listenerLookup = resolved
 
 		this.log = skill.buildLog('Event.Feature')
 
@@ -147,6 +143,13 @@ export class EventFeaturePlugin implements SkillFeature {
 		})
 
 		try {
+			if (!this.listenersPath) {
+				throw new SpruceError({
+					code: 'EVENT_PLUGIN_ERROR',
+					friendlyMessage: `I could not find your listener map at ${this.listenerLookup}. Try generating one with 'spruce sync.events'.`,
+				})
+			}
+
 			await this.loadLocal()
 
 			const willBoot = this.getListener('skill', 'will-boot')
@@ -644,7 +647,7 @@ export class EventFeaturePlugin implements SkillFeature {
 		this.log.info('Loading listeners')
 
 		const listeners: EventFeatureListener[] = require(this
-			.listenersPath).default
+			.listenersPath as string).default
 
 		const cacher = new ListenerCacher({
 			cwd: this.skill.rootDir,

@@ -494,8 +494,7 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 
 	private static setupListenersForEventsRegisteredBySkill(skill: any) {
 		const eventFixture = this.EventFixture()
-		eventFixture.copyListenersIntoPlace(skill.slug)
-		eventFixture.dropInNamespaceToListenerMap(skill.slug)
+		eventFixture.setupListeners(skill.slug)
 	}
 
 	private static async registerEvents(
