@@ -17,6 +17,7 @@ export default class TestingAConversationTest extends AbstractConversationTest {
 
 	@test()
 	protected static async bootingNormallyDoesNotGoToTestMode() {
+		this.cwd = this.resolveTestPath('empty-skill')
 		const conversation = await this.bootAndGetConversationFeature({
 			shouldSuppressBootErrors: true,
 		})

@@ -18,6 +18,7 @@ export default class RegisteringConversationsOnBootTest extends AbstractConversa
 
 	@test()
 	protected static async noConvosToStart() {
+		this.cwd = this.resolveTestPath('empty-skill')
 		const topics = await this.registerAndBoot()
 		assert.isLength(topics, 0)
 	}

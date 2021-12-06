@@ -28,7 +28,8 @@
 	"include": [
 		"./*.ts",
 		"./**/*.ts",
-		"src/__tests__/testDirsAndFiles/bad-skill/build/conversations/bookAppointment.topic.js"
+		"src/__tests__/testDirsAndFiles/bad-skill/build/conversations/bookAppointment.topic.js",
+		"./src/__tests__/**/.spruce/**/*.ts"
 	],
 	"exclude": [
 		"build"
