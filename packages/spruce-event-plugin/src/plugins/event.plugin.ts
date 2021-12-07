@@ -639,6 +639,11 @@ export class EventFeaturePlugin implements SkillFeature {
 	private async loadListeners() {
 		this.log.info('Loading listeners')
 
+		const isInstalled = await this.isInstalled()
+		if (!isInstalled) {
+			return
+		}
+
 		if (!this.listenersPath) {
 			throw new SpruceError({
 				code: 'EVENT_PLUGIN_ERROR',

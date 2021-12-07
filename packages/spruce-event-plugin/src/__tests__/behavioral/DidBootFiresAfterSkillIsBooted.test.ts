@@ -28,7 +28,7 @@ export default class DidBootFiresAfterSkillIsBootedTest extends AbstractEventPlu
 		do {
 			await this.wait(100)
 			assert.isNotEqual(process.env.DID_BOOT_LATE, 'true')
-		} while (process.env.DID_BOOT_EARLY !== 'true')
+		} while (skill.isRunning() && process.env.DID_BOOT_EARLY !== 'true')
 
 		await promise
 
