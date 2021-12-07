@@ -440,24 +440,27 @@ export class EventFeaturePlugin implements SkillFeature {
 		}
 
 		const client = await this.connectToApi()
-		const currentSkill = await this.getCurrentSkill()
 
-		if (client && currentSkill) {
-			if (this.areListenersCached()) {
-				this.log.info(
-					'Skipping re-registering of listeners because they have not changed.'
-				)
-			} else {
-				await client.emit('unregister-listeners::v2020_12_25', {
-					payload: {
-						shouldUnregisterAll: true,
-					},
-				})
-				this.log.info('Unregistered all existing registered listeners')
+		if (this.areListenersCached()) {
+			this.log.info(
+				'Skipping re-registering of listeners because they have not changed.'
+			)
+		} else {
+			const currentSkill = await this.getCurrentSkill()
+
+			if (client && currentSkill) {
+				{
+					await client.emit('unregister-listeners::v2020_12_25', {
+						payload: {
+							shouldUnregisterAll: true,
+						},
+					})
+					this.log.info('Unregistered all existing registered listeners')
+				}
 			}
-
-			await this.attachListeners(client)
 		}
+
+		await this.attachListeners(client)
 	}
 
 	private areListenersCached() {
@@ -676,6 +679,11 @@ export class EventFeaturePlugin implements SkillFeature {
 
 	private getHost(): string | undefined {
 		return process.env.HOST
+	}
+
+	public async getNamespace() {
+		const pkg = require(this.skill.activeDir + '/../package.json')
+		return pkg.skill.namespace
 	}
 
 	private async loadEvents() {
