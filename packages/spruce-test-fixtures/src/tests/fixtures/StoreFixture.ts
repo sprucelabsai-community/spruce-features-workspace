@@ -67,14 +67,18 @@ export default class StoreFixture {
 	}
 
 	public static async reset() {
-		process.env.DB_NAME = 'memory'
-		process.env.DB_CONNECTION_STRING = 'memory://'
+		this.resetDbConnectionSettings()
 
 		await DatabaseFixture.beforeEach()
 
 		StoreFactory.reset()
 
 		await this.setup()
+	}
+
+	public static resetDbConnectionSettings() {
+		process.env.DB_NAME = 'memory'
+		process.env.DB_CONNECTION_STRING = 'memory://'
 	}
 
 	private static async setup() {

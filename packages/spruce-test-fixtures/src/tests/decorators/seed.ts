@@ -8,6 +8,7 @@ type SeedTarget = 'organizations' | 'locations' | StoreName
 export default function seed(storeName: SeedTarget, totalToSeed?: number) {
 	return function (Class: any, key: string, descriptor: any) {
 		StoreFixture.setShouldAutomaticallyResetDatabase(false)
+		StoreFixture.resetDbConnectionSettings()
 
 		const seed = attachSeeder(storeName, Class, totalToSeed)
 		const bound = descriptor?.value?.bind?.(Class)
