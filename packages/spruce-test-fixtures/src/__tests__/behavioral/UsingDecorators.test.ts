@@ -15,11 +15,13 @@ import GoodStore from '../testDirsAndFiles/one-good-store-skill/build/stores/Goo
 @login(DEMO_NUMBER_DECORATORS)
 export default class UsingDecoratorsTest extends AbstractSpruceFixtureTest {
 	private static lastClient: MercuryClient
+	private static goodStore: GoodStore
 
 	@seed('good', 5)
 	@seed('dummies', 10)
 	protected static async beforeEach() {
 		assert.isTrue(MercuryClientFactory.isInTestMode())
+		this.goodStore = await this.Fixture('store').Store('good')
 
 		await this.assertCountGoods(5)
 		await super.beforeEach()
@@ -39,6 +41,8 @@ export default class UsingDecoratorsTest extends AbstractSpruceFixtureTest {
 		assert.isEqualDeep(auth.getPerson(), client.auth.person)
 		//@ts-ignore
 		assert.isEqualDeep(auth.getSessionToken(), client.auth.token)
+
+		this.goodStore = await this.Fixture('store').Store('good')
 
 		await this.assertCountGoods(5)
 	}
@@ -170,6 +174,12 @@ export default class UsingDecoratorsTest extends AbstractSpruceFixtureTest {
 		const goodStore = await this.Fixture('store').Store('good')
 		const count = await goodStore.count({})
 		assert.isEqual(count, expected)
+		const localCount = await this.goodStore.count({})
+		assert.isEqual(
+			localCount,
+			expected,
+			'The store built in beforeEach is pointing at stale database.'
+		)
 	}
 }
 

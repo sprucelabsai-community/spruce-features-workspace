@@ -8,7 +8,7 @@ import GoodStore from '../testDirsAndFiles/one-good-store-skill/build/stores/Goo
 //do not seed anything else here, this test is to ensure db settings are reset before any
 //seed is called
 
-export default class SeedResetsAsExpectedTest extends AbstractSpruceFixtureTest {
+export default class DbResetsAsExpectedTest extends AbstractSpruceFixtureTest {
 	@test()
 	protected static shouldBeReset() {
 		assert.isEqual(process.env.DB_NAME, 'memory')
