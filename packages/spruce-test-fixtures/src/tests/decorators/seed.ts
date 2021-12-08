@@ -22,14 +22,6 @@ export default function seed(storeName: SeedTarget, totalToSeed?: number) {
 		}
 	}
 }
-async function optionallyReset(Class: any, key: string) {
-	if (Class.__lastReset !== key) {
-		if (Class.__lastReset !== 'beforeEach') {
-			await reset(Class)
-		}
-		Class.__lastReset = key
-	}
-}
 
 async function reset(Class: any) {
 	await Class.Fixture('seed').resetAccount()
@@ -44,7 +36,6 @@ function attachCleanup(Class: any) {
 
 		Class.afterEach = async () => {
 			await afterEach?.()
-			delete Class.__lastReset
 		}
 
 		Class.beforeEach = async () => {
