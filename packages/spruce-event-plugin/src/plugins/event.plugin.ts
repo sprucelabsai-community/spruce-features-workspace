@@ -643,7 +643,7 @@ export class EventFeaturePlugin implements SkillFeature {
 		this.log.info('Loading listeners')
 
 		const isInstalled = await this.isInstalled()
-		if (!isInstalled) {
+		if (!isInstalled && !this.listenersPath) {
 			return
 		}
 

@@ -12,8 +12,6 @@ export default class EventPluginTest extends AbstractEventPluginTest {
 
 		await this.registerSkill()
 		this.skill = await this.SkillFromTestDir('skill-boot-events')
-
-		this.skill = await this.Skill()
 		this.events = this.skill.getFeatureByCode('event') as EventFeaturePlugin
 	}
 
@@ -33,6 +31,19 @@ export default class EventPluginTest extends AbstractEventPluginTest {
 
 		const actual = await this.events.getNamespace()
 		assert.isEqual(actual, namespace)
+	}
+
+	@test()
+	protected static async usesListenersEvenIfNotInstalled() {
+		this.skill = await this.SkillFromTestDir(
+			'skill-event-not-installed-did-boot-event'
+		)
+
+		await this.bootSkill({
+			skill: this.skill,
+		})
+
+		assert.isEqual(process.env.DID_BOOT, 'true')
 	}
 
 	private static async registerSkill() {
