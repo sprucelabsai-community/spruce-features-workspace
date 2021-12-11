@@ -25,7 +25,7 @@ export default class MockingErrorResponsesTest extends AbstractSpruceFixtureTest
 		assert.isEqual(results.totalErrors, 1)
 
 		eventAssertUtil.assertErrorFromResponse(results, 'MOCK_EVENT_ERROR', {
-			eventName: fqen,
+			fqen,
 		})
 	}
 }
