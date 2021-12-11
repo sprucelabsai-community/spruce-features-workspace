@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [18.3.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v18.2.0...v18.3.0) (2021-12-11)
+
+
+### Features
+
+* devs can now easily simulate errors when making requests to mercury, making testing even FASTER! ([cf381a2](https://github.com/sprucelabsai/spruce-features-workspace/commit/cf381a2))
+
+
+
+
+
 # [18.2.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v18.1.3...v18.2.0) (2021-12-08)
 
 **Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
