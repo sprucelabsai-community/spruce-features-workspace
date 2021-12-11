@@ -1,12 +1,16 @@
-import { EventNames, SkillEventContract } from '@sprucelabs/mercury-types'
+import {
+	EventContract,
+	EventNames,
+	SkillEventContract,
+} from '@sprucelabs/mercury-types'
 import { MercuryFixture } from '..'
 import SpruceError from '../errors/SpruceError'
 
 const eventMocker = {
-	async makeEventThrow(
+	/** @ts-ignore */
+	async makeEventThrow<Contract extends EventContract = SkillEventContract>(
 		mercuryFixture: MercuryFixture,
-		/** @ts-ignore */
-		fqen: EventNames<SkillEventContract>
+		fqen: EventNames<Contract>
 	) {
 		const client = await mercuryFixture.connectToApi()
 		await client.on(fqen as any, () => {
