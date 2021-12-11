@@ -6,13 +6,13 @@ export const eventMocker = {
 	async makeEventThrow(
 		mercuryFixture: MercuryFixture,
 		//@ts-ignore
-		eventName: EventNames<SkillEventContract>
+		fqen: EventNames<SkillEventContract>
 	) {
 		const client = await mercuryFixture.connectToApi()
-		await client.on(eventName as any, () => {
+		await client.on(fqen as any, () => {
 			throw new SpruceError({
 				code: 'MOCK_EVENT_ERROR',
-				eventName,
+				fqen,
 			})
 		})
 	},
