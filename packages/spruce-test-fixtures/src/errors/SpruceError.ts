@@ -30,6 +30,10 @@ export default class SpruceError extends BaseSpruceError<ErrorOptions> {
 				}! The original error is:\n\n${options.originalError?.stack}`
 				break
 
+			case 'MOCK_EVENT_ERROR':
+				message = `A mocked response through an error! Probably time to try/catch and render an alert()!`
+				break
+
 			default:
 				message = super.friendlyMessage()
 		}
