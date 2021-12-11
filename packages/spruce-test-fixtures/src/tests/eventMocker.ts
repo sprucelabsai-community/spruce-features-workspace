@@ -5,7 +5,7 @@ import SpruceError from '../errors/SpruceError'
 const eventMocker = {
 	async makeEventThrow(
 		mercuryFixture: MercuryFixture,
-		//@ts-ignore
+		/** @ts-ignore */
 		fqen: EventNames<SkillEventContract>
 	) {
 		const client = await mercuryFixture.connectToApi()
