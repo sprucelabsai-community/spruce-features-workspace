@@ -1,7 +1,7 @@
 import { eventAssertUtil } from '@sprucelabs/spruce-event-utils'
 import { test, assert } from '@sprucelabs/test'
 import { AbstractSpruceFixtureTest } from '../..'
-import { eventMocker } from '../../tests/eventMocker'
+import eventMocker from '../../tests/eventMocker'
 
 export default class MockingErrorResponsesTest extends AbstractSpruceFixtureTest {
 	@test('mocking whoami::v2020_12_25', 'whoami::v2020_12_25')

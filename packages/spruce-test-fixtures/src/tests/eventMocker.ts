@@ -2,7 +2,7 @@ import { EventNames, SkillEventContract } from '@sprucelabs/mercury-types'
 import { MercuryFixture } from '..'
 import SpruceError from '../errors/SpruceError'
 
-export const eventMocker = {
+const eventMocker = {
 	async makeEventThrow(
 		mercuryFixture: MercuryFixture,
 		//@ts-ignore
@@ -17,3 +17,5 @@ export const eventMocker = {
 		})
 	},
 }
+
+export default eventMocker
