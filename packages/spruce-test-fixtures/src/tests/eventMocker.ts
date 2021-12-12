@@ -3,6 +3,7 @@ import { MercuryFixture } from '..'
 import SpruceError from '../errors/SpruceError'
 
 const eventMocker = {
+	/** @ts-ignore */
 	async makeEventThrow(
 		mercuryFixture: MercuryFixture,
 		fqen: keyof SkillEventContract['eventSignatures']
