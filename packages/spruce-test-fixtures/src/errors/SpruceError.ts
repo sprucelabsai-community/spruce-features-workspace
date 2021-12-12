@@ -31,7 +31,7 @@ export default class SpruceError extends BaseSpruceError<ErrorOptions> {
 				break
 
 			case 'MOCK_EVENT_ERROR':
-				message = `A mocked response through an error! Probably time to try/catch and render an alert()!`
+				message = `A mocked response threw an error! Probably time to try/catch and render an alert()!`
 				break
 
 			default:
