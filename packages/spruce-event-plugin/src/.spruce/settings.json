@@ -13,5 +13,10 @@
       "rebuild",
       "update.dependencies"
     ]
+  },
+  "writer": {
+    "skipped": [
+      "tsconfig.json"
+    ]
   }
 }
