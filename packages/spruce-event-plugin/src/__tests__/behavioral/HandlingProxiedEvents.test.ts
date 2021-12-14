@@ -1,5 +1,4 @@
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
-import { MercuryFixture } from '@sprucelabs/spruce-test-fixtures'
 import { test, assert } from '@sprucelabs/test'
 import { EventFeature } from '../..'
 import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
@@ -8,7 +7,6 @@ export default class HandlingProxiedEventsTest extends AbstractEventPluginTest {
 	protected static async beforeEach() {
 		await super.beforeEach()
 		this.cwd = await this.generateSkillFromTestPath('registered-skill-proxied')
-		MercuryFixture.setShouldMixinCoreEventContractsWhenImportingLocal(true)
 	}
 
 	@test()

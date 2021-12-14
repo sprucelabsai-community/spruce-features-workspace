@@ -25,7 +25,6 @@ export default class MercuryFixture {
 	private cwd: string
 
 	private static shouldAutoImportContracts = true
-	private static shouldMixinCoreEventContractWhenImportingLocal = false
 	private static defaultClient?: MercuryClient
 	private static shouldAutomaticallyClearDefaultClient = true
 	private auth?: AuthService
@@ -145,9 +144,7 @@ export default class MercuryFixture {
 
 				let contracts = require(combinedContract).default
 
-				if (MercuryFixture.shouldMixinCoreEventContractWhenImportingLocal) {
-					contracts = [...contracts, ...coreEventContracts]
-				}
+				contracts = [...contracts, ...coreEventContracts]
 
 				const combined = eventContractUtil.unifyContracts(contracts)
 
@@ -211,12 +208,6 @@ export default class MercuryFixture {
 		}
 
 		this.setDefaultContractToCoreContract()
-	}
-
-	public static setShouldMixinCoreEventContractsWhenImportingLocal(
-		shouldMixin: boolean
-	) {
-		this.shouldMixinCoreEventContractWhenImportingLocal = shouldMixin
 	}
 
 	public static setShouldAutoImportContracts(shouldImport: boolean) {
