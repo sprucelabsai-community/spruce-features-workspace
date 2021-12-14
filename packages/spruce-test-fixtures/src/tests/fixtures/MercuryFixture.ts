@@ -197,7 +197,7 @@ export default class MercuryFixture {
 			delete process.env.HOST
 		}
 
-		MercuryClientFactory.resetTestClient()
+		MercuryClientFactory.reset()
 		MercuryClientFactory.setIsTestMode(true)
 
 		if (this.shouldAutomaticallyClearDefaultClient) {

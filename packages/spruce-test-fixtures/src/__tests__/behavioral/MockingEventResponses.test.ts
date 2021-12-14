@@ -1,4 +1,7 @@
-import { eventAssertUtil } from '@sprucelabs/spruce-event-utils'
+import {
+	eventAssertUtil,
+	eventResponseUtil,
+} from '@sprucelabs/spruce-event-utils'
 import { test, assert } from '@sprucelabs/test'
 import { AbstractSpruceFixtureTest } from '../..'
 import eventMocker from '../../tests/eventMocker'
@@ -14,11 +17,9 @@ export default class MockingErrorResponsesTest extends AbstractSpruceFixtureTest
 		fqen: any,
 		targetAndPayload: any
 	) {
-		const mercuryFixture = this.Fixture('mercury')
-
 		await eventMocker.makeEventThrow(fqen)
 
-		const client = await mercuryFixture.connectToApi()
+		const client = await this.connectToApi()
 
 		const results = await client.emit(fqen, targetAndPayload)
 
@@ -27,5 +28,33 @@ export default class MockingErrorResponsesTest extends AbstractSpruceFixtureTest
 		eventAssertUtil.assertErrorFromResponse(results, 'MOCK_EVENT_ERROR', {
 			fqen,
 		})
+	}
+
+	@test()
+	protected static async mockEventsAreClearedFromPreviousTest() {
+		const client = await this.Fixture('mercury').connectToApi()
+
+		await client.on('request-pin::v2020_12_25', async () => {
+			return {
+				auth: {},
+				challenge: 'aoeu',
+				type: 'authenticated' as any,
+			}
+		})
+
+		const results = await client.emit('request-pin::v2020_12_25', {
+			payload: {
+				phone: '+555-000-0001',
+			},
+		})
+
+		eventResponseUtil.getFirstResponseOrThrow(results)
+	}
+
+	private static async connectToApi() {
+		const mercuryFixture = this.Fixture('mercury')
+
+		const client = await mercuryFixture.connectToApi()
+		return client
 	}
 }
