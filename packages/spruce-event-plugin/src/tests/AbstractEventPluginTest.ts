@@ -13,7 +13,7 @@ export default class AbstractEventPluginTest extends AbstractSpruceFixtureTest {
 		await super.beforeEach()
 
 		this.cwd = await this.generateSkillFromTestPath('skill')
-		MercuryFixture.beforeEach()
+		await MercuryFixture.beforeEach()
 		EventFeaturePlugin.shouldClientUseEventContracts(false)
 	}
 
