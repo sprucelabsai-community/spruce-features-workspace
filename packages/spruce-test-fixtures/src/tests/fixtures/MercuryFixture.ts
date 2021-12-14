@@ -109,7 +109,9 @@ export default class MercuryFixture {
 
 		if (currentSkill) {
 			const emitter = MercuryTestClient.getInternalEmitter({
-				eventSignatures: {},
+				eventSignatures: {
+					'authenticate::v2020_12_25': {},
+				},
 			})
 
 			await emitter.off('authenticate::v2020_12_25')
