@@ -89,7 +89,8 @@ export default class SkillFixtureTest extends AbstractSpruceFixtureTest {
 		assert.isTruthy(skill)
 		assert.isTruthy(client)
 
-		assert.isEqualDeep(skill, demoSkill)
+		assert.isEqual(skill.id, demoSkill.id)
+		assert.isEqual(skill.apiKey, demoSkill.apiKey)
 	}
 
 	@test()

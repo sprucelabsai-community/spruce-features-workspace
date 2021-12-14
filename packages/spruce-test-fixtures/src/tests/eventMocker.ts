@@ -1,14 +1,15 @@
+import { MercuryTestClient } from '@sprucelabs/mercury-client'
 import { SkillEventContract } from '@sprucelabs/mercury-types'
-import { MercuryFixture } from '..'
 import SpruceError from '../errors/SpruceError'
 
 const eventMocker = {
 	/** @ts-ignore */
-	async makeEventThrow(
-		mercuryFixture: MercuryFixture,
-		fqen: keyof SkillEventContract['eventSignatures']
-	) {
-		const client = await mercuryFixture.connectToApi()
+	async makeEventThrow(fqen: keyof SkillEventContract['eventSignatures']) {
+		const client = MercuryTestClient.getInternalEmitter({
+			eventSignatures: {
+				[fqen]: {},
+			},
+		})
 		await client.on(fqen as any, () => {
 			throw new SpruceError({
 				code: 'MOCK_EVENT_ERROR',

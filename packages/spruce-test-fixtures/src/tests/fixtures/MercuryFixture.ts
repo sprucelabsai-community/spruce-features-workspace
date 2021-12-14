@@ -1,15 +1,11 @@
-import {
-	MercuryClient,
-	MercuryClientFactory,
-	MercuryTestClient,
-} from '@sprucelabs/mercury-client'
+import { MercuryClient, MercuryClientFactory } from '@sprucelabs/mercury-client'
 import { coreEventContracts } from '@sprucelabs/mercury-core-events'
 import { SchemaError } from '@sprucelabs/schema'
 import {
 	eventContractUtil,
 	eventDiskUtil,
 } from '@sprucelabs/spruce-event-utils'
-import { diskUtil } from '@sprucelabs/spruce-skill-utils'
+import { AuthService, diskUtil } from '@sprucelabs/spruce-skill-utils'
 import {
 	TestConnectFactory,
 	TestConnectionOptions,
@@ -28,6 +24,7 @@ export default class MercuryFixture {
 	private static shouldMixinCoreEventContractWhenImportingLocal = false
 	private static defaultClient?: MercuryClient
 	private static shouldAutomaticallyClearDefaultClient = true
+	private auth?: AuthService
 
 	public static setDefaultClient(client: MercuryClient) {
 		//@ts-ignore
@@ -58,6 +55,11 @@ export default class MercuryFixture {
 		}
 
 		this.connectToApi = this.connectToApi.bind(this)
+		try {
+			this.auth = AuthService.Auth(this.cwd)
+		} catch {
+			//@ts-ignore
+		}
 	}
 
 	public async connectToApi(
@@ -90,9 +92,33 @@ export default class MercuryFixture {
 				TEST_HOST.includes('https://127.0.0.1'),
 		})
 
+		promise.then((client) => this.optionallyMockAuthenticate(client))
+
 		this.clientPromises.push(promise)
 
 		return promise
+	}
+
+	private async optionallyMockAuthenticate(client: MercuryClient) {
+		const currentSkill = this.auth?.getCurrentSkill()
+
+		if (currentSkill) {
+			await client.on('authenticate::v2020_12_25', async () => {
+				return {
+					type: 'authenticated' as any,
+					auth: {
+						skill: {
+							creators: [{}],
+							dateCreated: 0,
+							...currentSkill,
+							name: currentSkill.name ?? 'Current skill',
+						},
+					},
+				}
+			})
+		}
+
+		return client
 	}
 
 	private setDefaultContractToLocalEventsIfExist() {
@@ -149,7 +175,7 @@ export default class MercuryFixture {
 		this.originalHost = process.env.TEST_HOST ?? process.env.HOST ?? TEST_HOST
 	}
 
-	public static beforeEach() {
+	public static async beforeEach() {
 		MercuryFixture.shouldAutoImportContracts = true
 
 		if (this.originalHost) {
@@ -158,11 +184,8 @@ export default class MercuryFixture {
 			delete process.env.HOST
 		}
 
-		debugger
 		MercuryClientFactory.resetTestClient()
 		MercuryClientFactory.setIsTestMode(true)
-
-		const Test = MercuryTestClient
 
 		if (this.shouldAutomaticallyClearDefaultClient) {
 			this.clearDefaultClient()

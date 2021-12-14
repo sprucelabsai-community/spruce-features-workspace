@@ -33,5 +33,10 @@ export default class BootingASkillDelaysConnectTest extends AbstractEventPluginT
 
 		//@ts-ignore
 		assert.isFalse(client.isConnectedToApi)
+
+		await client.emit('whoami::v2020_12_25')
+
+		//@ts-ignore
+		assert.isTrue(client.isConnectedToApi)
 	}
 }

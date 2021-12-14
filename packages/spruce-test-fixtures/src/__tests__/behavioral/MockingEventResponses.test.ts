@@ -16,7 +16,7 @@ export default class MockingErrorResponsesTest extends AbstractSpruceFixtureTest
 	) {
 		const mercuryFixture = this.Fixture('mercury')
 
-		await eventMocker.makeEventThrow(mercuryFixture, fqen)
+		await eventMocker.makeEventThrow(fqen)
 
 		const client = await mercuryFixture.connectToApi()
 
