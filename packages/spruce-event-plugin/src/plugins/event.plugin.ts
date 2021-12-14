@@ -494,7 +494,6 @@ export class EventFeaturePlugin implements SkillFeature {
 	}
 
 	private async registerEvents() {
-		debugger
 		const client = await this.connectToApi()
 
 		if (this.isDestroyed) {
@@ -694,7 +693,6 @@ export class EventFeaturePlugin implements SkillFeature {
 
 		const currentSkill = await this.getCurrentSkill()
 
-		debugger
 		if (currentSkill) {
 			this.eventsIRegistered = []
 

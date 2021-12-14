@@ -25,14 +25,12 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 	protected static async badMercuryUrlCrashesSkillAsExpected() {
 		process.env.HOST = 'aoeu'
 		await assert.doesThrowAsync(() => this.bootSkill())
-		debugger
 	}
 
 	@test()
 	protected static async registersEventsOnBoot() {
-		debugger
 		this.cwd = await this.generateSkillFromTestPath('skill')
-		debugger
+
 		const { contracts, currentSkill: currentSkill } =
 			await this.register2SkillsInstallAtOrgAndBootSkill(async (skill) => {
 				this.generateGoodContractFileForSkill(skill)
@@ -130,7 +128,6 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 			name: 'my great skill',
 		})
 
-		debugger
 		const auth = AuthService.Auth(this.cwd)
 		auth.updateCurrentSkill(currentSkill)
 
