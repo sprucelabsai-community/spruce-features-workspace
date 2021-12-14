@@ -1,4 +1,8 @@
-import { MercuryClient, MercuryClientFactory } from '@sprucelabs/mercury-client'
+import {
+	MercuryClient,
+	MercuryClientFactory,
+	MercuryTestClient,
+} from '@sprucelabs/mercury-client'
 import { coreEventContracts } from '@sprucelabs/mercury-core-events'
 import { SchemaError } from '@sprucelabs/schema'
 import {
@@ -55,6 +59,7 @@ export default class MercuryFixture {
 		}
 
 		this.connectToApi = this.connectToApi.bind(this)
+
 		try {
 			this.auth = AuthService.Auth(this.cwd)
 		} catch {
@@ -67,7 +72,7 @@ export default class MercuryFixture {
 	): Promise<MercuryClient> {
 		const shouldReUseClient = options?.shouldReUseClient !== false
 		if (shouldReUseClient && MercuryFixture.defaultClient) {
-			return MercuryFixture.defaultClient
+			return this.optionallyMockAuthenticate(MercuryFixture.defaultClient)
 		}
 
 		if (shouldReUseClient && this.clientPromises.length > 0) {
@@ -103,6 +108,12 @@ export default class MercuryFixture {
 		const currentSkill = this.auth?.getCurrentSkill()
 
 		if (currentSkill) {
+			const emitter = MercuryTestClient.getInternalEmitter({
+				eventSignatures: {},
+			})
+
+			await emitter.off('authenticate::v2020_12_25')
+
 			await client.on('authenticate::v2020_12_25', async () => {
 				return {
 					type: 'authenticated' as any,

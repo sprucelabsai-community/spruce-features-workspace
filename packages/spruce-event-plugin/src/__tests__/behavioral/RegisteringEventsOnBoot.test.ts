@@ -2,6 +2,7 @@ import {
 	eventContractUtil,
 	eventResponseUtil,
 } from '@sprucelabs/spruce-event-utils'
+import { AuthService } from '@sprucelabs/spruce-skill-utils'
 import { MercuryFixture } from '@sprucelabs/spruce-test-fixtures'
 import { assert, test } from '@sprucelabs/test'
 import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
@@ -24,10 +25,14 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 	protected static async badMercuryUrlCrashesSkillAsExpected() {
 		process.env.HOST = 'aoeu'
 		await assert.doesThrowAsync(() => this.bootSkill())
+		debugger
 	}
 
 	@test()
 	protected static async registersEventsOnBoot() {
+		debugger
+		this.cwd = await this.generateSkillFromTestPath('skill')
+		debugger
 		const { contracts, currentSkill: currentSkill } =
 			await this.register2SkillsInstallAtOrgAndBootSkill(async (skill) => {
 				this.generateGoodContractFileForSkill(skill)
@@ -48,6 +53,7 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 		process.env.SHOULD_CACHE_EVENT_REGISTRATIONS = shouldCache
 		const currentSkill = await this.registerCurrentSkill()
 		this.generateGoodContractFileForSkill(currentSkill)
+
 		const client = await this.Fixture('mercury').connectToApi()
 
 		let registerEventCount = 0
@@ -124,8 +130,12 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 			name: 'my great skill',
 		})
 
-		process.env.SKILL_ID = currentSkill.id
-		process.env.SKILL_API_KEY = currentSkill.apiKey
+		debugger
+		const auth = AuthService.Auth(this.cwd)
+		auth.updateCurrentSkill(currentSkill)
+
+		await this.Fixture('mercury').connectToApi()
+
 		return currentSkill
 	}
 }

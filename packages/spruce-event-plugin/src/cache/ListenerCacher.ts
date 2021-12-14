@@ -9,11 +9,16 @@ export default class ListenerCacher {
 	private cwd: string
 	private _settings?: SettingsService
 	private listenerCacheKey: string
+	private static haveListenersChanged?: boolean
 
 	private get settingsPath() {
 		return `events.listenerCacheKeys.${cleanKey(this.host)}`
 	}
 	private host: string
+
+	public static setHaveListenersChanged(have: boolean) {
+		this.haveListenersChanged = have
+	}
 
 	public constructor(options: {
 		cwd: string
@@ -45,6 +50,9 @@ export default class ListenerCacher {
 	}
 
 	public haveListenersChanged() {
+		if (ListenerCacher.haveListenersChanged === false) {
+			return false
+		}
 		const existingCache = this.loadCurrentCacheKey()
 
 		return existingCache !== this.listenerCacheKey
