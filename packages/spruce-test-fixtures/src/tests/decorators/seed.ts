@@ -35,7 +35,10 @@ async function optionallyReset(Class: any, key: string) {
 }
 
 async function reset(Class: any) {
-	await Class.Fixture('seed').resetAccount()
+	if (Class.__shouldResetAccount) {
+		Class.__shouldResetAccount = false
+		await Class.Fixture('seed').resetAccount()
+	}
 	await StoreFixture.reset()
 }
 
@@ -91,6 +94,8 @@ function attachSeeder(
 		if (fixtureName === 'store') {
 			fixture = await fixture.Store(storeName)
 			options.TestClass = TestClass
+		} else {
+			TestClass.__shouldResetAccount = true
 		}
 
 		assert.isFunction(
