@@ -74,6 +74,8 @@ export default class MercuryFixtureTest extends AbstractSpruceFixtureTest {
 	protected static async importsContractIfLocalOneIsGenerated(sigs: any[]) {
 		this.cwd = diskUtil.createRandomTempDir()
 
+		MercuryFixture.setShouldMixinCoreEventContractsWhenImportingLocal(true)
+
 		const destination = diskUtil.resolvePath(
 			this.cwd,
 			HASH_SPRUCE_BUILD_DIR,

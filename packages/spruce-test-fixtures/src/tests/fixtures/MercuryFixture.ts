@@ -87,7 +87,7 @@ export default class MercuryFixture {
 			})
 		}
 
-		this.setDefaultContractToLocalEventsIfExist()
+		MercuryFixture.setDefaultContractToLocalEventsIfExist(this.cwd)
 
 		const promise = MercuryClientFactory.Client<any>({
 			host: TEST_HOST,
@@ -134,14 +134,14 @@ export default class MercuryFixture {
 		return client
 	}
 
-	private setDefaultContractToLocalEventsIfExist() {
+	public static setDefaultContractToLocalEventsIfExist(cwd: string) {
 		if (
 			MercuryFixture.shouldAutoImportContracts &&
-			diskUtil.doesBuiltHashSprucePathExist(this.cwd)
+			diskUtil.doesBuiltHashSprucePathExist(cwd)
 		) {
 			try {
 				const combinedContract =
-					eventDiskUtil.resolveCombinedEventsContractFile(this.cwd)
+					eventDiskUtil.resolveCombinedEventsContractFile(cwd)
 
 				let contracts = require(combinedContract).default
 
@@ -152,12 +152,12 @@ export default class MercuryFixture {
 				const combined = eventContractUtil.unifyContracts(contracts)
 
 				if (combined) {
-					MercuryClientFactory.setDefaultContract(combined)
+					MercuryFixture.setDefaultContract(combined)
 				}
 			} catch (err: any) {
 				//since we default to the
 				if (err.options?.code === 'EVENT_CONTRACTS_NOT_SYNCED') {
-					MercuryFixture.setDefaultContractToCoreContract()
+					MercuryFixture.setDefaultContract(coreEventContracts[0])
 					return
 				}
 
@@ -166,12 +166,16 @@ export default class MercuryFixture {
 						err.stack
 				)
 			}
+		} else {
+			MercuryFixture.setDefaultContract(coreEventContracts[0])
 		}
 	}
 
-	private static setDefaultContractToCoreContract() {
+	private static setDefaultContract(contract: any) {
 		//@ts-ignore
-		MercuryClientFactory.setDefaultContract(coreEventContracts[0])
+		MercuryClientFactory.setDefaultContract(contract)
+		//@ts-ignore
+		MercuryTestClient.emitter?.mixinOnlyUniqueSignatures(contract)
 	}
 
 	public getConnectFactory() {
@@ -210,7 +214,7 @@ export default class MercuryFixture {
 			this.clearDefaultClient()
 		}
 
-		this.setDefaultContractToCoreContract()
+		this.setDefaultContract(coreEventContracts[0])
 	}
 
 	public static setShouldMixinCoreEventContractsWhenImportingLocal(

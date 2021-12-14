@@ -5,32 +5,37 @@ import { MercuryFixture, ViewFixture } from '../..'
 type Client = MercuryClient
 
 export default function login(phone: string) {
-	return function (constructor: any) {
+	return function (Class: any) {
 		assert.isFunction(
-			constructor.Fixture,
+			Class.Fixture,
 			`You can only @login if your test extends AbstractSpruceFixtureTest`
 		)
 
 		MercuryFixture.setShouldAutomaticallyClearDefaultClient(false)
 		ViewFixture.setShouldAutomaticallyResetAuthenticator(false)
 
-		const beforeAll = constructor.beforeAll.bind(constructor)
+		const beforeAll = Class.beforeAll.bind(Class)
 
-		constructor.beforeAll = async () => {
+		Class.beforeAll = async () => {
 			MercuryClientFactory.setIsTestMode(true)
 
 			await beforeAll()
 
-			const { client } = await constructor
-				.Fixture('view')
-				.loginAsDemoPerson(phone)
+			const { client } = await Class.Fixture('view').loginAsDemoPerson(phone)
 
 			MercuryFixture.setDefaultClient(client)
 		}
 
-		const afterAll = constructor.afterAll.bind(constructor)
+		const beforeEach = Class.beforeEach.bind(Class)
 
-		constructor.afterAll = async () => {
+		Class.beforeEach = async () => {
+			MercuryFixture.setDefaultContractToLocalEventsIfExist(Class.cwd)
+			await beforeEach?.()
+		}
+
+		const afterAll = Class.afterAll.bind(Class)
+
+		Class.afterAll = async () => {
 			const client = MercuryFixture.getDefaultClient()
 			await client?.disconnect()
 
