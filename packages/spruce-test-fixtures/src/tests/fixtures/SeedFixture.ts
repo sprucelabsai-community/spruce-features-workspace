@@ -50,7 +50,7 @@ export default class SeedFixture {
 		return [first, ...locations]
 	}
 
-	public async resetAccount() {
-		await this.organizationFixture.deleteAllOrganizations()
+	public async resetAccount(phone?: string) {
+		await this.organizationFixture.deleteAllOrganizations(phone)
 	}
 }

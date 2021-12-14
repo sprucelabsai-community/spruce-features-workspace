@@ -24,8 +24,8 @@ export default class LoggingInAsCurrentSkillTest extends AbstractEventPluginTest
 		const results = await this.login()
 
 		const { type, auth } = eventResponseUtil.getFirstResponseOrThrow(results)
-		assert.isEqual(type, 'authenticated')
 
+		assert.isEqual(type, 'authenticated')
 		assert.isEqual(auth.skill?.id, skill.id)
 	}
 
