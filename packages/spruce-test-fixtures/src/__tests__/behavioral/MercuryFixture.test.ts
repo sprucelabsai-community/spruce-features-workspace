@@ -11,11 +11,6 @@ import MercuryFixture from '../../tests/fixtures/MercuryFixture'
 export default class MercuryFixtureTest extends AbstractSpruceFixtureTest {
 	private static fixture: MercuryFixture
 
-	protected static async beforeAll() {
-		await super.beforeAll()
-		MercuryFixture.beforeAll()
-	}
-
 	protected static async beforeEach() {
 		await super.beforeEach()
 		this.fixture = this.Fixture('mercury')
@@ -30,6 +25,13 @@ export default class MercuryFixtureTest extends AbstractSpruceFixtureTest {
 
 		//@ts-ignore
 		assert.isEqual(client.eventContract, coreEventContracts[0])
+	}
+
+	@test()
+	protected static async canGetMoreThanOneClient() {
+		debugger
+		await this.fixture.connectToApi({ shouldReUseClient: false })
+		await this.fixture.connectToApi({ shouldReUseClient: false })
 	}
 
 	@test()

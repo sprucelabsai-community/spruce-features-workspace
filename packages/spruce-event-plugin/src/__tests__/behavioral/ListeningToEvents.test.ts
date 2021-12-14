@@ -6,6 +6,7 @@ import {
 	eventResponseUtil,
 } from '@sprucelabs/spruce-event-utils'
 import { BootCallback, diskUtil } from '@sprucelabs/spruce-skill-utils'
+import { MercuryFixture } from '@sprucelabs/spruce-test-fixtures'
 import { assert, test } from '@sprucelabs/test'
 import { EventFeature } from '../..'
 import SpruceError from '../../errors/SpruceError'
@@ -23,6 +24,7 @@ export default class ReceivingEventsTest extends AbstractEventPluginTest {
 		await super.beforeEach()
 
 		MercuryClientFactory.setIsTestMode(false)
+		MercuryFixture.setShouldMixinCoreEventContractsWhenImportingLocal(true)
 
 		delete process.env.DID_BOOT_FIRED
 		delete process.env.WILL_BOOT_FIRED
