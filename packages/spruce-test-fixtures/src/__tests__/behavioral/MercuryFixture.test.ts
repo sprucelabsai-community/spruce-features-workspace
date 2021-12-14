@@ -29,7 +29,6 @@ export default class MercuryFixtureTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async canGetMoreThanOneClient() {
-		debugger
 		await this.fixture.connectToApi({ shouldReUseClient: false })
 		await this.fixture.connectToApi({ shouldReUseClient: false })
 	}
