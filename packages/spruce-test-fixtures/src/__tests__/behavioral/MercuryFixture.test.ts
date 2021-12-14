@@ -96,14 +96,10 @@ export default class MercuryFixtureTest extends AbstractSpruceFixtureTest {
 			sigs[0].eventSignatures
 		)
 
-		//should never include core event contracts, those are added
-		//to events.contract.ts
-		assert.doesThrow(() =>
-			eventContractUtil.getSignatureByName(
-				//@ts-ignore
-				client.eventContract,
-				'set-role::v2020_12_25'
-			)
+		eventContractUtil.getSignatureByName(
+			//@ts-ignore
+			client.eventContract,
+			'set-role::v2020_12_25'
 		)
 	}
 
