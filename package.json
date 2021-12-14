@@ -22,7 +22,7 @@
     "publish": "lerna publish",
     "build.resolve-paths": "lerna run build.resolve-paths",
     "rebuild": "yarn clean.all && yarn && yarn build.dev",
-    "test": "lerna run test --parallel --stream",
+    "test": "lerna run test",
     "upgrade.packages": "yarn add -D lerna -W ; for d in packages/*; do echo $d; cd $d; spruce upgrade; cd ../..; done",
     "upgrade.packages.all": "yarn install && yarn upgrade.packages",
     "update.dependencies": "yarn clean.dependencies && yarn; yarn add -D lerna -W ; for d in packages/*; do echo $d; cd $d; spruce update.dependencies; cd ../..; done",
