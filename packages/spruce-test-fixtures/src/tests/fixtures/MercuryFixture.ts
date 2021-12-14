@@ -199,8 +199,6 @@ export default class MercuryFixture {
 	}
 
 	public static async beforeEach(cwd: string) {
-		MercuryFixture.shouldAutoImportContracts = true
-
 		if (this.originalHost) {
 			process.env.HOST = this.originalHost
 		} else {

@@ -6,12 +6,9 @@ import { AuthService } from '@sprucelabs/spruce-skill-utils'
 import { MercuryFixture } from '@sprucelabs/spruce-test-fixtures'
 import { assert, test } from '@sprucelabs/test'
 import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
-export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest {
-	protected static async beforeEach() {
-		await super.beforeEach()
-		MercuryFixture.setShouldAutoImportContracts(false)
-	}
 
+MercuryFixture.setShouldAutoImportContracts(false)
+export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest {
 	@test()
 	protected static async noEventsRegisteredWhenNoEventsCreated() {
 		this.cwd = await this.generateSkillFromTestPath('empty-skill')
