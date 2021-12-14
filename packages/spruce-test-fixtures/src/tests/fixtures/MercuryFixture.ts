@@ -92,7 +92,7 @@ export default class MercuryFixture {
 				TEST_HOST.includes('https://127.0.0.1'),
 		})
 
-		promise.then((client) => this.optionallyMockAuthenticate(client))
+		void promise.then((client) => this.optionallyMockAuthenticate(client))
 
 		this.clientPromises.push(promise)
 
