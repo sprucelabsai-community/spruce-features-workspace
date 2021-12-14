@@ -157,8 +157,7 @@ export default class MercuryFixture {
 			} catch (err: any) {
 				//since we default to the
 				if (err.options?.code === 'EVENT_CONTRACTS_NOT_SYNCED') {
-					//@ts-ignore
-					MercuryClientFactory.setDefaultContract(coreEventContracts[0])
+					MercuryFixture.setDefaultContractToCoreContract()
 					return
 				}
 
@@ -168,6 +167,11 @@ export default class MercuryFixture {
 				)
 			}
 		}
+	}
+
+	private static setDefaultContractToCoreContract() {
+		//@ts-ignore
+		MercuryClientFactory.setDefaultContract(coreEventContracts[0])
 	}
 
 	public getConnectFactory() {
@@ -205,6 +209,8 @@ export default class MercuryFixture {
 		if (this.shouldAutomaticallyClearDefaultClient) {
 			this.clearDefaultClient()
 		}
+
+		this.setDefaultContractToCoreContract()
 	}
 
 	public static setShouldMixinCoreEventContractsWhenImportingLocal(
