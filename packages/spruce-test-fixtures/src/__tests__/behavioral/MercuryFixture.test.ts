@@ -1,9 +1,12 @@
-import { MercuryConnectFactory } from '@sprucelabs/mercury-client'
+import {
+	MercuryConnectFactory,
+	MercuryTestClient,
+} from '@sprucelabs/mercury-client'
 import { coreEventContracts } from '@sprucelabs/mercury-core-events'
 import { eventContractUtil } from '@sprucelabs/spruce-event-utils'
 import { diskUtil, HASH_SPRUCE_BUILD_DIR } from '@sprucelabs/spruce-skill-utils'
 import { test, assert } from '@sprucelabs/test'
-import { TestConnectFactory } from '../..'
+import { TestConnectFactory, TestConnectionOptions } from '../..'
 import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
 import FixtureFactory from '../../tests/fixtures/FixtureFactory'
 import MercuryFixture from '../../tests/fixtures/MercuryFixture'
@@ -72,23 +75,9 @@ export default class MercuryFixtureTest extends AbstractSpruceFixtureTest {
 		},
 	])
 	protected static async importsContractIfLocalOneIsGenerated(sigs: any[]) {
-		this.cwd = diskUtil.createRandomTempDir()
+		this.createDirWriteContractFileAndSetCwd(sigs)
 
-		MercuryFixture.setShouldMixinCoreEventContractsWhenImportingLocal(true)
-
-		const destination = diskUtil.resolvePath(
-			this.cwd,
-			HASH_SPRUCE_BUILD_DIR,
-			'events/events.contract.js'
-		)
-
-		const contents = `exports["default"] = ${JSON.stringify(sigs)};`
-
-		diskUtil.writeFile(destination, contents)
-
-		const client = await new FixtureFactory({ cwd: this.cwd })
-			.Fixture('mercury')
-			.connectToApi()
+		const client = await this.connectToApi()
 
 		//@ts-ignore
 		assert.isTruthy(client.eventContract)
@@ -107,6 +96,23 @@ export default class MercuryFixtureTest extends AbstractSpruceFixtureTest {
 	}
 
 	@test()
+	protected static async beforeEachResetsBackToSavedContract() {
+		this.createDirWriteContractFileAndSetCwd([
+			{
+				eventSignatures: {
+					['new-event']: true,
+				},
+			},
+		])
+
+		const client = (await this.connectToApi()) as MercuryTestClient
+
+		MercuryFixture.beforeEach(this.cwd)
+
+		await client.on('new-event', () => {})
+	}
+
+	@test()
 	protected static async typesTestProperly() {
 		const test = () => {
 			return {} as TestConnectFactory
@@ -120,7 +126,7 @@ export default class MercuryFixtureTest extends AbstractSpruceFixtureTest {
 	@test()
 	protected static async canSetDefaultClient() {
 		assert.isFunction(MercuryFixture.setDefaultClient)
-		const client = await this.Fixture('mercury').connectToApi()
+		const client = await this.connectToApi()
 
 		MercuryFixture.setDefaultClient(client)
 
@@ -129,30 +135,30 @@ export default class MercuryFixtureTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async allClientsGoingForwardUseThatClient() {
-		const client = await this.Fixture('mercury').connectToApi()
+		const client = await this.connectToApi()
 
 		MercuryFixture.setDefaultClient(client)
 
-		const client2 = await this.Fixture('mercury').connectToApi()
+		const client2 = await this.connectToApi()
 
 		assert.isEqual(client, client2)
 	}
 
 	@test()
 	protected static async resetsDefaultClientBeforeEach() {
-		const client = await this.Fixture('mercury').connectToApi()
+		const client = await this.connectToApi()
 
 		MercuryFixture.setDefaultClient(client)
-		await MercuryFixture.beforeEach()
+		await MercuryFixture.beforeEach(this.cwd)
 
-		const client2 = await this.Fixture('mercury').connectToApi()
+		const client2 = await this.connectToApi()
 
 		assert.isNotEqual(client, client2)
 	}
 
 	@test()
 	protected static async canForceNewClient() {
-		const client = await this.Fixture('mercury').connectToApi()
+		const client = await this.connectToApi()
 
 		MercuryFixture.setDefaultClient(client)
 
@@ -161,5 +167,28 @@ export default class MercuryFixtureTest extends AbstractSpruceFixtureTest {
 		})
 
 		assert.isNotEqual(client, client2)
+	}
+
+	private static async connectToApi(options?: TestConnectionOptions) {
+		return await new FixtureFactory({ cwd: this.cwd })
+			.Fixture('mercury')
+			.connectToApi(options)
+	}
+
+	private static createDirWriteContractFileAndSetCwd(sigs: any[]) {
+		this.cwd = diskUtil.createRandomTempDir()
+
+		const destination = diskUtil.resolvePath(
+			this.cwd,
+			HASH_SPRUCE_BUILD_DIR,
+			'events/events.contract.js'
+		)
+
+		const contents = `exports["default"] = ${JSON.stringify([
+			...coreEventContracts,
+			...sigs,
+		])};`
+
+		diskUtil.writeFile(destination, contents)
 	}
 }

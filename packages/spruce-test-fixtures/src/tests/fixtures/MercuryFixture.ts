@@ -198,7 +198,7 @@ export default class MercuryFixture {
 		this.originalHost = process.env.TEST_HOST ?? process.env.HOST ?? TEST_HOST
 	}
 
-	public static async beforeEach() {
+	public static async beforeEach(cwd: string) {
 		MercuryFixture.shouldAutoImportContracts = true
 
 		if (this.originalHost) {
@@ -214,7 +214,7 @@ export default class MercuryFixture {
 			this.clearDefaultClient()
 		}
 
-		this.setDefaultContract(coreEventContracts[0])
+		this.setDefaultContractToLocalEventsIfExist(cwd)
 	}
 
 	public static setShouldMixinCoreEventContractsWhenImportingLocal(

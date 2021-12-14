@@ -183,10 +183,10 @@ export default class FixtureFactory {
 		])
 	}
 
-	public static async beforeEach() {
+	public static async beforeEach(cwd: string) {
 		await Promise.all([
 			ViewFixture.beforeEach(),
-			MercuryFixture.beforeEach(),
+			MercuryFixture.beforeEach(cwd),
 			StoreFixture.beforeEach(),
 			EventFixture.beforeEach(),
 			SchemaFixture.beforeEach(),
