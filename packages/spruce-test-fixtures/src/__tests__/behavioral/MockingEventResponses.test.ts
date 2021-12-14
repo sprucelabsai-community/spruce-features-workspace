@@ -36,9 +36,7 @@ export default class MockingErrorResponsesTest extends AbstractSpruceFixtureTest
 
 		await client.on('request-pin::v2020_12_25', async () => {
 			return {
-				auth: {},
 				challenge: 'aoeu',
-				type: 'authenticated' as any,
 			}
 		})
 

@@ -197,6 +197,7 @@ export default class OrganizationFixture {
 
 	public async deleteAllOrganizations(phone?: string) {
 		const { client } = await this.personFixture.loginAsDemoPerson(phone)
+
 		const results = await client.emit('list-organizations::v2020_12_25', {
 			payload: {
 				shouldOnlyShowMine: true,

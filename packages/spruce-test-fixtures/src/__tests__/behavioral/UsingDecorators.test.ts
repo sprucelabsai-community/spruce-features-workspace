@@ -29,7 +29,7 @@ export default class UsingDecoratorsTest extends AbstractSpruceFixtureTest {
 		const auth = AuthenticatorImpl.getInstance()
 		assert.isTruthy(auth.getSessionToken())
 
-		const client = MercuryFixture.getDefaultClient()
+		const client = login.getClient()
 
 		assert.isTruthy(client)
 		assert.isTrue(client.isConnected())
