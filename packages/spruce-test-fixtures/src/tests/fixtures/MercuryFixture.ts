@@ -114,10 +114,7 @@ export default class MercuryFixture {
 				},
 			})
 
-			try {
-				await emitter.off('authenticate::v2020_12_25')
-				// eslint-disable-next-line no-empty
-			} catch {}
+			await emitter.off('authenticate::v2020_12_25')
 
 			await client.on('authenticate::v2020_12_25', async () => {
 				return {
