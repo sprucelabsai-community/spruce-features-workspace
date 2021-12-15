@@ -4,9 +4,12 @@ import {
 } from '@sprucelabs/spruce-event-utils'
 import { test, assert } from '@sprucelabs/test'
 import { errorAssertUtil } from '@sprucelabs/test-utils'
+import { login } from '../..'
 import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
+import { DEMO_NUMBER_SKILL_FIXTURE } from '../../tests/constants'
 import SkillFixture from '../../tests/fixtures/SkillFixture'
 
+@login(DEMO_NUMBER_SKILL_FIXTURE)
 export default class SkillFixtureTest extends AbstractSpruceFixtureTest {
 	private static fixture: SkillFixture
 

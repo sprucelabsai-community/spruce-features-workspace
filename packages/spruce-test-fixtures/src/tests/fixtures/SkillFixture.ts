@@ -139,15 +139,13 @@ export default class SkillFixture {
 
 	public async destroy() {
 		await Promise.all(
-			this.skills.map(async ({ skill, client }) => {
-				const results = await client.emit('unregister-skill::v2020_12_25', {
+			this.skills.map(async ({ skill, client }) =>
+				client.emit('unregister-skill::v2020_12_25', {
 					target: {
 						skillId: skill.id,
 					},
 				})
-
-				eventResponseUtil.getFirstResponseOrThrow(results)
-			})
+			)
 		)
 
 		this.skills = []
