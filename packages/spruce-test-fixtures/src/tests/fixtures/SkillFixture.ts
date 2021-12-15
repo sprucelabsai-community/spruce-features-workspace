@@ -63,19 +63,17 @@ export default class SkillFixture {
 	}): Promise<{ skill: Skill; client: Client }> {
 		const { client } = await this.personFixture.loginAsDemoPerson()
 
-		const results = await client.emit('register-skill::v2020_12_25', {
-			payload: {
-				slug: this.generateSkillSlug(),
-				...values,
-				name: `${values.name} (SkillFixture)`,
-			},
+		const skill = await this.seedDemoSkill({
+			slug: this.generateSkillSlug(),
+			...values,
+			name: `${values.name} (SkillFixture)`,
 		})
-
-		const { skill } = eventResponseUtil.getFirstResponseOrThrow(results)
 
 		const skillClient = (await this.connectToApi({
 			shouldReUseClient: false,
-		})) as any
+		})) as Client
+
+		await skillClient.off('authenticate::v2020_12_25')
 
 		await skillClient.authenticate({
 			skillId: skill.id,

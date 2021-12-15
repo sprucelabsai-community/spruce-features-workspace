@@ -2,7 +2,6 @@ import {
 	eventContractUtil,
 	eventResponseUtil,
 } from '@sprucelabs/spruce-event-utils'
-import { AuthService } from '@sprucelabs/spruce-skill-utils'
 import { MercuryFixture } from '@sprucelabs/spruce-test-fixtures'
 import { assert, test } from '@sprucelabs/test'
 import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
@@ -118,18 +117,5 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 		const contracts = payload.contracts
 
 		return { contracts, currentSkill, skill2 }
-	}
-
-	private static async registerCurrentSkill() {
-		const currentSkill = await this.Fixture('skill').seedDemoSkill({
-			name: 'my great skill',
-		})
-
-		const auth = AuthService.Auth(this.cwd)
-		auth.updateCurrentSkill(currentSkill)
-
-		await this.Fixture('mercury').connectToApi()
-
-		return currentSkill
 	}
 }

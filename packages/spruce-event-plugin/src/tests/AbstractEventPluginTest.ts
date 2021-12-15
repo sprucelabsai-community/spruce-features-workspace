@@ -1,6 +1,6 @@
 import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
 import { SkillFactoryOptions } from '@sprucelabs/spruce-skill-booter'
-import { diskUtil } from '@sprucelabs/spruce-skill-utils'
+import { AuthService, diskUtil } from '@sprucelabs/spruce-skill-utils'
 import {
 	MercuryFixture,
 	AbstractSpruceFixtureTest,
@@ -65,5 +65,18 @@ export default class AbstractEventPluginTest extends AbstractSpruceFixtureTest {
 	) {
 		const fixture = this.EventFixture()
 		return fixture.generateGoodContractFileForSkill(skill.slug)
+	}
+
+	protected static async registerCurrentSkill() {
+		const currentSkill = await this.Fixture('skill').seedDemoSkill({
+			name: 'my great skill',
+		})
+
+		const auth = AuthService.Auth(this.cwd)
+		auth.updateCurrentSkill(currentSkill)
+
+		await this.Fixture('mercury').connectToApi()
+
+		return currentSkill
 	}
 }
