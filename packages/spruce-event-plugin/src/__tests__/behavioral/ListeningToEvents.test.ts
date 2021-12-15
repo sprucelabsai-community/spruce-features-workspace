@@ -335,7 +335,7 @@ export default class ListeningToEventsTest extends AbstractEventPluginTest {
 		assert.isEqual(taco, 'yes please')
 	}
 
-	@test()
+	@test.only()
 	protected static async canEmitFromListenerOnAnonEvent() {
 		const { fqen, currentSkill } = await this.registerSkillAndSetupListeners({
 			testDir: 'registered-skill-proxied',
@@ -520,6 +520,11 @@ export default class ListeningToEventsTest extends AbstractEventPluginTest {
 		this.cwd = await this.generateSkillFromTestPath(
 			options?.testDir ?? 'registered-skill'
 		)
-		return this.EventFixture().registerSkillAndSetupListeners(options)
+
+		debugger
+
+		return this.EventFixture().registerSkillAndSetupListeners({
+			...options,
+		})
 	}
 }
