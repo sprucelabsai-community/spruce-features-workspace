@@ -4,7 +4,7 @@ import {
 	buildEmitTargetAndPayloadSchema,
 	eventResponseUtil,
 } from '@sprucelabs/spruce-event-utils'
-import { diskUtil, Skill } from '@sprucelabs/spruce-skill-utils'
+import { AuthService, diskUtil, Skill } from '@sprucelabs/spruce-skill-utils'
 import { MercuryFixture, SkillFixture } from '@sprucelabs/spruce-test-fixtures'
 import { EventFeaturePlugin } from '../../plugins/event.plugin'
 
@@ -110,7 +110,6 @@ export default class EventFixture {
 	}
 
 	public async registerSkillAndSetupListeners(options?: {
-		skillDir?: string
 		onUnregisterListeners?: () => void
 		onAttachListeners?: (client: MercuryClient) => void
 		onSetShouldAutoRegisterListeners?: (should: boolean) => void
@@ -138,8 +137,8 @@ export default class EventFixture {
 		this.dropInNamespaceToListenerMap(skill.slug)
 		this.generateGoodContractFileForSkill(skill.slug, options?.eventSignature)
 
-		process.env.SKILL_ID = skill.id
-		process.env.SKILL_API_KEY = skill.apiKey
+		const auth = AuthService.Auth(this.cwd)
+		auth.updateCurrentSkill(skill)
 
 		if (options?.onUnregisterListeners) {
 			const client2 = await this.mercuryFixture.connectToApi()
