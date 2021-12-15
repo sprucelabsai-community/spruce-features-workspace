@@ -116,6 +116,8 @@ export default class MercuryFixture {
 
 			await emitter.off('authenticate::v2020_12_25')
 
+			client.setShouldAutoRegisterListeners(false)
+
 			await client.on('authenticate::v2020_12_25', async () => {
 				return {
 					type: 'authenticated' as any,

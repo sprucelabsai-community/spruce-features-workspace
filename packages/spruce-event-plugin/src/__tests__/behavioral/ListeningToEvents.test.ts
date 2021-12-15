@@ -19,7 +19,7 @@ declare module '@sprucelabs/spruce-skill-utils/build/types/skill.types' {
 	}
 }
 
-export default class ReceivingEventsTest extends AbstractEventPluginTest {
+export default class ListeningToEventsTest extends AbstractEventPluginTest {
 	protected static async beforeEach() {
 		await super.beforeEach()
 
