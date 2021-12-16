@@ -100,15 +100,12 @@ export default class LocationFixture {
 		return locations.pop() ?? null
 	}
 
-	public async listLocations(options: {
-		organizationId: string
-		phone?: string
-	}) {
-		const { client } = await this.personFixture.loginAsDemoPerson(options.phone)
+	public async listLocations(organizationId: string) {
+		const { client } = await this.personFixture.loginAsDemoPerson()
 
 		const results = await client.emit('list-locations::v2020_12_25', {
 			target: {
-				organizationId: options?.organizationId,
+				organizationId,
 			},
 			payload: {
 				includePrivateLocations: true,
@@ -120,12 +117,8 @@ export default class LocationFixture {
 		return locations
 	}
 
-	public async isPartOfLocation(
-		personId: string,
-		locationId: string,
-		phone?: string
-	) {
-		const { client } = await this.personFixture.loginAsDemoPerson(phone)
+	public async isPartOfLocation(personId: string, locationId: string) {
+		const { client } = await this.personFixture.loginAsDemoPerson()
 
 		const results = await client.emit('list-roles::v2020_12_25', {
 			payload: {
@@ -142,7 +135,47 @@ export default class LocationFixture {
 		return roles.length > 0
 	}
 
-	public async addToLocation(_personId: string, _locationId: string) {}
+	public async addPerson(options: {
+		personId: string
+		organizationId: string
+		locationId: string
+		roleBase: string
+	}) {
+		const { personId, organizationId, locationId, roleBase } = options
+
+		const { client } = await this.personFixture.loginAsDemoPerson()
+
+		const roleResults = await client.emit('list-roles::v2020_12_25', {
+			payload: {
+				shouldIncludePrivateRoles: true,
+			},
+			target: {
+				organizationId,
+			},
+		})
+
+		const { roles } = eventResponseUtil.getFirstResponseOrThrow(roleResults)
+
+		const match = roles.find((r) => r.base === roleBase)
+
+		if (!match) {
+			throw Error(`Could not find role based on ${roleBase}.`)
+		}
+
+		const roleId = match.id
+
+		const setRoleResults = await client.emit('set-role::v2020_12_25', {
+			target: {
+				locationId,
+			},
+			payload: {
+				personId,
+				roleId,
+			},
+		})
+
+		eventResponseUtil.getFirstResponseOrThrow(setRoleResults)
+	}
 
 	public async destory() {}
 }
