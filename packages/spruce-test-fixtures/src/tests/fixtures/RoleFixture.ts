@@ -1,22 +1,28 @@
-import { MercuryConnectFactory } from '@sprucelabs/mercury-client'
 import { SchemaError } from '@sprucelabs/schema'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
+import { assert } from '@sprucelabs/test'
 import OrganizationFixture from './OrganizationFixture'
+import PersonFixture from './PersonFixture'
 
 export default class RoleFixture {
-	private connectToApi: MercuryConnectFactory
 	private organizationFixture: OrganizationFixture
+	private personFixture: PersonFixture
 
 	public constructor(options: {
-		connectToApi: MercuryConnectFactory
+		personFixture: PersonFixture
 		organizationFixture: OrganizationFixture
 	}) {
-		this.connectToApi = options.connectToApi
+		this.personFixture = options.personFixture
 		this.organizationFixture = options.organizationFixture
 	}
 
-	public async listRoles(options?: { organizationId?: string }) {
-		const client = await this.connectToApi()
+	public async listRoles(options?: {
+		organizationId?: string
+		phone?: string
+	}) {
+		const { client } = await this.personFixture.loginAsDemoPerson(
+			options?.phone
+		)
 		let orgId = options?.organizationId
 
 		if (!orgId) {
@@ -45,5 +51,18 @@ export default class RoleFixture {
 		const { roles } = eventResponseUtil.getFirstResponseOrThrow(results)
 
 		return roles
+	}
+
+	public async fetchFirstRoleWithBase(options: {
+		organizationId: string
+		base: string
+		phone?: string
+	}) {
+		const roles = await this.listRoles(options)
+		const role = roles.find((role) => role.base === options.base)
+
+		assert.isTruthy(role)
+
+		return role
 	}
 }

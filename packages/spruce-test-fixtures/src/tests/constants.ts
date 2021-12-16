@@ -27,3 +27,5 @@ export const DEMO_NUMBER_ACCOUNT_RESET =
 
 export const DEMO_NUMBER_SKILL_FIXTURE =
 	process.env.DEMO_NUMBER_SKILL_FIXTURE ?? '***missing***'
+export const DEMO_NUMBER_LOCATION_FIXTURE_OUTSIDER =
+	process.env.DEMO_NUMBER_LOCATION_FIXTURE_OUTSIDER ?? '***missing***'

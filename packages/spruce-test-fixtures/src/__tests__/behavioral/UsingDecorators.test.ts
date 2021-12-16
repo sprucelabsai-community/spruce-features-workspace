@@ -163,9 +163,9 @@ export default class UsingDecoratorsTest extends AbstractSpruceFixtureTest {
 		assert.isTruthy(org)
 
 		const organizationId = org.id
-		const locations = await this.Fixture('location').listLocations(
-			organizationId
-		)
+		const locations = await this.Fixture('location').listLocations({
+			organizationId,
+		})
 
 		assert.isLength(locations, expected)
 	}

@@ -56,7 +56,7 @@ export default class FixtureFactory {
 			}
 			case 'role': {
 				fixture = new RoleFixture({
-					connectToApi: mercuryFixture.getConnectFactory(),
+					personFixture: this.Fixture('person'),
 					organizationFixture: this.Fixture('organization'),
 				}) as FixtureMap[Name]
 				break

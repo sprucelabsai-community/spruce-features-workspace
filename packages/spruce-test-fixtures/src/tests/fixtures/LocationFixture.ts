@@ -100,12 +100,15 @@ export default class LocationFixture {
 		return locations.pop() ?? null
 	}
 
-	public async listLocations(organizationId: string) {
-		const { client } = await this.personFixture.loginAsDemoPerson()
+	public async listLocations(options: {
+		organizationId: string
+		phone?: string
+	}) {
+		const { client } = await this.personFixture.loginAsDemoPerson(options.phone)
 
 		const results = await client.emit('list-locations::v2020_12_25', {
 			target: {
-				organizationId,
+				organizationId: options?.organizationId,
 			},
 			payload: {
 				includePrivateLocations: true,
@@ -116,6 +119,30 @@ export default class LocationFixture {
 
 		return locations
 	}
+
+	public async isPartOfLocation(
+		personId: string,
+		locationId: string,
+		phone?: string
+	) {
+		const { client } = await this.personFixture.loginAsDemoPerson(phone)
+
+		const results = await client.emit('list-roles::v2020_12_25', {
+			payload: {
+				shouldIncludePrivateRoles: true,
+			},
+			target: {
+				locationId,
+				personId,
+			},
+		})
+
+		const { roles } = eventResponseUtil.getFirstResponseOrThrow(results)
+
+		return roles.length > 0
+	}
+
+	public async addToLocation(_personId: string, _locationId: string) {}
 
 	public async destory() {}
 }
