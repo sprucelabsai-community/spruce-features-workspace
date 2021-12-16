@@ -21,6 +21,7 @@ export default class LocationFixtureTest extends AbstractSpruceFixtureTest {
 
 		const seedFixture = this.Fixture('seed')
 		await seedFixture.resetAccount(DEMO_NUMBER_LOCATION_FIXTURE)
+		await seedFixture.resetAccount(DEMO_NUMBER_LOCATION_FIXTURE_OUTSIDER)
 	}
 
 	@test()
@@ -41,7 +42,9 @@ export default class LocationFixtureTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async canCreatLocationWithNoParams() {
-		const location = await this.Fixture('location').seedDemoLocation()
+		const location = await this.Fixture('location').seedDemoLocation({
+			phone: DEMO_NUMBER_LOCATION_FIXTURE,
+		})
 		assert.isTruthy(location)
 	}
 
@@ -100,6 +103,7 @@ export default class LocationFixtureTest extends AbstractSpruceFixtureTest {
 			personId: person.id,
 			locationId: location.id,
 		})
+
 		assert.isTrue(isHired)
 	}
 }
