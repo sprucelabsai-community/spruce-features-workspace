@@ -2,18 +2,22 @@ import { SpruceSchemas } from '@sprucelabs/mercury-types'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import OrganizationFixture from './OrganizationFixture'
 import PersonFixture from './PersonFixture'
+import RoleFixture from './RoleFixture'
 
 export default class LocationFixture {
 	private personFixture: PersonFixture
 	private organizationFixture: OrganizationFixture
+	private roleFixture: RoleFixture
 	private locationCounter = 0
 
 	public constructor(options: {
 		personFixture: PersonFixture
 		organizationFixture: OrganizationFixture
+		roleFixture: RoleFixture
 	}) {
 		this.personFixture = options.personFixture
 		this.organizationFixture = options.organizationFixture
+		this.roleFixture = options.roleFixture
 	}
 
 	public async seedDemoLocation(
@@ -117,21 +121,12 @@ export default class LocationFixture {
 		return locations
 	}
 
-	public async isPartOfLocation(personId: string, locationId: string) {
-		const { client } = await this.personFixture.loginAsDemoPerson()
-
-		const results = await client.emit('list-roles::v2020_12_25', {
-			payload: {
-				shouldIncludePrivateRoles: true,
-			},
-			target: {
-				locationId,
-				personId,
-			},
-		})
-
-		const { roles } = eventResponseUtil.getFirstResponseOrThrow(results)
-
+	public async isPartOfLocation(options: {
+		personId: string
+		locationId: string
+		phone?: string
+	}) {
+		const roles = await this.roleFixture.listRoles(options)
 		return roles.length > 0
 	}
 
@@ -140,29 +135,19 @@ export default class LocationFixture {
 		organizationId: string
 		locationId: string
 		roleBase: string
+		phone?: string
 	}) {
-		const { personId, organizationId, locationId, roleBase } = options
+		const { personId, organizationId, locationId, roleBase, phone } = options
 
-		const { client } = await this.personFixture.loginAsDemoPerson()
+		const { client } = await this.personFixture.loginAsDemoPerson(phone)
 
-		const roleResults = await client.emit('list-roles::v2020_12_25', {
-			payload: {
-				shouldIncludePrivateRoles: true,
-			},
-			target: {
-				organizationId,
-			},
+		const role = await this.roleFixture.fetchFirstRoleWithBase({
+			organizationId,
+			base: roleBase,
+			phone,
 		})
 
-		const { roles } = eventResponseUtil.getFirstResponseOrThrow(roleResults)
-
-		const match = roles.find((r) => r.base === roleBase)
-
-		if (!match) {
-			throw Error(`Could not find role based on ${roleBase}.`)
-		}
-
-		const roleId = match.id
+		const roleId = role.id
 
 		const setRoleResults = await client.emit('set-role::v2020_12_25', {
 			target: {

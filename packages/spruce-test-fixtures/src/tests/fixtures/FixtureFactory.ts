@@ -57,7 +57,9 @@ export default class FixtureFactory {
 			case 'role': {
 				fixture = new RoleFixture({
 					personFixture: this.Fixture('person'),
-					organizationFixture: this.Fixture('organization'),
+					getNewestOrg: async () => {
+						return this.Fixture('organization').getNewestOrganization()
+					},
 				}) as FixtureMap[Name]
 				break
 			}
@@ -68,7 +70,10 @@ export default class FixtureFactory {
 					new PersonFixture({
 						connectToApi: mercuryFixture.getConnectFactory(),
 					})
-				fixture = new OrganizationFixture({ personFixture }) as FixtureMap[Name]
+				fixture = new OrganizationFixture({
+					personFixture,
+					roleFixture: this.Fixture('role'),
+				}) as FixtureMap[Name]
 				break
 			}
 			case 'skill': {
@@ -91,6 +96,7 @@ export default class FixtureFactory {
 			}
 			case 'location': {
 				fixture = new LocationFixture({
+					roleFixture: this.Fixture('role'),
 					//@ts-ignore
 					personFixture: options?.personFixture ?? this.Fixture('person'),
 					organizationFixture:

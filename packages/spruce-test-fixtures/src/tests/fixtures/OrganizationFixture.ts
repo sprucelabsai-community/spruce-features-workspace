@@ -3,14 +3,20 @@ import { assertOptions } from '@sprucelabs/schema'
 import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import PersonFixture from './PersonFixture'
+import RoleFixture from './RoleFixture'
 
 export default class OrganizationFixture {
 	private personFixture: PersonFixture
 	private organizations: { organization: any; client: MercuryClient }[] = []
 	private orgCounter = process.pid
+	private roleFixture: RoleFixture
 
-	public constructor(options: { personFixture: PersonFixture }) {
+	public constructor(options: {
+		personFixture: PersonFixture
+		roleFixture: RoleFixture
+	}) {
 		this.personFixture = options.personFixture
+		this.roleFixture = options.roleFixture
 	}
 
 	public async seedDemoOrganization(
@@ -97,20 +103,14 @@ export default class OrganizationFixture {
 		eventResponseUtil.getFirstResponseOrThrow(results)
 	}
 
-	public async isPartOfOrg(personId: string, orgId: string) {
-		const { client } = await this.personFixture.loginAsDemoPerson()
-
-		const results = await client.emit('list-roles::v2020_12_25', {
-			payload: {
-				shouldIncludePrivateRoles: true,
-			},
-			target: {
-				organizationId: orgId,
-				personId,
-			},
+	public async isPartOfOrg(options: {
+		personId: string
+		organizationId: string
+		phone?: string
+	}) {
+		const roles = await this.roleFixture.listRoles({
+			...options,
 		})
-
-		const { roles } = eventResponseUtil.getFirstResponseOrThrow(results)
 
 		return roles.length > 0
 	}
@@ -119,23 +119,17 @@ export default class OrganizationFixture {
 		personId: string
 		organizationId: string
 		roleBase: string
+		phone?: string
 	}) {
-		const { personId, organizationId, roleBase } = options
+		const { personId, organizationId, roleBase, phone } = options
 
-		const { client } = await this.personFixture.loginAsDemoPerson()
+		const { client } = await this.personFixture.loginAsDemoPerson(phone)
 
-		const roleResults = await client.emit('list-roles::v2020_12_25', {
-			payload: {
-				shouldIncludePrivateRoles: true,
-			},
-			target: {
-				organizationId,
-			},
+		const match = await this.roleFixture.fetchFirstRoleWithBase({
+			organizationId,
+			phone,
+			base: roleBase,
 		})
-
-		const { roles } = eventResponseUtil.getFirstResponseOrThrow(roleResults)
-
-		const match = roles.find((r) => r.base === roleBase)
 
 		if (!match) {
 			throw Error(`Could not find role based on ${roleBase}.`)
@@ -197,14 +191,7 @@ export default class OrganizationFixture {
 
 	public async deleteAllOrganizations(phone?: string) {
 		const { client } = await this.personFixture.loginAsDemoPerson(phone)
-
-		const results = await client.emit('list-organizations::v2020_12_25', {
-			payload: {
-				shouldOnlyShowMine: true,
-			},
-		})
-
-		const { organizations } = eventResponseUtil.getFirstResponseOrThrow(results)
+		const organizations = await this.listOrganizations(phone)
 
 		await Promise.all(
 			organizations.map((org) =>
@@ -217,8 +204,8 @@ export default class OrganizationFixture {
 		)
 	}
 
-	public async listOrganizations() {
-		const { client } = await this.personFixture.loginAsDemoPerson()
+	public async listOrganizations(phone?: string) {
+		const { client } = await this.personFixture.loginAsDemoPerson(phone)
 
 		const results = await client.emit('list-organizations::v2020_12_25', {
 			payload: {

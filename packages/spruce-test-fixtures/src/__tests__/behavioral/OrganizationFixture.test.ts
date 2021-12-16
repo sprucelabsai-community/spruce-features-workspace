@@ -1,19 +1,23 @@
 import { eventAssertUtil } from '@sprucelabs/spruce-event-utils'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { test, assert } from '@sprucelabs/test'
+import { PersonFixture } from '../..'
 import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
 import {
 	DEMO_NUMBER_HIRING,
 	DEMO_NUMBER_INSTALLING_SKILLS,
+	DEMO_NUMBER_ORGANIZATION_FIXTURE,
 } from '../../tests/constants'
 import OrganizationFixture from '../../tests/fixtures/OrganizationFixture'
 
 export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 	private static fixture: OrganizationFixture
+	private static personFixture: PersonFixture
 
 	protected static async beforeEach() {
 		await super.beforeEach()
 		this.fixture = this.Fixture('organization')
+		this.personFixture = this.Fixture('person')
 	}
 
 	@test()
@@ -46,29 +50,45 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async isNotPartOfOrgtoStart() {
-		const people = this.Fixture('person')
-		const org = await this.fixture.seedDemoOrganization({ name: 'my org' })
+		const org = await this.fixture.seedDemoOrganization({
+			name: 'my org',
+			phone: DEMO_NUMBER_ORGANIZATION_FIXTURE,
+		})
 
-		const { person } = await people.loginAsDemoPerson(DEMO_NUMBER_HIRING)
+		const { person } = await this.personFixture.loginAsDemoPerson(
+			DEMO_NUMBER_HIRING
+		)
 
-		const isHired = await this.fixture.isPartOfOrg(person.id, org.id)
+		const isHired = await this.fixture.isPartOfOrg({
+			personId: person.id,
+			organizationId: org.id,
+			phone: DEMO_NUMBER_ORGANIZATION_FIXTURE,
+		})
 		assert.isFalse(isHired)
 	}
 
 	@test()
 	protected static async canAttachPersonToOrg() {
 		const people = this.Fixture('person')
-		const org = await this.fixture.seedDemoOrganization({ name: 'my org' })
 
-		const { person } = await people.loginAsDemoPerson(DEMO_NUMBER_HIRING)
+		const org = await this.fixture.seedDemoOrganization({
+			name: 'my org',
+			phone: DEMO_NUMBER_HIRING,
+		})
+
+		const { person } = await people.loginAsDemoPerson()
 
 		await this.fixture.addPerson({
 			personId: person.id,
 			organizationId: org.id,
 			roleBase: 'guest',
+			phone: DEMO_NUMBER_HIRING,
 		})
 
-		const isHired = await this.fixture.isPartOfOrg(person.id, org.id)
+		const isHired = await this.fixture.isPartOfOrg({
+			personId: person.id,
+			organizationId: org.id,
+		})
 		assert.isTrue(isHired)
 	}
 
