@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [18.4.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v18.3.20...v18.4.0) (2021-12-16)
+
+
+### Features
+
+* now you can add a person to a location in tests ([438add3](https://github.com/sprucelabsai/spruce-features-workspace/commit/438add3))
+
+
+
+
+
+## [18.3.20](https://github.com/sprucelabsai/spruce-features-workspace/compare/v18.3.19...v18.3.20) (2021-12-16)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
 ## [18.3.19](https://github.com/sprucelabsai/spruce-features-workspace/compare/v18.3.18...v18.3.19) (2021-12-16)
 
 **Note:** Version bump only for package spruce-features-workspace
