@@ -31,7 +31,7 @@ export default class LocationFixtureTest extends AbstractSpruceFixtureTest {
 			phone: DEMO_NUMBER_LOCATION_FIXTURE,
 		})
 
-		const location = await this.Fixture('location').seedDemoLocation({
+		const location = await this.locationFixture.seedDemoLocation({
 			name: 'Location fixture location',
 			phone: DEMO_NUMBER_LOCATION_FIXTURE,
 			organizationId: org.id,
@@ -42,7 +42,7 @@ export default class LocationFixtureTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async canCreatLocationWithNoParams() {
-		const location = await this.Fixture('location').seedDemoLocation({
+		const location = await this.locationFixture.seedDemoLocation({
 			phone: DEMO_NUMBER_LOCATION_FIXTURE,
 		})
 		assert.isTruthy(location)
