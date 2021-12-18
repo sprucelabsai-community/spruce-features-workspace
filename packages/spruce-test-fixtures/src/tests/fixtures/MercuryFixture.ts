@@ -72,7 +72,10 @@ export default class MercuryFixture {
 	): Promise<MercuryClient> {
 		const shouldReUseClient = options?.shouldReUseClient !== false
 		if (shouldReUseClient && MercuryFixture.defaultClient) {
-			return this.optionallyMockAuthenticate(MercuryFixture.defaultClient)
+			return MercuryFixture.optionallyMockAuthenticate(
+				MercuryFixture.defaultClient,
+				this.auth
+			)
 		}
 
 		if (shouldReUseClient && this.clientPromises.length > 0) {
@@ -97,15 +100,19 @@ export default class MercuryFixture {
 				TEST_HOST.includes('https://127.0.0.1'),
 		})
 
-		void promise.then((client) => this.optionallyMockAuthenticate(client))
+		void promise.then((client) =>
+			MercuryFixture.optionallyMockAuthenticate(client, this.auth)
+		)
 
 		this.clientPromises.push(promise)
 
 		return promise
 	}
 
-	private async optionallyMockAuthenticate(client: MercuryClient) {
-		const currentSkill = this.auth?.getCurrentSkill()
+	private static async optionallyMockAuthenticate<
+		C extends MercuryClient | undefined
+	>(client?: C, auth?: AuthService): Promise<C> {
+		const currentSkill = auth?.getCurrentSkill()
 
 		if (currentSkill) {
 			const emitter = MercuryTestClient.getInternalEmitter({
@@ -116,9 +123,9 @@ export default class MercuryFixture {
 
 			await emitter.off('authenticate::v2020_12_25')
 
-			client.setShouldAutoRegisterListeners(false)
+			client?.setShouldAutoRegisterListeners(false)
 
-			await client.on('authenticate::v2020_12_25', async () => {
+			await emitter.on('authenticate::v2020_12_25', async () => {
 				return {
 					type: 'authenticated' as any,
 					auth: {
@@ -133,7 +140,7 @@ export default class MercuryFixture {
 			})
 		}
 
-		return client
+		return client as any
 	}
 
 	public static setDefaultContractToLocalEventsIfExist(cwd: string) {
@@ -215,6 +222,12 @@ export default class MercuryFixture {
 		}
 
 		this.setDefaultContractToLocalEventsIfExist(cwd)
+
+		try {
+			const auth = AuthService.Auth(cwd)
+			await this.optionallyMockAuthenticate(undefined, auth)
+			// eslint-disable-next-line no-empty
+		} catch {}
 	}
 
 	public static setShouldMixinCoreEventContractsWhenImportingLocal(
