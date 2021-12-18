@@ -170,6 +170,7 @@ export default class ViewFixture {
 
 	public static async beforeAll() {
 		this.resetAuthenticator()
+		vcAssertUtil.patchSubmitToThrow()
 	}
 
 	public static async beforeEach() {

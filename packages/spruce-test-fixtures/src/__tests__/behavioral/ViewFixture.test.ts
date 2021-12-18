@@ -2,6 +2,7 @@ import {
 	AbstractSkillViewController,
 	ActiveRecordCardViewController,
 	AuthenticatorImpl,
+	buildForm,
 	SkillViewControllerLoadOptions,
 	vcAssertUtil,
 } from '@sprucelabs/heartwood-view-controllers'
@@ -44,9 +45,7 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 			},
 		})
 
-		await this.Fixture('organization').deleteAllOrganizations(
-			DEMO_NUMBER_VIEW_FIXTURE
-		)
+		await this.Fixture('seed').resetAccount(DEMO_NUMBER_VIEW_FIXTURE)
 	}
 
 	@test()
@@ -380,6 +379,23 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 	protected static activeRecordThrowReset() {
 		//@ts-ignore
 		assert.isTrue(ActiveRecordCardViewController.shouldThrowOnResponseError)
+	}
+
+	@test()
+	protected static async patchesFormsToThrow() {
+		const viewFixture = this.Fixture('view', {
+			controllerMap: {},
+		})
+		const formVc = viewFixture.Controller(
+			'form',
+			buildForm({
+				id: 'test',
+				schema: { id: 'test', fields: {} },
+				sections: [],
+			})
+		)
+
+		await assert.doesThrowAsync(() => formVc.submit())
 	}
 
 	private static Scope() {
