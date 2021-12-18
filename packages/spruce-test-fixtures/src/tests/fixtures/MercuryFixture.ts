@@ -24,6 +24,7 @@ export default class MercuryFixture {
 	private static originalHost: string | undefined
 	private cwd: string
 
+	private static shouldOptionallyMockAuthenticate = true
 	private static shouldAutoImportContracts = true
 	private static shouldMixinCoreEventContractWhenImportingLocal = false
 	private static defaultClient?: MercuryClient
@@ -114,7 +115,7 @@ export default class MercuryFixture {
 	>(client?: C, auth?: AuthService): Promise<C> {
 		const currentSkill = auth?.getCurrentSkill()
 
-		if (currentSkill) {
+		if (currentSkill && this.shouldOptionallyMockAuthenticate) {
 			const emitter = MercuryTestClient.getInternalEmitter({
 				eventSignatures: {
 					'authenticate::v2020_12_25': {},
@@ -238,5 +239,9 @@ export default class MercuryFixture {
 
 	public static setShouldAutoImportContracts(shouldImport: boolean) {
 		MercuryFixture.shouldAutoImportContracts = shouldImport
+	}
+
+	public static setShouldOptionallyMockAuthenticate(should: boolean) {
+		this.shouldOptionallyMockAuthenticate = should
 	}
 }
