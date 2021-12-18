@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [19.0.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v18.4.13...v19.0.0) (2021-12-18)
+
+
+### Breaking Changes
+
+* Submitting a form directly now throws ([2303e65](https://github.com/sprucelabsai/spruce-features-workspace/commit/2303e65))
+
+
+
+
+
 ## [18.4.13](https://github.com/sprucelabsai/spruce-features-workspace/compare/v18.4.12...v18.4.13) (2021-12-18)
 
 **Note:** Version bump only for package spruce-features-workspace
