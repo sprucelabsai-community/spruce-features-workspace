@@ -17,7 +17,7 @@ export default class MakingSureLocalEventsAreHandledLocallyTest extends Abstract
 		await MercuryFixture.beforeEach(this.cwd)
 
 		assert.isEqualDeep(
-			MercuryTestClient.getNamespacesThatHaveToBeHandledLocally(),
+			MercuryTestClient.getNamespacesThatMustBeHandledLocally(),
 			[skill.slug]
 		)
 	}
