@@ -227,6 +227,11 @@ export default class MercuryFixture {
 		try {
 			const auth = AuthService.Auth(cwd)
 			await this.optionallyMockAuthenticate(undefined, auth)
+			const namespace = auth.getCurrentSkill()?.slug
+
+			if (namespace) {
+				MercuryTestClient.setNamespacesThatMustBeHandledLocally([namespace])
+			}
 			// eslint-disable-next-line no-empty
 		} catch {}
 	}
