@@ -9,7 +9,7 @@
       "@sprucelabs/spruce-test-fixtures"
     ]
   },
-  "version": "19.1.1",
+  "version": "19.1.2",
   "files": [
     "build/**/*",
     "!build/__tests__",
@@ -62,9 +62,9 @@
     "@sprucelabs/schema": "^25.4.144",
     "@sprucelabs/spruce-core-schemas": "^22.6.341",
     "@sprucelabs/spruce-event-utils": "^17.1.384",
-    "@sprucelabs/spruce-skill-booter": "^19.1.1",
+    "@sprucelabs/spruce-skill-booter": "^19.1.2",
     "@sprucelabs/spruce-skill-utils": "^22.2.46",
-    "@sprucelabs/spruce-test-fixtures": "^19.1.1"
+    "@sprucelabs/spruce-test-fixtures": "^19.1.2"
   },
   "devDependencies": {
     "@sprucelabs/esm-postbuild": "^1.0.309",
