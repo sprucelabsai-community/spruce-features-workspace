@@ -1,3 +1,4 @@
+import { MercuryTestClient } from '@sprucelabs/mercury-client'
 import {
 	eventAssertUtil,
 	eventResponseUtil,
@@ -32,7 +33,7 @@ export default class MockingErrorResponsesTest extends AbstractSpruceFixtureTest
 
 	@test()
 	protected static async mockEventsAreClearedFromPreviousTest() {
-		const client = await this.Fixture('mercury').connectToApi()
+		const client = await this.connectToApi()
 
 		await client.on('request-pin::v2020_12_25', async () => {
 			return {
@@ -47,6 +48,26 @@ export default class MockingErrorResponsesTest extends AbstractSpruceFixtureTest
 		})
 
 		eventResponseUtil.getFirstResponseOrThrow(results)
+	}
+
+	@test()
+	protected static async canMockEventWithNoResponse() {
+		const client = (await this.connectToApi()) as MercuryTestClient
+
+		const fqen = 'test-burrito::v1'
+		client.mixinContract({
+			eventSignatures: {
+				[fqen]: {
+					isGlobal: true,
+				},
+			},
+		})
+
+		eventMocker.handleReactiveEvent(fqen as any)
+
+		const results = await client.emit(fqen)
+
+		assert.isEqual(results.totalErrors, 0)
 	}
 
 	private static async connectToApi() {
