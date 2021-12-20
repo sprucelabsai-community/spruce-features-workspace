@@ -63,7 +63,7 @@ export default class MockingErrorResponsesTest extends AbstractSpruceFixtureTest
 			},
 		})
 
-		eventMocker.handleReactiveEvent(fqen as any)
+		await eventMocker.handleReactiveEvent(fqen as any)
 
 		const results = await client.emit(fqen)
 
