@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [19.1.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v19.0.14...v19.1.0) (2021-12-20)
+
+
+### Features
+
+* Devs can now handle mock responses to reactive events (did-boot-appointment) to keep them from connecting to Mercury, making testing EASIER and FASTER! ([0ebd4e0](https://github.com/sprucelabsai/spruce-features-workspace/commit/0ebd4e0))
+
+
+
+
+
 ## [19.0.14](https://github.com/sprucelabsai/spruce-features-workspace/compare/v19.0.13...v19.0.14) (2021-12-20)
 
 **Note:** Version bump only for package spruce-features-workspace
