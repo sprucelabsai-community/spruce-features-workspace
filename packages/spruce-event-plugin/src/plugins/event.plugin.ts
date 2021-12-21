@@ -24,7 +24,7 @@ import {
 	Log,
 	HASH_SPRUCE_DIR_NAME,
 } from '@sprucelabs/spruce-skill-utils'
-import ClientProxyDecorator from '@sprucelabs/spruce-test-fixtures'
+import { ClientProxyDecorator } from '@sprucelabs/spruce-test-fixtures'
 import ListenerCacher from '../cache/ListenerCacher'
 import SpruceError from '../errors/SpruceError'
 
