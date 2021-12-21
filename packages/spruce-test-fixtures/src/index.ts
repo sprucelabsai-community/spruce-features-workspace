@@ -18,5 +18,6 @@ export { default as seed } from './tests/decorators/seed'
 export { default as login } from './tests/decorators/login'
 export { default as install } from './tests/decorators/install'
 export { default as eventMocker } from './tests/eventMocker'
+export { default as ClientProxyDecorator } from './ClientProxyDecorator'
 
 export * from '#spruce/schemas/schemas.types'

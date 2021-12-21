@@ -10,6 +10,7 @@ import {
 	eventDiskUtil,
 } from '@sprucelabs/spruce-event-utils'
 import { AuthService, diskUtil } from '@sprucelabs/spruce-skill-utils'
+import ClientProxyDecorator from '../../ClientProxyDecorator'
 import {
 	TestConnectFactory,
 	TestConnectionOptions,

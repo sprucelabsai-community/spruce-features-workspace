@@ -22,9 +22,9 @@ import {
 	diskUtil,
 	HealthCheckItem,
 	Log,
-	functionDelegationUtil,
 	HASH_SPRUCE_DIR_NAME,
 } from '@sprucelabs/spruce-skill-utils'
+import ClientProxyDecorator from '@sprucelabs/spruce-test-fixtures'
 import ListenerCacher from '../cache/ListenerCacher'
 import SpruceError from '../errors/SpruceError'
 
@@ -455,6 +455,7 @@ export class EventFeaturePlugin implements SkillFeature {
 							shouldUnregisterAll: true,
 						},
 					})
+
 					this.log.info('Unregistered all existing registered listeners')
 				}
 			}
@@ -554,28 +555,12 @@ export class EventFeaturePlugin implements SkillFeature {
 					this.log.info(`Incoming event - ${fqen}`)
 
 					const event = await this.buildSpruceEvent(fqen, targetAndPayload)
-					const newClient = {
-						//@ts-ignore
-						emit: (eventName, tp, cb) => {
-							let builtTp = tp
+					const decorator = ClientProxyDecorator.getInstance()
 
-							if (targetAndPayload?.source?.proxyToken) {
-								if (!builtTp) {
-									builtTp = {}
-								}
-
-								builtTp.source = {
-									...builtTp?.source,
-									proxyToken: targetAndPayload.source.proxyToken,
-								}
-							}
-
-							return client.emit(eventName, builtTp, cb)
-						},
-					}
-
-					functionDelegationUtil.delegateFunctionCalls(newClient, event.mercury)
-					event.mercury = newClient
+					event.mercury = decorator.decorateEmitToPassProxyToken(
+						event.mercury,
+						targetAndPayload?.source?.proxyToken
+					)
 
 					const results = await listener.callback(event)
 
