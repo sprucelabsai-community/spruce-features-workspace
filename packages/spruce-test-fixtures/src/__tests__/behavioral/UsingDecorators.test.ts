@@ -30,6 +30,10 @@ export default class UsingDecoratorsTest extends AbstractSpruceFixtureTest {
 		assert.isTruthy(auth.getSessionToken())
 
 		const client = login.getClient()
+		const person = login.getPerson()
+
+		//@ts-ignore
+		assert.isEqualDeep(person, client.auth.person)
 
 		assert.isTruthy(client)
 		assert.isTrue(client.isConnected())

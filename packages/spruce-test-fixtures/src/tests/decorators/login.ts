@@ -1,4 +1,5 @@
 import { MercuryClientFactory, MercuryClient } from '@sprucelabs/mercury-client'
+import { SpruceSchemas } from '@sprucelabs/mercury-types'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { assert } from '@sprucelabs/test'
 import { ClientProxyDecorator, MercuryFixture, ViewFixture } from '../..'
@@ -36,8 +37,12 @@ export default function login(phone: string) {
 
 			await beforeAll()
 
-			const { client } = await Class.Fixture('view').loginAsDemoPerson(phone)
+			const { client, person } = await Class.Fixture('view').loginAsDemoPerson(
+				phone
+			)
 
+			//@ts-ignore
+			login.loggedInPerson = person
 			MercuryFixture.setDefaultClient(client)
 		}
 
@@ -62,11 +67,21 @@ export default function login(phone: string) {
 
 login.getClient = (): Client => {
 	const client = MercuryFixture.getDefaultClient()
-	if (!client) {
-		assert.fail(
-			`You must @login() on your test class before getting the client`
-		)
-	}
+	assert.isTruthy(
+		client,
+		`You must @login() on your test class before getting the client!`
+	)
 
 	return client as any
+}
+
+login.getPerson = (): SpruceSchemas.Spruce.v2020_07_22.Person => {
+	assert.isTruthy(
+		//@ts-ignore
+		login.loggedInPerson,
+		`You must @login() on your test class before getting the person`
+	)
+
+	//@ts-ignore
+	return login.loggedInPerson
 }
