@@ -31,6 +31,9 @@ type Factory = TestConnectFactory
 export default class ViewFixture {
 	private static vcFactory?: ViewControllerFactory
 	private static loggedInPersonProxyTokens: Record<string, string> = {}
+	private static dontResetProxyTokenForPersonId?: string
+	private static scope?: Scope
+	private static shouldAutomaticallyResetAuthenticator = true
 	protected vcDir: string
 	private controllerMap?: Record<string, any>
 	private connectToApi: Factory
@@ -38,9 +41,11 @@ export default class ViewFixture {
 	private personFixture: PersonFixture
 	private organizationFixture: OrganizationFixture
 	private locationFixture: LocationFixture
-	private static scope?: Scope
-	private static shouldAutomaticallyResetAuthenticator = true
 	private proxyDecorator: ClientProxyDecorator
+
+	public static lockProxyCacheForPerson(id: any) {
+		this.dontResetProxyTokenForPersonId = id
+	}
 
 	public static setShouldAutomaticallyResetAuthenticator(shouldReset: false) {
 		this.shouldAutomaticallyResetAuthenticator = shouldReset
@@ -176,13 +181,25 @@ export default class ViewFixture {
 	}
 
 	public static async beforeAll() {
-		this.resetAuthenticator()
+		this.resetAuth()
 		formTestUtil.patchSubmitToThrow()
 	}
 
 	public static async beforeEach() {
 		if (this.shouldAutomaticallyResetAuthenticator) {
-			this.resetAuthenticator()
+			this.resetAuth()
+		}
+
+		const lockedToken =
+			this.dontResetProxyTokenForPersonId &&
+			ViewFixture.loggedInPersonProxyTokens[this.dontResetProxyTokenForPersonId]
+
+		ViewFixture.loggedInPersonProxyTokens = {}
+
+		if (this.dontResetProxyTokenForPersonId && lockedToken) {
+			ViewFixture.loggedInPersonProxyTokens = {
+				[this.dontResetProxyTokenForPersonId]: lockedToken,
+			}
 		}
 
 		TestRouter.reset()
@@ -195,10 +212,9 @@ export default class ViewFixture {
 		ViewFixture.vcFactory = undefined
 	}
 
-	private static resetAuthenticator() {
+	private static resetAuth() {
 		AuthenticatorImpl.reset()
 		AuthenticatorImpl.setStorage(new MockStorage())
-		ViewFixture.loggedInPersonProxyTokens = {}
 		ClientProxyDecorator.getInstance().clearProxyTokenGenerator()
 	}
 

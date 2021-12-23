@@ -30,7 +30,9 @@ export default function login(phone: string) {
 
 			//@ts-ignore
 			login.loggedInPerson = person
+
 			MercuryFixture.setDefaultClient(client)
+			ViewFixture.lockProxyCacheForPerson(person.id)
 		}
 
 		const beforeEach = Class.beforeEach.bind(Class)

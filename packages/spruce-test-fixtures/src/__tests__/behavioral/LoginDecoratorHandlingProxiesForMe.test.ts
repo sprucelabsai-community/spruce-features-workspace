@@ -1,3 +1,4 @@
+import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { test, assert } from '@sprucelabs/test'
 import { AbstractSpruceFixtureTest, login } from '../..'
 import ClientProxyDecorator from '../../ClientProxyDecorator'
@@ -49,9 +50,10 @@ export default class LoginDecoratorHandlingProxiesForMeTest extends AbstractSpru
 	@test()
 	protected static async tokenSetBackAfterEachTest() {
 		this.lastToken = await this.generateToken()
-		await this.Fixture('view').loginAsDemoPerson(DEMO_NUMBER_LOGIN_DECORATOR_2)
-		const newToken = await this.generateToken()
 
+		await this.loginAsSecondPerson()
+
+		const newToken = await this.generateToken()
 		assert.isNotEqual(this.lastToken, newToken)
 	}
 
@@ -59,6 +61,20 @@ export default class LoginDecoratorHandlingProxiesForMeTest extends AbstractSpru
 	protected static async tokenBackToOriginLoggedInPerson() {
 		const token = await this.generateToken()
 		assert.isEqual(this.lastToken, token)
+	}
+
+	@test()
+	protected static async loggingAnAsDemoPerson2AgainSetsValidProxy() {
+		const { client } = await this.loginAsSecondPerson()
+		const token = await this.generateToken()
+
+		const results = await client.emit('whoami::v2020_12_25', {
+			source: {
+				proxyToken: token,
+			},
+		})
+
+		eventResponseUtil.getFirstResponseOrThrow(results)
 	}
 
 	private static getDecorator() {
@@ -69,5 +85,9 @@ export default class LoginDecoratorHandlingProxiesForMeTest extends AbstractSpru
 		const generator = this.getDecorator().getProxyTokenGenerator()
 		const token = await generator?.()
 		return token
+	}
+
+	private static async loginAsSecondPerson() {
+		return this.Fixture('view').loginAsDemoPerson(DEMO_NUMBER_LOGIN_DECORATOR_2)
 	}
 }
