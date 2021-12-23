@@ -42,7 +42,6 @@ declare module '@sprucelabs/heartwood-view-controllers/build/types/heartwood.typ
 export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 	private static fixture: ViewFixture
 	private static fixtureNoOptions: ViewFixture
-	private static lastProxyToken: string
 
 	protected static async beforeEach() {
 		await super.beforeEach()
