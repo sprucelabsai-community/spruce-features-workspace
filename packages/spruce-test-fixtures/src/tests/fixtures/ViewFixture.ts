@@ -14,6 +14,7 @@ import {
 import { SchemaError } from '@sprucelabs/schema'
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 import { ClientProxyDecorator } from '../..'
+import { TokenGenerator } from '../../ClientProxyDecorator'
 import SpruceError from '../../errors/SpruceError'
 import { TestConnectFactory } from '../../types/fixture.types'
 import vcDiskUtil from '../../utilities/vcDisk.utility'
@@ -225,6 +226,14 @@ export default class ViewFixture {
 
 	public getAuthenticator() {
 		return AuthenticatorImpl.getInstance()
+	}
+
+	public getProxyTokenGenerator() {
+		return this.proxyDecorator.getProxyTokenGenerator()
+	}
+
+	public setProxyTokenGenerator(cb: TokenGenerator) {
+		this.proxyDecorator.setProxyTokenGenerator(cb)
 	}
 
 	public async loginAsDemoPerson(phone?: string) {

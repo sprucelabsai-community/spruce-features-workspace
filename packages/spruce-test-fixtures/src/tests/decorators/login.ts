@@ -16,15 +16,17 @@ export default function login(phone: string) {
 		ViewFixture.setShouldAutomaticallyResetAuthenticator(false)
 
 		const beforeAll = Class.beforeAll.bind(Class)
+		let proxyGenerator: any
 
 		Class.beforeAll = async () => {
 			MercuryClientFactory.setIsTestMode(true)
 
 			await beforeAll()
 
-			const { client, person } = await Class.Fixture('view').loginAsDemoPerson(
-				phone
-			)
+			const viewFixture = Class.Fixture('view')
+			const { client, person } = await viewFixture.loginAsDemoPerson(phone)
+
+			proxyGenerator = viewFixture.getProxyTokenGenerator()
 
 			//@ts-ignore
 			login.loggedInPerson = person
@@ -34,6 +36,7 @@ export default function login(phone: string) {
 		const beforeEach = Class.beforeEach.bind(Class)
 
 		Class.beforeEach = async () => {
+			Class.Fixture('view').setProxyTokenGenerator(proxyGenerator)
 			MercuryFixture.setDefaultContractToLocalEventsIfExist(Class.cwd)
 			await beforeEach?.()
 		}

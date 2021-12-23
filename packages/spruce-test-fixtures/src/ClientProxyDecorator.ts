@@ -1,11 +1,14 @@
 import { MercuryClient } from '@sprucelabs/mercury-client'
 import { functionDelegationUtil } from '@sprucelabs/spruce-skill-utils'
 
-type Cb = () => undefined | string | Promise<string | undefined>
+export type TokenGenerator = () =>
+	| undefined
+	| string
+	| Promise<string | undefined>
 
 export default class ClientProxyDecorator {
 	private static instance?: ClientProxyDecorator
-	private proxyTokenGenerator?: Cb
+	private proxyTokenGenerator?: TokenGenerator
 	protected constructor() {}
 
 	public static getInstance() {
@@ -15,7 +18,7 @@ export default class ClientProxyDecorator {
 		return this.instance
 	}
 
-	public setProxyTokenGenerator(generator: Cb) {
+	public setProxyTokenGenerator(generator: TokenGenerator) {
 		this.proxyTokenGenerator = generator
 	}
 
