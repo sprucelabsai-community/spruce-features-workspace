@@ -47,7 +47,7 @@ export default class ViewFixture {
 		this.dontResetProxyTokenForPersonId = id
 	}
 
-	public static setShouldAumtomaticallyResetAuth(shouldReset: false) {
+	public static setShouldAutomaticallyResetAuth(shouldReset: false) {
 		this.shouldAutomaticallyResetAuthenticator = shouldReset
 	}
 
