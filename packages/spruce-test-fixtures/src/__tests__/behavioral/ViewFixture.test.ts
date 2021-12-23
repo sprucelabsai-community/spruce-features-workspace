@@ -451,23 +451,6 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 		assert.isFalsy(generator)
 	}
 
-	@test()
-	protected static async canDisableResetEachTest() {
-		ViewFixture.setShouldAumtomaticallyResetAuth(false)
-
-		const { token } = await this.loginAndGetProxy()
-
-		//@ts-ignore
-		this.lastProxyToken = token
-	}
-
-	@test()
-	protected static async thingsShouldNotBeReset() {
-		const { token } = await this.loginAndGetProxy()
-		//@ts-ignore
-		assert.isEqual(this.lastProxyToken, token)
-	}
-
 	private static async loginAndGetProxy(phone?: string) {
 		const { client } = await this.fixtureNoOptions.loginAsDemoPerson(
 			phone ?? DEMO_NUMBER_VIEW_FIXTURE
