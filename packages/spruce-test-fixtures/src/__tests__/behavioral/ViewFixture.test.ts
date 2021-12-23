@@ -7,9 +7,15 @@ import {
 	vcAssertUtil,
 } from '@sprucelabs/heartwood-view-controllers'
 import { formatPhoneNumber } from '@sprucelabs/schema'
+import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { assert, test } from '@sprucelabs/test'
+import { ClientProxyDecorator } from '../..'
 import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
-import { DEMO_NUMBER_VIEW_FIXTURE, DEMO_NUMBER } from '../../tests/constants'
+import {
+	DEMO_NUMBER_VIEW_FIXTURE,
+	DEMO_NUMBER,
+	DEMO_NUMBER_VIEW_FIXTURE_2,
+} from '../../tests/constants'
 import ViewFixture from '../../tests/fixtures/ViewFixture'
 import MockSkillViewController from '../../tests/Mock.svc'
 
@@ -35,6 +41,8 @@ declare module '@sprucelabs/heartwood-view-controllers/build/types/heartwood.typ
 
 export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 	private static fixture: ViewFixture
+	private static fixtureNoOptions: ViewFixture
+	private static lastProxyTokens: Record<string, any> = {}
 
 	protected static async beforeEach() {
 		await super.beforeEach()
@@ -45,6 +53,8 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 			},
 		})
 
+		this.fixtureNoOptions = this.Fixture('view')
+
 		await this.Fixture('seed').resetAccount(DEMO_NUMBER_VIEW_FIXTURE)
 	}
 
@@ -53,7 +63,7 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 		const auth = AuthenticatorImpl.getInstance()
 		assert.isFalsy(auth.getPerson())
 
-		const { person } = await this.Fixture('view').loginAsDemoPerson(
+		const { person } = await this.fixtureNoOptions.loginAsDemoPerson(
 			DEMO_NUMBER_VIEW_FIXTURE
 		)
 
@@ -65,7 +75,7 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async loginFallsBackToDemoNumber() {
-		const { person } = await this.Fixture('view').loginAsDemoPerson()
+		const { person } = await this.fixtureNoOptions.loginAsDemoPerson()
 		assert.isEqual(person.phone, formatPhoneNumber(DEMO_NUMBER ?? ''))
 	}
 
@@ -85,8 +95,8 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static fixturesShouldShareConnectToApiReferences() {
-		const fixture1 = this.Fixture('view')
-		const fixture2 = this.Fixture('view')
+		const fixture1 = this.fixtureNoOptions
+		const fixture2 = this.fixtureNoOptions
 
 		//@ts-ignore
 		assert.isEqual(fixture1.connectToApi, fixture2.connectToApi)
@@ -158,7 +168,7 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 			phone: DEMO_NUMBER_VIEW_FIXTURE,
 		})
 
-		const viewFixture = this.Fixture('view')
+		const viewFixture = this.fixtureNoOptions
 		await viewFixture.loginAsDemoPerson(DEMO_NUMBER_VIEW_FIXTURE)
 
 		const current = await viewFixture.getScope().getCurrentOrganization()
@@ -191,7 +201,7 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 			phone: DEMO_NUMBER_VIEW_FIXTURE,
 		})
 
-		const viewFixture = this.Fixture('view')
+		const viewFixture = this.fixtureNoOptions
 		await viewFixture.loginAsDemoPerson(DEMO_NUMBER_VIEW_FIXTURE)
 
 		const current = await viewFixture.getScope().getCurrentLocation()
@@ -258,7 +268,7 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 			name: 'My new org!',
 		})
 
-		this.Fixture('view').getScope().setCurrentOrganization(org.id)
+		this.fixtureNoOptions.getScope().setCurrentOrganization(org.id)
 
 		const { vc, fixture } = this.Scope()
 
@@ -396,6 +406,84 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 		)
 
 		await assert.doesThrowAsync(() => formVc.submit())
+	}
+
+	@test()
+	protected static async loggingInWithViewFixtureSetsProxyTokenForSkill() {
+		const { client, token, generator } = await this.loginAndGetProxy()
+
+		assert.isTruthy(token)
+		assert.isTruthy(client.getProxyToken())
+		assert.isEqual(token, client.getProxyToken())
+
+		const token2 = await generator?.()
+
+		assert.isEqual(token, token2)
+
+		const results = await client.emit('whoami::v2020_12_25')
+
+		eventResponseUtil.getFirstResponseOrThrow(results)
+	}
+
+	@test()
+	protected static async proxyGeneratorIsResetWhenDifferentPersonLogsIn() {
+		const { token } = await this.loginAndGetProxy()
+		const { token: token2 } = await this.loginAndGetProxy(
+			DEMO_NUMBER_VIEW_FIXTURE_2
+		)
+
+		assert.isNotEqual(token, token2)
+	}
+
+	@test()
+	protected static async sameProxyAcrossFixturesWithSameNumber() {
+		const { token } = await this.loginAndGetProxy()
+		const { token: token2 } = await this.loginAndGetProxy()
+
+		assert.isEqual(token, token2)
+	}
+
+	@test()
+	protected static async generatorResetEachTest() {
+		//@ts-ignore
+		assert.isEqualDeep(ViewFixture.loggedInPersonProxyTokens, {})
+		const generator = this.getProxyGenerator()
+		assert.isFalsy(generator)
+	}
+
+	@test()
+	protected static async canDisableResetEachTest() {
+		ViewFixture.setShouldAutomaticallyResetAuthenticator(false)
+
+		await this.loginAndGetProxy()
+
+		//@ts-ignore
+		this.lastProxyTokens = ViewFixture.loggedInPersonProxyTokens
+	}
+
+	@test()
+	protected static async thingsShouldNotBeReset() {
+		await this.loginAndGetProxy()
+		//@ts-ignore
+		assert.isEqual(this.lastProxyTokens, ViewFixture.loggedInPersonProxyTokens)
+	}
+
+	private static async loginAndGetProxy(phone?: string) {
+		const { client } = await this.fixtureNoOptions.loginAsDemoPerson(
+			phone ?? DEMO_NUMBER_VIEW_FIXTURE
+		)
+
+		const generator = this.getProxyGenerator()
+
+		const token = await generator?.()
+
+		return { client, token, generator }
+	}
+
+	private static getProxyGenerator() {
+		const decorator = ClientProxyDecorator.getInstance()
+		const generator = decorator.getProxyTokenGenerator()
+		return generator
 	}
 
 	private static Scope() {

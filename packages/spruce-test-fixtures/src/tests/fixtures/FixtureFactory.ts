@@ -1,5 +1,6 @@
 import { DatabaseFixture } from '@sprucelabs/data-stores'
 import { SchemaError } from '@sprucelabs/schema'
+import { ClientProxyDecorator } from '../..'
 import SpruceError from '../../errors/SpruceError'
 import {
 	FixtureConstructorOptionsMap,
@@ -123,6 +124,7 @@ export default class FixtureFactory {
 					connectToApi: mercuryFixture.getConnectFactory(),
 					fixtureFactory: this,
 					namespace: this.namespace,
+					proxyDecorator: ClientProxyDecorator.getInstance(),
 					cwd: this.cwd,
 					...options,
 				}) as any

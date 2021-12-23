@@ -1,27 +1,12 @@
 import { MercuryClientFactory, MercuryClient } from '@sprucelabs/mercury-client'
 import { SpruceSchemas } from '@sprucelabs/mercury-types'
-import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { assert } from '@sprucelabs/test'
-import { ClientProxyDecorator, MercuryFixture, ViewFixture } from '../..'
+import { MercuryFixture, ViewFixture } from '../..'
 
 type Client = MercuryClient
 
 export default function login(phone: string) {
 	return function (Class: any) {
-		let proxyToken: string | undefined
-		ClientProxyDecorator.getInstance().setProxyTokenGenerator(async () => {
-			if (!proxyToken) {
-				const client = login.getClient()
-
-				const results = await client.emit('register-proxy-token::v2020_12_25')
-				const { token } = eventResponseUtil.getFirstResponseOrThrow(results)
-
-				proxyToken = token
-			}
-
-			return proxyToken
-		})
-
 		assert.isFunction(
 			Class.Fixture,
 			`You can only @login if your test extends AbstractSpruceFixtureTest`

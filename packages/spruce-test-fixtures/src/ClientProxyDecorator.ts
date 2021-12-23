@@ -23,6 +23,10 @@ export default class ClientProxyDecorator {
 		return this.proxyTokenGenerator
 	}
 
+	public clearProxyTokenGenerator() {
+		this.proxyTokenGenerator = undefined
+	}
+
 	public static clearInstance() {
 		delete this.instance
 	}

@@ -2,6 +2,7 @@ import {
 	ActiveRecordCardViewController,
 	AuthenticatorImpl,
 	ControllerOptions,
+	formTestUtil,
 	MockStorage,
 	renderUtil,
 	Scope,
@@ -12,6 +13,7 @@ import {
 } from '@sprucelabs/heartwood-view-controllers'
 import { SchemaError } from '@sprucelabs/schema'
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
+import { ClientProxyDecorator } from '../..'
 import SpruceError from '../../errors/SpruceError'
 import { TestConnectFactory } from '../../types/fixture.types'
 import vcDiskUtil from '../../utilities/vcDisk.utility'
@@ -27,6 +29,7 @@ type Factory = TestConnectFactory
 
 export default class ViewFixture {
 	private static vcFactory?: ViewControllerFactory
+	private static loggedInPersonProxyTokens: Record<string, string> = {}
 	protected vcDir: string
 	private controllerMap?: Record<string, any>
 	private connectToApi: Factory
@@ -36,6 +39,7 @@ export default class ViewFixture {
 	private locationFixture: LocationFixture
 	private static scope?: Scope
 	private static shouldAutomaticallyResetAuthenticator = true
+	private proxyDecorator: ClientProxyDecorator
 
 	public static setShouldAutomaticallyResetAuthenticator(shouldReset: false) {
 		this.shouldAutomaticallyResetAuthenticator = shouldReset
@@ -49,6 +53,7 @@ export default class ViewFixture {
 		cwd?: string
 		controllerMap?: Record<string, any>
 		namespace: string
+		proxyDecorator: ClientProxyDecorator
 	}) {
 		this.connectToApi = options.connectToApi
 		this.personFixture = options.personFixture
@@ -57,6 +62,7 @@ export default class ViewFixture {
 			diskUtil.resolvePath(options.cwd ?? process.cwd(), 'build')
 		this.controllerMap = options?.controllerMap
 		this.namespace = options.namespace
+		this.proxyDecorator = options.proxyDecorator
 		this.organizationFixture = options.fixtureFactory.Fixture('organization', {
 			personFixture: this.personFixture,
 		})
@@ -170,7 +176,7 @@ export default class ViewFixture {
 
 	public static async beforeAll() {
 		this.resetAuthenticator()
-		vcAssertUtil.patchSubmitToThrow()
+		formTestUtil.patchSubmitToThrow()
 	}
 
 	public static async beforeEach() {
@@ -191,6 +197,8 @@ export default class ViewFixture {
 	private static resetAuthenticator() {
 		AuthenticatorImpl.reset()
 		AuthenticatorImpl.setStorage(new MockStorage())
+		ViewFixture.loggedInPersonProxyTokens = {}
+		ClientProxyDecorator.getInstance().clearProxyTokenGenerator()
 	}
 
 	public async load(vc: SkillViewController, args: Record<string, any> = {}) {
@@ -224,6 +232,15 @@ export default class ViewFixture {
 			await this.personFixture.loginAsDemoPerson(phone)
 
 		this.getAuthenticator().setSessionToken(token, person)
+
+		this.proxyDecorator.setProxyTokenGenerator(async () => {
+			if (!ViewFixture.loggedInPersonProxyTokens[person.id]) {
+				const proxyToken = await client.registerProxyToken()
+				ViewFixture.loggedInPersonProxyTokens[person.id] = proxyToken
+			}
+
+			return ViewFixture.loggedInPersonProxyTokens[person.id]
+		})
 
 		return { person, client }
 	}
