@@ -42,7 +42,7 @@ declare module '@sprucelabs/heartwood-view-controllers/build/types/heartwood.typ
 export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 	private static fixture: ViewFixture
 	private static fixtureNoOptions: ViewFixture
-	private static lastProxyTokens: Record<string, any> = {}
+	private static lastProxyToken: string
 
 	protected static async beforeEach() {
 		await super.beforeEach()
@@ -453,19 +453,19 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async canDisableResetEachTest() {
-		ViewFixture.setShouldAutomaticallyResetAuthenticator(false)
+		ViewFixture.setShouldAumtomaticallyResetAuth(false)
 
-		await this.loginAndGetProxy()
+		const { token } = await this.loginAndGetProxy()
 
 		//@ts-ignore
-		this.lastProxyTokens = ViewFixture.loggedInPersonProxyTokens
+		this.lastProxyToken = token
 	}
 
 	@test()
 	protected static async thingsShouldNotBeReset() {
-		await this.loginAndGetProxy()
+		const { token } = await this.loginAndGetProxy()
 		//@ts-ignore
-		assert.isEqual(this.lastProxyTokens, ViewFixture.loggedInPersonProxyTokens)
+		assert.isEqual(this.lastProxyToken, token)
 	}
 
 	private static async loginAndGetProxy(phone?: string) {

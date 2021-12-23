@@ -13,7 +13,7 @@ export default function login(phone: string) {
 		)
 
 		MercuryFixture.setShouldAutomaticallyClearDefaultClient(false)
-		ViewFixture.setShouldAutomaticallyResetAuthenticator(false)
+		ViewFixture.setShouldAutomaticallyResetAuth(false)
 
 		const beforeAll = Class.beforeAll.bind(Class)
 		let proxyGenerator: any
