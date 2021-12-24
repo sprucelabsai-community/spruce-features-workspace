@@ -138,7 +138,6 @@ export default class SkillFixture {
 	}
 
 	public async destroy() {
-		debugger
 		await Promise.all(
 			this.skills.map(async ({ skill, client }) =>
 				client.emit('unregister-skill::v2020_12_25', {
