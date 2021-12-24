@@ -52,6 +52,7 @@ export default class LocationFixture {
 			payload: {
 				name: 'Location from fixture',
 				slug: this.generateLocationSlug(),
+				isPublic: true,
 				address: {
 					street1: '123 Main St',
 					city: 'Denver',
