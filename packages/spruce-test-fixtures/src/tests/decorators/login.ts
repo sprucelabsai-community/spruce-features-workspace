@@ -33,6 +33,13 @@ export default function login(phone: string) {
 
 			MercuryFixture.setDefaultClient(client)
 			ViewFixture.lockProxyCacheForPerson(person.id)
+
+			//@ts-ignore
+			let didLogin = login?.listeners?.['did-login']
+
+			if (didLogin) {
+				await didLogin(client)
+			}
 		}
 
 		const beforeEach = Class.beforeEach.bind(Class)
@@ -74,4 +81,17 @@ login.getPerson = (): SpruceSchemas.Spruce.v2020_07_22.Person => {
 
 	//@ts-ignore
 	return login.loggedInPerson
+}
+
+login.on = async (
+	name: 'did-login',
+	cb: (options: {
+		client: MercuryClient
+		person: SpruceSchemas.Spruce.v2020_07_22.Person
+	}) => Promise<void> | void
+) => {
+	//@ts-ignore
+	login.listeners = {
+		[name]: cb,
+	}
 }

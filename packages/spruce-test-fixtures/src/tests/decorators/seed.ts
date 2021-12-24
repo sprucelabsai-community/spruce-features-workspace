@@ -2,11 +2,25 @@ import { StoreName } from '@sprucelabs/data-stores'
 import { assert } from '@sprucelabs/test'
 import { StoreFixture } from '../..'
 import SeedFixture from '../fixtures/SeedFixture'
+import login from './login'
 
 type SeedTarget = 'organizations' | 'locations' | StoreName
 
 export default function seed(storeName: SeedTarget, totalToSeed?: number) {
 	return function (Class: any, key: string, descriptor: any) {
+		if (storeName === 'organizations' || storeName === 'locations') {
+			const beforeAll = Class.beforeAll.bind(Class)
+			Class.beforeAll = async () => {
+				await beforeAll()
+
+				login.on('did-login', async () => {
+					Class.__shouldResetAccount = true
+
+					await reset(Class)
+				})
+			}
+		}
+
 		StoreFixture.setShouldAutomaticallyResetDatabase(false)
 		StoreFixture.resetDbConnectionSettings()
 

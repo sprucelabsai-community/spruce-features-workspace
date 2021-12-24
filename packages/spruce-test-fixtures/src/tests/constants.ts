@@ -38,3 +38,7 @@ export const DEMO_NUMBER_LOGIN_DECORATOR =
 	process.env.DEMO_NUMBER_LOGIN_DECORATOR ?? '***missing***'
 export const DEMO_NUMBER_LOGIN_DECORATOR_2 =
 	process.env.DEMO_NUMBER_LOGIN_DECORATOR_2 ?? '***missing***'
+export const DEMO_NUMBER_ACCOUNT_BEFORE_ALL_RESET =
+	process.env.DEMO_NUMBER_ACCOUNT_BEFORE_ALL_RESET ?? '***missing***'
+export const DEMO_NUMBER_ACCOUNT_BEFORE_ALL_RESET_LOCATION =
+	process.env.DEMO_NUMBER_ACCOUNT_BEFORE_ALL_RESET_LOCATION ?? '***missing***'

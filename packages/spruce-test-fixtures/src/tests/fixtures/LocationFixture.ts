@@ -104,12 +104,22 @@ export default class LocationFixture {
 		return locations.pop() ?? null
 	}
 
-	public async listLocations(organizationId: string) {
+	public async listLocations(organizationId?: string) {
 		const { client } = await this.personFixture.loginAsDemoPerson()
+
+		if (!organizationId) {
+			const org = await this.organizationFixture.getNewestOrganization()
+			if (!org) {
+				throw new Error(
+					`You have to @seed('organizations',1) before you can list locations.`
+				)
+			}
+			organizationId = org?.id
+		}
 
 		const results = await client.emit('list-locations::v2020_12_25', {
 			target: {
-				organizationId,
+				organizationId: organizationId as string,
 			},
 			payload: {
 				includePrivateLocations: true,
