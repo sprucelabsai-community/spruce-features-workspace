@@ -86,7 +86,7 @@ login.getPerson = (): SpruceSchemas.Spruce.v2020_07_22.Person => {
 login.on = async (
 	name: 'did-login',
 	cb: (options: {
-		client: MercuryClient
+		client: Client
 		person: SpruceSchemas.Spruce.v2020_07_22.Person
 	}) => Promise<void> | void
 ) => {
