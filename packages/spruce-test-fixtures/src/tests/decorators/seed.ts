@@ -13,7 +13,7 @@ export default function seed(storeName: SeedTarget, totalToSeed?: number) {
 			Class.beforeAll = async () => {
 				await beforeAll()
 
-				login.on('did-login', async () => {
+				await login.on('did-login', async () => {
 					Class.__shouldResetAccount = true
 
 					await reset(Class)
