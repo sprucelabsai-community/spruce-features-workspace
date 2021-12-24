@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [19.3.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v19.2.10...v19.3.0) (2021-12-24)
+
+
+### Features
+
+* seeded locations are now public ([711539c](https://github.com/sprucelabsai/spruce-features-workspace/commit/711539c))
+
+
+
+
+
 ## [19.2.10](https://github.com/sprucelabsai/spruce-features-workspace/compare/v19.2.9...v19.2.10) (2021-12-24)
 
 **Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
