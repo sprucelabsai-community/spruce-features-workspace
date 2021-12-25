@@ -160,7 +160,7 @@ export default class LocationFixture {
 
 		const roleId = role.id
 
-		const setRoleResults = await client.emit('set-role::v2020_12_25', {
+		const addRoleResults = await client.emit('add-role::v2020_12_25', {
 			target: {
 				locationId,
 			},
@@ -170,7 +170,7 @@ export default class LocationFixture {
 			},
 		})
 
-		eventResponseUtil.getFirstResponseOrThrow(setRoleResults)
+		eventResponseUtil.getFirstResponseOrThrow(addRoleResults)
 	}
 
 	public async destory() {}

@@ -137,7 +137,7 @@ export default class OrganizationFixture {
 
 		const roleId = match.id
 
-		const setRoleResults = await client.emit('set-role::v2020_12_25', {
+		const addRoleResults = await client.emit('add-role::v2020_12_25', {
 			target: {
 				organizationId,
 			},
@@ -147,7 +147,7 @@ export default class OrganizationFixture {
 			},
 		})
 
-		eventResponseUtil.getFirstResponseOrThrow(setRoleResults)
+		eventResponseUtil.getFirstResponseOrThrow(addRoleResults)
 	}
 
 	public async isSkillInstalled(skillId: string, organizationId: string) {
