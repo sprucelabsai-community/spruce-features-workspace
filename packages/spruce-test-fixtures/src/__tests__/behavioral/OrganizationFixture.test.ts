@@ -201,7 +201,7 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 		const orgFixture = this.Fixture('organization', { personFixture })
 
 		//@ts-ignore
-		assert.isEqual(orgFixture.personFixture, personFixture)
+		assert.isEqual(orgFixture.people, personFixture)
 	}
 
 	@test()
