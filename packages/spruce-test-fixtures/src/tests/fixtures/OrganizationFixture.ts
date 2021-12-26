@@ -6,7 +6,7 @@ import PersonFixture from './PersonFixture'
 import RoleFixture from './RoleFixture'
 
 export default class OrganizationFixture {
-	private personFixture: PersonFixture
+	private people: PersonFixture
 	private organizations: { organization: any; client: MercuryClient }[] = []
 	private orgCounter = process.pid
 	private roles: RoleFixture
@@ -15,7 +15,7 @@ export default class OrganizationFixture {
 		personFixture: PersonFixture
 		roleFixture: RoleFixture
 	}) {
-		this.personFixture = options.personFixture
+		this.people = options.personFixture
 		this.roles = options.roleFixture
 	}
 
@@ -43,7 +43,7 @@ export default class OrganizationFixture {
 			...rest,
 		}
 
-		const { client } = await this.personFixture.loginAsDemoPerson(phone)
+		const { client } = await this.people.loginAsDemoPerson(phone)
 
 		const results = await client.emit('create-organization::v2020_12_25', {
 			payload: allValues,
@@ -57,7 +57,7 @@ export default class OrganizationFixture {
 	}
 
 	public async getOrganizationById(id: string) {
-		const { client } = await this.personFixture.loginAsDemoPerson()
+		const { client } = await this.people.loginAsDemoPerson()
 
 		const results = await client.emit('get-organization::v2020_12_25', {
 			target: {
@@ -71,7 +71,7 @@ export default class OrganizationFixture {
 	}
 
 	public async getNewestOrganization(phone?: string) {
-		const { client } = await this.personFixture.loginAsDemoPerson(phone)
+		const { client } = await this.people.loginAsDemoPerson(phone)
 
 		const results = await client.emit('list-organizations::v2020_12_25', {
 			payload: {
@@ -89,7 +89,7 @@ export default class OrganizationFixture {
 	}
 
 	public async installSkill(skillId: string, orgId: string): Promise<void> {
-		const { client } = await this.personFixture.loginAsDemoPerson()
+		const { client } = await this.people.loginAsDemoPerson()
 
 		const results = await client.emit('install-skill::v2020_12_25', {
 			target: {
@@ -134,7 +134,7 @@ export default class OrganizationFixture {
 	}
 
 	public async isSkillInstalled(skillId: string, organizationId: string) {
-		const { client } = await this.personFixture.loginAsDemoPerson()
+		const { client } = await this.people.loginAsDemoPerson()
 
 		const results = await client.emit('is-skill-installed::v2020_12_25', {
 			target: {
@@ -158,7 +158,7 @@ export default class OrganizationFixture {
 
 		assertOptions(options, ['organizationId', 'namespaces'])
 
-		const { client } = await this.personFixture.loginAsDemoPerson()
+		const { client } = await this.people.loginAsDemoPerson()
 		const skillResults = await client.emit('list-skills::v2020_12_25', {
 			payload: {
 				namespaces,
@@ -173,7 +173,7 @@ export default class OrganizationFixture {
 	}
 
 	public async deleteAllOrganizations(phone?: string) {
-		const { client } = await this.personFixture.loginAsDemoPerson(phone)
+		const { client } = await this.people.loginAsDemoPerson(phone)
 		const organizations = await this.listOrganizations(phone)
 
 		await Promise.all(
@@ -188,7 +188,7 @@ export default class OrganizationFixture {
 	}
 
 	public async listOrganizations(phone?: string) {
-		const { client } = await this.personFixture.loginAsDemoPerson(phone)
+		const { client } = await this.people.loginAsDemoPerson(phone)
 
 		const results = await client.emit('list-organizations::v2020_12_25', {
 			payload: {
@@ -214,6 +214,6 @@ export default class OrganizationFixture {
 			})
 		)
 
-		await this.personFixture.destroy()
+		await this.people.destroy()
 	}
 }
