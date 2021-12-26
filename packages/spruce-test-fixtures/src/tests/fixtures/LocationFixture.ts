@@ -5,9 +5,9 @@ import PersonFixture from './PersonFixture'
 import RoleFixture from './RoleFixture'
 
 export default class LocationFixture {
-	private personFixture: PersonFixture
-	private organizationFixture: OrganizationFixture
-	private roleFixture: RoleFixture
+	private people: PersonFixture
+	private orgs: OrganizationFixture
+	private roles: RoleFixture
 	private locationCounter = 0
 
 	public constructor(options: {
@@ -15,9 +15,9 @@ export default class LocationFixture {
 		organizationFixture: OrganizationFixture
 		roleFixture: RoleFixture
 	}) {
-		this.personFixture = options.personFixture
-		this.organizationFixture = options.organizationFixture
-		this.roleFixture = options.roleFixture
+		this.people = options.personFixture
+		this.orgs = options.organizationFixture
+		this.roles = options.roleFixture
 	}
 
 	public async seedDemoLocation(
@@ -26,17 +26,15 @@ export default class LocationFixture {
 			organizationId?: string
 		}
 	) {
-		const { client } = await this.personFixture.loginAsDemoPerson(values?.phone)
+		const { client } = await this.people.loginAsDemoPerson(values?.phone)
 		let { organizationId: orgId, ...rest } = values ?? {}
 
 		if (!orgId) {
-			const last = await this.organizationFixture.getNewestOrganization(
-				values?.phone
-			)
+			const last = await this.orgs.getNewestOrganization(values?.phone)
 			if (last) {
 				orgId = last.id
 			} else {
-				const org = await this.organizationFixture.seedDemoOrganization({
+				const org = await this.orgs.seedDemoOrganization({
 					name: 'Org to support seed location',
 					phone: values?.phone,
 				})
@@ -75,7 +73,7 @@ export default class LocationFixture {
 	}
 
 	public async getLocationById(id: string) {
-		const { client } = await this.personFixture.loginAsDemoPerson()
+		const { client } = await this.people.loginAsDemoPerson()
 
 		const results = await client.emit('get-location::v2020_12_25', {
 			target: {
@@ -89,7 +87,7 @@ export default class LocationFixture {
 	}
 
 	public async getNewestLocation(organizationId: string) {
-		const { client } = await this.personFixture.loginAsDemoPerson()
+		const { client } = await this.people.loginAsDemoPerson()
 
 		const results = await client.emit('list-locations::v2020_12_25', {
 			target: {
@@ -106,10 +104,10 @@ export default class LocationFixture {
 	}
 
 	public async listLocations(organizationId?: string) {
-		const { client } = await this.personFixture.loginAsDemoPerson()
+		const { client } = await this.people.loginAsDemoPerson()
 
 		if (!organizationId) {
-			const org = await this.organizationFixture.getNewestOrganization()
+			const org = await this.orgs.getNewestOrganization()
 			if (!org) {
 				throw new Error(
 					`You have to @seed('organizations',1) before you can list locations.`
@@ -137,40 +135,28 @@ export default class LocationFixture {
 		locationId: string
 		phone?: string
 	}) {
-		const roles = await this.roleFixture.listRoles(options)
+		const roles = await this.roles.listRoles(options)
 		return roles.length > 0
 	}
 
 	public async addPerson(options: {
 		personId: string
-		organizationId: string
 		locationId: string
+		organizationId: string
 		roleBase: string
 		phone?: string
 	}) {
-		const { personId, organizationId, locationId, roleBase, phone } = options
+		await this.roles.addRoleToPerson(options)
+	}
 
-		const { client } = await this.personFixture.loginAsDemoPerson(phone)
-
-		const role = await this.roleFixture.fetchFirstRoleWithBase({
-			organizationId,
-			base: roleBase,
-			phone,
-		})
-
-		const roleId = role.id
-
-		const addRoleResults = await client.emit('add-role::v2020_12_25', {
-			target: {
-				locationId,
-			},
-			payload: {
-				personId,
-				roleId,
-			},
-		})
-
-		eventResponseUtil.getFirstResponseOrThrow(addRoleResults)
+	public async removePerson(options: {
+		phone: string
+		personId: string
+		locationId: string
+		organizationId: string
+		roleBase: string
+	}) {
+		await this.roles.removeRoleFromPerson(options)
 	}
 
 	public async destory() {}

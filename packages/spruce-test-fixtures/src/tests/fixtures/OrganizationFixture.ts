@@ -9,14 +9,14 @@ export default class OrganizationFixture {
 	private personFixture: PersonFixture
 	private organizations: { organization: any; client: MercuryClient }[] = []
 	private orgCounter = process.pid
-	private roleFixture: RoleFixture
+	private roles: RoleFixture
 
 	public constructor(options: {
 		personFixture: PersonFixture
 		roleFixture: RoleFixture
 	}) {
 		this.personFixture = options.personFixture
-		this.roleFixture = options.roleFixture
+		this.roles = options.roleFixture
 	}
 
 	public async seedDemoOrganization(
@@ -108,11 +108,20 @@ export default class OrganizationFixture {
 		organizationId: string
 		phone?: string
 	}) {
-		const roles = await this.roleFixture.listRoles({
+		const roles = await this.roles.listRoles({
 			...options,
 		})
 
 		return roles.length > 0
+	}
+
+	public async removePerson(options: {
+		phone?: string
+		roleBase: string
+		organizationId: string
+		personId: string
+	}) {
+		await this.roles.removeRoleFromPerson(options)
 	}
 
 	public async addPerson(options: {
@@ -121,33 +130,7 @@ export default class OrganizationFixture {
 		roleBase: string
 		phone?: string
 	}) {
-		const { personId, organizationId, roleBase, phone } = options
-
-		const { client } = await this.personFixture.loginAsDemoPerson(phone)
-
-		const match = await this.roleFixture.fetchFirstRoleWithBase({
-			organizationId,
-			phone,
-			base: roleBase,
-		})
-
-		if (!match) {
-			throw Error(`Could not find role based on ${roleBase}.`)
-		}
-
-		const roleId = match.id
-
-		const addRoleResults = await client.emit('add-role::v2020_12_25', {
-			target: {
-				organizationId,
-			},
-			payload: {
-				personId,
-				roleId,
-			},
-		})
-
-		eventResponseUtil.getFirstResponseOrThrow(addRoleResults)
+		await this.roles.addRoleToPerson(options)
 	}
 
 	public async isSkillInstalled(skillId: string, organizationId: string) {

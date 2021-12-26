@@ -59,6 +59,79 @@ export default class RoleFixture {
 		return roles
 	}
 
+	public async addRoleToPerson(options: {
+		personId: string
+		organizationId: string
+		locationId?: string
+		roleBase: string
+		phone?: string
+	}) {
+		const { personId, organizationId, locationId, roleBase, phone } = options
+
+		const { client } = await this.personFixture.loginAsDemoPerson(phone)
+
+		const match = await this.fetchFirstRoleWithBase({
+			organizationId,
+			phone,
+			base: roleBase,
+		})
+
+		if (!match) {
+			throw Error(`Could not find role based on ${roleBase}.`)
+		}
+
+		const roleId = match.id
+
+		const addRoleResults = await client.emit('add-role::v2020_12_25', {
+			target: {
+				locationId,
+				organizationId,
+			},
+			payload: {
+				personId,
+				roleId,
+			},
+		})
+
+		eventResponseUtil.getFirstResponseOrThrow(addRoleResults)
+	}
+
+	public async removeRoleFromPerson(options: {
+		phone?: string
+		roleBase: string
+		organizationId: string
+		locationId?: string
+		personId: string
+	}) {
+		const {
+			phone,
+			organizationId: orgId,
+			personId,
+			roleBase,
+			locationId,
+		} = options
+		const { client } = await this.personFixture.loginAsDemoPerson(phone)
+
+		const role = await this.fetchFirstRoleWithBase({
+			phone,
+			base: roleBase,
+			organizationId: orgId,
+		})
+
+		const results = await client.emit('remove-role::v2020_12_25', {
+			target: {
+				organizationId: orgId,
+				locationId,
+			},
+			payload: {
+				personId,
+				roleId: role.id,
+			},
+		})
+
+		eventResponseUtil.getFirstResponseOrThrow(results)
+	}
+
 	public async fetchFirstRoleWithBase(options: {
 		organizationId: string
 		base: string

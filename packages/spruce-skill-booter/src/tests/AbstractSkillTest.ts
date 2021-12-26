@@ -14,7 +14,7 @@ import {
 } from '../types/skill.types'
 
 export default class AbstractSkillTest extends AbstractSpruceTest {
-	protected static skills: Skill[] = []
+	protected static registeredSkills: Skill[] = []
 	protected static skillBootError?: any
 
 	protected static async afterEach() {
@@ -22,11 +22,11 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
 
 		SchemaRegistry.getInstance().forgetAllSchemas()
 
-		for (const skill of this.skills) {
+		for (const skill of this.registeredSkills) {
 			await skill.kill()
 		}
 
-		this.skills = []
+		this.registeredSkills = []
 
 		if (this.skillBootError) {
 			const err = this.skillBootError
@@ -68,7 +68,7 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
 			await pluginUtil.import([skill], dir)
 		}
 
-		this.skills.push(skill)
+		this.registeredSkills.push(skill)
 
 		return skill as Skill
 	}
