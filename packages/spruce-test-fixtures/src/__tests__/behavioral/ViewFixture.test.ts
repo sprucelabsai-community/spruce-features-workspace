@@ -107,7 +107,7 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 		const viewFixture = this.Fixture('view', { personFixture })
 
 		//@ts-ignore
-		assert.isEqual(viewFixture.personFixture, personFixture)
+		assert.isEqual(viewFixture.people, personFixture)
 	}
 
 	@test()
