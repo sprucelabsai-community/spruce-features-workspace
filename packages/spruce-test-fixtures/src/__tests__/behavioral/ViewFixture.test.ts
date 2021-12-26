@@ -242,21 +242,21 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 			//@ts-ignore
 			fixture.people,
 			//@ts-ignore
-			fixture.organizationFixture.people
+			fixture.orgs.people
 		)
 
 		assert.isEqual(
 			//@ts-ignore
 			fixture.people,
 			//@ts-ignore
-			fixture.locationFixture.people
+			fixture.locations.people
 		)
 
 		assert.isEqual(
 			//@ts-ignore
 			fixture.orgs,
 			//@ts-ignore
-			fixture.locationFixture.orgs
+			fixture.locations.orgs
 		)
 	}
 
