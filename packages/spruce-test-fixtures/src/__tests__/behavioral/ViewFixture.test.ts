@@ -240,23 +240,23 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 		const { fixture } = this.Scope()
 		assert.isEqual(
 			//@ts-ignore
-			fixture.personFixture,
+			fixture.people,
 			//@ts-ignore
-			fixture.organizationFixture.personFixture
+			fixture.organizationFixture.people
 		)
 
 		assert.isEqual(
 			//@ts-ignore
-			fixture.personFixture,
+			fixture.people,
 			//@ts-ignore
-			fixture.locationFixture.personFixture
+			fixture.locationFixture.people
 		)
 
 		assert.isEqual(
 			//@ts-ignore
-			fixture.organizationFixture,
+			fixture.orgs,
 			//@ts-ignore
-			fixture.locationFixture.organizationFixture
+			fixture.locationFixture.orgs
 		)
 	}
 

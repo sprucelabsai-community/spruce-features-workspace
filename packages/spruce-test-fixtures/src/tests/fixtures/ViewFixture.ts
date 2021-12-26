@@ -38,9 +38,9 @@ export default class ViewFixture {
 	private controllerMap?: Record<string, any>
 	private connectToApi: Factory
 	private namespace: string
-	private personFixture: PersonFixture
-	private organizationFixture: OrganizationFixture
-	private locationFixture: LocationFixture
+	private people: PersonFixture
+	private orgs: OrganizationFixture
+	private locations: LocationFixture
 	private proxyDecorator: ClientProxyDecorator
 
 	public static lockProxyCacheForPerson(id: any) {
@@ -62,19 +62,19 @@ export default class ViewFixture {
 		proxyDecorator: ClientProxyDecorator
 	}) {
 		this.connectToApi = options.connectToApi
-		this.personFixture = options.personFixture
+		this.people = options.personFixture
 		this.vcDir =
 			options?.vcDir ??
 			diskUtil.resolvePath(options.cwd ?? process.cwd(), 'build')
 		this.controllerMap = options?.controllerMap
 		this.namespace = options.namespace
 		this.proxyDecorator = options.proxyDecorator
-		this.organizationFixture = options.fixtureFactory.Fixture('organization', {
-			personFixture: this.personFixture,
+		this.orgs = options.fixtureFactory.Fixture('organization', {
+			personFixture: this.people,
 		})
-		this.locationFixture = options.fixtureFactory.Fixture('location', {
-			personFixture: this.personFixture,
-			organizationFixture: this.organizationFixture,
+		this.locations = options.fixtureFactory.Fixture('location', {
+			personFixture: this.people,
+			organizationFixture: this.orgs,
 		})
 	}
 
@@ -225,8 +225,8 @@ export default class ViewFixture {
 	public getScope() {
 		if (!ViewFixture.scope) {
 			ViewFixture.scope = new TestScope({
-				organizationFixture: this.organizationFixture,
-				locationFixture: this.locationFixture,
+				organizationFixture: this.orgs,
+				locationFixture: this.locations,
 			})
 		}
 		return ViewFixture.scope
@@ -253,8 +253,7 @@ export default class ViewFixture {
 	}
 
 	public async loginAsDemoPerson(phone?: string) {
-		const { person, token, client } =
-			await this.personFixture.loginAsDemoPerson(phone)
+		const { person, token, client } = await this.people.loginAsDemoPerson(phone)
 
 		this.getAuthenticator().setSessionToken(token, person)
 
