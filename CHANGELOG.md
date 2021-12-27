@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [20.0.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v19.4.3...v20.0.0) (2021-12-27)
+
+
+### Breaking Changes
+
+* listing roles no longer returns meta roles by default (loggedIn, anonymous) ([7871218](https://github.com/sprucelabsai/spruce-features-workspace/commit/7871218))
+
+
+
+
+
 ## [19.4.3](https://github.com/sprucelabsai/spruce-features-workspace/compare/v19.4.2...v19.4.3) (2021-12-27)
 
 **Note:** Version bump only for package spruce-features-workspace
