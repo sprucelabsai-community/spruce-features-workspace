@@ -11,8 +11,9 @@ import {
 	ViewControllerFactory,
 	ViewControllerId,
 } from '@sprucelabs/heartwood-view-controllers'
-import { MercuryClient, SpruceSchemas } from '@sprucelabs/mercury-client'
+import { MercuryClient } from '@sprucelabs/mercury-client'
 import { SchemaError } from '@sprucelabs/schema'
+import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 import { ClientProxyDecorator } from '../..'
 import { TokenGenerator } from '../../ClientProxyDecorator'
