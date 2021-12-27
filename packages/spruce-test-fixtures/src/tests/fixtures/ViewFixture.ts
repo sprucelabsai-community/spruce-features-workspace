@@ -11,7 +11,7 @@ import {
 	ViewControllerFactory,
 	ViewControllerId,
 } from '@sprucelabs/heartwood-view-controllers'
-import { MercuryClient } from '@sprucelabs/mercury-client'
+import { MercuryClient, SpruceSchemas } from '@sprucelabs/mercury-client'
 import { SchemaError } from '@sprucelabs/schema'
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 import { ClientProxyDecorator } from '../..'
@@ -28,6 +28,7 @@ import PersonFixture from './PersonFixture'
 import TestScope from './TestScope'
 
 type Factory = TestConnectFactory
+type Client = MercuryClient
 
 export default class ViewFixture {
 	private static vcFactory?: ViewControllerFactory
@@ -35,7 +36,7 @@ export default class ViewFixture {
 	private static dontResetProxyTokenForPersonId?: string
 	private static scope?: Scope
 	private static shouldAutomaticallyResetAuthenticator = true
-	private static viewClient?: MercuryClient
+	private static viewClient?: Client
 	protected vcDir: string
 	private controllerMap?: Record<string, any>
 	private connectToApi: Factory
@@ -256,7 +257,10 @@ export default class ViewFixture {
 		this.proxyDecorator.setProxyTokenGenerator(cb)
 	}
 
-	public async loginAsDemoPerson(phone?: string) {
+	public async loginAsDemoPerson(phone?: string): Promise<{
+		person: SpruceSchemas.Spruce.v2020_07_22.Person
+		client: Client
+	}> {
 		const { person, token, client } = await this.people.loginAsDemoPerson(phone)
 
 		this.getAuthenticator().setSessionToken(token, person)
