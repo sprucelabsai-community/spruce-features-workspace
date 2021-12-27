@@ -196,6 +196,8 @@ export default class ViewFixture {
 			this.resetAuth()
 		}
 
+		this.viewClient = undefined
+
 		const lockedToken =
 			this.dontResetProxyTokenForPersonId &&
 			ViewFixture.loggedInPersonProxyTokens[this.dontResetProxyTokenForPersonId]

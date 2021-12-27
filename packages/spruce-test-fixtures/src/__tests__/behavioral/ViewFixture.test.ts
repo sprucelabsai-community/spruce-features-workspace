@@ -479,6 +479,11 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 		assert.isEqual(client, client2)
 	}
 
+	@test()
+	protected static viewClientIsResetAfterEachTest() {
+		assert.isFalsy(ViewFixture.viewClient)
+	}
+
 	private static async loginAndGetProxy(phone?: string) {
 		const { client } = await this.fixtureNoOptions.loginAsDemoPerson(
 			phone ?? DEMO_NUMBER_VIEW_FIXTURE
