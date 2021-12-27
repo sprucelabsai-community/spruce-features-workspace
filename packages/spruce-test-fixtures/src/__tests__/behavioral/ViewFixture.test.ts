@@ -15,6 +15,7 @@ import {
 	DEMO_NUMBER_VIEW_FIXTURE,
 	DEMO_NUMBER,
 	DEMO_NUMBER_VIEW_FIXTURE_2,
+	DEMO_NUMBER_VIEW_FIXTURE_CLIENT_2,
 } from '../../tests/constants'
 import ViewFixture from '../../tests/fixtures/ViewFixture'
 import MockSkillViewController from '../../tests/Mock.svc'
@@ -33,9 +34,24 @@ class ScopeSvc extends AbstractSkillViewController {
 	}
 }
 
+class ClientSvc extends AbstractSkillViewController {
+	public loadOptions: SkillViewControllerLoadOptions | null = null
+
+	public connect() {
+		return this.connectToApi()
+	}
+
+	public render() {
+		return {
+			layouts: [],
+		}
+	}
+}
+
 declare module '@sprucelabs/heartwood-view-controllers/build/types/heartwood.types' {
 	interface ViewControllerMap {
 		scope: ScopeSvc
+		client: ClientSvc
 	}
 }
 
@@ -49,6 +65,7 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 		this.fixture = this.Fixture('view', {
 			controllerMap: {
 				scope: ScopeSvc,
+				client: ClientSvc,
 			},
 		})
 
@@ -151,18 +168,18 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async scopeGetsLastOrgByDefault() {
-		const organizationFixture = this.Fixture('organization')
-		await organizationFixture.seedDemoOrganization({
+		const orgs = this.Fixture('organization')
+		await orgs.seedDemoOrganization({
 			name: 'Scope org',
 			phone: DEMO_NUMBER_VIEW_FIXTURE,
 		})
 
-		await organizationFixture.seedDemoOrganization({
+		await orgs.seedDemoOrganization({
 			name: 'Scope org',
 			phone: DEMO_NUMBER_VIEW_FIXTURE,
 		})
 
-		const expected = await organizationFixture.seedDemoOrganization({
+		const expected = await orgs.seedDemoOrganization({
 			name: 'Scope org',
 			phone: DEMO_NUMBER_VIEW_FIXTURE,
 		})
@@ -177,8 +194,8 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async scopeGetsLastLocationByDefault() {
-		const organizationFixture = this.Fixture('organization')
-		const org = await organizationFixture.seedDemoOrganization({
+		const orgs = this.Fixture('organization')
+		const org = await orgs.seedDemoOrganization({
 			name: 'Scope org',
 			phone: DEMO_NUMBER_VIEW_FIXTURE,
 		})
@@ -448,6 +465,18 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 		assert.isEqualDeep(ViewFixture.loggedInPersonProxyTokens, {})
 		const generator = this.getProxyGenerator()
 		assert.isFalsy(generator)
+	}
+
+	@test()
+	protected static async loggingInAsViewSetsClientForViewControllers() {
+		const { client } = await this.fixture.loginAsDemoPerson(
+			DEMO_NUMBER_VIEW_FIXTURE_CLIENT_2
+		)
+
+		const vc = await this.fixture.Controller('client', {})
+		const client2 = await vc.connect()
+
+		assert.isEqual(client, client2)
 	}
 
 	private static async loginAndGetProxy(phone?: string) {

@@ -11,12 +11,13 @@ import {
 	ViewControllerFactory,
 	ViewControllerId,
 } from '@sprucelabs/heartwood-view-controllers'
+import { MercuryClient } from '@sprucelabs/mercury-client'
 import { SchemaError } from '@sprucelabs/schema'
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 import { ClientProxyDecorator } from '../..'
 import { TokenGenerator } from '../../ClientProxyDecorator'
 import SpruceError from '../../errors/SpruceError'
-import { TestConnectFactory } from '../../types/fixture.types'
+import { ConnectOptions, TestConnectFactory } from '../../types/fixture.types'
 import vcDiskUtil from '../../utilities/vcDisk.utility'
 import MockSkillViewController from '../Mock.svc'
 import TestRouter from '../routers/TestRouter'
@@ -34,6 +35,7 @@ export default class ViewFixture {
 	private static dontResetProxyTokenForPersonId?: string
 	private static scope?: Scope
 	private static shouldAutomaticallyResetAuthenticator = true
+	private static viewClient?: MercuryClient
 	protected vcDir: string
 	private controllerMap?: Record<string, any>
 	private connectToApi: Factory
@@ -141,7 +143,9 @@ export default class ViewFixture {
 
 		this.vcFactory = ViewControllerFactory.Factory({
 			controllerMap,
-			connectToApi,
+			connectToApi: async (options?: ConnectOptions) => {
+				return this.viewClient ?? connectToApi(options)
+			},
 		})
 
 		vcAssertUtil._setVcFactory(this.vcFactory)
@@ -265,6 +269,8 @@ export default class ViewFixture {
 
 			return ViewFixture.loggedInPersonProxyTokens[person.id]
 		})
+
+		ViewFixture.viewClient = client
 
 		return { person, client }
 	}

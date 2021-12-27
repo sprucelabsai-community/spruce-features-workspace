@@ -15,8 +15,10 @@ export interface TestConnectionOptions {
 	shouldReUseClient?: boolean
 }
 
+export type ConnectOptions = TestConnectionOptions & ConnectionOptions
+
 export type TestConnectFactory = (
-	options?: TestConnectionOptions & ConnectionOptions
+	options?: ConnectOptions
 ) => Promise<MercuryClient>
 
 export interface FixtureClassMap {
