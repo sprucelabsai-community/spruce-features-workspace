@@ -164,7 +164,7 @@ export default class RoleFixture {
 		const roles = await this.listRoles(options)
 		const role = roles.find((role) => role.base === options.base)
 
-		assert.isTruthy(role)
+		assert.isTruthy(role, `I could not find a role based on ${options.base}!`)
 
 		return role
 	}
