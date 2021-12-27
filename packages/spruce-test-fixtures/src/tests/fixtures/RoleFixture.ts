@@ -24,8 +24,15 @@ export default class RoleFixture {
 		locationId?: string
 		personId?: string
 		phone?: string
+		shouldIncludeMetaRoles?: boolean
 	}) {
-		let { organizationId, locationId, personId, phone } = options ?? {}
+		let {
+			organizationId,
+			locationId,
+			personId,
+			phone,
+			shouldIncludeMetaRoles,
+		} = options ?? {}
 
 		const { client } = await this.personFixture.loginAsDemoPerson(phone)
 
@@ -55,6 +62,14 @@ export default class RoleFixture {
 		})
 
 		const { roles } = eventResponseUtil.getFirstResponseOrThrow(results)
+
+		if (!shouldIncludeMetaRoles) {
+			const workingRoles = roles.filter(
+				(role) => role.base !== 'anonymous' && role.base !== 'loggedIn'
+			)
+
+			return workingRoles
+		}
 
 		return roles
 	}
