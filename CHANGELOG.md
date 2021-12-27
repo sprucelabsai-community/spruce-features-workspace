@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [19.4.1](https://github.com/sprucelabsai/spruce-features-workspace/compare/v19.4.0...v19.4.1) (2021-12-26)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+# [19.4.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v19.3.5...v19.4.0) (2021-12-26)
+
+
+### Features
+
+* can remove person from orgs and locations ([ed1aa51](https://github.com/sprucelabsai/spruce-features-workspace/commit/ed1aa51))
+
+
+
+
+
 ## [19.3.5](https://github.com/sprucelabsai/spruce-features-workspace/compare/v19.3.4...v19.3.5) (2021-12-26)
 
 **Note:** Version bump only for package spruce-features-workspace
