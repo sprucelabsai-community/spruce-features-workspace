@@ -85,7 +85,7 @@ export default class RoleFixture {
 
 		const { client } = await this.personFixture.loginAsDemoPerson(phone)
 
-		const match = await this.fetchFirstRoleWithBase({
+		const match = await this.getFirstRoleWithBase({
 			organizationId,
 			phone,
 			base: roleBase,
@@ -127,7 +127,7 @@ export default class RoleFixture {
 		} = options
 		const { client } = await this.personFixture.loginAsDemoPerson(phone)
 
-		const role = await this.fetchFirstRoleWithBase({
+		const role = await this.getFirstRoleWithBase({
 			phone,
 			base: roleBase,
 			organizationId: orgId,
@@ -147,7 +147,16 @@ export default class RoleFixture {
 		eventResponseUtil.getFirstResponseOrThrow(results)
 	}
 
+	/** @deprecated - use getFirstRoleWithBase */
 	public async fetchFirstRoleWithBase(options: {
+		organizationId: string
+		base: string
+		phone?: string
+	}) {
+		return this.getFirstRoleWithBase(options)
+	}
+
+	public async getFirstRoleWithBase(options: {
 		organizationId: string
 		base: string
 		phone?: string
