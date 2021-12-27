@@ -481,6 +481,7 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static viewClientIsResetAfterEachTest() {
+		//@ts-ignore
 		assert.isFalsy(ViewFixture.viewClient)
 	}
 
