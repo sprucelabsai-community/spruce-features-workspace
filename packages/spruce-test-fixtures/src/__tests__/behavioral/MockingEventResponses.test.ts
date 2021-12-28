@@ -20,15 +20,20 @@ export default class MockingErrorResponsesTest extends AbstractSpruceFixtureTest
 	) {
 		await eventMocker.makeEventThrow(fqen)
 
+		await this.assertResponsIsMockError(fqen, targetAndPayload)
+	}
+
+	@test()
+	protected static async throwsEvenWhenMockingWithPreviousListeners() {
 		const client = await this.connectToApi()
 
-		const results = await client.emit(fqen, targetAndPayload)
-
-		assert.isEqual(results.totalErrors, 1)
-
-		eventAssertUtil.assertErrorFromResponse(results, 'MOCK_EVENT_ERROR', {
-			fqen,
+		//@ts-ignore
+		await client.on('whoami::v2020_12_25', async () => {
+			return {}
 		})
+
+		await eventMocker.makeEventThrow('whoami::v2020_12_25')
+		await this.assertResponsIsMockError('whoami::v2020_12_25')
 	}
 
 	@test()
@@ -68,6 +73,21 @@ export default class MockingErrorResponsesTest extends AbstractSpruceFixtureTest
 		const results = await client.emit(fqen)
 
 		assert.isEqual(results.totalErrors, 0)
+	}
+
+	private static async assertResponsIsMockError(
+		fqen: any,
+		targetAndPayload?: any
+	) {
+		const client = await this.connectToApi()
+
+		const results = await client.emit(fqen, targetAndPayload)
+
+		assert.isEqual(results.totalErrors, 1)
+
+		eventAssertUtil.assertErrorFromResponse(results, 'MOCK_EVENT_ERROR', {
+			fqen,
+		})
 	}
 
 	private static async connectToApi() {

@@ -8,6 +8,8 @@ type Fqen = keyof SkillEventContract['eventSignatures']
 const eventMocker = {
 	async makeEventThrow(fqen: Fqen) {
 		const client = getClient(fqen)
+
+		await client.off(fqen)
 		await client.on(fqen as any, () => {
 			throw new SpruceError({
 				code: 'MOCK_EVENT_ERROR',
