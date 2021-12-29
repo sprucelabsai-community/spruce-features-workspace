@@ -16,7 +16,6 @@ export default function seed(storeName: SeedTarget, totalToSeed?: number) {
 
 				await login.on('did-login', async () => {
 					Class.__shouldResetAccount = true
-
 					await reset(Class)
 				})
 			}
@@ -64,9 +63,9 @@ function attachCleanup(Class: any) {
 		const beforeEach = Class.beforeEach.bind(Class)
 
 		Class.afterEach = async () => {
+			MercuryTestClient.reset()
 			await afterEach?.()
 
-			MercuryTestClient.reset()
 			delete Class.__lastReset
 		}
 
