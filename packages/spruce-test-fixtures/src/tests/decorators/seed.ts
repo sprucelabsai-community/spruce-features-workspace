@@ -1,4 +1,5 @@
 import { StoreName } from '@sprucelabs/data-stores'
+import { MercuryTestClient } from '@sprucelabs/mercury-client'
 import { assert } from '@sprucelabs/test'
 import { StoreFixture } from '../..'
 import SeedFixture from '../fixtures/SeedFixture'
@@ -64,6 +65,8 @@ function attachCleanup(Class: any) {
 
 		Class.afterEach = async () => {
 			await afterEach?.()
+
+			MercuryTestClient.reset()
 			delete Class.__lastReset
 		}
 

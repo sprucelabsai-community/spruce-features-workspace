@@ -44,3 +44,5 @@ export const DEMO_NUMBER_ACCOUNT_BEFORE_ALL_RESET_LOCATION =
 	process.env.DEMO_NUMBER_ACCOUNT_BEFORE_ALL_RESET_LOCATION ?? '***missing***'
 export const DEMO_NUMBER_VIEW_FIXTURE_CLIENT_2 =
 	process.env.DEMO_NUMBER_VIEW_FIXTURE_CLIENT_2 ?? '***missing***'
+export const DEMO_NUMBER_TEST_CLIENT_RECENT =
+	process.env.DEMO_NUMBER_TEST_CLIENT_RECENT ?? '***missing***'
