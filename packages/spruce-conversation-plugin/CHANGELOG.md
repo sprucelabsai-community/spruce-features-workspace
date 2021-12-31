@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [20.1.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v20.0.17...v20.1.0) (2021-12-31)
+
+
+### Features
+
+* scope can be reset for testing! ([08499d6](https://github.com/sprucelabsai/spruce-features-workspace/commit/08499d6))
+
+
+
+
+
 ## [20.0.17](https://github.com/sprucelabsai/spruce-features-workspace/compare/v20.0.16...v20.0.17) (2021-12-30)
 
 **Note:** Version bump only for package @sprucelabs/spruce-conversation-plugin
