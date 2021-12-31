@@ -117,6 +117,7 @@ export default class RoleFixtureTest extends AbstractSpruceFixtureTest {
 			},
 			payload: {
 				shouldIncludePrivateRoles: true,
+				shouldIncludeMetaRoles: true,
 			},
 		})
 

@@ -58,18 +58,11 @@ export default class RoleFixture {
 			},
 			payload: {
 				shouldIncludePrivateRoles: true,
+				shouldIncludeMetaRoles,
 			},
 		})
 
 		const { roles } = eventResponseUtil.getFirstResponseOrThrow(results)
-
-		if (!shouldIncludeMetaRoles) {
-			const workingRoles = roles.filter(
-				(role) => role.base !== 'anonymous' && role.base !== 'loggedIn'
-			)
-
-			return workingRoles
-		}
 
 		return roles
 	}
