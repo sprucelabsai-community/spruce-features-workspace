@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [20.1.14](https://github.com/sprucelabsai/spruce-features-workspace/compare/v20.1.13...v20.1.14) (2022-01-03)
+
+**Note:** Version bump only for package @sprucelabs/spruce-store-plugin
+
+
+
+
+
 ## [20.1.13](https://github.com/sprucelabsai/spruce-features-workspace/compare/v20.1.12...v20.1.13) (2022-01-02)
 
 **Note:** Version bump only for package @sprucelabs/spruce-store-plugin
