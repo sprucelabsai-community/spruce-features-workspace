@@ -49,4 +49,6 @@ export const DEMO_NUMBER_TEST_CLIENT_RECENT =
 export const DEMO_NUMBER_SCOPE =
 	process.env.DEMO_NUMBER_SCOPE ?? '***missing***'
 export const DEMO_NUMBER_PERSON_FIXTURE =
-	process.env.DEMO_NUMBER_PERSON_FIXTURE ?? '***missing***'
+	process.env.DEMO_NUMBER_PERSON_FIXTURE ??
+	process.env.DEMO_NUMBER ??
+	'**missing**'
