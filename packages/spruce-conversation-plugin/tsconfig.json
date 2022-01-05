@@ -32,6 +32,7 @@
 		"./src/__tests__/**/.spruce/**/*.ts"
 	],
 	"exclude": [
-		"build"
+		"build",
+		"esm"
 	]
 }

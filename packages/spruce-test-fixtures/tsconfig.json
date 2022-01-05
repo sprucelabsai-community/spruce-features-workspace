@@ -35,6 +35,7 @@
 		"./src/__tests__/**/build/**/*.ts"
 	],
 	"exclude": [
-		"build"
+		"build",
+		"esm"
 	]
 }
