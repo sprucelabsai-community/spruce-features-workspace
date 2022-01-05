@@ -226,7 +226,10 @@ export default class ViewFixture {
 		ClientProxyDecorator.getInstance().clearProxyTokenGenerator()
 	}
 
-	public async load(vc: SkillViewController, args: Record<string, any> = {}) {
+	public async load(
+		vc: Pick<SkillViewController, 'load'>,
+		args: Record<string, any> = {}
+	) {
 		await vc.load(this.getRouter().buildLoadOptions(args))
 	}
 
