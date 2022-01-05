@@ -273,7 +273,7 @@ export default class ViewFixture {
 
 		this.proxyDecorator.setProxyTokenGenerator(async () => {
 			if (!ViewFixture.loggedInPersonProxyTokens[person.id]) {
-				const proxyToken = await client.registerProxyToken()
+				const proxyToken = client.registerProxyToken()
 				ViewFixture.loggedInPersonProxyTokens[person.id] = proxyToken
 			}
 

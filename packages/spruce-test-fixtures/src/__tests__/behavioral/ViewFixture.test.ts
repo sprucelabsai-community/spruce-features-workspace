@@ -6,6 +6,7 @@ import {
 	SkillViewControllerLoadOptions,
 	vcAssertUtil,
 } from '@sprucelabs/heartwood-view-controllers'
+import { MercuryClient } from '@sprucelabs/mercury-client'
 import { formatPhoneNumber } from '@sprucelabs/schema'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { assert, test } from '@sprucelabs/test'
@@ -469,11 +470,8 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async loggingInAsViewSetsClientForViewControllers() {
-		const { client } = await this.fixture.loginAsDemoPerson(
-			DEMO_NUMBER_VIEW_FIXTURE_CLIENT_2
-		)
-
-		const vc = await this.fixture.Controller('client', {})
+		const client = await this.loginAsDemoPerson()
+		const vc = this.fixture.Controller('client', {})
 		const client2 = await vc.connect()
 
 		assert.isEqual(client, client2)
@@ -483,6 +481,45 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 	protected static viewClientIsResetAfterEachTest() {
 		//@ts-ignore
 		assert.isFalsy(ViewFixture.viewClient)
+	}
+
+	@test()
+	protected static async generatorIsNotVuneralbleToRaceConditions() {
+		const client = await this.loginAsDemoPerson()
+
+		const generator = this.fixture.getProxyTokenGenerator()
+
+		assert.isTruthy(generator)
+
+		let hitCount = 0
+		await client.on('register-proxy-token::v2020_12_25', () => {
+			hitCount++
+			return {
+				token: 'aoeu',
+			}
+		})
+
+		await Promise.all([
+			generator(),
+			generator(),
+			generator(),
+			generator(),
+			generator(),
+			generator(),
+			generator(),
+			generator(),
+			generator(),
+		])
+
+		assert.isEqual(hitCount, 1)
+	}
+
+	protected static async loginAsDemoPerson() {
+		const { client } = await this.fixture.loginAsDemoPerson(
+			DEMO_NUMBER_VIEW_FIXTURE_CLIENT_2
+		)
+
+		return client
 	}
 
 	private static async loginAndGetProxy(phone?: string) {
