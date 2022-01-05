@@ -15,7 +15,7 @@ export default class LocationFixtureTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async canCreateWithSpecificOrg() {
-		const org = await this.orgs.seedDemoOrganization({
+		const org = await this.organizations.seedDemoOrganization({
 			name: 'Location fixture org',
 			phone: DEMO_NUMBER_LOCATION_FIXTURE,
 		})
@@ -111,12 +111,12 @@ export default class LocationFixtureTest extends AbstractSpruceFixtureTest {
 	}
 
 	protected static async seedLocationAndAddPerson() {
-		const org = await this.orgs.seedDemoOrganization({
+		const org = await this.organizations.seedDemoOrganization({
 			name: 'Location fixture org',
 			phone: DEMO_NUMBER_LOCATION_FIXTURE,
 		})
 
-		await this.orgs.seedDemoOrganization({
+		await this.organizations.seedDemoOrganization({
 			name: 'Outside org',
 			phone: DEMO_NUMBER_LOCATION_FIXTURE_OUTSIDER,
 		})

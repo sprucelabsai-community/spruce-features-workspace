@@ -77,7 +77,7 @@ export default class RoleFixtureTest extends AbstractSpruceFixtureTest {
 	@test()
 	@seed('organizations', 3)
 	protected static async canPassOwnOrg() {
-		const orgs = await this.orgs.listOrganizations()
+		const orgs = await this.organizations.listOrganizations()
 		const org = orgs[2]
 		const roles = await this.fixture.listRoles({ organizationId: org.id })
 
@@ -85,7 +85,7 @@ export default class RoleFixtureTest extends AbstractSpruceFixtureTest {
 	}
 
 	private static async getNewestOrg() {
-		const org = await this.orgs.getNewestOrganization()
+		const org = await this.organizations.getNewestOrganization()
 		assert.isTruthy(org, `You gotta @seed('organizations',1) to continue.`)
 		return org
 	}

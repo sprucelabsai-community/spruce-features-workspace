@@ -20,7 +20,7 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 	protected static views: ViewFixture
 	protected static roles: RoleFixture
 	protected static locations: LocationFixture
-	protected static orgs: OrganizationFixture
+	protected static organizations: OrganizationFixture
 	protected static people: PersonFixture
 	protected static seeder: SeedFixture
 	protected static skills: SkillFixture
@@ -32,7 +32,7 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		this.views = this.Fixture('view')
 		this.roles = this.Fixture('role')
 		this.locations = this.Fixture('location')
-		this.orgs = this.Fixture('organization')
+		this.organizations = this.Fixture('organization')
 		this.people = this.Fixture('person')
 		this.seeder = this.Fixture('seed')
 	}
