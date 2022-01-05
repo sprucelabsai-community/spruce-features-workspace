@@ -20,9 +20,8 @@ export default class OrganizationFixture {
 	}
 
 	public async seedDemoOrganization(
-		values?: Omit<
-			SpruceSchemas.Mercury.v2020_12_25.CreateOrgEmitPayload,
-			'slug'
+		values?: Partial<
+			Omit<SpruceSchemas.Mercury.v2020_12_25.CreateOrgEmitPayload, 'slug'>
 		> & {
 			phone?: string
 			slug?: string

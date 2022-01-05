@@ -1,29 +1,14 @@
 import { eventAssertUtil } from '@sprucelabs/spruce-event-utils'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { test, assert } from '@sprucelabs/test'
-import { PersonFixture, RoleFixture, SkillFixture } from '../..'
 import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
 import {
 	DEMO_NUMBER_HIRING,
 	DEMO_NUMBER_INSTALLING_SKILLS,
 	DEMO_NUMBER_ORGANIZATION_FIXTURE,
 } from '../../tests/constants'
-import OrganizationFixture from '../../tests/fixtures/OrganizationFixture'
 
 export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
-	private static orgs: OrganizationFixture
-	private static people: PersonFixture
-	private static roles: RoleFixture
-	private static skills: SkillFixture
-
-	protected static async beforeEach() {
-		await super.beforeEach()
-		this.orgs = this.Fixture('organization')
-		this.people = this.Fixture('person')
-		this.roles = this.Fixture('role')
-		this.skills = this.Fixture('skill')
-	}
-
 	@test()
 	protected static async canCreateOrganizationFixture() {
 		assert.isTruthy(this.orgs)

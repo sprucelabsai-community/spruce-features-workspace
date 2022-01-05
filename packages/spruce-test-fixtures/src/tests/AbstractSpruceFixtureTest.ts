@@ -8,11 +8,33 @@ import {
 	FixtureName,
 } from '../types/fixture.types'
 import FixtureFactory from './fixtures/FixtureFactory'
+import LocationFixture from './fixtures/LocationFixture'
+import OrganizationFixture from './fixtures/OrganizationFixture'
+import PersonFixture from './fixtures/PersonFixture'
+import RoleFixture from './fixtures/RoleFixture'
+import SeedFixture from './fixtures/SeedFixture'
+import SkillFixture from './fixtures/SkillFixture'
+import ViewFixture from './fixtures/ViewFixture'
 
 export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTest {
+	protected static views: ViewFixture
+	protected static roles: RoleFixture
+	protected static locations: LocationFixture
+	protected static orgs: OrganizationFixture
+	protected static people: PersonFixture
+	protected static seeder: SeedFixture
+	protected static skills: SkillFixture
+
 	protected static async beforeAll() {
 		await super.beforeAll()
 		await FixtureFactory.beforeAll()
+
+		this.views = this.Fixture('view')
+		this.roles = this.Fixture('role')
+		this.locations = this.Fixture('location')
+		this.orgs = this.Fixture('organization')
+		this.people = this.Fixture('person')
+		this.seeder = this.Fixture('seed')
 	}
 
 	protected static async beforeEach() {

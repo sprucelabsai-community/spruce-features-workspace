@@ -17,11 +17,16 @@ export default class SeedFixture {
 		this.locationFixture = options.locationFixture
 	}
 
-	public async seedOrganizations(options?: { totalOrganizations?: number }) {
+	public async seedOrganizations(options?: {
+		totalOrganizations?: number
+		phone?: string
+	}) {
+		const { totalOrganizations, phone } = options ?? {}
+
 		const orgs: Organization[] = await Promise.all(
-			new Array(options?.totalOrganizations ?? 3)
+			new Array(totalOrganizations ?? 3)
 				.fill(0)
-				.map(() => this.organizationFixture.seedDemoOrganization())
+				.map(() => this.organizationFixture.seedDemoOrganization({ phone }))
 		)
 
 		return orgs
@@ -30,11 +35,13 @@ export default class SeedFixture {
 	public async seedLocations(options: {
 		totalLocations: number
 		organizationId?: string
+		phone?: string
 	}) {
-		let { totalLocations, organizationId } = options
+		let { totalLocations, organizationId, phone } = options
 
 		const first = await this.locationFixture.seedDemoLocation({
 			organizationId,
+			phone,
 		})
 
 		organizationId = first.organizationId

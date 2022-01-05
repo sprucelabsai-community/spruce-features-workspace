@@ -1,10 +1,17 @@
-import { MercuryClientFactory } from '@sprucelabs/mercury-client'
+import {
+	MercuryClientFactory,
+	MercuryTestClient,
+} from '@sprucelabs/mercury-client'
 import { formatPhoneNumber } from '@sprucelabs/schema'
 import AbstractSpruceTest, { test, assert } from '@sprucelabs/test'
 import { errorAssertUtil } from '@sprucelabs/test-utils'
 import dotenv from 'dotenv'
 import { MercuryFixture } from '../..'
-import { DEMO_NUMBER_SECOND_LOGIN, DEMO_NUMBER } from '../../tests/constants'
+import {
+	DEMO_NUMBER_SECOND_LOGIN,
+	DEMO_NUMBER,
+	DEMO_NUMBER_PERSON_FIXTURE,
+} from '../../tests/constants'
 import FixtureFactory from '../../tests/fixtures/FixtureFactory'
 import PersonFixture from '../../tests/fixtures/PersonFixture'
 dotenv.config()
@@ -16,6 +23,7 @@ export default class PersonFixtureTest extends AbstractSpruceTest {
 		await super.beforeEach()
 
 		this.fixture = this.Fixture()
+		MercuryTestClient.reset()
 	}
 
 	private static Fixture(): PersonFixture {
@@ -125,5 +133,109 @@ export default class PersonFixtureTest extends AbstractSpruceTest {
 		const { client: client2 } = await this.Fixture().loginAsDemoPerson()
 
 		assert.isEqual(client, client2)
+	}
+
+	@test('list people passes target', {
+		organizationId: '1234',
+		locationId: '1234',
+	})
+	@test('list people passes target 2', {
+		organizationId: '5234',
+		locationId: '2666',
+	})
+	@test(
+		'list people passes payload 1',
+		{
+			organizationId: '5234',
+			locationId: '2666',
+		},
+		{
+			personIds: ['56236'],
+			roleBases: ['23452346'],
+			roleIds: ['7567'],
+			shouldIncludePrivateFields: false,
+		}
+	)
+	protected static async listPeoplePassesThroughVars(
+		expectedTarget: any,
+		expectedPayload = {
+			personIds: ['1234'],
+			roleBases: ['1234'],
+			roleIds: ['1234'],
+			shouldIncludePrivateFields: true,
+		}
+	) {
+		MercuryClientFactory.setIsTestMode(true)
+
+		assert.isFunction(this.fixture.listPeople)
+		const { client } = await this.fixture.loginAsDemoPerson(
+			DEMO_NUMBER_PERSON_FIXTURE
+		)
+
+		let wasHit = true
+		let passedTarget: any
+		let passedPayload: any
+
+		await client.on('list-people::v2020_12_25', ({ target, payload }) => {
+			passedTarget = target
+			passedPayload = payload
+			wasHit = true
+			return {
+				people: [
+					{
+						id: '1234',
+						casualName: 'tay',
+						dateCreated: 0,
+					},
+				],
+			}
+		})
+
+		await this.fixture.listPeople({
+			...expectedTarget,
+			...expectedPayload,
+		})
+
+		assert.isTrue(wasHit)
+		assert.isEqualDeep(passedTarget, expectedTarget)
+		assert.isEqualDeep(passedPayload, expectedPayload)
+	}
+
+	@test('returns people 1', [
+		{
+			id: '1234',
+			casualName: 'tay',
+			dateCreated: 0,
+		},
+	])
+	@test('returns people 2', [
+		{
+			id: '234234',
+			casualName: 'tsaoteuh',
+			dateCreated: 230,
+		},
+		{
+			id: '1234',
+			casualName: 'tay',
+			dateCreated: 0,
+		},
+	])
+	protected static async listPeopleReturnsPeople(expectedPeople: any) {
+		MercuryClientFactory.setIsTestMode(true)
+		const { client } = await this.fixture.loginAsDemoPerson(
+			DEMO_NUMBER_PERSON_FIXTURE
+		)
+
+		await client.on('list-people::v2020_12_25', () => {
+			return {
+				people: expectedPeople,
+			}
+		})
+
+		const people = await this.fixture.listPeople({
+			organizationId: '1234',
+		})
+
+		assert.isEqualDeep(people, expectedPeople)
 	}
 }

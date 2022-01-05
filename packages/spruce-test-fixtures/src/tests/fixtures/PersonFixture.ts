@@ -23,6 +23,32 @@ export default class PersonFixture {
 		this.connectToApi = options.connectToApi
 	}
 
+	public async listPeople(options: {
+		organizationId: string
+		locationId?: string
+		personIds?: string[]
+		roleBases?: string[]
+		roleIds?: string[]
+		shouldIncludePrivateFields?: boolean
+	}) {
+		const { organizationId, locationId, ...rest } = options
+
+		const { client } = await this.loginAsDemoPerson()
+		const results = await client.emit('list-people::v2020_12_25', {
+			target: {
+				organizationId,
+				locationId,
+			},
+			payload: {
+				...rest,
+			},
+		})
+
+		const { people } = eventResponseUtil.getFirstResponseOrThrow(results)
+
+		return people
+	}
+
 	public async loginAsDemoPerson(
 		phone?: string
 	): Promise<{ person: Person; client: Client; token: string }> {

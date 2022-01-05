@@ -4,21 +4,10 @@ import {
 	DEMO_NUMBER_LOCATION_FIXTURE,
 	DEMO_NUMBER_LOCATION_FIXTURE_OUTSIDER,
 } from '../../tests/constants'
-import LocationFixture from '../../tests/fixtures/LocationFixture'
-import OrganizationFixture from '../../tests/fixtures/OrganizationFixture'
-import PersonFixture from '../../tests/fixtures/PersonFixture'
 
 export default class LocationFixtureTest extends AbstractSpruceFixtureTest {
-	private static orgs: OrganizationFixture
-	private static locations: LocationFixture
-	private static people: PersonFixture
-
 	protected static async beforeEach() {
 		await super.beforeEach()
-		this.orgs = this.Fixture('organization')
-		this.locations = this.Fixture('location')
-		this.people = this.Fixture('person')
-
 		const seedFixture = this.Fixture('seed')
 		await seedFixture.resetAccount(DEMO_NUMBER_LOCATION_FIXTURE)
 		await seedFixture.resetAccount(DEMO_NUMBER_LOCATION_FIXTURE_OUTSIDER)

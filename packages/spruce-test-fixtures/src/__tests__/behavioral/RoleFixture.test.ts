@@ -3,7 +3,7 @@ import { SpruceSchemas } from '@sprucelabs/mercury-types'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { assert, test } from '@sprucelabs/test'
 import { errorAssertUtil } from '@sprucelabs/test-utils'
-import { login, OrganizationFixture } from '../..'
+import { login } from '../..'
 import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
 import { DEMO_NUMBER_ROLE_FIXTURE } from '../../tests/constants'
 import seed from '../../tests/decorators/seed'
@@ -15,13 +15,11 @@ type Role = SpruceSchemas.Spruce.v2020_07_22.Role
 export default class RoleFixtureTest extends AbstractSpruceFixtureTest {
 	private static fixture: RoleFixture
 	private static client: MercuryClient
-	private static orgs: OrganizationFixture
 
 	protected static async beforeEach() {
 		await super.beforeEach()
 		this.fixture = this.Fixture('role')
 		this.client = login.getClient()
-		this.orgs = this.Fixture('organization')
 	}
 
 	@test()
