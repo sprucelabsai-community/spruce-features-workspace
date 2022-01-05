@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [20.2.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v20.1.18...v20.2.0) (2022-01-05)
+
+
+### Features
+
+* Devs can now use the people fixture to list peolpe. Also, all fixtures are now available as local prosp on fixture test ([293d38e](https://github.com/sprucelabsai/spruce-features-workspace/commit/293d38e))
+
+
+
+
+
 ## [20.1.18](https://github.com/sprucelabsai/spruce-features-workspace/compare/v20.1.17...v20.1.18) (2022-01-05)
 
 **Note:** Version bump only for package spruce-features-workspace
