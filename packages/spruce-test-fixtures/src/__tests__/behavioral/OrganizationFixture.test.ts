@@ -3,6 +3,7 @@ import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { test, assert } from '@sprucelabs/test'
 import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
 import {
+	DEMO_NUMBER,
 	DEMO_NUMBER_HIRING,
 	DEMO_NUMBER_INSTALLING_SKILLS,
 	DEMO_NUMBER_ORGANIZATION_FIXTURE,
@@ -237,7 +238,7 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 			phone: DEMO_NUMBER_HIRING,
 		})
 
-		const { person } = await this.people.loginAsDemoPerson()
+		const { person } = await this.people.loginAsDemoPerson(DEMO_NUMBER)
 
 		await this.organizations.addPerson({
 			personId: person.id,

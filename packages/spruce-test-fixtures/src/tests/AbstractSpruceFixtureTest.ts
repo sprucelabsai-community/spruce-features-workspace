@@ -35,6 +35,7 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		this.organizations = this.Fixture('organization')
 		this.people = this.Fixture('person')
 		this.seeder = this.Fixture('seed')
+		this.skills = this.Fixture('skill')
 	}
 
 	protected static async beforeEach() {
