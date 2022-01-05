@@ -33,7 +33,7 @@ type Client = MercuryClient
 
 export default class ViewFixture {
 	private static vcFactory?: ViewControllerFactory
-	private static loggedInPersonProxyTokens: Record<string, string> = {}
+	private static loggedInPersonProxyTokens: Record<string, Promise<string>> = {}
 	private static dontResetProxyTokenForPersonId?: string
 	private static scope?: Scope
 	private static shouldAutomaticallyResetAuthenticator = true

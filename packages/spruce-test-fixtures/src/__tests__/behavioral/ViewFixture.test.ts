@@ -6,7 +6,6 @@ import {
 	SkillViewControllerLoadOptions,
 	vcAssertUtil,
 } from '@sprucelabs/heartwood-view-controllers'
-import { MercuryClient } from '@sprucelabs/mercury-client'
 import { formatPhoneNumber } from '@sprucelabs/schema'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { assert, test } from '@sprucelabs/test'
