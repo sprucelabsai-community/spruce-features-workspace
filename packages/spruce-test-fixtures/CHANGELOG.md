@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [21.0.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v20.3.2...v21.0.0) (2022-01-06)
+
+
+### Breaking Changes
+
+* seed fixture seedLocations -> seedAccount and waaay more robust now! ([c3d7ced](https://github.com/sprucelabsai/spruce-features-workspace/commit/c3d7ced))
+
+
+
+
+
 ## [20.3.2](https://github.com/sprucelabsai/spruce-features-workspace/compare/v20.3.1...v20.3.2) (2022-01-06)
 
 **Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
