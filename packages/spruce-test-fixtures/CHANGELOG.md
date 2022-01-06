@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [20.3.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v20.2.3...v20.3.0) (2022-01-06)
+
+
+### Features
+
+* Super powered seeder FORCE! ([35f67f0](https://github.com/sprucelabsai/spruce-features-workspace/commit/35f67f0))
+
+
+
+
+
 ## [20.2.3](https://github.com/sprucelabsai/spruce-features-workspace/compare/v20.2.2...v20.2.3) (2022-01-05)
 
 **Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
