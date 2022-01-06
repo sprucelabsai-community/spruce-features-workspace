@@ -11,13 +11,13 @@ export default class LocationFixture {
 	private locationCounter = 0
 
 	public constructor(options: {
-		personFixture: PersonFixture
-		organizationFixture: OrganizationFixture
-		roleFixture: RoleFixture
+		people: PersonFixture
+		organizations: OrganizationFixture
+		roles: RoleFixture
 	}) {
-		this.people = options.personFixture
-		this.orgs = options.organizationFixture
-		this.roles = options.roleFixture
+		this.people = options.people
+		this.orgs = options.organizations
+		this.roles = options.roles
 	}
 
 	public async seedDemoLocation(

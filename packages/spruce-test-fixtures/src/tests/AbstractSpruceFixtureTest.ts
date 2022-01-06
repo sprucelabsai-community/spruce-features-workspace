@@ -9,11 +9,13 @@ import {
 } from '../types/fixture.types'
 import FixtureFactory from './fixtures/FixtureFactory'
 import LocationFixture from './fixtures/LocationFixture'
+import MercuryFixture from './fixtures/MercuryFixture'
 import OrganizationFixture from './fixtures/OrganizationFixture'
 import PersonFixture from './fixtures/PersonFixture'
 import RoleFixture from './fixtures/RoleFixture'
 import SeedFixture from './fixtures/SeedFixture'
 import SkillFixture from './fixtures/SkillFixture'
+import StoreFixture from './fixtures/StoreFixture'
 import ViewFixture from './fixtures/ViewFixture'
 
 export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTest {
@@ -24,6 +26,8 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 	protected static people: PersonFixture
 	protected static seeder: SeedFixture
 	protected static skills: SkillFixture
+	protected static mercury: MercuryFixture
+	protected static stores: StoreFixture
 
 	protected static async beforeAll() {
 		await super.beforeAll()
@@ -36,6 +40,8 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		this.people = this.Fixture('person')
 		this.seeder = this.Fixture('seed')
 		this.skills = this.Fixture('skill')
+		this.mercury = this.Fixture('mercury')
+		this.stores = this.Fixture('store')
 	}
 
 	protected static async beforeEach() {

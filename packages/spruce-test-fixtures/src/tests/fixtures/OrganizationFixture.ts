@@ -11,12 +11,9 @@ export default class OrganizationFixture {
 	private orgCounter = process.pid
 	private roles: RoleFixture
 
-	public constructor(options: {
-		personFixture: PersonFixture
-		roleFixture: RoleFixture
-	}) {
-		this.people = options.personFixture
-		this.roles = options.roleFixture
+	public constructor(options: { people: PersonFixture; roles: RoleFixture }) {
+		this.people = options.people
+		this.roles = options.roles
 	}
 
 	public async seedDemoOrganization(

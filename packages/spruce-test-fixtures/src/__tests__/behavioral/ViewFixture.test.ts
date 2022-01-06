@@ -121,7 +121,7 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 	@test()
 	protected static canPassThroughPersonFixture() {
 		const personFixture = this.Fixture('person')
-		const viewFixture = this.Fixture('view', { personFixture })
+		const viewFixture = this.Fixture('view', { people: personFixture })
 
 		//@ts-ignore
 		assert.isEqual(viewFixture.people, personFixture)
@@ -218,6 +218,7 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 		})
 
 		const viewFixture = this.fixtureNoOptions
+
 		await viewFixture.loginAsDemoPerson(DEMO_NUMBER_VIEW_FIXTURE)
 
 		const current = await viewFixture.getScope().getCurrentLocation()

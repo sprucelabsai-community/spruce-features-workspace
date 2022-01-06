@@ -57,7 +57,7 @@ export default class ViewFixture {
 
 	public constructor(options: {
 		connectToApi: Factory
-		personFixture: PersonFixture
+		people: PersonFixture
 		fixtureFactory: FixtureFactory
 		vcDir?: string
 		cwd?: string
@@ -66,7 +66,7 @@ export default class ViewFixture {
 		proxyDecorator: ClientProxyDecorator
 	}) {
 		this.connectToApi = options.connectToApi
-		this.people = options.personFixture
+		this.people = options.people
 		this.vcDir =
 			options?.vcDir ??
 			diskUtil.resolvePath(options.cwd ?? process.cwd(), 'build')
@@ -74,11 +74,12 @@ export default class ViewFixture {
 		this.namespace = options.namespace
 		this.proxyDecorator = options.proxyDecorator
 		this.orgs = options.fixtureFactory.Fixture('organization', {
-			personFixture: this.people,
+			people: this.people,
 		})
+
 		this.locations = options.fixtureFactory.Fixture('location', {
-			personFixture: this.people,
-			organizationFixture: this.orgs,
+			people: this.people,
+			organizations: this.orgs,
 		})
 	}
 

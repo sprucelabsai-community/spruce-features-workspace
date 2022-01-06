@@ -57,7 +57,7 @@ export default class FixtureFactory {
 			}
 			case 'role': {
 				fixture = new RoleFixture({
-					personFixture: this.Fixture('person'),
+					people: this.Fixture('person'),
 					getNewestOrg: async () => {
 						return this.Fixture('organization').getNewestOrganization()
 					},
@@ -65,15 +65,15 @@ export default class FixtureFactory {
 				break
 			}
 			case 'organization': {
-				const personFixture =
+				const people =
 					//@ts-ignore
-					options?.personFixture ??
+					options?.people ??
 					new PersonFixture({
 						connectToApi: mercuryFixture.getConnectFactory(),
 					})
 				fixture = new OrganizationFixture({
-					personFixture,
-					roleFixture: this.Fixture('role'),
+					people,
+					roles: this.Fixture('role'),
 				}) as FixtureMap[Name]
 				break
 			}
@@ -97,19 +97,19 @@ export default class FixtureFactory {
 			}
 			case 'location': {
 				fixture = new LocationFixture({
-					roleFixture: this.Fixture('role'),
+					roles: this.Fixture('role'),
 					//@ts-ignore
-					personFixture: options?.personFixture ?? this.Fixture('person'),
-					organizationFixture:
-						//@ts-ignore
-						options?.organizationFixture ?? this.Fixture('organization'),
+					people: options?.people ?? this.Fixture('person'),
+					//@ts-ignore
+					organizations: options?.organizations ?? this.Fixture('organization'),
 				}) as any
 				break
 			}
 			case 'seed':
 				fixture = new SeedFixture({
-					organizationFixture: this.Fixture('organization'),
-					locationFixture: this.Fixture('location'),
+					organizations: this.Fixture('organization'),
+					locations: this.Fixture('location'),
+					people: this.Fixture('person'),
 				}) as any
 				break
 			case 'view': {
@@ -120,7 +120,7 @@ export default class FixtureFactory {
 				}
 				fixture = new ViewFixture({
 					//@ts-ignore
-					personFixture: options?.personFixture ?? this.Fixture('person'),
+					people: options?.personFixture ?? this.Fixture('person'),
 					connectToApi: mercuryFixture.getConnectFactory(),
 					fixtureFactory: this,
 					namespace: this.namespace,

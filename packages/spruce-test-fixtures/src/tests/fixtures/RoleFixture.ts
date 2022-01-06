@@ -12,10 +12,10 @@ export default class RoleFixture {
 	private getNewestOrgHandler: GetNewestOrgHandler
 
 	public constructor(options: {
-		personFixture: PersonFixture
+		people: PersonFixture
 		getNewestOrg: GetNewestOrgHandler
 	}) {
-		this.personFixture = options.personFixture
+		this.personFixture = options.people
 		this.getNewestOrgHandler = options.getNewestOrg
 	}
 

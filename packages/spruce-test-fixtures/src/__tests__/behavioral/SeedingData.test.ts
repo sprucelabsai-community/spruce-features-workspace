@@ -1,11 +1,23 @@
 import { MercuryClient } from '@sprucelabs/mercury-client'
+import { SpruceSchemas } from '@sprucelabs/mercury-types'
+import { formatPhoneNumber } from '@sprucelabs/schema'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { assert, test } from '@sprucelabs/test'
+import { errorAssertUtil } from '@sprucelabs/test-utils'
+import { login } from '../..'
 import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
-import { DEMO_NUMBER_SEED_FIXTURE } from '../../tests/constants'
-import MercuryFixture from '../../tests/fixtures/MercuryFixture'
-import SeedFixture from '../../tests/fixtures/SeedFixture'
+import {
+	DEMO_NUMBER_SEED_FIXTURE,
+	DEMO_NUMBER_SEED_FIXTURE_STARTING_PHONE,
+	DEMO_NUMBER_SEED_FIXTURE_STARTING_PHONE_ALT,
+} from '../../tests/constants'
+import SeedFixture, {
+	SeedLocationOptions,
+} from '../../tests/fixtures/SeedFixture'
 
+const sorter = (a: any, b: any) => (a.id > b.id ? 1 : -1)
+
+@login(DEMO_NUMBER_SEED_FIXTURE)
 export default class SeedingDataTest extends AbstractSpruceFixtureTest {
 	private static fixture: SeedFixture
 	private static client: MercuryClient
@@ -13,16 +25,10 @@ export default class SeedingDataTest extends AbstractSpruceFixtureTest {
 	protected static async beforeEach() {
 		await super.beforeEach()
 
-		const { client } = await this.Fixture('person').loginAsDemoPerson(
-			DEMO_NUMBER_SEED_FIXTURE
-		)
-
-		this.client = client
-
-		MercuryFixture.setDefaultClient(client)
+		this.client = login.getClient()
 
 		this.fixture = this.Fixture('seed')
-		await this.fixture.resetAccount()
+		await this.fixture.resetAccount(DEMO_NUMBER_SEED_FIXTURE)
 	}
 
 	@test()
@@ -68,7 +74,7 @@ export default class SeedingDataTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async canSeedLocations() {
-		const locations = await this.fixture.seedLocations({
+		const { locations } = await this.fixture.seedLocations({
 			totalLocations: 5,
 		})
 
@@ -77,7 +83,9 @@ export default class SeedingDataTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async seedingOrgsCreatesOrganization() {
-		const locations = await this.fixture.seedLocations({ totalLocations: 3 })
+		const { locations } = await this.fixture.seedLocations({
+			totalLocations: 3,
+		})
 		assert.isLength(locations, 3)
 
 		await this.assertOnlyOneOrgExists()
@@ -85,7 +93,7 @@ export default class SeedingDataTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async canPassOrgToLocationSeeder() {
-		const org = await this.Fixture('organization').seedDemoOrganization()
+		const org = await this.organizations.seedDemoOrganization()
 		await this.fixture.seedLocations({
 			totalLocations: 3,
 			organizationId: org.id,
@@ -123,15 +131,101 @@ export default class SeedingDataTest extends AbstractSpruceFixtureTest {
 		}
 	}
 
-	private static async seedLocations() {
-		const org = await this.Fixture('organization').seedDemoOrganization()
+	@test('missing starting phone with totalGuests', { totalGuests: 10 })
+	@test('missing starting phone with totalTeammates', { totalTeammates: 10 })
+	protected static async needsStartingPhoneWhenSeedingPeople(options: any) {
+		const err = await assert.doesThrowAsync(() =>
+			this.seedLocations({
+				...options,
+			})
+		)
 
-		const locations = await this.fixture.seedLocations({
-			totalLocations: 3,
-			organizationId: org.id,
+		errorAssertUtil.assertError(err, 'MISSING_PARAMETERS', {
+			parameters: ['startingPhone'],
+		})
+	}
+
+	@test('can seed 3 guests', { totalGuests: 3 }, 3, 'guest')
+	@test('can seed 5 guests', { totalGuests: 5 }, 5, 'guest')
+	@test('can seed 2 teammates', { totalTeammates: 2 }, 2, 'teammate')
+	@test('can seed 3 managers', { totalManagers: 3 }, 3, 'manager')
+	@test('can seed 3 groupManager', { totalGroupManagers: 3 }, 3, 'groupManager')
+	@test('can seed 1 owners', { totalOwners: 1 }, 1, 'owner')
+	protected static async returnsSeededGuests(
+		options: any,
+		expectedCount: number,
+		base: string
+	) {
+		const { locations, ...rest } = await this.seedLocations({
+			totalLocations: 1,
+			startingPhone: DEMO_NUMBER_SEED_FIXTURE_STARTING_PHONE,
+			...options,
+		})
+		const withoutOwner = await this.listPeople(locations[0], base)
+
+		const people = rest[base + 's'] ?? []
+
+		people.sort(sorter)
+		withoutOwner.sort(sorter)
+
+		assert.isLength(withoutOwner, expectedCount)
+		assert.isEqualDeep(people, withoutOwner)
+	}
+
+	@test('seeds with starting phone 1', DEMO_NUMBER_SEED_FIXTURE_STARTING_PHONE)
+	@test(
+		'seeds with starting phone 2',
+		DEMO_NUMBER_SEED_FIXTURE_STARTING_PHONE_ALT
+	)
+	protected static async setsFirstPersonsNumberToTheStartingPhone(
+		phone: string
+	) {
+		const { guests } = await this.seedLocations({
+			totalLocations: 1,
+			totalGuests: 1,
+			startingPhone: phone,
+		})
+		assert.isEqual(guests[0].phone, formatPhoneNumber(phone))
+	}
+
+	@test()
+	protected static async canSeedMultipleRolesAtOnce() {
+		const { locations } = await this.seedLocations({
+			startingPhone: DEMO_NUMBER_SEED_FIXTURE_STARTING_PHONE,
+			totalLocations: 1,
+			totalGuests: 3,
+			totalManagers: 2,
 		})
 
-		return { organization: org, locations }
+		const people = await this.listPeople(locations[0], ['guest', 'manager'])
+		assert.isLength(people, 5)
+	}
+
+	private static async listPeople(
+		location: SpruceSchemas.Spruce.v2020_07_22.Location,
+		base: string | string[]
+	) {
+		const people = await this.people.listPeople({
+			locationId: location.id,
+			organizationId: location.organizationId,
+			roleBases: Array.isArray(base) ? base : [base],
+			shouldIncludePrivateFields: true,
+		})
+
+		const withoutOwner = people.filter((p) => p.id !== login.getPerson().id)
+		return withoutOwner
+	}
+
+	private static async seedLocations(options?: Partial<SeedLocationOptions>) {
+		const org = await this.organizations.seedDemoOrganization()
+
+		const results = await this.fixture.seedLocations({
+			totalLocations: 3,
+			organizationId: org.id,
+			...options,
+		})
+
+		return { organization: org, ...results }
 	}
 
 	private static async assertOnlyOneOrgExists() {

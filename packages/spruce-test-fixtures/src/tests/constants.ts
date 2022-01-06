@@ -50,3 +50,7 @@ export const DEMO_NUMBER_SCOPE =
 	process.env.DEMO_NUMBER_SCOPE ?? '***missing***'
 export const DEMO_NUMBER_PERSON_FIXTURE =
 	process.env.DEMO_NUMBER_PERSON_FIXTURE ?? '**missing**'
+export const DEMO_NUMBER_SEED_FIXTURE_STARTING_PHONE =
+	process.env.DEMO_NUMBER_SEED_FIXTURE_STARTING_PHONE ?? '**missing**'
+export const DEMO_NUMBER_SEED_FIXTURE_STARTING_PHONE_ALT =
+	process.env.DEMO_NUMBER_SEED_FIXTURE_STARTING_PHONE_ALT ?? '**missing**'
