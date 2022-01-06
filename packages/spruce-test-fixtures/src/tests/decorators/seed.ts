@@ -83,7 +83,7 @@ function attachSeeder(
 ) {
 	//@ts-ignore
 	const methodMap: Record<SeedTarget, keyof SeedFixture> = {
-		locations: 'seedLocations',
+		locations: 'seedAccount',
 		organizations: 'seedOrganizations',
 	}
 

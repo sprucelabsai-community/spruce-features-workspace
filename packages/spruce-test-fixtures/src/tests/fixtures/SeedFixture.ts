@@ -52,7 +52,7 @@ export default class SeedFixture {
 		return orgs
 	}
 
-	public async seedLocations(options: SeedLocationOptions) {
+	public async seedAccount(options: SeedLocationOptions) {
 		let { totalLocations, organizationId, phone, startingPhone } = options
 
 		const first = await this.locations.seedDemoLocation({

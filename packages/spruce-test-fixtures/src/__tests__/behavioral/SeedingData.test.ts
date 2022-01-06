@@ -74,7 +74,7 @@ export default class SeedingDataTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async canSeedLocations() {
-		const { locations } = await this.fixture.seedLocations({
+		const { locations } = await this.fixture.seedAccount({
 			totalLocations: 5,
 		})
 
@@ -83,7 +83,7 @@ export default class SeedingDataTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async seedingOrgsCreatesOrganization() {
-		const { locations } = await this.fixture.seedLocations({
+		const { locations } = await this.fixture.seedAccount({
 			totalLocations: 3,
 		})
 		assert.isLength(locations, 3)
@@ -94,7 +94,7 @@ export default class SeedingDataTest extends AbstractSpruceFixtureTest {
 	@test()
 	protected static async canPassOrgToLocationSeeder() {
 		const org = await this.organizations.seedDemoOrganization()
-		await this.fixture.seedLocations({
+		await this.fixture.seedAccount({
 			totalLocations: 3,
 			organizationId: org.id,
 		})
@@ -220,7 +220,7 @@ export default class SeedingDataTest extends AbstractSpruceFixtureTest {
 	private static async seedLocations(options?: Partial<SeedLocationOptions>) {
 		const org = await this.organizations.seedDemoOrganization()
 
-		const results = await this.fixture.seedLocations({
+		const results = await this.fixture.seedAccount({
 			totalLocations: 3,
 			organizationId: org.id,
 			...options,
