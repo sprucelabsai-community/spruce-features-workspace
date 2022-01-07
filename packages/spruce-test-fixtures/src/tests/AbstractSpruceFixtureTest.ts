@@ -19,15 +19,70 @@ import StoreFixture from './fixtures/StoreFixture'
 import ViewFixture from './fixtures/ViewFixture'
 
 export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTest {
-	protected static views: ViewFixture
-	protected static roles: RoleFixture
-	protected static locations: LocationFixture
-	protected static organizations: OrganizationFixture
-	protected static people: PersonFixture
-	protected static seeder: SeedFixture
-	protected static skills: SkillFixture
-	protected static mercury: MercuryFixture
-	protected static stores: StoreFixture
+	protected static get views(): ViewFixture {
+		if (!this._views) {
+			this._views = this.Fixture('view')
+		}
+		return this._views
+	}
+	protected static get roles(): RoleFixture {
+		if (!this._roles) {
+			this._roles = this.Fixture('role')
+		}
+		return this._roles
+	}
+	protected static get locations(): LocationFixture {
+		if (!this._locations) {
+			this._locations = this.Fixture('location')
+		}
+		return this._locations
+	}
+	protected static get organizations(): OrganizationFixture {
+		if (!this._organizations) {
+			this._organizations = this.Fixture('organization')
+		}
+		return this._organizations
+	}
+	protected static get people(): PersonFixture {
+		if (!this._people) {
+			this._people = this.Fixture('person')
+		}
+		return this._people
+	}
+	protected static get seeder(): SeedFixture {
+		if (!this._seeder) {
+			this._seeder = this.Fixture('seed')
+		}
+		return this._seeder
+	}
+	protected static get skills(): SkillFixture {
+		if (!this._skills) {
+			this._skills = this.Fixture('skill')
+		}
+		return this._skills
+	}
+	protected static get mercury(): MercuryFixture {
+		if (!this._mercury) {
+			this._mercury = this.Fixture('mercury')
+		}
+		return this._mercury
+	}
+	protected static get stores(): StoreFixture {
+		if (!this._stores) {
+			this._stores = this.Fixture('store')
+		}
+		return this._stores
+	}
+
+	private static _views?: ViewFixture
+	private static _roles?: RoleFixture
+	private static _locations?: LocationFixture
+	private static _organizations?: OrganizationFixture
+	private static _people?: PersonFixture
+	private static _seeder?: SeedFixture
+	private static _skills?: SkillFixture
+	private static _mercury?: MercuryFixture
+	private static _stores?: StoreFixture
 
 	protected static async beforeAll() {
 		await super.beforeAll()
@@ -38,15 +93,15 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		await super.beforeEach()
 		await FixtureFactory.beforeEach(this.cwd)
 
-		this.views = this.Fixture('view')
-		this.roles = this.Fixture('role')
-		this.locations = this.Fixture('location')
-		this.organizations = this.Fixture('organization')
-		this.people = this.Fixture('person')
-		this.seeder = this.Fixture('seed')
-		this.skills = this.Fixture('skill')
-		this.mercury = this.Fixture('mercury')
-		this.stores = this.Fixture('store')
+		this._views = undefined
+		this._roles = undefined
+		this._locations = undefined
+		this._organizations = undefined
+		this._people = undefined
+		this._seeder = undefined
+		this._skills = undefined
+		this._mercury = undefined
+		this._stores = undefined
 	}
 
 	protected static async afterEach() {
