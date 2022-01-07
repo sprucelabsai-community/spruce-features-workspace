@@ -10,5 +10,10 @@
       "fix.lint",
       "update.dependencies"
     ]
+  },
+  "writer": {
+    "skipped": [
+      "tsconfig.json"
+    ]
   }
 }

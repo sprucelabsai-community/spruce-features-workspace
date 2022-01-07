@@ -3,6 +3,7 @@ import {
 	MercuryClientFactory,
 	MercuryTestClient,
 } from '@sprucelabs/mercury-client'
+import '@sprucelabs/mercury-core-events'
 import { coreEventContracts } from '@sprucelabs/mercury-core-events'
 import { SchemaError } from '@sprucelabs/schema'
 import {

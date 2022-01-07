@@ -381,6 +381,15 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 	}
 
 	@test()
+	protected static fixturePatchesRenderInDialogToThrow() {
+		const vc = this.MockVc()
+		//@ts-ignore
+		assert.isFunction(vc._oldRenderInDialog)
+		//@ts-ignore
+		assert.doesThrow(() => vc.renderInDialog({}))
+	}
+
+	@test()
 	protected static canGetAuthenticatorInstance() {
 		const viewFixture = this.Fixture('view', {
 			controllerMap: {

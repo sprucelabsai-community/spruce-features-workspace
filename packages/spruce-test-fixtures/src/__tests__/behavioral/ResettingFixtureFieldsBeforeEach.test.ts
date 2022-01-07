@@ -60,4 +60,12 @@ export default class ResettingFixtureFieldsBeforeEachTest extends AbstractSpruce
 			assert.isFalsy(this.getPrivateProp(check))
 		}
 	}
+
+	@test()
+	protected static async canSetEachPrivateProp() {
+		for (const check of toCheck) {
+			//@ts-ignore
+			this[check.prop] = this.Fixture(check.fixtureName)
+		}
+	}
 }
