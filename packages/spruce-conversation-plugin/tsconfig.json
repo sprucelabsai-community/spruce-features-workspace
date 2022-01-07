@@ -23,8 +23,7 @@
 			"#spruce/*": [
 				".spruce/*"
 			]
-		},
-		"composite": true
+		}
 	},
 	"include": [
 		"./src/*.ts",
