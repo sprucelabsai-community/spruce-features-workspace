@@ -1,44 +1,44 @@
 {
     "version": "2.0.0",
     "tasks": [
-        {
-            "label": "problem.and.build.watcher",
-            "command": "yarn",
-            "group": "build",
-            "args": [
-                "tsc-watch",
-                "--noClear",
-                "-b",
-                "-w"
-            ],
-            "runOptions": {
-                "runOn": "folderOpen"
-            },
-            "isBackground": true,
-            "presentation": {
-                "reveal": "never",
-                "focus": false
-            },
-            "problemMatcher": {
-                "base": "$tsc-watch",
-                "applyTo": "allDocuments"
-            }
-        },
         // {
-        //     "type": "npm",
-        //     "script": "watch.build.dev",
+        //     "label": "problem.and.build.watcher",
+        //     "command": "yarn",
         //     "group": "build",
-        //     "problemMatcher": [],
-        //     "label": "watch.build.dev",
+        //     "args": [
+        //         "tsc-watch",
+        //         "--noClear",
+        //         "-b",
+        //         "-w"
+        //     ],
         //     "runOptions": {
         //         "runOn": "folderOpen"
         //     },
-        //     "promptOnClose": false,
+        //     "isBackground": true,
         //     "presentation": {
-        //         "panel": "dedicated",
-        //         "reveal": "silent"
+        //         "reveal": "never",
+        //         "focus": false
+        //     },
+        //     "problemMatcher": {
+        //         "base": "$tsc-watch",
+        //         "applyTo": "allDocuments"
         //     }
         // },
+        {
+            "type": "npm",
+            "script": "watch.build.dev",
+            "group": "build",
+            "problemMatcher": [],
+            "label": "watch.build.dev",
+            "runOptions": {
+                "runOn": "folderOpen"
+            },
+            "promptOnClose": false,
+            "presentation": {
+                "panel": "dedicated",
+                "reveal": "silent"
+            }
+        },
         {
             "label": "conversation.test.reporter",
             "command": "spruce",
