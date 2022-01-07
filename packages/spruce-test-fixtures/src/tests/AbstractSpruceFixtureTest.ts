@@ -32,6 +32,11 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 	protected static async beforeAll() {
 		await super.beforeAll()
 		await FixtureFactory.beforeAll()
+	}
+
+	protected static async beforeEach() {
+		await super.beforeEach()
+		await FixtureFactory.beforeEach(this.cwd)
 
 		this.views = this.Fixture('view')
 		this.roles = this.Fixture('role')
@@ -42,11 +47,6 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		this.skills = this.Fixture('skill')
 		this.mercury = this.Fixture('mercury')
 		this.stores = this.Fixture('store')
-	}
-
-	protected static async beforeEach() {
-		await super.beforeEach()
-		await FixtureFactory.beforeEach(this.cwd)
 	}
 
 	protected static async afterEach() {

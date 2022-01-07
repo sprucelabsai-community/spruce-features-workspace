@@ -98,7 +98,7 @@ export default class UsingDecoratorsTest extends AbstractSpruceFixtureTest {
 	@test()
 	@seed('locations', 3)
 	protected static async seededLocationsArePublic() {
-		const locations = await this.Fixture('location').listLocations()
+		const locations = await this.locations.listLocations()
 		for (const location of locations) {
 			assert.isTrue(location.isPublic)
 		}
