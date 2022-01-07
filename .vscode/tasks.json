@@ -2,7 +2,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "problem.watcher",
+            "label": "problem.and.build.watcher",
             "command": "yarn",
             "group": "build",
             "args": [
@@ -24,21 +24,21 @@
                 "applyTo": "allDocuments"
             }
         },
-        {
-            "type": "npm",
-            "script": "watch.build.dev",
-            "group": "build",
-            "problemMatcher": [],
-            "label": "watch.build.dev",
-            "runOptions": {
-                "runOn": "folderOpen"
-            },
-            "promptOnClose": false,
-            "presentation": {
-                "panel": "dedicated",
-                "reveal": "silent"
-            }
-        },
+        // {
+        //     "type": "npm",
+        //     "script": "watch.build.dev",
+        //     "group": "build",
+        //     "problemMatcher": [],
+        //     "label": "watch.build.dev",
+        //     "runOptions": {
+        //         "runOn": "folderOpen"
+        //     },
+        //     "promptOnClose": false,
+        //     "presentation": {
+        //         "panel": "dedicated",
+        //         "reveal": "silent"
+        //     }
+        // },
         {
             "label": "conversation.test.reporter",
             "command": "spruce",

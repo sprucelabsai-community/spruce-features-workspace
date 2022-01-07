@@ -17,19 +17,13 @@
 		"moduleResolution": "node",
 		"experimentalDecorators": true,
 		"sourceMap": false,
-		"outDir": "build",
-		"baseUrl": "src",
-		"paths": {
-			"#spruce/*": [
-				".spruce/*"
-			]
-		}
 	},
-	"include": [
-		"./**/src/*.ts",
-		"./**/src/**/*.ts"
-	],
-	"exclude": [
-		"build"
-	]
+    "references": [
+        { "path": "./packages/spruce-conversation-plugin/" },
+		{ "path": "./packages/spruce-deploy-plugin/" },
+		{ "path": "./packages/spruce-event-plugin/" },
+		{ "path": "./packages/spruce-skill-booter/" },
+		{ "path": "./packages/spruce-store-plugin/" },
+		{ "path": "./packages/spruce-test-fixtures/" },
+    ]
 }
