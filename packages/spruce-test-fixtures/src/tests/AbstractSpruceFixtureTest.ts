@@ -120,15 +120,15 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		await super.beforeEach()
 		await FixtureFactory.beforeEach(this.cwd)
 
-		this._views = undefined
-		this._roles = undefined
-		this._locations = undefined
-		this._organizations = undefined
-		this._people = undefined
-		this._seeder = undefined
-		this._skills = undefined
-		this._mercury = undefined
-		this._stores = undefined
+		this.views = undefined
+		this.roles = undefined
+		this.locations = undefined
+		this.organizations = undefined
+		this.people = undefined
+		this.seeder = undefined
+		this.skills = undefined
+		this.mercury = undefined
+		this.stores = undefined
 	}
 
 	protected static async afterEach() {
