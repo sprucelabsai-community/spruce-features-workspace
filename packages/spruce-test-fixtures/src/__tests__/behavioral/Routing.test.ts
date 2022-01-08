@@ -74,7 +74,7 @@ export default class RoutingTest extends AbstractSpruceFixtureTest {
 		assert.isTrue(vc instanceof Vc)
 	}
 
-	@test.only('redirect calls load on destination vc if set 1', { hey: 'there' })
+	@test('redirect calls load on destination vc if set 1', { hey: 'there' })
 	@test('redirect calls load on destination vc if set 2', { what: 'the!?' })
 	protected static async redirectTriggersLoadWithExpectedItems(args: any) {
 		TestRouter.setShouldLoadDestinationVc(false)
@@ -94,7 +94,9 @@ export default class RoutingTest extends AbstractSpruceFixtureTest {
 		args: any
 	) {
 		//@ts-ignore
-		const vc = await this.router.redirect('spruceTestFixtures.spy', args)
+		const vc = await this.assertRedirects(() =>
+			this.router.redirect('spruceTestFixtures.spy', args)
+		)
 		const lastLoad = vc.loads.pop()
 		assert.isFalsy(lastLoad)
 	}
@@ -114,7 +116,9 @@ export default class RoutingTest extends AbstractSpruceFixtureTest {
 			passedArgs = args
 		})
 
-		await this.router.redirect('spruceTestFixtures.book', expectedArgs)
+		await this.assertRedirects(() =>
+			this.router.redirect('spruceTestFixtures.book', expectedArgs)
+		)
 
 		assert.isTrue(wasHit)
 		assert.isEqual(passedId, 'spruceTestFixtures.book')
@@ -125,7 +129,9 @@ export default class RoutingTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async canFakeRedirectToHeartwoodRoot() {
-		const svc = await this.router.redirect('heartwood.root')
+		const svc = await this.assertRedirects(() =>
+			this.router.redirect('heartwood.root')
+		)
 
 		assert.isTrue(svc instanceof MockSkillViewController)
 	}
@@ -139,7 +145,7 @@ export default class RoutingTest extends AbstractSpruceFixtureTest {
 		//@ts-ignore
 		this.factory.setController(id, null)
 
-		await this.router.redirect(id as any)
+		await this.assertRedirects(() => this.router.redirect(id as any))
 	}
 
 	@test()
@@ -151,18 +157,9 @@ export default class RoutingTest extends AbstractSpruceFixtureTest {
 	}
 
 	private static async assertRedirects(action: () => Promise<any>) {
-		let results: any
-
-		await vcAssert.assertActionRedirects({
-			action: async () => {
-				results = action()
-				await results
-			},
+		return vcAssert.assertActionRedirects({
+			action,
 			router: this.router,
 		})
-
-		await this.wait(1)
-
-		return results
 	}
 }
