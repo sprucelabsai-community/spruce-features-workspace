@@ -25,7 +25,7 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		}
 		return this._views
 	}
-	protected static set views(fixture: ViewFixture) {
+	protected static set views(fixture: ViewFixture | undefined) {
 		this._views = fixture
 	}
 	protected static get roles(): RoleFixture {
@@ -34,7 +34,7 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		}
 		return this._roles
 	}
-	protected static set roles(fixture: RoleFixture) {
+	protected static set roles(fixture: RoleFixture | undefined) {
 		this._roles = fixture
 	}
 	protected static get locations(): LocationFixture {
@@ -43,7 +43,7 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		}
 		return this._locations
 	}
-	protected static set locations(fixture: LocationFixture) {
+	protected static set locations(fixture: LocationFixture | undefined) {
 		this._locations = fixture
 	}
 	protected static get organizations(): OrganizationFixture {
@@ -52,7 +52,7 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		}
 		return this._organizations
 	}
-	protected static set organizations(fixture: OrganizationFixture) {
+	protected static set organizations(fixture: OrganizationFixture | undefined) {
 		this._organizations = fixture
 	}
 	protected static get people(): PersonFixture {
@@ -61,7 +61,7 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		}
 		return this._people
 	}
-	protected static set people(fixture: PersonFixture) {
+	protected static set people(fixture: PersonFixture | undefined) {
 		this._people = fixture
 	}
 	protected static get seeder(): SeedFixture {
@@ -70,7 +70,7 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		}
 		return this._seeder
 	}
-	protected static set seeder(fixture: SeedFixture) {
+	protected static set seeder(fixture: SeedFixture | undefined) {
 		this._seeder = fixture
 	}
 	protected static get skills(): SkillFixture {
@@ -79,7 +79,7 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		}
 		return this._skills
 	}
-	protected static set skills(fixture: SkillFixture) {
+	protected static set skills(fixture: SkillFixture | undefined) {
 		this._skills = fixture
 	}
 	protected static get mercury(): MercuryFixture {
@@ -88,7 +88,7 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		}
 		return this._mercury
 	}
-	protected static set mercury(fixture: MercuryFixture) {
+	protected static set mercury(fixture: MercuryFixture | undefined) {
 		this._mercury = fixture
 	}
 	protected static get stores(): StoreFixture {
@@ -97,7 +97,7 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		}
 		return this._stores
 	}
-	protected static set stores(fixture: StoreFixture) {
+	protected static set stores(fixture: StoreFixture | undefined) {
 		this._stores = fixture
 	}
 
