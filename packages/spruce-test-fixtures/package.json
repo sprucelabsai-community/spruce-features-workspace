@@ -13,7 +13,7 @@
       "@sprucelabs/spruce-test-fixtures"
     ]
   },
-  "version": "21.0.8",
+  "version": "21.0.11",
   "files": [
     "build/**/*",
     "!build/__tests__",
@@ -63,7 +63,7 @@
   "dependencies": {
     "@sprucelabs/data-stores": "^7.2.142",
     "@sprucelabs/error": "^5.0.370",
-    "@sprucelabs/heartwood-view-controllers": "^55.6.4",
+    "@sprucelabs/heartwood-view-controllers": "^55.6.3",
     "@sprucelabs/mercury-client": "^19.3.7",
     "@sprucelabs/mercury-core-events": "^1.7.81",
     "@sprucelabs/mercury-event-emitter": "^19.3.7",
