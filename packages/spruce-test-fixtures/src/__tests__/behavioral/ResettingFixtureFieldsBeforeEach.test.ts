@@ -13,23 +13,60 @@ import {
 import SeedFixture from '../../tests/fixtures/SeedFixture'
 
 const toCheck = [
-	{ prop: 'views', privatePropName: '_views', instanceOf: ViewFixture },
-	{ prop: 'roles', privatePropName: '_roles', instanceOf: RoleFixture },
+	{
+		prop: 'views',
+		privatePropName: '_views',
+		fixtureName: 'view',
+		instanceOf: ViewFixture,
+	},
+	{
+		prop: 'roles',
+		privatePropName: '_roles',
+		fixtureName: 'role',
+		instanceOf: RoleFixture,
+	},
 	{
 		prop: 'locations',
 		privatePropName: '_locations',
+		fixtureName: 'location',
 		instanceOf: LocationFixture,
 	},
 	{
 		prop: 'organizations',
 		privatePropName: '_organizations',
+		fixtureName: 'organization',
 		instanceOf: OrganizationFixture,
 	},
-	{ prop: 'people', privatePropName: '_people', instanceOf: PersonFixture },
-	{ prop: 'seeder', privatePropName: '_seeder', instanceOf: SeedFixture },
-	{ prop: 'skills', privatePropName: '_skills', instanceOf: SkillFixture },
-	{ prop: 'mercury', privatePropName: '_mercury', instanceOf: MercuryFixture },
-	{ prop: 'stores', privatePropName: '_stores', instanceOf: StoreFixture },
+	{
+		prop: 'people',
+		privatePropName: '_people',
+		fixtureName: 'person',
+		instanceOf: PersonFixture,
+	},
+	{
+		prop: 'seeder',
+		privatePropName: '_seeder',
+		fixtureName: 'seede',
+		instanceOf: SeedFixture,
+	},
+	{
+		prop: 'skills',
+		privatePropName: '_skills',
+		fixtureName: 'skill',
+		instanceOf: SkillFixture,
+	},
+	{
+		prop: 'mercury',
+		privatePropName: '_mercury',
+		fixtureName: 'mercury',
+		instanceOf: MercuryFixture,
+	},
+	{
+		prop: 'stores',
+		privatePropName: '_stores',
+		fixtureName: 'store',
+		instanceOf: StoreFixture,
+	},
 ]
 
 export default class ResettingFixtureFieldsBeforeEachTest extends AbstractSpruceFixtureTest {

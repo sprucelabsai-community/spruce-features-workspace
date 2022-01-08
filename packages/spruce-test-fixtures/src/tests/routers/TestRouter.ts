@@ -1,6 +1,7 @@
 import {
 	AuthenticatorImpl,
 	Router,
+	routerTestPatcher,
 	Scope,
 	SkillViewController,
 	SkillViewControllerArgs,
@@ -63,6 +64,8 @@ export default class TestRouter
 				vcFactory: this.vcFactory,
 				scope: this.scope,
 			})
+
+			routerTestPatcher.patchRedirectToThrow(this.instance)
 		}
 
 		if (!this.vcFactory) {
@@ -94,6 +97,7 @@ export default class TestRouter
 			TestRouter.shouldThrowWhenRedirectingToBadSvc ||
 			this.vcFactory.hasController(id)
 		) {
+			debugger
 			//@ts-ignore
 			this.presentVc = this.vcFactory.Controller(id, {})
 		}

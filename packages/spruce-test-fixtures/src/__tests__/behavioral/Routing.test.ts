@@ -1,6 +1,7 @@
 /* eslint-disable spruce/prohibit-import-from-build-folder */
 import {
 	SkillViewControllerId,
+	vcAssert,
 	ViewControllerFactory,
 } from '@sprucelabs/heartwood-view-controllers'
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
@@ -49,11 +50,20 @@ export default class RoutingTest extends AbstractSpruceFixtureTest {
 	protected static async throwsWithBadDestination() {
 		const err = await assert.doesThrowAsync(() =>
 			//@ts-ignore
-			this.router.redirect('waka.waka')
+			this.assertRedirects(() => this.router.redirect('waka.waka'))
 		)
 
 		errorAssertUtil.assertError(err, 'INVALID_VIEW_CONTROLLER_NAME', {
 			name: 'waka.waka',
+		})
+	}
+
+	private static async assertRedirects(action: () => Promise<any>) {
+		debugger
+
+		await vcAssert.assertActionRedirects({
+			action,
+			router: this.router,
 		})
 	}
 

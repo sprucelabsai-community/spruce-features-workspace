@@ -2,12 +2,13 @@ import {
 	ActiveRecordCardViewController,
 	AuthenticatorImpl,
 	ControllerOptions,
+	dialogTestPatcher,
 	formTestUtil,
 	MockStorage,
 	renderUtil,
 	Scope,
 	SkillViewController,
-	vcAssertUtil,
+	vcAssert,
 	ViewControllerFactory,
 	ViewControllerId,
 } from '@sprucelabs/heartwood-view-controllers'
@@ -151,15 +152,17 @@ export default class ViewFixture {
 			},
 		})
 
-		vcAssertUtil._setVcFactory(this.vcFactory)
+		vcAssert._setVcFactory(this.vcFactory)
 
 		const oldFactory = this.vcFactory.Controller.bind(this.vcFactory)
 
 		this.vcFactory.Controller = (...args: any[]) => {
 			//@ts-ignore
 			const vc = oldFactory(...args)
-			vcAssertUtil.attachTriggerRenderCounter(vc)
-			vcAssertUtil.patchAlertToThrow(vc)
+			vcAssert.attachTriggerRenderCounter(vc)
+			vcAssert.patchAlertToThrow(vc)
+			dialogTestPatcher.patchDialogToThrow(vc)
+
 			return vc
 		}
 

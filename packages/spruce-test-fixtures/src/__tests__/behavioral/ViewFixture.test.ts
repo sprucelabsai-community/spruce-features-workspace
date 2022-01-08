@@ -4,7 +4,7 @@ import {
 	AuthenticatorImpl,
 	buildForm,
 	SkillViewControllerLoadOptions,
-	vcAssertUtil,
+	vcAssert,
 } from '@sprucelabs/heartwood-view-controllers'
 import { formatPhoneNumber } from '@sprucelabs/schema'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
@@ -364,11 +364,11 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 	protected static fixtureAttachesRenderCount() {
 		const vc = this.MockVc()
 
-		vcAssertUtil.assertTriggerRenderCount(vc, 0)
+		vcAssert.assertTriggerRenderCount(vc, 0)
 
 		vc.triggerRender()
 
-		vcAssertUtil.assertTriggerRenderCount(vc, 1)
+		vcAssert.assertTriggerRenderCount(vc, 1)
 	}
 
 	@test()
@@ -384,9 +384,20 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 	protected static fixturePatchesRenderInDialogToThrow() {
 		const vc = this.MockVc()
 		//@ts-ignore
-		assert.isFunction(vc._oldRenderInDialog)
+		assert.isFunction(vc._originalRenderInDialog)
 		//@ts-ignore
 		assert.doesThrow(() => vc.renderInDialog({}))
+	}
+
+	@test()
+	protected static async testRouterThrowsOnRedirect() {
+		const router = this.views.getRouter()
+		await assert.doesThrowAsync(() => router.redirect('heartwood.root'))
+
+		await vcAssert.assertActionRedirects({
+			action: () => router.redirect('heartwood.root'),
+			router,
+		})
 	}
 
 	@test()
