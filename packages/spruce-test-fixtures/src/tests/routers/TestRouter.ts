@@ -97,7 +97,6 @@ export default class TestRouter
 			TestRouter.shouldThrowWhenRedirectingToBadSvc ||
 			this.vcFactory.hasController(id)
 		) {
-			debugger
 			//@ts-ignore
 			this.presentVc = this.vcFactory.Controller(id, {})
 		}

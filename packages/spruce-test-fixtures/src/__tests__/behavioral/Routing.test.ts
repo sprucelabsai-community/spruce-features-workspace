@@ -58,15 +58,6 @@ export default class RoutingTest extends AbstractSpruceFixtureTest {
 		})
 	}
 
-	private static async assertRedirects(action: () => Promise<any>) {
-		debugger
-
-		await vcAssert.assertActionRedirects({
-			action,
-			router: this.router,
-		})
-	}
-
 	@test()
 	protected static async getPresentVcIsEmptyToStart() {
 		assert.isFalsy(this.router.getPresentVc())
@@ -78,18 +69,21 @@ export default class RoutingTest extends AbstractSpruceFixtureTest {
 		id: SkillViewControllerId,
 		Vc: any
 	) {
-		await this.router.redirect(id, {})
+		await this.assertRedirects(() => this.router.redirect(id, {}))
 		const vc = this.router.getPresentVc()
 		assert.isTrue(vc instanceof Vc)
 	}
 
-	@test('redirect calls load on destination vc if set 1', { hey: 'there' })
+	@test.only('redirect calls load on destination vc if set 1', { hey: 'there' })
 	@test('redirect calls load on destination vc if set 2', { what: 'the!?' })
 	protected static async redirectTriggersLoadWithExpectedItems(args: any) {
 		TestRouter.setShouldLoadDestinationVc(false)
 
 		//@ts-ignore
-		const vc = await this.router.redirect('spruceTestFixtures.spy', args)
+		const vc = await this.assertRedirects(() =>
+			this.router.redirect('spruceTestFixtures.spy', args)
+		)
+
 		const lastLoad = vc.loads.pop()
 		assert.isFalsy(lastLoad)
 	}
@@ -154,5 +148,21 @@ export default class RoutingTest extends AbstractSpruceFixtureTest {
 			//@ts-ignore
 			this.router.redirect('waka.waka')
 		)
+	}
+
+	private static async assertRedirects(action: () => Promise<any>) {
+		let results: any
+
+		await vcAssert.assertActionRedirects({
+			action: async () => {
+				results = action()
+				await results
+			},
+			router: this.router,
+		})
+
+		await this.wait(1)
+
+		return results
 	}
 }
