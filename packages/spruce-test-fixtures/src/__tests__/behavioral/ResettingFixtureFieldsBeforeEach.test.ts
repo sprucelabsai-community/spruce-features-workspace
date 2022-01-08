@@ -46,7 +46,7 @@ const toCheck = [
 	{
 		prop: 'seeder',
 		privatePropName: '_seeder',
-		fixtureName: 'seede',
+		fixtureName: 'seed',
 		instanceOf: SeedFixture,
 	},
 	{
