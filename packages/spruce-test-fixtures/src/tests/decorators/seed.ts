@@ -15,9 +15,14 @@ export default function seed(storeName: SeedTarget, totalToSeed?: number) {
 				await beforeAll()
 
 				await login.on('did-login', async () => {
-					Class.__shouldResetAccount = true
-					await reset(Class)
+					await forceResetAccount(Class)
 				})
+			}
+
+			const afterAll = Class.afterAll.bind(Class)
+			Class.afterAll = async () => {
+				await forceResetAccount(Class)
+				await afterAll()
 			}
 		}
 
@@ -37,6 +42,11 @@ export default function seed(storeName: SeedTarget, totalToSeed?: number) {
 			await bound?.(...args)
 		}
 	}
+}
+
+async function forceResetAccount(Class: any) {
+	Class.__shouldResetAccount = true
+	await reset(Class)
 }
 
 async function optionallyReset(Class: any, key: string) {
