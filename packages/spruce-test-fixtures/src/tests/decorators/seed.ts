@@ -15,7 +15,6 @@ export default function seed(storeName: SeedTarget, totalToSeed?: number) {
 				await beforeAll()
 
 				await login.on('did-login', async () => {
-					debugger
 					await forceResetAccount(Class)
 				})
 
