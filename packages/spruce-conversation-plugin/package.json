@@ -73,13 +73,13 @@
     "fuzzyset": "^1.0.7",
     "globby": "^11.0.4",
     "inquirer": "^8.2.0",
-    "node-nlp": "^4.22.8",
+    "node-nlp": "^4.22.9",
     "random": "^3.0.6"
   },
   "devDependencies": {
     "@sprucelabs/esm-postbuild": "^1.0.323",
     "@sprucelabs/jest-json-reporter": "^6.0.305",
-    "@sprucelabs/mercury-client": "^19.3.13",
+    "@sprucelabs/mercury-client": "^19.3.14",
     "@sprucelabs/mercury-types": "^26.2.26",
     "@sprucelabs/resolve-path-aliases": "^1.0.251",
     "@sprucelabs/semantic-release": "^4.0.8",
