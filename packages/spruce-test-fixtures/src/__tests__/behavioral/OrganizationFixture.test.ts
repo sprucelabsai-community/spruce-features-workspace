@@ -32,7 +32,7 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 		await this.organizations.destroy()
 		await this.organizations.destroy()
 
-		const client = await this.Fixture('mercury').connectToApi()
+		const client = await this.mercury.connectToApi()
 		const results = await client.emit('get-organization::v2020_12_25', {
 			target: {
 				organizationId: org.id,

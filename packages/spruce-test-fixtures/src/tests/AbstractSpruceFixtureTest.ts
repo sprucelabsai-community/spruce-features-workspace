@@ -136,6 +136,11 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		await FixtureFactory.afterEach()
 	}
 
+	protected static async afterAll() {
+		await super.afterAll()
+		await FixtureFactory.afterAll()
+	}
+
 	public static Fixture<Name extends FixtureName>(
 		name: Name,
 		options?: Partial<FixtureConstructorOptionsMap[Name]>

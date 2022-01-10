@@ -205,4 +205,8 @@ export default class FixtureFactory {
 		await this.destroy()
 		await Promise.all([StoreFixture.afterEach()])
 	}
+
+	public static async afterAll() {
+		await this.destroy()
+	}
 }
