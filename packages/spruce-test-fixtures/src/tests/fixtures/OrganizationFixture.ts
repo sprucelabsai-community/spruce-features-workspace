@@ -28,7 +28,9 @@ export default class OrganizationFixture {
 
 		const allValues = {
 			slug: this.generateOrgSlug(),
-			name: 'Organization from fixture',
+			name: `Organization from fixture - ${
+				new Date().getTime() * Math.random()
+			}`,
 			address: {
 				street1: `${Math.round(Math.random() * 9999)} Main St.`,
 				city: 'Denver',
@@ -64,6 +66,21 @@ export default class OrganizationFixture {
 		const { organization } = eventResponseUtil.getFirstResponseOrThrow(results)
 
 		return organization
+	}
+
+	public async updateOrganization(
+		id: string,
+		values: { name?: string; phone?: string }
+	) {
+		const { phone, ...payload } = values
+		const { client } = await this.people.loginAsDemoPerson(phone)
+
+		await client.emitAndFlattenResponses('update-organization::v2020_12_25', {
+			target: {
+				organizationId: id,
+			},
+			payload,
+		})
 	}
 
 	public async getNewestOrganization(phone?: string) {

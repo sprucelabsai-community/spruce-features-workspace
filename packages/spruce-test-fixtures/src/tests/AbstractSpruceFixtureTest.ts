@@ -164,7 +164,7 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 	) {
 		const { name, slug, ...skillOptions } = options
 
-		const { skill, client } = await this.Fixture('skill').loginAsDemoSkill({
+		const { skill, client } = await this.skills.loginAsDemoSkill({
 			name,
 			slug,
 		})
@@ -180,7 +180,7 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 	}
 
 	protected static async bootAndRegisterSkillFromTestDir(key: string) {
-		const registeredSkill = await this.Fixture('skill').seedDemoSkill({
+		const registeredSkill = await this.skills.seedDemoSkill({
 			name: 'my test skill',
 		})
 

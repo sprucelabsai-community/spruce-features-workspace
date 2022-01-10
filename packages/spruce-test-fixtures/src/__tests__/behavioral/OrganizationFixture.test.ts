@@ -26,9 +26,8 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async orgFixtureDestroysOrgs() {
-		const org = await this.organizations.seedDemoOrganization({
-			name: 'my org',
-		})
+		const org = await this.Org()
+
 		await this.organizations.destroy()
 		await this.organizations.destroy()
 
@@ -44,10 +43,7 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async isNotPartOfOrgtoStart() {
-		const org = await this.organizations.seedDemoOrganization({
-			name: 'my org',
-			phone: DEMO_NUMBER_ORGANIZATION_FIXTURE,
-		})
+		const org = await this.Org()
 
 		const { person } = await this.people.loginAsDemoPerson(DEMO_NUMBER_HIRING)
 
@@ -57,6 +53,30 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 			phone: DEMO_NUMBER_ORGANIZATION_FIXTURE,
 		})
 		assert.isFalse(isHired)
+	}
+
+	@test()
+	protected static async updatingBadOrgTHrows() {
+		await assert.doesThrowAsync(() =>
+			this.organizations.updateOrganization('aoeu', {})
+		)
+	}
+
+	@test()
+	protected static async canUpdateOrg() {
+		const org = await this.organizations.seedDemoOrganization({
+			name: 'my org',
+			phone: DEMO_NUMBER_ORGANIZATION_FIXTURE,
+		})
+
+		const name = 'whatever you think!'
+		await this.organizations.updateOrganization(org.id, {
+			name,
+			phone: DEMO_NUMBER_ORGANIZATION_FIXTURE,
+		})
+
+		const updated = await this.organizations.getOrganizationById(org.id)
+		assert.isEqual(updated.name, name)
 	}
 
 	@test('can add as guest', 'guest')
@@ -230,6 +250,13 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 		const isHired = await this.isPersonPartOfOrg(person.id, org.id)
 
 		assert.isFalse(isHired)
+	}
+
+	private static async Org() {
+		return await this.organizations.seedDemoOrganization({
+			name: 'my org',
+			phone: DEMO_NUMBER_ORGANIZATION_FIXTURE,
+		})
 	}
 
 	private static async seedOrgAndHirePerson(base: string) {

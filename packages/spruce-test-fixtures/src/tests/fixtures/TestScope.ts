@@ -3,8 +3,8 @@ import LocationFixture from './LocationFixture'
 import OrganizationFixture from './OrganizationFixture'
 
 export default class TestScope implements Scope {
-	private currentOrgId?: string
-	private currentLocationId?: string
+	private currentOrgId?: string | null
+	private currentLocationId?: string | null
 	private organizationFixture: OrganizationFixture
 	private locationFixture: LocationFixture
 
@@ -17,7 +17,9 @@ export default class TestScope implements Scope {
 	}
 
 	public async getCurrentOrganization() {
-		if (this.currentOrgId) {
+		if (this.currentOrgId === null) {
+			return null
+		} else if (this.currentOrgId) {
 			return this.organizationFixture.getOrganizationById(this.currentOrgId)
 		} else {
 			return this.organizationFixture.getNewestOrganization()
@@ -29,7 +31,9 @@ export default class TestScope implements Scope {
 	}
 
 	public async getCurrentLocation() {
-		if (this.currentLocationId) {
+		if (this.currentLocationId === null) {
+			return null
+		} else if (this.currentLocationId) {
 			return this.locationFixture.getLocationById(this.currentLocationId)
 		} else {
 			const org = await this.getCurrentOrganization()
