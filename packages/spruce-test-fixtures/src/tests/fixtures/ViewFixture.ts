@@ -1,6 +1,7 @@
 import {
 	ActiveRecordCardViewController,
 	AuthenticatorImpl,
+	confirmTestPatcher,
 	ControllerOptions,
 	dialogTestPatcher,
 	formTestUtil,
@@ -161,7 +162,9 @@ export default class ViewFixture {
 			const vc = oldFactory(...args)
 			vcAssert.attachTriggerRenderCounter(vc)
 			vcAssert.patchAlertToThrow(vc)
+
 			dialogTestPatcher.patchDialogToThrow(vc)
+			confirmTestPatcher.patchConfirmToThrow(vc)
 
 			return vc
 		}

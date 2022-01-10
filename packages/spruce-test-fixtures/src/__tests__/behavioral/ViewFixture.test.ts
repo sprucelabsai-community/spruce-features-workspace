@@ -534,6 +534,13 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 		assert.isEqual(hitCount, 1)
 	}
 
+	@test()
+	protected static async patchesConfirmToThrow() {
+		const vc = this.MockVc()
+		//@ts-ignore
+		await assert.doesThrowAsync(() => vc.confirm())
+	}
+
 	protected static async loginAsDemoPerson() {
 		const { client } = await this.fixture.loginAsDemoPerson(
 			DEMO_NUMBER_VIEW_FIXTURE_CLIENT_2
