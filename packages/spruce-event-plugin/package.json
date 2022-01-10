@@ -10,7 +10,7 @@
       "@sprucelabs/spruce-test-fixtures"
     ]
   },
-  "version": "21.0.23",
+  "version": "22.0.1",
   "files": [
     "build/**/*",
     "!build/__tests__",
@@ -60,13 +60,13 @@
   },
   "dependencies": {
     "@sprucelabs/error": "^5.0.370",
-    "@sprucelabs/mercury-types": "^26.2.24",
-    "@sprucelabs/schema": "^25.6.27",
-    "@sprucelabs/spruce-core-schemas": "^22.7.104",
-    "@sprucelabs/spruce-event-utils": "^17.1.490",
-    "@sprucelabs/spruce-skill-booter": "^21.0.23",
-    "@sprucelabs/spruce-skill-utils": "^22.2.152",
-    "@sprucelabs/spruce-test-fixtures": "^21.0.23"
+    "@sprucelabs/mercury-types": "^26.2.25",
+    "@sprucelabs/schema": "^25.6.28",
+    "@sprucelabs/spruce-core-schemas": "^22.7.105",
+    "@sprucelabs/spruce-event-utils": "^17.1.491",
+    "@sprucelabs/spruce-skill-booter": "^22.0.1",
+    "@sprucelabs/spruce-skill-utils": "^22.2.153",
+    "@sprucelabs/spruce-test-fixtures": "^22.0.1"
   },
   "devDependencies": {
     "@sprucelabs/esm-postbuild": "^1.0.323",
