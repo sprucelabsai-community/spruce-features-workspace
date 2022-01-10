@@ -7,13 +7,19 @@ export default class ResettingAccountAfterAllTestsTest extends AbstractSpruceFix
 	protected static async afterAll() {
 		await super.afterAll()
 
-		const orgs = await this.organizations.listOrganizations()
+		const orgs = await this.organizations.listOrganizations(
+			DEMO_NUMBER_ACCOUNT_AFTER_ALL_RESET
+		)
 		assert.isLength(orgs, 0)
 	}
 
 	@test()
 	@seed('organizations', 1)
-	protected static async nothing() {}
+	protected static async seedMoar() {
+		await this.organizations.seedDemoOrganization({
+			phone: DEMO_NUMBER_ACCOUNT_AFTER_ALL_RESET,
+		})
+	}
 }
 
 //@ts-ignore

@@ -34,12 +34,7 @@ export default function login(phone: string) {
 			MercuryFixture.setDefaultClient(client)
 			ViewFixture.lockProxyCacheForPerson(person.id)
 
-			//@ts-ignore
-			let didLogin = login?.listeners?.['did-login']
-
-			if (didLogin) {
-				await didLogin(client)
-			}
+			await emitDidLogin(client)
 		}
 
 		const beforeEach = Class.beforeEach.bind(Class)
@@ -54,6 +49,7 @@ export default function login(phone: string) {
 
 		Class.afterAll = async () => {
 			const client = MercuryFixture.getDefaultClient()
+			await emitWillLogout(client)
 			await client?.disconnect()
 
 			MercuryFixture.clearDefaultClient()
@@ -84,14 +80,36 @@ login.getPerson = (): SpruceSchemas.Spruce.v2020_07_22.Person => {
 }
 
 login.on = async (
-	name: 'did-login',
+	name: 'did-login' | 'will-logout',
 	cb: (options: {
 		client: Client
 		person: SpruceSchemas.Spruce.v2020_07_22.Person
 	}) => Promise<void> | void
 ) => {
 	//@ts-ignore
-	login.listeners = {
-		[name]: cb,
+	if (!login.listeners) {
+		//@ts-ignore
+		login.listeners = {}
+	}
+
+	//@ts-ignore
+	login.listeners[name] = cb
+}
+
+async function emitDidLogin(client: any) {
+	//@ts-ignore
+	let didLogin = login?.listeners?.['did-login']
+
+	if (didLogin) {
+		await didLogin(client)
+	}
+}
+
+async function emitWillLogout(client: any) {
+	//@ts-ignore
+	let willLogout = login?.listeners?.['will-logout']
+
+	if (willLogout) {
+		await willLogout(client)
 	}
 }

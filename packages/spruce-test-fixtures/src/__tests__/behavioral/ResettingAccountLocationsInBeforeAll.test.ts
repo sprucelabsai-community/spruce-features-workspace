@@ -8,7 +8,7 @@ export default class ResettingAccountBeforeAllTestsTest extends AbstractSpruceFi
 	protected static async beforeAll() {
 		await super.beforeAll()
 
-		const { client } = await this.Fixture('person').loginAsDemoPerson(
+		const { client } = await this.people.loginAsDemoPerson(
 			DEMO_NUMBER_ACCOUNT_BEFORE_ALL_RESET_LOCATION
 		)
 
@@ -27,7 +27,7 @@ export default class ResettingAccountBeforeAllTestsTest extends AbstractSpruceFi
 				organizationId: organization.id,
 			},
 			payload: {
-				name: 'an org',
+				name: 'a location',
 				address: {},
 			},
 		})
@@ -48,7 +48,7 @@ export default class ResettingAccountBeforeAllTestsTest extends AbstractSpruceFi
 	protected static async nothing() {}
 
 	private static async listLocations() {
-		return await this.Fixture('location').listLocations()
+		return await this.locations.listLocations()
 	}
 }
 
