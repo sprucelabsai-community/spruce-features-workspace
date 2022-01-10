@@ -28,6 +28,7 @@ export default class TestScope implements Scope {
 
 	public setCurrentOrganization(id: string) {
 		this.currentOrgId = id
+		this.currentLocationId = undefined
 	}
 
 	public async getCurrentLocation() {

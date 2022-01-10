@@ -43,4 +43,13 @@ export default class TestingScopeTest extends AbstractSpruceFixtureTest {
 		const location = await this.scope.getCurrentLocation()
 		assert.isNull(location)
 	}
+
+	@test()
+	protected static async clearsLocationIdWhenSettingOrgId() {
+		this.scope.setCurrentLocation('aoeu')
+		this.scope.setCurrentOrganization('aoeu')
+
+		//@ts-ignore
+		assert.isFalsy(this.scope.currentLocationId)
+	}
 }
