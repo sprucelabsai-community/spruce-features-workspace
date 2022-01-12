@@ -149,7 +149,7 @@ export class EventFeaturePlugin implements SkillFeature {
 			const didBoot = this.getListener('skill', 'did-boot')
 
 			if (willBoot) {
-				this.log.info(`Emitting skill.willBoot internally`)
+				this.log.info(`Emitting skill.will-boot internally`)
 
 				const event = await this.buildSpruceEvent('will-boot')
 
@@ -219,7 +219,7 @@ export class EventFeaturePlugin implements SkillFeature {
 		await new Promise((resolve, reject) => {
 			this.skill.onBoot(async () => {
 				try {
-					this.log.info(`Emitting skill.didBoot internally.`)
+					this.log.info(`Emitting skill.did-boot internally.`)
 
 					const event = await this.buildSpruceEvent('did-boot')
 
