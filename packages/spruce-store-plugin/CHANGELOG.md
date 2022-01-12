@@ -3,6 +3,78 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [22.0.15](https://github.com/sprucelabsai/spruce-features-workspace/compare/v22.0.14...v22.0.15) (2022-01-12)
+
+**Note:** Version bump only for package @sprucelabs/spruce-store-plugin
+
+
+
+
+
+## [22.0.14](https://github.com/sprucelabsai/spruce-features-workspace/compare/v22.0.13...v22.0.14) (2022-01-12)
+
+**Note:** Version bump only for package @sprucelabs/spruce-store-plugin
+
+
+
+
+
+## [22.0.13](https://github.com/sprucelabsai/spruce-features-workspace/compare/v22.0.12...v22.0.13) (2022-01-12)
+
+**Note:** Version bump only for package @sprucelabs/spruce-store-plugin
+
+
+
+
+
+## [22.0.12](https://github.com/sprucelabsai/spruce-features-workspace/compare/v22.0.11...v22.0.12) (2022-01-12)
+
+**Note:** Version bump only for package @sprucelabs/spruce-store-plugin
+
+
+
+
+
+## [22.0.11](https://github.com/sprucelabsai/spruce-features-workspace/compare/v22.0.10...v22.0.11) (2022-01-11)
+
+**Note:** Version bump only for package @sprucelabs/spruce-store-plugin
+
+
+
+
+
+## [22.0.10](https://github.com/sprucelabsai/spruce-features-workspace/compare/v22.0.9...v22.0.10) (2022-01-11)
+
+**Note:** Version bump only for package @sprucelabs/spruce-store-plugin
+
+
+
+
+
+## [22.0.9](https://github.com/sprucelabsai/spruce-features-workspace/compare/v22.0.8...v22.0.9) (2022-01-11)
+
+**Note:** Version bump only for package @sprucelabs/spruce-store-plugin
+
+
+
+
+
+## [22.0.8](https://github.com/sprucelabsai/spruce-features-workspace/compare/v22.0.7...v22.0.8) (2022-01-11)
+
+**Note:** Version bump only for package @sprucelabs/spruce-store-plugin
+
+
+
+
+
+## [22.0.7](https://github.com/sprucelabsai/spruce-features-workspace/compare/v22.0.6...v22.0.7) (2022-01-10)
+
+**Note:** Version bump only for package @sprucelabs/spruce-store-plugin
+
+
+
+
+
 ## [22.0.6](https://github.com/sprucelabsai/spruce-features-workspace/compare/v22.0.5...v22.0.6) (2022-01-10)
 
 **Note:** Version bump only for package @sprucelabs/spruce-store-plugin

@@ -11,7 +11,7 @@
       "@sprucelabs/spruce-test-fixtures"
     ]
   },
-  "version": "22.0.6",
+  "version": "22.0.15",
   "files": [
     "build/**/*",
     "!build/__tests__",
@@ -62,14 +62,14 @@
   "dependencies": {
     "@nlpjs/nlu": "^4.22.7",
     "@sprucelabs/error": "^5.0.370",
-    "@sprucelabs/mercury-core-events": "^1.7.83",
-    "@sprucelabs/schema": "^25.6.31",
-    "@sprucelabs/spruce-core-schemas": "^22.7.108",
-    "@sprucelabs/spruce-event-plugin": "^22.0.6",
-    "@sprucelabs/spruce-event-utils": "^17.1.494",
-    "@sprucelabs/spruce-skill-booter": "^22.0.6",
-    "@sprucelabs/spruce-skill-utils": "^22.2.156",
-    "@sprucelabs/spruce-test-fixtures": "^22.0.6",
+    "@sprucelabs/mercury-core-events": "^1.7.95",
+    "@sprucelabs/schema": "^25.6.41",
+    "@sprucelabs/spruce-core-schemas": "^22.8.6",
+    "@sprucelabs/spruce-event-plugin": "^22.0.15",
+    "@sprucelabs/spruce-event-utils": "^17.1.506",
+    "@sprucelabs/spruce-skill-booter": "^22.0.15",
+    "@sprucelabs/spruce-skill-utils": "^22.2.166",
+    "@sprucelabs/spruce-test-fixtures": "^22.0.15",
     "fuzzyset": "^1.0.7",
     "globby": "^11.0.4",
     "inquirer": "^8.2.0",
@@ -79,8 +79,8 @@
   "devDependencies": {
     "@sprucelabs/esm-postbuild": "^1.0.323",
     "@sprucelabs/jest-json-reporter": "^6.0.305",
-    "@sprucelabs/mercury-client": "^19.3.16",
-    "@sprucelabs/mercury-types": "^26.2.28",
+    "@sprucelabs/mercury-client": "^19.3.24",
+    "@sprucelabs/mercury-types": "^26.2.40",
     "@sprucelabs/resolve-path-aliases": "^1.0.251",
     "@sprucelabs/semantic-release": "^4.0.8",
     "@sprucelabs/test": "^7.7.271",
