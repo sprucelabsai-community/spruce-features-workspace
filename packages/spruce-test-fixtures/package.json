@@ -14,7 +14,7 @@
       "dotenv"
     ]
   },
-  "version": "22.0.35",
+  "version": "22.0.36",
   "files": [
     "build/**/*",
     "!build/__tests__",
@@ -74,7 +74,7 @@
     "@sprucelabs/schema": "^25.6.63",
     "@sprucelabs/spruce-core-schemas": "^22.8.31",
     "@sprucelabs/spruce-event-utils": "^17.1.535",
-    "@sprucelabs/spruce-skill-booter": "^22.0.35",
+    "@sprucelabs/spruce-skill-booter": "^22.0.36",
     "@sprucelabs/spruce-skill-utils": "^22.2.191",
     "dotenv": "11.0.0",
     "unique-names-generator": "^4.6.0"
