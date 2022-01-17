@@ -138,7 +138,14 @@ export default class SeedFixture {
 		const people = await Promise.all(
 			new Array(total).fill(0).map(async () => {
 				const number = numbers.shift()
-				const { person } = await this.people.loginAsDemoPerson(number)
+				let { person, client } = await this.people.loginAsDemoPerson(number)
+
+				const updated = await this.people.generateRandomName(client)
+
+				person = {
+					...person,
+					...updated,
+				}
 
 				await this.locations.addPerson({
 					locationId: location.id,

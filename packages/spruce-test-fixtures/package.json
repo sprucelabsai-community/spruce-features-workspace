@@ -99,7 +99,8 @@
     "ts-node": "^10.4.0",
     "tsc-watch": "^4.6.0",
     "tsconfig-paths": "^3.12.0",
-    "typescript": "^4.5.4"
+    "typescript": "^4.5.4",
+    "unique-names-generator": "^4.6.0"
   },
   "jest": {
     "maxWorkers": 2,

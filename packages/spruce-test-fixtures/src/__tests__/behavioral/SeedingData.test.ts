@@ -26,8 +26,8 @@ export default class SeedingDataTest extends AbstractSpruceFixtureTest {
 		await super.beforeEach()
 
 		this.client = login.getClient()
-
 		this.fixture = this.Fixture('seed')
+
 		await this.fixture.resetAccount(DEMO_NUMBER_SEED_FIXTURE)
 	}
 
@@ -200,6 +200,32 @@ export default class SeedingDataTest extends AbstractSpruceFixtureTest {
 
 		const people = await this.listPeople(locations[0], ['guest', 'manager'])
 		assert.isLength(people, 5)
+	}
+
+	@test()
+	protected static async seededPeopleHaveNames() {
+		const { teammates } = await this.seedLocations({
+			startingPhone: DEMO_NUMBER_SEED_FIXTURE_STARTING_PHONE,
+			totalLocations: 1,
+			totalTeammates: 2,
+		})
+
+		assert.isTruthy(teammates[0].firstName)
+		assert.isTruthy(teammates[0].lastName)
+	}
+
+	@test()
+	protected static async peolpeAllHaveUniqueNames() {
+		const { teammates } = await this.seedLocations({
+			startingPhone: DEMO_NUMBER_SEED_FIXTURE_STARTING_PHONE,
+			totalLocations: 1,
+			totalTeammates: 2,
+		})
+
+		const names = teammates.map((t) => t.casualName)
+		const unique = [...new Set(names)]
+
+		assert.isLength(unique, names.length)
 	}
 
 	private static async listPeople(

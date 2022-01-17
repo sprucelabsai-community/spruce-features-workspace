@@ -1,7 +1,8 @@
+import { MercuryClient } from '@sprucelabs/mercury-client'
 import { formatPhoneNumber, SchemaError } from '@sprucelabs/schema'
 import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
-import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import dotenv from 'dotenv'
+import { uniqueNamesGenerator, Config, starWars } from 'unique-names-generator'
 import { TestConnectFactory } from '../../types/fixture.types'
 
 dotenv.config()
@@ -34,19 +35,40 @@ export default class PersonFixture {
 		const { organizationId, locationId, ...rest } = options
 
 		const { client } = await this.loginAsDemoPerson()
-		const results = await client.emit('list-people::v2020_12_25', {
-			target: {
-				organizationId,
-				locationId,
-			},
-			payload: {
-				...rest,
-			},
-		})
-
-		const { people } = eventResponseUtil.getFirstResponseOrThrow(results)
+		const [{ people }] = await client.emitAndFlattenResponses(
+			'list-people::v2020_12_25',
+			{
+				target: {
+					organizationId,
+					locationId,
+				},
+				payload: {
+					...rest,
+				},
+			}
+		)
 
 		return people
+	}
+
+	public async generateRandomName(client: MercuryClient) {
+		const randomName = uniqueNamesGenerator({
+			dictionaries: [starWars],
+		}).split(' ')
+
+		const values = {
+			firstName: randomName[0],
+			lastName: randomName[1],
+		}
+
+		const [{ person }] = await client.emitAndFlattenResponses(
+			'update-person::v2020_12_25',
+			{
+				payload: values,
+			}
+		)
+
+		return person
 	}
 
 	public async loginAsDemoPerson(
@@ -92,20 +114,20 @@ export default class PersonFixture {
 			}
 		}
 
-		const requestPinResults = await client.emit('request-pin::v2020_12_25', {
-			payload: { phone: p },
-		})
-
-		const { challenge } =
-			eventResponseUtil.getFirstResponseOrThrow(requestPinResults)
+		const [{ challenge }] = await client.emitAndFlattenResponses(
+			'request-pin::v2020_12_25',
+			{
+				payload: { phone: p },
+			}
+		)
 
 		const pin = p.substr(-4)
-		const confirmPinResults = await client.emit('confirm-pin::v2020_12_25', {
-			payload: { challenge, pin },
-		})
-
-		const { person, token } =
-			eventResponseUtil.getFirstResponseOrThrow(confirmPinResults)
+		const [{ person, token }] = await client.emitAndFlattenResponses(
+			'confirm-pin::v2020_12_25',
+			{
+				payload: { challenge, pin },
+			}
+		)
 
 		//@ts-ignore
 		client.auth = { person, token }
