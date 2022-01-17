@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [22.0.35](https://github.com/sprucelabsai/spruce-features-workspace/compare/v22.0.34...v22.0.35) (2022-01-17)
+
+**Note:** Version bump only for package @sprucelabs/spruce-conversation-plugin
+
+
+
+
+
 ## [22.0.34](https://github.com/sprucelabsai/spruce-features-workspace/compare/v22.0.33...v22.0.34) (2022-01-17)
 
 **Note:** Version bump only for package @sprucelabs/spruce-conversation-plugin
