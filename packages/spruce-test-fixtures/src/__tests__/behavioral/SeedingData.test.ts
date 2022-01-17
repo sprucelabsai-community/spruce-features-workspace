@@ -212,7 +212,6 @@ export default class SeedingDataTest extends AbstractSpruceFixtureTest {
 		})
 
 		assert.isTruthy(teammates[0].firstName)
-		assert.isTruthy(teammates[0].lastName)
 	}
 
 	@test()
