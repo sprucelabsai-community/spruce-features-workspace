@@ -58,7 +58,7 @@ export default class PersonFixture {
 
 		const values = {
 			firstName: randomName[0],
-			lastName: randomName[1],
+			lastName: randomName[1] ?? null,
 		}
 
 		const [{ person }] = await client.emitAndFlattenResponses(
@@ -68,7 +68,7 @@ export default class PersonFixture {
 			}
 		)
 
-		return person
+		return { ...person, ...values }
 	}
 
 	public async loginAsDemoPerson(

@@ -161,6 +161,7 @@ export default class SeedingDataTest extends AbstractSpruceFixtureTest {
 			startingPhone: DEMO_NUMBER_SEED_FIXTURE_STARTING_PHONE,
 			...options,
 		})
+
 		const withoutOwner = await this.listPeople(locations[0], base)
 
 		//@ts-ignore
