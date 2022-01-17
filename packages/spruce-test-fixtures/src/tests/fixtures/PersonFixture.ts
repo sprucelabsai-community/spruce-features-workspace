@@ -2,7 +2,7 @@ import { MercuryClient } from '@sprucelabs/mercury-client'
 import { formatPhoneNumber, SchemaError } from '@sprucelabs/schema'
 import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
 import dotenv from 'dotenv'
-import { uniqueNamesGenerator, Config, starWars } from 'unique-names-generator'
+import { uniqueNamesGenerator, starWars } from 'unique-names-generator'
 import { TestConnectFactory } from '../../types/fixture.types'
 
 dotenv.config()
