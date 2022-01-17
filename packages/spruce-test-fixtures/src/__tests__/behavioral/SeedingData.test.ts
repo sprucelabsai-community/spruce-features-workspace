@@ -215,7 +215,7 @@ export default class SeedingDataTest extends AbstractSpruceFixtureTest {
 	}
 
 	@test()
-	protected static async peolpeAllHaveUniqueNames() {
+	protected static async peopleAllHaveUniqueNames() {
 		const { teammates } = await this.seedLocations({
 			startingPhone: DEMO_NUMBER_SEED_FIXTURE_STARTING_PHONE,
 			totalLocations: 1,
