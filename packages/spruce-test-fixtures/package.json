@@ -10,8 +10,7 @@
     },
     "upgradeIgnoreList": [
       "@types/node",
-      "@sprucelabs/spruce-test-fixtures",
-      "dotenv"
+      "@sprucelabs/spruce-test-fixtures"
     ]
   },
   "version": "22.0.36",
@@ -61,9 +60,6 @@
     "watch.tsc": "tsc -w",
     "lint.tsc": "tsc -p . --noEmit"
   },
-  "resolutions": {
-    "**/dotenv": "11.0.0"
-  },
   "dependencies": {
     "@sprucelabs/data-stores": "^7.2.200",
     "@sprucelabs/error": "^5.0.376",
@@ -76,7 +72,7 @@
     "@sprucelabs/spruce-event-utils": "^17.1.536",
     "@sprucelabs/spruce-skill-booter": "^22.0.36",
     "@sprucelabs/spruce-skill-utils": "^22.2.192",
-    "dotenv": "11.0.0",
+    "dotenv": "^14.1.0",
     "unique-names-generator": "^4.6.0"
   },
   "devDependencies": {
