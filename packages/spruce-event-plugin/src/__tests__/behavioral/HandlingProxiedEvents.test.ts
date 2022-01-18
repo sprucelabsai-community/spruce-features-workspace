@@ -1,4 +1,5 @@
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
+import { buildEmitTargetAndPayloadSchema } from '@sprucelabs/spruce-event-utils'
 import { MercuryFixture } from '@sprucelabs/spruce-test-fixtures'
 import { test, assert } from '@sprucelabs/test'
 import { EventFeature } from '../..'
@@ -25,9 +26,16 @@ export default class HandlingProxiedEventsTest extends AbstractEventPluginTest {
 
 		client.setProxyToken(token)
 
+		const eventName = 'test-proxied-event::v1'
+		const targetWithOrgId = buildEmitTargetAndPayloadSchema({
+			eventName,
+		})
+
 		//@ts-ignore
 		client.mixinContract({
-			eventSignatures: { 'test-proxied-event::v1': {} },
+			eventSignatures: {
+				'test-proxied-event::v1': { emitPayloadSchema: targetWithOrgId },
+			},
 		})
 
 		let passedSource: any
