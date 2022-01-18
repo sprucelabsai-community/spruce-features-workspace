@@ -19,85 +19,86 @@ import StoreFixture from './fixtures/StoreFixture'
 import ViewFixture from './fixtures/ViewFixture'
 
 export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTest {
-	protected static get views(): ViewFixture {
+	public static cwd: string
+	public static get views(): ViewFixture {
 		if (!this._views) {
 			this._views = this.Fixture('view')
 		}
 		return this._views
 	}
-	protected static set views(fixture: ViewFixture | undefined) {
+	public static set views(fixture: ViewFixture | undefined) {
 		this._views = fixture
 	}
-	protected static get roles(): RoleFixture {
+	public static get roles(): RoleFixture {
 		if (!this._roles) {
 			this._roles = this.Fixture('role')
 		}
 		return this._roles
 	}
-	protected static set roles(fixture: RoleFixture | undefined) {
+	public static set roles(fixture: RoleFixture | undefined) {
 		this._roles = fixture
 	}
-	protected static get locations(): LocationFixture {
+	public static get locations(): LocationFixture {
 		if (!this._locations) {
 			this._locations = this.Fixture('location')
 		}
 		return this._locations
 	}
-	protected static set locations(fixture: LocationFixture | undefined) {
+	public static set locations(fixture: LocationFixture | undefined) {
 		this._locations = fixture
 	}
-	protected static get organizations(): OrganizationFixture {
+	public static get organizations(): OrganizationFixture {
 		if (!this._organizations) {
 			this._organizations = this.Fixture('organization')
 		}
 		return this._organizations
 	}
-	protected static set organizations(fixture: OrganizationFixture | undefined) {
+	public static set organizations(fixture: OrganizationFixture | undefined) {
 		this._organizations = fixture
 	}
-	protected static get people(): PersonFixture {
+	public static get people(): PersonFixture {
 		if (!this._people) {
 			this._people = this.Fixture('person')
 		}
 		return this._people
 	}
-	protected static set people(fixture: PersonFixture | undefined) {
+	public static set people(fixture: PersonFixture | undefined) {
 		this._people = fixture
 	}
-	protected static get seeder(): SeedFixture {
+	public static get seeder(): SeedFixture {
 		if (!this._seeder) {
 			this._seeder = this.Fixture('seed')
 		}
 		return this._seeder
 	}
-	protected static set seeder(fixture: SeedFixture | undefined) {
+	public static set seeder(fixture: SeedFixture | undefined) {
 		this._seeder = fixture
 	}
-	protected static get skills(): SkillFixture {
+	public static get skills(): SkillFixture {
 		if (!this._skills) {
 			this._skills = this.Fixture('skill')
 		}
 		return this._skills
 	}
-	protected static set skills(fixture: SkillFixture | undefined) {
+	public static set skills(fixture: SkillFixture | undefined) {
 		this._skills = fixture
 	}
-	protected static get mercury(): MercuryFixture {
+	public static get mercury(): MercuryFixture {
 		if (!this._mercury) {
 			this._mercury = this.Fixture('mercury')
 		}
 		return this._mercury
 	}
-	protected static set mercury(fixture: MercuryFixture | undefined) {
+	public static set mercury(fixture: MercuryFixture | undefined) {
 		this._mercury = fixture
 	}
-	protected static get stores(): StoreFixture {
+	public static get stores(): StoreFixture {
 		if (!this._stores) {
 			this._stores = this.Fixture('store')
 		}
 		return this._stores
 	}
-	protected static set stores(fixture: StoreFixture | undefined) {
+	public static set stores(fixture: StoreFixture | undefined) {
 		this._stores = fixture
 	}
 
