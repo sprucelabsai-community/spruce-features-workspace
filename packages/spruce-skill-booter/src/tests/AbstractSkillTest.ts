@@ -89,7 +89,7 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
 		return new Promise((resolve, reject) => {
 			let executionPromise: Promise<any>
 
-			skill.onBoot(async () => {
+			skill.onPostBoot(async () => {
 				resolve({ skill, executionPromise })
 			})
 

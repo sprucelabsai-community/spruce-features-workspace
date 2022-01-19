@@ -29,6 +29,7 @@ export default class Skill implements ISkill {
 	private featureMap: Record<string, SkillFeature> = {}
 	private _log: Log
 	private bootHandlers: BootCallback[] = []
+	private postBootHandlers: BootCallback[] = []
 	private hasInvokedBootHandlers = false
 	private get log() {
 		return this._log
@@ -51,6 +52,10 @@ export default class Skill implements ISkill {
 
 	public onBoot(cb: BootCallback) {
 		this.bootHandlers.push(cb)
+	}
+
+	public onPostBoot(cb: BootCallback) {
+		this.postBootHandlers.push(cb)
 	}
 
 	public isFeatureInstalled = async (featureCode: string) => {
@@ -173,11 +178,15 @@ export default class Skill implements ISkill {
 		this._isRunning = false
 	}
 
-	private resolveBootHandlers() {
+	private async resolveBootHandlers() {
 		if (!this.hasInvokedBootHandlers) {
 			this.hasInvokedBootHandlers = true
 			for (const handler of this.bootHandlers) {
-				handler()
+				await handler()
+			}
+
+			for (const handler of this.postBootHandlers) {
+				await handler()
 			}
 		}
 	}
