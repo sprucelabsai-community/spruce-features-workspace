@@ -109,7 +109,7 @@ export default class Skill implements ISkill {
 
 		const done = async () => {
 			this.log.info('Skill booted!')
-			this.resolveBootHandlers()
+			await this.resolveBootHandlers()
 		}
 
 		try {
