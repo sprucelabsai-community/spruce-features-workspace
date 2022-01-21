@@ -186,7 +186,6 @@ export default class FixtureFactory {
 		await Promise.all([
 			ViewFixture.beforeAll(),
 			MercuryFixture.beforeAll(),
-			DatabaseFixture.beforeAll(),
 			StoreFixture.beforeAll(),
 		])
 	}
