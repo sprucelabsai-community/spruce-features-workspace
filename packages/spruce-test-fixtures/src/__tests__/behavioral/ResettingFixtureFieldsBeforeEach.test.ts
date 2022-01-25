@@ -73,8 +73,7 @@ export default class ResettingFixtureFieldsBeforeEachTest extends AbstractSpruce
 	@test()
 	protected static shouldBeAbleToGetAllFixtures() {
 		for (const check of toCheck) {
-			//@ts-ignore
-			const fixture = this[check.prop]
+			const fixture = this.getFixture(check)
 
 			assert.isTruthy(fixture)
 
@@ -86,16 +85,9 @@ export default class ResettingFixtureFieldsBeforeEachTest extends AbstractSpruce
 		}
 	}
 
-	private static getPrivateProp(check: { privatePropName: string }) {
-		//@ts-ignore
-		return this[check.privatePropName]
-	}
-
 	@test()
 	protected static async privatePropsNotSetAtFirst() {
-		for (const check of toCheck) {
-			assert.isFalsy(this.getPrivateProp(check))
-		}
+		this.assertLocalPropsAreCleared()
 	}
 
 	@test()
@@ -104,5 +96,32 @@ export default class ResettingFixtureFieldsBeforeEachTest extends AbstractSpruce
 			//@ts-ignore
 			this[check.prop] = this.Fixture(check.fixtureName)
 		}
+	}
+
+	@test()
+	protected static async afterEachClearsLocalProps() {
+		for (const check of toCheck) {
+			this.getFixture(check)
+		}
+
+		await this.afterEach()
+
+		this.assertLocalPropsAreCleared()
+	}
+
+	private static assertLocalPropsAreCleared() {
+		for (const check of toCheck) {
+			assert.isFalsy(this.getPrivateProp(check))
+		}
+	}
+
+	private static getFixture(check: typeof toCheck[number]) {
+		//@ts-ignore
+		return this[check.prop]
+	}
+
+	private static getPrivateProp(check: { privatePropName: string }) {
+		//@ts-ignore
+		return this[check.privatePropName]
 	}
 }

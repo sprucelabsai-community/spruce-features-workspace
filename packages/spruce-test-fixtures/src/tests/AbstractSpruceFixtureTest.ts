@@ -121,6 +121,10 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		await super.beforeEach()
 		await FixtureFactory.beforeEach(this.cwd)
 
+		this.clearLocalFixtures()
+	}
+
+	private static clearLocalFixtures() {
 		this.views = undefined
 		this.roles = undefined
 		this.locations = undefined
@@ -135,6 +139,7 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 	protected static async afterEach() {
 		await super.afterEach()
 		await FixtureFactory.afterEach()
+		this.clearLocalFixtures()
 	}
 
 	protected static async afterAll() {
