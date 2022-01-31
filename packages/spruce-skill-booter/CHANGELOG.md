@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [24.0.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v23.0.43...v24.0.0) (2022-01-31)
+
+
+### Breaking Changes
+
+* upgrade ([ca99ff3](https://github.com/sprucelabsai/spruce-features-workspace/commit/ca99ff3))
+
+
+
+
+
 ## [23.0.43](https://github.com/sprucelabsai/spruce-features-workspace/compare/v23.0.42...v23.0.43) (2022-01-29)
 
 **Note:** Version bump only for package @sprucelabs/spruce-skill-booter
