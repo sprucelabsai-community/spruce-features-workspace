@@ -2,7 +2,7 @@ import {
 	AbstractSkillTest,
 	SkillFactoryOptions,
 } from '@sprucelabs/spruce-skill-booter'
-import { diskUtil } from '@sprucelabs/spruce-skill-utils'
+import { diskUtil, testLog } from '@sprucelabs/spruce-skill-utils'
 import {
 	FixtureConstructorOptionsMap,
 	FixtureName,
@@ -115,6 +115,8 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 	protected static async beforeAll() {
 		await super.beforeAll()
 		await FixtureFactory.beforeAll()
+
+		console.error = testLog.error
 	}
 
 	protected static async beforeEach() {
