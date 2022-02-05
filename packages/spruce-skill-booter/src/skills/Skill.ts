@@ -112,8 +112,6 @@ export default class Skill implements ISkill {
 	public execute = async () => {
 		this._isRunning = true
 
-		debugger
-
 		try {
 			const features = this.getFeatures()
 
@@ -126,7 +124,7 @@ export default class Skill implements ISkill {
 					for (const feature of features) {
 						feature.onBoot(() => {
 							bootCount++
-							debugger
+
 							if (bootCount === features.length) {
 								this.done().then(resolve).catch(reject)
 							}
@@ -139,7 +137,6 @@ export default class Skill implements ISkill {
 				})
 			}
 		} catch (err: any) {
-			debugger
 			this.log.error('Execution error:\n\n' + (err.stack ?? err.message))
 
 			await this.kill()

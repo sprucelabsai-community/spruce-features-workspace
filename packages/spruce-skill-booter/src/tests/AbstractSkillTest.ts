@@ -95,8 +95,6 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
 				resolve({ skill, executionPromise })
 			}
 
-			debugger
-
 			if (shouldWaitForLongRunningActions) {
 				skill.onPostBoot(cb)
 			} else {
