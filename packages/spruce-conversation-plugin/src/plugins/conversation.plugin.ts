@@ -23,7 +23,6 @@ export class ConversationFeature implements SkillFeature {
 	private _isBooted = false
 	private executeResolver?: any
 	private _isTesting = false
-	private executeRejector?: (err: any) => void
 	private coordinatorsBySource: Record<string, any> = {}
 	private bootHandler?: BootCallback
 
@@ -40,34 +39,35 @@ export class ConversationFeature implements SkillFeature {
 		this.isExecuting = true
 
 		try {
+			debugger
 			if (process.env.ACTION === 'test.conversation') {
 				this._isTesting = true
 				const topics = await this.loadTopics()
 
 				if (topics.length === 0) {
 					this.log.info('No Topics found to test. Testing cancelled...')
+					this.notifyBooted()
 				} else {
-					void this.startScriptTester(topics)
+					debugger
+					await this.startScriptTesterAndNotifyBoot(topics)
+					debugger
 				}
 			} else {
+				debugger
 				await this.syncTopics()
 
 				const client = await this.connectToApi()
 				await this.startConversationCoordinator(client as any)
 
 				this.log.info('Conversations loaded. Ready to chat when you are. 🤘')
+
+				this.notifyBooted()
 			}
-
-			this.bootHandler?.()
-		} finally {
+		} catch (err) {
+			debugger
 			this.isExecuting = false
-			this._isBooted = true
+			throw err
 		}
-
-		await new Promise((resolve, reject) => {
-			this.executeResolver = resolve
-			this.executeRejector = reject
-		})
 	}
 
 	private async loadTopics() {
@@ -76,28 +76,52 @@ export class ConversationFeature implements SkillFeature {
 		return topics
 	}
 
-	private async startScriptTester(topics: LoadedTopicDefinition[]) {
-		this.log.info(
-			`Found ${topics.length} topic${
-				topics.length ? '' : 's'
-			}. Holding for a second to let your skill finish building...`
-		)
+	private notifyBooted() {
+		this.isExecuting = false
+		this._isBooted = true
+		this.bootHandler?.()
+	}
 
-		this.log.info('Booting conversation tester.')
-
+	private async startScriptTesterAndNotifyBoot(
+		topics: LoadedTopicDefinition[]
+	) {
 		const tester = await ScriptTester.Tester({ topics })
 
-		while (!this.skill.isBooted()) {
-			await new Promise<void>((resolve) => setTimeout(resolve, 10))
-		}
+		const promise = new Promise<void>((resolve, reject) => {
+			debugger
+			this.skill.onBoot(async () => {
+				debugger
+				this.log.info(
+					`Found ${topics.length} topic${
+						topics.length ? '' : 's'
+					}. Holding for a second to let your skill finish building...`
+				)
 
-		console.clear()
+				this.log.info('Booting conversation tester.')
 
-		void tester.go(process.env.FIRST_MESSAGE).catch((err) => {
-			this.executeRejector?.(
-				new SpruceError({ code: 'CONVERSATION_ABORTED', originalError: err })
-			)
+				console.clear()
+
+				debugger
+
+				try {
+					await tester.go(process.env.FIRST_MESSAGE)
+					resolve()
+				} catch (err: any) {
+					this.isExecuting = false
+					debugger
+					const error = new SpruceError({
+						code: 'CONVERSATION_ABORTED',
+						originalError: err,
+					})
+					reject(error)
+					throw error
+				}
+			})
 		})
+
+		debugger
+		this.notifyBooted()
+		await promise
 	}
 
 	private async startConversationCoordinator(client: MercuryClient) {
@@ -222,10 +246,12 @@ export class ConversationFeature implements SkillFeature {
 	}
 
 	public async destroy() {
+		debugger
 		this._isTesting = false
 		this.executeResolver?.()
 		this.executeResolver = undefined
 
+		debugger
 		while (this.isExecuting) {
 			await new Promise<void>((resolve) => setTimeout(resolve, 250))
 		}

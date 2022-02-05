@@ -60,6 +60,7 @@ export default class TestingAConversationTest extends AbstractConversationTest {
 		options?: TestBootOptions
 	) {
 		const { skill } = await this.bootSkill(options)
+
 		const conversation = skill.getFeatureByCode(
 			'conversation'
 		) as ConversationFeature
