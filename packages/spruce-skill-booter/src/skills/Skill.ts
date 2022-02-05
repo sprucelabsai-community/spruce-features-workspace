@@ -104,33 +104,37 @@ export default class Skill implements ISkill {
 		return results
 	}
 
+	private async done() {
+		this.log.info('Skill booted!')
+		await this.resolveBootHandlers()
+	}
+
 	public execute = async () => {
 		this._isRunning = true
-
-		const done = async () => {
-			this.log.info('Skill booted!')
-			await this.resolveBootHandlers()
-		}
 
 		try {
 			const features = this.getFeatures()
 
 			if (features.length === 0) {
-				await done()
+				await this.done()
 			} else {
 				let bootCount = 0
 
-				for (const feature of features) {
-					feature.onBoot(() => {
-						bootCount++
+				await new Promise((resolve, reject) => {
+					for (const feature of features) {
+						feature.onBoot(() => {
+							bootCount++
 
-						if (bootCount === features.length) {
-							void done()
-						}
-					})
-				}
+							if (bootCount === features.length) {
+								this.done().then(resolve).catch(reject)
+							}
+						})
+					}
 
-				await Promise.all(features.map((feature) => feature.execute()))
+					Promise.all(features.map((feature) => feature.execute()))
+						.then(resolve)
+						.catch(reject)
+				})
 			}
 		} catch (err: any) {
 			this.log.error('Execution error:\n\n' + (err.stack ?? err.message))

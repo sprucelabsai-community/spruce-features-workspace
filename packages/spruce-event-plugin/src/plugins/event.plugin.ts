@@ -76,7 +76,6 @@ export class EventFeaturePlugin implements SkillFeature {
 	private executeResolve?: any
 	private static shouldPassEventContractsToMercury = true
 	private willBootPromise?: Promise<unknown>
-	private executeReject?: (reason?: any) => void
 	private hasLocalContractBeenUpdated = true
 	private haveListenersChaged = true
 	private _settings?: SettingsService
@@ -192,18 +191,14 @@ export class EventFeaturePlugin implements SkillFeature {
 				//@ts-ignore
 				this.skill.updateContext('mercury', client)
 
-				await new Promise((resolve, reject) => {
-					this.executeResolve = resolve
-					this.executeReject = reject
-
-					void done()
-				})
+				await done()
 			} else {
 				this.log.info(
 					this.isDestroyed
 						? 'Aborted setting client to skill context.'
 						: "I couldn't find any events or remote listeners so I'll hold off on connecting to Mercury. 🌲🤖"
 				)
+
 				await done()
 			}
 		} catch (err: any) {
@@ -216,7 +211,7 @@ export class EventFeaturePlugin implements SkillFeature {
 	}
 
 	private async queueDidBoot(didBoot: (event: SpruceEvent) => Promise<void>) {
-		await new Promise((resolve, reject) => {
+		const promise = new Promise((resolve, reject) => {
 			this.skill.onBoot(async () => {
 				try {
 					this.log.info(`Emitting skill.did-boot internally.`)
@@ -227,15 +222,14 @@ export class EventFeaturePlugin implements SkillFeature {
 
 					resolve(undefined)
 				} catch (err: any) {
-					if (!this.executeReject) {
-						reject(err)
-					} else {
-						this.executeReject?.(err)
-					}
+					reject(err)
+					throw err
 				}
 			})
-			this.bootHandler?.()
 		})
+
+		this.bootHandler?.()
+		await promise
 	}
 
 	private async buildSpruceEvent(
