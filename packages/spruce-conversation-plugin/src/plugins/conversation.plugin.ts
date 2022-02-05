@@ -39,7 +39,6 @@ export class ConversationFeature implements SkillFeature {
 		this.isExecuting = true
 
 		try {
-			debugger
 			if (process.env.ACTION === 'test.conversation') {
 				this._isTesting = true
 				const topics = await this.loadTopics()
@@ -48,12 +47,9 @@ export class ConversationFeature implements SkillFeature {
 					this.log.info('No Topics found to test. Testing cancelled...')
 					this.notifyBooted()
 				} else {
-					debugger
 					await this.startScriptTesterAndNotifyBoot(topics)
-					debugger
 				}
 			} else {
-				debugger
 				await this.syncTopics()
 
 				const client = await this.connectToApi()
@@ -64,7 +60,6 @@ export class ConversationFeature implements SkillFeature {
 				this.notifyBooted()
 			}
 		} catch (err) {
-			debugger
 			this.isExecuting = false
 			throw err
 		}
@@ -88,9 +83,7 @@ export class ConversationFeature implements SkillFeature {
 		const tester = await ScriptTester.Tester({ topics })
 
 		const promise = new Promise<void>((resolve, reject) => {
-			debugger
 			this.skill.onBoot(async () => {
-				debugger
 				this.log.info(
 					`Found ${topics.length} topic${
 						topics.length ? '' : 's'
@@ -101,14 +94,12 @@ export class ConversationFeature implements SkillFeature {
 
 				console.clear()
 
-				debugger
-
 				try {
 					await tester.go(process.env.FIRST_MESSAGE)
 					resolve()
 				} catch (err: any) {
 					this.isExecuting = false
-					debugger
+
 					const error = new SpruceError({
 						code: 'CONVERSATION_ABORTED',
 						originalError: err,
@@ -119,7 +110,6 @@ export class ConversationFeature implements SkillFeature {
 			})
 		})
 
-		debugger
 		this.notifyBooted()
 		await promise
 	}
@@ -246,12 +236,10 @@ export class ConversationFeature implements SkillFeature {
 	}
 
 	public async destroy() {
-		debugger
 		this._isTesting = false
 		this.executeResolver?.()
 		this.executeResolver = undefined
 
-		debugger
 		while (this.isExecuting) {
 			await new Promise<void>((resolve) => setTimeout(resolve, 250))
 		}

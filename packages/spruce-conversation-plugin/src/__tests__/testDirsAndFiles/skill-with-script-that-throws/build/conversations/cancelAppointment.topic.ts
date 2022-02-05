@@ -5,7 +5,6 @@ const topicDefinition: TopicDefinition = {
 	utterances: ['Cancel appointment', 'Can i cancel my appointment?', 'cancel'],
 	script: [
 		() => {
-			debugger
 			throw new Error('In Script')
 		},
 	],
