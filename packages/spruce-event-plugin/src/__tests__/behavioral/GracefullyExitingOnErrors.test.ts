@@ -1,6 +1,6 @@
 import '@sprucelabs/mercury-core-events'
 import { test, assert } from '@sprucelabs/test'
-import { errorAssertUtil } from '@sprucelabs/test-utils'
+import { errorAssert } from '@sprucelabs/test-utils'
 import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
 export default class GracefullyExitingOnErrorsTest extends AbstractEventPluginTest {
 	@test()
@@ -19,7 +19,7 @@ export default class GracefullyExitingOnErrorsTest extends AbstractEventPluginTe
 		assert.isFalse(skill.isRunning())
 
 		assert.isTruthy(err, "Skill didn't error as expected")
-		errorAssertUtil.assertError(err, 'MERCURY_RESPONSE_ERROR')
+		errorAssert.assertError(err, 'MERCURY_RESPONSE_ERROR')
 	}
 
 	@test()
@@ -50,7 +50,7 @@ export default class GracefullyExitingOnErrorsTest extends AbstractEventPluginTe
 
 		const err = await assert.doesThrowAsync(() => this.bootSkill())
 
-		errorAssertUtil.assertError(err, 'MISSING_PARAMETERS', {
+		errorAssert.assertError(err, 'MISSING_PARAMETERS', {
 			parameters: ['env.HOST'],
 		})
 	}
@@ -73,7 +73,7 @@ export default class GracefullyExitingOnErrorsTest extends AbstractEventPluginTe
 
 		const err = await assert.doesThrowAsync(() => this.bootSkill())
 
-		errorAssertUtil.assertError(err, 'INVALID_PAYLOAD')
+		errorAssert.assertError(err, 'INVALID_PAYLOAD')
 	}
 
 	@test()
@@ -95,7 +95,7 @@ export default class GracefullyExitingOnErrorsTest extends AbstractEventPluginTe
 		const booted = await this.Skill()
 
 		const err = await assert.doesThrowAsync(() => booted.execute())
-		errorAssertUtil.assertError(err, 'INVALID_PAYLOAD')
+		errorAssert.assertError(err, 'INVALID_PAYLOAD')
 	}
 
 	@test()

@@ -1,6 +1,6 @@
 import { diskUtil, Log } from '@sprucelabs/spruce-skill-utils'
 import { test, assert } from '@sprucelabs/test'
-import { errorAssertUtil } from '@sprucelabs/test-utils'
+import { errorAssert } from '@sprucelabs/test-utils'
 import AbstractSkillTest from '../../tests/AbstractSkillTest'
 
 export default class LoadingLogTransportsOnBootTest extends AbstractSkillTest {
@@ -11,7 +11,7 @@ export default class LoadingLogTransportsOnBootTest extends AbstractSkillTest {
 			this.bootSkillFromTestDir('skill-with-bad-log-transport')
 		)
 
-		errorAssertUtil.assertError(err, 'INVALID_LOG_TRANSPORT')
+		errorAssert.assertError(err, 'INVALID_LOG_TRANSPORT')
 	}
 
 	@test('logs expected value 1', 'hey!')
@@ -100,7 +100,7 @@ export default class LoadingLogTransportsOnBootTest extends AbstractSkillTest {
 			this.bootSkillFromTestDir('skill-with-duplicate-transports')
 		)
 
-		errorAssertUtil.assertError(err, 'DUPLICATE_LOG_TRANSPORT')
+		errorAssert.assertError(err, 'DUPLICATE_LOG_TRANSPORT')
 	}
 
 	@test()

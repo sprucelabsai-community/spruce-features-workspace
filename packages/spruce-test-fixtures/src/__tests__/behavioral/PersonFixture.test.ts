@@ -4,7 +4,7 @@ import {
 } from '@sprucelabs/mercury-client'
 import { formatPhoneNumber } from '@sprucelabs/schema'
 import AbstractSpruceTest, { test, assert } from '@sprucelabs/test'
-import { errorAssertUtil } from '@sprucelabs/test-utils'
+import { errorAssert } from '@sprucelabs/test-utils'
 import dotenv from 'dotenv'
 import { MercuryFixture } from '../..'
 import {
@@ -42,7 +42,7 @@ export default class PersonFixtureTest extends AbstractSpruceTest {
 		const err = await assert.doesThrowAsync(() =>
 			this.fixture.loginAsDemoPerson()
 		)
-		errorAssertUtil.assertError(err, 'MISSING_PARAMETERS', {
+		errorAssert.assertError(err, 'MISSING_PARAMETERS', {
 			parameters: ['env.DEMO_NUMBER'],
 		})
 	}

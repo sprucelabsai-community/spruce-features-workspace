@@ -1,5 +1,5 @@
 import AbstractSpruceTest, { test, assert } from '@sprucelabs/test'
-import { errorAssertUtil } from '@sprucelabs/test-utils'
+import { errorAssert } from '@sprucelabs/test-utils'
 import FixtureFactory from '../../tests/fixtures/FixtureFactory'
 import MercuryFixture from '../../tests/fixtures/MercuryFixture'
 import OrganizationFixture from '../../tests/fixtures/OrganizationFixture'
@@ -10,7 +10,7 @@ export default class FixtureFactoryTest extends AbstractSpruceTest {
 	protected static throwsWithBadFixture() {
 		//@ts-ignore
 		const err = assert.doesThrow(() => this.Fixture().Fixture('taco'))
-		errorAssertUtil.assertError(err, 'INVALID_FIXTURE', {
+		errorAssert.assertError(err, 'INVALID_FIXTURE', {
 			suppliedName: 'taco',
 		})
 	}

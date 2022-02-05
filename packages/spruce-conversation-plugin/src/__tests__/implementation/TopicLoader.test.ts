@@ -1,5 +1,5 @@
 import { test, assert } from '@sprucelabs/test'
-import { errorAssertUtil } from '@sprucelabs/test-utils'
+import { errorAssert } from '@sprucelabs/test-utils'
 import AbstractConversationTest from '../../tests/AbstractConversationTest'
 import TopicLoader from '../../topics/TopicLoader'
 
@@ -20,7 +20,7 @@ export default class TopicLoaderTest extends AbstractConversationTest {
 			TopicLoader.loadTopics(source)
 		)
 
-		errorAssertUtil.assertError(err, 'INVALID_TOPIC', {
+		errorAssert.assertError(err, 'INVALID_TOPIC', {
 			topicScript: 'bookAppointment.topic',
 		})
 	}
@@ -32,14 +32,14 @@ export default class TopicLoaderTest extends AbstractConversationTest {
 			TopicLoader.loadTopics(source)
 		)
 
-		errorAssertUtil.assertError(err, 'INVALID_TOPIC', {
+		errorAssert.assertError(err, 'INVALID_TOPIC', {
 			topicScript: 'bookAppointment.topic',
 		})
 
 		//@ts-ignore
 		const original = err.options.originalError
 
-		errorAssertUtil.assertError(original, 'MISSING_PARAMETERS', {
+		errorAssert.assertError(original, 'MISSING_PARAMETERS', {
 			parameters: ['label', 'utterances', 'script'],
 		})
 	}

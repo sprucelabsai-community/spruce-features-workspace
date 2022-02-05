@@ -1,6 +1,6 @@
 import { formatPhoneNumber } from '@sprucelabs/schema'
 import { test, assert } from '@sprucelabs/test'
-import { errorAssertUtil } from '@sprucelabs/test-utils'
+import { errorAssert } from '@sprucelabs/test-utils'
 import { AbstractSpruceFixtureTest } from '../..'
 import phoneNumberIncrementor, {
 	GenerateOptions,
@@ -33,7 +33,7 @@ export default class PhoneNumberIncrementorTest extends AbstractSpruceFixtureTes
 			phoneNumberIncrementor.generate(options)
 		)
 
-		errorAssertUtil.assertError(err, 'MISSING_PARAMETERS', {
+		errorAssert.assertError(err, 'MISSING_PARAMETERS', {
 			parameters,
 		})
 	}
@@ -47,7 +47,7 @@ export default class PhoneNumberIncrementorTest extends AbstractSpruceFixtureTes
 			})
 		)
 
-		errorAssertUtil.assertError(err, 'INVALID_PARAMETERS', {
+		errorAssert.assertError(err, 'INVALID_PARAMETERS', {
 			parameters: ['startingPhone'],
 		})
 	}

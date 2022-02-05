@@ -1,7 +1,7 @@
 import { EventFeature } from '@sprucelabs/spruce-event-plugin'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { test, assert } from '@sprucelabs/test'
-import { errorAssertUtil } from '@sprucelabs/test-utils'
+import { errorAssert } from '@sprucelabs/test-utils'
 import plugin from '../../plugins/conversation.plugin'
 import AbstractConversationTest from '../../tests/AbstractConversationTest'
 
@@ -11,7 +11,7 @@ export default class RegisteringConversationsOnBootTest extends AbstractConversa
 		const skill = await this.Skill({ plugins: [plugin] })
 		const err = await assert.doesThrowAsync(() => skill.execute())
 
-		errorAssertUtil.assertError(err, 'MISSING_DEPENDENCIES', {
+		errorAssert.assertError(err, 'MISSING_DEPENDENCIES', {
 			dependencies: ['event.plugin'],
 		})
 	}

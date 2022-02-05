@@ -1,6 +1,6 @@
 import { StoreLoader } from '@sprucelabs/data-stores'
 import { test, assert } from '@sprucelabs/test'
-import { errorAssertUtil } from '@sprucelabs/test-utils'
+import { errorAssert } from '@sprucelabs/test-utils'
 import { StoreFeaturePlugin } from '../../plugins/store.plugin'
 import AbstractStorePluginTest from '../../tests/AbstractStorePluginTest'
 
@@ -13,7 +13,7 @@ export default class LoadingStoresOnBootTest extends AbstractStorePluginTest {
 
 		assert.isTruthy(this.skillBootError)
 
-		errorAssertUtil.assertError(this.skillBootError, 'FAILED_TO_LOAD_STORE', {
+		errorAssert.assertError(this.skillBootError, 'FAILED_TO_LOAD_STORE', {
 			name: 'Bad',
 		})
 
@@ -26,7 +26,7 @@ export default class LoadingStoresOnBootTest extends AbstractStorePluginTest {
 		await this.bootSkill({ shouldSuppressBootErrors: true })
 		assert.isTruthy(this.skillBootError)
 
-		errorAssertUtil.assertError(this.skillBootError, 'FAILED_TO_LOAD_STORE', {
+		errorAssert.assertError(this.skillBootError, 'FAILED_TO_LOAD_STORE', {
 			name: 'Bad',
 		})
 
@@ -42,7 +42,7 @@ export default class LoadingStoresOnBootTest extends AbstractStorePluginTest {
 
 		assert.isTruthy(this.skillBootError)
 
-		errorAssertUtil.assertError(this.skillBootError, 'MISSING_PARAMETERS', {
+		errorAssert.assertError(this.skillBootError, 'MISSING_PARAMETERS', {
 			parameters: ['env.DB_CONNECTION_STRING'],
 		})
 
@@ -59,7 +59,7 @@ export default class LoadingStoresOnBootTest extends AbstractStorePluginTest {
 
 		assert.isTruthy(this.skillBootError)
 
-		errorAssertUtil.assertError(this.skillBootError, 'MISSING_PARAMETERS', {
+		errorAssert.assertError(this.skillBootError, 'MISSING_PARAMETERS', {
 			parameters: ['env.DB_NAME'],
 		})
 
@@ -77,7 +77,7 @@ export default class LoadingStoresOnBootTest extends AbstractStorePluginTest {
 
 		assert.isTruthy(this.skillBootError)
 
-		errorAssertUtil.assertError(this.skillBootError, 'MISSING_PARAMETERS', {
+		errorAssert.assertError(this.skillBootError, 'MISSING_PARAMETERS', {
 			parameters: ['env.DB_NAME', 'env.DB_CONNECTION_STRING'],
 		})
 

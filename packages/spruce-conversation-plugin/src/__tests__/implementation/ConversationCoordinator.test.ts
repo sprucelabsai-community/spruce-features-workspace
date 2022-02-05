@@ -1,5 +1,5 @@
 import { test, assert } from '@sprucelabs/test'
-import { errorAssertUtil } from '@sprucelabs/test-utils'
+import { errorAssert } from '@sprucelabs/test-utils'
 import { ConversationCoordinator } from '../../conversations/ConversationCoordinator'
 import AbstractConversationTest from '../../tests/AbstractConversationTest'
 import { SendMessage } from '../../types/conversation.types'
@@ -37,7 +37,7 @@ export default class TopicCoordinatorTest extends AbstractConversationTest {
 			this.coordinator.handleMessage(this.buildMessage({ body: 'waka waka' }))
 		)
 
-		errorAssertUtil.assertError(err, 'MISSING_PARAMETERS', {
+		errorAssert.assertError(err, 'MISSING_PARAMETERS', {
 			parameters: ['source.personId'],
 		})
 	}
@@ -76,7 +76,7 @@ export default class TopicCoordinatorTest extends AbstractConversationTest {
 			)
 		)
 
-		errorAssertUtil.assertError(err, 'TOPIC_NOT_FOUND', {
+		errorAssert.assertError(err, 'TOPIC_NOT_FOUND', {
 			suppliedTopic: 'aoeu',
 			validTopics: [
 				'bookAppointment',

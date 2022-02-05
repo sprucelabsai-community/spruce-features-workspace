@@ -1,6 +1,6 @@
 import { TestBootOptions } from '@sprucelabs/spruce-skill-booter'
 import { test, assert } from '@sprucelabs/test'
-import { errorAssertUtil } from '@sprucelabs/test-utils'
+import { errorAssert } from '@sprucelabs/test-utils'
 import { ConversationFeature } from '../../plugins/conversation.plugin'
 import AbstractConversationTest from '../../tests/AbstractConversationTest'
 
@@ -41,7 +41,7 @@ export default class TestingAConversationTest extends AbstractConversationTest {
 		const skill = await this.Skill()
 		const err = await assert.doesThrowAsync(() => skill.execute())
 
-		errorAssertUtil.assertError(err, 'INVALID_TOPIC')
+		errorAssert.assertError(err, 'INVALID_TOPIC')
 	}
 
 	@test()
@@ -53,7 +53,7 @@ export default class TestingAConversationTest extends AbstractConversationTest {
 
 		const err = await assert.doesThrowAsync(() => skill.execute())
 
-		errorAssertUtil.assertError(err, 'CONVERSATION_ABORTED')
+		errorAssert.assertError(err, 'CONVERSATION_ABORTED')
 	}
 
 	private static async bootAndGetConversationFeature(

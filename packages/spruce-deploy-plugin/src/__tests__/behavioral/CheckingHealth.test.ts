@@ -1,5 +1,5 @@
 import { test, assert } from '@sprucelabs/test'
-import { errorAssertUtil } from '@sprucelabs/test-utils'
+import { errorAssert } from '@sprucelabs/test-utils'
 import plugin from '../../plugins/deploy.plugin'
 import AbstractDeployTest from '../../tests/AbstractDeployTest'
 
@@ -50,7 +50,7 @@ export default class CheckingHealthTest extends AbstractDeployTest {
 
 		const err = health.deploy.errors[0]
 
-		errorAssertUtil.assertError(err, 'HEROKU_ERROR')
+		errorAssert.assertError(err, 'HEROKU_ERROR')
 	}
 
 	@test()

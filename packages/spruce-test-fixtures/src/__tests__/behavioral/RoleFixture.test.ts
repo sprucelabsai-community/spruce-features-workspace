@@ -2,7 +2,7 @@ import { MercuryClient } from '@sprucelabs/mercury-client'
 import { SpruceSchemas } from '@sprucelabs/mercury-types'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { assert, test } from '@sprucelabs/test'
-import { errorAssertUtil } from '@sprucelabs/test-utils'
+import { errorAssert } from '@sprucelabs/test-utils'
 import { login } from '../..'
 import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
 import { DEMO_NUMBER_ROLE_FIXTURE } from '../../tests/constants'
@@ -30,7 +30,7 @@ export default class RoleFixtureTest extends AbstractSpruceFixtureTest {
 	@test()
 	protected static async cantListRolesWithoutOrg() {
 		const err = await assert.doesThrowAsync(() => this.fixture.listRoles())
-		errorAssertUtil.assertError(err, 'MISSING_PARAMETERS', {
+		errorAssert.assertError(err, 'MISSING_PARAMETERS', {
 			parameters: ['organizationId'],
 		})
 	}

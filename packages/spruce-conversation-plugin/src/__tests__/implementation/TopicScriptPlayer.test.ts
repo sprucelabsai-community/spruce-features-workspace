@@ -1,5 +1,5 @@
 import { test, assert } from '@sprucelabs/test'
-import { errorAssertUtil } from '@sprucelabs/test-utils'
+import { errorAssert } from '@sprucelabs/test-utils'
 import AbstractConversationTest from '../../tests/AbstractConversationTest'
 import { TopicScriptPlayer } from '../../topics/TopicScriptPlayer'
 import {
@@ -13,7 +13,7 @@ export default class TopicScriptPlayerTest extends AbstractConversationTest {
 	protected static async throwsWhenRequiredOptionsNotSent() {
 		//@ts-ignore
 		const err = assert.doesThrow(() => new TopicScriptPlayer())
-		errorAssertUtil.assertError(err, 'MISSING_PARAMETERS', {
+		errorAssert.assertError(err, 'MISSING_PARAMETERS', {
 			parameters: ['script', 'sendMessageHandler', 'target.personId'],
 		})
 	}

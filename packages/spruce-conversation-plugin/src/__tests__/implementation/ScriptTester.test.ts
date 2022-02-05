@@ -1,5 +1,5 @@
 import { test, assert } from '@sprucelabs/test'
-import { errorAssertUtil } from '@sprucelabs/test-utils'
+import { errorAssert } from '@sprucelabs/test-utils'
 import AbstractConversationTest from '../../tests/AbstractConversationTest'
 import ScriptTester, {
 	END_OF_LINE,
@@ -12,7 +12,7 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 	protected static async throwsWithoutScript() {
 		//@ts-ignore
 		const err = await assert.doesThrowAsync(() => ScriptTester.Tester())
-		errorAssertUtil.assertError(err, 'MISSING_PARAMETERS', {
+		errorAssert.assertError(err, 'MISSING_PARAMETERS', {
 			parameters: ['script'],
 		})
 	}
@@ -69,7 +69,7 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 
 		const err = await assert.doesThrowAsync(() => tester.handleInput('taco'))
 
-		errorAssertUtil.assertError(err, 'TESTER_NOT_STARTED')
+		errorAssert.assertError(err, 'TESTER_NOT_STARTED')
 	}
 
 	@test()
@@ -85,7 +85,7 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 
 		const err = await assert.doesThrowAsync(() => tester.go())
 
-		errorAssertUtil.assertError(err, 'TOPIC_NOT_FOUND', {
+		errorAssert.assertError(err, 'TOPIC_NOT_FOUND', {
 			suppliedTopic: 'oeuou',
 			validTopics: ['bookAppointment', 'cancelAppointment'],
 		})

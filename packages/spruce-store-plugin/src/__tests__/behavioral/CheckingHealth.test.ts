@@ -1,5 +1,5 @@
 import { test, assert } from '@sprucelabs/test'
-import { errorAssertUtil } from '@sprucelabs/test-utils'
+import { errorAssert } from '@sprucelabs/test-utils'
 import AbstractStorePluginTest from '../../tests/AbstractStorePluginTest'
 
 export default class StoreFeaturePluginTest extends AbstractStorePluginTest {
@@ -33,7 +33,7 @@ export default class StoreFeaturePluginTest extends AbstractStorePluginTest {
 		assert.isLength(health.store.stores, 1)
 		assert.isEqual(health.store.stores[0].name, 'Bad')
 		assert.isTruthy(health.store.stores[0].errors)
-		errorAssertUtil.assertError(
+		errorAssert.assertError(
 			health.store.stores[0].errors[0],
 			'FAILED_TO_LOAD_STORE',
 			{
@@ -44,13 +44,9 @@ export default class StoreFeaturePluginTest extends AbstractStorePluginTest {
 		assert.isTruthy(health.store.errors)
 		assert.isLength(health.store.errors, 1)
 
-		errorAssertUtil.assertError(
-			health.store.errors[0],
-			'FAILED_TO_LOAD_STORE',
-			{
-				name: 'Bad',
-			}
-		)
+		errorAssert.assertError(health.store.errors[0], 'FAILED_TO_LOAD_STORE', {
+			name: 'Bad',
+		})
 	}
 
 	@test('gets good store with env', true)
@@ -75,7 +71,7 @@ export default class StoreFeaturePluginTest extends AbstractStorePluginTest {
 		assert.isTruthy(health.store)
 		assert.isEqual(health.store.stores[0].name, 'Bad')
 		assert.isArray(health.store.stores[0].errors)
-		errorAssertUtil.assertError(
+		errorAssert.assertError(
 			health.store.stores[0].errors[0],
 			'FAILED_TO_LOAD_STORE',
 			{

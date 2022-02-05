@@ -1,5 +1,5 @@
 import { test, assert } from '@sprucelabs/test'
-import { errorAssertUtil } from '@sprucelabs/test-utils'
+import { errorAssert } from '@sprucelabs/test-utils'
 import plugin from '../../plugins/conversation.plugin'
 import AbstractConversationTest from '../../tests/AbstractConversationTest'
 
@@ -26,7 +26,7 @@ export default class CheckingHealthTest extends AbstractConversationTest {
 		const err = health.conversation.errors?.[0]
 		assert.isTruthy(err)
 
-		errorAssertUtil.assertError(err, 'MISSING_DEPENDENCIES', {
+		errorAssert.assertError(err, 'MISSING_DEPENDENCIES', {
 			dependencies: ['event.plugin'],
 		})
 	}
@@ -60,12 +60,12 @@ export default class CheckingHealthTest extends AbstractConversationTest {
 		assert.isTruthy(healthCheck.conversation)
 		assert.isEqual(healthCheck.conversation.status, 'failed')
 
-		errorAssertUtil.assertError(
+		errorAssert.assertError(
 			healthCheck.conversation.errors?.[0] as Error,
 			'CONVERSATION_PLUGIN_ERROR'
 		)
 
-		errorAssertUtil.assertError(
+		errorAssert.assertError(
 			healthCheck.conversation.errors?.[0].originalError as Error,
 			'INVALID_TOPIC'
 		)

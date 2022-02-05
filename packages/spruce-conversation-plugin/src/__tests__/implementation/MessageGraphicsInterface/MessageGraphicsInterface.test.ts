@@ -1,5 +1,5 @@
 import { test, assert } from '@sprucelabs/test'
-import { errorAssertUtil } from '@sprucelabs/test-utils'
+import { errorAssert } from '@sprucelabs/test-utils'
 import AbstractGraphicsInterfaceTest from '../../../tests/AbstractGraphicsInterfaceTest'
 
 export default class MessageGraphicsInterfaceTest extends AbstractGraphicsInterfaceTest {
@@ -26,6 +26,6 @@ export default class MessageGraphicsInterfaceTest extends AbstractGraphicsInterf
 		await this.sendMessage('get me out of here!')
 
 		const err = await assert.doesThrowAsync(async () => await promise)
-		errorAssertUtil.assertError(err, 'ABORT')
+		errorAssert.assertError(err, 'ABORT')
 	}
 }

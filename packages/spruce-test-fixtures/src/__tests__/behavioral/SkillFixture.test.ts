@@ -3,7 +3,7 @@ import {
 	eventResponseUtil,
 } from '@sprucelabs/spruce-event-utils'
 import { test, assert } from '@sprucelabs/test'
-import { errorAssertUtil } from '@sprucelabs/test-utils'
+import { errorAssert } from '@sprucelabs/test-utils'
 import { login } from '../..'
 import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
 import { DEMO_NUMBER_SKILL_FIXTURE } from '../../tests/constants'
@@ -60,7 +60,7 @@ export default class SkillFixtureTest extends AbstractSpruceFixtureTest {
 			this.fixture.loginAsCurrentSkill()
 		)
 
-		errorAssertUtil.assertError(err, 'MISSING_PARAMETERS', {
+		errorAssert.assertError(err, 'MISSING_PARAMETERS', {
 			parameters: ['env.SKILL_ID', 'env.SKILL_API_KEY'],
 		})
 	}
@@ -73,7 +73,7 @@ export default class SkillFixtureTest extends AbstractSpruceFixtureTest {
 			this.fixture.loginAsCurrentSkill()
 		)
 
-		errorAssertUtil.assertError(err, 'MISSING_PARAMETERS', {
+		errorAssert.assertError(err, 'MISSING_PARAMETERS', {
 			parameters: ['env.SKILL_API_KEY'],
 		})
 	}

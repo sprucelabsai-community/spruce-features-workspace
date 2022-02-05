@@ -6,7 +6,7 @@ import {
 } from '@sprucelabs/heartwood-view-controllers'
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 import { test, assert } from '@sprucelabs/test'
-import { errorAssertUtil } from '@sprucelabs/test-utils'
+import { errorAssert } from '@sprucelabs/test-utils'
 import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
 import MockSkillViewController from '../../tests/Mock.svc'
 import TestRouter from '../../tests/routers/TestRouter'
@@ -53,7 +53,7 @@ export default class RoutingTest extends AbstractSpruceFixtureTest {
 			this.assertRedirects(() => this.router.redirect('waka.waka'))
 		)
 
-		errorAssertUtil.assertError(err, 'INVALID_VIEW_CONTROLLER_NAME', {
+		errorAssert.assertError(err, 'INVALID_VIEW_CONTROLLER_NAME', {
 			name: 'waka.waka',
 		})
 	}
