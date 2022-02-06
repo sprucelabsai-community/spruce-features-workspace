@@ -62,11 +62,11 @@
   "dependencies": {
     "@nlpjs/nlu": "^4.22.7",
     "@sprucelabs/error": "^5.0.390",
-    "@sprucelabs/mercury-core-events": "^2.0.35",
+    "@sprucelabs/mercury-core-events": "^2.0.36",
     "@sprucelabs/schema": "^26.0.33",
     "@sprucelabs/spruce-core-schemas": "^23.0.33",
     "@sprucelabs/spruce-event-plugin": "^24.0.28",
-    "@sprucelabs/spruce-event-utils": "^18.0.33",
+    "@sprucelabs/spruce-event-utils": "^18.0.34",
     "@sprucelabs/spruce-skill-booter": "^24.0.28",
     "@sprucelabs/spruce-skill-utils": "^24.0.33",
     "@sprucelabs/spruce-test-fixtures": "^24.0.28",
