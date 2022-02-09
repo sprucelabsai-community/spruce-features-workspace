@@ -5,7 +5,7 @@ import { test, assert } from '@sprucelabs/test'
 import { EventFeaturePlugin } from '../../plugins/event.plugin'
 import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
 
-MercuryFixture.setShouldOptionallyMockAuthenticate(false)
+MercuryFixture.setShouldMockSkillAuthenticate(false)
 
 export default class LoggingInAsCurrentSkillTest extends AbstractEventPluginTest {
 	@test()

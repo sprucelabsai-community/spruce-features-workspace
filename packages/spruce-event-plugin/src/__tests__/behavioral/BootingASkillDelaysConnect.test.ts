@@ -30,14 +30,7 @@ export default class BootingASkillDelaysConnectTest extends AbstractEventPluginT
 
 	@test()
 	protected static async afterBootStillNotConnected() {
-		ListenerCacher.setHaveListenersChanged(false)
-
-		const events = this.currentSkill.getFeatureByCode(
-			'event'
-		) as EventFeaturePlugin
-
-		await this.bootSkill({ skill: this.currentSkill })
-		const client = await events.connectToApi()
+		const client = await this.bootSkillAndConnect()
 
 		//@ts-ignore
 		assert.isFalse(client.isConnectedToApi)
@@ -50,5 +43,34 @@ export default class BootingASkillDelaysConnectTest extends AbstractEventPluginT
 		const { auth } = eventResponseUtil.getFirstResponseOrThrow(results)
 
 		assert.isEqual(auth.skill?.id, this.registeredSkill.id)
+	}
+
+	private static async bootSkillAndConnect() {
+		ListenerCacher.setHaveListenersChanged(false)
+
+		const events = this.currentSkill.getFeatureByCode(
+			'event'
+		) as EventFeaturePlugin
+
+		await this.bootSkill({ skill: this.currentSkill })
+		const client = await events.connectToApi()
+		return client
+	}
+
+	@test()
+	protected static async emittingAlwaysWaitsForFirstDelayedConnectToAuthenticate() {
+		const client = await this.bootSkillAndConnect()
+
+		const all = await Promise.all([
+			client.emit('whoami::v2020_12_25'),
+			client.emit('whoami::v2020_12_25'),
+			client.emit('whoami::v2020_12_25'),
+			client.emit('whoami::v2020_12_25'),
+			client.emit('whoami::v2020_12_25'),
+		])
+
+		for (const response of all) {
+			assert.isEqual(response.responses[0].payload?.type, 'authenticated')
+		}
 	}
 }

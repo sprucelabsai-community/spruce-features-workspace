@@ -25,7 +25,7 @@ export default class MercuryFixture {
 	private static originalHost: string | undefined
 	private cwd: string
 
-	private static shouldMockAuthenticate = true
+	private static shouldMockSkillAuthenticate = true
 	private static shouldAutoImportContracts = true
 	private static shouldMixinCoreEventContractWhenImportingLocal = false
 	private static defaultClient?: MercuryClient
@@ -74,7 +74,7 @@ export default class MercuryFixture {
 	): Promise<MercuryClient> {
 		const shouldReUseClient = options?.shouldReUseClient !== false
 		if (shouldReUseClient && MercuryFixture.defaultClient) {
-			return MercuryFixture.optionallyMockAuthenticate(
+			return MercuryFixture.optionallyMockSkillAuthenticate(
 				MercuryFixture.defaultClient,
 				this.auth
 			)
@@ -103,7 +103,7 @@ export default class MercuryFixture {
 		})
 
 		void promise.then((client) =>
-			MercuryFixture.optionallyMockAuthenticate(client, this.auth)
+			MercuryFixture.optionallyMockSkillAuthenticate(client, this.auth)
 		)
 
 		this.clientPromises.push(promise)
@@ -111,12 +111,12 @@ export default class MercuryFixture {
 		return promise
 	}
 
-	private static async optionallyMockAuthenticate<
+	private static async optionallyMockSkillAuthenticate<
 		C extends MercuryClient | undefined
 	>(client?: C, auth?: AuthService): Promise<C> {
 		const currentSkill = auth?.getCurrentSkill()
 
-		if (currentSkill && this.shouldMockAuthenticate) {
+		if (currentSkill && this.shouldMockSkillAuthenticate) {
 			const emitter = MercuryTestClient.getInternalEmitter({
 				eventSignatures: {
 					'authenticate::v2020_12_25': {},
@@ -231,7 +231,7 @@ export default class MercuryFixture {
 
 		try {
 			const auth = AuthService.Auth(cwd)
-			await this.optionallyMockAuthenticate(undefined, auth)
+			await this.optionallyMockSkillAuthenticate(undefined, auth)
 			const namespace = auth.getCurrentSkill()?.slug
 
 			if (namespace) {
@@ -251,7 +251,7 @@ export default class MercuryFixture {
 		MercuryFixture.shouldAutoImportContracts = shouldImport
 	}
 
-	public static setShouldOptionallyMockAuthenticate(should: boolean) {
-		this.shouldMockAuthenticate = should
+	public static setShouldMockSkillAuthenticate(should: boolean) {
+		this.shouldMockSkillAuthenticate = should
 	}
 }
