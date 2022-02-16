@@ -60,7 +60,7 @@
     "lint.tsc": "tsc -p . --noEmit"
   },
   "dependencies": {
-    "@sprucelabs/error": "^5.0.398",
+    "@sprucelabs/error": "^5.0.399",
     "@sprucelabs/schema": "^26.0.73",
     "@sprucelabs/spruce-event-utils": "^18.0.82",
     "@sprucelabs/spruce-skill-booter": "^24.0.63",
