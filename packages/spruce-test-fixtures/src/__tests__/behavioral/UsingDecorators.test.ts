@@ -165,6 +165,18 @@ export default class UsingDecoratorsTest extends AbstractSpruceFixtureTest {
 		assert.isEqual(login.getClient(), MercuryFixture.getDefaultClient())
 	}
 
+	@test()
+	@seed('good', 1, 'hello', 'world')
+	protected static async storeGetsVariablesPassed() {
+		assert.isEqualDeep(GoodStore.seedParams, ['hello', 'world'])
+	}
+
+	@test()
+	@seed('good', 1, 'goodbye', 'people')
+	protected static async storeGetsVariablesPassed2() {
+		assert.isEqualDeep(GoodStore.seedParams, ['goodbye', 'people'])
+	}
+
 	private static async assertCountOrgs(expected: number) {
 		const organizations = await this.Fixture('organization').listOrganizations()
 		assert.isLength(organizations, expected)

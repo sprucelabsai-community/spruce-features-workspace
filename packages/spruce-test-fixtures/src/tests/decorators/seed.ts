@@ -7,7 +7,11 @@ import login from './login'
 
 type SeedTarget = 'organizations' | 'locations' | StoreName
 
-export default function seed(storeName: SeedTarget, totalToSeed?: number) {
+export default function seed(
+	storeName: SeedTarget,
+	totalToSeed?: number,
+	...params: any[]
+) {
 	return function (Class: any, key: string, descriptor: any) {
 		if (storeName === 'organizations' || storeName === 'locations') {
 			const beforeAll = Class.beforeAll.bind(Class)
@@ -27,7 +31,7 @@ export default function seed(storeName: SeedTarget, totalToSeed?: number) {
 		StoreFixture.setShouldAutomaticallyResetDatabase(false)
 		StoreFixture.resetDbConnectionSettings()
 
-		const seed = attachSeeder(storeName, Class, totalToSeed)
+		const seed = attachSeeder(storeName, Class, totalToSeed, params)
 		const bound = descriptor?.value?.bind?.(Class)
 
 		attachCleanup(Class)
@@ -87,7 +91,8 @@ function attachCleanup(Class: any) {
 function attachSeeder(
 	storeName: SeedTarget,
 	TestClass: any,
-	totalToSeed: number | undefined
+	totalToSeed: number | undefined,
+	params?: any[]
 ) {
 	//@ts-ignore
 	const methodMap: Record<SeedTarget, keyof SeedFixture> = {
@@ -127,6 +132,8 @@ function attachSeeder(
 			`The '${storeName}' store you created needs a method called 'seed(options: StoreSeedOptions)' in order for seeding. You must implement it yourself... for now.`
 		)
 
-		await fixture[method](options)
+		const args = [options, ...(params ?? [])]
+
+		await fixture[method](...args)
 	}
 }

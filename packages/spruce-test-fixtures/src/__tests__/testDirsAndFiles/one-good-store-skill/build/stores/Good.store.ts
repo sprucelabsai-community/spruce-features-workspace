@@ -20,12 +20,14 @@ export default class GoodStore extends AbstractStore<FullSchema> {
 	protected updateSchema = fullSchema
 	protected fullSchema = fullSchema
 	protected databaseSchema = fullSchema
+	public static seedParams: any[]
 
 	public static Store(options: UniversalStoreOptions) {
 		return new this(options.db)
 	}
 
-	public async seed(options: StoreSeedOptions) {
+	public async seed(options: StoreSeedOptions, ...rest: any[]) {
+		GoodStore.seedParams = rest
 		await Promise.all(new Array(options.totalToSeed).fill(0).map(() => this.createOne({
 			firstName: 'hola!'
 		})))
