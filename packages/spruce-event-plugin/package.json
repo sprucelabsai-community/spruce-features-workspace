@@ -59,7 +59,7 @@
     "lint.tsc": "tsc -p . --noEmit"
   },
   "dependencies": {
-    "@sprucelabs/error": "^5.0.398",
+    "@sprucelabs/error": "^5.0.399",
     "@sprucelabs/mercury-types": "^27.0.78",
     "@sprucelabs/schema": "^26.0.73",
     "@sprucelabs/spruce-core-schemas": "^23.0.76",
