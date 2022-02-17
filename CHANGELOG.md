@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [25.0.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v24.0.64...v25.0.0) (2022-02-16)
+
+
+### Breaking Changes
+
+* upgrade ([b8c18cd](https://github.com/sprucelabsai/spruce-features-workspace/commit/b8c18cd))
+
+
+### Features
+
+* devs can now pass unlimited arugments to seeder decorators, making seeding even MORE POWERFUL! ([4e94707](https://github.com/sprucelabsai/spruce-features-workspace/commit/4e94707))
+
+
+
+
+
 ## [24.0.64](https://github.com/sprucelabsai/spruce-features-workspace/compare/v24.0.63...v24.0.64) (2022-02-16)
 
 **Note:** Version bump only for package spruce-features-workspace
