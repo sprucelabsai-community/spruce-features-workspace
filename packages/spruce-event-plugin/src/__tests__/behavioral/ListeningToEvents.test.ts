@@ -71,7 +71,7 @@ export default class ListeningToEventsTest extends AbstractEventPluginTest {
 	@test()
 	protected static async didBootEventForRegisteredSkillGetApiClient() {
 		this.cwd = this.resolveTestPath('registered-skill-boot-events')
-		const { skill } = await this.Fixture('skill').loginAsDemoSkill({
+		const { skill } = await this.skills.loginAsDemoSkill({
 			name: 'boot-events',
 		})
 
@@ -100,7 +100,7 @@ export default class ListeningToEventsTest extends AbstractEventPluginTest {
 	@test()
 	protected static async cantConnectToApiUntilWillBootIsDoneUnlessForced() {
 		this.cwd = this.resolveTestPath('registered-skill-boot-events-with-delay')
-		const { skill } = await this.Fixture('skill').loginAsDemoSkill({
+		const { skill } = await this.skills.loginAsDemoSkill({
 			name: 'boot-events',
 		})
 
@@ -298,7 +298,7 @@ export default class ListeningToEventsTest extends AbstractEventPluginTest {
 	@test.skip(
 		'socket.io issue (logs in mercury) dont have time to track down. never gets passed second bootSkillAndResetSkill()'
 	)
-	protected static async willlReRegisterListenersWithDifferentHost() {
+	protected static async willReRegisterListenersWithDifferentHost() {
 		let unRegisterListenerCount = 0
 
 		const { currentSkill, events } = await this.registerSkillAndSetupListeners({
