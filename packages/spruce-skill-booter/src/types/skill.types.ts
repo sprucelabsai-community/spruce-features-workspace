@@ -7,6 +7,7 @@ export interface SkillFactoryOptions {
 	hashSpruceDir?: string
 	plugins?: ((skill: Skill) => void)[]
 	log?: Log
+	shouldCountdownOnExit?: boolean
 }
 
 export type TestBootWaitOptions = {

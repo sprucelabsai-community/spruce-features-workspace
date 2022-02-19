@@ -8,7 +8,7 @@ export default class UsingFeaturesTest extends AbstractSkillTest {
 		const skill = await this.Skill()
 		const throwing = new ThrowingFeature()
 
-		await skill.registerFeature('test', throwing)
+		skill.registerFeature('test', throwing)
 
 		const err = await assert.doesThrowAsync(() => skill.execute())
 

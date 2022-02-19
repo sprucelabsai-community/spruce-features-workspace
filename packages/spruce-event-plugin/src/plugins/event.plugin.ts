@@ -77,7 +77,7 @@ export class EventFeaturePlugin implements SkillFeature {
 	private static shouldPassEventContractsToMercury = true
 	private willBootPromise?: Promise<unknown>
 	private hasLocalContractBeenUpdated = true
-	private haveListenersChaged = true
+	private haveListenersChanged = true
 	private _settings?: SettingsService
 	//@ts-ignore
 	private listenerCacher?: ListenerCacher // for testing
@@ -460,7 +460,7 @@ export class EventFeaturePlugin implements SkillFeature {
 
 	private areListenersCached() {
 		return (
-			!this.haveListenersChaged &&
+			!this.haveListenersChanged &&
 			process.env.SHOULD_CACHE_LISTENER_REGISTRATIONS === 'true'
 		)
 	}
@@ -643,9 +643,9 @@ export class EventFeaturePlugin implements SkillFeature {
 		})
 
 		this.listenerCacher = cacher //exposed for testing
-		this.haveListenersChaged = cacher.haveListenersChanged()
+		this.haveListenersChanged = cacher.haveListenersChanged()
 
-		if (this.haveListenersChaged) {
+		if (this.haveListenersChanged) {
 			cacher.cacheListeners()
 		}
 

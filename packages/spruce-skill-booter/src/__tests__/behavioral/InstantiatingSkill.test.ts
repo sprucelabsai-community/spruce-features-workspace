@@ -46,7 +46,7 @@ export default class SkillTest extends AbstractSkillTest {
 		const skill = await this.Skill()
 
 		//@ts-ignore
-		await skill.registerFeature('test', { test: true })
+		skill.registerFeature('test', { test: true })
 
 		const match = skill.getFeatureByCode('test')
 
@@ -60,6 +60,7 @@ export default class SkillTest extends AbstractSkillTest {
 		assert.isFalse(skill.isRunning())
 
 		void skill.execute()
+
 		assert.isTrue(skill.isRunning())
 
 		await skill.kill()

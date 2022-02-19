@@ -107,6 +107,40 @@ export default class Skill implements ISkill {
 	private async done() {
 		this.log.info('Skill booted!')
 		await this.resolveBootHandlers()
+		await this.shutDown()
+	}
+
+	private async shutDown() {
+		if (!this.shouldCountdownOnExit) {
+			this.log.info('Shutting down immediately.')
+		} else {
+			this.log.info('Shutting down in 3')
+
+			await new Promise(
+				(resolve) =>
+					(this.shutdownTimeout = setTimeout(() => {
+						this.log.info('.................2')
+						resolve(null)
+					}, 1000))
+			)
+			await new Promise(
+				(resolve) =>
+					(this.shutdownTimeout = setTimeout(() => {
+						this.log.info('.................1')
+						resolve(null)
+					}, 1000))
+			)
+			await new Promise(
+				(resolve) =>
+					(this.shutdownTimeout = setTimeout(() => {
+						this.log.info('.................Good bye 👋')
+						resolve(null)
+					}, 1000))
+			)
+		}
+
+		this.shutdownTimeout = undefined
+		this._isRunning = false
 	}
 
 	public execute = async () => {
@@ -149,37 +183,6 @@ export default class Skill implements ISkill {
 		}
 
 		this.log.info('All features have finished execution.')
-
-		if (!this.shouldCountdownOnExit) {
-			this.log.info('Shutting down immediately.')
-		} else {
-			this.log.info('Shutting down in 3')
-
-			await new Promise(
-				(resolve) =>
-					(this.shutdownTimeout = setTimeout(() => {
-						this.log.info('.................2')
-						resolve(null)
-					}, 1000))
-			)
-			await new Promise(
-				(resolve) =>
-					(this.shutdownTimeout = setTimeout(() => {
-						this.log.info('.................1')
-						resolve(null)
-					}, 1000))
-			)
-			await new Promise(
-				(resolve) =>
-					(this.shutdownTimeout = setTimeout(() => {
-						this.log.info('.................Good bye 👋')
-						resolve(null)
-					}, 1000))
-			)
-		}
-
-		this.shutdownTimeout = undefined
-		this._isRunning = false
 	}
 
 	private async resolveBootHandlers() {

@@ -9,7 +9,7 @@ declare module '@sprucelabs/spruce-skill-utils/build/types/skill.types' {
 
 export default class UsingTheSkillContextTest extends AbstractSkillTest {
 	@test()
-	protected static async contextIsEmptyObectToStart() {
+	protected static async contextIsEmptyObjectToStart() {
 		const skill = await this.Skill()
 		//@ts-ignore
 		assert.isEqualDeep(skill.getContext(), {})
