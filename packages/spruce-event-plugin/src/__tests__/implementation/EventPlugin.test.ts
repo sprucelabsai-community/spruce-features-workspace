@@ -46,8 +46,33 @@ export default class EventPluginTest extends AbstractEventPluginTest {
 		assert.isEqual(process.env.DID_BOOT, 'true')
 	}
 
+	@test()
+	protected static async featuresDoesNotFinishExecuteUntilKilledIfConnectedToApi() {
+		const skill = await this.SkillFromTestDir('empty-skill')
+
+		const events = new EventFeaturePlugin(skill)
+
+		await events.connectToApi()
+
+		let didFinish = false
+
+		const promise = events.execute().then(() => {
+			didFinish = true
+		})
+
+		await this.wait(1000)
+
+		assert.isFalse(didFinish)
+
+		await events.destroy()
+
+		assert.isTrue(didFinish)
+
+		await promise
+	}
+
 	private static async registerSkill() {
-		const registeredSkill = await this.Fixture('skill').seedDemoSkill({
+		const registeredSkill = await this.skills.seedDemoSkill({
 			name: 'my great skill',
 		})
 

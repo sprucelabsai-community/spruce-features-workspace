@@ -12,7 +12,7 @@ export default class BootingASkillTest extends AbstractSkillTest {
 	}
 
 	@test()
-	protected static async bootShouldNotStartCountdownUntilPostBoot() {
+	protected static async bootShouldNotStartCountdownUntilAfterExecute() {
 		this.cwd = process.cwd()
 
 		const messages: string[] = []
@@ -38,11 +38,11 @@ export default class BootingASkillTest extends AbstractSkillTest {
 			async execute() {
 				//@ts-ignore
 				this._isBooted = true
-				skill.onBoot(async () => {
-					await new Promise((r) => setTimeout(r, 1000))
-				})
+				skill.onBoot(async () => {})
 				//@ts-ignore
 				this._bootHandler()
+
+				await new Promise((r) => setTimeout(r, 1000))
 			},
 			//@ts-ignore
 			async checkHealth() {},
@@ -56,7 +56,7 @@ export default class BootingASkillTest extends AbstractSkillTest {
 			},
 		})
 
-		await this.bootSkill({ skill, shouldWaitForLongRunningActions: false })
+		await this.bootSkill({ skill, shouldWaitForPostBoot: false })
 
 		let logged = messages.join(' ')
 		assert.isFalse(logged.includes('Shutting down'))

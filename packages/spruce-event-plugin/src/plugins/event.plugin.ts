@@ -192,6 +192,10 @@ export class EventFeaturePlugin implements SkillFeature {
 				this.skill.updateContext('mercury', client)
 
 				await done()
+
+				await new Promise((resolve) => {
+					this.executeResolve = resolve
+				})
 			} else {
 				this.log.info(
 					this.isDestroyed
@@ -692,7 +696,7 @@ export class EventFeaturePlugin implements SkillFeature {
 			)
 		} else {
 			this.log.info(
-				'Skipped loading local events beacuse this skill has not been registered. Try `spruce skill.register` first.'
+				'Skipped loading local events because this skill has not been registered. Try `spruce skill.register` first.'
 			)
 		}
 

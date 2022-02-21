@@ -107,7 +107,6 @@ export default class Skill implements ISkill {
 	private async done() {
 		this.log.info('Skill booted!')
 		await this.resolveBootHandlers()
-		await this.shutDown()
 	}
 
 	private async shutDown() {
@@ -170,6 +169,8 @@ export default class Skill implements ISkill {
 						.catch(reject)
 				})
 			}
+
+			await this.shutDown()
 		} catch (err: any) {
 			this.log.error('Execution error:\n\n' + (err.stack ?? err.message))
 

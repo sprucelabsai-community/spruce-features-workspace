@@ -47,7 +47,7 @@ export default class ListeningToEventsTest extends AbstractEventPluginTest {
 	protected static async willBootCanFireFirstAndConfigureMercury() {
 		this.cwd = this.resolveTestPath('registered-skill-boot-events')
 
-		const { skill } = await this.Fixture('skill').loginAsDemoSkill({
+		const { skill } = await this.skills.loginAsDemoSkill({
 			name: 'boot-events',
 		})
 
@@ -364,8 +364,7 @@ export default class ListeningToEventsTest extends AbstractEventPluginTest {
 
 		await this.bootSkill({ skill: currentSkill })
 
-		const mercury = await this.Fixture('mercury')
-		const client = await mercury.connectToApi()
+		const client = await this.mercury.connectToApi()
 
 		//@ts-ignore
 		client.mixinContract({
@@ -450,17 +449,15 @@ export default class ListeningToEventsTest extends AbstractEventPluginTest {
 	private static async setupTwoSkillsAndBoot(dirName: string) {
 		this.cwd = await this.generateSkillFromTestPath(dirName)
 
-		const { skill: skill1, client: client1 } = await this.Fixture(
-			'skill'
-		).loginAsDemoSkill({
-			name: 'skill1',
-		})
+		const { skill: skill1, client: client1 } =
+			await this.skills.loginAsDemoSkill({
+				name: 'skill1',
+			})
 
-		const { skill: skill2, client: client2 } = await this.Fixture(
-			'skill'
-		).loginAsDemoSkill({
-			name: 'skill2',
-		})
+		const { skill: skill2, client: client2 } =
+			await this.skills.loginAsDemoSkill({
+				name: 'skill2',
+			})
 
 		const eventName = `my-cool-event::v2021_01_22`
 		const fqen = `${skill1.slug}.${eventName}`

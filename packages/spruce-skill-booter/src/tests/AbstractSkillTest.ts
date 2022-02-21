@@ -86,7 +86,7 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
 		skill: Skill
 		executionPromise: Promise<void>
 	}> {
-		const { shouldWaitForLongRunningActions = true } = options ?? {}
+		const { shouldWaitForPostBoot = true } = options ?? {}
 
 		return new Promise((resolve, reject) => {
 			let executionPromise: Promise<any>
@@ -95,7 +95,7 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
 				resolve({ skill, executionPromise })
 			}
 
-			if (shouldWaitForLongRunningActions) {
+			if (shouldWaitForPostBoot) {
 				skill.onPostBoot(cb)
 			} else {
 				skill.onBoot(cb)

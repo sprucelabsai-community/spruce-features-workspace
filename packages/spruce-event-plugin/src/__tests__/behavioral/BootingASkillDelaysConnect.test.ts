@@ -12,8 +12,7 @@ export default class BootingASkillDelaysConnectTest extends AbstractEventPluginT
 	private static registeredSkill: SpruceSchemas.Spruce.v2020_07_22.Skill
 	protected static async beforeEach() {
 		await super.beforeEach()
-		const fixture = this.Fixture('skill')
-		const skill = await fixture.seedDemoSkill({
+		const skill = await this.skills.seedDemoSkill({
 			creatorPhone: DEMO_NUMBER_DELAYED_CONNECT,
 		})
 
@@ -25,7 +24,7 @@ export default class BootingASkillDelaysConnectTest extends AbstractEventPluginT
 		this.currentSkill = currentSkill
 		this.registeredSkill = skill
 
-		await this.Fixture('mercury').connectToApi()
+		await this.mercury.connectToApi()
 	}
 
 	@test()
