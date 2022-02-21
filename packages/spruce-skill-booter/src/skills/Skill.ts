@@ -159,7 +159,7 @@ export default class Skill implements ISkill {
 							bootCount++
 
 							if (bootCount === features.length) {
-								void this.done()
+								void this.done().catch(reject)
 							}
 						})
 					}
@@ -172,8 +172,6 @@ export default class Skill implements ISkill {
 
 			await this.shutDown()
 		} catch (err: any) {
-			this.log.error('Execution error:\n\n' + (err.stack ?? err.message))
-
 			await this.kill()
 
 			throw err
