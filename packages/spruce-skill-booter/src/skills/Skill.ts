@@ -159,7 +159,7 @@ export default class Skill implements ISkill {
 							bootCount++
 
 							if (bootCount === features.length) {
-								this.done().then(resolve).catch(reject)
+								this.done()
 							}
 						})
 					}

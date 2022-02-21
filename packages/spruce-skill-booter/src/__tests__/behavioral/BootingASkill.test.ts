@@ -38,7 +38,7 @@ export default class BootingASkillTest extends AbstractSkillTest {
 			async execute() {
 				//@ts-ignore
 				this._isBooted = true
-				skill.onBoot(async () => {})
+
 				//@ts-ignore
 				this._bootHandler()
 
