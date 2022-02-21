@@ -227,7 +227,6 @@ export class EventFeaturePlugin implements SkillFeature {
 					resolve(undefined)
 				} catch (err: any) {
 					reject(err)
-					throw err
 				}
 			})
 		})
