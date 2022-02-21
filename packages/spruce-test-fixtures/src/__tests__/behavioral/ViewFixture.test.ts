@@ -1,6 +1,6 @@
 import {
 	AbstractSkillViewController,
-	ActiveRecordCardViewController,
+	ActiveRecordListViewController,
 	AuthenticatorImpl,
 	buildForm,
 	SkillViewControllerLoadOptions,
@@ -279,7 +279,7 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 	}
 
 	@test()
-	protected static async canSetScopeForCurrentOrganizationAccrossViewFixtures() {
+	protected static async canSetScopeForCurrentOrganizationAcrossViewFixtures() {
 		const org = await this.Fixture('organization').seedDemoOrganization({
 			phone: DEMO_NUMBER_VIEW_FIXTURE,
 			name: 'My new org!',
@@ -418,14 +418,14 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 	@test()
 	protected static activeRecordThrowsByDefault() {
 		//@ts-ignore
-		assert.isTrue(ActiveRecordCardViewController.shouldThrowOnResponseError)
-		ActiveRecordCardViewController.setShouldThrowOnResponseError(false)
+		assert.isTrue(ActiveRecordListViewController.shouldThrowOnResponseError)
+		ActiveRecordListViewController.setShouldThrowOnResponseError(false)
 	}
 
 	@test()
 	protected static activeRecordThrowReset() {
 		//@ts-ignore
-		assert.isTrue(ActiveRecordCardViewController.shouldThrowOnResponseError)
+		assert.isTrue(ActiveRecordListViewController.shouldThrowOnResponseError)
 	}
 
 	@test()
@@ -504,7 +504,7 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 	}
 
 	@test()
-	protected static async generatorIsNotVuneralbleToRaceConditions() {
+	protected static async generatorIsNotVulnerableToRaceConditions() {
 		const client = await this.loginAsDemoPerson()
 
 		const generator = this.fixture.getProxyTokenGenerator()
