@@ -172,6 +172,8 @@ export default class Skill implements ISkill {
 
 			await this.shutDown()
 		} catch (err: any) {
+			this.log.error('Execution error:\n\n' + (err.stack ?? err.message))
+
 			await this.kill()
 
 			throw err
