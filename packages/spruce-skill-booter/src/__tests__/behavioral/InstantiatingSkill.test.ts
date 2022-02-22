@@ -57,6 +57,7 @@ export default class SkillTest extends AbstractSkillTest {
 	@test()
 	protected static async skillMarksAsRunning() {
 		const skill = await this.Skill()
+
 		assert.isFalse(skill.isRunning())
 
 		void skill.execute()

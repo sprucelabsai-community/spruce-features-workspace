@@ -73,6 +73,23 @@ export default class UsingDecoratorsToInstallSkills extends AbstractSpruceFixtur
 		)
 	}
 
+	@test()
+	@seed('organizations', 1)
+	protected static async doesNotEmitDidInstall() {
+		let passedPayload: any
+
+		await login.getClient().on('install-skill::v2020_12_25', ({ payload }) => {
+			passedPayload = payload
+			return {}
+		})
+
+		await this.executeDecorator({
+			testFunction: async () => {},
+		})
+
+		assert.isFalse(passedPayload.shouldNotifySkillOfInstall)
+	}
+
 	private static async executeDecorator(options: {
 		testFunction: () => Promise<any>
 		args?: any[]

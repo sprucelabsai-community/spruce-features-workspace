@@ -3,7 +3,7 @@ import { assert } from '@sprucelabs/test'
 export default function install() {}
 install.skills = (...namespaces: string[]) => {
 	if (namespaces.length === 0) {
-		assert.fail(`You must pass the skill namepaces so I can install them.`)
+		assert.fail(`You must pass the skill namespaces so I can install them.`)
 	}
 	return function (Class: any, key: string, descriptor: any) {
 		const old = descriptor.value.bind(Class)

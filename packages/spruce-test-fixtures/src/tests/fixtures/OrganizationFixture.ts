@@ -101,7 +101,11 @@ export default class OrganizationFixture {
 		return `my-org-${new Date().getTime()}-${this.orgCounter++}`
 	}
 
-	public async installSkill(skillId: string, orgId: string): Promise<void> {
+	public async installSkill(
+		skillId: string,
+		orgId: string,
+		shouldNotifySkillOfInstall?: boolean
+	): Promise<void> {
 		const { client } = await this.people.loginAsDemoPerson()
 
 		const results = await client.emit('install-skill::v2020_12_25', {
@@ -110,6 +114,7 @@ export default class OrganizationFixture {
 			},
 			payload: {
 				skillId,
+				shouldNotifySkillOfInstall,
 			},
 		})
 
@@ -166,8 +171,13 @@ export default class OrganizationFixture {
 	public async installSkillsByNamespace(options: {
 		organizationId: string
 		namespaces: string[]
+		shouldNotifySkillOfInstall?: boolean
 	}) {
-		const { organizationId, namespaces } = options
+		const {
+			organizationId,
+			namespaces,
+			shouldNotifySkillOfInstall = false,
+		} = options
 
 		assertOptions(options, ['organizationId', 'namespaces'])
 
@@ -181,7 +191,9 @@ export default class OrganizationFixture {
 		const { skills } = eventResponseUtil.getFirstResponseOrThrow(skillResults)
 
 		await Promise.all(
-			skills.map((skill) => this.installSkill(skill.id, organizationId))
+			skills.map((skill) =>
+				this.installSkill(skill.id, organizationId, shouldNotifySkillOfInstall)
+			)
 		)
 	}
 
