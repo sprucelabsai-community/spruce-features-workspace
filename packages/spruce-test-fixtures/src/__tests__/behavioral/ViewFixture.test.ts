@@ -4,6 +4,7 @@ import {
 	AuthenticatorImpl,
 	buildForm,
 	SkillViewControllerLoadOptions,
+	SwipeViewControllerImpl,
 	vcAssert,
 } from '@sprucelabs/heartwood-view-controllers'
 import { formatPhoneNumber } from '@sprucelabs/schema'
@@ -539,6 +540,14 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 		const vc = this.MockVc()
 		//@ts-ignore
 		await assert.doesThrowAsync(() => vc.confirm())
+	}
+
+	@test()
+	protected static async setsSwipeVcJumpToSlideDuration() {
+		assert.isEqual(SwipeViewControllerImpl.swipeDelay, 0)
+		SwipeViewControllerImpl.swipeDelay = 100
+		await ViewFixture.beforeEach()
+		assert.isEqual(SwipeViewControllerImpl.swipeDelay, 0)
 	}
 
 	protected static async loginAsDemoPerson() {

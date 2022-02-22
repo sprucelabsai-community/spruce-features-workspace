@@ -9,6 +9,7 @@ import {
 	renderUtil,
 	Scope,
 	SkillViewController,
+	SwipeViewControllerImpl,
 	vcAssert,
 	ViewControllerFactory,
 	ViewControllerId,
@@ -199,6 +200,8 @@ export default class ViewFixture {
 	}
 
 	public static async beforeEach() {
+		SwipeViewControllerImpl.swipeDelay = 0
+
 		if (this.shouldAutomaticallyResetAuthenticator) {
 			this.resetAuth()
 		}
