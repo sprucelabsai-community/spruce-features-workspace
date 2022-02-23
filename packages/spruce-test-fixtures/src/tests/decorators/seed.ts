@@ -1,11 +1,18 @@
 import { StoreName } from '@sprucelabs/data-stores'
 import { MercuryTestClient } from '@sprucelabs/mercury-client'
+import { BASE_ROLES } from '@sprucelabs/spruce-core-schemas'
 import { assert } from '@sprucelabs/test'
-import { StoreFixture } from '../..'
 import SeedFixture from '../fixtures/SeedFixture'
+import StoreFixture from '../fixtures/StoreFixture'
 import login from './login'
 
-type SeedTarget = 'organizations' | 'locations' | StoreName
+type ROLES = typeof BASE_ROLES
+
+type SeedTarget =
+	| 'organizations'
+	| 'locations'
+	| ROLES[number]['slug']
+	| StoreName
 
 export default function seed(
 	storeName: SeedTarget,
@@ -95,21 +102,36 @@ function attachSeeder(
 	params?: any[]
 ) {
 	//@ts-ignore
+	const fixtureMap: Record<SeedTarget, string> = {
+		locations: 'seed',
+		organizations: 'seed',
+		teammates: 'seed',
+		guests: 'seed',
+		groupManagers: 'seed',
+		managers: 'seed',
+		owners: 'seed',
+	}
+
+	//@ts-ignore
 	const methodMap: Record<SeedTarget, keyof SeedFixture> = {
 		locations: 'seedAccount',
 		organizations: 'seedOrganizations',
+		teammates: 'seedTeammates',
+		guests: 'seedGuests',
+		groupManagers: 'seedGroupManagers',
+		managers: 'seedManagers',
+		owners: 'seedOwners',
 	}
 
 	//@ts-ignore
 	const keyMap: Record<SeedTarget, string> = {
 		locations: 'totalLocations',
 		organizations: 'totalOrganizations',
-	}
-
-	//@ts-ignore
-	const fixtureMap: Record<SeedTarget, string> = {
-		locations: 'seed',
-		organizations: 'seed',
+		teammates: 'totalTeammates',
+		guests: 'totalGuests',
+		groupManagers: 'totalGroupManagers',
+		managers: 'totalManagers',
+		owners: 'totalOwners',
 	}
 
 	const method = methodMap[storeName] ?? 'seed'

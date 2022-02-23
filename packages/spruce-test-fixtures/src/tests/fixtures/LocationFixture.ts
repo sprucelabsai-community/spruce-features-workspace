@@ -1,5 +1,6 @@
 import { SpruceSchemas } from '@sprucelabs/mercury-types'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
+import { assert } from '@sprucelabs/test'
 import OrganizationFixture from './OrganizationFixture'
 import PersonFixture from './PersonFixture'
 import RoleFixture from './RoleFixture'
@@ -86,8 +87,17 @@ export default class LocationFixture {
 		return location
 	}
 
-	public async getNewestLocation(organizationId: string) {
+	public async getNewestLocation(organizationId?: string) {
 		const { client } = await this.people.loginAsDemoPerson()
+
+		if (!organizationId) {
+			const org = await this.orgs.getNewestOrganization()
+			assert.isTruthy(
+				org,
+				`You gotta @seed('organizations', 1) before you can seed a location.`
+			)
+			organizationId = org.id
+		}
 
 		const results = await client.emit('list-locations::v2020_12_25', {
 			target: {

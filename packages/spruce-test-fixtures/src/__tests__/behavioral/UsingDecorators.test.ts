@@ -177,26 +177,56 @@ export default class UsingDecoratorsTest extends AbstractSpruceFixtureTest {
 		assert.isEqualDeep(GoodStore.seedParams, ['goodbye', 'people'])
 	}
 
+	@test('can seed guests', 'guest', 2)
+	@test('can seed teammates', 'teammate', 2)
+	@test('can seed groupManagers', 'groupManager', 2)
+	@test('can seed managers', 'manager', 2)
+	@test('can seed owners', 'owner', 3)
+	@seed('organizations', 1)
+	@seed('locations', 1)
+	@seed('teammates', 2)
+	@seed('guests', 2)
+	@seed('groupManagers', 2)
+	@seed('managers', 2)
+	@seed('owners', 2)
+	protected static async canSeedPeople(roleBase: string, total: number) {
+		await this.assertTotalPeopleByRole(roleBase, total)
+	}
+
+	@test('can seed more guests', 'guest', 5)
+	@test('can seed more teammates', 'teammate', 5)
+	@test('can seed more groupManagers', 'groupManager', 3)
+	@test('can seed more managers', 'manager', 4)
+	@test('can seed more owners', 'owner', 6)
+	@seed('organizations', 1)
+	@seed('locations', 1)
+	@seed('teammates', 5)
+	@seed('guests', 5)
+	@seed('groupManagers', 3)
+	@seed('managers', 4)
+	@seed('owners', 5)
+	protected static async canSeedMorePeople(roleBase: string, total: number) {
+		await this.assertTotalPeopleByRole(roleBase, total)
+	}
+
 	private static async assertCountOrgs(expected: number) {
-		const organizations = await this.Fixture('organization').listOrganizations()
+		const organizations = await this.organizations.listOrganizations()
 		assert.isLength(organizations, expected)
 	}
 
 	private static async assertCountLocations(expected: number) {
-		const org = await this.Fixture('view').getScope().getCurrentOrganization()
+		const org = await this.views.getScope().getCurrentOrganization()
 
 		assert.isTruthy(org)
 
 		const organizationId = org.id
-		const locations = await this.Fixture('location').listLocations(
-			organizationId
-		)
+		const locations = await this.locations.listLocations(organizationId)
 
 		assert.isLength(locations, expected)
 	}
 
 	private static async assertCountGoods(expected: number) {
-		const goodStore = await this.Fixture('store').Store('good')
+		const goodStore = await this.stores.Store('good')
 		const count = await goodStore.count({})
 		assert.isEqual(count, expected)
 		const localCount = await this.goodStore.count({})
@@ -205,6 +235,21 @@ export default class UsingDecoratorsTest extends AbstractSpruceFixtureTest {
 			expected,
 			'The store built in beforeEach is pointing at stale database.'
 		)
+	}
+
+	private static async assertTotalPeopleByRole(
+		roleBase: string,
+		total: number
+	) {
+		const org = await this.organizations.getNewestOrganization()
+		assert.isTruthy(org)
+
+		const teammates = await this.people.listPeople({
+			organizationId: org.id,
+			roleBases: [roleBase],
+		})
+
+		assert.isLength(teammates, total)
 	}
 }
 
