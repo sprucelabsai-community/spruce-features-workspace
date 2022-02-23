@@ -177,11 +177,13 @@ export default class UsingDecoratorsTest extends AbstractSpruceFixtureTest {
 		assert.isEqualDeep(GoodStore.seedParams, ['goodbye', 'people'])
 	}
 
-	@test('can seed guests', 'guest', 2)
-	@test('can seed teammates', 'teammate', 2)
-	@test('can seed groupManagers', 'groupManager', 2)
-	@test('can seed managers', 'manager', 2)
-	@test('can seed owners', 'owner', 3)
+	@test('can seed people', {
+		guest: 2,
+		teammate: 2,
+		groupManager: 2,
+		manager: 2,
+		owner: 3,
+	})
 	@seed('organizations', 1)
 	@seed('locations', 1)
 	@seed('teammates', 2)
@@ -189,15 +191,28 @@ export default class UsingDecoratorsTest extends AbstractSpruceFixtureTest {
 	@seed('groupManagers', 2)
 	@seed('managers', 2)
 	@seed('owners', 2)
-	protected static async canSeedPeople(roleBase: string, total: number) {
-		await this.assertTotalPeopleByRole(roleBase, total)
+	protected static async canSeedPeople(baseCounts: Record<string, number>) {
+		await this.assertExpectedSeededPeople(baseCounts)
 	}
 
-	@test('can seed more guests', 'guest', 5)
-	@test('can seed more teammates', 'teammate', 5)
-	@test('can seed more groupManagers', 'groupManager', 3)
-	@test('can seed more managers', 'manager', 4)
-	@test('can seed more owners', 'owner', 6)
+	private static async assertExpectedSeededPeople(
+		baseCounts: Record<string, number>
+	) {
+		const bases = Object.keys(baseCounts)
+
+		for (const base of bases) {
+			const count = baseCounts[base]
+			await this.assertTotalPeopleByRole(base, count)
+		}
+	}
+
+	@test('can seed more people', {
+		guest: 5,
+		teammate: 5,
+		groupManager: 3,
+		manager: 4,
+		owner: 6,
+	})
 	@seed('organizations', 1)
 	@seed('locations', 1)
 	@seed('teammates', 5)
@@ -205,8 +220,8 @@ export default class UsingDecoratorsTest extends AbstractSpruceFixtureTest {
 	@seed('groupManagers', 3)
 	@seed('managers', 4)
 	@seed('owners', 5)
-	protected static async canSeedMorePeople(roleBase: string, total: number) {
-		await this.assertTotalPeopleByRole(roleBase, total)
+	protected static async canSeedMorePeople(baseCounts: Record<string, number>) {
+		await this.assertExpectedSeededPeople(baseCounts)
 	}
 
 	private static async assertCountOrgs(expected: number) {
