@@ -168,6 +168,4 @@ export default class LocationFixture {
 	}) {
 		await this.roles.removeRoleFromPerson(options)
 	}
-
-	public async destory() {}
 }

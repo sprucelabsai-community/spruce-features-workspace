@@ -38,7 +38,7 @@ export default class LocationFixtureTest extends AbstractSpruceFixtureTest {
 	}
 
 	@test()
-	protected static async isNotPartOfLocationtoStart() {
+	protected static async isNotPartOfLocationToStart() {
 		const location = await this.locations.seedDemoLocation({
 			name: 'Location fixture location',
 			phone: DEMO_NUMBER_LOCATION_FIXTURE,
