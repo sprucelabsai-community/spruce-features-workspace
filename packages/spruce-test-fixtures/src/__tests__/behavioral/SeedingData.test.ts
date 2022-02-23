@@ -163,15 +163,17 @@ export default class SeedingDataTest extends AbstractSpruceFixtureTest {
 		})
 
 		const withoutOwner = await this.listPeople(locations[0], base)
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		const withoutOwnerCleaned = withoutOwner.map(({ roleIds, ...rest }) => rest)
 
 		//@ts-ignore
 		const people = rest[base + 's'] ?? []
 
 		people.sort(sorter)
-		withoutOwner.sort(sorter)
+		withoutOwnerCleaned.sort(sorter)
 
 		assert.isLength(withoutOwner, expectedCount)
-		assert.isEqualDeep(people, withoutOwner)
+		assert.isEqualDeep(people, withoutOwnerCleaned)
 	}
 
 	@test('seeds with starting phone 1', DEMO_NUMBER_SEED_FIXTURE_STARTING_PHONE)
