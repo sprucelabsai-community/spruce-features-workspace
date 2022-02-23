@@ -22,7 +22,7 @@ jobs:
       - run: yarn clean
       - run: yarn build.ci
       - run:
-          name: "set phone numbers for each pacakge"
+          name: "set phone numbers for each package"
           command: |
             echo DEMO_NUMBER=555-001-0002 |tee -a packages/spruce-test-fixtures/.env
             echo DEMO_NUMBER=555-002-0002 |tee -a packages/spruce-conversation-plugin/.env
