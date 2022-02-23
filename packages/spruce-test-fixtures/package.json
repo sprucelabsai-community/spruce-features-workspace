@@ -99,7 +99,7 @@
     "typescript": "^4.5.5"
   },
   "jest": {
-    "maxWorkers": 2,
+    "maxWorkers": 4,
     "testTimeout": 300001,
     "testEnvironment": "node",
     "testPathIgnorePatterns": [
