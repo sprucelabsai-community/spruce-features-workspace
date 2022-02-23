@@ -1,17 +1,22 @@
 import { StoreName } from '@sprucelabs/data-stores'
 import { MercuryTestClient } from '@sprucelabs/mercury-client'
-import { BASE_ROLES } from '@sprucelabs/spruce-core-schemas'
+import {
+	EMPLOYED_BASE_ROLES,
+	GUEST_BASE_ROLES,
+} from '@sprucelabs/spruce-core-schemas'
 import { assert } from '@sprucelabs/test'
 import SeedFixture from '../fixtures/SeedFixture'
 import StoreFixture from '../fixtures/StoreFixture'
 import login from './login'
 
-type ROLES = typeof BASE_ROLES
+type EMPLOYED = typeof EMPLOYED_BASE_ROLES
+type GUEST = typeof GUEST_BASE_ROLES
 
 type SeedTarget =
 	| 'organizations'
 	| 'locations'
-	| `${ROLES[number]['slug']}s`
+	| `${EMPLOYED[number]['slug']}s`
+	| `${GUEST[number]['slug']}s`
 	| StoreName
 
 export default function seed(
