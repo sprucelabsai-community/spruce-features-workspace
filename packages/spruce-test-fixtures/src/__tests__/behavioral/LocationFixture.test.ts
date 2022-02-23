@@ -4,25 +4,24 @@ import {
 	DEMO_NUMBER_LOCATION_FIXTURE,
 	DEMO_NUMBER_LOCATION_FIXTURE_OUTSIDER,
 } from '../../tests/constants'
+import login from '../../tests/decorators/login'
 
+@login(DEMO_NUMBER_LOCATION_FIXTURE)
 export default class LocationFixtureTest extends AbstractSpruceFixtureTest {
 	protected static async beforeEach() {
 		await super.beforeEach()
-		const seedFixture = this.Fixture('seed')
-		await seedFixture.resetAccount(DEMO_NUMBER_LOCATION_FIXTURE)
-		await seedFixture.resetAccount(DEMO_NUMBER_LOCATION_FIXTURE_OUTSIDER)
+		await this.seeder.resetAccount()
+		await this.seeder.resetAccount(DEMO_NUMBER_LOCATION_FIXTURE_OUTSIDER)
 	}
 
 	@test()
 	protected static async canCreateWithSpecificOrg() {
 		const org = await this.organizations.seedDemoOrganization({
 			name: 'Location fixture org',
-			phone: DEMO_NUMBER_LOCATION_FIXTURE,
 		})
 
 		const location = await this.locations.seedDemoLocation({
 			name: 'Location fixture location',
-			phone: DEMO_NUMBER_LOCATION_FIXTURE,
 			organizationId: org.id,
 		})
 
@@ -31,9 +30,7 @@ export default class LocationFixtureTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async canCreatLocationWithNoParams() {
-		const location = await this.locations.seedDemoLocation({
-			phone: DEMO_NUMBER_LOCATION_FIXTURE,
-		})
+		const location = await this.locations.seedDemoLocation({})
 		assert.isTruthy(location)
 	}
 
@@ -41,7 +38,6 @@ export default class LocationFixtureTest extends AbstractSpruceFixtureTest {
 	protected static async isNotPartOfLocationToStart() {
 		const location = await this.locations.seedDemoLocation({
 			name: 'Location fixture location',
-			phone: DEMO_NUMBER_LOCATION_FIXTURE,
 		})
 
 		const { person } = await this.people.loginAsDemoPerson(
