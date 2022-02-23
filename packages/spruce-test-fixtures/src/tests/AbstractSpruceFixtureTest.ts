@@ -1,3 +1,4 @@
+import { DatabaseFixture } from '@sprucelabs/data-stores'
 import {
 	AbstractSkillTest,
 	SkillFactoryOptions,
@@ -98,8 +99,20 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		}
 		return this._stores
 	}
+
 	public static set stores(fixture: StoreFixture | undefined) {
 		this._stores = fixture
+	}
+
+	public static get database(): DatabaseFixture {
+		if (!this._database) {
+			this._database = this.Fixture('database')
+		}
+		return this._database
+	}
+
+	public static set database(fixture: DatabaseFixture | undefined) {
+		this._database = fixture
 	}
 
 	private static _views?: ViewFixture
@@ -111,6 +124,7 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 	private static _skills?: SkillFixture
 	private static _mercury?: MercuryFixture
 	private static _stores?: StoreFixture
+	private static _database?: DatabaseFixture
 
 	protected static async beforeAll() {
 		await super.beforeAll()
@@ -136,6 +150,7 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		this.skills = undefined
 		this.mercury = undefined
 		this.stores = undefined
+		this.database = undefined
 	}
 
 	protected static async afterEach() {
@@ -149,6 +164,9 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		await FixtureFactory.afterAll()
 	}
 
+	/**
+	 * @deprecated this.Fixture('organization') -> this.organizations
+	 */
 	public static Fixture<Name extends FixtureName>(
 		name: Name,
 		options?: Partial<FixtureConstructorOptionsMap[Name]>

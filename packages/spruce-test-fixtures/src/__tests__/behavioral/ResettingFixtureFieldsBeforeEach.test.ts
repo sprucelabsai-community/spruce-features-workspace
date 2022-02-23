@@ -1,3 +1,4 @@
+import { DatabaseFixture } from '@sprucelabs/data-stores'
 import { assert, test } from '@sprucelabs/test'
 import {
 	AbstractSpruceFixtureTest,
@@ -62,6 +63,12 @@ const toCheck = [
 		instanceOf: MercuryFixture,
 	},
 	{
+		prop: 'database',
+		privatePropName: '_database',
+		fixtureName: 'database',
+		instanceOf: DatabaseFixture,
+	},
+	{
 		prop: 'stores',
 		privatePropName: '_stores',
 		fixtureName: 'store',
@@ -75,7 +82,7 @@ export default class ResettingFixtureFieldsBeforeEachTest extends AbstractSpruce
 		for (const check of toCheck) {
 			const fixture = this.getFixture(check)
 
-			assert.isTruthy(fixture)
+			assert.isTruthy(fixture, `No fixture found for ${check.fixtureName}`)
 
 			const local = this.getPrivateProp(check)
 
