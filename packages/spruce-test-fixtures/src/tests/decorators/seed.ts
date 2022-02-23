@@ -11,7 +11,7 @@ type ROLES = typeof BASE_ROLES
 type SeedTarget =
 	| 'organizations'
 	| 'locations'
-	| ROLES[number]['slug']
+	| `${ROLES[number]['slug']}s`
 	| StoreName
 
 export default function seed(

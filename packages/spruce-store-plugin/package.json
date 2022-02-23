@@ -64,7 +64,7 @@
     "@sprucelabs/data-stores": "^8.1.17",
     "@sprucelabs/error": "^5.0.404",
     "@sprucelabs/schema": "^26.0.133",
-    "@sprucelabs/spruce-core-schemas": "^23.2.0",
+    "@sprucelabs/spruce-core-schemas": "^23.2.1",
     "@sprucelabs/spruce-event-utils": "^18.0.140",
     "@sprucelabs/spruce-skill-booter": "^25.0.28",
     "@sprucelabs/spruce-skill-utils": "^24.1.81",
