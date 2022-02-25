@@ -152,7 +152,7 @@ export default class LocationFixture {
 	public async addPerson(options: {
 		personId: string
 		locationId: string
-		organizationId: string
+		organizationId?: string
 		roleBase: string
 		phone?: string
 	}) {
