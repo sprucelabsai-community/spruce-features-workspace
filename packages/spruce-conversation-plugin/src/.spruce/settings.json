@@ -13,7 +13,8 @@
       "fix.lint",
       "rebuild",
       "update.dependencies",
-      "watch.build.dev"
+      "watch.build.dev",
+      "build.tsc"
     ]
   },
   "writer": {

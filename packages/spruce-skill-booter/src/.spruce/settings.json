@@ -8,7 +8,8 @@
   "scriptUpdater": {
     "skipped": [
       "fix.lint",
-      "update.dependencies"
+      "update.dependencies",
+      "build.tsc"
     ]
   },
   "writer": {
