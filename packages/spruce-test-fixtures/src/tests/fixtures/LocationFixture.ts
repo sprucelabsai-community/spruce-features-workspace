@@ -156,7 +156,7 @@ export default class LocationFixture {
 		roleBase: string
 		phone?: string
 	}) {
-		await this.roles.addRoleToPerson(options)
+		await this.roles.addRoleToPerson(options as any)
 	}
 
 	public async removePerson(options: {
