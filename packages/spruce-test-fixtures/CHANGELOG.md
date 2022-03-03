@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [29.0.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v28.0.0...v29.0.0) (2022-03-03)
+
+
+### Breaking Changes
+
+* upgrade ([edc7fad](https://github.com/sprucelabsai/spruce-features-workspace/commit/edc7fad))
+
+
+
+
+
 # [28.0.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v27.0.0...v28.0.0) (2022-03-03)
 
 
