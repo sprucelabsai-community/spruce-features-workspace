@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [27.0.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v26.0.0...v27.0.0) (2022-03-03)
+
+
+### Breaking Changes
+
+* **auto-upgrade:** upgraded packages [upgrade-all] ([91a4833](https://github.com/sprucelabsai/spruce-features-workspace/commit/91a4833))
+
+
+
+
+
 # [26.0.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v25.1.14...v26.0.0) (2022-03-03)
 
 
