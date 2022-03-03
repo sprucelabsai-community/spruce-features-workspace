@@ -195,25 +195,22 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async scopeGetsLastLocationByDefault() {
-		const orgs = this.Fixture('organization')
-		const org = await orgs.seedDemoOrganization({
+		const org = await this.organizations.seedDemoOrganization({
 			name: 'Scope org',
 			phone: DEMO_NUMBER_VIEW_FIXTURE,
 		})
 
-		const locationFixture = this.Fixture('location')
-
-		await locationFixture.seedDemoLocation({
+		await this.locations.seedDemoLocation({
 			organizationId: org.id,
 			phone: DEMO_NUMBER_VIEW_FIXTURE,
 		})
 
-		await locationFixture.seedDemoLocation({
+		await this.locations.seedDemoLocation({
 			organizationId: org.id,
 			phone: DEMO_NUMBER_VIEW_FIXTURE,
 		})
 
-		const expected = await locationFixture.seedDemoLocation({
+		await this.locations.seedDemoLocation({
 			organizationId: org.id,
 			phone: DEMO_NUMBER_VIEW_FIXTURE,
 		})
@@ -223,6 +220,24 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 		await viewFixture.loginAsDemoPerson(DEMO_NUMBER_VIEW_FIXTURE)
 
 		const current = await viewFixture.getScope().getCurrentLocation()
+
+		const { client } = await this.fixture.loginAsDemoPerson(
+			DEMO_NUMBER_VIEW_FIXTURE
+		)
+
+		const [{ locations }] = await client.emitAndFlattenResponses(
+			'list-locations::v2020_12_25',
+			{
+				target: {
+					organizationId: org.id,
+				},
+				payload: {
+					includePrivateLocations: true,
+				},
+			}
+		)
+
+		const expected = locations[0]
 
 		assert.isEqualDeep(current, expected)
 	}
