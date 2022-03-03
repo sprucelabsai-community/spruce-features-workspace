@@ -489,12 +489,12 @@ export default class ListeningToEventsTest extends AbstractEventPluginTest {
 		this.setupListenersForEventsRegisteredBySkill(skill1)
 		this.generateGoodContractFileForSkill(skill1)
 
-		const orgs = this.Fixture('organization')
+		const org = await this.organizations.seedDemoOrganization({
+			name: 'my new org',
+		})
 
-		const org = await orgs.seedDemoOrganization({ name: 'my new org' })
-
-		await orgs.installSkill(skill1.id, org.id)
-		await orgs.installSkill(skill2.id, org.id)
+		await this.organizations.installSkill(skill1.id, org.id)
+		await this.organizations.installSkill(skill2.id, org.id)
 
 		process.env.SKILL_ID = skill2.id
 		process.env.SKILL_API_KEY = skill2.apiKey
