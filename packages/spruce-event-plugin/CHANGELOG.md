@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [26.0.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v25.1.14...v26.0.0) (2022-03-03)
+
+
+### Breaking Changes
+
+* spruce upgrade ([3de2ed4](https://github.com/sprucelabsai/spruce-features-workspace/commit/3de2ed4))
+* upgrade ([83e37ec](https://github.com/sprucelabsai/spruce-features-workspace/commit/83e37ec))
+
+
+### Features
+
+* devs can now easily connect to api as a skill ([39c0126](https://github.com/sprucelabsai/spruce-features-workspace/commit/39c0126))
+
+
+
+
+
 ## [25.1.14](https://github.com/sprucelabsai/spruce-features-workspace/compare/v25.1.13...v25.1.14) (2022-03-01)
 
 **Note:** Version bump only for package @sprucelabs/spruce-event-plugin
