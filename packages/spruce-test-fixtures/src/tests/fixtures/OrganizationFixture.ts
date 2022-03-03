@@ -42,7 +42,7 @@ export default class OrganizationFixture {
 
 		const { client } = await this.people.loginAsDemoPerson(phone)
 
-		const [{ organization }] = await client.emit(
+		const [{ organization }] = await client.emitAndFlattenResponses(
 			'create-organization::v2020_12_25',
 			{
 				payload: allValues,
