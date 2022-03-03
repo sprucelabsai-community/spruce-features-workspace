@@ -39,12 +39,12 @@ export type MercuryClient<
 		isConnected: () => boolean
 		connect: () => Promise<void>
 		disconnect: () => Promise<void>
-		isAuthenticated: () => boolean
-		setShouldAutoRegisterListeners: (should: boolean) => void
 		getProxyToken: () => string | null
 		setProxyToken: (token: string) => void
 		registerProxyToken: () => Promise<string>
 		getIsTestClient(): boolean
+		setShouldAutoRegisterListeners: (should: boolean) => void
+		isAuthenticated(): boolean
 		authenticate(options: {
 			skillId?: string
 			apiKey?: string

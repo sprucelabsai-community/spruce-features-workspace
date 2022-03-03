@@ -1,7 +1,6 @@
 import { MercuryClient } from '@sprucelabs/mercury-client'
 import { assertOptions } from '@sprucelabs/schema'
 import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
-import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import PersonFixture from './PersonFixture'
 import RoleFixture from './RoleFixture'
 
@@ -43,11 +42,12 @@ export default class OrganizationFixture {
 
 		const { client } = await this.people.loginAsDemoPerson(phone)
 
-		const results = await client.emit('create-organization::v2020_12_25', {
-			payload: allValues,
-		})
-
-		const { organization } = eventResponseUtil.getFirstResponseOrThrow(results)
+		const [{ organization }] = await client.emit(
+			'create-organization::v2020_12_25',
+			{
+				payload: allValues,
+			}
+		)
 
 		this.organizations.push({ organization, client })
 
@@ -57,13 +57,14 @@ export default class OrganizationFixture {
 	public async getOrganizationById(id: string) {
 		const { client } = await this.people.loginAsDemoPerson()
 
-		const results = await client.emit('get-organization::v2020_12_25', {
-			target: {
-				organizationId: id,
-			},
-		})
-
-		const { organization } = eventResponseUtil.getFirstResponseOrThrow(results)
+		const [{ organization }] = await client.emitAndFlattenResponses(
+			'get-organization::v2020_12_25',
+			{
+				target: {
+					organizationId: id,
+				},
+			}
+		)
 
 		return organization
 	}
@@ -86,13 +87,17 @@ export default class OrganizationFixture {
 	public async getNewestOrganization(phone?: string) {
 		const { client } = await this.people.loginAsDemoPerson(phone)
 
-		const results = await client.emit('list-organizations::v2020_12_25', {
-			payload: {
-				shouldOnlyShowMine: true,
-			},
-		})
-
-		const { organizations } = eventResponseUtil.getFirstResponseOrThrow(results)
+		const [{ organizations }] = await client.emitAndFlattenResponses(
+			'list-organizations::v2020_12_25',
+			{
+				payload: {
+					shouldOnlyShowMine: true,
+					paging: {
+						pageSize: 1,
+					},
+				},
+			}
+		)
 
 		return organizations.pop() ?? null
 	}
@@ -108,7 +113,7 @@ export default class OrganizationFixture {
 	): Promise<void> {
 		const { client } = await this.people.loginAsDemoPerson()
 
-		const results = await client.emit('install-skill::v2020_12_25', {
+		await client.emitAndFlattenResponses('install-skill::v2020_12_25', {
 			target: {
 				organizationId: orgId,
 			},
@@ -117,8 +122,6 @@ export default class OrganizationFixture {
 				shouldNotifySkillOfInstall,
 			},
 		})
-
-		eventResponseUtil.getFirstResponseOrThrow(results)
 	}
 
 	public async isPartOfOrg(options: {
@@ -154,16 +157,17 @@ export default class OrganizationFixture {
 	public async isSkillInstalled(skillId: string, organizationId: string) {
 		const { client } = await this.people.loginAsDemoPerson()
 
-		const results = await client.emit('is-skill-installed::v2020_12_25', {
-			target: {
-				organizationId,
-			},
-			payload: {
-				skillId,
-			},
-		})
-
-		const { isInstalled } = eventResponseUtil.getFirstResponseOrThrow(results)
+		const [{ isInstalled }] = await client.emitAndFlattenResponses(
+			'is-skill-installed::v2020_12_25',
+			{
+				target: {
+					organizationId,
+				},
+				payload: {
+					skillId,
+				},
+			}
+		)
 
 		return isInstalled
 	}
@@ -182,13 +186,14 @@ export default class OrganizationFixture {
 		assertOptions(options, ['organizationId', 'namespaces'])
 
 		const { client } = await this.people.loginAsDemoPerson()
-		const skillResults = await client.emit('list-skills::v2020_12_25', {
-			payload: {
-				namespaces,
-			},
-		})
-
-		const { skills } = eventResponseUtil.getFirstResponseOrThrow(skillResults)
+		const [{ skills }] = await client.emitAndFlattenResponses(
+			'list-skills::v2020_12_25',
+			{
+				payload: {
+					namespaces,
+				},
+			}
+		)
 
 		await Promise.all(
 			skills.map((skill) =>
@@ -215,13 +220,14 @@ export default class OrganizationFixture {
 	public async listOrganizations(phone?: string) {
 		const { client } = await this.people.loginAsDemoPerson(phone)
 
-		const results = await client.emit('list-organizations::v2020_12_25', {
-			payload: {
-				shouldOnlyShowMine: true,
-			},
-		})
-
-		const { organizations } = eventResponseUtil.getFirstResponseOrThrow(results)
+		const [{ organizations }] = await client.emitAndFlattenResponses(
+			'list-organizations::v2020_12_25',
+			{
+				payload: {
+					shouldOnlyShowMine: true,
+				},
+			}
+		)
 
 		return organizations
 	}
@@ -229,13 +235,14 @@ export default class OrganizationFixture {
 	public async destroy() {
 		await Promise.all(
 			this.organizations.map(async ({ organization, client }) => {
-				const results = await client.emit('delete-organization::v2020_12_25', {
-					target: {
-						organizationId: organization.id,
-					},
-				})
-
-				eventResponseUtil.getFirstResponseOrThrow(results)
+				await client.emitAndFlattenResponses(
+					'delete-organization::v2020_12_25',
+					{
+						target: {
+							organizationId: organization.id,
+						},
+					}
+				)
 			})
 		)
 

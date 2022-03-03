@@ -63,7 +63,7 @@
     "@sprucelabs/mercury-types": "^27.0.151",
     "@sprucelabs/schema": "^27.1.1",
     "@sprucelabs/spruce-core-schemas": "^25.0.17",
-    "@sprucelabs/spruce-event-utils": "^19.0.3",
+    "@sprucelabs/spruce-event-utils": "^19.1.2",
     "@sprucelabs/spruce-skill-booter": "^29.0.0",
     "@sprucelabs/spruce-skill-utils": "^25.0.12",
     "@sprucelabs/spruce-test-fixtures": "^29.0.0"

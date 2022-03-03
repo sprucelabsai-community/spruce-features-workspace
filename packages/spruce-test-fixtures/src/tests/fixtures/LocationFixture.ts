@@ -105,6 +105,9 @@ export default class LocationFixture {
 			},
 			payload: {
 				includePrivateLocations: true,
+				paging: {
+					pageSize: 1,
+				},
 			},
 		})
 
