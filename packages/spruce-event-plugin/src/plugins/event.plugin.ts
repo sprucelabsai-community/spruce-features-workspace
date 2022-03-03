@@ -245,6 +245,7 @@ export class EventFeaturePlugin implements SkillFeature {
 			log: this.log.buildLog(eventName),
 			...targetAndPayload,
 			...this.skill.getContext(),
+			connectToApiAsSkill: async () => this.connectToApi(),
 		} as any
 	}
 

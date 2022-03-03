@@ -226,6 +226,27 @@ export default class ListeningToEventsTest extends AbstractEventPluginTest {
 	}
 
 	@test()
+	protected static async sendsConnectAsSkillToListener() {
+		const { client1, fqen, org } = await this.setupTwoSkillsAndBoot(
+			'registered-skill-with-client-checks'
+		)
+
+		const results = await client1.emit(fqen as any, {
+			target: {
+				organizationId: org.id,
+			},
+			payload: {
+				foo: 'bar',
+				bar: 'foo',
+			},
+		})
+
+		const { taco } = eventResponseUtil.getFirstResponseOrThrow(results)
+
+		assert.isEqual(taco, 'all good')
+	}
+
+	@test()
 	protected static async wontReRegisterListenersIfListenersHaveNotChanged() {
 		let unRegisterListenerCount = 0
 		let onSetListenerCount = 0
