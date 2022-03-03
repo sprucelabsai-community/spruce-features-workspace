@@ -189,7 +189,7 @@ export class EventFeaturePlugin implements SkillFeature {
 				const { client } = await this.apiClientPromise
 
 				//@ts-ignore
-				this.skill.updateContext('mercury', client)
+				this.skill.updateContext('client', client)
 
 				await done()
 
@@ -556,8 +556,8 @@ export class EventFeaturePlugin implements SkillFeature {
 					const event = await this.buildSpruceEvent(fqen, targetAndPayload)
 					const decorator = ClientProxyDecorator.getInstance()
 
-					event.mercury = decorator.decorateEmitToPassProxyToken(
-						event.mercury,
+					event.client = decorator.decorateEmitToPassProxyToken(
+						event.client,
 						targetAndPayload?.source?.proxyToken
 					)
 

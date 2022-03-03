@@ -9,6 +9,6 @@ export default class AddsMercuryToTheSkillContextTest extends AbstractEventPlugi
 		const context = skill.getContext()
 
 		//@ts-ignore
-		assert.isTruthy(context.mercury)
+		assert.isTruthy(context.client)
 	}
 }

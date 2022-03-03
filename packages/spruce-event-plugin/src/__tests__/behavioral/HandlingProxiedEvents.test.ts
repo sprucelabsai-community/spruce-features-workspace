@@ -19,7 +19,7 @@ export default class HandlingProxiedEventsTest extends AbstractEventPluginTest {
 
 		await this.bootSkill({ skill: currentSkill })
 
-		const { client } = await this.Fixture('person').loginAsDemoPerson()
+		const { client } = await this.people.loginAsDemoPerson()
 
 		const proxyResults = await client.emit('register-proxy-token::v2020_12_25')
 		const { token } = eventResponseUtil.getFirstResponseOrThrow(proxyResults)
