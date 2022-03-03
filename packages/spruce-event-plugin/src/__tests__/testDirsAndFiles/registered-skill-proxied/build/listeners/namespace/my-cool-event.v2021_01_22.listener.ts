@@ -14,11 +14,11 @@ export default async (
 ): SpruceEventResponse<{}> => {
 
 	//@ts-ignore
-	await event.mercury.emit('test-proxied-event::v1')
+	await event.client.emit('test-proxied-event::v1')
 
 	new Array('on','emit','disconnect').forEach(k => {
 		//@ts-ignore
-		assert.isFunction(event.mercury[k], `${k}() is not being delegated.`)
+		assert.isFunction(event.client[k], `${k}() is not being delegated.`)
 	})
 
 

@@ -11,7 +11,7 @@ export default async (
 		{ payload: { foo: string; bar: string } }
 	>
 ): SpruceEventResponse<{ taco: string }> => {
-	assert.isTruthy(event.mercury)
+	assert.isTruthy(event.client)
 	//@ts-ignore
 	assert.isTruthy(event.helloWorld)
 	
