@@ -17,7 +17,7 @@ export default async (
 	assert.isTruthy(event)
 	assert.isTrue(event.skill instanceof Skill)
 	assert.isTruthy(event.log)
-	assert.isTruthy(event.mercury)
+	assert.isTruthy(event.client)
 	assert.isFunction(event.log.buildLog)
 
 	const { payload, target, source } = event
