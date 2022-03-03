@@ -60,7 +60,7 @@
     "lint.tsc": "tsc -p . --noEmit"
   },
   "dependencies": {
-    "@nlpjs/nlu": "^4.23.0",
+    "@nlpjs/nlu": "^4.23.1",
     "@sprucelabs/error": "^5.0.410",
     "@sprucelabs/mercury-core-events": "^3.0.2",
     "@sprucelabs/schema": "^27.1.0",
@@ -73,7 +73,7 @@
     "fuzzyset": "^1.0.7",
     "globby": "^11.0.4",
     "inquirer": "^8.2.0",
-    "node-nlp": "^4.23.0",
+    "node-nlp": "^4.23.1",
     "random": "^3.0.6"
   },
   "devDependencies": {
