@@ -53,7 +53,6 @@ jobs:
   upgrade:
     docker:
       - image: circleci/node:16
-    working_directory: /mnt/ramdisk
     steps:
       - spruce/check_for_autoupgrade_dns
       - add_ssh_keys:
