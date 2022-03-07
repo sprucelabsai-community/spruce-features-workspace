@@ -4,7 +4,7 @@ import { formatPhoneNumber } from '@sprucelabs/schema'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { assert, test } from '@sprucelabs/test'
 import { errorAssert } from '@sprucelabs/test-utils'
-import { login } from '../..'
+import { login, seed } from '../..'
 import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
 import {
 	DEMO_NUMBER_SEED_FIXTURE,
@@ -228,6 +228,33 @@ export default class SeedingDataTest extends AbstractSpruceFixtureTest {
 		const unique = [...new Set(names)]
 
 		assert.isLength(unique, names.length)
+	}
+
+	@test()
+	protected static async namesAreOnlyAssignedIfNotYetAssigned() {
+		const { client } = await this.people.loginAsDemoPerson(
+			DEMO_NUMBER_SEED_FIXTURE_STARTING_PHONE
+		)
+
+		const firstName = `Test person:: ${Math.random()}`
+		const lastName = `${Math.random()}`
+
+		await client.emitAndFlattenResponses('update-person::v2020_12_25', {
+			payload: {
+				firstName,
+				lastName,
+			},
+		})
+
+		const { teammates } = await this.seedLocations({
+			startingPhone: DEMO_NUMBER_SEED_FIXTURE_STARTING_PHONE,
+			totalLocations: 1,
+			totalTeammates: 1,
+		})
+
+		const [tm1] = teammates
+
+		assert.isEqual(tm1.casualName, firstName + ' ' + lastName[0] + '.')
 	}
 
 	private static async listPeople(

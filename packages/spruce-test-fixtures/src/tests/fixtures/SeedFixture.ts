@@ -251,7 +251,9 @@ export default class SeedFixture {
 				const number = numbers.shift()
 				let { person, client } = await this.people.loginAsDemoPerson(number)
 
-				const updated = await this.people.generateRandomName(client)
+				const updated = person.firstName
+					? {}
+					: await this.people.generateRandomName(client)
 
 				person = {
 					...person,
