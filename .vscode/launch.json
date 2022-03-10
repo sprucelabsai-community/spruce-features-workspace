@@ -10,7 +10,8 @@
 			"name": "attach.tests",
 			"port": 5200,
 			"restart": true,
-			"timeout": 10000
+			"timeout": 10000,
+			"autoAttachChildProcesses": true
 		},
 		{
 			"type": "node",

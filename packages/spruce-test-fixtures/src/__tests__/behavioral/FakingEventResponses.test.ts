@@ -1,13 +1,16 @@
 import { MercuryTestClient } from '@sprucelabs/mercury-client'
-import {
-	eventAssertUtil,
-	eventResponseUtil,
-} from '@sprucelabs/spruce-event-utils'
+import { eventAssertUtil } from '@sprucelabs/spruce-event-utils'
 import { test, assert } from '@sprucelabs/test'
 import { AbstractSpruceFixtureTest } from '../..'
 import eventFaker from '../../tests/eventFaker'
 
 export default class FakingErrorResponsesTest extends AbstractSpruceFixtureTest {
+	private static client: MercuryTestClient
+	protected static async beforeEach() {
+		await super.beforeEach()
+		this.client = (await this.mercury.connectToApi()) as MercuryTestClient
+	}
+
 	@test('faking whoami::v2020_12_25', 'whoami::v2020_12_25')
 	@test('faking request-pin::v2020_12_25', 'request-pin::v2020_12_25', {
 		payload: {
@@ -19,48 +22,74 @@ export default class FakingErrorResponsesTest extends AbstractSpruceFixtureTest 
 		targetAndPayload: any
 	) {
 		await eventFaker.makeEventThrow(fqen)
+		await this.assertResponseIsFakeEventError(fqen, targetAndPayload)
+	}
 
-		await this.assertResponsIsFakeEventError(fqen, targetAndPayload)
+	@test('on clears previous listeners 1', 'whoami::v2020_12_25')
+	@test('on clears previous listeners 2', 'what-the::v2020_12_25')
+	protected static async onClearsPreviousListeners(fqen: any) {
+		let wasOldHit = false
+		let wasNewHit = false
+
+		if (!this.client.doesHandleEvent(fqen)) {
+			this.client.mixinContract({
+				eventSignatures: {
+					[fqen]: {},
+				},
+			})
+		}
+
+		await this.client.on(fqen, () => {
+			wasOldHit = true
+		})
+
+		await eventFaker.on(fqen, () => {
+			wasNewHit = true
+
+			return {
+				auth: {},
+				type: 'anonymous' as const,
+			}
+		})
+
+		assert.isFalse(wasNewHit)
+
+		await this.client.emit(fqen)
+
+		assert.isFalse(wasOldHit)
+		assert.isTrue(wasNewHit)
 	}
 
 	@test()
 	protected static async throwsEvenWhenFakingWithPreviousListeners() {
-		const client = await this.connectToApi()
-
 		//@ts-ignore
-		await client.on('whoami::v2020_12_25', async () => {
+		await this.client.on('whoami::v2020_12_25', async () => {
 			return {}
 		})
 
 		await eventFaker.makeEventThrow('whoami::v2020_12_25')
-		await this.assertResponsIsFakeEventError('whoami::v2020_12_25')
+		await this.assertResponseIsFakeEventError('whoami::v2020_12_25')
 	}
 
 	@test()
 	protected static async fakeEventsAreClearedFromPreviousTest() {
-		const client = await this.connectToApi()
-
-		await client.on('request-pin::v2020_12_25', async () => {
+		await this.client.on('request-pin::v2020_12_25', async () => {
 			return {
 				challenge: 'aoeu',
 			}
 		})
 
-		const results = await client.emit('request-pin::v2020_12_25', {
+		await this.client.emitAndFlattenResponses('request-pin::v2020_12_25', {
 			payload: {
 				phone: '+555-000-0001',
 			},
 		})
-
-		eventResponseUtil.getFirstResponseOrThrow(results)
 	}
 
 	@test()
 	protected static async canFakeEventWithNoResponse() {
-		const client = (await this.connectToApi()) as MercuryTestClient
-
 		const fqen = 'test-burrito::v1'
-		client.mixinContract({
+		this.client.mixinContract({
 			eventSignatures: {
 				[fqen]: {
 					isGlobal: true,
@@ -70,28 +99,21 @@ export default class FakingErrorResponsesTest extends AbstractSpruceFixtureTest 
 
 		await eventFaker.handleReactiveEvent(fqen as any)
 
-		const results = await client.emit(fqen)
+		const results = await this.client.emit(fqen)
 
 		assert.isEqual(results.totalErrors, 0)
 	}
 
-	private static async assertResponsIsFakeEventError(
+	private static async assertResponseIsFakeEventError(
 		fqen: any,
 		targetAndPayload?: any
 	) {
-		const client = await this.connectToApi()
-
-		const results = await client.emit(fqen, targetAndPayload)
+		const results = await this.client.emit(fqen, targetAndPayload)
 
 		assert.isEqual(results.totalErrors, 1)
 
 		eventAssertUtil.assertErrorFromResponse(results, 'FAKE_EVENT_ERROR', {
 			fqen,
 		})
-	}
-
-	private static async connectToApi() {
-		const client = await this.mercury.connectToApi()
-		return client
 	}
 }
