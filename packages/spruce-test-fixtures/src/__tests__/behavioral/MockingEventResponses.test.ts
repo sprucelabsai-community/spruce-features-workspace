@@ -1,5 +1,4 @@
 import { MercuryTestClient } from '@sprucelabs/mercury-client'
-import { EventNames } from '@sprucelabs/mercury-types'
 import { eventAssertUtil } from '@sprucelabs/spruce-event-utils'
 import { test, assert } from '@sprucelabs/test'
 import { AbstractSpruceFixtureTest } from '../..'
