@@ -20,6 +20,7 @@ const eventMocker = {
 		const client = getClient(fqen)
 
 		await client.off(fqen)
+
 		await client.on(fqen as any, () => {
 			throw new SpruceError({
 				code: 'MOCK_EVENT_ERROR',
@@ -33,10 +34,13 @@ const eventMocker = {
 		await client.on(fqen, () => {})
 	},
 
+	/** @ts-ignore */
 	async on<E extends Fqen>(
 		fqen: E,
 		cb: (
+			/** @ts-ignore */
 			targetAndPayload: TargetAndPayload<E>
+			/** @ts-ignore */
 		) => Response<E> | Promise<Response<E>>
 	) {
 		const client = getClient('1234')
