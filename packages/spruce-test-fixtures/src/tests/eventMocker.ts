@@ -7,6 +7,7 @@ import SpruceError from '../errors/SpruceError'
 type Fqen = keyof SkillEventContract['eventSignatures']
 
 type TargetAndPayload<E extends Fqen> = SchemaValues<
+	/** @ts-ignore */
 	SkillEventContract['eventSignatures'][E]['emitPayloadSchema']
 >
 
