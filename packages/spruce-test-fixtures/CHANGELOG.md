@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [29.1.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v29.0.11...v29.1.0) (2022-03-10)
+
+
+### Features
+
+* eventMocker.on for even faster event faking ([55e5c12](https://github.com/sprucelabsai/spruce-features-workspace/commit/55e5c12))
+
+
+
+
+
 ## [29.0.11](https://github.com/sprucelabsai/spruce-features-workspace/compare/v29.0.10...v29.0.11) (2022-03-10)
 
 **Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
