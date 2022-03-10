@@ -5,26 +5,26 @@ import {
 } from '@sprucelabs/spruce-event-utils'
 import { test, assert } from '@sprucelabs/test'
 import { AbstractSpruceFixtureTest } from '../..'
-import eventMocker from '../../tests/eventMocker'
+import eventFaker from '../../tests/eventFaker'
 
-export default class MockingErrorResponsesTest extends AbstractSpruceFixtureTest {
-	@test('mocking whoami::v2020_12_25', 'whoami::v2020_12_25')
-	@test('mocking request-pin::v2020_12_25', 'request-pin::v2020_12_25', {
+export default class FakingErrorResponsesTest extends AbstractSpruceFixtureTest {
+	@test('faking whoami::v2020_12_25', 'whoami::v2020_12_25')
+	@test('faking request-pin::v2020_12_25', 'request-pin::v2020_12_25', {
 		payload: {
 			phone: '+555-000-0001',
 		},
 	})
-	protected static async throwsWhenMockingResponse(
+	protected static async throwsWhenFakingResponse(
 		fqen: any,
 		targetAndPayload: any
 	) {
-		await eventMocker.makeEventThrow(fqen)
+		await eventFaker.makeEventThrow(fqen)
 
-		await this.assertResponsIsMockError(fqen, targetAndPayload)
+		await this.assertResponsIsFakeEventError(fqen, targetAndPayload)
 	}
 
 	@test()
-	protected static async throwsEvenWhenMockingWithPreviousListeners() {
+	protected static async throwsEvenWhenFakingWithPreviousListeners() {
 		const client = await this.connectToApi()
 
 		//@ts-ignore
@@ -32,12 +32,12 @@ export default class MockingErrorResponsesTest extends AbstractSpruceFixtureTest
 			return {}
 		})
 
-		await eventMocker.makeEventThrow('whoami::v2020_12_25')
-		await this.assertResponsIsMockError('whoami::v2020_12_25')
+		await eventFaker.makeEventThrow('whoami::v2020_12_25')
+		await this.assertResponsIsFakeEventError('whoami::v2020_12_25')
 	}
 
 	@test()
-	protected static async mockEventsAreClearedFromPreviousTest() {
+	protected static async fakeEventsAreClearedFromPreviousTest() {
 		const client = await this.connectToApi()
 
 		await client.on('request-pin::v2020_12_25', async () => {
@@ -56,7 +56,7 @@ export default class MockingErrorResponsesTest extends AbstractSpruceFixtureTest
 	}
 
 	@test()
-	protected static async canMockEventWithNoResponse() {
+	protected static async canFakeEventWithNoResponse() {
 		const client = (await this.connectToApi()) as MercuryTestClient
 
 		const fqen = 'test-burrito::v1'
@@ -68,14 +68,14 @@ export default class MockingErrorResponsesTest extends AbstractSpruceFixtureTest
 			},
 		})
 
-		await eventMocker.handleReactiveEvent(fqen as any)
+		await eventFaker.handleReactiveEvent(fqen as any)
 
 		const results = await client.emit(fqen)
 
 		assert.isEqual(results.totalErrors, 0)
 	}
 
-	private static async assertResponsIsMockError(
+	private static async assertResponsIsFakeEventError(
 		fqen: any,
 		targetAndPayload?: any
 	) {
@@ -85,15 +85,13 @@ export default class MockingErrorResponsesTest extends AbstractSpruceFixtureTest
 
 		assert.isEqual(results.totalErrors, 1)
 
-		eventAssertUtil.assertErrorFromResponse(results, 'MOCK_EVENT_ERROR', {
+		eventAssertUtil.assertErrorFromResponse(results, 'FAKE_EVENT_ERROR', {
 			fqen,
 		})
 	}
 
 	private static async connectToApi() {
-		const mercuryFixture = this.Fixture('mercury')
-
-		const client = await mercuryFixture.connectToApi()
+		const client = await this.mercury.connectToApi()
 		return client
 	}
 }

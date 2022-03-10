@@ -75,35 +75,6 @@ export declare namespace SpruceErrors.SpruceTestFixtures {
 export declare namespace SpruceErrors.SpruceTestFixtures {
 
 	
-	export interface MockEventError {
-		
-			
-			'fqen': string
-	}
-
-	export interface MockEventErrorSchema extends SpruceSchema.Schema {
-		id: 'mockEventError',
-		namespace: 'SpruceTestFixtures',
-		name: 'Mock event error',
-		    fields: {
-		            /** . */
-		            'fqen': {
-		                type: 'text',
-		                isRequired: true,
-		                options: undefined
-		            },
-		    }
-	}
-
-	export type MockEventErrorEntity = SchemaEntity<SpruceErrors.SpruceTestFixtures.MockEventErrorSchema>
-
-}
-
-
-
-export declare namespace SpruceErrors.SpruceTestFixtures {
-
-	
 	export interface InvalidViewController {
 		
 			
@@ -169,6 +140,35 @@ export declare namespace SpruceErrors.SpruceTestFixtures {
 	}
 
 	export type InvalidFixtureEntity = SchemaEntity<SpruceErrors.SpruceTestFixtures.InvalidFixtureSchema>
+
+}
+
+
+
+export declare namespace SpruceErrors.SpruceTestFixtures {
+
+	
+	export interface FakeEventError {
+		
+			
+			'fqen': string
+	}
+
+	export interface FakeEventErrorSchema extends SpruceSchema.Schema {
+		id: 'fakeEventError',
+		namespace: 'SpruceTestFixtures',
+		name: 'Fake event error',
+		    fields: {
+		            /** . */
+		            'fqen': {
+		                type: 'text',
+		                isRequired: true,
+		                options: undefined
+		            },
+		    }
+	}
+
+	export type FakeEventErrorEntity = SchemaEntity<SpruceErrors.SpruceTestFixtures.FakeEventErrorSchema>
 
 }
 

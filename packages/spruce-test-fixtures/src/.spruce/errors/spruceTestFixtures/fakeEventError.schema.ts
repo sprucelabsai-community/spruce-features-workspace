@@ -3,10 +3,10 @@ import { SpruceErrors } from '../errors.types'
 
 
 
-const mockEventErrorSchema: SpruceErrors.SpruceTestFixtures.MockEventErrorSchema  = {
-	id: 'mockEventError',
+const fakeEventErrorSchema: SpruceErrors.SpruceTestFixtures.FakeEventErrorSchema  = {
+	id: 'fakeEventError',
 	namespace: 'SpruceTestFixtures',
-	name: 'Mock event error',
+	name: 'Fake event error',
 	    fields: {
 	            /** . */
 	            'fqen': {
@@ -17,6 +17,6 @@ const mockEventErrorSchema: SpruceErrors.SpruceTestFixtures.MockEventErrorSchema
 	    }
 }
 
-SchemaRegistry.getInstance().trackSchema(mockEventErrorSchema)
+SchemaRegistry.getInstance().trackSchema(fakeEventErrorSchema)
 
-export default mockEventErrorSchema
+export default fakeEventErrorSchema
