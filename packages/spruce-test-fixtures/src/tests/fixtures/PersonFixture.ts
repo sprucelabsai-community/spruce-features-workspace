@@ -2,8 +2,8 @@ import { MercuryClient } from '@sprucelabs/mercury-client'
 import { formatPhoneNumber, SchemaError } from '@sprucelabs/schema'
 import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
 import dotenv from 'dotenv'
-import { uniqueNamesGenerator, starWars } from 'unique-names-generator'
 import { TestConnectFactory } from '../../types/fixture.types'
+import generateRandomName from './generateRandomName'
 
 dotenv.config()
 
@@ -52,14 +52,7 @@ export default class PersonFixture {
 	}
 
 	public async generateRandomName(client: MercuryClient) {
-		const randomName = uniqueNamesGenerator({
-			dictionaries: [starWars],
-		}).split(' ')
-
-		const values = {
-			firstName: randomName[0],
-			lastName: randomName[1] ?? null,
-		}
+		const values = generateRandomName()
 
 		const [{ person }] = await client.emitAndFlattenResponses(
 			'update-person::v2020_12_25',

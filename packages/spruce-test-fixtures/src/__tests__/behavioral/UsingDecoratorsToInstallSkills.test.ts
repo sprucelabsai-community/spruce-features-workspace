@@ -12,7 +12,7 @@ export default class UsingDecoratorsToInstallSkills extends AbstractSpruceFixtur
 
 	protected static async beforeEach() {
 		await super.beforeEach()
-		this.skill = await this.Fixture('skill').seedDemoSkill()
+		this.skill = await this.skills.seedDemoSkill()
 	}
 
 	@test()

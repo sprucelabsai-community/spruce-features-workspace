@@ -110,6 +110,27 @@ export declare namespace SpruceErrors.SpruceTestFixtures {
 export declare namespace SpruceErrors.SpruceTestFixtures {
 
 	
+	export interface InvalidTarget {
+		
+	}
+
+	export interface InvalidTargetSchema extends SpruceSchema.Schema {
+		id: 'invalidTarget',
+		namespace: 'SpruceTestFixtures',
+		name: 'invalid target',
+		    fields: {
+		    }
+	}
+
+	export type InvalidTargetEntity = SchemaEntity<SpruceErrors.SpruceTestFixtures.InvalidTargetSchema>
+
+}
+
+
+
+export declare namespace SpruceErrors.SpruceTestFixtures {
+
+	
 	export interface InvalidFixture {
 		
 			

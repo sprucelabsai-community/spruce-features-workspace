@@ -12,12 +12,13 @@ import login from './login'
 type EMPLOYED = typeof EMPLOYED_BASE_ROLES
 type GUEST = typeof GUEST_BASE_ROLES
 
-type SeedTarget =
+export type CoreSeedTargets =
 	| 'organizations'
 	| 'locations'
 	| `${EMPLOYED[number]['slug']}s`
 	| `${GUEST[number]['slug']}s`
-	| StoreName
+
+type SeedTarget = CoreSeedTargets | StoreName
 
 export default function seed(
 	storeName: SeedTarget,

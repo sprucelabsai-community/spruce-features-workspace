@@ -34,6 +34,10 @@ export default class SpruceError extends BaseSpruceError<ErrorOptions> {
 				message = `A Faked response threw an error! Probably time to try/catch and render an alert()!`
 				break
 
+			case 'INVALID_TARGET':
+				message = 'A invalid target just happened!'
+				break
+
 			default:
 				message = super.friendlyMessage()
 		}
