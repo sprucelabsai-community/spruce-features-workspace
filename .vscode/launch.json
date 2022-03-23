@@ -11,7 +11,8 @@
 			"port": 5200,
 			"restart": true,
 			"timeout": 10000,
-			"autoAttachChildProcesses": true
+			"autoAttachChildProcesses": true,
+			"attachExistingChildren": true
 		},
 		{
 			"type": "node",

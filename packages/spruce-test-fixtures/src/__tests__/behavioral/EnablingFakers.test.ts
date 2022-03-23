@@ -1,16 +1,24 @@
 import { generateId } from '@sprucelabs/data-stores'
 import { MercuryClient, MercuryTestClient } from '@sprucelabs/mercury-client'
 import { SpruceSchemas } from '@sprucelabs/mercury-types'
+import { BASE_ROLES } from '@sprucelabs/spruce-core-schemas'
 import { assert, test } from '@sprucelabs/test'
 import { errorAssert } from '@sprucelabs/test-utils'
 import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
-import { DEMO_NUMBER, DEMO_NUMBER_HIRING } from '../../tests/constants'
+import {
+	DEMO_NUMBER,
+	DEMO_NUMBER_DECORATORS,
+	DEMO_NUMBER_HIRING,
+} from '../../tests/constants'
 import fake from '../../tests/decorators/fake'
 import { CoreSeedTargets } from '../../tests/decorators/seed'
 
 export default class EnablingFakersTest extends AbstractSpruceFixtureTest {
 	private static client: MercuryClient
 	private static fakedOwner: SpruceSchemas.Spruce.v2020_07_22.Person
+	private static fakedPeople: SpruceSchemas.Spruce.v2020_07_22.Person[]
+	// private static fakedTeammates: SpruceSchemas.Spruce.v2020_07_22.Person[]
+	private static fakedRoles: SpruceSchemas.Spruce.v2020_07_22.Role[]
 	private static fakedOrganizations: SpruceSchemas.Spruce.v2020_07_22.Organization[]
 	private static fakedLocations: SpruceSchemas.Spruce.v2020_07_22.Location[]
 
@@ -205,6 +213,101 @@ export default class EnablingFakersTest extends AbstractSpruceFixtureTest {
 		assert.isEqualDeep(location, this.fakedLocations[0])
 	}
 
+	@test()
+	protected static async fakingLoginsFakesRoles() {
+		await this.fakeLogin()
+		assert.isLength(this.fakedRoles, 0)
+	}
+
+	@test()
+	protected static async fakingOrgFakesRoles() {
+		await this.fakeLoginAndRecords('organizations', 2)
+
+		const expected = BASE_ROLES
+
+		for (const { slug, name } of expected) {
+			assert.doesInclude(this.fakedRoles, {
+				base: slug,
+				name: `Faked ${name}`,
+				organizationId: this.fakedOrganizations[0].id,
+			})
+		}
+	}
+
+	@test()
+	protected static async listRolesReturnsFakedRoles() {
+		const roles = await this.fakeLoginAndListRoles(0)
+		assert.isEqualDeep(roles, this.fakedRoles)
+	}
+
+	@test()
+	protected static async listRolesHonorsOrgId() {
+		const roles = await this.fakeLoginAndListRoles(1)
+		assert.isEqualDeep(roles, [])
+	}
+
+	@test('can fake 1 teammate', 'teammates', 1)
+	@test('can fake 2 teammate', 'teammates', 2)
+	protected static async canSyncTeammates(
+		target: CoreSeedTargets,
+		total: number
+	) {
+		await this.fakeLoginAndRecords('locations', 1)
+		await this.fakeRecords(target, total)
+
+		const fakedProp =
+			//@ts-ignore
+			this[`faked${target[0].toUpperCase() + target.substring(1)}`]
+
+		assert.isLength(fakedProp, total)
+
+		const people = await this.people.listPeople({
+			locationId: this.fakedLocations[0]?.id,
+			roleBases: [target],
+			organizationId: this.fakedOrganizations[0]?.id,
+		})
+
+		assert.isEqualDeep(fakedProp, people)
+	}
+
+	@test('login with number 1', DEMO_NUMBER_DECORATORS)
+	@test('login with number 2', DEMO_NUMBER)
+	protected static async canLoginAsPersonAndGetThemBack(phone: string) {
+		await this.fakeLogin()
+		await this.client.emitAndFlattenResponses('request-pin::v2020_12_25', {
+			payload: {
+				phone,
+			},
+		})
+
+		const [{ person }] = await this.client.emitAndFlattenResponses(
+			'confirm-pin::v2020_12_25',
+			{
+				payload: {
+					challenge: '1234',
+					pin: '234',
+				},
+			}
+		)
+
+		assert.isEqual(person.phone, phone)
+		assert.isEqualDeep(this.fakedPeople, [this.fakedOwner, person])
+	}
+
+	private static async fakeLoginAndListRoles(orgIdx: number) {
+		await this.fakeLoginAndRecords('organizations', 2)
+		const [{ roles }] = await this.client.emitAndFlattenResponses(
+			'list-roles::v2020_12_25',
+			{
+				target: {
+					organizationId: this.fakedOrganizations[orgIdx].id,
+				},
+			}
+		)
+
+		return roles
+	}
+
 	private static sortRecords(
 		records: SpruceSchemas.Spruce.v2020_07_22.Organization[]
 	) {
@@ -231,12 +334,13 @@ export default class EnablingFakersTest extends AbstractSpruceFixtureTest {
 		count: number
 	) {
 		await this.fakeLogin()
-		await EnablingFakersTest.fakeRecords(target, count)
+		await this.fakeRecords(target, count)
 	}
 
 	private static async fakeRecords(target: CoreSeedTargets, count: number) {
 		const decorator = fake(target, count)
 		await decorator(this as any)
+		return decorator
 	}
 
 	private static async fakeLoginAndListOrgs(

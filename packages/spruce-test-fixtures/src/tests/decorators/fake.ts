@@ -2,6 +2,7 @@ import { generateId } from '@sprucelabs/data-stores'
 import { MercuryTestClient } from '@sprucelabs/mercury-client'
 import { SpruceSchemas } from '@sprucelabs/mercury-types'
 import { assertOptions, isValidNumber } from '@sprucelabs/schema'
+import { BASE_ROLES } from '@sprucelabs/spruce-core-schemas'
 import { namesUtil } from '@sprucelabs/spruce-skill-utils'
 import { assert } from '@sprucelabs/test'
 import SpruceError from '../../errors/SpruceError'
@@ -13,10 +14,15 @@ import { CoreSeedTargets } from './seed'
 type Person = SpruceSchemas.Spruce.v2020_07_22.Person
 type Organization = SpruceSchemas.Spruce.v2020_07_22.Organization
 type Location = SpruceSchemas.Spruce.v2020_07_22.Location
+type Role = SpruceSchemas.Spruce.v2020_07_22.Role
 
 interface Class {
 	fakedOwner?: Person
+	fakedOwners?: Person[]
+	fakedTeammates?: Person[]
 	fakedOrganizations: Organization[]
+	fakedRoles: Role[]
+	fakedPeople: Person[]
 	fakedLocations: Location[]
 	__fakerSetup?: boolean
 	beforeEach?: () => Promise<void>
@@ -28,6 +34,7 @@ const strategies: Partial<
 > = {
 	organizations: seedOrganizations,
 	locations: seedLocations,
+	teammates: seedTeammates,
 }
 
 export default function fake(target: CoreSeedTargets, total: number) {
@@ -39,16 +46,11 @@ export default function fake(target: CoreSeedTargets, total: number) {
 			`You gotta @faker.login(...) before you can create fake '${target}'!`
 		)
 
-		setupCleanup(Class)
+		if (!isClassSetup(Class)) {
+			setupCleanup(Class)
+		}
 
-		await Promise.all([
-			fakeListLocations(Class),
-			fakeDeleteOrganization(Class),
-			fakeCreateLocation(Class),
-			fakeCreateOrganization(Class),
-			fakeGetOrganization(Class),
-			fakeListOrganization(Class),
-		])
+		await setupFakes(Class)
 
 		await strategies[target]?.(Class, total)
 	}
@@ -64,24 +66,97 @@ fake.login = (phone: string) => {
 	MercuryTestClient.setShouldRequireLocalListeners(true)
 
 	return async function (Class: Class) {
-		const person = generatePersonValues(phone, Class)
+		resetFakes(Class)
 
-		await fakeWhoAmI(person)
-		await fakeGetPerson(person)
+		const owner = generatePersonValues(phone, Class)
 
-		await eventFaker.on('request-pin::v2020_12_25', () => {
+		Class.fakedPeople.push(owner)
+		Class.fakedOwners = [owner]
+		Class.fakedOwner = owner
+
+		await fakeWhoAmI(owner)
+		await fakeGetPerson(owner)
+
+		let createdPerson = {
+			id: generateId(),
+			casualName: 'friend',
+			dateCreated: new Date().getTime(),
+			phone: '',
+		}
+
+		await eventFaker.on('request-pin::v2020_12_25', ({ payload }) => {
+			createdPerson.phone = payload.phone
+
 			return {
 				challenge: '1234',
 			}
 		})
 
 		await eventFaker.on('confirm-pin::v2020_12_25', () => {
+			Class.fakedPeople.push(createdPerson)
+
 			return {
 				token: '1234',
-				person,
+				person: {
+					...createdPerson,
+				},
 			}
 		})
 	}
+}
+
+async function setupFakes(Class: Class) {
+	await Promise.all([
+		fakeAddRole(Class),
+		fakeListRoles(Class),
+		fakeListPeople(Class),
+		fakeUpdatePerson(Class),
+		fakeListLocations(Class),
+		fakeDeleteOrganization(Class),
+		fakeCreateLocation(Class),
+		fakeCreateOrganization(Class),
+		fakeGetOrganization(Class),
+		fakeListOrganization(Class),
+	])
+}
+
+async function fakeAddRole(Class: Class) {
+	await eventFaker.on('add-role::v2020_12_25', ({ target, payload }) => {
+		Class.fakedTeammates?.push(Class.fakedOwner)
+
+		return {}
+	})
+}
+
+async function fakeUpdatePerson(Class: Class) {
+	await eventFaker.on('update-person::v2020_12_25', ({ target, payload }) => {
+		return {
+			person: Class.fakedOwner,
+		}
+	})
+}
+
+function isClassSetup(Class: Class) {
+	return Class.__fakerSetup
+}
+
+async function fakeListRoles(Class: Class) {
+	await eventFaker.on('list-roles::v2020_12_25', ({ target }) => {
+		return {
+			roles: Class.fakedRoles.filter(
+				(r) => r.organizationId === target?.organizationId
+			),
+		}
+	})
+}
+
+async function fakeListPeople(Class: Class) {
+	await eventFaker.on('list-people::v2020_12_25', ({ payload }) => {
+		const base = payload?.roleBases[0]
+		return {
+			people: base === 'owner' ? [Class.fakedOwners] : Class.fakedTeammates,
+		}
+	})
 }
 
 async function fakeListLocations(Class: Class) {
@@ -129,6 +204,8 @@ async function fakeCreateOrganization(Class: Class) {
 
 		Class.fakedOrganizations.unshift(organization)
 
+		seedRoles(Class, organization.id)
+
 		return {
 			organization,
 		}
@@ -167,12 +244,11 @@ function generatePersonValues(phone: string, Class: Class) {
 		...names,
 	}
 
-	Class.fakedOwner = person
 	return person
 }
 
 function setupCleanup(Class: Class) {
-	if (!Class.__fakerSetup) {
+	if (!isClassSetup(Class)) {
 		Class.__fakerSetup = true
 
 		resetFakes(Class)
@@ -189,6 +265,10 @@ function setupCleanup(Class: Class) {
 function resetFakes(Class: Class) {
 	Class.fakedOrganizations = []
 	Class.fakedLocations = []
+	Class.fakedTeammates = []
+	Class.fakedOwners = []
+	Class.fakedRoles = []
+	Class.fakedPeople = []
 }
 
 async function fakeGetOrganization(Class: Class) {
@@ -233,9 +313,29 @@ async function seedOrganizations(Class: Class, total: number) {
 	})
 }
 
+function seedRoles(Class: Class, orgId: string) {
+	Class.fakedRoles = BASE_ROLES.map((r) => ({
+		id: generateId(),
+		name: `Faked ${r.name}`,
+		base: r.slug,
+		dateCreated: new Date().getTime(),
+		organizationId: orgId,
+	}))
+}
+
 async function seedLocations(Class: Class, total: number) {
 	await Class.seeder.seedAccount({
 		totalLocations: total,
+	})
+}
+
+async function seedTeammates(Class: Class, total: number) {
+	if (Class.fakedLocations.length === 0) {
+		assert.fail(`You gotta @fake('locations', 1) before seeding teammates!`)
+	}
+
+	await Class.seeder.seedTeammates({
+		totalTeammates: total,
 	})
 }
 
