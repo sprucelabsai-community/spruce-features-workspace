@@ -23,9 +23,8 @@ interface Class {
 	seeder: SeedFixture
 }
 
-const strategies: Record<
-	CoreSeedTargets,
-	(Class: Class, total: number) => Promise<void> | void
+const strategies: Partial<
+	Record<CoreSeedTargets, (Class: Class, total: number) => Promise<void> | void>
 > = {
 	organizations: seedOrganizations,
 	locations: seedLocations,
@@ -43,6 +42,7 @@ export default function fake(target: CoreSeedTargets, total: number) {
 		setupCleanup(Class)
 
 		await Promise.all([
+			fakeListLocations(Class),
 			fakeDeleteOrganization(Class),
 			fakeCreateLocation(Class),
 			fakeCreateOrganization(Class),
@@ -50,7 +50,7 @@ export default function fake(target: CoreSeedTargets, total: number) {
 			fakeListOrganization(Class),
 		])
 
-		await strategies[target](Class, total)
+		await strategies[target]?.(Class, total)
 	}
 }
 
@@ -82,6 +82,14 @@ fake.login = (phone: string) => {
 			}
 		})
 	}
+}
+
+async function fakeListLocations(Class: Class) {
+	await eventFaker.on('list-locations::v2020_12_25', ({ payload }) => {
+		return {
+			locations: applyPaging(Class.fakedLocations, payload),
+		}
+	})
 }
 
 async function fakeDeleteOrganization(Class: Class) {
@@ -205,16 +213,18 @@ async function fakeListOrganization(Class: Class) {
 	await eventFaker.on('list-organizations::v2020_12_25', (targetAndPayload) => {
 		const { payload } = targetAndPayload ?? {}
 
-		let orgs = [...Class.fakedOrganizations]
-
-		if (payload?.paging?.pageSize) {
-			orgs = orgs.slice(0, payload.paging.pageSize)
-		}
-
 		return {
-			organizations: orgs,
+			organizations: applyPaging(Class.fakedOrganizations, payload),
 		}
 	})
+}
+
+function applyPaging<T>(records: T[], payload: any): T[] {
+	let copy = [...records]
+	if (payload?.paging?.pageSize) {
+		copy = copy.slice(0, payload.paging.pageSize)
+	}
+	return copy as any[]
 }
 
 async function seedOrganizations(Class: Class, total: number) {

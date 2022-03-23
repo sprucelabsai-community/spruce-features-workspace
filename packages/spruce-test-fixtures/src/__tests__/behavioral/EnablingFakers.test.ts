@@ -197,6 +197,14 @@ export default class EnablingFakersTest extends AbstractSpruceFixtureTest {
 		assert.isEqualDeep(this.fakedLocations, expected)
 	}
 
+	@test()
+	protected static async canGetLocationFromScope() {
+		await this.fakeLoginAndRecords('locations', 10)
+
+		const location = await this.views.getScope().getCurrentLocation()
+		assert.isEqualDeep(location, this.fakedLocations[0])
+	}
+
 	private static sortRecords(
 		records: SpruceSchemas.Spruce.v2020_07_22.Organization[]
 	) {

@@ -32,6 +32,7 @@ export default class TestScope implements Scope {
 	}
 
 	public async getCurrentLocation() {
+		debugger
 		if (this.currentLocationId === null) {
 			return null
 		} else if (this.currentLocationId) {
