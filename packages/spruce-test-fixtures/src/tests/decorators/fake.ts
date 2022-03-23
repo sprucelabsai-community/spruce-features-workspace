@@ -1,21 +1,56 @@
 import { generateId } from '@sprucelabs/data-stores'
 import { MercuryTestClient } from '@sprucelabs/mercury-client'
+import { SpruceSchemas } from '@sprucelabs/mercury-types'
 import { assertOptions, isValidNumber } from '@sprucelabs/schema'
+import { namesUtil } from '@sprucelabs/spruce-skill-utils'
 import { assert } from '@sprucelabs/test'
 import SpruceError from '../../errors/SpruceError'
 import eventFaker from '../eventFaker'
 import generateRandomName from '../fixtures/generateRandomName'
+import SeedFixture from '../fixtures/SeedFixture'
 import { CoreSeedTargets } from './seed'
 
-export default function fake(name: CoreSeedTargets, total: number) {
-	assertOptions({ name, total }, ['name', 'total'])
+type Person = SpruceSchemas.Spruce.v2020_07_22.Person
+type Organization = SpruceSchemas.Spruce.v2020_07_22.Organization
+type Location = SpruceSchemas.Spruce.v2020_07_22.Location
 
-	return async function (Class: any) {
+interface Class {
+	fakedOwner?: Person
+	fakedOrganizations: Organization[]
+	fakedLocations: Location[]
+	__fakerSetup?: boolean
+	beforeEach?: () => Promise<void>
+	seeder: SeedFixture
+}
+
+const strategies: Record<
+	CoreSeedTargets,
+	(Class: Class, total: number) => Promise<void> | void
+> = {
+	organizations: seedOrganizations,
+	locations: seedLocations,
+}
+
+export default function fake(target: CoreSeedTargets, total: number) {
+	assertOptions({ target, total }, ['target', 'total'])
+
+	return async function (Class: Class) {
 		assert.isTruthy(
 			Class.fakedOwner,
-			`You gotta @faker.login(...) before you can create fake '${name}'!`
+			`You gotta @faker.login(...) before you can create fake '${target}'!`
 		)
-		Class.fakedOrganizations = [{}]
+
+		setupCleanup(Class)
+
+		await Promise.all([
+			fakeDeleteOrganization(Class),
+			fakeCreateLocation(Class),
+			fakeCreateOrganization(Class),
+			fakeGetOrganization(Class),
+			fakeListOrganization(Class),
+		])
+
+		await strategies[target](Class, total)
 	}
 }
 
@@ -28,40 +63,170 @@ fake.login = (phone: string) => {
 
 	MercuryTestClient.setShouldRequireLocalListeners(true)
 
-	return async function (Class: any) {
-		const names = generateRandomName()
-		const person = {
-			phone,
-			dateCreated: new Date().getTime(),
-			id: generateId(),
-			casualName: `${names.firstName} ${
-				names.lastName ? names.lastName[0] + '.' : ''
-			}`,
-			...names,
-		}
-
-		Class.fakedOwner = person
+	return async function (Class: Class) {
+		const person = generatePersonValues(phone, Class)
 
 		await fakeWhoAmI(person)
+		await fakeGetPerson(person)
 
-		await eventFaker.on('get-person::v2020_12_25', ({ target }) => {
-			assert.isTruthy(
-				target?.personId,
-				`@fake only supports 'get-person::v2020_12_25' when passing an id. To fake more, use 'eventFaker.on(...)'.`
-			)
-
-			if (target.personId !== person.id) {
-				throw new SpruceError({
-					code: 'INVALID_TARGET',
-					friendlyMessage: `I could not find the person you were looking for.`,
-				})
-			}
-
+		await eventFaker.on('request-pin::v2020_12_25', () => {
 			return {
+				challenge: '1234',
+			}
+		})
+
+		await eventFaker.on('confirm-pin::v2020_12_25', () => {
+			return {
+				token: '1234',
 				person,
 			}
 		})
 	}
+}
+
+async function fakeDeleteOrganization(Class: Class) {
+	await eventFaker.on('delete-organization::v2020_12_25', () => {
+		return {
+			organization: Class.fakedOrganizations[0],
+		}
+	})
+}
+
+async function fakeCreateLocation(Class: Class) {
+	await eventFaker.on('create-location::v2020_12_25', ({ payload }) => {
+		const location = {
+			id: generateId(),
+			dateCreated: new Date().getTime(),
+			organizationId: '234',
+			...payload,
+			slug: payload.slug ?? namesUtil.toKebab(payload.name),
+		}
+
+		Class.fakedLocations.unshift(location)
+
+		return {
+			location,
+		}
+	})
+}
+
+async function fakeCreateOrganization(Class: Class) {
+	await eventFaker.on('create-organization::v2020_12_25', ({ payload }) => {
+		const organization = {
+			id: generateId(),
+			dateCreated: new Date().getTime(),
+			...payload,
+			slug: payload.slug ?? namesUtil.toKebab(payload.name),
+		}
+
+		Class.fakedOrganizations.unshift(organization)
+
+		return {
+			organization,
+		}
+	})
+}
+
+async function fakeGetPerson(person: Person) {
+	await eventFaker.on('get-person::v2020_12_25', ({ target }) => {
+		assert.isTruthy(
+			target?.personId,
+			`@fake only supports 'get-person::v2020_12_25' when passing an id. To fake more, use 'eventFaker.on(...)'.`
+		)
+
+		if (target.personId !== person.id) {
+			throw new SpruceError({
+				code: 'INVALID_TARGET',
+				friendlyMessage: `I could not find the person you were looking for.`,
+			})
+		}
+
+		return {
+			person,
+		}
+	})
+}
+
+function generatePersonValues(phone: string, Class: Class) {
+	const names = generateRandomName()
+	const person = {
+		phone,
+		dateCreated: new Date().getTime(),
+		id: generateId(),
+		casualName: `${names.firstName} ${
+			names.lastName ? names.lastName[0] + '.' : ''
+		}`,
+		...names,
+	}
+
+	Class.fakedOwner = person
+	return person
+}
+
+function setupCleanup(Class: Class) {
+	if (!Class.__fakerSetup) {
+		Class.__fakerSetup = true
+
+		resetFakes(Class)
+
+		const old = Class.beforeEach?.bind(Class)
+
+		Class.beforeEach = async () => {
+			resetFakes(Class)
+			return old?.()
+		}
+	}
+}
+
+function resetFakes(Class: Class) {
+	Class.fakedOrganizations = []
+	Class.fakedLocations = []
+}
+
+async function fakeGetOrganization(Class: Class) {
+	await eventFaker.on('get-organization::v2020_12_25', ({ target }) => {
+		const match = Class.fakedOrganizations.find(
+			(o: any) => o.id === target.organizationId
+		)
+
+		if (!match) {
+			throw new SpruceError({
+				code: 'INVALID_TARGET',
+				friendlyMessage: `I could not find the organization you were looking for.`,
+			})
+		}
+		return {
+			organization: match,
+		}
+	})
+}
+
+async function fakeListOrganization(Class: Class) {
+	await eventFaker.on('list-organizations::v2020_12_25', (targetAndPayload) => {
+		const { payload } = targetAndPayload ?? {}
+
+		let orgs = [...Class.fakedOrganizations]
+
+		if (payload?.paging?.pageSize) {
+			orgs = orgs.slice(0, payload.paging.pageSize)
+		}
+
+		return {
+			organizations: orgs,
+		}
+	})
+}
+
+async function seedOrganizations(Class: Class, total: number) {
+	await Class.seeder.seedOrganizations({
+		totalOrganizations: total,
+	})
+}
+
+async function seedLocations(Class: Class, total: number) {
+	await Class.seeder.seedAccount({
+		totalLocations: total,
+	})
 }
 
 async function fakeWhoAmI(person: {
