@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [30.1.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v30.0.16...v30.1.0) (2022-03-24)
+
+
+### Features
+
+* new [@faker](https://github.com/faker) decorators to make testing FASTER! ([364ab23](https://github.com/sprucelabsai/spruce-features-workspace/commit/364ab23))
+
+
+
+
+
 ## [30.0.16](https://github.com/sprucelabsai/spruce-features-workspace/compare/v30.0.15...v30.0.16) (2022-03-23)
 
 **Note:** Version bump only for package spruce-features-workspace
