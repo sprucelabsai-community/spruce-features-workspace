@@ -9,7 +9,7 @@ import SpruceError from '../../errors/SpruceError'
 import eventFaker from '../eventFaker'
 import generateRandomName from '../fixtures/generateRandomName'
 import SeedFixture from '../fixtures/SeedFixture'
-import { CoreSeedTargets } from './seed'
+import { CoreSeedTarget } from './seed'
 
 type Person = SpruceSchemas.Spruce.v2020_07_22.Person
 type Organization = SpruceSchemas.Spruce.v2020_07_22.Organization
@@ -20,39 +20,64 @@ interface Class {
 	fakedOwner?: Person
 	fakedOwners?: Person[]
 	fakedTeammates?: Person[]
+	fakedManagers?: Person[]
+	fakedGuests: Person[]
+	fakedPeople: Person[]
+	fakedGroupManagers: Person[]
 	fakedOrganizations: Organization[]
 	fakedRoles: Role[]
-	fakedPeople: Person[]
 	fakedLocations: Location[]
+	cwd: string
 	__fakerSetup?: boolean
 	beforeEach?: () => Promise<void>
+	beforeAll?: () => Promise<void>
 	seeder: SeedFixture
 }
 
 const strategies: Partial<
-	Record<CoreSeedTargets, (Class: Class, total: number) => Promise<void> | void>
+	Record<CoreSeedTarget, (Class: Class, total: number) => Promise<void> | void>
 > = {
 	organizations: seedOrganizations,
 	locations: seedLocations,
-	teammates: seedTeammates,
+	teammates: buildSeeder('teammates'),
+	managers: buildSeeder('managers'),
+	guests: buildSeeder('guests'),
+	groupManagers: buildSeeder('groupManagers'),
+	owners: buildSeeder('owners'),
 }
 
-export default function fake(target: CoreSeedTargets, total: number) {
+function resetFakes(Class: Class) {
+	Class.fakedOrganizations = []
+	Class.fakedLocations = []
+	Class.fakedTeammates = []
+	Class.fakedManagers = []
+	Class.fakedOwners = []
+	Class.fakedGroupManagers = []
+	Class.fakedGuests = []
+	Class.fakedRoles = []
+	Class.fakedPeople = []
+}
+
+export default function fake(target: CoreSeedTarget, total: number) {
 	assertOptions({ target, total }, ['target', 'total'])
 
-	return async function (Class: Class) {
-		assert.isTruthy(
-			Class.fakedOwner,
-			`You gotta @faker.login(...) before you can create fake '${target}'!`
-		)
+	return function (TestClass: any, _key: string, descriptor: any) {
+		const Class = TestClass as Class
+		const bound = descriptor?.value?.bind?.(Class)
 
-		if (!isClassSetup(Class)) {
-			setupCleanup(Class)
+		descriptor.value = async (...args: any[]) => {
+			assert.isTruthy(
+				Class.fakedOwner,
+				`You gotta @faker.login(...) before you can create fake '${target}'!`
+			)
+
+			const strategy = strategies[target]
+
+			assert.isTruthy(strategy, `Faking ${target} is not ready yet!`)
+
+			await strategy?.(Class, total)
+			await bound?.(...args)
 		}
-
-		await setupFakes(Class)
-
-		await strategies[target]?.(Class, total)
 	}
 }
 
@@ -65,44 +90,84 @@ fake.login = (phone: string) => {
 
 	MercuryTestClient.setShouldRequireLocalListeners(true)
 
-	return async function (Class: Class) {
-		resetFakes(Class)
+	return function (TestClass: any, shouldPassHookCalls = true) {
+		const Class = TestClass as Class
 
-		const owner = generatePersonValues(phone, Class)
-
-		Class.fakedPeople.push(owner)
-		Class.fakedOwners = [owner]
+		const beforeEach = Class.beforeEach?.bind(Class)
+		const owner = generatePersonValues(phone)
 		Class.fakedOwner = owner
 
-		await fakeWhoAmI(owner)
-		await fakeGetPerson(owner)
+		Class.beforeEach = async () => {
+			resetFakes(Class)
 
+			Class.fakedPeople.push(owner)
+			Class.fakedOwners = [owner]
+
+			await fakeLoginEvents(owner, Class)
+			await setupFakes(Class)
+
+			shouldPassHookCalls && (await beforeEach?.())
+
+			await fakeLoginEvents(owner, Class)
+			await setupFakes(Class)
+		}
+	}
+}
+
+async function fakeLoginEvents(
+	owner: {
+		firstName: string
+		lastName: string
+		phone: string
+		dateCreated: number
+		id: string
+		casualName: string
+	},
+	Class: Class
+) {
+	await fakeWhoAmI(owner)
+	await fakeGetPerson(owner)
+
+	await eventFaker.on('request-pin::v2020_12_25', ({ payload }) => {
 		let createdPerson = {
 			id: generateId(),
 			casualName: 'friend',
 			dateCreated: new Date().getTime(),
-			phone: '',
+			phone: payload.phone,
+			_challenge: generateId(),
 		}
 
-		await eventFaker.on('request-pin::v2020_12_25', ({ payload }) => {
-			createdPerson.phone = payload.phone
+		Class.fakedPeople.push(createdPerson)
 
-			return {
-				challenge: '1234',
-			}
-		})
+		return {
+			challenge: createdPerson._challenge,
+		}
+	})
 
-		await eventFaker.on('confirm-pin::v2020_12_25', () => {
-			Class.fakedPeople.push(createdPerson)
+	await eventFaker.on('confirm-pin::v2020_12_25', ({ payload }) => {
+		const idx = Class.fakedPeople.findIndex(
+			//@ts-ignore
+			(p) => p._challenge === payload.challenge
+		)
 
-			return {
-				token: '1234',
-				person: {
-					...createdPerson,
-				},
-			}
-		})
-	}
+		const person = Class.fakedPeople[idx]
+
+		if (!person) {
+			throw new SpruceError({
+				code: 'INVALID_PIN' as any,
+			})
+		}
+
+		//@ts-ignore
+		delete person._challenge
+
+		return {
+			token: '1234',
+			person: {
+				...person,
+			},
+		}
+	})
 }
 
 async function setupFakes(Class: Class) {
@@ -121,23 +186,40 @@ async function setupFakes(Class: Class) {
 }
 
 async function fakeAddRole(Class: Class) {
-	await eventFaker.on('add-role::v2020_12_25', ({ target, payload }) => {
-		Class.fakedTeammates?.push(Class.fakedOwner)
+	await eventFaker.on('add-role::v2020_12_25', ({ payload }) => {
+		const person = Class.fakedPeople.find((p) => p.id === payload.personId)!
+		const role = Class.fakedRoles.find((r) => r.id === payload.roleId)!
+
+		//@ts-ignore
+		const key = `${fakeTargetToPropName(role.base!)}s`
+
+		//@ts-ignore
+		assert.isTruthy(Class[key], `Could not find property ${key}`)
+
+		//@ts-ignore
+		Class[key]!.push(person)
 
 		return {}
 	})
 }
 
 async function fakeUpdatePerson(Class: Class) {
-	await eventFaker.on('update-person::v2020_12_25', ({ target, payload }) => {
-		return {
-			person: Class.fakedOwner,
-		}
-	})
-}
+	await eventFaker.on(
+		'update-person::v2020_12_25',
+		({ target, source, payload }) => {
+			const person = Class.fakedPeople.find(
+				(p) => p.id === source?.personId || p.id === target?.personId
+			)!
 
-function isClassSetup(Class: Class) {
-	return Class.__fakerSetup
+			person.firstName = payload?.firstName
+			person.lastName = payload?.lastName
+			person.casualName = buildCasualName(person)
+
+			return {
+				person,
+			}
+		}
+	)
 }
 
 async function fakeListRoles(Class: Class) {
@@ -152,17 +234,21 @@ async function fakeListRoles(Class: Class) {
 
 async function fakeListPeople(Class: Class) {
 	await eventFaker.on('list-people::v2020_12_25', ({ payload }) => {
-		const base = payload?.roleBases[0]
+		const base = payload?.roleBases?.[0]
+
 		return {
-			people: base === 'owner' ? [Class.fakedOwners] : Class.fakedTeammates,
+			//@ts-ignore
+			people: Class[fakeTargetToPropName(base + 's')],
 		}
 	})
 }
 
 async function fakeListLocations(Class: Class) {
-	await eventFaker.on('list-locations::v2020_12_25', ({ payload }) => {
+	await eventFaker.on('list-locations::v2020_12_25', ({ target, payload }) => {
 		return {
-			locations: applyPaging(Class.fakedLocations, payload),
+			locations: applyPaging(Class.fakedLocations, payload).filter(
+				(l) => l.organizationId === target.organizationId
+			),
 		}
 	})
 }
@@ -176,11 +262,11 @@ async function fakeDeleteOrganization(Class: Class) {
 }
 
 async function fakeCreateLocation(Class: Class) {
-	await eventFaker.on('create-location::v2020_12_25', ({ payload }) => {
+	await eventFaker.on('create-location::v2020_12_25', ({ target, payload }) => {
 		const location = {
 			id: generateId(),
 			dateCreated: new Date().getTime(),
-			organizationId: '234',
+			organizationId: target.organizationId,
 			...payload,
 			slug: payload.slug ?? namesUtil.toKebab(payload.name),
 		}
@@ -232,43 +318,26 @@ async function fakeGetPerson(person: Person) {
 	})
 }
 
-function generatePersonValues(phone: string, Class: Class) {
+function generatePersonValues(phone: string) {
 	const names = generateRandomName()
 	const person = {
 		phone,
 		dateCreated: new Date().getTime(),
 		id: generateId(),
-		casualName: `${names.firstName} ${
-			names.lastName ? names.lastName[0] + '.' : ''
-		}`,
+		casualName: buildCasualName(names),
 		...names,
 	}
 
 	return person
 }
 
-function setupCleanup(Class: Class) {
-	if (!isClassSetup(Class)) {
-		Class.__fakerSetup = true
-
-		resetFakes(Class)
-
-		const old = Class.beforeEach?.bind(Class)
-
-		Class.beforeEach = async () => {
-			resetFakes(Class)
-			return old?.()
-		}
-	}
-}
-
-function resetFakes(Class: Class) {
-	Class.fakedOrganizations = []
-	Class.fakedLocations = []
-	Class.fakedTeammates = []
-	Class.fakedOwners = []
-	Class.fakedRoles = []
-	Class.fakedPeople = []
+function buildCasualName(names: {
+	firstName?: string | null
+	lastName?: string | null
+}) {
+	return `${names.firstName} ${
+		names.lastName ? names.lastName[0] + '.' : 'friend'
+	}`
 }
 
 async function fakeGetOrganization(Class: Class) {
@@ -329,14 +398,17 @@ async function seedLocations(Class: Class, total: number) {
 	})
 }
 
-async function seedTeammates(Class: Class, total: number) {
-	if (Class.fakedLocations.length === 0) {
-		assert.fail(`You gotta @fake('locations', 1) before seeding teammates!`)
-	}
+function buildSeeder(target: CoreSeedTarget) {
+	return async function seed(Class: Class, total: number) {
+		if (Class.fakedLocations.length === 0) {
+			assert.fail(`You gotta @fake('locations', 1) before seeding teammates!`)
+		}
 
-	await Class.seeder.seedTeammates({
-		totalTeammates: total,
-	})
+		//@ts-ignore
+		await Class.seeder[`seed${upperCaseFirst(target)}`]({
+			[`total${upperCaseFirst(target)}`]: total,
+		})
+	}
 }
 
 async function fakeWhoAmI(person: {
@@ -355,4 +427,16 @@ async function fakeWhoAmI(person: {
 			type: 'authenticated' as const,
 		}
 	})
+}
+
+export function fakeTargetToPropName(target: CoreSeedTarget) {
+	return `faked${upperCaseFirst(target)}`
+}
+
+function upperCaseFirst(target: string) {
+	return target[0].toUpperCase() + target.substring(1)
+}
+
+export function pluralToSingular(target: string): string {
+	return target.substring(0, target.length - 1)
 }

@@ -84,13 +84,9 @@ export default class RoleFixture {
 			base: roleBase,
 		})
 
-		debugger
-
 		if (!match) {
 			throw Error(`Could not find role based on '${roleBase}'.`)
 		}
-
-		debugger
 
 		const roleId = match.id
 
@@ -158,11 +154,8 @@ export default class RoleFixture {
 		base: string
 		phone?: string
 	}) {
-		debugger
 		const roles = await this.listRoles(options)
 		const role = roles.find((role) => role.base === options.base)
-
-		debugger
 
 		assert.isTruthy(role, `I could not find a role based on ${options.base}!`)
 

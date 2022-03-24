@@ -44,7 +44,7 @@ const eventFaker = {
 			/** @ts-ignore */
 		) => Response<E> | Promise<Response<E>>
 	) {
-		const client = getClient('1234')
+		const client = getClient(fqen)
 
 		await client.off(fqen)
 		await client.on(fqen, cb as any)

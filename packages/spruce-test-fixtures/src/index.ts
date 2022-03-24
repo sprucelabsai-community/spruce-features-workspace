@@ -20,6 +20,10 @@ export { default as install } from './tests/decorators/install'
 export { default as eventFaker } from './tests/eventFaker'
 export { default as eventMocker } from './tests/eventMocker'
 export { default as ClientProxyDecorator } from './ClientProxyDecorator'
+/**
+ * @deprecated phoneNumberIncrementer -> phoneNumberIncrementor
+ */
 export { default as phoneNumberIncrementer } from './utilities/phoneNumberIncrementor'
+export { default as phoneNumberIncrementor } from './utilities/phoneNumberIncrementor'
 
 export * from '#spruce/schemas/schemas.types'

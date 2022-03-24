@@ -4,29 +4,24 @@ import { SpruceSchemas } from '@sprucelabs/mercury-types'
 import { BASE_ROLES } from '@sprucelabs/spruce-core-schemas'
 import { assert, test } from '@sprucelabs/test'
 import { errorAssert } from '@sprucelabs/test-utils'
-import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
+import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
 import {
 	DEMO_NUMBER,
 	DEMO_NUMBER_DECORATORS,
 	DEMO_NUMBER_HIRING,
-} from '../../tests/constants'
-import fake from '../../tests/decorators/fake'
-import { CoreSeedTargets } from '../../tests/decorators/seed'
+} from '../../../tests/constants'
+import fake, {
+	fakeTargetToPropName,
+	pluralToSingular,
+} from '../../../tests/decorators/fake'
+import { CoreSeedTarget } from '../../../tests/decorators/seed'
 
-export default class EnablingFakersTest extends AbstractSpruceFixtureTest {
+export default class FakeDecoratorTest extends AbstractSpruceFixtureTest {
 	private static client: MercuryClient
-	private static fakedOwner: SpruceSchemas.Spruce.v2020_07_22.Person
-	private static fakedPeople: SpruceSchemas.Spruce.v2020_07_22.Person[]
-	// private static fakedTeammates: SpruceSchemas.Spruce.v2020_07_22.Person[]
-	private static fakedRoles: SpruceSchemas.Spruce.v2020_07_22.Role[]
-	private static fakedOrganizations: SpruceSchemas.Spruce.v2020_07_22.Organization[]
-	private static fakedLocations: SpruceSchemas.Spruce.v2020_07_22.Location[]
 
 	protected static async beforeEach() {
 		await super.beforeEach()
 		this.client = await this.mercury.connectToApi()
-		//@ts-ignore
-		this.fakedOwner = undefined
 	}
 
 	@test()
@@ -116,6 +111,7 @@ export default class EnablingFakersTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async failsWithoutOwner() {
+		this.fakedOwner = null as any
 		await assert.doesThrowAsync(
 			() => this.fakeRecords('organizations', 1),
 			'faker.login'
@@ -249,7 +245,7 @@ export default class EnablingFakersTest extends AbstractSpruceFixtureTest {
 	@test('can fake 1 teammate', 'teammates', 1)
 	@test('can fake 2 teammate', 'teammates', 2)
 	protected static async canSyncTeammates(
-		target: CoreSeedTargets,
+		target: CoreSeedTarget,
 		total: number
 	) {
 		await this.fakeLoginAndRecords('locations', 1)
@@ -257,13 +253,13 @@ export default class EnablingFakersTest extends AbstractSpruceFixtureTest {
 
 		const fakedProp =
 			//@ts-ignore
-			this[`faked${target[0].toUpperCase() + target.substring(1)}`]
+			this[fakeTargetToPropName(target)]
 
 		assert.isLength(fakedProp, total)
 
 		const people = await this.people.listPeople({
 			locationId: this.fakedLocations[0]?.id,
-			roleBases: [target],
+			roleBases: [pluralToSingular(target)],
 			organizationId: this.fakedOrganizations[0]?.id,
 		})
 
@@ -274,17 +270,21 @@ export default class EnablingFakersTest extends AbstractSpruceFixtureTest {
 	@test('login with number 2', DEMO_NUMBER)
 	protected static async canLoginAsPersonAndGetThemBack(phone: string) {
 		await this.fakeLogin()
-		await this.client.emitAndFlattenResponses('request-pin::v2020_12_25', {
-			payload: {
-				phone,
-			},
-		})
+
+		const [{ challenge }] = await this.client.emitAndFlattenResponses(
+			'request-pin::v2020_12_25',
+			{
+				payload: {
+					phone,
+				},
+			}
+		)
 
 		const [{ person }] = await this.client.emitAndFlattenResponses(
 			'confirm-pin::v2020_12_25',
 			{
 				payload: {
-					challenge: '1234',
+					challenge,
 					pin: '234',
 				},
 			}
@@ -292,6 +292,22 @@ export default class EnablingFakersTest extends AbstractSpruceFixtureTest {
 
 		assert.isEqual(person.phone, phone)
 		assert.isEqualDeep(this.fakedPeople, [this.fakedOwner, person])
+	}
+
+	@test()
+	protected static async sendingBadChallengeThrows() {
+		await this.fakeLogin()
+
+		const err = await assert.doesThrowAsync(() =>
+			this.client.emitAndFlattenResponses('confirm-pin::v2020_12_25', {
+				payload: {
+					challenge: '1234',
+					pin: '234',
+				},
+			})
+		)
+
+		errorAssert.assertError(err, 'INVALID_PIN')
 	}
 
 	private static async fakeLoginAndListRoles(orgIdx: number) {
@@ -330,16 +346,22 @@ export default class EnablingFakersTest extends AbstractSpruceFixtureTest {
 	}
 
 	private static async fakeLoginAndRecords(
-		target: CoreSeedTargets,
+		target: CoreSeedTarget,
 		count: number
 	) {
 		await this.fakeLogin()
 		await this.fakeRecords(target, count)
 	}
 
-	private static async fakeRecords(target: CoreSeedTargets, count: number) {
+	private static async fakeRecords(target: CoreSeedTarget, count: number) {
 		const decorator = fake(target, count)
-		await decorator(this as any)
+		const descriptor = {
+			async value() {},
+		}
+		decorator(this as any, 'testName', descriptor)
+
+		await descriptor.value()
+
 		return decorator
 	}
 
@@ -371,6 +393,8 @@ export default class EnablingFakersTest extends AbstractSpruceFixtureTest {
 
 	private static async fakeLogin(number: string = DEMO_NUMBER) {
 		const decorator = fake.login(number)
-		await decorator(this as any)
+		decorator(this as any, false)
+		await this.beforeAll()
+		await this.beforeEach()
 	}
 }

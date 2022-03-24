@@ -1,4 +1,5 @@
 import { DatabaseFixture } from '@sprucelabs/data-stores'
+import { SpruceSchemas } from '@sprucelabs/mercury-types'
 import {
 	AbstractSkillTest,
 	SkillFactoryOptions,
@@ -20,6 +21,14 @@ import StoreFixture from './fixtures/StoreFixture'
 import ViewFixture from './fixtures/ViewFixture'
 
 export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTest {
+	protected static fakedOwner: SpruceSchemas.Spruce.v2020_07_22.Person
+	protected static fakedPeople: SpruceSchemas.Spruce.v2020_07_22.Person[]
+	protected static fakedTeammates: SpruceSchemas.Spruce.v2020_07_22.Person[]
+	protected static fakedOwners: SpruceSchemas.Spruce.v2020_07_22.Person[]
+	protected static fakedRoles: SpruceSchemas.Spruce.v2020_07_22.Role[]
+	protected static fakedOrganizations: SpruceSchemas.Spruce.v2020_07_22.Organization[]
+	protected static fakedLocations: SpruceSchemas.Spruce.v2020_07_22.Location[]
+
 	public static cwd: string
 	public static get views(): ViewFixture {
 		if (!this._views) {
