@@ -7,6 +7,7 @@ import { errorAssert } from '@sprucelabs/test-utils'
 import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
 import {
 	DEMO_NUMBER,
+	DEMO_NUMBER_ACCOUNT_AFTER_ALL_RESET,
 	DEMO_NUMBER_DECORATORS,
 	DEMO_NUMBER_HIRING,
 } from '../../../tests/constants'
@@ -267,7 +268,7 @@ export default class FakeDecoratorTest extends AbstractSpruceFixtureTest {
 	}
 
 	@test('login with number 1', DEMO_NUMBER_DECORATORS)
-	@test('login with number 2', DEMO_NUMBER)
+	@test('login with number 2', DEMO_NUMBER_ACCOUNT_AFTER_ALL_RESET)
 	protected static async canLoginAsPersonAndGetThemBack(phone: string) {
 		await this.fakeLogin()
 
