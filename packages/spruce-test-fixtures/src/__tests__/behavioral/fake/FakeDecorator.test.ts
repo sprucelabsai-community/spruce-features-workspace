@@ -25,9 +25,8 @@ export default class FakeDecoratorTest extends AbstractSpruceFixtureTest {
 	}
 
 	@test()
-	protected static throwsWhenMissingPhone() {
-		//@ts-ignore
-		assert.doesThrow(() => fake.login())
+	protected static doesNotThrowWhenMissingPhone() {
+		fake.login()
 	}
 
 	@test()

@@ -81,7 +81,7 @@ export default function fake(target: CoreSeedTarget, total: number) {
 	}
 }
 
-fake.login = (phone: string) => {
+fake.login = (phone = '555-000-0000') => {
 	assert.isTruthy(phone, `You need to pass a phone to 'faker.login(...)'`)
 	assert.isTrue(
 		isValidNumber(phone),
