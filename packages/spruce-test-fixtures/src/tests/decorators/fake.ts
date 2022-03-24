@@ -1,5 +1,8 @@
 import { generateId } from '@sprucelabs/data-stores'
-import { MercuryTestClient } from '@sprucelabs/mercury-client'
+import {
+	MercuryClientFactory,
+	MercuryTestClient,
+} from '@sprucelabs/mercury-client'
 import { SpruceSchemas } from '@sprucelabs/mercury-types'
 import { assertOptions, isValidNumber } from '@sprucelabs/schema'
 import { BASE_ROLES } from '@sprucelabs/spruce-core-schemas'
@@ -50,6 +53,10 @@ const strategies: Partial<
 }
 
 function resetFakes(Class: Class) {
+	if (shouldSkipNextReset) {
+		shouldSkipNextReset = false
+		return
+	}
 	Class.fakedOrganizations = []
 	Class.fakedLocations = []
 	Class.fakedTeammates = []
@@ -92,6 +99,7 @@ fake.login = (phone = '555-000-0000') => {
 	)
 
 	MercuryTestClient.setShouldRequireLocalListeners(true)
+	MercuryClientFactory.setIsTestMode(true)
 
 	return function (TestClass: any, shouldPassHookCalls = true) {
 		const Class = TestClass as Class
@@ -110,23 +118,31 @@ fake.login = (phone = '555-000-0000') => {
 		Class.beforeAll = async () => {
 			await beforeAll?.()
 			resetFakes(Class)
+
 			await setupFakes(Class)
+			await login(Class, phone)
 		}
 
 		Class.beforeEach = async () => {
 			resetFakes(Class)
 
-			const { person } = await Class.people.loginAsDemoPerson(phone)
-
-			givePersonName(person)
-
-			Class.fakedPeople = [person]
-			Class.fakedOwners = [person]
-			Class.fakedOwner = person
+			await login(Class, phone)
 
 			shouldPassHookCalls && (await beforeEach?.())
 		}
 	}
+}
+
+async function login(Class: Class, phone: string) {
+	const { person, client } = await Class.people.loginAsDemoPerson(phone)
+
+	givePersonName(person)
+
+	Class.fakedPeople = [person]
+	Class.fakedOwners = [person]
+	Class.fakedOwner = person
+
+	MercuryFixture.setDefaultClient(client)
 }
 
 function givePersonName(person: SpruceSchemas.Spruce.v2020_07_22.Person) {
@@ -439,4 +455,9 @@ function upperCaseFirst(target: string) {
 
 export function pluralToSingular(target: string): string {
 	return target.substring(0, target.length - 1)
+}
+
+let shouldSkipNextReset = false
+function skipNextReset() {
+	shouldSkipNextReset = true
 }
