@@ -226,8 +226,10 @@ async function fakeListPeople(Class: Class) {
 		const base = payload?.roleBases?.[0]
 
 		return {
-			//@ts-ignore
-			people: Class[fakeTargetToPropName(base + 's')],
+			people: base
+				? //@ts-ignore
+				  Class[fakeTargetToPropName(base + 's')]
+				: Class.fakedPeople,
 		}
 	})
 }
@@ -404,18 +406,24 @@ async function fakeWhoAmI(Class: Class) {
 
 async function fakeAuthenticationEvents(Class: Class) {
 	await eventFaker.on('request-pin::v2020_12_25', ({ payload }) => {
-		let createdPerson = {
-			id: generateId(),
-			casualName: 'friend',
-			dateCreated: new Date().getTime(),
-			phone: payload.phone,
-			_challenge: generateId(),
+		let person = Class.fakedPeople.find((p) => p.phone === payload.phone)
+
+		if (!person) {
+			person = {
+				id: generateId(),
+				casualName: 'friend',
+				dateCreated: new Date().getTime(),
+				phone: payload.phone,
+			}
+			Class.fakedPeople.push(person)
 		}
 
-		Class.fakedPeople.push(createdPerson)
+		//@ts-ignore
+		person._challenge = generateId()
 
 		return {
-			challenge: createdPerson._challenge,
+			//@ts-ignore
+			challenge: person._challenge,
 		}
 	})
 

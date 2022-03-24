@@ -121,6 +121,23 @@ export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
 		assert.isEqualDeep(type, 'anonymous')
 	}
 
+	@test()
+	@fake('locations', 1)
+	@fake('teammates', 4)
+	protected static async canListTeammatesByLocation() {
+		const [{ people }] = await this.client.emitAndFlattenResponses(
+			'list-people::v2020_12_25',
+			{
+				target: {
+					organizationId: this.fakedLocations[0].organizationId,
+					locationId: this.fakedLocations[0].id,
+				},
+			}
+		)
+
+		assert.isLength(people, 5)
+	}
+
 	private static async assertFakedPeople(target: string, total: number) {
 		//@ts-ignore
 		const fakedRecords = this[`${fakeTargetToPropName(target)}`] as any[]
