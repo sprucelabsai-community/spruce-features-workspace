@@ -33,9 +33,9 @@ interface Class {
 	fakedGuests: Person[]
 	fakedPeople: Person[]
 	fakedGroupManagers: Person[]
-	fakedOrganizations: Organization[]
+	_fakedOrganizations: Organization[]
 	fakedRoles: Role[]
-	fakedLocations: Location[]
+	_fakedLocations: Location[]
 	fakedOwnerClient: Client
 	people: PersonFixture
 	cwd: string
@@ -62,8 +62,8 @@ function resetFakes(Class: Class) {
 		shouldSkipNextReset = false
 		return
 	}
-	Class.fakedOrganizations = []
-	Class.fakedLocations = []
+	Class._fakedOrganizations = []
+	Class._fakedLocations = []
 	Class.fakedTeammates = []
 	Class.fakedManagers = []
 	Class.fakedOwners = []
@@ -251,7 +251,7 @@ async function fakeListPeople(Class: Class) {
 async function fakeListLocations(Class: Class) {
 	await eventFaker.on('list-locations::v2020_12_25', ({ target, payload }) => {
 		return {
-			locations: applyPaging(Class.fakedLocations, payload).filter(
+			locations: applyPaging(Class._fakedLocations, payload).filter(
 				(l) => l.organizationId === target.organizationId
 			),
 		}
@@ -261,7 +261,7 @@ async function fakeListLocations(Class: Class) {
 async function fakeDeleteOrganization(Class: Class) {
 	await eventFaker.on('delete-organization::v2020_12_25', () => {
 		return {
-			organization: Class.fakedOrganizations[0],
+			organization: Class._fakedOrganizations[0],
 		}
 	})
 }
@@ -276,7 +276,7 @@ async function fakeCreateLocation(Class: Class) {
 			slug: payload.slug ?? namesUtil.toKebab(payload.name),
 		}
 
-		Class.fakedLocations.unshift(location)
+		Class._fakedLocations.unshift(location)
 
 		return {
 			location,
@@ -293,7 +293,7 @@ async function fakeCreateOrganization(Class: Class) {
 			slug: payload.slug ?? namesUtil.toKebab(payload.name),
 		}
 
-		Class.fakedOrganizations.unshift(organization)
+		Class._fakedOrganizations.unshift(organization)
 
 		seedRoles(Class, organization.id)
 
@@ -336,7 +336,7 @@ function buildCasualName(names: {
 
 async function fakeGetOrganization(Class: Class) {
 	await eventFaker.on('get-organization::v2020_12_25', ({ target }) => {
-		const match = Class.fakedOrganizations.find(
+		const match = Class._fakedOrganizations.find(
 			(o: any) => o.id === target.organizationId
 		)
 
@@ -357,7 +357,7 @@ async function fakeListOrganization(Class: Class) {
 		const { payload } = targetAndPayload ?? {}
 
 		return {
-			organizations: applyPaging(Class.fakedOrganizations, payload),
+			organizations: applyPaging(Class._fakedOrganizations, payload),
 		}
 	})
 }
@@ -394,7 +394,7 @@ async function seedLocations(Class: Class, total: number) {
 
 function buildSeeder(target: CoreSeedTarget) {
 	return async function seed(Class: Class, total: number) {
-		if (Class.fakedLocations.length === 0) {
+		if (Class._fakedLocations.length === 0) {
 			assert.fail(`You gotta @fake('locations', 1) before seeding teammates!`)
 		}
 

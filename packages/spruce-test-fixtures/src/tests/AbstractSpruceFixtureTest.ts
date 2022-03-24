@@ -5,6 +5,7 @@ import {
 	SkillFactoryOptions,
 } from '@sprucelabs/spruce-skill-booter'
 import { diskUtil, testLog } from '@sprucelabs/spruce-skill-utils'
+import { assert } from '@sprucelabs/test'
 import {
 	FixtureConstructorOptionsMap,
 	FixtureName,
@@ -26,8 +27,35 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 	protected static fakedTeammates: SpruceSchemas.Spruce.v2020_07_22.Person[]
 	protected static fakedOwners: SpruceSchemas.Spruce.v2020_07_22.Person[]
 	protected static fakedRoles: SpruceSchemas.Spruce.v2020_07_22.Role[]
-	protected static fakedOrganizations: SpruceSchemas.Spruce.v2020_07_22.Organization[]
-	protected static fakedLocations: SpruceSchemas.Spruce.v2020_07_22.Location[]
+	protected static get fakedOrganizations(): SpruceSchemas.Spruce.v2020_07_22.Organization[] {
+		return this._fakedOrganizations
+	}
+	protected static set fakedOrganizations(orgs) {
+		assert.isAbove(
+			this._fakedOrganizations.length,
+			0,
+			`You gotta @fake('organizations', 1) before getting faked orgs.`
+		)
+		this._fakedOrganizations = orgs
+	}
+
+	protected static get fakedLocations(): SpruceSchemas.Spruce.v2020_07_22.Location[] {
+		assert.isAbove(
+			this._fakedLocations.length,
+			0,
+			`You gotta @fake('locations', 1) before getting faked orgs.`
+		)
+		return this._fakedLocations
+	}
+
+	protected static set fakedLocations(locations) {
+		this._fakedLocations = locations
+	}
+
+	private static _fakedOrganizations: SpruceSchemas.Spruce.v2020_07_22.Organization[] =
+		[]
+	private static _fakedLocations: SpruceSchemas.Spruce.v2020_07_22.Location[] =
+		[]
 
 	public static cwd: string
 	public static get views(): ViewFixture {

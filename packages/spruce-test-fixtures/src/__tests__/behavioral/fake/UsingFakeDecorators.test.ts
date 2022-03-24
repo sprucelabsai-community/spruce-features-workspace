@@ -147,6 +147,11 @@ export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
 		assert.isLength(people, 5)
 	}
 
+	@test()
+	protected static someThingsThrowWhenNotFaked() {
+		assert.doesThrow(() => this.fakedLocations)
+	}
+
 	private static async assertFakedPeople(target: string, total: number) {
 		//@ts-ignore
 		const fakedRecords = this[`${fakeTargetToPropName(target)}`] as any[]
