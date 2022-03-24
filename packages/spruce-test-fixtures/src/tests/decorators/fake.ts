@@ -136,6 +136,15 @@ fake.login = (phone = '555-000-0000') => {
 	}
 }
 
+fake.getClient = () => {
+	return MercuryFixture.getDefaultClient()
+}
+
+fake.getPerson = () => {
+	//@ts-ignore
+	return fake.getClient()!.auth!.person
+}
+
 async function login(Class: Class, phone: string) {
 	const { person, client } = await Class.people.loginAsDemoPerson(phone)
 

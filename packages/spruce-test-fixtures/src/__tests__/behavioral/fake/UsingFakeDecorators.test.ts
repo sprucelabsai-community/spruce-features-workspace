@@ -6,6 +6,7 @@ import fake, {
 	pluralToSingular,
 } from '../../../tests/decorators/fake'
 import { CoreSeedTarget } from '../../../tests/decorators/seed'
+import MercuryFixture from '../../../tests/fixtures/MercuryFixture'
 
 @fake.login('555-000-0001')
 export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
@@ -23,6 +24,12 @@ export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
 		this.wasBeforeEachInvoked = true
 		this.client = await this.mercury.connectToApi()
 		await this.client.emitAndFlattenResponses('whoami::v2020_12_25')
+	}
+
+	@test()
+	protected static async canGetClient() {
+		assert.isEqual(MercuryFixture.getDefaultClient(), fake.getClient())
+		assert.isEqual(this.fakedOwner, fake.getPerson())
 	}
 
 	@test()
