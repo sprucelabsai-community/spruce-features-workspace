@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [30.2.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v30.1.4...v30.2.0) (2022-03-24)
+
+
+### Features
+
+* get client and person on [@fake](https://github.com/fake) ([18628ee](https://github.com/sprucelabsai/spruce-features-workspace/commit/18628ee))
+
+
+
+
+
 ## [30.1.4](https://github.com/sprucelabsai/spruce-features-workspace/compare/v30.1.3...v30.1.4) (2022-03-24)
 
 **Note:** Version bump only for package spruce-features-workspace
