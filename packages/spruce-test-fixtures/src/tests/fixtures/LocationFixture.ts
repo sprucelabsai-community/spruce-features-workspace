@@ -44,8 +44,6 @@ export default class LocationFixture {
 			}
 		}
 
-		debugger
-
 		const results = await client.emit('create-location::v2020_12_25', {
 			target: {
 				organizationId: orgId,
@@ -64,8 +62,6 @@ export default class LocationFixture {
 				...rest,
 			},
 		})
-
-		debugger
 
 		const { location } = eventResponseUtil.getFirstResponseOrThrow(results)
 

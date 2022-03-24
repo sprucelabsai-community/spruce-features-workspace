@@ -458,6 +458,3 @@ export function pluralToSingular(target: string): string {
 }
 
 let shouldSkipNextReset = false
-function skipNextReset() {
-	shouldSkipNextReset = true
-}
