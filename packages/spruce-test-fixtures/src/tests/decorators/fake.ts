@@ -22,6 +22,9 @@ type Organization = SpruceSchemas.Spruce.v2020_07_22.Organization
 type Location = SpruceSchemas.Spruce.v2020_07_22.Location
 type Role = SpruceSchemas.Spruce.v2020_07_22.Role
 
+/** @ts-ignore */
+type Client = MercuryClient
+
 interface Class {
 	fakedOwner?: Person
 	fakedOwners?: Person[]
@@ -33,7 +36,7 @@ interface Class {
 	fakedOrganizations: Organization[]
 	fakedRoles: Role[]
 	fakedLocations: Location[]
-	fakedOwnerClient: MercuryClient
+	fakedOwnerClient: Client
 	people: PersonFixture
 	cwd: string
 	__fakerSetup?: boolean
@@ -137,12 +140,12 @@ fake.login = (phone = '555-000-0000') => {
 }
 
 fake.getClient = () => {
-	return MercuryFixture.getDefaultClient()
+	return MercuryFixture.getDefaultClient() as Client
 }
 
 fake.getPerson = () => {
 	//@ts-ignore
-	return fake.getClient()!.auth!.person
+	return fake.getClient()!.auth!.person as Person
 }
 
 async function login(Class: Class, phone: string) {
