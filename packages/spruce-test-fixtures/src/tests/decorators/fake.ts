@@ -1,5 +1,6 @@
 import { generateId } from '@sprucelabs/data-stores'
 import {
+	MercuryClient,
 	MercuryClientFactory,
 	MercuryTestClient,
 } from '@sprucelabs/mercury-client'
@@ -32,6 +33,7 @@ interface Class {
 	fakedOrganizations: Organization[]
 	fakedRoles: Role[]
 	fakedLocations: Location[]
+	fakedOwnerClient: MercuryClient
 	people: PersonFixture
 	cwd: string
 	__fakerSetup?: boolean
@@ -111,6 +113,7 @@ fake.login = (phone = '555-000-0000') => {
 				//@ts-ignore
 				await old(...args)
 				await setupFakes(Class)
+				MercuryFixture.setDefaultClient(Class.fakedOwnerClient)
 			}
 		}
 
@@ -141,8 +144,7 @@ async function login(Class: Class, phone: string) {
 	Class.fakedPeople = [person]
 	Class.fakedOwners = [person]
 	Class.fakedOwner = person
-
-	MercuryFixture.setDefaultClient(client)
+	Class.fakedOwnerClient = client
 }
 
 function givePersonName(person: SpruceSchemas.Spruce.v2020_07_22.Person) {
@@ -418,19 +420,14 @@ async function fakeAuthenticationEvents(Class: Class) {
 			Class.fakedPeople.push(person)
 		}
 
-		//@ts-ignore
-		person._challenge = generateId()
-
 		return {
-			//@ts-ignore
-			challenge: person._challenge,
+			challenge: person.phone as string,
 		}
 	})
 
 	await eventFaker.on('confirm-pin::v2020_12_25', ({ payload }) => {
 		const idx = Class.fakedPeople.findIndex(
-			//@ts-ignore
-			(p) => p._challenge === payload.challenge
+			(p) => p.phone === payload.challenge
 		)
 
 		const person = Class.fakedPeople[idx]

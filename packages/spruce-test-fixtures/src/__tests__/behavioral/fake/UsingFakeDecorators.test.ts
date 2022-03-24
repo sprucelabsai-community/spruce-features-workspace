@@ -114,7 +114,9 @@ export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async canSkillBeAnonLogin() {
-		const client = await this.mercury.connectToApi()
+		const client = await this.mercury.connectToApi({
+			shouldReUseClient: false,
+		})
 		const [{ type }] = await client.emitAndFlattenResponses(
 			'whoami::v2020_12_25'
 		)
