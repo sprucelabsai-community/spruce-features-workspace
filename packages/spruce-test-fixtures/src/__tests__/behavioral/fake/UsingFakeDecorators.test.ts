@@ -22,6 +22,7 @@ export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
 		await super.beforeEach()
 		this.wasBeforeEachInvoked = true
 		this.client = await this.mercury.connectToApi()
+		await this.client.emitAndFlattenResponses('whoami::v2020_12_25')
 	}
 
 	@test()
@@ -91,6 +92,26 @@ export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
 		assert.isEqualDeep(people, fakedRecords)
 	}
 
+	@test()
+	@fake('locations', 1)
+	@fake('owners', 3)
+	protected static async canSeedOwners() {
+		await this.assertFakedPeople('owners', 4)
+	}
+
+	@test()
+	@fake('locations', 1)
+	protected static async whoAmIReturnsExpectedPerson() {
+		const phone = '555-111-1111'
+		const { person, client } = await this.people.loginAsDemoPerson(phone)
+		assert.isEqual(person.phone, phone)
+		const [{ auth }] = await client.emitAndFlattenResponses(
+			'whoami::v2020_12_25'
+		)
+
+		assert.isEqualDeep(auth.person, person)
+	}
+
 	private static async assertFakedPeople(target: string, total: number) {
 		//@ts-ignore
 		const fakedRecords = this[`${fakeTargetToPropName(target)}`] as any[]
@@ -109,12 +130,5 @@ export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
 		assert.isNotEqual(fakedRecords[0].casualName, 'friend')
 
 		return { people, fakedRecords }
-	}
-
-	@test()
-	@fake('locations', 1)
-	@fake('owners', 3)
-	protected static async canSeedOwners() {
-		await this.assertFakedPeople('owners', 4)
 	}
 }

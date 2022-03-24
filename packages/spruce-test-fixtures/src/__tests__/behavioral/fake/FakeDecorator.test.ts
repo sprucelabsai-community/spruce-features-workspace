@@ -21,6 +21,7 @@ export default class FakeDecoratorTest extends AbstractSpruceFixtureTest {
 
 	protected static async beforeEach() {
 		await super.beforeEach()
+
 		this.client = await this.mercury.connectToApi()
 	}
 
@@ -381,11 +382,15 @@ export default class FakeDecoratorTest extends AbstractSpruceFixtureTest {
 	protected static async fakeLoginAndGetAuth(phone: string = DEMO_NUMBER) {
 		await this.fakeLogin(phone)
 
-		const [{ auth, type }] = await this.client.emitAndFlattenResponses(
+		const { client, person } = await this.people.loginAsDemoPerson()
+
+		const [{ auth, type }] = await client.emitAndFlattenResponses(
 			'whoami::v2020_12_25'
 		)
 
 		assert.isEqual(type, 'authenticated')
+		assert.isEqualDeep(auth.person, this.fakedOwner)
+		assert.isEqualDeep(person, this.fakedOwner)
 
 		return auth
 	}

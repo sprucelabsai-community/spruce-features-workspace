@@ -8,6 +8,8 @@ import { assert } from '@sprucelabs/test'
 import SpruceError from '../../errors/SpruceError'
 import eventFaker from '../eventFaker'
 import generateRandomName from '../fixtures/generateRandomName'
+import MercuryFixture from '../fixtures/MercuryFixture'
+import PersonFixture from '../fixtures/PersonFixture'
 import SeedFixture from '../fixtures/SeedFixture'
 import { CoreSeedTarget } from './seed'
 
@@ -27,6 +29,7 @@ interface Class {
 	fakedOrganizations: Organization[]
 	fakedRoles: Role[]
 	fakedLocations: Location[]
+	people: PersonFixture
 	cwd: string
 	__fakerSetup?: boolean
 	beforeEach?: () => Promise<void>
@@ -92,86 +95,52 @@ fake.login = (phone = '555-000-0000') => {
 
 	return function (TestClass: any, shouldPassHookCalls = true) {
 		const Class = TestClass as Class
-
 		const beforeEach = Class.beforeEach?.bind(Class)
-		const owner = generatePersonValues(phone)
-		Class.fakedOwner = owner
+
+		if (shouldPassHookCalls) {
+			const old = MercuryFixture.beforeEach.bind(MercuryFixture)
+			MercuryFixture.beforeEach = async (...args: any[]) => {
+				//@ts-ignore
+				await old(...args)
+				await setupFakes(Class)
+			}
+		}
+
+		const beforeAll = Class.beforeAll?.bind(Class)
+		Class.beforeAll = async () => {
+			await beforeAll?.()
+			resetFakes(Class)
+			await setupFakes(Class)
+		}
 
 		Class.beforeEach = async () => {
 			resetFakes(Class)
 
-			Class.fakedPeople.push(owner)
-			Class.fakedOwners = [owner]
+			const { person } = await Class.people.loginAsDemoPerson(phone)
 
-			await fakeLoginEvents(owner, Class)
-			await setupFakes(Class)
+			givePersonName(person)
+
+			Class.fakedPeople = [person]
+			Class.fakedOwners = [person]
+			Class.fakedOwner = person
 
 			shouldPassHookCalls && (await beforeEach?.())
-
-			await fakeLoginEvents(owner, Class)
-			await setupFakes(Class)
 		}
 	}
 }
 
-async function fakeLoginEvents(
-	owner: {
-		firstName: string
-		lastName: string
-		phone: string
-		dateCreated: number
-		id: string
-		casualName: string
-	},
-	Class: Class
-) {
-	await fakeWhoAmI(owner)
-	await fakeGetPerson(owner)
-
-	await eventFaker.on('request-pin::v2020_12_25', ({ payload }) => {
-		let createdPerson = {
-			id: generateId(),
-			casualName: 'friend',
-			dateCreated: new Date().getTime(),
-			phone: payload.phone,
-			_challenge: generateId(),
-		}
-
-		Class.fakedPeople.push(createdPerson)
-
-		return {
-			challenge: createdPerson._challenge,
-		}
-	})
-
-	await eventFaker.on('confirm-pin::v2020_12_25', ({ payload }) => {
-		const idx = Class.fakedPeople.findIndex(
-			//@ts-ignore
-			(p) => p._challenge === payload.challenge
-		)
-
-		const person = Class.fakedPeople[idx]
-
-		if (!person) {
-			throw new SpruceError({
-				code: 'INVALID_PIN' as any,
-			})
-		}
-
-		//@ts-ignore
-		delete person._challenge
-
-		return {
-			token: '1234',
-			person: {
-				...person,
-			},
-		}
-	})
+function givePersonName(person: SpruceSchemas.Spruce.v2020_07_22.Person) {
+	const names = generateRandomName()
+	person.casualName = buildCasualName(names)
+	person.firstName = names.firstName
+	person.lastName = names.lastName
 }
 
 async function setupFakes(Class: Class) {
 	await Promise.all([
+		fakeGetPerson(Class),
+		fakeWhoAmI(Class),
+		fakeAuthenticationEvents(Class),
 		fakeAddRole(Class),
 		fakeListRoles(Class),
 		fakeListPeople(Class),
@@ -187,7 +156,7 @@ async function setupFakes(Class: Class) {
 
 async function fakeAddRole(Class: Class) {
 	await eventFaker.on('add-role::v2020_12_25', ({ payload }) => {
-		const person = Class.fakedPeople.find((p) => p.id === payload.personId)!
+		const person = getPersonById(Class, payload.personId)
 		const role = Class.fakedRoles.find((r) => r.id === payload.roleId)!
 
 		//@ts-ignore
@@ -201,6 +170,10 @@ async function fakeAddRole(Class: Class) {
 
 		return {}
 	})
+}
+
+function getPersonById(Class: Class, personId: string) {
+	return Class.fakedPeople.find((p) => p.id === personId)!
 }
 
 async function fakeUpdatePerson(Class: Class) {
@@ -298,14 +271,16 @@ async function fakeCreateOrganization(Class: Class) {
 	})
 }
 
-async function fakeGetPerson(person: Person) {
+async function fakeGetPerson(Class: Class) {
 	await eventFaker.on('get-person::v2020_12_25', ({ target }) => {
 		assert.isTruthy(
 			target?.personId,
 			`@fake only supports 'get-person::v2020_12_25' when passing an id. To fake more, use 'eventFaker.on(...)'.`
 		)
 
-		if (target.personId !== person.id) {
+		const person = getPersonById(Class, target.personId)
+
+		if (!person) {
 			throw new SpruceError({
 				code: 'INVALID_TARGET',
 				friendlyMessage: `I could not find the person you were looking for.`,
@@ -316,19 +291,6 @@ async function fakeGetPerson(person: Person) {
 			person,
 		}
 	})
-}
-
-function generatePersonValues(phone: string) {
-	const names = generateRandomName()
-	const person = {
-		phone,
-		dateCreated: new Date().getTime(),
-		id: generateId(),
-		casualName: buildCasualName(names),
-		...names,
-	}
-
-	return person
 }
 
 function buildCasualName(names: {
@@ -411,20 +373,60 @@ function buildSeeder(target: CoreSeedTarget) {
 	}
 }
 
-async function fakeWhoAmI(person: {
-	firstName: string
-	lastName: string
-	phone: string
-	dateCreated: number
-	id: string
-	casualName: string
-}) {
-	await eventFaker.on('whoami::v2020_12_25', () => {
+async function fakeWhoAmI(Class: Class) {
+	await eventFaker.on('whoami::v2020_12_25', (payload) => {
+		debugger
+		const person = getPersonById(Class, payload?.source?.personId)
+		debugger
+
 		return {
 			auth: {
 				person,
 			},
 			type: 'authenticated' as const,
+		}
+	})
+}
+
+async function fakeAuthenticationEvents(Class: Class) {
+	await eventFaker.on('request-pin::v2020_12_25', ({ payload }) => {
+		let createdPerson = {
+			id: generateId(),
+			casualName: 'friend',
+			dateCreated: new Date().getTime(),
+			phone: payload.phone,
+			_challenge: generateId(),
+		}
+
+		Class.fakedPeople.push(createdPerson)
+
+		return {
+			challenge: createdPerson._challenge,
+		}
+	})
+
+	await eventFaker.on('confirm-pin::v2020_12_25', ({ payload }) => {
+		const idx = Class.fakedPeople.findIndex(
+			//@ts-ignore
+			(p) => p._challenge === payload.challenge
+		)
+
+		const person = Class.fakedPeople[idx]
+
+		if (!person) {
+			throw new SpruceError({
+				code: 'INVALID_PIN' as any,
+			})
+		}
+
+		//@ts-ignore
+		delete person._challenge
+
+		return {
+			token: '1234',
+			person: {
+				...person,
+			},
 		}
 	})
 }
