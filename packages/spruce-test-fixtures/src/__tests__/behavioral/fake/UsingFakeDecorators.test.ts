@@ -112,6 +112,15 @@ export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
 		assert.isEqualDeep(auth.person, person)
 	}
 
+	@test()
+	protected static async canSkillBeAnonLogin() {
+		const client = await this.mercury.connectToApi()
+		const [{ type }] = await client.emitAndFlattenResponses(
+			'whoami::v2020_12_25'
+		)
+		assert.isEqualDeep(type, 'anonymous')
+	}
+
 	private static async assertFakedPeople(target: string, total: number) {
 		//@ts-ignore
 		const fakedRecords = this[`${fakeTargetToPropName(target)}`] as any[]

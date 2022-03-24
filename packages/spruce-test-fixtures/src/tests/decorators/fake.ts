@@ -172,7 +172,7 @@ async function fakeAddRole(Class: Class) {
 	})
 }
 
-function getPersonById(Class: Class, personId: string) {
+function getPersonById(Class: Class, personId?: string | null) {
 	return Class.fakedPeople.find((p) => p.id === personId)!
 }
 
@@ -375,15 +375,13 @@ function buildSeeder(target: CoreSeedTarget) {
 
 async function fakeWhoAmI(Class: Class) {
 	await eventFaker.on('whoami::v2020_12_25', (payload) => {
-		debugger
 		const person = getPersonById(Class, payload?.source?.personId)
-		debugger
 
 		return {
 			auth: {
 				person,
 			},
-			type: 'authenticated' as const,
+			type: person ? ('authenticated' as const) : ('anonymous' as const),
 		}
 	})
 }
