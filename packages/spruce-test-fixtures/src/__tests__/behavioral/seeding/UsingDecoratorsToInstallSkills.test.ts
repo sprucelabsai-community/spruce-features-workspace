@@ -1,10 +1,10 @@
 import { SpruceSchemas } from '@sprucelabs/mercury-types'
 import { assert, test } from '@sprucelabs/test'
-import { seed } from '../..'
-import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
-import { DEMO_NUMBER_SKILL_DECORATORS } from '../../tests/constants'
-import install from '../../tests/decorators/install'
-import login from '../../tests/decorators/login'
+import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
+import { DEMO_NUMBER_SKILL_DECORATORS } from '../../../tests/constants'
+import install from '../../../tests/decorators/install'
+import login from '../../../tests/decorators/login'
+import seed from '../../../tests/decorators/seed'
 
 @login(DEMO_NUMBER_SKILL_DECORATORS)
 export default class UsingDecoratorsToInstallSkills extends AbstractSpruceFixtureTest {
