@@ -15,7 +15,7 @@ import generateRandomName from '../fixtures/generateRandomName'
 import MercuryFixture from '../fixtures/MercuryFixture'
 import PersonFixture from '../fixtures/PersonFixture'
 import SeedFixture from '../fixtures/SeedFixture'
-import seed, { CoreSeedTarget, disableResettingTestClient } from './seed'
+import seed, { CoreSeedTarget } from './seed'
 
 type Person = SpruceSchemas.Spruce.v2020_07_22.Person
 type Organization = SpruceSchemas.Spruce.v2020_07_22.Organization
