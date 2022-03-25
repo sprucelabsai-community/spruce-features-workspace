@@ -1,5 +1,6 @@
 import { MercuryClient } from '@sprucelabs/mercury-client'
 import { test, assert } from '@sprucelabs/test'
+import { seed, StoreFixture } from '../../..'
 import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
 import fake, {
 	fakeTargetToPropName,
@@ -7,6 +8,8 @@ import fake, {
 } from '../../../tests/decorators/fake'
 import { CoreSeedTarget } from '../../../tests/decorators/seed'
 import MercuryFixture from '../../../tests/fixtures/MercuryFixture'
+// eslint-disable-next-line spruce/prohibit-import-from-build-folder
+import GoodStore from '../../testDirsAndFiles/one-good-store-skill/build/stores/Good.store'
 
 @fake.login('555-000-0001')
 export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
@@ -152,6 +155,19 @@ export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
 		assert.doesThrow(() => this.fakedLocations)
 	}
 
+	@test()
+	protected static async deletingOrgAndLocationDoesNotCrash() {
+		await this.client.emit('delete-organization::v2020_12_25', {
+			target: {
+				organizationId: '1234',
+			},
+		})
+	}
+
+	@test()
+	@seed('good')
+	protected static canBeUsedWithSeedDecorator() {}
+
 	private static async assertFakedPeople(target: string, total: number) {
 		//@ts-ignore
 		const fakedRecords = this[`${fakeTargetToPropName(target)}`] as any[]
@@ -172,3 +188,5 @@ export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
 		return { people, fakedRecords }
 	}
 }
+
+StoreFixture.setStore('good', GoodStore)

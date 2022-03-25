@@ -81,6 +81,12 @@ async function reset(Class: any) {
 	await StoreFixture.reset()
 }
 
+let shouldResetTestClient = true
+
+seed.disableResettingTestClient = () => {
+	shouldResetTestClient = false
+}
+
 function attachCleanup(Class: any) {
 	if (!Class.__attachedStoreAfterEach) {
 		Class.__attachedStoreAfterEach = true
@@ -88,7 +94,7 @@ function attachCleanup(Class: any) {
 		const beforeEach = Class.beforeEach.bind(Class)
 
 		Class.afterEach = async () => {
-			MercuryTestClient.reset()
+			shouldResetTestClient && MercuryTestClient.reset()
 			await afterEach?.()
 
 			delete Class.__lastReset

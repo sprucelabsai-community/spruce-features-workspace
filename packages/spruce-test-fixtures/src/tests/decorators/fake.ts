@@ -15,7 +15,7 @@ import generateRandomName from '../fixtures/generateRandomName'
 import MercuryFixture from '../fixtures/MercuryFixture'
 import PersonFixture from '../fixtures/PersonFixture'
 import SeedFixture from '../fixtures/SeedFixture'
-import { CoreSeedTarget } from './seed'
+import seed, { CoreSeedTarget, disableResettingTestClient } from './seed'
 
 type Person = SpruceSchemas.Spruce.v2020_07_22.Person
 type Organization = SpruceSchemas.Spruce.v2020_07_22.Organization
@@ -105,6 +105,8 @@ fake.login = (phone = '555-000-0000') => {
 
 	MercuryTestClient.setShouldRequireLocalListeners(true)
 	MercuryClientFactory.setIsTestMode(true)
+
+	seed.disableResettingTestClient()
 
 	return function (TestClass: any, shouldPassHookCalls = true) {
 		const Class = TestClass as Class
