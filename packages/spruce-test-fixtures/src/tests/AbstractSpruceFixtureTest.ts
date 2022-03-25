@@ -43,7 +43,7 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		assert.isAbove(
 			this._fakedLocations.length,
 			0,
-			`You gotta @fake('locations', 1) before getting faked orgs.`
+			`You gotta @fake('locations', 1) before getting faked locations.`
 		)
 		return this._fakedLocations
 	}
