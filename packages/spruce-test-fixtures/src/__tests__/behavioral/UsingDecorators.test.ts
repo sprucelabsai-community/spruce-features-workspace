@@ -1,16 +1,14 @@
-import { AbstractStore } from '@sprucelabs/data-stores'
 import { AuthenticatorImpl } from '@sprucelabs/heartwood-view-controllers'
 import { MercuryClient, MercuryClientFactory } from '@sprucelabs/mercury-client'
-import { buildSchema } from '@sprucelabs/schema'
 import { test, assert } from '@sprucelabs/test'
 import { MercuryFixture, StoreFixture } from '../..'
 import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
 import { DEMO_NUMBER_DECORATORS } from '../../tests/constants'
 import login from '../../tests/decorators/login'
 import seed from '../../tests/decorators/seed'
-import { StoreSeedOptions } from '../../types/store.types'
 // eslint-disable-next-line spruce/prohibit-import-from-build-folder
 import GoodStore from '../testDirsAndFiles/one-good-store-skill/build/stores/Good.store'
+import { DummyStore } from './DummyStore'
 
 @login(DEMO_NUMBER_DECORATORS)
 export default class UsingDecoratorsTest extends AbstractSpruceFixtureTest {
@@ -271,38 +269,6 @@ export default class UsingDecoratorsTest extends AbstractSpruceFixtureTest {
 declare module '@sprucelabs/data-stores/build/types/stores.types' {
 	interface StoreMap {
 		dummies: DummyStore
-	}
-}
-
-const dummySchema = buildSchema({
-	id: 'dummy',
-	fields: {
-		id: {
-			type: 'id',
-		},
-	},
-})
-
-type DummySchema = typeof dummySchema
-
-class DummyStore extends AbstractStore<DummySchema> {
-	public name = 'Dummy!'
-
-	protected collectionName = 'dummies'
-	protected createSchema = dummySchema
-	protected updateSchema = dummySchema
-	protected fullSchema = dummySchema
-	protected databaseSchema = dummySchema
-
-	public static wasSeedInvoked = false
-	public static seedOptions = {}
-	public static Store(options: any) {
-		return new this(options)
-	}
-
-	public seed(options: StoreSeedOptions) {
-		DummyStore.wasSeedInvoked = true
-		DummyStore.seedOptions = options
 	}
 }
 

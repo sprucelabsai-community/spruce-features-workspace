@@ -10,6 +10,7 @@ import { CoreSeedTarget } from '../../../tests/decorators/seed'
 import MercuryFixture from '../../../tests/fixtures/MercuryFixture'
 // eslint-disable-next-line spruce/prohibit-import-from-build-folder
 import GoodStore from '../../testDirsAndFiles/one-good-store-skill/build/stores/Good.store'
+import { DummyStore } from '../DummyStore'
 
 @fake.login('555-000-0001')
 export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
@@ -22,6 +23,7 @@ export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
 		this.wasBeforeAllInvoked = true
 	}
 
+	@seed('dummies', 1)
 	protected static async beforeEach(): Promise<void> {
 		await super.beforeEach()
 		this.wasBeforeEachInvoked = true
@@ -189,4 +191,8 @@ export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
 	}
 }
 
+DummyStore.seedCb = () => {
+	fake.getPerson()
+}
 StoreFixture.setStore('good', GoodStore)
+StoreFixture.setStore('dummies', DummyStore)
