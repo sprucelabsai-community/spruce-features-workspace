@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [30.3.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v30.2.8...v30.3.0) (2022-03-25)
+
+
+### Features
+
+* get location faked! ([8b0a3f6](https://github.com/sprucelabsai/spruce-features-workspace/commit/8b0a3f6))
+
+
+
+
+
 ## [30.2.8](https://github.com/sprucelabsai/spruce-features-workspace/compare/v30.2.7...v30.2.8) (2022-03-25)
 
 **Note:** Version bump only for package spruce-features-workspace
