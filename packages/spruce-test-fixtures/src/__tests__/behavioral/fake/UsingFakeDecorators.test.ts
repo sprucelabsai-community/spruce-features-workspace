@@ -208,6 +208,18 @@ export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
 		assert.isLength(people, 2)
 	}
 
+	@test('listing by role id throws', { roleIds: [] })
+	@test('listing by person id throws', { personIds: [] })
+	protected static async listingPeopleThrowsWhenDoingSomethingNotSupported(
+		payload: any
+	) {
+		await assert.doesThrowAsync(() =>
+			this.client.emitAndFlattenResponses('list-people::v2020_12_25', {
+				payload,
+			})
+		)
+	}
+
 	protected static async emitGetLocationEvent(locationId: string) {
 		const [{ location }] = await this.client.emitAndFlattenResponses(
 			'get-location::v2020_12_25',

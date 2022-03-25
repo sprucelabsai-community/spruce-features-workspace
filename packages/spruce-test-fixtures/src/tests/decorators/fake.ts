@@ -243,6 +243,16 @@ async function fakeListPeople(Class: Class) {
 	await eventFaker.on('list-people::v2020_12_25', ({ payload }) => {
 		let people: Person[] = []
 
+		assert.isFalsy(
+			payload?.roleIds,
+			`@fake does not support listing people by roleIds. You will need to use 'eventFaker.on(...)' to fake your own response.`
+		)
+
+		assert.isFalsy(
+			payload?.personIds,
+			`@fake does not support listing people by personIds. You will need to use 'eventFaker.on(...)' to fake your own response.`
+		)
+
 		for (const base of payload?.roleBases ?? []) {
 			const faked = getFakedRecordsByRoleBase(Class, base)
 			if (faked) {
@@ -251,7 +261,7 @@ async function fakeListPeople(Class: Class) {
 		}
 
 		return {
-			people: !payload?.roleBases ? people : Class.fakedPeople,
+			people: payload?.roleBases ? people : Class.fakedPeople,
 		}
 	})
 }
