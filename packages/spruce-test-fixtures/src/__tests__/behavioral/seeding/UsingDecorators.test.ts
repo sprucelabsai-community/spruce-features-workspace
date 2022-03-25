@@ -1,14 +1,14 @@
 import { AuthenticatorImpl } from '@sprucelabs/heartwood-view-controllers'
 import { MercuryClient, MercuryClientFactory } from '@sprucelabs/mercury-client'
 import { test, assert } from '@sprucelabs/test'
-import { MercuryFixture, StoreFixture } from '../..'
-import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
-import { DEMO_NUMBER_DECORATORS } from '../../tests/constants'
-import login from '../../tests/decorators/login'
-import seed from '../../tests/decorators/seed'
+import { MercuryFixture, StoreFixture } from '../../..'
+import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
+import { DEMO_NUMBER_DECORATORS } from '../../../tests/constants'
+import login from '../../../tests/decorators/login'
+import seed from '../../../tests/decorators/seed'
 // eslint-disable-next-line spruce/prohibit-import-from-build-folder
-import GoodStore from '../testDirsAndFiles/one-good-store-skill/build/stores/Good.store'
-import { DummyStore } from './DummyStore'
+import GoodStore from '../../testDirsAndFiles/one-good-store-skill/build/stores/Good.store'
+import { DummyStore } from '../DummyStore'
 
 @login(DEMO_NUMBER_DECORATORS)
 export default class UsingDecoratorsTest extends AbstractSpruceFixtureTest {

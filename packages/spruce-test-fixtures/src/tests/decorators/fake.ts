@@ -179,6 +179,7 @@ async function setupFakes(Class: Class) {
 		fakeListPeople(Class),
 		fakeUpdatePerson(Class),
 		fakeListLocations(Class),
+		fakeGetLocation(Class),
 		fakeDeleteOrganization(Class),
 		fakeCreateLocation(Class),
 		fakeCreateOrganization(Class),
@@ -257,6 +258,21 @@ async function fakeListLocations(Class: Class) {
 			locations: applyPaging(Class._fakedLocations, payload).filter(
 				(l) => l.organizationId === target.organizationId
 			),
+		}
+	})
+}
+
+async function fakeGetLocation(Class: Class) {
+	await eventFaker.on('get-location::v2020_12_25', ({ target }) => {
+		const match = Class._fakedLocations.find((l) => l.id === target.locationId)
+		if (!match) {
+			throw new SpruceError({
+				code: 'INVALID_TARGET',
+				friendlyMessage: `I could not find that location!`,
+			})
+		}
+		return {
+			location: match,
 		}
 	})
 }
@@ -398,7 +414,7 @@ async function seedLocations(Class: Class, total: number) {
 function buildSeeder(target: CoreSeedTarget) {
 	return async function seed(Class: Class, total: number) {
 		if (Class._fakedLocations.length === 0) {
-			assert.fail(`You gotta @fake('locations', 1) before seeding teammates!`)
+			assert.fail(`You gotta @seed('locations', 1) before seeding teammates!`)
 		}
 
 		//@ts-ignore

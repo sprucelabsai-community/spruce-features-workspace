@@ -1,5 +1,7 @@
+import { generateId } from '@sprucelabs/data-stores'
 import { MercuryClient } from '@sprucelabs/mercury-client'
 import { test, assert } from '@sprucelabs/test'
+import { errorAssert } from '@sprucelabs/test-utils'
 import { seed, StoreFixture } from '../../..'
 import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
 import fake, {
@@ -54,7 +56,7 @@ export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
 
 	@test('can seed location to org 1', 0)
 	@test('can seed location to org 2', 1)
-	@fake('organizations', 2)
+	@seed('organizations', 2)
 	protected static async seedingLocationSeedsToExpectedOrg(orgIdx: number) {
 		const id = this.fakedOrganizations[orgIdx].id
 		const location = await this.locations.seedDemoLocation({
@@ -67,10 +69,10 @@ export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
 
 	@test('list locations by org 1', 0)
 	@test('list locations by org 0', 1)
-	@fake('organizations', 1)
-	@fake('locations', 2)
-	@fake('organizations', 1)
-	@fake('locations', 2)
+	@seed('organizations', 1)
+	@seed('locations', 2)
+	@seed('organizations', 1)
+	@seed('locations', 2)
 	protected static async canSeedAndListLocations(orgIdx: number) {
 		const id = this.fakedOrganizations[orgIdx].id
 		const [{ locations }] = await this.client.emitAndFlattenResponses(
@@ -90,11 +92,11 @@ export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
 	@test('can seed managers', 'managers')
 	@test('can seed guests', 'guests')
 	@test('can seed groupManagers', 'groupManagers')
-	@fake('locations', 1)
-	@fake('teammates', 3)
-	@fake('managers', 3)
-	@fake('guests', 3)
-	@fake('groupManagers', 3)
+	@seed('locations', 1)
+	@seed('teammates', 3)
+	@seed('managers', 3)
+	@seed('guests', 3)
+	@seed('groupManagers', 3)
 	protected static async canSeedTeammates(target: CoreSeedTarget) {
 		let total = 3
 
@@ -105,14 +107,14 @@ export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
 	}
 
 	@test()
-	@fake('locations', 1)
-	@fake('owners', 3)
+	@seed('locations', 1)
+	@seed('owners', 3)
 	protected static async canSeedOwners() {
 		await this.assertFakedPeople('owners', 4)
 	}
 
 	@test()
-	@fake('locations', 1)
+	@seed('locations', 1)
 	protected static async whoAmIReturnsExpectedPerson() {
 		const phone = '555-111-1111'
 		const { person, client } = await this.people.loginAsDemoPerson(phone)
@@ -136,8 +138,8 @@ export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
 	}
 
 	@test()
-	@fake('locations', 1)
-	@fake('teammates', 4)
+	@seed('locations', 1)
+	@seed('teammates', 4)
 	protected static async canListTeammatesByLocation() {
 		const [{ people }] = await this.client.emitAndFlattenResponses(
 			'list-people::v2020_12_25',
@@ -169,6 +171,38 @@ export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
 	@test()
 	@seed('good')
 	protected static canBeUsedWithSeedDecorator() {}
+
+	@test('can get location by id 1', 0)
+	@test('can get location by id 2', 1)
+	@seed('locations', 3)
+	protected static async canGetLocationById(idx: number) {
+		const location = await this.emitGetLocationEvent(
+			this.fakedLocations[idx].id
+		)
+		assert.isEqualDeep(location, this.fakedLocations[idx])
+	}
+
+	@test()
+	protected static async throwsAsExpectedWithBadLocation() {
+		const err = await assert.doesThrowAsync(() =>
+			this.emitGetLocationEvent(generateId())
+		)
+
+		errorAssert.assertError(err, 'INVALID_TARGET')
+	}
+
+	protected static async emitGetLocationEvent(locationId: string) {
+		const [{ location }] = await this.client.emitAndFlattenResponses(
+			'get-location::v2020_12_25',
+			{
+				target: {
+					locationId,
+				},
+			}
+		)
+
+		return location
+	}
 
 	private static async assertFakedPeople(target: string, total: number) {
 		//@ts-ignore
