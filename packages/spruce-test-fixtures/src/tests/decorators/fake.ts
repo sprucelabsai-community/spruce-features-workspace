@@ -241,15 +241,26 @@ async function fakeListRoles(Class: Class) {
 
 async function fakeListPeople(Class: Class) {
 	await eventFaker.on('list-people::v2020_12_25', ({ payload }) => {
-		const base = payload?.roleBases?.[0]
+		let people: Person[] = []
+
+		for (const base of payload?.roleBases ?? []) {
+			const faked = getFakedRecordsByRoleBase(Class, base)
+			if (faked) {
+				people.push(...faked)
+			}
+		}
 
 		return {
-			people: base
-				? //@ts-ignore
-				  Class[fakeTargetToPropName(base + 's')]
-				: Class.fakedPeople,
+			people: !payload?.roleBases ? people : Class.fakedPeople,
 		}
 	})
+}
+
+function getFakedRecordsByRoleBase(Class: Class, base: string) {
+	//@ts-ignore
+	return Class[fakeTargetToPropName(singularToPlural(base))] as
+		| Person[]
+		| undefined
 }
 
 async function fakeListLocations(Class: Class) {
@@ -491,6 +502,10 @@ function upperCaseFirst(target: string) {
 
 export function pluralToSingular(target: string): string {
 	return target.substring(0, target.length - 1)
+}
+
+export function singularToPlural(target: string): string {
+	return target + 's'
 }
 
 let shouldSkipNextReset = false

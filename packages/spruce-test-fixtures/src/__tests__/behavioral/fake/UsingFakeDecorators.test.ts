@@ -191,6 +191,23 @@ export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
 		errorAssert.assertError(err, 'INVALID_TARGET')
 	}
 
+	@test()
+	@seed('locations', 1)
+	@seed('teammates', 1)
+	@seed('managers', 1)
+	protected static async canFilterByManyRolesAtOnceWhenListingPeople() {
+		const [{ people }] = await this.client.emitAndFlattenResponses(
+			'list-people::v2020_12_25',
+			{
+				payload: {
+					roleBases: ['teammate', 'manager'],
+				},
+			}
+		)
+
+		assert.isLength(people, 2)
+	}
+
 	protected static async emitGetLocationEvent(locationId: string) {
 		const [{ location }] = await this.client.emitAndFlattenResponses(
 			'get-location::v2020_12_25',
