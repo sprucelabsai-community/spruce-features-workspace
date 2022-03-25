@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [30.2.8](https://github.com/sprucelabsai/spruce-features-workspace/compare/v30.2.7...v30.2.8) (2022-03-25)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [30.2.7](https://github.com/sprucelabsai/spruce-features-workspace/compare/v30.2.6...v30.2.7) (2022-03-25)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [30.2.6](https://github.com/sprucelabsai/spruce-features-workspace/compare/v30.2.5...v30.2.6) (2022-03-25)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [30.2.5](https://github.com/sprucelabsai/spruce-features-workspace/compare/v30.2.4...v30.2.5) (2022-03-25)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
 ## [30.2.4](https://github.com/sprucelabsai/spruce-features-workspace/compare/v30.2.3...v30.2.4) (2022-03-25)
 
 **Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
