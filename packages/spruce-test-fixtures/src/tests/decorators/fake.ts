@@ -231,6 +231,16 @@ async function fakeUpdatePerson(Class: Class) {
 
 async function fakeListRoles(Class: Class) {
 	await eventFaker.on('list-roles::v2020_12_25', ({ target }) => {
+		assert.isFalsy(
+			target?.locationId,
+			`You can't list roles by location id when faking (yet). For now you'll have to 'eventFaker.on(...)' to get things to work!`
+		)
+
+		assert.isFalsy(
+			target?.personId,
+			`You can't list roles by person id when faking (yet). For now you'll have to 'eventFaker.on(...)' to get things to work!`
+		)
+
 		return {
 			roles: Class.fakedRoles.filter(
 				(r) => r.organizationId === target?.organizationId
@@ -289,7 +299,7 @@ async function fakeGetLocation(Class: Class) {
 		if (!match) {
 			throw new SpruceError({
 				code: 'INVALID_TARGET',
-				friendlyMessage: `I could not find that location!`,
+				friendlyMessage: `I could not find that location (get-location::v2020_12_25)!`,
 			})
 		}
 		return {
@@ -355,7 +365,7 @@ async function fakeGetPerson(Class: Class) {
 		if (!person) {
 			throw new SpruceError({
 				code: 'INVALID_TARGET',
-				friendlyMessage: `I could not find the person you were looking for.`,
+				friendlyMessage: `I could not find the person you were looking for (get-person::v2020_12_25).`,
 			})
 		}
 
@@ -383,7 +393,7 @@ async function fakeGetOrganization(Class: Class) {
 		if (!match) {
 			throw new SpruceError({
 				code: 'INVALID_TARGET',
-				friendlyMessage: `I could not find the organization you were looking for.`,
+				friendlyMessage: `I could not find the organization you were looking for (get-organization::v2020_12_25).`,
 			})
 		}
 		return {
