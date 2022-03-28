@@ -11,7 +11,7 @@
       "@sprucelabs/spruce-test-fixtures"
     ]
   },
-  "version": "30.3.3",
+  "version": "30.3.5",
   "files": [
     "build/**/*",
     "!build/__tests__",
@@ -60,20 +60,20 @@
     "lint.tsc": "tsc -p . --noEmit"
   },
   "dependencies": {
-    "@nlpjs/nlu": "^4.23.1",
+    "@nlpjs/nlu": "^4.23.4",
     "@sprucelabs/error": "^5.0.430",
     "@sprucelabs/mercury-core-events": "^3.1.45",
     "@sprucelabs/schema": "^27.1.35",
     "@sprucelabs/spruce-core-schemas": "^25.0.57",
-    "@sprucelabs/spruce-event-plugin": "^30.3.3",
+    "@sprucelabs/spruce-event-plugin": "^30.3.5",
     "@sprucelabs/spruce-event-utils": "^19.1.47",
-    "@sprucelabs/spruce-skill-booter": "^30.3.3",
+    "@sprucelabs/spruce-skill-booter": "^30.3.5",
     "@sprucelabs/spruce-skill-utils": "^25.0.51",
-    "@sprucelabs/spruce-test-fixtures": "^30.3.3",
+    "@sprucelabs/spruce-test-fixtures": "^30.3.5",
     "fuzzyset": "^1.0.7",
     "globby": "^11.0.4",
     "inquirer": "^8.2.2",
-    "node-nlp": "^4.23.2",
+    "node-nlp": "^4.23.4",
     "random": "^3.0.6"
   },
   "devDependencies": {
