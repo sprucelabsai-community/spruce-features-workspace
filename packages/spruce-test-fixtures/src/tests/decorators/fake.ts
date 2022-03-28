@@ -171,6 +171,7 @@ function givePersonName(person: SpruceSchemas.Spruce.v2020_07_22.Person) {
 
 async function setupFakes(Class: Class) {
 	await Promise.all([
+		fakeSkillLifecycleEvents(),
 		fakeGetPerson(Class),
 		fakeWhoAmI(Class),
 		fakeAuthenticationEvents(Class),
@@ -373,6 +374,16 @@ async function fakeGetPerson(Class: Class) {
 			person,
 		}
 	})
+}
+
+async function fakeSkillLifecycleEvents() {
+	await eventFaker.on('unregister-listeners::v2020_12_25', () => ({
+		unregisterCount: 0,
+	}))
+
+	await eventFaker.on('sync-event-contracts::v2020_12_25', () => ({
+		fqens: ['did-sync'],
+	}))
 }
 
 function buildCasualName(names: {

@@ -311,6 +311,25 @@ export default class FakeDecoratorTest extends AbstractSpruceFixtureTest {
 		errorAssert.assertError(err, 'INVALID_PIN')
 	}
 
+	@test()
+	protected static async fakesSkillLifecycleEvents() {
+		await this.client.emitAndFlattenResponses(
+			'unregister-listeners::v2020_12_25'
+		)
+		await this.client.emitAndFlattenResponses(
+			'sync-event-contracts::v2020_12_25',
+			{
+				payload: {
+					contract: {
+						eventSignatures: {
+							['did-sync']: {},
+						},
+					},
+				},
+			}
+		)
+	}
+
 	private static async fakeLoginAndListRoles(orgIdx: number) {
 		await this.fakeLoginAndRecords('organizations', 2)
 		const [{ roles }] = await this.client.emitAndFlattenResponses(
