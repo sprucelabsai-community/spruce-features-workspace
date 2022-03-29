@@ -74,7 +74,7 @@
     "@sprucelabs/mercury-types": "^27.0.197",
     "@sprucelabs/resolve-path-aliases": "^1.1.20",
     "@sprucelabs/semantic-release": "^4.0.8",
-    "@sprucelabs/test": "^7.7.297",
+    "@sprucelabs/test": "^7.7.298",
     "@sprucelabs/test-utils": "^3.0.508",
     "@types/inquirer": "^8.2.0",
     "@types/node": "17.0.5",
