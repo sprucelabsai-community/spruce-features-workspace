@@ -7,9 +7,10 @@ import {
 import { SpruceSchemas } from '@sprucelabs/mercury-types'
 import { assertOptions, isValidNumber } from '@sprucelabs/schema'
 import { BASE_ROLES } from '@sprucelabs/spruce-core-schemas'
-import { namesUtil } from '@sprucelabs/spruce-skill-utils'
+import { namesUtil, testLog } from '@sprucelabs/spruce-skill-utils'
 import { assert } from '@sprucelabs/test'
 import SpruceError from '../../errors/SpruceError'
+import AbstractSpruceFixtureTest from '../AbstractSpruceFixtureTest'
 import eventFaker from '../eventFaker'
 import generateRandomName from '../fixtures/generateRandomName'
 import MercuryFixture from '../fixtures/MercuryFixture'
@@ -109,6 +110,13 @@ fake.login = (phone = '555-000-0000') => {
 	seed.disableResettingTestClient()
 
 	return function (TestClass: any, shouldPassHookCalls = true) {
+		if (!(TestClass.prototype instanceof AbstractSpruceFixtureTest)) {
+			testLog.warn(
+				`@fake.login() is attached to an incompatible test class. You can safely remove it or have your test class extend AbstractSpruceFixtureTest.`
+			)
+			return
+		}
+
 		const Class = TestClass as Class
 		const beforeEach = Class.beforeEach?.bind(Class)
 
@@ -134,6 +142,10 @@ fake.login = (phone = '555-000-0000') => {
 
 		Class.beforeEach = async () => {
 			resetFakes(Class)
+
+			if (!TestClass.cwd) {
+				return
+			}
 
 			await login(Class, phone)
 
