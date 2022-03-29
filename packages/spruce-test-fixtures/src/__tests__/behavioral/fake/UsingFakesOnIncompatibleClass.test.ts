@@ -1,5 +1,5 @@
-import { fake } from '@sprucelabs/spruce-test-fixtures'
 import AbstractSpruceTest, { test, assert } from '@sprucelabs/test'
+import fake from '../../../tests/decorators/fake'
 
 @fake.login()
 export default class UsingFakesOnIncompatibleClassTest extends AbstractSpruceTest {
