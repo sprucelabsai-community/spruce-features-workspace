@@ -249,6 +249,35 @@ export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
 		return location
 	}
 
+	@test()
+	protected static async shouldBeAbleToOffListenersAndNotBreakEverything() {
+		await this.client.off('whoami::v2020_12_25')
+		await this.client.on('whoami::v2020_12_25', () => {
+			return {
+				auth: {},
+				type: 'authenticated' as const,
+			}
+		})
+
+		const results = await this.emitWhoAmI()
+		assert.isLength(results, 1)
+	}
+
+	@test()
+	protected static async thisWhoAmIShouldStillWork() {
+		const [{ auth }] = await this.emitWhoAmI()
+		const { client } = await this.views.loginAsDemoPerson()
+
+		assert.isEqualDeep(DummyStore.lastFakedOwner, auth.person)
+		//@ts-ignore
+		assert.isEqualDeep(auth.person, client.auth.person)
+		assert.isEqualDeep(auth.person, this.fakedOwner)
+	}
+
+	private static async emitWhoAmI() {
+		return this.client.emitAndFlattenResponses('whoami::v2020_12_25')
+	}
+
 	private static async assertFakedPeople(target: string, total: number) {
 		//@ts-ignore
 		const fakedRecords = this[`${fakeTargetToPropName(target)}`] as any[]
@@ -270,8 +299,10 @@ export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
 	}
 }
 
-DummyStore.seedCb = () => {
+DummyStore.seedCb = async () => {
 	fake.getPerson()
+	//@ts-ignore
+	DummyStore.lastFakedOwner = MercuryFixture.getDefaultClient()?.auth?.person
 }
 StoreFixture.setStore('good', GoodStore)
 StoreFixture.setStore('dummies', DummyStore)

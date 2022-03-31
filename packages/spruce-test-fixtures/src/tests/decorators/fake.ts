@@ -166,7 +166,9 @@ fake.getPerson = () => {
 async function login(Class: Class, phone: string) {
 	const { person, client } = await Class.people.loginAsDemoPerson(phone)
 
-	givePersonName(person)
+	if (!person.firstName) {
+		givePersonName(person)
+	}
 
 	Class.fakedPeople = [person]
 	Class.fakedOwners = [person]
@@ -496,12 +498,15 @@ async function fakeAuthenticationEvents(Class: Class) {
 		let person = Class.fakedPeople.find((p) => p.phone === payload.phone)
 
 		if (!person) {
-			person = {
-				id: generateId(),
-				casualName: 'friend',
-				dateCreated: new Date().getTime(),
-				phone: payload.phone,
-			}
+			person =
+				Class.fakedOwner?.phone === payload.phone
+					? Class.fakedOwner
+					: {
+							id: generateId(),
+							casualName: 'friend',
+							dateCreated: new Date().getTime(),
+							phone: payload.phone,
+					  }
 			Class.fakedPeople.push(person)
 		}
 

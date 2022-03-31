@@ -1,4 +1,5 @@
 import { AbstractStore } from '@sprucelabs/data-stores'
+import { SpruceSchemas } from '@sprucelabs/mercury-types'
 import { buildSchema } from '@sprucelabs/schema'
 import { StoreSeedOptions } from '../../types/store.types'
 
@@ -20,16 +21,18 @@ export class DummyStore extends AbstractStore<DummySchema> {
 	protected fullSchema = dummySchema
 	protected databaseSchema = dummySchema
 
-	public static seedCb?: () => void
+	public static lastFakedOwner?: SpruceSchemas.Spruce.v2020_07_22.Person
+
+	public static seedCb?: () => Promise<void> | void
 	public static wasSeedInvoked = false
 	public static seedOptions = {}
 	public static Store(options: any) {
 		return new this(options)
 	}
 
-	public seed(options: StoreSeedOptions) {
+	public async seed(options: StoreSeedOptions) {
 		DummyStore.wasSeedInvoked = true
 		DummyStore.seedOptions = options
-		DummyStore.seedCb?.()
+		await DummyStore.seedCb?.()
 	}
 }
