@@ -61,13 +61,13 @@
     "lint.tsc": "tsc -p . --noEmit"
   },
   "dependencies": {
-    "@sprucelabs/data-stores": "^9.0.73",
+    "@sprucelabs/data-stores": "^9.0.74",
     "@sprucelabs/error": "^5.0.436",
     "@sprucelabs/schema": "^27.1.42",
-    "@sprucelabs/spruce-core-schemas": "^25.0.69",
-    "@sprucelabs/spruce-event-utils": "^19.1.62",
+    "@sprucelabs/spruce-core-schemas": "^25.0.70",
+    "@sprucelabs/spruce-event-utils": "^19.1.63",
     "@sprucelabs/spruce-skill-booter": "^30.3.28",
-    "@sprucelabs/spruce-skill-utils": "^25.0.65",
+    "@sprucelabs/spruce-skill-utils": "^25.0.66",
     "@sprucelabs/spruce-test-fixtures": "^30.3.28",
     "globby": "^11.0.4",
     "heroku-client": "^3.1.0"
@@ -75,8 +75,8 @@
   "devDependencies": {
     "@sprucelabs/esm-postbuild": "^1.0.437",
     "@sprucelabs/jest-json-reporter": "^6.0.356",
-    "@sprucelabs/mercury-client": "^22.2.28",
-    "@sprucelabs/mercury-types": "^27.0.209",
+    "@sprucelabs/mercury-client": "^22.2.29",
+    "@sprucelabs/mercury-types": "^27.0.210",
     "@sprucelabs/resolve-path-aliases": "^1.1.25",
     "@sprucelabs/semantic-release": "^4.0.8",
     "@sprucelabs/test": "^7.7.301",
