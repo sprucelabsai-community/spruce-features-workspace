@@ -561,9 +561,13 @@ export class EventFeaturePlugin implements SkillFeature {
 						targetAndPayload?.source?.proxyToken
 					)
 
-					const results = await listener.callback(event)
-
-					return results
+					try {
+						const results = await listener.callback(event)
+						return results
+					} catch (err: any) {
+						this.log.error(err.stack ?? err.message)
+						throw err
+					}
 				})
 
 				this.log.info(`Listening to ${fqen}`)
