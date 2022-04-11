@@ -64,6 +64,7 @@ jobs:
       - spruce/set_target_branch_env
       - spruce/install_rsync
       - spruce/install_cli
+      - run: yarn install
       - spruce/workspace_upgrade_check_for_major
       - spruce/check_for_newline_only_diff
       - spruce/create_pr
