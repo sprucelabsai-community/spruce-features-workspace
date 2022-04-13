@@ -2,6 +2,7 @@ import { MercuryTestClient } from '@sprucelabs/mercury-client'
 import { eventAssertUtil } from '@sprucelabs/spruce-event-utils'
 import { test, assert } from '@sprucelabs/test'
 import { AbstractSpruceFixtureTest } from '../..'
+import SpruceError from '../../errors/SpruceError'
 import eventFaker from '../../tests/eventFaker'
 
 export default class FakingErrorResponsesTest extends AbstractSpruceFixtureTest {
@@ -102,6 +103,17 @@ export default class FakingErrorResponsesTest extends AbstractSpruceFixtureTest 
 		const results = await this.client.emit(fqen)
 
 		assert.isEqual(results.totalErrors, 0)
+	}
+
+	@test()
+	protected static async canCustomizeTheErrorPassedIn() {
+		const error = new SpruceError({
+			code: 'INVALID_TARGET',
+		})
+		await eventFaker.makeEventThrow('whoami::v2020_12_25', error)
+
+		const results = await this.client.emit('whoami::v2020_12_25')
+		assert.isEqualDeep(results.responses[0].errors?.[0], error)
 	}
 
 	private static async assertResponseIsFakeEventError(

@@ -17,16 +17,19 @@ type Response<E extends Fqen> = SchemaValues<
 >
 
 const eventFaker = {
-	async makeEventThrow(fqen: Fqen) {
+	async makeEventThrow(fqen: Fqen, error?: any) {
 		const client = getClient(fqen)
 
 		await client.off(fqen)
 
 		await client.on(fqen as any, () => {
-			throw new SpruceError({
-				code: 'FAKE_EVENT_ERROR',
-				fqen,
-			})
+			throw (
+				error ??
+				new SpruceError({
+					code: 'FAKE_EVENT_ERROR',
+					fqen,
+				})
+			)
 		})
 	},
 
