@@ -1,10 +1,11 @@
+import { MercuryClient } from '@sprucelabs/mercury-client'
 import { test, assert } from '@sprucelabs/test'
 import { AbstractSpruceFixtureTest, login } from '../..'
 import ClientProxyDecorator from '../../ClientProxyDecorator'
 import { DEMO_NUMBER } from '../../tests/constants'
 
 @login(DEMO_NUMBER)
-export default class DecoratoringEmitToPassThroughProxyTest extends AbstractSpruceFixtureTest {
+export default class DecoratingEmitToPassThroughProxyTest extends AbstractSpruceFixtureTest {
 	private static lastInstance: ClientProxyDecorator
 
 	@test()
@@ -14,7 +15,7 @@ export default class DecoratoringEmitToPassThroughProxyTest extends AbstractSpru
 	}
 
 	@test()
-	protected static canClearIsntance() {
+	protected static canClearInstance() {
 		const instance = this.getDecorator()
 		ClientProxyDecorator.clearInstance()
 		assert.isNotEqual(instance, this.getDecorator())
@@ -30,7 +31,7 @@ export default class DecoratoringEmitToPassThroughProxyTest extends AbstractSpru
 	}
 
 	@test('can set token to 234', '234')
-	@test('can set token to aoeuaoeu', 'aoeuaoeu')
+	@test('can set token to waka', 'waka')
 	protected static async canSetDefaultProxyPassThrough(id: string) {
 		const instance = this.getDecorator()
 		instance.setProxyTokenGenerator(async () => id)
@@ -64,16 +65,22 @@ export default class DecoratoringEmitToPassThroughProxyTest extends AbstractSpru
 		assert.isTruthy(generator)
 	}
 
-	private static async assertProxyEquals(client: any, id: string) {
+	private static async assertProxyEquals(client: MercuryClient, id: string) {
 		let passedSource: any
 
-		//@ts-ignore
 		await client.on('whoami::v2020_12_25', ({ source }) => {
 			passedSource = source
-			return {} as any
+			return {
+				type: 'anonymous' as const,
+				auth: {},
+			}
 		})
 
 		await client.emit('whoami::v2020_12_25')
+
+		assert.isEqual(passedSource.proxyToken, id)
+
+		await client.emitAndFlattenResponses('whoami::v2020_12_25')
 
 		assert.isEqual(passedSource.proxyToken, id)
 	}

@@ -40,28 +40,40 @@ export default class ClientProxyDecorator {
 	): MercuryClient {
 		const newClient = {
 			//@ts-ignore
-			emit: async (eventName, tp, cb) => {
-				token = token || (await this.proxyTokenGenerator?.())
-
-				let builtTp = tp
-
-				if (token) {
-					if (!builtTp) {
-						builtTp = {}
-					}
-
-					builtTp.source = {
-						...builtTp?.source,
-						proxyToken: token,
-					}
-				}
-
+			emit: async (eventName, targetAndPayload, cb) => {
+				let builtTp = await this.mixinProxyToken(token, targetAndPayload)
 				return client.emit(eventName, builtTp, cb)
+			},
+			//@ts-ignore
+			emitAndFlattenResponses: async (eventName, targetAndPayload, cb) => {
+				let builtTp = await this.mixinProxyToken(token, targetAndPayload)
+				return client.emitAndFlattenResponses(eventName, builtTp, cb)
 			},
 		}
 
 		functionDelegationUtil.delegateFunctionCalls(newClient, client)
 
 		return newClient as any
+	}
+
+	private async mixinProxyToken(
+		token: string | undefined,
+		targetAndPayload: any
+	) {
+		const t = token || (await this.proxyTokenGenerator?.())
+
+		let builtTp = targetAndPayload
+
+		if (t) {
+			if (!builtTp) {
+				builtTp = {}
+			}
+
+			builtTp.source = {
+				...builtTp?.source,
+				proxyToken: t,
+			}
+		}
+		return builtTp
 	}
 }
