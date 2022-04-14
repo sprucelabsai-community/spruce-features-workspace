@@ -94,7 +94,7 @@ export default class LocationFixture {
 			const org = await this.orgs.getNewestOrganization()
 			assert.isTruthy(
 				org,
-				`You gotta @seed('organizations', 1) before you can seed a location.`
+				`You gotta @seed('locations', 1) before you can get the newest location.`
 			)
 			organizationId = org.id
 		}
