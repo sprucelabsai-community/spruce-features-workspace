@@ -103,6 +103,15 @@ export default class SeedingDataTest extends AbstractSpruceFixtureTest {
 	}
 
 	@test()
+	protected static async throwsWhenSeedingWithoutCount() {
+		//@ts-ignore
+		const err = await assert.doesThrowAsync(() => this.fixture.seedAccount({}))
+		errorAssert.assertError(err, 'MISSING_PARAMETERS', {
+			parameters: ['totalLocations'],
+		})
+	}
+
+	@test()
 	protected static async actuallyCreatesLocations() {
 		const { organization, locations } = await this.seedLocations()
 

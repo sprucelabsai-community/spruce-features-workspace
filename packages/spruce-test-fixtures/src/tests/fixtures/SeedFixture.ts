@@ -1,5 +1,5 @@
 import { SpruceSchemas } from '@sprucelabs/mercury-types'
-import { SchemaError } from '@sprucelabs/schema'
+import { assertOptions, SchemaError } from '@sprucelabs/schema'
 import { roleSchema } from '@sprucelabs/spruce-core-schemas'
 import { namesUtil } from '@sprucelabs/spruce-skill-utils'
 import { assert } from '@sprucelabs/test'
@@ -100,7 +100,11 @@ export default class SeedFixture {
 	}
 
 	public async seedAccount(options: SeedLocationOptions) {
-		let { totalLocations, organizationId, phone } = options
+		let { totalLocations, organizationId, phone } = assertOptions(
+			options,
+			['totalLocations'],
+			`You forgot to pass 'totalLocations', if you are using @seed('locations', 1), make sure you pass the total locations as the second param.`
+		)
 
 		const location = await this.locations.seedDemoLocation({
 			organizationId,

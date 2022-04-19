@@ -112,7 +112,7 @@ fake.login = (phone = '555-000-0000') => {
 	return function (TestClass: any, shouldPassHookCalls = true) {
 		if (!(TestClass.prototype instanceof AbstractSpruceFixtureTest)) {
 			testLog.warn(
-				`@fake.login() is attached to an incompatible test class. You can safely remove it or have your test class extend AbstractSpruceFixtureTest.`
+				`@fake.login() is attached to an incompatible test class (${TestClass.name}). You can safely remove it or have your test class extend AbstractSpruceFixtureTest.`
 			)
 			return
 		}
