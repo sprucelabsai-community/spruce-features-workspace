@@ -3,6 +3,70 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [30.4.10](https://github.com/sprucelabsai/spruce-features-workspace/compare/v30.4.9...v30.4.10) (2022-04-19)
+
+**Note:** Version bump only for package @sprucelabs/spruce-skill-booter
+
+
+
+
+
+## [30.4.9](https://github.com/sprucelabsai/spruce-features-workspace/compare/v30.4.8...v30.4.9) (2022-04-18)
+
+**Note:** Version bump only for package @sprucelabs/spruce-skill-booter
+
+
+
+
+
+## [30.4.8](https://github.com/sprucelabsai/spruce-features-workspace/compare/v30.4.7...v30.4.8) (2022-04-17)
+
+**Note:** Version bump only for package @sprucelabs/spruce-skill-booter
+
+
+
+
+
+## [30.4.7](https://github.com/sprucelabsai/spruce-features-workspace/compare/v30.4.6...v30.4.7) (2022-04-17)
+
+**Note:** Version bump only for package @sprucelabs/spruce-skill-booter
+
+
+
+
+
+## [30.4.6](https://github.com/sprucelabsai/spruce-features-workspace/compare/v30.4.5...v30.4.6) (2022-04-16)
+
+**Note:** Version bump only for package @sprucelabs/spruce-skill-booter
+
+
+
+
+
+## [30.4.5](https://github.com/sprucelabsai/spruce-features-workspace/compare/v30.4.4...v30.4.5) (2022-04-16)
+
+**Note:** Version bump only for package @sprucelabs/spruce-skill-booter
+
+
+
+
+
+## [30.4.4](https://github.com/sprucelabsai/spruce-features-workspace/compare/v30.4.3...v30.4.4) (2022-04-15)
+
+**Note:** Version bump only for package @sprucelabs/spruce-skill-booter
+
+
+
+
+
+## [30.4.3](https://github.com/sprucelabsai/spruce-features-workspace/compare/v30.4.2...v30.4.3) (2022-04-15)
+
+**Note:** Version bump only for package @sprucelabs/spruce-skill-booter
+
+
+
+
+
 ## [30.4.2](https://github.com/sprucelabsai/spruce-features-workspace/compare/v30.4.1...v30.4.2) (2022-04-14)
 
 **Note:** Version bump only for package @sprucelabs/spruce-skill-booter
