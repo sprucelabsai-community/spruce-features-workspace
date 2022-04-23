@@ -104,7 +104,6 @@ export default class LocationFixture {
 				organizationId,
 			},
 			payload: {
-				includePrivateLocations: true,
 				paging: {
 					pageSize: 1,
 				},
@@ -133,9 +132,7 @@ export default class LocationFixture {
 			target: {
 				organizationId: organizationId as string,
 			},
-			payload: {
-				includePrivateLocations: true,
-			},
+			payload: {},
 		})
 
 		const { locations } = eventResponseUtil.getFirstResponseOrThrow(results)
