@@ -104,7 +104,6 @@ export default class LocationFixture {
 				organizationId,
 			},
 			payload: {
-				includePrivateLocations: true,
 				paging: {
 					pageSize: 1,
 				},
@@ -132,9 +131,6 @@ export default class LocationFixture {
 		const results = await client.emit('list-locations::v2020_12_25', {
 			target: {
 				organizationId: organizationId as string,
-			},
-			payload: {
-				includePrivateLocations: true,
 			},
 		})
 
