@@ -132,7 +132,6 @@ export default class LocationFixture {
 			target: {
 				organizationId: organizationId as string,
 			},
-			payload: {},
 		})
 
 		const { locations } = eventResponseUtil.getFirstResponseOrThrow(results)

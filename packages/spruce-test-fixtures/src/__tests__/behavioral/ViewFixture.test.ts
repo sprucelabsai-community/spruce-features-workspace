@@ -231,9 +231,6 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 				target: {
 					organizationId: org.id,
 				},
-				payload: {
-					includePrivateLocations: true,
-				},
 			}
 		)
 

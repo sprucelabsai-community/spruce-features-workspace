@@ -119,7 +119,6 @@ export default class SeedingDataTest extends AbstractSpruceFixtureTest {
 			target: {
 				organizationId: organization.id,
 			},
-			payload: {},
 		})
 
 		const { locations: matches } =
