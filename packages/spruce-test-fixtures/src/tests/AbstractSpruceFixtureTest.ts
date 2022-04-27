@@ -34,7 +34,7 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		assert.isAbove(
 			this._fakedOrganizations.length,
 			0,
-			`You gotta @seed('organizations', 1) before getting faked orgs.`
+			`You gotta @seed('organizations', 1) (and use @fake.login(...)) before getting faked orgs.`
 		)
 		this._fakedOrganizations = orgs
 	}
@@ -43,7 +43,7 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		assert.isAbove(
 			this._fakedLocations.length,
 			0,
-			`You gotta @seed('locations', 1) before getting faked locations.`
+			`You gotta @seed('locations', 1) (and use @fake.login(...)) before getting faked locations.`
 		)
 		return this._fakedLocations
 	}
