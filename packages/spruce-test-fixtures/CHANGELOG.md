@@ -3,6 +3,78 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [30.4.30](https://github.com/sprucelabsai/spruce-features-workspace/compare/v30.4.29...v30.4.30) (2022-04-27)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [30.4.29](https://github.com/sprucelabsai/spruce-features-workspace/compare/v30.4.28...v30.4.29) (2022-04-27)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [30.4.28](https://github.com/sprucelabsai/spruce-features-workspace/compare/v30.4.27...v30.4.28) (2022-04-26)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [30.4.27](https://github.com/sprucelabsai/spruce-features-workspace/compare/v30.4.26...v30.4.27) (2022-04-26)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [30.4.26](https://github.com/sprucelabsai/spruce-features-workspace/compare/v30.4.25...v30.4.26) (2022-04-26)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [30.4.25](https://github.com/sprucelabsai/spruce-features-workspace/compare/v30.4.24...v30.4.25) (2022-04-26)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [30.4.24](https://github.com/sprucelabsai/spruce-features-workspace/compare/v30.4.23...v30.4.24) (2022-04-25)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [30.4.23](https://github.com/sprucelabsai/spruce-features-workspace/compare/v30.4.22...v30.4.23) (2022-04-25)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [30.4.22](https://github.com/sprucelabsai/spruce-features-workspace/compare/v30.4.21...v30.4.22) (2022-04-24)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
 ## [30.4.21](https://github.com/sprucelabsai/spruce-features-workspace/compare/v30.4.20...v30.4.21) (2022-04-23)
 
 **Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
