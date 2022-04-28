@@ -73,7 +73,7 @@
     "@sprucelabs/spruce-test-fixtures": "^30.4.31",
     "fuzzyset": "^1.0.7",
     "globby": "^11.0.4",
-    "inquirer": "^8.2.3",
+    "inquirer": "^8.2.4",
     "node-nlp": "^4.23.5",
     "random": "^3.0.6"
   },

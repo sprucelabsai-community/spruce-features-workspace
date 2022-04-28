@@ -84,7 +84,7 @@
     "conventional-changelog-sprucelabs": "^1.1.2",
     "eslint": "^8.14.0",
     "eslint-config-spruce": "^10.11.2",
-    "inquirer": "^8.2.3",
+    "inquirer": "^8.2.4",
     "jest": "^28.0.2",
     "jest-circus": "^28.0.2",
     "prettier": "^2.6.2",
