@@ -72,7 +72,7 @@
   "devDependencies": {
     "@sprucelabs/esm-postbuild": "^1.0.455",
     "@sprucelabs/jest-json-reporter": "^6.0.369",
-    "@sprucelabs/mercury-client": "^22.2.78",
+    "@sprucelabs/mercury-client": "^22.2.79",
     "@sprucelabs/resolve-path-aliases": "^1.1.34",
     "@sprucelabs/semantic-release": "^4.0.8",
     "@sprucelabs/test": "^7.7.308",
@@ -83,13 +83,13 @@
     "conventional-changelog-sprucelabs": "^1.1.2",
     "eslint": "^8.14.0",
     "eslint-config-spruce": "^10.11.2",
-    "jest": "^28.0.2",
-    "jest-circus": "^28.0.2",
+    "jest": "^28.0.3",
+    "jest-circus": "^28.0.3",
     "prettier": "^2.6.2",
     "ts-node": "^10.7.0",
     "tsc-watch": "^5.0.3",
     "tsconfig-paths": "^3.14.1",
-    "typescript": "^4.6.3"
+    "typescript": "^4.6.4"
   },
   "jest": {
     "maxWorkers": 2,
