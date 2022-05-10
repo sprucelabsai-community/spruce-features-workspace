@@ -1,4 +1,5 @@
 import {
+	CursorPagerFaker,
 	DatabaseFixture,
 	StoreFactory,
 	StoreLoader,
@@ -64,6 +65,8 @@ export default class StoreFixture {
 		if (this.shouldAutomaticallyResetDatabase) {
 			await this.reset()
 		}
+
+		await CursorPagerFaker.beforeEach()
 	}
 
 	public static async reset() {

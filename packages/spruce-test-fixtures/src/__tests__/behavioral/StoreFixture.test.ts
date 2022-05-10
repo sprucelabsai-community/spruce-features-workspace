@@ -2,6 +2,7 @@ import {
 	DatabaseFixture,
 	StoreLoader,
 	StoreFactory,
+	CursorPagerFaker,
 } from '@sprucelabs/data-stores'
 import AbstractSpruceTest, { assert, test } from '@sprucelabs/test'
 import FixtureFactory from '../../tests/fixtures/FixtureFactory'
@@ -114,6 +115,19 @@ export default class StoreFixtureTest extends AbstractSpruceTest {
 		let wasHit = false
 		//@ts-ignore
 		StoreFactory.reset = () => {
+			wasHit = true
+		}
+
+		await StoreFixture.beforeEach()
+		assert.isTrue(wasHit)
+	}
+
+	@test()
+	protected static async callsBeforeEachOnCursorFaker() {
+		let wasHit = false
+
+		//@ts-ignore
+		CursorPagerFaker.beforeEach = () => {
 			wasHit = true
 		}
 
