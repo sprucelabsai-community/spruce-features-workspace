@@ -638,7 +638,7 @@ export class EventFeaturePlugin implements SkillFeature {
 		if (!this.listenersPath) {
 			throw new SpruceError({
 				code: 'EVENT_PLUGIN_ERROR',
-				friendlyMessage: `I could not find your listener map at ${this.listenerLookup}. Try generating one with 'spruce sync.events'.`,
+				friendlyMessage: `I could not find your listener map at ${this.listenerLookup}. Try generating one with 'spruce sync.listeners'.`,
 			})
 		}
 
