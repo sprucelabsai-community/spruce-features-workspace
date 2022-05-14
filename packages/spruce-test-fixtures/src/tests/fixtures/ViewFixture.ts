@@ -5,10 +5,11 @@ import {
 	ControllerOptions,
 	dialogTestPatcher,
 	formTestUtil,
-	MockStorage,
+	StubStorage,
 	renderUtil,
 	Scope,
 	SkillViewController,
+	SpyDevice,
 	SwipeViewControllerImpl,
 	vcAssert,
 	ViewControllerFactory,
@@ -149,6 +150,7 @@ export default class ViewFixture {
 
 		this.vcFactory = ViewControllerFactory.Factory({
 			controllerMap,
+			device: new SpyDevice(),
 			connectToApi: async (options?: ConnectOptions) => {
 				return this.viewClient ?? connectToApi(options)
 			},
@@ -232,7 +234,7 @@ export default class ViewFixture {
 
 	private static resetAuth() {
 		AuthenticatorImpl.reset()
-		AuthenticatorImpl.setStorage(new MockStorage())
+		AuthenticatorImpl.setStorage(new StubStorage())
 		ClientProxyDecorator.getInstance().clearProxyTokenGenerator()
 	}
 
