@@ -60,13 +60,13 @@
     "lint.tsc": "tsc -p . --noEmit"
   },
   "dependencies": {
-    "@sprucelabs/error": "^5.0.454",
-    "@sprucelabs/mercury-types": "^28.0.25",
-    "@sprucelabs/schema": "^28.2.3",
-    "@sprucelabs/spruce-core-schemas": "^27.1.13",
-    "@sprucelabs/spruce-event-utils": "^20.1.29",
+    "@sprucelabs/error": "^5.0.455",
+    "@sprucelabs/mercury-types": "^28.0.26",
+    "@sprucelabs/schema": "^28.2.4",
+    "@sprucelabs/spruce-core-schemas": "^27.1.14",
+    "@sprucelabs/spruce-event-utils": "^20.1.30",
     "@sprucelabs/spruce-skill-booter": "^31.0.37",
-    "@sprucelabs/spruce-skill-utils": "^26.0.21",
+    "@sprucelabs/spruce-skill-utils": "^26.0.22",
     "@sprucelabs/spruce-test-fixtures": "^31.0.37"
   },
   "devDependencies": {
@@ -76,7 +76,7 @@
     "@sprucelabs/resolve-path-aliases": "^1.1.44",
     "@sprucelabs/semantic-release": "^4.0.8",
     "@sprucelabs/test": "^7.7.314",
-    "@sprucelabs/test-utils": "^3.0.546",
+    "@sprucelabs/test-utils": "^3.0.547",
     "@types/node": "17.0.5",
     "chokidar-cli": "^3.0.0",
     "concurrently": "^7.2.0",
