@@ -55,6 +55,26 @@ export default class DecoratingEmitToPassThroughProxyTest extends AbstractSpruce
 	}
 
 	@test()
+	protected static async decoratorPassProps() {
+		const client = login.getClient()
+
+		this.assertPropsCopied(client, 'auth', { skill: true })
+		this.assertPropsCopied(client, 'hell', { world: 'there' })
+	}
+
+	private static assertPropsCopied(
+		client: any,
+		key: string,
+		props: Record<string, any>
+	) {
+		const instance = this.getDecorator()
+		client[key] = props
+		const decorated = instance.decorateEmitToPassProxyToken(client)
+		//@ts-ignore
+		assert.isEqualDeep(decorated[key], props)
+	}
+
+	@test()
 	protected static async instanceIsSameEachTest() {
 		assert.isEqual(this.lastInstance, this.getDecorator())
 	}

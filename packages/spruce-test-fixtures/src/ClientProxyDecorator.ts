@@ -39,6 +39,7 @@ export default class ClientProxyDecorator {
 		token?: string
 	): MercuryClient {
 		const newClient = {
+			...client,
 			//@ts-ignore
 			emit: async (eventName, targetAndPayload, cb) => {
 				let builtTp = await this.mixinProxyToken(token, targetAndPayload)
