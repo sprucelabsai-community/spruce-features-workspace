@@ -23,6 +23,7 @@ import { ClientProxyDecorator } from '../..'
 import { TokenGenerator } from '../../ClientProxyDecorator'
 import SpruceError from '../../errors/SpruceError'
 import { ConnectOptions, TestConnectFactory } from '../../types/fixture.types'
+import { ArgsFromSvc } from '../../types/view.types'
 import vcDiskUtil from '../../utilities/vcDisk.utility'
 import MockSkillViewController from '../Mock.svc'
 import TestRouter from '../routers/TestRouter'
@@ -238,11 +239,11 @@ export default class ViewFixture {
 		ClientProxyDecorator.getInstance().clearProxyTokenGenerator()
 	}
 
-	public async load(
-		vc: Pick<SkillViewController, 'load'>,
-		args: Record<string, any> = {}
+	public async load<Svc extends SkillViewController = SkillViewController>(
+		vc: Svc,
+		args?: ArgsFromSvc<Svc>
 	) {
-		await vc.load(this.getRouter().buildLoadOptions(args))
+		await vc.load(this.getRouter().buildLoadOptions(args ?? {}))
 	}
 
 	public getScope() {

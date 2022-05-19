@@ -21,10 +21,15 @@ import {
 import ViewFixture from '../../tests/fixtures/ViewFixture'
 import MockSkillViewController from '../../tests/Mock.svc'
 
-class ScopeSvc extends AbstractSkillViewController {
+interface Args {
+	hello?: string
+	world?: number
+}
+
+class ScopeSvc extends AbstractSkillViewController<Args> {
 	public loadOptions: SkillViewControllerLoadOptions | null = null
 
-	public async load(options: SkillViewControllerLoadOptions) {
+	public async load(options: SkillViewControllerLoadOptions<Args>) {
 		this.loadOptions = options
 	}
 
@@ -134,7 +139,7 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 
 		assert.isNull(vc.loadOptions)
 
-		await fixture.load(vc)
+		await fixture.load(vc, {})
 
 		assert.isTruthy(vc.loadOptions)
 		assert.isTruthy(vc.loadOptions.scope)
