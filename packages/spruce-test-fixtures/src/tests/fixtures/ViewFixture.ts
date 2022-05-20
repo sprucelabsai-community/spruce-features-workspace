@@ -240,7 +240,7 @@ export default class ViewFixture {
 	}
 
 	public async load<Svc extends SkillViewController = SkillViewController>(
-		vc: Svc,
+		vc: Pick<Svc, 'load'>,
 		args?: ArgsFromSvc<Svc>
 	) {
 		await vc.load(this.getRouter().buildLoadOptions(args ?? {}))
