@@ -14,6 +14,7 @@ import {
 import fake, {
 	fakeTargetToPropName,
 	pluralToSingular,
+	resetFakes,
 } from '../../../tests/decorators/fake'
 import { CoreSeedTarget } from '../../../tests/decorators/seed'
 
@@ -22,7 +23,6 @@ export default class FakeDecoratorTest extends AbstractSpruceFixtureTest {
 
 	protected static async beforeEach() {
 		await super.beforeEach()
-
 		this.client = await this.mercury.connectToApi()
 	}
 
@@ -234,13 +234,24 @@ export default class FakeDecoratorTest extends AbstractSpruceFixtureTest {
 	@test()
 	protected static async listRolesReturnsFakedRoles() {
 		const roles = await this.fakeLoginAndListRoles(0)
-		assert.isEqualDeep(roles, this.fakedRoles)
+
+		assert.isEqualDeep(
+			roles,
+			this.fakedRoles.filter(
+				(r) => r.organizationId === this.fakedOrganizations[0].id
+			)
+		)
 	}
 
 	@test()
 	protected static async listRolesHonorsOrgId() {
 		const roles = await this.fakeLoginAndListRoles(1)
-		assert.isEqualDeep(roles, [])
+		assert.isEqualDeep(
+			roles,
+			this.fakedRoles.filter(
+				(r) => r.organizationId === this.fakedOrganizations[1].id
+			)
+		)
 	}
 
 	@test('can fake 1 teammate', 'teammates', 1)
