@@ -14,7 +14,6 @@ import {
 import fake, {
 	fakeTargetToPropName,
 	pluralToSingular,
-	resetFakes,
 } from '../../../tests/decorators/fake'
 import { CoreSeedTarget } from '../../../tests/decorators/seed'
 

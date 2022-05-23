@@ -58,7 +58,7 @@ const strategies: Partial<
 	owners: buildSeeder('owners'),
 }
 
-export function resetFakes(Class: Class) {
+function resetFakes(Class: Class) {
 	if (shouldSkipNextReset) {
 		shouldSkipNextReset = false
 		return
