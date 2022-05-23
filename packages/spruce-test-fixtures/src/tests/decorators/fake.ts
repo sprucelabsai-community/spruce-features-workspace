@@ -452,13 +452,15 @@ async function seedOrganizations(Class: Class, total: number) {
 }
 
 function seedRoles(Class: Class, orgId: string) {
-	Class.fakedRoles = BASE_ROLES.map((r) => ({
-		id: generateId(),
-		name: `Faked ${r.name}`,
-		base: r.slug,
-		dateCreated: new Date().getTime(),
-		organizationId: orgId,
-	}))
+	Class.fakedRoles.push(
+		...BASE_ROLES.map((r) => ({
+			id: generateId(),
+			name: `Faked ${r.name}`,
+			base: r.slug,
+			dateCreated: new Date().getTime(),
+			organizationId: orgId,
+		}))
+	)
 }
 
 async function seedLocations(Class: Class, total: number) {

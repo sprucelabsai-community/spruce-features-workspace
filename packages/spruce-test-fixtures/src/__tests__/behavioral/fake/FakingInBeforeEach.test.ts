@@ -14,4 +14,20 @@ export default class FakingInBeforeEachTest extends AbstractSpruceFixtureTest {
 	protected static async canGetLocations() {
 		assert.isLength(this.fakedLocations, 1)
 	}
+
+	@test()
+	@seed('organizations', 1)
+	protected static async canGetRolesForBothSeededOrgs() {
+		console.log(this.fakedRoles)
+
+		const matches = this.fakedRoles.filter(
+			(r) => r.organizationId === this.fakedOrganizations[0].id
+		)
+
+		const matches2 = this.fakedRoles.filter(
+			(r) => r.organizationId === this.fakedOrganizations[1].id
+		)
+
+		assert.isEqual(matches.length, matches2.length)
+	}
 }
