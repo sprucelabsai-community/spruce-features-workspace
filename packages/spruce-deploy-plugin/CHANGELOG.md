@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [33.0.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v32.0.0...v33.0.0) (2022-05-24)
+
+
+### Breaking Changes
+
+* upgrade ([728a5ca](https://github.com/sprucelabsai/spruce-features-workspace/commit/728a5ca))
+
+
+
+
+
 # [32.0.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v31.0.47...v32.0.0) (2022-05-24)
 
 
