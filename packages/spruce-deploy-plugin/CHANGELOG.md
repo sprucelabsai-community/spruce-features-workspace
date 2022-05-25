@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [33.1.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v33.0.3...v33.1.0) (2022-05-25)
+
+
+### Features
+
+* spy authorizer with fake'ability! ([6abe5e4](https://github.com/sprucelabsai/spruce-features-workspace/commit/6abe5e4))
+
+
+
+
+
 ## [33.0.3](https://github.com/sprucelabsai/spruce-features-workspace/compare/v33.0.2...v33.0.3) (2022-05-25)
 
 **Note:** Version bump only for package @sprucelabs/spruce-deploy-plugin
