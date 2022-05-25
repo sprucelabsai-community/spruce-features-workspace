@@ -27,7 +27,7 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
 	@test()
 	protected static async viewsFixtureResetsInstance() {
 		const instance = this.getInstance()
-		ViewFixture.beforeEach()
+		await ViewFixture.beforeEach()
 		assert.isNotEqual(this.getInstance(), instance)
 	}
 

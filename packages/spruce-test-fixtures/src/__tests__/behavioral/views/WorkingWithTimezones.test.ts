@@ -32,9 +32,9 @@ export default class WorkingWithTimezonesTest extends AbstractSpruceFixtureTest 
 	}
 
 	@test()
-	protected static instanceResetByViewFixture() {
+	protected static async instanceResetByViewFixture() {
 		const instance = this.getInstance()
-		ViewFixture.beforeEach()
+		await ViewFixture.beforeEach()
 		assert.isNotEqual(this.getInstance(), instance)
 	}
 
