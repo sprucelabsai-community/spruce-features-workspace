@@ -24,7 +24,6 @@
     "rebuild": "yarn clean.all && yarn && yarn build.dev",
     "test": "lerna run test --stream",
     "upgrade.packages": "yarn add -D lerna -W ; for d in packages/*; do echo $d; cd $d; spruce upgrade &&  cd ../..; done",
-    "upgrade.packages2": "yarn add -D lerna -W ; lerna run spruce.upgrade",
     "upgrade.packages.all": "yarn install && yarn upgrade.packages",
     "update.dependencies": "yarn clean.dependencies && yarn; yarn add -D lerna -W ; for d in packages/*; do echo $d; cd $d; spruce update.dependencies; cd ../..; done",
     "watch.build.dev": "lerna run watch.build.dev --stream --parallel",
@@ -39,6 +38,6 @@
     "watch.rebuild": "true"
   },
   "devDependencies": {
-    "lerna": "^4.0.0"
+    "lerna": "^5.0.0"
   }
 }

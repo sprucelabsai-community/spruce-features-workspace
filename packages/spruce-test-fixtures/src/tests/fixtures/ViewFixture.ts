@@ -27,6 +27,7 @@ import { ArgsFromSvc } from '../../types/view.types'
 import vcDiskUtil from '../../utilities/vcDisk.utility'
 import MockSkillViewController from '../Mock.svc'
 import TestRouter from '../routers/TestRouter'
+import SpyLocale from '../SpyLocale'
 import FixtureFactory from './FixtureFactory'
 import LocationFixture from './LocationFixture'
 import OrganizationFixture from './OrganizationFixture'
@@ -224,6 +225,7 @@ export default class ViewFixture {
 		}
 
 		TestRouter.reset()
+		SpyLocale.reset()
 
 		ActiveRecordCardViewController.setShouldThrowOnResponseError(true)
 

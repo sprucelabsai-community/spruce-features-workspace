@@ -201,9 +201,6 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		await FixtureFactory.afterAll()
 	}
 
-	/**
-	 * @deprecated this.Fixture('organization') -> this.organizations
-	 */
 	public static Fixture<Name extends FixtureName>(
 		name: Name,
 		options?: Partial<FixtureConstructorOptionsMap[Name]>

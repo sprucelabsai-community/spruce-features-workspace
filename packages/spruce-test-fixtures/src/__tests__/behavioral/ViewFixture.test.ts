@@ -77,7 +77,7 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 
 		this.fixtureNoOptions = this.Fixture('view')
 
-		await this.Fixture('seed').resetAccount(DEMO_NUMBER_VIEW_FIXTURE)
+		await this.seeder.resetAccount(DEMO_NUMBER_VIEW_FIXTURE)
 	}
 
 	@test()

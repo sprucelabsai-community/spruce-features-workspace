@@ -16,6 +16,8 @@ import {
 	MercuryEventEmitter,
 } from '@sprucelabs/mercury-types'
 import testRouterEmitPayloadSchema from '#spruce/schemas/spruceTestFixtures/v2021_07_19/testRouterEmitPayload.schema'
+import SpyAuthorizer from '../SpyAuthorizer'
+import SpyLocale from '../SpyLocale'
 
 const contract = buildEventContract({
 	eventSignatures: {
@@ -127,6 +129,8 @@ export default class TestRouter
 			router: this as TestRouter,
 			authenticator: AuthenticatorImpl.getInstance(),
 			args,
+			locale: new SpyLocale(),
+			authorizer: new SpyAuthorizer(),
 			scope: this.scope,
 		}
 	}

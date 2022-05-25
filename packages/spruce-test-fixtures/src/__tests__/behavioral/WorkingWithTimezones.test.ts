@@ -1,0 +1,59 @@
+import { test, assert } from '@sprucelabs/test'
+import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
+import ViewFixture from '../../tests/fixtures/ViewFixture'
+import SpyLocale from '../../tests/SpyLocale'
+
+export default class WorkingWithTimezonesTest extends AbstractSpruceFixtureTest {
+	public static controllerMap = {}
+
+	protected static beforeEach(): Promise<void> {
+		await super.beforeEach()
+		this.views = this.Fixture('view', { controllerMap: this.controllerMap })
+	}
+
+	@test()
+	protected static canGetInstance() {
+		const instance = this.getInstance()
+		assert.isTrue(instance instanceof SpyLocale)
+	}
+
+	@test()
+	protected static instanceShared() {
+		assert.isEqual(this.getInstance(), this.getInstance())
+	}
+
+	@test()
+	protected static returnsInstanceFromRouter() {
+		assert.isEqualDeep(
+			this.views.getRouter().buildLoadOptions().locale,
+			this.getInstance()
+		)
+	}
+
+	@test()
+	protected static instanceResetByViewFixture() {
+		const instance = this.getInstance()
+		ViewFixture.beforeEach()
+		assert.isNotEqual(this.getInstance(), instance)
+	}
+
+	@test('can set offset 1', 10)
+	@test('can set offset 2', 20)
+	protected static canSetTimezoneOffset(offsetMinutes: number) {
+		this.getInstance().setTimezoneOffsetMinutes(offsetMinutes)
+		this.assertCurrentOffset(offsetMinutes)
+	}
+
+	@test()
+	protected static defaultsToNoOffset() {
+		this.assertCurrentOffset(0)
+	}
+
+	private static assertCurrentOffset(offsetMinutes: number) {
+		assert.isEqual(this.getInstance().getTimezoneOffsetMinutes(), offsetMinutes)
+	}
+
+	private static getInstance() {
+		return SpyLocale.getInstance()
+	}
+}
