@@ -6,7 +6,7 @@ import SpyLocale from '../../tests/SpyLocale'
 export default class WorkingWithTimezonesTest extends AbstractSpruceFixtureTest {
 	public static controllerMap = {}
 
-	protected static beforeEach(): Promise<void> {
+	protected static async beforeEach(): Promise<void> {
 		await super.beforeEach()
 		this.views = this.Fixture('view', { controllerMap: this.controllerMap })
 	}
