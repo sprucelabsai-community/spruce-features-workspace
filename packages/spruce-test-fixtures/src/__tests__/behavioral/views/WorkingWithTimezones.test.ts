@@ -1,7 +1,8 @@
 import { test, assert } from '@sprucelabs/test'
-import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
-import ViewFixture from '../../tests/fixtures/ViewFixture'
-import SpyLocale from '../../tests/SpyLocale'
+import { errorAssert } from '@sprucelabs/test-utils'
+import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
+import ViewFixture from '../../../tests/fixtures/ViewFixture'
+import SpyLocale from '../../../tests/SpyLocale'
 
 export default class WorkingWithTimezonesTest extends AbstractSpruceFixtureTest {
 	public static controllerMap = {}
@@ -35,6 +36,17 @@ export default class WorkingWithTimezonesTest extends AbstractSpruceFixtureTest 
 		const instance = this.getInstance()
 		ViewFixture.beforeEach()
 		assert.isNotEqual(this.getInstance(), instance)
+	}
+
+	@test()
+	protected static throwsWhenMissing() {
+		const err = assert.doesThrow(() =>
+			//@ts-ignore
+			this.getInstance().setTimezoneOffsetMinutes()
+		)
+		errorAssert.assertError(err, 'MISSING_PARAMETERS', {
+			parameters: ['offsetMinutes'],
+		})
 	}
 
 	@test('can set offset 1', 10)

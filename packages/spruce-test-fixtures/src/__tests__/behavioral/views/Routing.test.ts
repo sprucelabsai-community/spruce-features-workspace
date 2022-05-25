@@ -7,13 +7,13 @@ import {
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 import { test, assert } from '@sprucelabs/test'
 import { errorAssert } from '@sprucelabs/test-utils'
-import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
-import MockSkillViewController from '../../tests/Mock.svc'
-import TestRouter from '../../tests/routers/TestRouter'
-import SpyAuthorizer from '../../tests/SpyAuthorizer'
-import SpyLocale from '../../tests/SpyLocale'
-import BookSkillViewController from '../testDirsAndFiles/skill/build/skillViewControllers/Book.svc'
-import SpySkillViewController from '../testDirsAndFiles/skill/build/skillViewControllers/Spy.svc'
+import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
+import MockSkillViewController from '../../../tests/Mock.svc'
+import TestRouter from '../../../tests/routers/TestRouter'
+import SpyAuthorizer from '../../../tests/SpyAuthorizer'
+import SpyLocale from '../../../tests/SpyLocale'
+import BookSkillViewController from '../../testDirsAndFiles/skill/build/skillViewControllers/Book.svc'
+import SpySkillViewController from '../../testDirsAndFiles/skill/build/skillViewControllers/Spy.svc'
 
 declare module '@sprucelabs/heartwood-view-controllers/build/types/heartwood.types' {
 	interface ViewControllerMap {
@@ -33,6 +33,7 @@ export default class RoutingTest extends AbstractSpruceFixtureTest {
 
 	protected static vcDir = diskUtil.resolvePath(
 		__dirname,
+		'..',
 		'..',
 		'testDirsAndFiles',
 		'skill',

@@ -1,8 +1,9 @@
 import { Locale } from '@sprucelabs/heartwood-view-controllers'
+import { assertOptions } from '@sprucelabs/schema'
 
 export default class SpyLocale implements Locale {
 	private static instance?: SpyLocale
-	public offset = 0
+	public offsetMinutes = 0
 	public static getInstance() {
 		if (!this.instance) {
 			this.instance = new this()
@@ -14,10 +15,11 @@ export default class SpyLocale implements Locale {
 		this.instance = undefined
 	}
 
-	public setTimezoneOffsetMinutes(offset: number): void {
-		this.offset = offset
+	public setTimezoneOffsetMinutes(offsetMinutes: number): void {
+		assertOptions({ offsetMinutes }, ['offsetMinutes'])
+		this.offsetMinutes = offsetMinutes
 	}
 	public getTimezoneOffsetMinutes(): number {
-		return this.offset
+		return this.offsetMinutes
 	}
 }

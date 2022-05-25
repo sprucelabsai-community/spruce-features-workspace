@@ -1,9 +1,9 @@
 import { skillViewSchema } from '@sprucelabs/heartwood-view-controllers'
 import { validateSchemaValues } from '@sprucelabs/schema'
 import { assert, test } from '@sprucelabs/test'
-import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
-import ViewFixture from '../../tests/fixtures/ViewFixture'
-import MockSkillViewController from '../../tests/Mock.svc'
+import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
+import ViewFixture from '../../../tests/fixtures/ViewFixture'
+import MockSkillViewController from '../../../tests/Mock.svc'
 
 export default class MockingingSkillViewControllersTest extends AbstractSpruceFixtureTest {
 	protected static controllerMap = {

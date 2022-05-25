@@ -1,17 +1,70 @@
-import { generateId } from '@sprucelabs/data-stores'
 import {
 	Authorizer,
-	SpruceSchemas,
+	AuthorizerCanOptions,
 } from '@sprucelabs/heartwood-view-controllers'
+import { assertOptions } from '@sprucelabs/schema'
+import { assert } from '@sprucelabs/test'
+
+interface Perm {
+	id: string
+	can: boolean
+}
+
+interface FakeOptions {
+	contractId: string
+	permissions: Perm[]
+}
 
 export default class SpyAuthorizer implements Authorizer {
-	public async getPermissions(options: {
-		contractId: string
-		permissionsIds: string[]
-	}): Promise<SpruceSchemas.Mercury.v2020_12_25.ResolvedContract> {
-		return {
-			contractId: generateId(),
-			permissions: [],
+	private static instance?: SpyAuthorizer
+	private fakedPermissions: FakeOptions[] = []
+
+	public static geInstance() {
+		if (!this.instance) {
+			this.instance = new this()
 		}
+		return this.instance
+	}
+
+	public static reset() {
+		this.instance = undefined
+	}
+
+	public fakePermissions(options: FakeOptions) {
+		this.fakedPermissions.push(options)
+	}
+
+	public async can<PermissionId extends string>(
+		options: AuthorizerCanOptions<PermissionId>
+	): Promise<Record<PermissionId, boolean>> {
+		const { contractId, permissionIds } = assertOptions(
+			options as AuthorizerCanOptions<string>,
+			['contractId', 'permissionIds']
+		)
+
+		const faked = this.fakedPermissions.find((f) => f.contractId === contractId)
+
+		assert.isTruthy(
+			faked,
+			`Contract not found! You need to tell the authorizer how to respond. Try 'this.views.getAuthorizer().fakePermissions(...)'`
+		)
+
+		//@ts-ignore
+		const results: Record<PermissionId, boolean> = {}
+
+		for (const actual of permissionIds) {
+			const fakedPerm: Perm | undefined = faked.permissions.find(
+				(p) => p.id === actual
+			)
+			assert.isTruthy(
+				fakedPerm,
+				`Oops! I could not find the permissionId '${actual}'! Make sure you faked it with 'this.views.getAuthorizer().fakePermissions(...)'`
+			)
+
+			//@ts-ignore
+			permissionIds.forEach((id) => (results[id] = fakedPerm.can))
+		}
+
+		return results
 	}
 }

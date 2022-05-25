@@ -10,16 +10,16 @@ import {
 import { formatPhoneNumber } from '@sprucelabs/schema'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { assert, test } from '@sprucelabs/test'
-import { ClientProxyDecorator } from '../..'
-import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
+import { ClientProxyDecorator } from '../../..'
+import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
 import {
 	DEMO_NUMBER_VIEW_FIXTURE,
 	DEMO_NUMBER,
 	DEMO_NUMBER_VIEW_FIXTURE_2,
 	DEMO_NUMBER_VIEW_FIXTURE_CLIENT_2,
-} from '../../tests/constants'
-import ViewFixture from '../../tests/fixtures/ViewFixture'
-import MockSkillViewController from '../../tests/Mock.svc'
+} from '../../../tests/constants'
+import ViewFixture from '../../../tests/fixtures/ViewFixture'
+import MockSkillViewController from '../../../tests/Mock.svc'
 
 interface Args {
 	hello?: string
