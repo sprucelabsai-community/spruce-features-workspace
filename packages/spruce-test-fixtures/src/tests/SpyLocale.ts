@@ -22,4 +22,7 @@ export default class SpyLocale implements Locale {
 	public getTimezoneOffsetMinutes(): number {
 		return this.offsetMinutes
 	}
+	public zoneNameToOffsetMinutes(_name: string): number {
+		return 0
+	}
 }
