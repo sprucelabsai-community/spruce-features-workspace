@@ -18,53 +18,19 @@ import {
 	DEMO_NUMBER_VIEW_FIXTURE_2,
 	DEMO_NUMBER_VIEW_FIXTURE_CLIENT_2,
 } from '../../../tests/constants'
+import fake from '../../../tests/decorators/fake'
 import TestScope from '../../../tests/fixtures/TestScope'
 import ViewFixture from '../../../tests/fixtures/ViewFixture'
 import MockSkillViewController from '../../../tests/Mock.svc'
+import EventFaker from '../../support/EventFaker'
 
-interface Args {
-	hello?: string
-	world?: number
-}
+const DEMO_NUMBER_FORMATTED = formatPhoneNumber(DEMO_NUMBER ?? '')
 
-class ScopeSvc extends AbstractSkillViewController<Args> {
-	public loadOptions: SkillViewControllerLoadOptions | null = null
-
-	public async load(options: SkillViewControllerLoadOptions<Args>) {
-		this.loadOptions = options
-	}
-
-	public render() {
-		return {
-			layouts: [],
-		}
-	}
-}
-
-class ClientSvc extends AbstractSkillViewController {
-	public loadOptions: SkillViewControllerLoadOptions | null = null
-
-	public connect() {
-		return this.connectToApi()
-	}
-
-	public render() {
-		return {
-			layouts: [],
-		}
-	}
-}
-
-declare module '@sprucelabs/heartwood-view-controllers/build/types/heartwood.types' {
-	interface ViewControllerMap {
-		scope: ScopeSvc
-		client: ClientSvc
-	}
-}
-
+@fake.login(DEMO_NUMBER_FORMATTED)
 export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 	private static fixture: ViewFixture
 	private static fixtureNoOptions: ViewFixture
+	private static eventFaker: EventFaker
 
 	protected static async beforeEach() {
 		await super.beforeEach()
@@ -77,8 +43,11 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 		})
 
 		this.fixtureNoOptions = this.Fixture('view')
+		this.eventFaker = new EventFaker()
 
-		await this.seeder.resetAccount(DEMO_NUMBER_VIEW_FIXTURE)
+		await this.eventFaker.fakeRegisterSkill()
+		await this.eventFaker.fakeUnregisterSkill()
+		await this.eventFaker.fakeRegisterProxyToken()
 	}
 
 	@test()
@@ -99,7 +68,8 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 	@test()
 	protected static async loginFallsBackToDemoNumber() {
 		const { person } = await this.fixtureNoOptions.loginAsDemoPerson()
-		assert.isEqual(person.phone, formatPhoneNumber(DEMO_NUMBER ?? ''))
+
+		assert.isEqual(person.phone, DEMO_NUMBER_FORMATTED)
 	}
 
 	@test()
@@ -161,7 +131,7 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 		let org = await scope.getCurrentOrganization()
 		assert.isNull(org)
 
-		const created = await this.Fixture('organization').seedDemoOrganization({
+		const created = await this.organizations.seedDemoOrganization({
 			name: 'Scope org',
 			phone: DEMO_NUMBER_VIEW_FIXTURE,
 		})
@@ -175,7 +145,7 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async scopeGetsLastOrgByDefault() {
-		const orgs = this.Fixture('organization')
+		const orgs = this.organizations
 		await orgs.seedDemoOrganization({
 			name: 'Scope org',
 			phone: DEMO_NUMBER_VIEW_FIXTURE,
@@ -299,7 +269,7 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async canSetScopeForCurrentOrganizationAcrossViewFixtures() {
-		const org = await this.Fixture('organization').seedDemoOrganization({
+		const org = await this.organizations.seedDemoOrganization({
 			phone: DEMO_NUMBER_VIEW_FIXTURE,
 			name: 'My new org!',
 		})
@@ -624,5 +594,45 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 			header: { title: 'hey' },
 		})
 		return vc
+	}
+}
+
+declare module '@sprucelabs/heartwood-view-controllers/build/types/heartwood.types' {
+	interface ViewControllerMap {
+		scope: ScopeSvc
+		client: ClientSvc
+	}
+}
+
+interface Args {
+	hello?: string
+	world?: number
+}
+
+class ScopeSvc extends AbstractSkillViewController<Args> {
+	public loadOptions: SkillViewControllerLoadOptions | null = null
+
+	public async load(options: SkillViewControllerLoadOptions<Args>) {
+		this.loadOptions = options
+	}
+
+	public render() {
+		return {
+			layouts: [],
+		}
+	}
+}
+
+class ClientSvc extends AbstractSkillViewController {
+	public loadOptions: SkillViewControllerLoadOptions | null = null
+
+	public connect() {
+		return this.connectToApi()
+	}
+
+	public render() {
+		return {
+			layouts: [],
+		}
 	}
 }
