@@ -250,6 +250,10 @@ export default class ViewFixture {
 		await vc.load(this.getRouter().buildLoadOptions(args ?? {}))
 	}
 
+	public setScope(scope: Scope) {
+		ViewFixture.scope = scope
+	}
+
 	public getScope() {
 		if (!ViewFixture.scope) {
 			ViewFixture.scope = new TestScope({

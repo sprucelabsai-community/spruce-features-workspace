@@ -18,6 +18,7 @@ import {
 	DEMO_NUMBER_VIEW_FIXTURE_2,
 	DEMO_NUMBER_VIEW_FIXTURE_CLIENT_2,
 } from '../../../tests/constants'
+import TestScope from '../../../tests/fixtures/TestScope'
 import ViewFixture from '../../../tests/fixtures/ViewFixture'
 import MockSkillViewController from '../../../tests/Mock.svc'
 
@@ -565,6 +566,17 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 		SwipeViewControllerImpl.swipeDelay = 100
 		await ViewFixture.beforeEach()
 		assert.isEqual(SwipeViewControllerImpl.swipeDelay, 0)
+	}
+
+	@test()
+	protected static canSetScope() {
+		const scope = new TestScope({
+			organizationFixture: this.organizations,
+			locationFixture: this.locations,
+		})
+
+		this.fixture.setScope(scope)
+		assert.isEqual(this.fixture.getScope(), scope)
 	}
 
 	protected static async loginAsDemoPerson() {
