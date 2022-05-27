@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [33.2.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v33.1.5...v33.2.0) (2022-05-27)
+
+
+### Features
+
+* can set scope to view fixture for enhanced testing! ([c22e7d0](https://github.com/sprucelabsai/spruce-features-workspace/commit/c22e7d0))
+
+
+
+
+
 ## [33.1.5](https://github.com/sprucelabsai/spruce-features-workspace/compare/v33.1.4...v33.1.5) (2022-05-27)
 
 **Note:** Version bump only for package spruce-features-workspace
