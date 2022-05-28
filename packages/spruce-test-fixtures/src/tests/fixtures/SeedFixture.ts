@@ -165,13 +165,7 @@ export default class SeedFixture {
 
 		if (!locationId) {
 			const location = await this.locations.getNewestLocation()
-
-			assert.isTruthy(
-				location,
-				`You gotta @seed('locations', 1) before seeding teammates.`
-			)
-
-			locationId = location.id
+			locationId = location?.id
 		}
 
 		const results: {
@@ -234,7 +228,7 @@ export default class SeedFixture {
 	private async seedPeopleWithRole(options: {
 		total: number
 		numbers: string[]
-		locationId: string
+		locationId?: string
 		organizationId: string
 		roleBase: string
 	}) {
@@ -264,12 +258,20 @@ export default class SeedFixture {
 					...updated,
 				}
 
-				await this.locations.addPerson({
-					locationId,
-					organizationId,
-					personId: person.id,
-					roleBase: base,
-				})
+				if (locationId) {
+					await this.locations.addPerson({
+						locationId,
+						organizationId,
+						personId: person.id,
+						roleBase: base,
+					})
+				} else {
+					await this.organizations.addPerson({
+						organizationId,
+						personId: person.id,
+						roleBase: base,
+					})
+				}
 
 				return person
 			})
