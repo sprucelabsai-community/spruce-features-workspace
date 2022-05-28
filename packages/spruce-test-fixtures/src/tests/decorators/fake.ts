@@ -327,7 +327,6 @@ async function fakeDeleteOrganization(Class: Class) {
 	await eventFaker.on(
 		'delete-organization::v2020_12_25',
 		({ target: { organizationId } }) => {
-			debugger
 			const idx = Class._fakedOrganizations.findIndex(
 				(o) => o.id === organizationId
 			)
@@ -338,12 +337,10 @@ async function fakeDeleteOrganization(Class: Class) {
 					friendlyMessage: `I could not find that organization to delete!`,
 				})
 			}
-			debugger
-			const match = Class._fakedOrganizations[idx]
 
-			debugger
+			const match = Class._fakedOrganizations[idx]
 			Class._fakedOrganizations.splice(idx, 1)
-			debugger
+
 			return {
 				organization: match,
 			}

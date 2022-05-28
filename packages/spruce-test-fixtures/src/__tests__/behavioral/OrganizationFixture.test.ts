@@ -9,7 +9,6 @@ import {
 	DEMO_NUMBER_INSTALLING_SKILLS,
 	DEMO_NUMBER_ORGANIZATION_FIXTURE,
 } from '../../tests/constants'
-import fake from '../../tests/decorators/fake'
 
 export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 	@test()
