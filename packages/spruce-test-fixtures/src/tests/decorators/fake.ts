@@ -324,11 +324,31 @@ async function fakeGetLocation(Class: Class) {
 }
 
 async function fakeDeleteOrganization(Class: Class) {
-	await eventFaker.on('delete-organization::v2020_12_25', () => {
-		return {
-			organization: Class._fakedOrganizations[0],
+	await eventFaker.on(
+		'delete-organization::v2020_12_25',
+		({ target: { organizationId } }) => {
+			debugger
+			const idx = Class._fakedOrganizations.findIndex(
+				(o) => o.id === organizationId
+			)
+
+			if (idx === -1) {
+				throw new SpruceError({
+					code: 'INVALID_TARGET',
+					friendlyMessage: `I could not find that organization to delete!`,
+				})
+			}
+			debugger
+			const match = Class._fakedOrganizations[idx]
+
+			debugger
+			Class._fakedOrganizations.splice(idx, 1)
+			debugger
+			return {
+				organization: match,
+			}
 		}
-	})
+	)
 }
 
 async function fakeCreateLocation(Class: Class) {

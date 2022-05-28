@@ -246,6 +246,8 @@ export default class OrganizationFixture {
 			})
 		)
 
+		this.organizations = []
+
 		await this.people.destroy()
 	}
 }
