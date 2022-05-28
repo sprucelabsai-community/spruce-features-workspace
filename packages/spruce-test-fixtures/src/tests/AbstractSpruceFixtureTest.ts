@@ -22,15 +22,15 @@ import StoreFixture from './fixtures/StoreFixture'
 import ViewFixture from './fixtures/ViewFixture'
 
 export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTest {
-	protected static fakedOwner: SpruceSchemas.Spruce.v2020_07_22.Person
-	protected static fakedPeople: SpruceSchemas.Spruce.v2020_07_22.Person[]
-	protected static fakedTeammates: SpruceSchemas.Spruce.v2020_07_22.Person[]
-	protected static fakedOwners: SpruceSchemas.Spruce.v2020_07_22.Person[]
-	protected static fakedRoles: SpruceSchemas.Spruce.v2020_07_22.Role[]
-	protected static get fakedOrganizations(): SpruceSchemas.Spruce.v2020_07_22.Organization[] {
+	public static fakedOwner: SpruceSchemas.Spruce.v2020_07_22.Person
+	public static fakedPeople: SpruceSchemas.Spruce.v2020_07_22.Person[]
+	public static fakedTeammates: SpruceSchemas.Spruce.v2020_07_22.Person[]
+	public static fakedOwners: SpruceSchemas.Spruce.v2020_07_22.Person[]
+	public static fakedRoles: SpruceSchemas.Spruce.v2020_07_22.Role[]
+	public static get fakedOrganizations(): SpruceSchemas.Spruce.v2020_07_22.Organization[] {
 		return this._fakedOrganizations
 	}
-	protected static set fakedOrganizations(orgs) {
+	public static set fakedOrganizations(orgs) {
 		assert.isAbove(
 			this._fakedOrganizations.length,
 			0,
@@ -39,7 +39,7 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		this._fakedOrganizations = orgs
 	}
 
-	protected static get fakedLocations(): SpruceSchemas.Spruce.v2020_07_22.Location[] {
+	public static get fakedLocations(): SpruceSchemas.Spruce.v2020_07_22.Location[] {
 		assert.isAbove(
 			this._fakedLocations.length,
 			0,
@@ -48,7 +48,7 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		return this._fakedLocations
 	}
 
-	protected static set fakedLocations(locations) {
+	public static set fakedLocations(locations) {
 		this._fakedLocations = locations
 	}
 
