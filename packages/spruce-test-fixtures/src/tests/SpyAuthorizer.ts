@@ -31,7 +31,7 @@ export default class SpyAuthorizer implements Authorizer {
 	}
 
 	public fakePermissions(options: FakeOptions) {
-		this.fakedPermissions.push(options)
+		this.fakedPermissions.unshift(options)
 	}
 
 	public async can<PermissionId extends string>(

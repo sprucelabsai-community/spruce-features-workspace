@@ -106,6 +106,25 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
 		assert.isEqual(auth, router.buildLoadOptions().authorizer)
 	}
 
+	@test()
+	protected static async authorizerClobbersMatchingContracts() {
+		this.fakePermissions([{ id: 'test', can: true }])
+		this.fakePermissions([{ id: 'test', can: false }])
+		const perms = await this.can(['test'])
+		assert.isFalse(perms['test'])
+	}
+
+	@test()
+	protected static async canHandleMulplePermissionsWithDifferentContracts() {
+		const firstId = this.contractId
+		this.fakePermissions([{ id: 'test', can: true }])
+		this.changeContractId()
+		this.fakePermissions([{ id: 'test', can: false }])
+		this.contractId = firstId
+		const perms = await this.can(['test'])
+		assert.isTrue(perms['test'])
+	}
+
 	private static async assertPermNotFound(checkIds: string[], id: string) {
 		await assert.doesThrowAsync(() => this.can(checkIds), id)
 	}
@@ -115,7 +134,10 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
 	}
 
 	private static async assertThrowsFakeError() {
-		await assert.doesThrowAsync(() => this.can(['test']), 'Contract not found')
+		await assert.doesThrowAsync(
+			() => this.can(['test']),
+			`Contract by the id '${this.contractId}'`
+		)
 	}
 
 	private static fakePermissions(faked: { id: string; can: boolean }[]) {
