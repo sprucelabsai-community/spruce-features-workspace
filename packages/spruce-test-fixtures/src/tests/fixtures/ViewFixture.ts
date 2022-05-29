@@ -276,6 +276,10 @@ export default class ViewFixture {
 		return AuthenticatorImpl.getInstance()
 	}
 
+	public getAuthorizer() {
+		return SpyAuthorizer.getInstance()
+	}
+
 	public getProxyTokenGenerator() {
 		return this.proxyDecorator.getProxyTokenGenerator()
 	}

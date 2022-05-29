@@ -96,6 +96,16 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
 		assert.isEqualDeep(results, expected)
 	}
 
+	@test()
+	protected static async fixtureAndLoadOptionsShareAuthorizer() {
+		this.views = this.Fixture('view', {
+			controllerMap: {},
+		})
+		const auth = this.views.getAuthorizer()
+		const router = this.views.getRouter()
+		assert.isEqual(auth, router.buildLoadOptions().authorizer)
+	}
+
 	private static async assertPermNotFound(checkIds: string[], id: string) {
 		await assert.doesThrowAsync(() => this.can(checkIds), id)
 	}
@@ -123,6 +133,6 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
 	}
 
 	private static getInstance() {
-		return SpyAuthorizer.geInstance()
+		return SpyAuthorizer.getInstance()
 	}
 }

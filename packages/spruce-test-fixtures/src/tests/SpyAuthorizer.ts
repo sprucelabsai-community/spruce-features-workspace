@@ -19,7 +19,7 @@ export default class SpyAuthorizer implements Authorizer {
 	private static instance?: SpyAuthorizer
 	private fakedPermissions: FakeOptions[] = []
 
-	public static geInstance() {
+	public static getInstance() {
 		if (!this.instance) {
 			this.instance = new this()
 		}

@@ -130,7 +130,7 @@ export default class TestRouter
 			authenticator: AuthenticatorImpl.getInstance(),
 			args,
 			locale: new SpyLocale(),
-			authorizer: new SpyAuthorizer(),
+			authorizer: SpyAuthorizer.getInstance(),
 			scope: this.scope,
 		}
 	}
