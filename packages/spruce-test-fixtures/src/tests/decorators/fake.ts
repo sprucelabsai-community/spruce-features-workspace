@@ -248,12 +248,12 @@ async function fakeListRoles(Class: Class) {
 	await eventFaker.on('list-roles::v2020_12_25', ({ target }) => {
 		assert.isFalsy(
 			target?.locationId,
-			`You can't list roles by location id when faking (yet). For now you'll have to 'eventFaker.on(...)' to get things to work!`
+			`You can't list roles by location id when faking (yet). For now you'll have to 'eventFaker.on(...)' to get things to work OR consider checking this.fakedRoles on your test class.`
 		)
 
 		assert.isFalsy(
 			target?.personId,
-			`You can't list roles by person id when faking (yet). For now you'll have to 'eventFaker.on(...)' to get things to work!`
+			`You can't list roles by person id when faking (yet). For now you'll have to 'eventFaker.on(...)' to get things to work OR consider checking this.fakedRoles on your test class.`
 		)
 
 		return {
@@ -270,12 +270,12 @@ async function fakeListPeople(Class: Class) {
 
 		assert.isFalsy(
 			payload?.roleIds,
-			`@fake does not support listing people by roleIds. You will need to use 'eventFaker.on(...)' to fake your own response.`
+			`@fake does not support listing people by roleIds. You will need to use 'eventFaker.on('list-people')' to fake your own response OR consider checking this.fakedPeople on your test class.`
 		)
 
 		assert.isFalsy(
 			payload?.personIds,
-			`@fake does not support listing people by personIds. You will need to use 'eventFaker.on(...)' to fake your own response.`
+			`@fake does not support listing people by personIds. You will need to use 'eventFaker.on(...)' to fake your own response OR consider checking this.fakedPeople on your test class`
 		)
 
 		for (const base of payload?.roleBases ?? []) {
