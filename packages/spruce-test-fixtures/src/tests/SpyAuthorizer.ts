@@ -46,7 +46,11 @@ export default class SpyAuthorizer implements Authorizer {
 
 		assert.isTruthy(
 			faked,
-			`Contract not found! You need to tell the authorizer how to respond. Try 'this.views.getAuthorizer().fakePermissions(...)'`
+			`Contract by the id '${contractId}' not found! You need to tell the authorizer how to respond. Try 'this.views.getAuthorizer().fakePermissions(...)'
+
+Valid contracts are: 
+
+${this.fakedPermissions.map((p) => p.contractId).join('\n')}`
 		)
 
 		//@ts-ignore
@@ -58,7 +62,11 @@ export default class SpyAuthorizer implements Authorizer {
 			)
 			assert.isTruthy(
 				fakedPerm,
-				`Oops! I could not find the permissionId '${actual}'! Make sure you faked it with 'this.views.getAuthorizer().fakePermissions(...)'`
+				`Oops! I could not find the permissionId '${actual}'! Make sure you faked it with 'this.views.getAuthorizer().fakePermissions(...)'
+
+Valid permissions on this contract are: 
+
+${faked.permissions.map((p) => p.id).join('\n')}`
 			)
 
 			//@ts-ignore
