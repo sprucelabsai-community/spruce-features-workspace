@@ -27,9 +27,12 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 	public static fakedTeammates: SpruceSchemas.Spruce.v2020_07_22.Person[]
 	public static fakedOwners: SpruceSchemas.Spruce.v2020_07_22.Person[]
 	public static fakedRoles: SpruceSchemas.Spruce.v2020_07_22.Role[]
+	public static fakedSkills: SpruceSchemas.Spruce.v2020_07_22.Skill[]
+
 	public static get fakedOrganizations(): SpruceSchemas.Spruce.v2020_07_22.Organization[] {
 		return this._fakedOrganizations
 	}
+
 	public static set fakedOrganizations(orgs) {
 		assert.isAbove(
 			this._fakedOrganizations.length,

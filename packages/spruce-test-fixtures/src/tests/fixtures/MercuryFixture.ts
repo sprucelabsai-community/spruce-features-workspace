@@ -25,12 +25,10 @@ export default class MercuryFixture {
 	private static originalHost: string | undefined
 	private cwd: string
 
-	private static shouldMockSkillAuthenticate = true
 	private static shouldAutoImportContracts = true
 	private static shouldMixinCoreEventContractWhenImportingLocal = false
 	private static defaultClient?: MercuryClient
 	private static shouldAutomaticallyClearDefaultClient = true
-	private auth?: AuthService
 
 	public static setDefaultClient(client: MercuryClient) {
 		//@ts-ignore
@@ -61,12 +59,6 @@ export default class MercuryFixture {
 		}
 
 		this.connectToApi = this.connectToApi.bind(this)
-
-		try {
-			this.auth = AuthService.Auth(this.cwd)
-		} catch {
-			//@ts-ignore
-		}
 	}
 
 	public async connectToApi(
@@ -74,10 +66,7 @@ export default class MercuryFixture {
 	): Promise<MercuryClient> {
 		const shouldReUseClient = options?.shouldReUseClient !== false
 		if (shouldReUseClient && MercuryFixture.defaultClient) {
-			return MercuryFixture.optionallyMockSkillAuthenticate(
-				MercuryFixture.defaultClient,
-				this.auth
-			)
+			return MercuryFixture.defaultClient
 		}
 
 		if (shouldReUseClient && this.clientPromises.length > 0) {
@@ -102,51 +91,9 @@ export default class MercuryFixture {
 				TEST_HOST.includes('https://127.0.0.1'),
 		})
 
-		void promise.then((client) =>
-			MercuryFixture.optionallyMockSkillAuthenticate(client, this.auth)
-		)
-
 		this.clientPromises.push(promise)
 
 		return promise
-	}
-
-	private static async optionallyMockSkillAuthenticate<
-		C extends MercuryClient | undefined
-	>(client?: C, auth?: AuthService): Promise<C> {
-		const currentSkill = auth?.getCurrentSkill()
-
-		if (currentSkill && this.shouldMockSkillAuthenticate) {
-			const emitter = MercuryTestClient.getInternalEmitter({
-				eventSignatures: {
-					'authenticate::v2020_12_25': {},
-				},
-			})
-
-			await emitter.off('authenticate::v2020_12_25')
-
-			client?.setShouldAutoRegisterListeners(false)
-
-			await emitter.on('authenticate::v2020_12_25', async () => {
-				return {
-					type: 'authenticated' as any,
-					auth: {
-						skill: {
-							creators: [
-								{
-									skillId: '__MOCKED__',
-								},
-							],
-							dateCreated: 0,
-							...currentSkill,
-							name: currentSkill.name ?? 'Current skill',
-						},
-					},
-				}
-			})
-		}
-
-		return client as any
 	}
 
 	public static setDefaultContractToLocalEventsIfExist(cwd: string) {
@@ -231,7 +178,6 @@ export default class MercuryFixture {
 
 		try {
 			const auth = AuthService.Auth(cwd)
-			await this.optionallyMockSkillAuthenticate(undefined, auth)
 			const namespace = auth.getCurrentSkill()?.slug
 
 			if (namespace) {
@@ -249,9 +195,5 @@ export default class MercuryFixture {
 
 	public static setShouldAutoImportContracts(shouldImport: boolean) {
 		MercuryFixture.shouldAutoImportContracts = shouldImport
-	}
-
-	public static setShouldMockSkillAuthenticate(should: boolean) {
-		this.shouldMockSkillAuthenticate = should
 	}
 }

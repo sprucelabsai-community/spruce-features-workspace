@@ -1,13 +1,18 @@
 import { MercuryClient } from '@sprucelabs/mercury-client'
 import { SchemaError } from '@sprucelabs/schema'
 import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
-import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { TestConnectFactory } from '../../types/fixture.types'
 import PersonFixture from './PersonFixture'
 
 type Skill = SpruceSchemas.Spruce.v2020_07_22.Skill
 type Factory = TestConnectFactory
 type Client = MercuryClient
+
+export interface SeedDemoSkillValues {
+	name?: string
+	slug?: string
+	creatorPhone?: string
+}
 
 export default class SkillFixture {
 	private personFixture: PersonFixture
@@ -23,24 +28,21 @@ export default class SkillFixture {
 		this.personFixture = options.personFixture
 	}
 
-	public async seedDemoSkill(options?: {
-		name?: string
-		slug?: string
-		creatorPhone?: string
-	}) {
+	public async seedDemoSkill(options?: SeedDemoSkillValues) {
 		const { creatorPhone, ...values } = options ?? {}
 
 		const { client } = await this.personFixture.loginAsDemoPerson(creatorPhone)
 
-		const results = await client.emit('register-skill::v2020_12_25', {
-			payload: {
-				slug: this.generateSkillSlug(),
-				name: this.generateSkillName(),
-				...values,
-			},
-		})
-
-		const { skill } = eventResponseUtil.getFirstResponseOrThrow(results)
+		const [{ skill }] = await client.emitAndFlattenResponses(
+			'register-skill::v2020_12_25',
+			{
+				payload: {
+					slug: this.generateSkillSlug(),
+					name: this.generateSkillName(),
+					...values,
+				},
+			}
+		)
 
 		this.skills.push({ client, skill })
 
@@ -61,8 +63,6 @@ export default class SkillFixture {
 		name: string
 		slug?: string
 	}): Promise<{ skill: Skill; client: Client }> {
-		const { client } = await this.personFixture.loginAsDemoPerson()
-
 		const skill = await this.seedDemoSkill({
 			slug: this.generateSkillSlug(),
 			...values,
@@ -73,14 +73,10 @@ export default class SkillFixture {
 			shouldReUseClient: false,
 		})) as Client
 
-		await skillClient.off('authenticate::v2020_12_25')
-
 		await skillClient.authenticate({
 			skillId: skill.id,
 			apiKey: skill.apiKey,
 		})
-
-		this.skills.push({ skill, client })
 
 		return { skill, client: skillClient }
 	}

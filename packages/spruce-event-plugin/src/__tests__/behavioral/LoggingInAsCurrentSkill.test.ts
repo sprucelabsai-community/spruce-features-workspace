@@ -1,11 +1,8 @@
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import '@sprucelabs/mercury-core-events'
-import { MercuryFixture } from '@sprucelabs/spruce-test-fixtures'
 import { test, assert } from '@sprucelabs/test'
 import { EventFeaturePlugin } from '../../plugins/event.plugin'
 import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
-
-MercuryFixture.setShouldMockSkillAuthenticate(false)
 
 export default class LoggingInAsCurrentSkillTest extends AbstractEventPluginTest {
 	@test()

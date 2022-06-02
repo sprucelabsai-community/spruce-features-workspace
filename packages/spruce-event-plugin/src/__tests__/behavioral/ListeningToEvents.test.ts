@@ -1,4 +1,3 @@
-import { MercuryClientFactory } from '@sprucelabs/mercury-client'
 import { MercuryClient } from '@sprucelabs/mercury-client'
 import { EventSignature } from '@sprucelabs/mercury-types'
 import {
@@ -6,7 +5,7 @@ import {
 	eventResponseUtil,
 } from '@sprucelabs/spruce-event-utils'
 import { BootCallback, diskUtil } from '@sprucelabs/spruce-skill-utils'
-import { MercuryFixture } from '@sprucelabs/spruce-test-fixtures'
+import { fake, MercuryFixture } from '@sprucelabs/spruce-test-fixtures'
 import { assert, test } from '@sprucelabs/test'
 import { EventFeature } from '../..'
 import SpruceError from '../../errors/SpruceError'
@@ -19,11 +18,12 @@ declare module '@sprucelabs/spruce-skill-utils/build/types/skill.types' {
 	}
 }
 
+@fake.login()
 export default class ListeningToEventsTest extends AbstractEventPluginTest {
 	protected static async beforeEach() {
 		await super.beforeEach()
 
-		MercuryClientFactory.setIsTestMode(false)
+		// MercuryClientFactory.setIsTestMode(false)
 		MercuryFixture.setShouldMixinCoreEventContractsWhenImportingLocal(true)
 
 		delete process.env.DID_BOOT_FIRED
@@ -64,6 +64,7 @@ export default class ListeningToEventsTest extends AbstractEventPluginTest {
 
 		//@ts-ignore
 		assert.isTruthy(client.auth.skill)
+
 		//@ts-ignore
 		assert.isEqual(client.auth.skill.id, skill.id)
 	}
@@ -71,6 +72,7 @@ export default class ListeningToEventsTest extends AbstractEventPluginTest {
 	@test()
 	protected static async didBootEventForRegisteredSkillGetApiClient() {
 		this.cwd = this.resolveTestPath('registered-skill-boot-events')
+
 		const { skill } = await this.skills.loginAsDemoSkill({
 			name: 'boot-events',
 		})
@@ -492,9 +494,6 @@ export default class ListeningToEventsTest extends AbstractEventPluginTest {
 		const org = await this.organizations.seedDemoOrganization({
 			name: 'my new org',
 		})
-
-		await this.organizations.installSkill(skill1.id, org.id)
-		await this.organizations.installSkill(skill2.id, org.id)
 
 		process.env.SKILL_ID = skill2.id
 		process.env.SKILL_API_KEY = skill2.apiKey
