@@ -9,6 +9,7 @@ import fake, {
 	pluralToSingular,
 } from '../../../tests/decorators/fake'
 import { CoreSeedTarget } from '../../../tests/decorators/seed'
+import eventFaker from '../../../tests/eventFaker'
 import MercuryFixture from '../../../tests/fixtures/MercuryFixture'
 // eslint-disable-next-line spruce/prohibit-import-from-build-folder
 import GoodStore from '../../testDirsAndFiles/one-good-store-skill/build/stores/Good.store'
@@ -235,6 +236,14 @@ export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
 			})
 		)
 	}
+
+	@test()
+	protected static async throwingInRequestPinDoesNotCrashNextTest() {
+		await eventFaker.makeEventThrow('request-pin::v2020_12_25')
+	}
+
+	@test()
+	protected static async thisTestShouldNotCrashBecauseTestBeforeIt() {}
 
 	protected static async emitGetLocationEvent(locationId: string) {
 		const [{ location }] = await this.client.emitAndFlattenResponses(
