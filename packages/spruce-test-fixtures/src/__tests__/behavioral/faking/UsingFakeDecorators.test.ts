@@ -1,5 +1,6 @@
 import { generateId } from '@sprucelabs/data-stores'
 import { MercuryClient } from '@sprucelabs/mercury-client'
+import { formatPhoneNumber } from '@sprucelabs/schema'
 import { test, assert } from '@sprucelabs/test'
 import { errorAssert } from '@sprucelabs/test-utils'
 import { seed, StoreFixture } from '../../..'
@@ -117,7 +118,7 @@ export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
 	@test()
 	@seed('locations', 1)
 	protected static async whoAmIReturnsExpectedPerson() {
-		const phone = '555-111-1111'
+		const phone = formatPhoneNumber('555-111-1111')
 		const { person, client } = await this.people.loginAsDemoPerson(phone)
 		assert.isEqual(person.phone, phone)
 		const [{ auth }] = await client.emitAndFlattenResponses(
@@ -223,9 +224,6 @@ export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
 
 	@test('listing roles by locationId throws', {
 		locationId: generateId(),
-	})
-	@test('listing roles by personId throws', {
-		personId: generateId(),
 	})
 	protected static async throwsWhenListingRolesByAnythingBesidesOrg(
 		target: any

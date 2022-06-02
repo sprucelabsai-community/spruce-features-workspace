@@ -5,8 +5,13 @@ import {
 	MercuryTestClient,
 } from '@sprucelabs/mercury-client'
 import { SpruceSchemas } from '@sprucelabs/mercury-types'
-import { assertOptions, isValidNumber } from '@sprucelabs/schema'
+import {
+	assertOptions,
+	formatPhoneNumber,
+	isValidNumber,
+} from '@sprucelabs/schema'
 import { BASE_ROLES } from '@sprucelabs/spruce-core-schemas'
+import { EventTarget } from '@sprucelabs/spruce-event-utils'
 import { namesUtil, testLog } from '@sprucelabs/spruce-skill-utils'
 import { assert } from '@sprucelabs/test'
 import SpruceError from '../../errors/SpruceError'
@@ -27,8 +32,7 @@ type Role = SpruceSchemas.Spruce.v2020_07_22.Role
 /** @ts-ignore */
 type Client = MercuryClient
 
-interface Class {
-	fakedOwner?: Person
+interface ClassWithFakes {
 	fakedOwners?: Person[]
 	fakedTeammates?: Person[]
 	fakedManagers?: Person[]
@@ -36,7 +40,17 @@ interface Class {
 	fakedPeople: Person[]
 	fakedSkills: Skill[]
 	fakedGroupManagers: Person[]
+}
+
+interface InstalledSkill {
+	skillId: string
+	orgId: string
+}
+
+interface Class extends ClassWithFakes {
+	fakedOwner?: Person
 	_fakedOrganizations: Organization[]
+	fakedInstalledSkills: InstalledSkill[]
 	fakedRoles: Role[]
 	_fakedLocations: Location[]
 	fakedOwnerClient: Client
@@ -68,6 +82,7 @@ function resetFakes(Class: Class) {
 	Class._fakedOrganizations = []
 	Class._fakedLocations = []
 	Class.fakedTeammates = []
+	Class.fakedInstalledSkills = []
 	Class.fakedManagers = []
 	Class.fakedOwners = []
 	Class.fakedGroupManagers = []
@@ -192,8 +207,10 @@ async function setupFakes(Class: Class) {
 		fakeSkillLifecycleEvents(Class),
 		fakeGetPerson(Class),
 		fakeWhoAmI(Class),
+		fakeInstallEvents(Class),
 		fakeAuthenticationEvents(Class),
 		fakeAddRole(Class),
+		fakeRemoveRole(Class),
 		fakeListRoles(Class),
 		fakeListPeople(Class),
 		fakeUpdatePerson(Class),
@@ -203,6 +220,7 @@ async function setupFakes(Class: Class) {
 		fakeCreateLocation(Class),
 		fakeCreateOrganization(Class),
 		fakeGetOrganization(Class),
+		fakeUpdateOrganization(Class),
 		fakeListOrganization(Class),
 	])
 }
@@ -212,8 +230,7 @@ async function fakeAddRole(Class: Class) {
 		const person = getPersonById(Class, payload.personId)
 		const role = Class.fakedRoles.find((r) => r.id === payload.roleId)!
 
-		//@ts-ignore
-		const key = `${fakeTargetToPropName(role.base!)}s`
+		const key = roleBaseToLocalFakedProp(role.base!)
 
 		//@ts-ignore
 		assert.isTruthy(Class[key], `Could not find property ${key}`)
@@ -223,6 +240,26 @@ async function fakeAddRole(Class: Class) {
 
 		return {}
 	})
+}
+
+async function fakeRemoveRole(Class: Class) {
+	await eventFaker.on('remove-role::v2020_12_25', ({ payload }) => {
+		const { personId, roleId } = payload
+
+		const role = Class.fakedRoles.find((r) => r.id === roleId)!
+
+		const people = Class[roleBaseToLocalFakedProp(role.base!)]
+		const idx = people?.findIndex((p) => p.id === personId) ?? -1
+		people?.splice(idx, 1)
+
+		return {}
+	})
+}
+
+function roleBaseToLocalFakedProp(
+	base: NonNullable<SpruceSchemas.Spruce.v2020_07_22.Role['base']>
+) {
+	return fakeTargetToPropName((base + 's') as CoreSeedTarget)
 }
 
 function getPersonById(Class: Class, personId?: string | null) {
@@ -255,15 +292,31 @@ async function fakeListRoles(Class: Class) {
 			`You can't list roles by location id when faking (yet). For now you'll have to 'eventFaker.on(...)' to get things to work OR consider checking this.fakedRoles on your test class.`
 		)
 
-		assert.isFalsy(
-			target?.personId,
-			`You can't list roles by person id when faking (yet). For now you'll have to 'eventFaker.on(...)' to get things to work OR consider checking this.fakedRoles on your test class.`
+		const { personId, organizationId } = target ?? {}
+
+		let roles = Class.fakedRoles.filter(
+			(r) => r.organizationId === organizationId
 		)
 
+		if (personId) {
+			roles = []
+			const bases = BASE_ROLES.map((b) => b.slug)
+
+			for (const base of bases) {
+				//@ts-ignore
+				const match = Class[roleBaseToLocalFakedProp(base)]?.find(
+					(p: any) => p.id === personId
+				)
+
+				if (match) {
+					const role = Class.fakedRoles.find((r) => r.base === base)!
+					roles.push(role)
+				}
+			}
+		}
+
 		return {
-			roles: Class.fakedRoles.filter(
-				(r) => r.organizationId === target?.organizationId
-			),
+			roles,
 		}
 	})
 }
@@ -449,20 +502,32 @@ function buildCasualName(names: {
 
 async function fakeGetOrganization(Class: Class) {
 	await eventFaker.on('get-organization::v2020_12_25', ({ target }) => {
-		const match = Class._fakedOrganizations.find(
-			(o: any) => o.id === target.organizationId
-		)
-
-		if (!match) {
-			throw new SpruceError({
-				code: 'INVALID_TARGET',
-				friendlyMessage: `I could not find the organization you were looking for (get-organization::v2020_12_25).`,
-			})
-		}
+		const match = findOrgFromTarget(Class, target)
 		return {
 			organization: match,
 		}
 	})
+}
+
+async function fakeUpdateOrganization(Class: Class) {
+	await eventFaker.on(
+		'update-organization::v2020_12_25',
+		({ target, payload }) => {
+			const match = findOrgFromTarget(Class, target)
+
+			if (payload?.name) {
+				match.name = payload.name
+			}
+
+			const { ...copy } = match
+			//@ts-ignore
+			delete copy.id
+
+			return {
+				organization: copy,
+			}
+		}
+	)
 }
 
 async function fakeListOrganization(Class: Class) {
@@ -540,17 +605,18 @@ async function fakeWhoAmI(Class: Class) {
 
 async function fakeAuthenticationEvents(Class: Class) {
 	await eventFaker.on('request-pin::v2020_12_25', ({ payload }) => {
-		let person = Class.fakedPeople.find((p) => p.phone === payload.phone)
+		const formattedPhone = formatPhoneNumber(payload.phone)
+		let person = Class.fakedPeople.find((p) => p.phone === formattedPhone)
 
 		if (!person) {
 			person =
-				Class.fakedOwner?.phone === payload.phone
+				Class.fakedOwner?.phone === formattedPhone
 					? Class.fakedOwner
 					: {
 							id: generateId(),
 							casualName: 'friend',
 							dateCreated: new Date().getTime(),
-							phone: payload.phone,
+							phone: formatPhoneNumber(formattedPhone),
 					  }
 			Class.fakedPeople.push(person)
 		}
@@ -601,8 +667,51 @@ async function fakeAuthenticationEvents(Class: Class) {
 	})
 }
 
+async function fakeInstallEvents(Class: Class) {
+	await eventFaker.on('is-skill-installed::v2020_12_25', ({ payload }) => {
+		return {
+			isInstalled: !!Class.fakedInstalledSkills.find(
+				(i) => i.skillId === payload?.skillId
+			),
+		}
+	})
+
+	await eventFaker.on('install-skill::v2020_12_25', ({ target, payload }) => {
+		Class.fakedInstalledSkills.push({
+			orgId: target.organizationId,
+			skillId: payload.skillId,
+		})
+
+		return {}
+	})
+
+	await eventFaker.on('list-skills::v2020_12_25', ({ payload }) => {
+		const namespaces = payload?.namespaces
+		const matches = Class.fakedSkills.filter(
+			(s) => (namespaces?.indexOf(s.slug) ?? 0) > -1
+		)
+
+		if (matches.length === 0) {
+			//@ts-ignore
+			throw new SpruceError({ code: 'INVALID_NAMESPACES', namespaces })
+		}
+
+		return {
+			skills: matches.map((m) => {
+				const { ...copy } = m
+				//@ts-ignore
+				delete copy.apiKey
+				//@ts-ignore
+				delete copy.creators
+
+				return copy
+			}),
+		}
+	})
+}
+
 export function fakeTargetToPropName(target: CoreSeedTarget) {
-	return `faked${upperCaseFirst(target)}`
+	return `faked${upperCaseFirst(target)}` as keyof ClassWithFakes
 }
 
 function upperCaseFirst(target: string) {
@@ -618,3 +727,17 @@ export function singularToPlural(target: string): string {
 }
 
 let shouldSkipNextReset = false
+
+function findOrgFromTarget(Class: Class, target: EventTarget) {
+	const match = Class._fakedOrganizations.find(
+		(o: any) => o.id === target.organizationId
+	)
+
+	if (!match) {
+		throw new SpruceError({
+			code: 'INVALID_TARGET',
+			friendlyMessage: `I could not find the organization you were looking for (get-organization::v2020_12_25).`,
+		})
+	}
+	return match
+}

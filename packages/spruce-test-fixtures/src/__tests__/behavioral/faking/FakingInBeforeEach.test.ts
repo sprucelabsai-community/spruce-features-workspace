@@ -18,8 +18,6 @@ export default class FakingInBeforeEachTest extends AbstractSpruceFixtureTest {
 	@test()
 	@seed('organizations', 1)
 	protected static async canGetRolesForBothSeededOrgs() {
-		console.log(this.fakedRoles)
-
 		const matches = this.fakedRoles.filter(
 			(r) => r.organizationId === this.fakedOrganizations[0].id
 		)

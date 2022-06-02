@@ -1,6 +1,7 @@
 import { generateId } from '@sprucelabs/data-stores'
 import { MercuryClient, MercuryTestClient } from '@sprucelabs/mercury-client'
 import { SpruceSchemas } from '@sprucelabs/mercury-types'
+import { formatPhoneNumber } from '@sprucelabs/schema'
 import { BASE_ROLES } from '@sprucelabs/spruce-core-schemas'
 import { assert, test } from '@sprucelabs/test'
 import { errorAssert } from '@sprucelabs/test-utils'
@@ -301,7 +302,7 @@ export default class FakeDecoratorTest extends AbstractSpruceFixtureTest {
 			}
 		)
 
-		assert.isEqual(person.phone, phone)
+		assert.isEqual(person.phone, formatPhoneNumber(phone))
 		assert.isEqualDeep(this.fakedPeople, [this.fakedOwner, person])
 	}
 

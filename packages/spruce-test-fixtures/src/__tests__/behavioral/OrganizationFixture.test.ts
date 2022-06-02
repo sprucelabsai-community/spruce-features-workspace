@@ -1,3 +1,4 @@
+import { generateId } from '@sprucelabs/data-stores'
 import { eventAssertUtil } from '@sprucelabs/spruce-event-utils'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { test, assert } from '@sprucelabs/test'
@@ -9,7 +10,9 @@ import {
 	DEMO_NUMBER_INSTALLING_SKILLS,
 	DEMO_NUMBER_ORGANIZATION_FIXTURE,
 } from '../../tests/constants'
+import fake from '../../tests/decorators/fake'
 
+@fake.login()
 export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 	@test()
 	protected static async canCreateOrganizationFixture() {
@@ -53,6 +56,7 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 			organizationId: org.id,
 			phone: DEMO_NUMBER_ORGANIZATION_FIXTURE,
 		})
+
 		assert.isFalse(isHired)
 	}
 
@@ -70,7 +74,7 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 			phone: DEMO_NUMBER_ORGANIZATION_FIXTURE,
 		})
 
-		const name = 'whatever you think!'
+		const name = generateId()
 		await this.organizations.updateOrganization(org.id, {
 			name,
 			phone: DEMO_NUMBER_ORGANIZATION_FIXTURE,
@@ -197,6 +201,13 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 		const { organizations } = eventResponseUtil.getFirstResponseOrThrow(results)
 
 		assert.isLength(organizations, 0)
+
+		//@ts-ignore
+
+		firstFixture.destroy = () => {}
+		//@ts-ignore
+
+		secondFixture.destroy = () => {}
 	}
 
 	@test()

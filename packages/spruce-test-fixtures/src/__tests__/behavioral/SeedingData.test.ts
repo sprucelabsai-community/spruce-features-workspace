@@ -4,7 +4,7 @@ import { formatPhoneNumber } from '@sprucelabs/schema'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { assert, test } from '@sprucelabs/test'
 import { errorAssert } from '@sprucelabs/test-utils'
-import { login } from '../..'
+import { fake } from '../..'
 import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
 import {
 	DEMO_NUMBER_SEED_FIXTURE,
@@ -17,7 +17,7 @@ import SeedFixture, {
 
 const sorter = (a: any, b: any) => (a.id > b.id ? 1 : -1)
 
-@login(DEMO_NUMBER_SEED_FIXTURE)
+@fake.login(DEMO_NUMBER_SEED_FIXTURE)
 export default class SeedingDataTest extends AbstractSpruceFixtureTest {
 	private static fixture: SeedFixture
 	private static client: MercuryClient
@@ -25,7 +25,7 @@ export default class SeedingDataTest extends AbstractSpruceFixtureTest {
 	protected static async beforeEach() {
 		await super.beforeEach()
 
-		this.client = login.getClient()
+		this.client = fake.getClient()
 		this.fixture = this.Fixture('seed')
 
 		await this.fixture.resetAccount(DEMO_NUMBER_SEED_FIXTURE)
@@ -274,7 +274,7 @@ export default class SeedingDataTest extends AbstractSpruceFixtureTest {
 			shouldIncludePrivateFields: true,
 		})
 
-		const withoutOwner = people.filter((p) => p.id !== login.getPerson().id)
+		const withoutOwner = people.filter((p) => p.id !== fake.getPerson().id)
 		return withoutOwner
 	}
 
