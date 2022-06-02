@@ -1,13 +1,54 @@
+import { EventContract } from '@sprucelabs/mercury-types'
 import {
 	eventContractUtil,
 	eventResponseUtil,
 } from '@sprucelabs/spruce-event-utils'
-import { MercuryFixture } from '@sprucelabs/spruce-test-fixtures'
+import {
+	eventFaker,
+	fake,
+	MercuryFixture,
+} from '@sprucelabs/spruce-test-fixtures'
 import { assert, test } from '@sprucelabs/test'
 import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
 
 MercuryFixture.setShouldAutoImportContracts(false)
+
+@fake.login()
 export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest {
+	private static eventContracts: EventContract[] = []
+	private static namespaceForRegisteringEvents = ''
+
+	protected static async beforeEach(): Promise<void> {
+		await super.beforeEach()
+
+		await eventFaker.on('sync-event-contracts::v2020_12_25', ({ payload }) => {
+			const namespaced = { eventSignatures: {} }
+			Object.keys(payload.contract.eventSignatures).forEach((name) => {
+				//@ts-ignore
+				namespaced.eventSignatures[
+					`${this.namespaceForRegisteringEvents}.${name}`
+				] = payload.contract.eventSignatures[name]
+			})
+			this.eventContracts.push(namespaced)
+
+			return {
+				fqens: Object.keys(namespaced.eventSignatures),
+			}
+		})
+
+		await eventFaker.on('get-event-contracts::v2020_12_25', () => {
+			return {
+				contracts: this.eventContracts,
+			}
+		})
+
+		this.eventContracts = [
+			{
+				eventSignatures: {},
+			},
+		]
+	}
+
 	@test()
 	protected static async noEventsRegisteredWhenNoEventsCreated() {
 		this.cwd = await this.generateSkillFromTestPath('empty-skill')
@@ -95,6 +136,7 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 
 		await afterRegisterSkillHandler?.(currentSkill)
 
+		this.namespaceForRegisteringEvents = currentSkill.slug
 		await this.bootSkill()
 
 		const orgs = this.Fixture('organization')
