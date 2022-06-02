@@ -666,6 +666,7 @@ async function fakeAuthenticationEvents(Class: Class) {
 		)
 
 		if (
+			!skill &&
 			apiKey &&
 			skillId &&
 			apiKey === process.env.SKILL_API_KEY &&
