@@ -97,6 +97,31 @@ export default class FakingSkillEventsTest extends AbstractSpruceFixtureTest {
 		await this.assertExpectedWhoAmIResults(client, skill)
 	}
 
+	@test()
+	protected static async returnsCurrentSkillIfEnvSet() {
+		const skillId = generateId()
+		const apiKey = generateId()
+		process.env.SKILL_ID = skillId
+		process.env.SKILL_API_KEY = apiKey
+
+		const client = await this.mercury.connectToApi()
+		const [{ type, auth }] = await client.emitAndFlattenResponses(
+			'authenticate::v2020_12_25',
+			{
+				payload: {
+					skillId,
+					apiKey,
+				},
+			}
+		)
+
+		const { skill } = auth
+
+		assert.isEqual(type, 'authenticated')
+		assert.isEqual(skill?.id, skillId)
+		assert.isEqual(skill?.apiKey, apiKey)
+	}
+
 	private static async assertExpectedWhoAmIResults(
 		client: MercuryClient,
 		skill: SpruceSchemas.Spruce.v2020_07_22.Skill

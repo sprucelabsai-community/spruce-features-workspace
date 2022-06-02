@@ -1,3 +1,4 @@
+import { listenerCount } from 'process'
 import { generateId } from '@sprucelabs/data-stores'
 import {
 	MercuryClient,
@@ -661,9 +662,25 @@ async function fakeAuthenticationEvents(Class: Class) {
 	await eventFaker.on('authenticate::v2020_12_25', ({ payload }) => {
 		const { token, apiKey, skillId } = payload ?? {}
 
-		const skill = Class.fakedSkills.find(
+		let skill = Class.fakedSkills.find(
 			(s) => s.apiKey === apiKey && s.id === skillId
 		)
+
+		if (
+			apiKey &&
+			skillId &&
+			apiKey === process.env.SKILL_API_KEY &&
+			skillId === process.env.SKILL_ID
+		) {
+			skill = {
+				id: skillId,
+				apiKey,
+				creators: [{ personId: 'aoeu' }],
+				dateCreated: new Date().getTime(),
+				name: 'Current skill',
+				slug: 'unknown',
+			}
+		}
 
 		if (skill) {
 			return {
