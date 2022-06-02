@@ -141,7 +141,7 @@ fake.login = (phone = '555-000-0000') => {
 		}
 
 		Class.beforeEach = async () => {
-			fakeAuthenticationEvents(Class)
+			await fakeAuthenticationEvents(Class)
 			resetFakes(Class)
 
 			if (!TestClass.cwd) {
