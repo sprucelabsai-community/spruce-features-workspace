@@ -1,9 +1,10 @@
 import { generateId } from '@sprucelabs/data-stores'
 import { MercuryClient } from '@sprucelabs/mercury-client'
-import { fake, SpruceSchemas } from '@sprucelabs/spruce-test-fixtures'
+import { SpruceSchemas } from '@sprucelabs/mercury-types'
 import { test, assert } from '@sprucelabs/test'
 import { errorAssert } from '@sprucelabs/test-utils'
 import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
+import fake from '../../../tests/decorators/fake'
 import { SeedDemoSkillValues } from '../../../tests/fixtures/SkillFixture'
 
 @fake.login()
