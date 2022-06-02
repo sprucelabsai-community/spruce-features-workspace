@@ -51,6 +51,7 @@ interface Class extends ClassWithFakes {
 	fakedOwner?: Person
 	_fakedOrganizations: Organization[]
 	fakedInstalledSkills: InstalledSkill[]
+	fakedTokens: { personId: string; token: string }[]
 	fakedRoles: Role[]
 	_fakedLocations: Location[]
 	fakedOwnerClient: Client
@@ -90,6 +91,7 @@ function resetFakes(Class: Class) {
 	Class.fakedRoles = []
 	Class.fakedPeople = []
 	Class.fakedSkills = []
+	Class.fakedTokens = []
 }
 
 export default function fake(target: CoreSeedTarget, total: number) {
@@ -642,8 +644,14 @@ async function fakeAuthenticationEvents(Class: Class) {
 		//@ts-ignore
 		delete person._challenge
 
+		const token = generateId()
+		Class.fakedTokens.push({
+			personId: person.id,
+			token,
+		})
+
 		return {
-			token: '1234',
+			token,
 			person: {
 				...person,
 			},
@@ -651,9 +659,12 @@ async function fakeAuthenticationEvents(Class: Class) {
 	})
 
 	await eventFaker.on('authenticate::v2020_12_25', ({ payload }) => {
+		const { token, apiKey, skillId } = payload ?? {}
+
 		const skill = Class.fakedSkills.find(
-			(s) => s.apiKey === payload?.apiKey && s.id === payload.skillId
+			(s) => s.apiKey === apiKey && s.id === skillId
 		)
+
 		if (skill) {
 			return {
 				type: 'authenticated' as const,
@@ -662,8 +673,22 @@ async function fakeAuthenticationEvents(Class: Class) {
 				},
 			}
 		}
-		//@ts-ignore
-		throw new SpruceError({ code: 'INVALID_AUTH_TOKEN' })
+
+		const match = Class.fakedTokens.find((f) => f.token === token)
+
+		if (!match) {
+			//@ts-ignore
+			throw new SpruceError({ code: 'INVALID_AUTH_TOKEN' })
+		}
+
+		const person = getPersonById(Class, match.personId)
+
+		return {
+			type: 'anonymous' as const,
+			auth: {
+				person,
+			},
+		}
 	})
 }
 
