@@ -1,6 +1,6 @@
 import { MercuryClient } from '@sprucelabs/mercury-client'
 import { assert, test } from '@sprucelabs/test'
-import { fake } from '../..'
+import { fake } from '../../..'
 import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
 
 @fake.login()
