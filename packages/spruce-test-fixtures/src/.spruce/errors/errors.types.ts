@@ -75,6 +75,27 @@ export declare namespace SpruceErrors.SpruceTestFixtures {
 export declare namespace SpruceErrors.SpruceTestFixtures {
 
 	
+	export interface NotFound {
+		
+	}
+
+	export interface NotFoundSchema extends SpruceSchema.Schema {
+		id: 'notFound',
+		namespace: 'SpruceTestFixtures',
+		name: 'not found',
+		    fields: {
+		    }
+	}
+
+	export type NotFoundEntity = SchemaEntity<SpruceErrors.SpruceTestFixtures.NotFoundSchema>
+
+}
+
+
+
+export declare namespace SpruceErrors.SpruceTestFixtures {
+
+	
 	export interface InvalidViewController {
 		
 			

@@ -47,10 +47,16 @@ interface InstalledSkill {
 	orgId: string
 }
 
+type PersonRole = {
+	roleId: string
+	personId: string
+}
+
 interface Class extends ClassWithFakes {
 	fakedOwner?: Person
 	_fakedOrganizations: Organization[]
 	fakedInstalledSkills: InstalledSkill[]
+	fakedPeopleRoles: PersonRole[]
 	fakedTokens: { personId: string; token: string }[]
 	fakedRoles: Role[]
 	_fakedLocations: Location[]
@@ -84,6 +90,7 @@ function resetFakes(Class: Class) {
 	Class._fakedLocations = []
 	Class.fakedTeammates = []
 	Class.fakedInstalledSkills = []
+	Class.fakedPeopleRoles = []
 	Class.fakedManagers = []
 	Class.fakedOwners = []
 	Class.fakedGroupManagers = []
@@ -212,6 +219,7 @@ async function setupFakes(Class: Class) {
 		fakeInstallEvents(Class),
 		fakeAuthenticationEvents(Class),
 		fakeAddRole(Class),
+		fakeGetRole(Class),
 		fakeRemoveRole(Class),
 		fakeListRoles(Class),
 		fakeListPeople(Class),
@@ -238,9 +246,30 @@ async function fakeAddRole(Class: Class) {
 		assert.isTruthy(Class[key], `Could not find property ${key}`)
 
 		//@ts-ignore
-		Class[key]!.push(person)
+		Class[key]!.unshift(person)
+
+		Class.fakedPeopleRoles.push({
+			personId: person.id,
+			roleId: role.id,
+		})
 
 		return {}
+	})
+}
+
+async function fakeGetRole(Class: Class) {
+	await eventFaker.on('get-role::v2020_12_25', ({ target }) => {
+		const { roleId } = target
+		const role = Class.fakedRoles.find((r) => r.id === roleId)
+		if (!role) {
+			throw new SpruceError({
+				code: 'NOT_FOUND',
+				friendlyMessage: `I could not find a role with the id: '${roleId}'`,
+			})
+		}
+		return {
+			role,
+		}
 	})
 }
 
@@ -301,20 +330,20 @@ async function fakeListRoles(Class: Class) {
 		)
 
 		if (personId) {
-			roles = []
-			const bases = BASE_ROLES.map((b) => b.slug)
+			const personRoles = []
 
-			for (const base of bases) {
+			for (const role of roles) {
 				//@ts-ignore
-				const match = Class[roleBaseToLocalFakedProp(base)]?.find(
-					(p: any) => p.id === personId
+				const match = Class.fakedPeopleRoles.find(
+					(p: any) => p.personId === personId && p.roleId === role.id
 				)
 
 				if (match) {
-					const role = Class.fakedRoles.find((r) => r.base === base)!
-					roles.push(role)
+					personRoles.push(role)
 				}
 			}
+
+			roles = personRoles
 		}
 
 		return {

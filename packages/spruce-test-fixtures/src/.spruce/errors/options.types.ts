@@ -7,6 +7,9 @@ export interface UnknownViewControllerErrorErrorOptions extends SpruceErrors.Spr
 export interface SkillNotFoundErrorOptions extends SpruceErrors.SpruceTestFixtures.SkillNotFound, ISpruceErrorOptions {
 	code: 'SKILL_NOT_FOUND'
 }
+export interface NotFoundErrorOptions extends SpruceErrors.SpruceTestFixtures.NotFound, ISpruceErrorOptions {
+	code: 'NOT_FOUND'
+}
 export interface InvalidViewControllerErrorOptions extends SpruceErrors.SpruceTestFixtures.InvalidViewController, ISpruceErrorOptions {
 	code: 'INVALID_VIEW_CONTROLLER'
 }
@@ -20,6 +23,6 @@ export interface FakeEventErrorErrorOptions extends SpruceErrors.SpruceTestFixtu
 	code: 'FAKE_EVENT_ERROR'
 }
 
-type ErrorOptions =  | UnknownViewControllerErrorErrorOptions  | SkillNotFoundErrorOptions  | InvalidViewControllerErrorOptions  | InvalidTargetErrorOptions  | InvalidFixtureErrorOptions  | FakeEventErrorErrorOptions 
+type ErrorOptions =  | UnknownViewControllerErrorErrorOptions  | SkillNotFoundErrorOptions  | NotFoundErrorOptions  | InvalidViewControllerErrorOptions  | InvalidTargetErrorOptions  | InvalidFixtureErrorOptions  | FakeEventErrorErrorOptions 
 
 export default ErrorOptions

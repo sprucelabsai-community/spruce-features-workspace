@@ -21,15 +21,24 @@ import SkillFixture from './fixtures/SkillFixture'
 import StoreFixture from './fixtures/StoreFixture'
 import ViewFixture from './fixtures/ViewFixture'
 
-export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTest {
-	public static fakedOwner: SpruceSchemas.Spruce.v2020_07_22.Person
-	public static fakedPeople: SpruceSchemas.Spruce.v2020_07_22.Person[]
-	public static fakedTeammates: SpruceSchemas.Spruce.v2020_07_22.Person[]
-	public static fakedOwners: SpruceSchemas.Spruce.v2020_07_22.Person[]
-	public static fakedRoles: SpruceSchemas.Spruce.v2020_07_22.Role[]
-	public static fakedSkills: SpruceSchemas.Spruce.v2020_07_22.Skill[]
+type Person = SpruceSchemas.Spruce.v2020_07_22.Person
+type Role = SpruceSchemas.Spruce.v2020_07_22.Role
+type Skill = SpruceSchemas.Spruce.v2020_07_22.Skill
+type Organization = SpruceSchemas.Spruce.v2020_07_22.Organization
+type Location = SpruceSchemas.Spruce.v2020_07_22.Location
 
-	public static get fakedOrganizations(): SpruceSchemas.Spruce.v2020_07_22.Organization[] {
+export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTest {
+	public static fakedOwner: Person
+	public static fakedPeople: Person[]
+	public static fakedTeammates: Person[]
+	public static fakedOwners: Person[]
+	public static fakedRoles: Role[]
+	public static fakedSkills: Skill[]
+	public static fakedManagers: Person[]
+	public static fakedGuests: Person[]
+	public static fakedGroupManagers: Person[]
+
+	public static get fakedOrganizations(): Organization[] {
 		return this._fakedOrganizations
 	}
 
@@ -55,10 +64,8 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		this._fakedLocations = locations
 	}
 
-	private static _fakedOrganizations: SpruceSchemas.Spruce.v2020_07_22.Organization[] =
-		[]
-	private static _fakedLocations: SpruceSchemas.Spruce.v2020_07_22.Location[] =
-		[]
+	private static _fakedOrganizations: Organization[] = []
+	private static _fakedLocations: Location[] = []
 
 	public static cwd: string
 	public static get views(): ViewFixture {

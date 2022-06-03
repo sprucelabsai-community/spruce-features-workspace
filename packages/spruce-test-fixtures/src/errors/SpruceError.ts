@@ -35,7 +35,11 @@ export default class SpruceError extends BaseSpruceError<ErrorOptions> {
 				break
 
 			case 'INVALID_TARGET':
-				message = 'A invalid target just happened!'
+				message = `I could not find anything at that target.`
+				break
+
+			case 'NOT_FOUND':
+				message = `I could not find what you are looking for!`
 				break
 
 			default:

@@ -1,5 +1,7 @@
+import { generateId } from '@sprucelabs/data-stores'
 import { SpruceSchemas } from '@sprucelabs/mercury-types'
 import { test, assert } from '@sprucelabs/test'
+import { errorAssert } from '@sprucelabs/test-utils'
 import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
 import fake from '../../../tests/decorators/fake'
 import seed from '../../../tests/decorators/seed'
@@ -24,6 +26,36 @@ export default class FakingRoleEventsTest extends AbstractSpruceFixtureTest {
 	protected static async canListOtherRoles() {
 		const teammate = this.fakedTeammates[0]
 		await this.assertPersonGetsBackRoleWithbase(teammate.id, 'teammate')
+	}
+
+	@test('can get role 1', 0)
+	@test('can get role 2', 1)
+	protected static async canGetRole(idx: number) {
+		const id = this.fakedRoles[idx].id
+		const role = await this.emitGetRole(id)
+
+		assert.isEqualDeep(role, this.fakedRoles[idx])
+	}
+
+	@test()
+	protected static async throwsWithBadRole() {
+		const err = await assert.doesThrowAsync(() =>
+			this.emitGetRole(generateId())
+		)
+
+		errorAssert.assertError(err, 'NOT_FOUND')
+	}
+
+	private static async emitGetRole(id: string) {
+		const [{ role }] = await fake
+			.getClient()
+			.emitAndFlattenResponses('get-role::v2020_12_25', {
+				target: {
+					roleId: id,
+				},
+			})
+
+		return role
 	}
 
 	private static async assertPersonGetsBackRoleWithbase(

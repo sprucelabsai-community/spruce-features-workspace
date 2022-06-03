@@ -28,6 +28,7 @@ export default class SeedFixture {
 	private organizations: OrganizationFixture
 	private locations: LocationFixture
 	private people: PersonFixture
+	private static lastPhone: string
 
 	public constructor(options: {
 		organizations: OrganizationFixture
@@ -57,7 +58,7 @@ export default class SeedFixture {
 	public async seedGuests(options?: { totalGuests?: number }) {
 		await this.seedPeople({
 			...options,
-			startingPhone: '555-999-0000',
+			startingPhone: SeedFixture.lastPhone ?? '555-999-0000',
 		})
 
 		return []
@@ -66,7 +67,7 @@ export default class SeedFixture {
 	public async seedTeammates(options?: { totalTeammates?: number }) {
 		await this.seedPeople({
 			...options,
-			startingPhone: '555-999-1000',
+			startingPhone: SeedFixture.lastPhone ?? '555-999-1000',
 		})
 
 		return []
@@ -75,7 +76,7 @@ export default class SeedFixture {
 	public async seedGroupManagers(options?: { totalGroupManagers?: number }) {
 		await this.seedPeople({
 			...options,
-			startingPhone: '555-999-2000',
+			startingPhone: SeedFixture.lastPhone ?? '555-999-2000',
 		})
 
 		return []
@@ -84,7 +85,7 @@ export default class SeedFixture {
 	public async seedManagers(options?: { totalManagers?: number }) {
 		await this.seedPeople({
 			...options,
-			startingPhone: '555-999-3000',
+			startingPhone: SeedFixture.lastPhone ?? '555-999-3000',
 		})
 
 		return []
@@ -93,7 +94,7 @@ export default class SeedFixture {
 	public async seedOwners(options?: { totalOwners?: number }) {
 		await this.seedPeople({
 			...options,
-			startingPhone: '555-999-4000',
+			startingPhone: SeedFixture.lastPhone ?? '555-999-4000',
 		})
 
 		return []
@@ -182,7 +183,7 @@ export default class SeedFixture {
 			owners: [],
 		}
 
-		const totalToGenerate =
+		let totalToGenerate =
 			(totalGroupManagers ?? 0) +
 			(totalGuests ?? 0) +
 			(totalManagers ?? 0) +
@@ -190,6 +191,8 @@ export default class SeedFixture {
 			(totalTeammates ?? 0)
 
 		if (totalToGenerate > 0) {
+			totalToGenerate++
+
 			if (!startingPhone) {
 				throw new SchemaError({
 					code: 'MISSING_PARAMETERS',
@@ -221,7 +224,10 @@ export default class SeedFixture {
 					results[base + 's'] = people
 				}
 			}
+
+			SeedFixture.lastPhone = numbers[0]
 		}
+
 		return results
 	}
 
