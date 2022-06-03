@@ -57,6 +57,7 @@ interface Class extends ClassWithFakes {
 	_fakedOrganizations: Organization[]
 	fakedInstalledSkills: InstalledSkill[]
 	fakedPeopleRoles: PersonRole[]
+	fakedProxyTokens: { personId: string; token: string }[]
 	fakedTokens: { personId: string; token: string }[]
 	fakedRoles: Role[]
 	_fakedLocations: Location[]
@@ -99,6 +100,7 @@ function resetFakes(Class: Class) {
 	Class.fakedPeople = []
 	Class.fakedSkills = []
 	Class.fakedTokens = []
+	Class.fakedProxyTokens = []
 }
 
 export default function fake(target: CoreSeedTarget, total: number) {
@@ -215,6 +217,7 @@ async function setupFakes(Class: Class) {
 	await Promise.all([
 		fakeSkillLifecycleEvents(Class),
 		fakeGetPerson(Class),
+		fakeRegisterProxyToken(Class),
 		fakeWhoAmI(Class),
 		fakeInstallEvents(Class),
 		fakeAuthenticationEvents(Class),
@@ -624,11 +627,17 @@ function buildSeeder(target: CoreSeedTarget) {
 }
 
 async function fakeWhoAmI(Class: Class) {
-	await eventFaker.on('whoami::v2020_12_25', (payload) => {
-		const person = getPersonById(Class, payload?.source?.personId)
-		const skill = Class.fakedSkills.find(
-			(s) => s.id === payload.source?.skillId
-		)
+	await eventFaker.on('whoami::v2020_12_25', (targetAndPayload) => {
+		const { source } = targetAndPayload ?? {}
+		let { personId, proxyToken } = source ?? {}
+
+		if (proxyToken) {
+			personId = Class.fakedProxyTokens.find(
+				(t) => t.token === proxyToken
+			)?.personId
+		}
+		const person = getPersonById(Class, personId)
+		const skill = Class.fakedSkills.find((s) => s.id === source?.skillId)
 
 		return {
 			auth: {
@@ -637,6 +646,19 @@ async function fakeWhoAmI(Class: Class) {
 			},
 			type:
 				person || skill ? ('authenticated' as const) : ('anonymous' as const),
+		}
+	})
+}
+
+async function fakeRegisterProxyToken(Class: Class) {
+	await eventFaker.on('register-proxy-token::v2020_12_25', ({ source }) => {
+		const token = generateId()
+		Class.fakedProxyTokens.push({
+			personId: source!.personId!,
+			token,
+		})
+		return {
+			token,
 		}
 	})
 }
