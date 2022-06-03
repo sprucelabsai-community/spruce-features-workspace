@@ -1,6 +1,7 @@
 import { MercuryClient } from '@sprucelabs/mercury-client'
 import { assertOptions } from '@sprucelabs/schema'
 import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
+import { RoleBase } from '../../types/fixture.types'
 import PersonFixture from './PersonFixture'
 import RoleFixture from './RoleFixture'
 
@@ -138,7 +139,7 @@ export default class OrganizationFixture {
 
 	public async removePerson(options: {
 		phone?: string
-		roleBase: string
+		roleBase: RoleBase
 		organizationId: string
 		personId: string
 	}) {
@@ -148,7 +149,7 @@ export default class OrganizationFixture {
 	public async addPerson(options: {
 		personId: string
 		organizationId: string
-		roleBase: string
+		roleBase: RoleBase
 		phone?: string
 	}) {
 		await this.roles.addRoleToPerson(options)

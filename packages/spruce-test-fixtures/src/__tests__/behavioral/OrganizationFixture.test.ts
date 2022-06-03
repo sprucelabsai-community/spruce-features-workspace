@@ -11,6 +11,7 @@ import {
 	DEMO_NUMBER_ORGANIZATION_FIXTURE,
 } from '../../tests/constants'
 import fake from '../../tests/decorators/fake'
+import { RoleBase } from '../../types/fixture.types'
 
 @fake.login()
 export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
@@ -86,7 +87,7 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 
 	@test('can add as guest', 'guest')
 	@test('can add as teammate', 'teammate')
-	protected static async canAddPersonToOrg(base: string) {
+	protected static async canAddPersonToOrg(base: RoleBase) {
 		const { person, org } = await this.seedOrgAndHirePerson(base)
 
 		const isHired = await this.isPersonPartOfOrg(person.id, org.id)
@@ -249,7 +250,7 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 
 	@test('can remove guest', 'guest')
 	@test('can remove teammate', 'teammate')
-	protected static async canRemovePersonFromOrg(roleBase: string) {
+	protected static async canRemovePersonFromOrg(roleBase: RoleBase) {
 		const { person, org } = await this.seedOrgAndHirePerson(roleBase)
 
 		await this.organizations.removePerson({
@@ -271,7 +272,7 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 		})
 	}
 
-	private static async seedOrgAndHirePerson(base: string) {
+	private static async seedOrgAndHirePerson(base: RoleBase) {
 		const org = await this.organizations.seedDemoOrganization({
 			name: 'my org',
 			phone: DEMO_NUMBER_HIRING,

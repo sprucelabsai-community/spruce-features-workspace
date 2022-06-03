@@ -83,6 +83,33 @@ export default class FakingAddingPeopleToAnOrgTest extends AbstractSpruceFixture
 		await this.assertTotalRolesReturned(org2.id, teammate2.id, 1)
 	}
 
+	@test()
+	@seed('organizations', 1)
+	@seed('teammates', 1)
+	@seed('organizations', 1)
+	protected static async removesRoleFromProperOrg() {
+		const [teammate] = this.fakedTeammates
+		const [org1, org2] = this.fakedOrganizations
+
+		await this.organizations.addPerson({
+			organizationId: org1.id,
+			personId: teammate.id,
+			roleBase: 'teammate',
+		})
+
+		await this.assertTotalRolesReturned(org1.id, teammate.id, 1)
+		await this.assertTotalRolesReturned(org2.id, teammate.id, 1)
+
+		await this.organizations.removePerson({
+			personId: teammate.id,
+			organizationId: org1.id,
+			roleBase: 'teammate',
+		})
+
+		await this.assertTotalRolesReturned(org1.id, teammate.id, 0)
+		await this.assertTotalRolesReturned(org2.id, teammate.id, 1)
+	}
+
 	private static async assertTotalRolesReturned(
 		orgId: string,
 		teammateId: string,

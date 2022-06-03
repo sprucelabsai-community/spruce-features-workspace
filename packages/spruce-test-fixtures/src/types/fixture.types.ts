@@ -1,5 +1,6 @@
 import { DatabaseFixture } from '@sprucelabs/data-stores'
 import { ConnectionOptions, MercuryClient } from '@sprucelabs/mercury-client'
+import { SpruceSchemas } from '@sprucelabs/mercury-types'
 import LocationFixture from '../tests/fixtures/LocationFixture'
 import MercuryFixture from '../tests/fixtures/MercuryFixture'
 import OrganizationFixture from '../tests/fixtures/OrganizationFixture'
@@ -33,6 +34,10 @@ export interface FixtureClassMap {
 	role: typeof RoleFixture
 	seed: typeof SeedFixture
 }
+
+export type RoleBase = NonNullable<
+	SpruceSchemas.Spruce.v2020_07_22.Role['base']
+>
 
 export type FixtureMap = {
 	[K in keyof FixtureClassMap]: InstanceType<FixtureClassMap[K]>

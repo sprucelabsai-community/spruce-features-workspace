@@ -281,7 +281,12 @@ async function fakeRemoveRole(Class: Class) {
 
 		const people = Class[roleBaseToLocalFakedProp(role.base!)]
 		const idx = people?.findIndex((p) => p.id === personId) ?? -1
+
 		people?.splice(idx, 1)
+
+		Class.fakedPeopleRoles = Class.fakedPeopleRoles.filter(
+			(p) => !(p.personId === personId && p.roleId === roleId)
+		)
 
 		return {}
 	})
@@ -339,6 +344,8 @@ async function fakeListRoles(Class: Class) {
 				)
 
 				if (match) {
+					personRoles.push(role)
+				} else if (personId === Class.fakedOwner?.id && role.base === 'owner') {
 					personRoles.push(role)
 				}
 			}

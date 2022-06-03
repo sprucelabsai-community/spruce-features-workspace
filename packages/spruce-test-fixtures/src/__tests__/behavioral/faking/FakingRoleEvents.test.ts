@@ -5,7 +5,8 @@ import { errorAssert } from '@sprucelabs/test-utils'
 import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
 import fake from '../../../tests/decorators/fake'
 import seed from '../../../tests/decorators/seed'
-import { Organization, RoleBase } from '../../test.types'
+import { RoleBase } from '../../../types/fixture.types'
+import { Organization } from '../../test.types'
 
 @fake.login()
 export default class FakingRoleEventsTest extends AbstractSpruceFixtureTest {

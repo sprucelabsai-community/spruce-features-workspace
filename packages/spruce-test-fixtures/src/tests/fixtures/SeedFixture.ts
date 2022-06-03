@@ -3,6 +3,7 @@ import { assertOptions, SchemaError } from '@sprucelabs/schema'
 import { roleSchema } from '@sprucelabs/spruce-core-schemas'
 import { namesUtil } from '@sprucelabs/spruce-skill-utils'
 import { assert } from '@sprucelabs/test'
+import { RoleBase } from '../../types/fixture.types'
 import phoneNumberIncrementor from '../../utilities/phoneNumberIncrementor'
 import LocationFixture from './LocationFixture'
 import OrganizationFixture from './OrganizationFixture'
@@ -236,7 +237,7 @@ export default class SeedFixture {
 		numbers: string[]
 		locationId?: string
 		organizationId: string
-		roleBase: string
+		roleBase: RoleBase
 	}) {
 		const {
 			total,
