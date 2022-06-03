@@ -4,13 +4,13 @@ import { formatPhoneNumber } from '@sprucelabs/schema'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { assert, test } from '@sprucelabs/test'
 import { errorAssert } from '@sprucelabs/test-utils'
-import { fake } from '../..'
 import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
 import {
 	DEMO_NUMBER_SEED_FIXTURE,
 	DEMO_NUMBER_SEED_FIXTURE_STARTING_PHONE,
 	DEMO_NUMBER_SEED_FIXTURE_STARTING_PHONE_ALT,
 } from '../../tests/constants'
+import fake from '../../tests/decorators/fake'
 import SeedFixture, {
 	SeedLocationOptions,
 } from '../../tests/fixtures/SeedFixture'

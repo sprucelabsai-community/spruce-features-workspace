@@ -1,5 +1,6 @@
 import { generateId } from '@sprucelabs/data-stores'
 import { SpruceSchemas } from '@sprucelabs/mercury-types'
+import { BASE_ROLES } from '@sprucelabs/spruce-core-schemas'
 import { test, assert } from '@sprucelabs/test'
 import { errorAssert } from '@sprucelabs/test-utils'
 import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
@@ -45,6 +46,26 @@ export default class FakingRoleEventsTest extends AbstractSpruceFixtureTest {
 		)
 
 		errorAssert.assertError(err, 'NOT_FOUND')
+	}
+
+	@test()
+	@seed('locations', 1)
+	@seed('organizations', 1)
+	@seed('locations', 1)
+	protected static async listingRolesByLocationFiltersByOrg() {
+		await this.assertRolesMatchOrg(0)
+		await this.assertRolesMatchOrg(1)
+	}
+
+	private static async assertRolesMatchOrg(idx: number) {
+		const roles = await this.roles.listRoles({
+			locationId: this.fakedLocations[idx].id,
+		})
+		assert.isLength(roles, BASE_ROLES.length)
+		assert.isEqual(
+			roles[0].organizationId,
+			this.fakedLocations[idx].organizationId
+		)
 	}
 
 	private static async emitGetRole(id: string) {

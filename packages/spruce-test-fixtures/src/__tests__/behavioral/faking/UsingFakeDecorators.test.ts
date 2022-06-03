@@ -222,19 +222,6 @@ export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
 		)
 	}
 
-	@test('listing roles by locationId throws', {
-		locationId: generateId(),
-	})
-	protected static async throwsWhenListingRolesByAnythingBesidesOrg(
-		target: any
-	) {
-		await assert.doesThrowAsync(() =>
-			this.client.emitAndFlattenResponses('list-roles::v2020_12_25', {
-				target,
-			})
-		)
-	}
-
 	@test()
 	protected static async throwingInRequestPinDoesNotCrashNextTest() {
 		await eventFaker.makeEventThrow('request-pin::v2020_12_25')

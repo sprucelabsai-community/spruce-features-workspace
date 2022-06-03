@@ -4,9 +4,9 @@ import {
 	DEMO_NUMBER_LOCATION_FIXTURE,
 	DEMO_NUMBER_LOCATION_FIXTURE_OUTSIDER,
 } from '../../tests/constants'
-import login from '../../tests/decorators/login'
+import fake from '../../tests/decorators/fake'
 
-@login(DEMO_NUMBER_LOCATION_FIXTURE)
+@fake.login(DEMO_NUMBER_LOCATION_FIXTURE)
 export default class LocationFixtureTest extends AbstractSpruceFixtureTest {
 	protected static async beforeEach() {
 		await super.beforeEach()
@@ -54,7 +54,7 @@ export default class LocationFixtureTest extends AbstractSpruceFixtureTest {
 	}
 
 	@test()
-	protected static async canAttachPersonToLocation() {
+	protected static async canAddPersonToLocation() {
 		const { person, location } = await this.seedLocationAndAddPerson()
 
 		const isHired = await LocationFixtureTest.isPersonPartOfLocation(

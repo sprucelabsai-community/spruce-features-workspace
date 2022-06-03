@@ -50,6 +50,8 @@ interface InstalledSkill {
 type PersonRole = {
 	roleId: string
 	personId: string
+	organizationId?: string | null
+	locationId?: string | null
 }
 
 interface Class extends ClassWithFakes {
@@ -239,24 +241,49 @@ async function setupFakes(Class: Class) {
 }
 
 async function fakeAddRole(Class: Class) {
-	await eventFaker.on('add-role::v2020_12_25', ({ payload }) => {
+	await eventFaker.on('add-role::v2020_12_25', ({ payload, target }) => {
+		const { organizationId, locationId } = target ?? {}
+		const { roleId } = payload
+
 		const person = getPersonById(Class, payload.personId)
-		const role = Class.fakedRoles.find((r) => r.id === payload.roleId)!
-
-		const key = roleBaseToLocalFakedProp(role.base!)
-
-		//@ts-ignore
-		assert.isTruthy(Class[key], `Could not find property ${key}`)
-
-		//@ts-ignore
-		Class[key]!.unshift(person)
-
-		Class.fakedPeopleRoles.push({
-			personId: person.id,
-			roleId: role.id,
+		addPersonAsRoleToLocationOrOrg({
+			Class,
+			roleId,
+			person,
+			organizationId,
+			locationId,
 		})
 
 		return {}
+	})
+}
+
+function addPersonAsRoleToLocationOrOrg(options: {
+	Class: Class
+	roleId: string
+	person: SpruceSchemas.Spruce.v2020_07_22.Person
+	organizationId?: string | null
+	locationId?: string | null
+}) {
+	const { Class, roleId, person, organizationId, locationId } = options
+
+	const role = Class.fakedRoles.find((r) => r.id === roleId)!
+	const key = roleBaseToLocalFakedProp(role.base!)
+
+	//@ts-ignore
+	assert.isTruthy(Class[key], `Could not find property ${key}`)
+
+	const idx = Class[key]!.findIndex((p) => p.id === person.id)
+	if (idx === -1) {
+		//@ts-ignore
+		Class[key]!.unshift(person)
+	}
+
+	Class.fakedPeopleRoles.push({
+		personId: person.id,
+		roleId: role.id,
+		organizationId,
+		locationId,
 	})
 }
 
@@ -326,34 +353,30 @@ async function fakeUpdatePerson(Class: Class) {
 
 async function fakeListRoles(Class: Class) {
 	await eventFaker.on('list-roles::v2020_12_25', ({ target }) => {
-		assert.isFalsy(
-			target?.locationId,
-			`You can't list roles by location id when faking (yet). For now you'll have to 'eventFaker.on(...)' to get things to work OR consider checking this.fakedRoles on your test class.`
-		)
+		let { personId, organizationId, locationId } = target ?? {}
 
-		const { personId, organizationId } = target ?? {}
-
-		let roles = Class.fakedRoles.filter(
-			(r) => r.organizationId === organizationId
-		)
+		let roles: Role[] = []
 
 		if (personId) {
-			const personRoles = []
-
-			for (const role of roles) {
-				//@ts-ignore
-				const match = Class.fakedPeopleRoles.find(
-					(p: any) => p.personId === personId && p.roleId === role.id
+			const personRoles = Class.fakedPeopleRoles
+				.filter(
+					(p) =>
+						p.personId === personId &&
+						((p.organizationId && p.organizationId === organizationId) ||
+							(p.locationId && p.locationId === locationId))
 				)
-
-				if (match) {
-					personRoles.push(role)
-				} else if (personId === Class.fakedOwner?.id && role.base === 'owner') {
-					personRoles.push(role)
-				}
-			}
+				.map((pr) => Class.fakedRoles.find((r) => r.id === pr.roleId)) as Role[]
 
 			roles = personRoles
+		} else {
+			if (locationId) {
+				organizationId = Class._fakedLocations.find(
+					(l) => l.id === locationId
+				)?.organizationId
+			}
+			roles = Class.fakedRoles.filter(
+				(r) => r.organizationId === organizationId
+			)
 		}
 
 		return {
@@ -447,21 +470,36 @@ async function fakeDeleteOrganization(Class: Class) {
 }
 
 async function fakeCreateLocation(Class: Class) {
-	await eventFaker.on('create-location::v2020_12_25', ({ target, payload }) => {
-		const location = {
-			id: generateId(),
-			dateCreated: new Date().getTime(),
-			organizationId: target.organizationId,
-			...payload,
-			slug: payload.slug ?? namesUtil.toKebab(payload.name),
-		}
+	await eventFaker.on(
+		'create-location::v2020_12_25',
+		({ target, payload, source }) => {
+			const { personId } = source ?? {}
 
-		Class._fakedLocations.unshift(location)
+			const location: Location = {
+				id: generateId(),
+				dateCreated: new Date().getTime(),
+				organizationId: target.organizationId,
+				...payload,
+				slug: payload.slug ?? namesUtil.toKebab(payload.name),
+			}
 
-		return {
-			location,
+			Class._fakedLocations.unshift(location)
+
+			if (personId) {
+				const role = Class.fakedRoles.find((r) => r.base === 'owner')!
+				addPersonAsRoleToLocationOrOrg({
+					Class,
+					roleId: role.id,
+					person: Class.fakedOwner!,
+					locationId: location.id,
+				})
+			}
+
+			return {
+				location,
+			}
 		}
-	})
+	)
 }
 
 async function fakeCreateOrganization(Class: Class) {
@@ -475,7 +513,14 @@ async function fakeCreateOrganization(Class: Class) {
 
 		Class._fakedOrganizations.unshift(organization)
 
-		seedRoles(Class, organization.id)
+		const roles = seedRoles(Class, organization.id)
+
+		addPersonAsRoleToLocationOrOrg({
+			Class,
+			organizationId: organization.id,
+			roleId: roles.find((r) => r.base === 'owner')!.id,
+			person: Class.fakedOwner!,
+		})
 
 		return {
 			organization,
@@ -596,15 +641,16 @@ async function seedOrganizations(Class: Class, total: number) {
 }
 
 function seedRoles(Class: Class, orgId: string) {
-	Class.fakedRoles.push(
-		...BASE_ROLES.map((r) => ({
-			id: generateId(),
-			name: `Faked ${r.name}`,
-			base: r.slug,
-			dateCreated: new Date().getTime(),
-			organizationId: orgId,
-		}))
-	)
+	const roles = BASE_ROLES.map((r) => ({
+		id: generateId(),
+		name: `Faked ${r.name}`,
+		base: r.slug,
+		dateCreated: new Date().getTime(),
+		organizationId: orgId,
+	}))
+	Class.fakedRoles.push(...roles)
+
+	return roles
 }
 
 async function seedLocations(Class: Class, total: number) {
