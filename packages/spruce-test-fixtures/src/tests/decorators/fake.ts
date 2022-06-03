@@ -10,7 +10,7 @@ import {
 	formatPhoneNumber,
 	isValidNumber,
 } from '@sprucelabs/schema'
-import { BASE_ROLES } from '@sprucelabs/spruce-core-schemas'
+import { BASE_ROLES, META_BASE_ROLES } from '@sprucelabs/spruce-core-schemas'
 import { EventTarget } from '@sprucelabs/spruce-event-utils'
 import { namesUtil, testLog } from '@sprucelabs/spruce-skill-utils'
 import { assert } from '@sprucelabs/test'
@@ -352,8 +352,9 @@ async function fakeUpdatePerson(Class: Class) {
 }
 
 async function fakeListRoles(Class: Class) {
-	await eventFaker.on('list-roles::v2020_12_25', ({ target }) => {
+	await eventFaker.on('list-roles::v2020_12_25', ({ target, payload }) => {
 		let { personId, organizationId, locationId } = target ?? {}
+		const { shouldIncludeMetaRoles } = payload ?? {}
 
 		let roles: Role[] = []
 
@@ -376,6 +377,12 @@ async function fakeListRoles(Class: Class) {
 			}
 			roles = Class.fakedRoles.filter(
 				(r) => r.organizationId === organizationId
+			)
+		}
+
+		if (!shouldIncludeMetaRoles) {
+			roles = roles.filter(
+				(r) => META_BASE_ROLES.findIndex((m) => m.slug === r.base) === -1
 			)
 		}
 

@@ -349,6 +349,9 @@ export default class FakeDecoratorTest extends AbstractSpruceFixtureTest {
 				target: {
 					organizationId: this.fakedOrganizations[orgIdx].id,
 				},
+				payload: {
+					shouldIncludeMetaRoles: true,
+				},
 			}
 		)
 

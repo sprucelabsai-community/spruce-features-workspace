@@ -60,6 +60,7 @@ export default class FakingRoleEventsTest extends AbstractSpruceFixtureTest {
 	private static async assertRolesMatchOrg(idx: number) {
 		const roles = await this.roles.listRoles({
 			locationId: this.fakedLocations[idx].id,
+			shouldIncludeMetaRoles: true,
 		})
 		assert.isLength(roles, BASE_ROLES.length)
 		assert.isEqual(
