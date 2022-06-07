@@ -1,3 +1,4 @@
+import { Locale, LocaleImpl } from '@sprucelabs/calendar-utils'
 import {
 	ActiveRecordCardViewController,
 	AuthenticatorImpl,
@@ -28,7 +29,6 @@ import vcDiskUtil from '../../utilities/vcDisk.utility'
 import MockSkillViewController from '../Mock.svc'
 import TestRouter from '../routers/TestRouter'
 import SpyAuthorizer from '../SpyAuthorizer'
-import SpyLocale from '../SpyLocale'
 import FixtureFactory from './FixtureFactory'
 import LocationFixture from './LocationFixture'
 import OrganizationFixture from './OrganizationFixture'
@@ -53,6 +53,7 @@ export default class ViewFixture {
 	private orgs: OrganizationFixture
 	private locations: LocationFixture
 	private proxyDecorator: ClientProxyDecorator
+	private locale: Locale
 
 	public static lockProxyCacheForPerson(id: any) {
 		this.dontResetProxyTokenForPersonId = id
@@ -84,6 +85,7 @@ export default class ViewFixture {
 			people: this.people,
 		})
 
+		this.locale = new LocaleImpl()
 		this.locations = options.fixtureFactory.Fixture('location', {
 			people: this.people,
 			organizations: this.orgs,
@@ -226,7 +228,6 @@ export default class ViewFixture {
 		}
 
 		TestRouter.reset()
-		SpyLocale.reset()
 		SpyAuthorizer.reset()
 
 		ActiveRecordCardViewController.setShouldThrowOnResponseError(true)
@@ -264,10 +265,15 @@ export default class ViewFixture {
 		return ViewFixture.scope
 	}
 
+	public getLocale() {
+		return this.locale
+	}
+
 	public getRouter(): TestRouter {
 		TestRouter.setup({
 			vcFactory: this.getFactory(),
 			scope: this.getScope(),
+			locale: this.getLocale(),
 		})
 		return TestRouter.getInstance()
 	}

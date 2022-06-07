@@ -62,6 +62,7 @@
     "lint.tsc": "tsc -p . --noEmit"
   },
   "dependencies": {
+    "@sprucelabs/calendar-utils": "^26.1.2",
     "@sprucelabs/data-stores": "^16.0.21",
     "@sprucelabs/error": "^5.0.466",
     "@sprucelabs/heartwood-view-controllers": "^81.0.25",

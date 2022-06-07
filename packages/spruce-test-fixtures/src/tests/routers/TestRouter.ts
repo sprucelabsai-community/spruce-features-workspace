@@ -1,3 +1,4 @@
+import { Locale } from '@sprucelabs/calendar-utils'
 import {
 	AuthenticatorImpl,
 	Router,
@@ -17,7 +18,6 @@ import {
 } from '@sprucelabs/mercury-types'
 import testRouterEmitPayloadSchema from '#spruce/schemas/spruceTestFixtures/v2021_07_19/testRouterEmitPayload.schema'
 import SpyAuthorizer from '../SpyAuthorizer'
-import SpyLocale from '../SpyLocale'
 
 const contract = buildEventContract({
 	eventSignatures: {
@@ -37,10 +37,12 @@ export default class TestRouter
 	private static vcFactory: ViewControllerFactory
 	private static instance?: TestRouter
 	private static scope: Scope
+	private static locale: Locale
 	private static shouldLoadDestinationVc = false
 
 	private static shouldThrowWhenRedirectingToBadSvc = true
 	private scope: Scope
+	private locale: Locale
 
 	public static setShouldThrowWhenRedirectingToBadSvc(shouldThrow: boolean) {
 		this.shouldThrowWhenRedirectingToBadSvc = shouldThrow
@@ -49,11 +51,13 @@ export default class TestRouter
 	private constructor(options: {
 		vcFactory: ViewControllerFactory
 		scope: Scope
+		locale: Locale
 	}) {
 		super(contract)
 
 		this.vcFactory = options.vcFactory
 		this.scope = options.scope
+		this.locale = options.locale
 	}
 
 	public static setShouldLoadDestinationVc(shouldLoad: boolean) {
@@ -65,6 +69,7 @@ export default class TestRouter
 			this.instance = new this({
 				vcFactory: this.vcFactory,
 				scope: this.scope,
+				locale: this.locale,
 			})
 
 			routerTestPatcher.patchRedirectToThrow(this.instance)
@@ -82,9 +87,11 @@ export default class TestRouter
 	public static setup(options: {
 		vcFactory: ViewControllerFactory
 		scope: Scope
+		locale: Locale
 	}) {
 		this.vcFactory = options.vcFactory
 		this.scope = options.scope
+		this.locale = options.locale
 	}
 
 	public getPresentVc() {
@@ -129,7 +136,7 @@ export default class TestRouter
 			router: this as TestRouter,
 			authenticator: AuthenticatorImpl.getInstance(),
 			args,
-			locale: new SpyLocale(),
+			locale: this.locale,
 			authorizer: SpyAuthorizer.getInstance(),
 			scope: this.scope,
 		}

@@ -1,8 +1,6 @@
+import { LocaleImpl } from '@sprucelabs/calendar-utils'
 import { test, assert } from '@sprucelabs/test'
-import { errorAssert } from '@sprucelabs/test-utils'
 import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
-import ViewFixture from '../../../tests/fixtures/ViewFixture'
-import SpyLocale from '../../../tests/SpyLocale'
 
 export default class WorkingWithTimezonesTest extends AbstractSpruceFixtureTest {
 	public static controllerMap = {}
@@ -15,7 +13,7 @@ export default class WorkingWithTimezonesTest extends AbstractSpruceFixtureTest 
 	@test()
 	protected static canGetInstance() {
 		const instance = this.getInstance()
-		assert.isTrue(instance instanceof SpyLocale)
+		assert.isTrue(instance instanceof LocaleImpl)
 	}
 
 	@test()
@@ -25,28 +23,10 @@ export default class WorkingWithTimezonesTest extends AbstractSpruceFixtureTest 
 
 	@test()
 	protected static returnsInstanceFromRouter() {
-		assert.isEqualDeep(
+		assert.isEqual(
 			this.views.getRouter().buildLoadOptions().locale,
 			this.getInstance()
 		)
-	}
-
-	@test()
-	protected static async instanceResetByViewFixture() {
-		const instance = this.getInstance()
-		await ViewFixture.beforeEach()
-		assert.isNotEqual(this.getInstance(), instance)
-	}
-
-	@test()
-	protected static throwsWhenMissing() {
-		const err = assert.doesThrow(() =>
-			//@ts-ignore
-			this.getInstance().setTimezoneOffsetMinutes()
-		)
-		errorAssert.assertError(err, 'MISSING_PARAMETERS', {
-			parameters: ['offsetMinutes'],
-		})
 	}
 
 	@test('can set offset 1', 10)
@@ -56,16 +36,11 @@ export default class WorkingWithTimezonesTest extends AbstractSpruceFixtureTest 
 		this.assertCurrentOffset(offsetMinutes)
 	}
 
-	@test()
-	protected static defaultsToNoOffset() {
-		this.assertCurrentOffset(0)
-	}
-
 	private static assertCurrentOffset(offsetMinutes: number) {
 		assert.isEqual(this.getInstance().getTimezoneOffsetMinutes(), offsetMinutes)
 	}
 
 	private static getInstance() {
-		return SpyLocale.getInstance()
+		return this.views.getLocale()
 	}
 }

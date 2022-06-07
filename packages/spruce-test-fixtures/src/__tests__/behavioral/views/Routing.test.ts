@@ -1,4 +1,5 @@
 /* eslint-disable spruce/prohibit-import-from-build-folder */
+import { LocaleImpl } from '@sprucelabs/calendar-utils'
 import {
 	SkillViewControllerId,
 	vcAssert,
@@ -11,7 +12,6 @@ import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
 import MockSkillViewController from '../../../tests/Mock.svc'
 import TestRouter from '../../../tests/routers/TestRouter'
 import SpyAuthorizer from '../../../tests/SpyAuthorizer'
-import SpyLocale from '../../../tests/SpyLocale'
 import BookSkillViewController from '../../testDirsAndFiles/skill/build/skillViewControllers/Book.svc'
 import SpySkillViewController from '../../testDirsAndFiles/skill/build/skillViewControllers/Spy.svc'
 
@@ -162,7 +162,7 @@ export default class RoutingTest extends AbstractSpruceFixtureTest {
 	@test()
 	protected static testRouterBuildsOptionsWithLocaleAndAuthorizer() {
 		const options = this.router.buildLoadOptions()
-		assert.isTrue(options.locale instanceof SpyLocale)
+		assert.isTrue(options.locale instanceof LocaleImpl)
 		assert.isTrue(options.authorizer instanceof SpyAuthorizer)
 	}
 
