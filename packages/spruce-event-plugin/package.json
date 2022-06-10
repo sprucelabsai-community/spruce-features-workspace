@@ -62,7 +62,7 @@
   "dependencies": {
     "@sprucelabs/error": "^5.0.467",
     "@sprucelabs/mercury-types": "^34.0.26",
-    "@sprucelabs/schema": "^28.2.34",
+    "@sprucelabs/schema": "^28.2.35",
     "@sprucelabs/spruce-core-schemas": "^33.0.22",
     "@sprucelabs/spruce-event-utils": "^26.0.31",
     "@sprucelabs/spruce-skill-booter": "^37.0.29",
@@ -76,7 +76,7 @@
     "@sprucelabs/resolve-path-aliases": "^1.1.56",
     "@sprucelabs/semantic-release": "^4.0.8",
     "@sprucelabs/test": "^7.7.324",
-    "@sprucelabs/test-utils": "^3.1.0",
+    "@sprucelabs/test-utils": "^3.1.1",
     "@types/node": "17.0.5",
     "chokidar-cli": "^3.0.0",
     "concurrently": "^7.2.1",
