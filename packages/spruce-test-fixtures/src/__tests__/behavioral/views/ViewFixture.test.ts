@@ -417,7 +417,7 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 		assert.isTrue(ActiveRecordListViewController.shouldThrowOnResponseError)
 	}
 
-	@test()
+	@test.skip()
 	protected static async patchesFormsToThrow() {
 		const viewFixture = this.Fixture('view', {
 			controllerMap: {},

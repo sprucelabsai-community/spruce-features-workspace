@@ -5,7 +5,6 @@ import {
 	confirmTestPatcher,
 	ControllerOptions,
 	dialogTestPatcher,
-	formTestUtil,
 	StubStorage,
 	renderUtil,
 	Scope,
@@ -203,7 +202,6 @@ export default class ViewFixture {
 
 	public static async beforeAll() {
 		this.resetAuth()
-		formTestUtil.patchSubmitToThrow()
 	}
 
 	public static async beforeEach() {
