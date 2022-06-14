@@ -168,6 +168,7 @@ fake.login = (phone = '555-000-0000') => {
 
 			await setupFakes(Class)
 			await login(Class, phone)
+
 			MercuryFixture.setDefaultClient(Class.fakedOwnerClient)
 		}
 
@@ -206,6 +207,8 @@ async function login(Class: Class, phone: string) {
 	Class.fakedOwners = [person]
 	Class.fakedOwner = person
 	Class.fakedOwnerClient = client
+
+	await client.registerProxyToken()
 }
 
 function givePersonName(person: SpruceSchemas.Spruce.v2020_07_22.Person) {
