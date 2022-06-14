@@ -61,12 +61,12 @@
   },
   "dependencies": {
     "@sprucelabs/error": "^5.0.469",
-    "@sprucelabs/mercury-types": "^34.0.33",
-    "@sprucelabs/schema": "^28.2.41",
-    "@sprucelabs/spruce-core-schemas": "^33.0.28",
-    "@sprucelabs/spruce-event-utils": "^26.0.39",
+    "@sprucelabs/mercury-types": "^34.0.34",
+    "@sprucelabs/schema": "^28.2.42",
+    "@sprucelabs/spruce-core-schemas": "^33.0.29",
+    "@sprucelabs/spruce-event-utils": "^26.0.40",
     "@sprucelabs/spruce-skill-booter": "^39.0.5",
-    "@sprucelabs/spruce-skill-utils": "^26.0.73",
+    "@sprucelabs/spruce-skill-utils": "^26.0.74",
     "@sprucelabs/spruce-test-fixtures": "^39.0.5"
   },
   "devDependencies": {
