@@ -71,7 +71,7 @@
   "devDependencies": {
     "@sprucelabs/esm-postbuild": "^1.0.494",
     "@sprucelabs/jest-json-reporter": "^6.0.401",
-    "@sprucelabs/mercury-client": "^30.0.37",
+    "@sprucelabs/mercury-client": "^30.0.38",
     "@sprucelabs/mercury-types": "^34.0.34",
     "@sprucelabs/resolve-path-aliases": "^1.1.57",
     "@sprucelabs/semantic-release": "^4.0.8",
