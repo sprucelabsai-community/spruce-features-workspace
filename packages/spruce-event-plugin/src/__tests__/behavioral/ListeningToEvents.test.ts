@@ -387,7 +387,7 @@ export default class ListeningToEventsTest extends AbstractEventPluginTest {
 
 		await this.bootSkill({ skill: currentSkill })
 
-		const client = await this.mercury.connectToApi()
+		const client = await this.mercury.connectToApi({ shouldReUseClient: false })
 
 		//@ts-ignore
 		client.mixinContract({
@@ -397,9 +397,7 @@ export default class ListeningToEventsTest extends AbstractEventPluginTest {
 		//@ts-ignore
 		void client.on('test-proxied-event::v1', () => {})
 
-		const results = await client.emit(fqen as any)
-
-		eventResponseUtil.getFirstResponseOrThrow(results)
+		await client.emitAndFlattenResponses(fqen as any)
 	}
 
 	private static addNewListener() {
