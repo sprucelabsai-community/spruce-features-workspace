@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [40.1.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v40.0.11...v40.1.0) (2022-06-16)
+
+
+### Features
+
+* throws when scope requirements not met, formAssert correctly configured for form fun times! ([758242d](https://github.com/sprucelabsai/spruce-features-workspace/commit/758242d))
+
+
+
+
+
 ## [40.0.11](https://github.com/sprucelabsai/spruce-features-workspace/compare/v40.0.10...v40.0.11) (2022-06-16)
 
 **Note:** Version bump only for package @sprucelabs/spruce-store-plugin
