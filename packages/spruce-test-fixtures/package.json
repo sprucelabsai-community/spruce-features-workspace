@@ -124,7 +124,8 @@
           "worksheetId": 843037832,
           "testMap": {
             "canGetFunctioningStores": "I90",
-            "canAttachPersonToOrg": "I144"
+            "canAttachPersonToOrg": "I144",
+            "loadingWithLocationScopeAndSeededLocation": "1823878579:J25"
           }
         }
       ]
