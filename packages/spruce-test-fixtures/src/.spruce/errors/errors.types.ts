@@ -75,6 +75,27 @@ export declare namespace SpruceErrors.SpruceTestFixtures {
 export declare namespace SpruceErrors.SpruceTestFixtures {
 
 	
+	export interface ScopeRequirementsNotMet {
+		
+	}
+
+	export interface ScopeRequirementsNotMetSchema extends SpruceSchema.Schema {
+		id: 'scopeRequirementsNotMet',
+		namespace: 'SpruceTestFixtures',
+		name: 'scope requirements not met',
+		    fields: {
+		    }
+	}
+
+	export type ScopeRequirementsNotMetEntity = SchemaEntity<SpruceErrors.SpruceTestFixtures.ScopeRequirementsNotMetSchema>
+
+}
+
+
+
+export declare namespace SpruceErrors.SpruceTestFixtures {
+
+	
 	export interface NotFound {
 		
 	}

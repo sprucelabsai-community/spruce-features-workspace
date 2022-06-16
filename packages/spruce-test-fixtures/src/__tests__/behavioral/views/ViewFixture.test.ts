@@ -3,14 +3,18 @@ import {
 	ActiveRecordListViewController,
 	AuthenticatorImpl,
 	buildForm,
+	formAssert,
+	ScopeFlag,
 	SkillViewControllerLoadOptions,
+	SpruceSchemas,
 	SwipeViewControllerImpl,
 	vcAssert,
 } from '@sprucelabs/heartwood-view-controllers'
 import { formatPhoneNumber } from '@sprucelabs/schema'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { assert, test } from '@sprucelabs/test'
-import { ClientProxyDecorator } from '../../..'
+import { errorAssert } from '@sprucelabs/test-utils'
+import { ClientProxyDecorator, seed } from '../../..'
 import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
 import {
 	DEMO_NUMBER_VIEW_FIXTURE,
@@ -39,6 +43,8 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 			controllerMap: {
 				scope: ScopeSvc,
 				client: ClientSvc,
+				scopedByOrg: ScopedByOrgSvc,
+				scopedByLocation: ScopedByLocationSvc,
 			},
 		})
 
@@ -549,6 +555,59 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 		assert.isEqual(this.fixture.getScope(), scope)
 	}
 
+	@test()
+	protected static async loadingAScopedToOrgVcWithoutASeededOrgThrows() {
+		const vc = this.ScopedByOrgVc()
+
+		const err = await assert.doesThrowAsync(() => this.fixture.load(vc))
+		errorAssert.assertError(err, 'SCOPE_REQUIREMENTS_NOT_MET')
+	}
+
+	@test()
+	protected static async loadingAScopedToLocationVcWithoutASeededLocationThrows() {
+		const vc = this.ScopedByLocationVc()
+		const err = await assert.doesThrowAsync(() => this.fixture.load(vc))
+		errorAssert.assertError(err, 'SCOPE_REQUIREMENTS_NOT_MET')
+	}
+
+	@test()
+	@seed('organizations', 1)
+	protected static async loadingWithOrgScopeAndSeededOrg() {
+		const vc = this.ScopedByOrgVc()
+		await this.fixture.load(vc)
+
+		vc.getScope = () => ['employed', 'organization']
+		await this.fixture.load(vc)
+	}
+
+	@test()
+	@seed('locations', 1)
+	protected static async loadingWithLocationScopeAndSeededLocation() {
+		const vc = this.ScopedByLocationVc()
+		await this.fixture.load(vc)
+
+		vc.getScope = () => ['employed', 'location']
+		await this.fixture.load(vc)
+	}
+
+	@test()
+	protected static async setsFactoryToFormAssert() {
+		this.fixture.getFactory()
+		//@ts-ignore
+		assert.isEqual(formAssert.views, this.fixture.getFactory())
+	}
+
+	private static ScopedByOrgVc() {
+		return this.fixture.Controller('scopedByOrg' as any, {}) as ScopedByOrgSvc
+	}
+
+	private static ScopedByLocationVc() {
+		return this.fixture.Controller(
+			'scopedByLocation' as any,
+			{}
+		) as ScopedByLocationSvc
+	}
+
 	protected static async loginAsDemoPerson() {
 		const { client } = await this.fixture.loginAsDemoPerson(
 			DEMO_NUMBER_VIEW_FIXTURE_CLIENT_2
@@ -617,6 +676,26 @@ class ScopeSvc extends AbstractSkillViewController<Args> {
 	}
 
 	public render() {
+		return {
+			layouts: [],
+		}
+	}
+}
+
+class ScopedByOrgSvc extends AbstractSkillViewController {
+	public getScope = () => ['organization'] as ScopeFlag[]
+
+	public render(): SpruceSchemas.HeartwoodViewControllers.v2021_02_11.SkillView {
+		return {
+			layouts: [],
+		}
+	}
+}
+
+class ScopedByLocationSvc extends AbstractSkillViewController {
+	public getScope = () => ['location'] as ScopeFlag[]
+
+	public render(): SpruceSchemas.HeartwoodViewControllers.v2021_02_11.SkillView {
 		return {
 			layouts: [],
 		}

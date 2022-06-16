@@ -14,6 +14,7 @@ import {
 	vcAssert,
 	ViewControllerFactory,
 	ViewControllerId,
+	formAssert,
 } from '@sprucelabs/heartwood-view-controllers'
 import { MercuryClient } from '@sprucelabs/mercury-client'
 import { SchemaError } from '@sprucelabs/schema'
@@ -161,6 +162,8 @@ export default class ViewFixture {
 		})
 
 		vcAssert._setVcFactory(this.vcFactory)
+		//@ts-ignore
+		formAssert._setVcFactory(this.vcFactory)
 
 		const oldFactory = this.vcFactory.Controller.bind(this.vcFactory)
 
@@ -243,10 +246,35 @@ export default class ViewFixture {
 	}
 
 	public async load<Svc extends SkillViewController = SkillViewController>(
-		vc: Pick<Svc, 'load'>,
+		vc: Pick<Svc, 'load' | 'getScope'>,
 		args?: ArgsFromSvc<Svc>
 	) {
+		await this.assertScopeRequirementsMet<Svc>(vc)
 		await vc.load(this.getRouter().buildLoadOptions(args ?? {}))
+	}
+
+	private async assertScopeRequirementsMet<
+		Svc extends SkillViewController = SkillViewController
+	>(vc: Pick<Svc, 'load' | 'getScope'>) {
+		if ((vc.getScope?.()?.indexOf('organization') ?? -1) > -1) {
+			const org = await this.getScope().getCurrentOrganization()
+			if (!org) {
+				throw new SpruceError({
+					code: 'SCOPE_REQUIREMENTS_NOT_MET',
+					friendlyMessage: `Your skill view is scoped by organization, but you did not seed an organization! Try @seed('organizations', 1)!`,
+				})
+			}
+		}
+
+		if ((vc.getScope?.()?.indexOf('location') ?? -1) > -1) {
+			const location = await this.getScope().getCurrentLocation()
+			if (!location) {
+				throw new SpruceError({
+					code: 'SCOPE_REQUIREMENTS_NOT_MET',
+					friendlyMessage: `Your skill view is scoped by location, but you did not seed a location! Try @seed('locations', 1)!`,
+				})
+			}
+		}
 	}
 
 	public setScope(scope: Scope) {

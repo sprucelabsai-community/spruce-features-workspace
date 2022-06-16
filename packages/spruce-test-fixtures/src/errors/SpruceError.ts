@@ -42,6 +42,10 @@ export default class SpruceError extends BaseSpruceError<ErrorOptions> {
 				message = `I could not find what you are looking for!`
 				break
 
+			case 'SCOPE_REQUIREMENTS_NOT_MET':
+				message = `Scope requirements not met! Make sure you are seeding what you expect (location or org)!`
+				break
+
 			default:
 				message = super.friendlyMessage()
 		}
