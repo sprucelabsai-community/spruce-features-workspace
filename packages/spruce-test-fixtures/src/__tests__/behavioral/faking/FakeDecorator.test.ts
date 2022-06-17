@@ -2,7 +2,7 @@ import { generateId } from '@sprucelabs/data-stores'
 import { MercuryClient, MercuryTestClient } from '@sprucelabs/mercury-client'
 import { SpruceSchemas } from '@sprucelabs/mercury-types'
 import { formatPhoneNumber } from '@sprucelabs/schema'
-import { BASE_ROLES } from '@sprucelabs/spruce-core-schemas'
+import { BASE_ROLES_WITH_META } from '@sprucelabs/spruce-core-schemas'
 import { assert, test } from '@sprucelabs/test'
 import { errorAssert } from '@sprucelabs/test-utils'
 import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
@@ -225,7 +225,7 @@ export default class FakeDecoratorTest extends AbstractSpruceFixtureTest {
 	protected static async fakingOrgFakesRoles() {
 		await this.fakeLoginAndRecords('organizations', 2)
 
-		const expected = BASE_ROLES
+		const expected = BASE_ROLES_WITH_META
 
 		for (const { slug, name } of expected) {
 			assert.doesInclude(this.fakedRoles, {

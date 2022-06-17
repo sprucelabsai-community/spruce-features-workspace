@@ -10,7 +10,10 @@ import {
 	formatPhoneNumber,
 	isValidNumber,
 } from '@sprucelabs/schema'
-import { BASE_ROLES, META_BASE_ROLES } from '@sprucelabs/spruce-core-schemas'
+import {
+	BASE_ROLES_WITH_META,
+	META_BASE_ROLES,
+} from '@sprucelabs/spruce-core-schemas'
 import { EventTarget } from '@sprucelabs/spruce-event-utils'
 import { namesUtil, testLog } from '@sprucelabs/spruce-skill-utils'
 import { assert } from '@sprucelabs/test'
@@ -651,7 +654,7 @@ async function seedOrganizations(Class: Class, total: number) {
 }
 
 function seedRoles(Class: Class, orgId: string) {
-	const roles = BASE_ROLES.map((r) => ({
+	const roles = BASE_ROLES_WITH_META.map((r) => ({
 		id: generateId(),
 		name: `Faked ${r.name}`,
 		base: r.slug,
