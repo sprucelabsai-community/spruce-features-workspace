@@ -1,8 +1,7 @@
-import { generateId } from '@sprucelabs/data-stores'
 import { SpruceSchemas } from '@sprucelabs/mercury-types'
-import { BASE_ROLES } from '@sprucelabs/spruce-core-schemas'
+import { BASE_ROLES_WITH_META } from '@sprucelabs/spruce-core-schemas'
 import { test, assert } from '@sprucelabs/test'
-import { errorAssert } from '@sprucelabs/test-utils'
+import { errorAssert, generateId } from '@sprucelabs/test-utils'
 import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
 import fake from '../../../tests/decorators/fake'
 import seed from '../../../tests/decorators/seed'
@@ -62,7 +61,7 @@ export default class FakingRoleEventsTest extends AbstractSpruceFixtureTest {
 			locationId: this.fakedLocations[idx].id,
 			shouldIncludeMetaRoles: true,
 		})
-		assert.isLength(roles, BASE_ROLES.length)
+		assert.isLength(roles, BASE_ROLES_WITH_META.length)
 		assert.isEqual(
 			roles[0].organizationId,
 			this.fakedLocations[idx].organizationId
