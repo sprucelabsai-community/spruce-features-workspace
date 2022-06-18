@@ -11,7 +11,7 @@
       "@sprucelabs/spruce-test-fixtures"
     ]
   },
-  "version": "41.0.0",
+  "version": "41.0.1",
   "files": [
     "build/**/*",
     "!build/__tests__",
@@ -66,11 +66,11 @@
     "@sprucelabs/mercury-core-events": "^12.0.2",
     "@sprucelabs/schema": "^28.2.50",
     "@sprucelabs/spruce-core-schemas": "^34.0.3",
-    "@sprucelabs/spruce-event-plugin": "^41.0.0",
+    "@sprucelabs/spruce-event-plugin": "^41.0.1",
     "@sprucelabs/spruce-event-utils": "^27.0.3",
-    "@sprucelabs/spruce-skill-booter": "^41.0.0",
+    "@sprucelabs/spruce-skill-booter": "^41.0.1",
     "@sprucelabs/spruce-skill-utils": "^26.0.86",
-    "@sprucelabs/spruce-test-fixtures": "^41.0.0",
+    "@sprucelabs/spruce-test-fixtures": "^41.0.1",
     "fuzzyset": "^1.0.7",
     "globby": "^11.0.4",
     "inquirer": "^8.2.4",
