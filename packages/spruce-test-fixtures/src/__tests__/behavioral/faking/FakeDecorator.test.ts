@@ -1,10 +1,9 @@
-import { generateId } from '@sprucelabs/data-stores'
 import { MercuryClient, MercuryTestClient } from '@sprucelabs/mercury-client'
 import { SpruceSchemas } from '@sprucelabs/mercury-types'
 import { formatPhoneNumber } from '@sprucelabs/schema'
 import { BASE_ROLES_WITH_META } from '@sprucelabs/spruce-core-schemas'
 import { assert, test } from '@sprucelabs/test'
-import { errorAssert } from '@sprucelabs/test-utils'
+import { errorAssert, generateId } from '@sprucelabs/test-utils'
 import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
 import {
 	DEMO_NUMBER,
@@ -160,11 +159,18 @@ export default class FakeDecoratorTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async fakesListOrgsAndReturnsNewestFirst() {
-		const organizations = await this.fakeLoginAndListOrgs()
-		const sorted = this.sortRecords(this.fakedOrganizations)
+		await this.fakeLogin()
+		const first = await this.seedAndGetNewestOrganization()
+		const second = await this.seedAndGetNewestOrganization()
+		assert.isNotEqual(first.id, second.id)
 
-		assert.isEqualDeep(organizations, sorted)
-		assert.isEqualDeep(this.fakedOrganizations, sorted)
+		const third = await this.seedAndGetNewestOrganization()
+
+		const organizations = await this.listOrganizations()
+
+		const expected = [third, second, first]
+		assert.isEqualDeep(organizations, expected)
+		assert.isEqualDeep(this.fakedOrganizations, expected)
 	}
 
 	@test('honors limit 1', 1)
@@ -202,8 +208,14 @@ export default class FakeDecoratorTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async sortsLocationsNewestFirst() {
-		await this.fakeLoginAndRecords('locations', 5)
-		const expected = this.sortRecords(this.fakedLocations)
+		await this.fakeLogin()
+		const first = await this.seedAndGetNewestLocation()
+		const second = await this.seedAndGetNewestLocation()
+		assert.isNotEqual(first.id, second.id)
+
+		const third = await this.seedAndGetNewestLocation()
+
+		const expected = [third, second, first]
 		assert.isEqualDeep(this.fakedLocations, expected)
 	}
 
@@ -363,12 +375,14 @@ export default class FakeDecoratorTest extends AbstractSpruceFixtureTest {
 		return roles
 	}
 
-	private static sortRecords(
-		records: SpruceSchemas.Spruce.v2020_07_22.Organization[]
-	) {
-		return [...records].sort((a, b) => {
-			return a.id > b.id ? -1 : 1
-		})
+	private static async seedAndGetNewestOrganization() {
+		await this.fakeRecords('organizations', 1)
+		return this.fakedOrganizations[0]
+	}
+
+	private static async seedAndGetNewestLocation() {
+		await this.fakeRecords('locations', 1)
+		return this.fakedLocations[0]
 	}
 
 	private static async emitGetOrganization(orgId: string) {
@@ -408,6 +422,12 @@ export default class FakeDecoratorTest extends AbstractSpruceFixtureTest {
 		payload?: SpruceSchemas.Mercury.v2020_12_25.ListOrgsEmitPayload
 	) {
 		await this.fakeLoginAndRecords('organizations', 5)
+		return await this.listOrganizations(payload)
+	}
+
+	private static async listOrganizations(
+		payload?: SpruceSchemas.Mercury.v2020_12_25.ListOrgsEmitPayload | undefined
+	) {
 		const [{ organizations }] = await this.client.emitAndFlattenResponses(
 			'list-organizations::v2020_12_25',
 			{

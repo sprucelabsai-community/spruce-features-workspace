@@ -1,6 +1,5 @@
-import { generateId } from '@sprucelabs/data-stores'
 import { test, assert } from '@sprucelabs/test'
-import { errorAssert } from '@sprucelabs/test-utils'
+import { errorAssert, generateId } from '@sprucelabs/test-utils'
 import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
 import ViewFixture from '../../../tests/fixtures/ViewFixture'
 import SpyAuthorizer from '../../../tests/SpyAuthorizer'

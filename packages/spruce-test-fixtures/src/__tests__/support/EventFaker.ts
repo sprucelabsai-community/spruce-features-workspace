@@ -1,4 +1,4 @@
-import { generateId } from '@sprucelabs/data-stores'
+import { generateId } from '@sprucelabs/test-utils'
 import eventFaker from '../../tests/eventFaker'
 
 export default class EventFaker {

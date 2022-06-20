@@ -1,4 +1,3 @@
-import { generateId } from '@sprucelabs/data-stores'
 import {
 	MercuryClient,
 	MercuryClientFactory,
@@ -17,6 +16,7 @@ import {
 import { EventTarget } from '@sprucelabs/spruce-event-utils'
 import { namesUtil, testLog } from '@sprucelabs/spruce-skill-utils'
 import { assert } from '@sprucelabs/test'
+import { generateId } from '@sprucelabs/test-utils'
 import SpruceError from '../../errors/SpruceError'
 import AbstractSpruceFixtureTest from '../AbstractSpruceFixtureTest'
 import eventFaker from '../eventFaker'
