@@ -564,6 +564,9 @@ async function fakeGetPerson(Class: Class) {
 }
 
 async function fakeSkillLifecycleEvents(Class: Class) {
+	process.env.SKILL_ID = process.env.SKILL_ID || generateId()
+	process.env.SKILL_API_KEY = process.env.SKILL_API_KEY || generateId()
+
 	await eventFaker.on('register-skill::v2020_12_25', ({ payload }) => {
 		const skill = {
 			apiKey: generateId(),

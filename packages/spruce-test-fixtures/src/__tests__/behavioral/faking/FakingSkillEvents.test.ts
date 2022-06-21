@@ -8,6 +8,9 @@ import { SeedDemoSkillValues } from '../../../tests/fixtures/SkillFixture'
 
 @fake.login()
 export default class FakingSkillEventsTest extends AbstractSpruceFixtureTest {
+	private static lastEnvSkillId: string
+	private static lastEnvApiKey: string
+
 	@test()
 	protected static async canSeedSkill() {
 		const skill = await this.seedDemoSkill()
@@ -23,6 +26,23 @@ export default class FakingSkillEventsTest extends AbstractSpruceFixtureTest {
 		assert.isNotEqual(skill1.slug, skill2.slug)
 		assert.isNotEqual(skill1.name, skill2.name)
 		assert.isNotEqual(skill1.apiKey, skill2.apiKey)
+	}
+
+	@test()
+	protected static async canLoginAsCurrentSkillWithoutEnvSet() {
+		await this.skills.loginAsCurrentSkill()
+	}
+
+	@test()
+	protected static async doesNotMutateSkillEnvIfExists() {
+		this.lastEnvSkillId = process.env.SKILL_ID = generateId()
+		this.lastEnvApiKey = process.env.SKILL_API_KEY = generateId()
+	}
+
+	@test()
+	protected static async doesNotMutateSkillEnvIfExistsCheck() {
+		assert.isEqual(this.lastEnvSkillId, process.env.SKILL_ID)
+		assert.isEqual(this.lastEnvApiKey, process.env.SKILL_API_KEY)
 	}
 
 	@test()
