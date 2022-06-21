@@ -3,7 +3,7 @@
 	"packages": [
 		"packages/*"
 	],
-	"version": "41.0.11",
+	"version": "41.0.12",
 	"useWorkspaces": true,
 	"command": {
 		"publish": {
