@@ -520,6 +520,7 @@ async function fakeCreateOrganization(Class: Class) {
 		const organization = {
 			id: generateId(),
 			dateCreated: new Date().getTime(),
+			isPublic: null,
 			...payload,
 			slug: payload.slug ?? namesUtil.toKebab(payload.name),
 		}
@@ -619,6 +620,14 @@ async function fakeUpdateOrganization(Class: Class) {
 
 			if (payload?.name) {
 				match.name = payload.name
+			}
+
+			if (payload?.address) {
+				match.address = payload.address
+			}
+
+			if (payload?.isPublic) {
+				match.isPublic = payload.isPublic
 			}
 
 			const { ...copy } = match

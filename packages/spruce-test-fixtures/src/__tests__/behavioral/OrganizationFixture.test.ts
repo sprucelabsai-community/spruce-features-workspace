@@ -1,3 +1,5 @@
+import { randomInt } from 'crypto'
+import { AddressFieldValue } from '@sprucelabs/schema'
 import { eventAssertUtil } from '@sprucelabs/spruce-event-utils'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { test, assert } from '@sprucelabs/test'
@@ -82,6 +84,47 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 
 		const updated = await this.organizations.getOrganizationById(org.id)
 		assert.isEqual(updated.name, name)
+	}
+
+	@test()
+	protected static async canUpdateOrgAddress() {
+		const org = await this.organizations.seedDemoOrganization({
+			name: 'my org',
+			phone: DEMO_NUMBER_ORGANIZATION_FIXTURE,
+		})
+
+		let address: AddressFieldValue = {
+			city: generateId(),
+			country: generateId(),
+			province: generateId(),
+			street1: generateId(),
+			zip: randomInt(44444).toString(),
+		}
+
+		await this.organizations.updateOrganization(org.id, {
+			address,
+			phone: DEMO_NUMBER_ORGANIZATION_FIXTURE,
+		})
+
+		const updated = await this.organizations.getOrganizationById(org.id)
+		assert.isEqualDeep(updated.address, address)
+	}
+
+	@test()
+	protected static async canMakeOrgPublic() {
+		const org = await this.organizations.seedDemoOrganization({
+			name: 'my org',
+			phone: DEMO_NUMBER_ORGANIZATION_FIXTURE,
+		})
+
+		await this.assertOrgIsPublicValue(org.id, false)
+
+		await this.organizations.updateOrganization(org.id, {
+			isPublic: true,
+			phone: DEMO_NUMBER_ORGANIZATION_FIXTURE,
+		})
+
+		await this.assertOrgIsPublicValue(org.id, true)
 	}
 
 	@test('can add as guest', 'guest')
@@ -305,5 +348,17 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 			name: 'my org',
 		})
 		return { skill, org }
+	}
+
+	private static async assertOrgIsPublicValue(
+		orgId: string,
+		expected: boolean
+	) {
+		const org = await this.organizations.getOrganizationById(orgId)
+		if (expected) {
+			assert.isTrue(org.isPublic)
+		} else {
+			assert.isFalsy(org.isPublic)
+		}
 	}
 }
