@@ -111,20 +111,15 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 	}
 
 	@test()
-	protected static async canMakeOrgPublic() {
+	protected static async canMakeOrgPublicAndPrivate() {
 		const org = await this.organizations.seedDemoOrganization({
 			name: 'my org',
 			phone: DEMO_NUMBER_ORGANIZATION_FIXTURE,
 		})
 
 		await this.assertOrgIsPublicValue(org.id, false)
-
-		await this.organizations.updateOrganization(org.id, {
-			isPublic: true,
-			phone: DEMO_NUMBER_ORGANIZATION_FIXTURE,
-		})
-
-		await this.assertOrgIsPublicValue(org.id, true)
+		await this.setAndAssertOrgIsPublic(org.id, true)
+		await this.setAndAssertOrgIsPublic(org.id, false)
 	}
 
 	@test('can add as guest', 'guest')
@@ -360,5 +355,17 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 		} else {
 			assert.isFalsy(org.isPublic)
 		}
+	}
+
+	private static async setAndAssertOrgIsPublic(
+		orgId: string,
+		isPublic: boolean
+	) {
+		await this.organizations.updateOrganization(orgId, {
+			isPublic,
+			phone: DEMO_NUMBER_ORGANIZATION_FIXTURE,
+		})
+
+		await this.assertOrgIsPublicValue(orgId, isPublic)
 	}
 }

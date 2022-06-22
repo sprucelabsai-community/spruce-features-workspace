@@ -626,7 +626,7 @@ async function fakeUpdateOrganization(Class: Class) {
 				match.address = payload.address
 			}
 
-			if (payload?.isPublic) {
+			if (typeof payload?.isPublic !== 'undefined') {
 				match.isPublic = payload.isPublic
 			}
 
