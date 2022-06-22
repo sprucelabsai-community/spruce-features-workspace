@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [41.1.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v41.0.16...v41.1.0) (2022-06-22)
+
+
+### Features
+
+* Fake now supports updating org address, isPublic ([0af4edc](https://github.com/sprucelabsai/spruce-features-workspace/commit/0af4edc))
+
+
+
+
+
 ## [41.0.16](https://github.com/sprucelabsai/spruce-features-workspace/compare/v41.0.15...v41.0.16) (2022-06-22)
 
 **Note:** Version bump only for package spruce-features-workspace
