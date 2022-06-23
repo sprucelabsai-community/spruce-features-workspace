@@ -370,7 +370,8 @@ async function fakeListRoles(Class: Class) {
 					(p) =>
 						p.personId === personId &&
 						((p.organizationId && p.organizationId === organizationId) ||
-							(p.locationId && p.locationId === locationId))
+							(p.locationId && p.locationId === locationId) ||
+							(!locationId && !organizationId))
 				)
 				.map((pr) => Class.fakedRoles.find((r) => r.id === pr.roleId)) as Role[]
 

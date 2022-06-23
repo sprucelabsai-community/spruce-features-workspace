@@ -1,3 +1,4 @@
+import { randomInt } from 'crypto'
 import { MercuryClient, MercuryTestClient } from '@sprucelabs/mercury-client'
 import { SpruceSchemas } from '@sprucelabs/mercury-types'
 import { formatPhoneNumber } from '@sprucelabs/schema'
@@ -271,6 +272,30 @@ export default class FakeDecoratorTest extends AbstractSpruceFixtureTest {
 		)
 	}
 
+	@test()
+	protected static async listRolesForPersonWithoutTargetingOrgReturnsAllRolesForPerson() {
+		const { personId, organizationId } =
+			await FakeDecoratorTest.createMultipleOrgsAndAddOwnerAdditionalTeammateRoleAtRandomOrg()
+
+		await this.organizations.addPerson({
+			personId,
+			organizationId,
+			roleBase: 'teammate',
+		})
+		const [{ roles }] = await this.listRolesForPerson(personId)
+
+		assert.isEqualDeep(
+			roles.sort((a, b) => (a.id > b.id ? 1 : -1)),
+			this.fakedRoles
+				.filter(
+					(r) =>
+						r.base === 'owner' ||
+						(r.base === 'teammate' && r.organizationId === organizationId)
+				)
+				.sort((a, b) => (a.id > b.id ? 1 : -1))
+		)
+	}
+
 	@test('can fake 1 teammate', 'teammates', 1)
 	@test('can fake 2 teammate', 'teammates', 2)
 	protected static async canSyncTeammates(
@@ -459,5 +484,26 @@ export default class FakeDecoratorTest extends AbstractSpruceFixtureTest {
 		decorator(this as any, false)
 		await this.beforeAll()
 		await this.beforeEach()
+	}
+
+	private static async listRolesForPerson(personId: string) {
+		return await this.client.emitAndFlattenResponses(
+			'list-roles::v2020_12_25',
+			{
+				target: {
+					personId,
+				},
+				payload: {},
+			}
+		)
+	}
+
+	private static async createMultipleOrgsAndAddOwnerAdditionalTeammateRoleAtRandomOrg() {
+		const maxOrgs = randomInt(1, 4)
+		await this.fakeLoginAndRecords('organizations', maxOrgs)
+		const personId = this.fakedPeople[0].id
+
+		const organizationId = this.fakedOrganizations[maxOrgs - 1].id
+		return { personId, organizationId }
 	}
 }
