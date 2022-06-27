@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [42.0.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v41.1.13...v42.0.0) (2022-06-27)
+
+
+### Breaking Changes
+
+* **auto-upgrade:** upgraded packages [upgrade-all] ([6404e1b](https://github.com/sprucelabsai/spruce-features-workspace/commit/6404e1b))
+
+
+
+
+
 ## [41.1.13](https://github.com/sprucelabsai/spruce-features-workspace/compare/v41.1.12...v41.1.13) (2022-06-26)
 
 **Note:** Version bump only for package spruce-features-workspace
