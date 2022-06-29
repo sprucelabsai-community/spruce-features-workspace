@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [43.0.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v42.0.4...v43.0.0) (2022-06-29)
+
+
+### Breaking Changes
+
+* major upgrade for view-controllers ([b6f9517](https://github.com/sprucelabsai/spruce-features-workspace/commit/b6f9517))
+
+
+
+
+
 ## [42.0.4](https://github.com/sprucelabsai/spruce-features-workspace/compare/v42.0.3...v42.0.4) (2022-06-29)
 
 **Note:** Version bump only for package spruce-features-workspace
