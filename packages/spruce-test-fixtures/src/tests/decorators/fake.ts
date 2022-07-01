@@ -599,9 +599,9 @@ function buildCasualName(names: {
 	firstName?: string | null
 	lastName?: string | null
 }) {
-	return `${names.firstName} ${
-		names.lastName ? names.lastName[0] + '.' : 'friend'
-	}`
+	return `${names.firstName ?? 'friend'} ${
+		names.lastName ? names.lastName[0] + '.' : ''
+	}`.trim()
 }
 
 async function fakeGetOrganization(Class: Class) {
