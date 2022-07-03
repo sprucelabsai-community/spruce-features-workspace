@@ -14,5 +14,10 @@
       "update.dependencies",
       "build.tsc"
     ]
+  },
+  "writer": {
+    "skipped": [
+      "tsconfig.json"
+    ]
   }
 }
