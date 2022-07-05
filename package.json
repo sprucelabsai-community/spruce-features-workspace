@@ -38,6 +38,7 @@
     "watch.rebuild": "true"
   },
   "devDependencies": {
+    "@sprucelabs/semantic-release": "^4.0.8",
     "lerna": "^5.1.6"
   }
 }
