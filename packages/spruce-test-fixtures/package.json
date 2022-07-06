@@ -62,17 +62,17 @@
     "lint.tsc": "tsc -p . --noEmit"
   },
   "dependencies": {
-    "@sprucelabs/data-stores": "^17.0.25",
+    "@sprucelabs/data-stores": "^17.0.26",
     "@sprucelabs/error": "^5.0.481",
-    "@sprucelabs/heartwood-view-controllers": "^86.0.35",
-    "@sprucelabs/mercury-client": "^31.0.44",
+    "@sprucelabs/heartwood-view-controllers": "^86.0.36",
+    "@sprucelabs/mercury-client": "^31.0.45",
     "@sprucelabs/mercury-core-events": "^12.0.43",
-    "@sprucelabs/mercury-event-emitter": "^31.0.44",
+    "@sprucelabs/mercury-event-emitter": "^31.0.45",
     "@sprucelabs/schema": "^28.2.66",
     "@sprucelabs/spruce-core-schemas": "^34.0.26",
-    "@sprucelabs/spruce-event-utils": "^27.0.31",
+    "@sprucelabs/spruce-event-utils": "^27.0.32",
     "@sprucelabs/spruce-skill-booter": "^43.0.24",
-    "@sprucelabs/spruce-skill-utils": "^26.1.18",
+    "@sprucelabs/spruce-skill-utils": "^26.1.19",
     "dotenv": "^16.0.1",
     "unique-names-generator": "^4.7.1"
   },
