@@ -7,8 +7,8 @@ import {
 
 interface Args {}
 
-export default class MockSkillViewController extends AbstractSkillViewController {
-	public static id = 'mock.root'
+export default class FakeSkillViewController extends AbstractSkillViewController {
+	public static id = 'fake.root'
 
 	public constructorOptions: ViewControllerOptions & Record<string, any>
 	public args?: Record<string, any>

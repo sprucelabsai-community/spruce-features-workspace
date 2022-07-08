@@ -26,7 +26,7 @@ import SpruceError from '../../errors/SpruceError'
 import { ConnectOptions, TestConnectFactory } from '../../types/fixture.types'
 import { ArgsFromSvc } from '../../types/view.types'
 import vcDiskUtil from '../../utilities/vcDisk.utility'
-import MockSkillViewController from '../Mock.svc'
+import FakeSkillViewController from '../Fake.svc'
 import TestRouter from '../routers/TestRouter'
 import SpyAuthorizer from '../SpyAuthorizer'
 import FixtureFactory from './FixtureFactory'
@@ -150,7 +150,7 @@ export default class ViewFixture {
 		}
 
 		if (!controllerMap['heartwood.root']) {
-			controllerMap['heartwood.root'] = MockSkillViewController
+			controllerMap['heartwood.root'] = FakeSkillViewController
 		}
 
 		this.vcFactory = ViewControllerFactory.Factory({

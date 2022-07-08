@@ -23,9 +23,9 @@ import {
 	DEMO_NUMBER_VIEW_FIXTURE_CLIENT_2,
 } from '../../../tests/constants'
 import fake from '../../../tests/decorators/fake'
+import FakeSkillViewController from '../../../tests/Fake.svc'
 import TestScope from '../../../tests/fixtures/TestScope'
 import ViewFixture from '../../../tests/fixtures/ViewFixture'
-import MockSkillViewController from '../../../tests/Mock.svc'
 import EventFaker from '../../support/EventFaker'
 
 const DEMO_NUMBER_FORMATTED = formatPhoneNumber(DEMO_NUMBER ?? '')
@@ -324,7 +324,7 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 
 		const fixture = this.Fixture('view', {
 			controllerMap: {
-				'new.view': MockSkillViewController,
+				'new.view': FakeSkillViewController,
 			},
 		})
 
@@ -341,13 +341,13 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 	protected static fixturesContinueToMixinViewControllers() {
 		this.Fixture('view', {
 			controllerMap: {
-				'new.view': MockSkillViewController,
+				'new.view': FakeSkillViewController,
 			},
 		}).getFactory()
 
 		const fixture = this.Fixture('view', {
 			controllerMap: {
-				'new.view2': MockSkillViewController,
+				'new.view2': FakeSkillViewController,
 			},
 		})
 
@@ -399,7 +399,7 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 	protected static canGetAuthenticatorInstance() {
 		const viewFixture = this.Fixture('view', {
 			controllerMap: {
-				card: MockSkillViewController,
+				card: FakeSkillViewController,
 			},
 		})
 
@@ -644,7 +644,7 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 	private static MockVc() {
 		const viewFixture = this.Fixture('view', {
 			controllerMap: {
-				card: MockSkillViewController,
+				card: FakeSkillViewController,
 			},
 		})
 		const factory = viewFixture.getFactory()

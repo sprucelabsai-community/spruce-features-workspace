@@ -9,7 +9,7 @@ import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 import { test, assert } from '@sprucelabs/test'
 import { errorAssert } from '@sprucelabs/test-utils'
 import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
-import MockSkillViewController from '../../../tests/Mock.svc'
+import FakeSkillViewController from '../../../tests/Fake.svc'
 import TestRouter from '../../../tests/routers/TestRouter'
 import SpyAuthorizer from '../../../tests/SpyAuthorizer'
 import BookSkillViewController from '../../testDirsAndFiles/skill/build/skillViewControllers/Book.svc'
@@ -136,7 +136,7 @@ export default class RoutingTest extends AbstractSpruceFixtureTest {
 			this.router.redirect('heartwood.root')
 		)
 
-		assert.isTrue(svc instanceof MockSkillViewController)
+		assert.isTrue(svc instanceof FakeSkillViewController)
 	}
 
 	@test()

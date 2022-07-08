@@ -2,12 +2,12 @@ import { skillViewSchema } from '@sprucelabs/heartwood-view-controllers'
 import { validateSchemaValues } from '@sprucelabs/schema'
 import { assert, test } from '@sprucelabs/test'
 import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
+import FakeSkillViewController from '../../../tests/Fake.svc'
 import ViewFixture from '../../../tests/fixtures/ViewFixture'
-import MockSkillViewController from '../../../tests/Mock.svc'
 
-export default class MockingingSkillViewControllersTest extends AbstractSpruceFixtureTest {
+export default class FakingSkillViewControllersTest extends AbstractSpruceFixtureTest {
 	protected static controllerMap = {
-		mock: MockSkillViewController,
+		fake: FakeSkillViewController,
 	}
 	private static viewFixture: ViewFixture
 
@@ -15,14 +15,14 @@ export default class MockingingSkillViewControllersTest extends AbstractSpruceFi
 		await super.beforeEach()
 		this.viewFixture = this.Fixture('view', {
 			controllerMap: {
-				mock: MockSkillViewController,
+				fake: FakeSkillViewController,
 			},
 		})
 	}
 
 	@test()
-	protected static async canRenderkMockSkillViewController() {
-		const vc = this.viewFixture.Controller('mock' as any, {})
+	protected static async canRenderkFakeSkillViewController() {
+		const vc = this.viewFixture.Controller('fake' as any, {})
 		const model = this.viewFixture.render(vc)
 
 		validateSchemaValues(skillViewSchema, model)
@@ -31,14 +31,14 @@ export default class MockingingSkillViewControllersTest extends AbstractSpruceFi
 	@test('passed constructor options 1', { hello: 'world' })
 	@test('passed constructor options 2', { taco: 'bell' })
 	protected static async passesThroughConstructorAptions(options: any) {
-		const vc = this.viewFixture.Controller('mock' as any, options)
+		const vc = this.viewFixture.Controller('fake' as any, options)
 		assert.doesInclude(vc.constructorOptions, options)
 	}
 
 	@test('passes args 1', { hello: 'world' })
 	@test('passes args 2', { cheesey: 'burrito' })
 	protected static async passesThroughLoadArgs(args: any) {
-		const vc = this.viewFixture.Controller('mock' as any, {})
+		const vc = this.viewFixture.Controller('fake' as any, {})
 
 		await this.viewFixture.load(vc, args)
 

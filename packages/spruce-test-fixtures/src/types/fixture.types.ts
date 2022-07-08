@@ -1,6 +1,7 @@
 import { DatabaseFixture } from '@sprucelabs/data-stores'
 import { ConnectionOptions, MercuryClient } from '@sprucelabs/mercury-client'
 import { SpruceSchemas } from '@sprucelabs/mercury-types'
+import FakeSkillViewController from '../tests/Fake.svc'
 import LocationFixture from '../tests/fixtures/LocationFixture'
 import MercuryFixture from '../tests/fixtures/MercuryFixture'
 import OrganizationFixture from '../tests/fixtures/OrganizationFixture'
@@ -10,7 +11,6 @@ import SeedFixture from '../tests/fixtures/SeedFixture'
 import SkillFixture from '../tests/fixtures/SkillFixture'
 import StoreFixture from '../tests/fixtures/StoreFixture'
 import ViewFixture from '../tests/fixtures/ViewFixture'
-import MockSkillViewController from '../tests/Mock.svc'
 
 export interface TestConnectionOptions {
 	shouldReUseClient?: boolean
@@ -51,14 +51,14 @@ export type FixtureName = keyof FixtureMap
 
 declare module '@sprucelabs/heartwood-view-controllers/build/types/heartwood.types' {
 	interface SkillViewControllerMap {
-		'heartwood.root': MockSkillViewController
+		'heartwood.root': FakeSkillViewController
 	}
 
 	interface SkillViewControllerArgsMap {
-		'heartwood.root': Parameters<MockSkillViewController['load']>[0]['args']
+		'heartwood.root': Parameters<FakeSkillViewController['load']>[0]['args']
 	}
 
 	interface ViewControllerMap {
-		'heartwood.root': MockSkillViewController
+		'heartwood.root': FakeSkillViewController
 	}
 }
