@@ -25,6 +25,7 @@ import { TokenGenerator } from '../../ClientProxyDecorator'
 import SpruceError from '../../errors/SpruceError'
 import { ConnectOptions, TestConnectFactory } from '../../types/fixture.types'
 import { ArgsFromSvc } from '../../types/view.types'
+import spyMapUtil from '../../utilities/SpyMapUtil'
 import vcDiskUtil from '../../utilities/vcDisk.utility'
 import FakeSkillViewController from '../Fake.svc'
 import TestRouter from '../routers/TestRouter'
@@ -101,6 +102,10 @@ export default class ViewFixture {
 		})
 	}
 
+	public getMaps() {
+		return spyMapUtil
+	}
+
 	public render(vc: any) {
 		return renderUtil.render(vc)
 	}
@@ -159,6 +164,7 @@ export default class ViewFixture {
 			connectToApi: async (options?: ConnectOptions) => {
 				return this.viewClient ?? connectToApi(options)
 			},
+			maps: spyMapUtil,
 		})
 
 		vcAssert._setVcFactory(this.vcFactory)
@@ -230,6 +236,7 @@ export default class ViewFixture {
 
 		TestRouter.reset()
 		SpyAuthorizer.reset()
+		ViewFixture.resetMaps()
 
 		ActiveRecordCardViewController.setShouldThrowOnResponseError(true)
 
@@ -237,6 +244,10 @@ export default class ViewFixture {
 
 		ViewFixture.scope = undefined
 		ViewFixture.vcFactory = undefined
+	}
+
+	private static resetMaps() {
+		spyMapUtil.lastOpenNavigationOptions = undefined
 	}
 
 	private static resetAuth() {
