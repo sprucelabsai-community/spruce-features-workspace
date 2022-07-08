@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [44.0.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v43.0.30...v44.0.0) (2022-07-08)
+
+
+### Breaking Changes
+
+* Mock -> FakeSkillViewController ([acd9049](https://github.com/sprucelabsai/spruce-features-workspace/commit/acd9049))
+
+
+
+
+
 ## [43.0.30](https://github.com/sprucelabsai/spruce-features-workspace/compare/v43.0.29...v43.0.30) (2022-07-07)
 
 **Note:** Version bump only for package spruce-features-workspace
