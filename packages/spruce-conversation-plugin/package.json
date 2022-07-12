@@ -65,7 +65,7 @@
   "dependencies": {
     "@nlpjs/nlu": "^4.23.5",
     "@sprucelabs/error": "^5.0.481",
-    "@sprucelabs/mercury-core-events": "^12.0.50",
+    "@sprucelabs/mercury-core-events": "^12.0.51",
     "@sprucelabs/schema": "^28.3.0",
     "@sprucelabs/spruce-core-schemas": "^34.0.28",
     "@sprucelabs/spruce-event-plugin": "^44.1.9",
