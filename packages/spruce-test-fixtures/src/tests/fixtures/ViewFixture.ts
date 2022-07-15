@@ -15,6 +15,7 @@ import {
 	ViewControllerFactory,
 	ViewControllerId,
 	formAssert,
+	ViewController,
 } from '@sprucelabs/heartwood-view-controllers'
 import { MercuryClient } from '@sprucelabs/mercury-client'
 import { SchemaError } from '@sprucelabs/schema'
@@ -106,7 +107,9 @@ export default class ViewFixture {
 		return spyMapUtil
 	}
 
-	public render(vc: any) {
+	public render<VC extends ViewController<any>>(
+		vc: VC
+	): ReturnType<VC['render']> {
 		return renderUtil.render(vc)
 	}
 
