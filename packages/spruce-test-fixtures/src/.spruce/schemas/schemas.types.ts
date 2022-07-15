@@ -53,7 +53,7 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 			    }
 		}
 
-		type TestRouterEmitPayloadEntity = SchemaEntity<SpruceSchemas.SpruceTestFixtures.v2021_07_19.TestRouterEmitPayloadSchema>
+		interface TestRouterEmitPayloadEntity extends SchemaEntity<SpruceSchemas.SpruceTestFixtures.v2021_07_19.TestRouterEmitPayloadSchema> {}
 
 	}
 
