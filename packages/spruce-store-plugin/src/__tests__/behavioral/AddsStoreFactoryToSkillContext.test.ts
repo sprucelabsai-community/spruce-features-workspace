@@ -8,6 +8,7 @@ export default class AddsStoreFactoryToSkillContextTest extends AbstractStorePlu
 		const context = await this.bootAndGetContext()
 
 		assert.isTruthy(context.storeFactory)
+		assert.isEqual(context.storeFactory, context.stores)
 		assert.isTruthy(context.database)
 	}
 
@@ -26,6 +27,7 @@ export default class AddsStoreFactoryToSkillContextTest extends AbstractStorePlu
 		type Context = typeof context
 
 		assert.isExactType<Context['storeFactory'], StoreFactory>(true)
+		assert.isExactType<Context['stores'], StoreFactory>(true)
 		assert.isExactType<Context['database'], Database>(true)
 	}
 }

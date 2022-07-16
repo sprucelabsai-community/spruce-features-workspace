@@ -16,7 +16,11 @@ import { StoreHealthCheckItem } from '../types/store.types'
 
 declare module '@sprucelabs/spruce-skill-utils/build/types/skill.types' {
 	interface SkillContext {
+		/**
+		 * @deprecated 'storeFactory' -> 'stores'
+		 */
 		storeFactory: StoreFactory
+		stores: StoreFactory
 		database: Database
 	}
 }
