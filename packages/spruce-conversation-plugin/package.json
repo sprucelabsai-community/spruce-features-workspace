@@ -13,7 +13,7 @@
       "@types/inquirer"
     ]
   },
-  "version": "44.1.32",
+  "version": "44.1.33",
   "files": [
     "build/**/*",
     "!build/__tests__",
@@ -68,11 +68,11 @@
     "@sprucelabs/mercury-core-events": "^12.0.80",
     "@sprucelabs/schema": "^28.3.12",
     "@sprucelabs/spruce-core-schemas": "^34.2.9",
-    "@sprucelabs/spruce-event-plugin": "^44.1.32",
+    "@sprucelabs/spruce-event-plugin": "^44.1.33",
     "@sprucelabs/spruce-event-utils": "^27.0.59",
-    "@sprucelabs/spruce-skill-booter": "^44.1.32",
+    "@sprucelabs/spruce-skill-booter": "^44.1.33",
     "@sprucelabs/spruce-skill-utils": "^26.2.7",
-    "@sprucelabs/spruce-test-fixtures": "^44.1.32",
+    "@sprucelabs/spruce-test-fixtures": "^44.1.33",
     "fuzzyset": "^1.0.7",
     "globby": "^11.0.4",
     "inquirer": "^8.2.4",
