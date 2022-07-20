@@ -64,7 +64,7 @@
   "dependencies": {
     "@sprucelabs/data-stores": "^17.0.51",
     "@sprucelabs/error": "^5.0.487",
-    "@sprucelabs/heartwood-view-controllers": "^86.12.0",
+    "@sprucelabs/heartwood-view-controllers": "^86.12.1",
     "@sprucelabs/mercury-client": "^31.0.82",
     "@sprucelabs/mercury-core-events": "^12.0.83",
     "@sprucelabs/mercury-event-emitter": "^31.0.82",
