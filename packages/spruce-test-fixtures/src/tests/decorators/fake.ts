@@ -280,7 +280,7 @@ function addPersonAsRoleToLocationOrOrg(options: {
 }) {
 	const { Class, roleId, person, organizationId, locationId } = options
 
-	const role = Class.fakedRoles.find((r) => r.id === roleId)!
+	const role = getRoleById(Class, roleId)
 	const key = roleBaseToLocalFakedProp(role.base!)
 
 	//@ts-ignore
@@ -298,6 +298,13 @@ function addPersonAsRoleToLocationOrOrg(options: {
 		organizationId,
 		locationId,
 	})
+}
+
+function getRoleById(Class: Class, roleId: string) {
+	const role = Class.fakedRoles.find((r) => r.id === roleId)
+	assert.isTruthy(role, `Could not load faked role with the id of ${roleId}.`)
+
+	return role
 }
 
 async function fakeGetRole(Class: Class) {
@@ -320,7 +327,7 @@ async function fakeRemoveRole(Class: Class) {
 	await eventFaker.on('remove-role::v2020_12_25', ({ payload }) => {
 		const { personId, roleId } = payload
 
-		const role = Class.fakedRoles.find((r) => r.id === roleId)!
+		const role = getRoleById(Class, roleId)
 
 		const people = Class[roleBaseToLocalFakedProp(role.base!)]
 		const idx = people?.findIndex((p) => p.id === personId) ?? -1
@@ -342,7 +349,12 @@ function roleBaseToLocalFakedProp(
 }
 
 function getPersonById(Class: Class, personId?: string | null) {
-	return Class.fakedPeople.find((p) => p.id === personId)!
+	const person = Class.fakedPeople.find((p) => p.id === personId)
+	assert.isTruthy(
+		person,
+		`Could not load faked person with the id of ${personId}.`
+	)
+	return person
 }
 
 async function fakeUpdatePerson(Class: Class) {
@@ -380,7 +392,7 @@ async function fakeListRoles(Class: Class) {
 							(p.locationId && p.locationId === locationId) ||
 							(!locationId && !organizationId))
 				)
-				.map((pr) => Class.fakedRoles.find((r) => r.id === pr.roleId)) as Role[]
+				.map((pr) => getRoleById(Class, pr.roleId))
 
 			roles = personRoles
 		} else {
