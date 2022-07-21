@@ -72,6 +72,7 @@ interface Class extends ClassWithFakes {
 	__fakerSetup?: boolean
 	beforeEach?: () => Promise<void>
 	beforeAll?: () => Promise<void>
+	afterEach?: () => Promise<void>
 	seeder: SeedFixture
 }
 
@@ -153,6 +154,8 @@ fake.login = (phone = '555-000-0000') => {
 
 		const Class = TestClass as Class
 		const beforeEach = Class.beforeEach?.bind(Class)
+		const beforeAll = Class.beforeAll?.bind(Class)
+		const afterEach = Class.afterEach?.bind(Class)
 
 		if (shouldPassHookCalls) {
 			const old = MercuryFixture.beforeEach.bind(MercuryFixture)
@@ -164,7 +167,6 @@ fake.login = (phone = '555-000-0000') => {
 			}
 		}
 
-		const beforeAll = Class.beforeAll?.bind(Class)
 		Class.beforeAll = async () => {
 			await beforeAll?.()
 			resetFakes(Class)
@@ -173,6 +175,11 @@ fake.login = (phone = '555-000-0000') => {
 			await login(Class, phone)
 
 			MercuryFixture.setDefaultClient(Class.fakedOwnerClient)
+		}
+
+		Class.afterEach = async () => {
+			await setupFakes(Class)
+			await afterEach?.()
 		}
 
 		Class.beforeEach = async () => {

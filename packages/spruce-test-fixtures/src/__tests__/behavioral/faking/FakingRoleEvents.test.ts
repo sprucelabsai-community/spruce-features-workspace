@@ -5,6 +5,7 @@ import { errorAssert, generateId } from '@sprucelabs/test-utils'
 import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
 import fake from '../../../tests/decorators/fake'
 import seed from '../../../tests/decorators/seed'
+import eventFaker from '../../../tests/eventFaker'
 import { RoleBase } from '../../../types/fixture.types'
 import { Organization } from '../../test.types'
 
@@ -54,6 +55,28 @@ export default class FakingRoleEventsTest extends AbstractSpruceFixtureTest {
 	protected static async listingRolesByLocationFiltersByOrg() {
 		await this.assertRolesMatchOrg(0)
 		await this.assertRolesMatchOrg(1)
+	}
+
+	@test()
+	@seed('organizations', 1)
+	protected static async settingListenerOnListRolesResetsNextTest() {
+		let hitCount = 0
+		await eventFaker.on('list-roles::v2020_12_25', () => {
+			hitCount++
+			return {
+				roles: [],
+			}
+		})
+
+		const orgId = this.fakedOrganizations[0].id
+
+		await this.afterEach()
+
+		await this.roles.listRoles({
+			organizationId: orgId,
+		})
+
+		assert.isEqual(hitCount, 0)
 	}
 
 	private static async assertRolesMatchOrg(idx: number) {
