@@ -348,15 +348,19 @@ function roleBaseToLocalFakedProp(
 	return fakeTargetToPropName((base + 's') as CoreSeedTarget)
 }
 
-function getPersonById(Class: Class, personId?: string | null) {
+function getPersonById(
+	Class: Class,
+	personId?: string | null,
+	shouldThrowWhenNotFound = true
+) {
 	const person = Class.fakedPeople.find((p) => p.id === personId)
-	if (!person) {
+	if (!person && shouldThrowWhenNotFound) {
 		throw new SpruceError({
 			code: 'INVALID_TARGET',
 			friendlyMessage: `I could not find a faked person with the id ${personId} you were looking.`,
 		})
 	}
-	return person
+	return person!
 }
 
 async function fakeUpdatePerson(Class: Class) {
@@ -729,7 +733,7 @@ async function fakeWhoAmI(Class: Class) {
 				(t) => t.token === proxyToken
 			)?.personId
 		}
-		const person = getPersonById(Class, personId)
+		const person = getPersonById(Class, personId, false)
 		const skill = Class.fakedSkills.find((s) => s.id === source?.skillId)
 
 		return {
