@@ -350,10 +350,12 @@ function roleBaseToLocalFakedProp(
 
 function getPersonById(Class: Class, personId?: string | null) {
 	const person = Class.fakedPeople.find((p) => p.id === personId)
-	assert.isTruthy(
-		person,
-		`Could not load faked person with the id of ${personId}.`
-	)
+	if (!person) {
+		throw new SpruceError({
+			code: 'INVALID_TARGET',
+			friendlyMessage: `I could not find a faked person with the id ${personId} you were looking.`,
+		})
+	}
 	return person
 }
 
