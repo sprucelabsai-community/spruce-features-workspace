@@ -3,6 +3,94 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [44.1.40](https://github.com/sprucelabsai/spruce-features-workspace/compare/v44.1.39...v44.1.40) (2022-07-21)
+
+**Note:** Version bump only for package @sprucelabs/spruce-event-plugin
+
+
+
+
+
+## [44.1.39](https://github.com/sprucelabsai/spruce-features-workspace/compare/v44.1.38...v44.1.39) (2022-07-20)
+
+**Note:** Version bump only for package @sprucelabs/spruce-event-plugin
+
+
+
+
+
+## [44.1.38](https://github.com/sprucelabsai/spruce-features-workspace/compare/v44.1.37...v44.1.38) (2022-07-20)
+
+**Note:** Version bump only for package @sprucelabs/spruce-event-plugin
+
+
+
+
+
+## [44.1.37](https://github.com/sprucelabsai/spruce-features-workspace/compare/v44.1.36...v44.1.37) (2022-07-19)
+
+**Note:** Version bump only for package @sprucelabs/spruce-event-plugin
+
+
+
+
+
+## [44.1.36](https://github.com/sprucelabsai/spruce-features-workspace/compare/v44.1.35...v44.1.36) (2022-07-19)
+
+**Note:** Version bump only for package @sprucelabs/spruce-event-plugin
+
+
+
+
+
+## [44.1.35](https://github.com/sprucelabsai/spruce-features-workspace/compare/v44.1.34...v44.1.35) (2022-07-19)
+
+**Note:** Version bump only for package @sprucelabs/spruce-event-plugin
+
+
+
+
+
+## [44.1.34](https://github.com/sprucelabsai/spruce-features-workspace/compare/v44.1.33...v44.1.34) (2022-07-19)
+
+**Note:** Version bump only for package @sprucelabs/spruce-event-plugin
+
+
+
+
+
+## [44.1.33](https://github.com/sprucelabsai/spruce-features-workspace/compare/v44.1.32...v44.1.33) (2022-07-18)
+
+**Note:** Version bump only for package @sprucelabs/spruce-event-plugin
+
+
+
+
+
+## [44.1.32](https://github.com/sprucelabsai/spruce-features-workspace/compare/v44.1.31...v44.1.32) (2022-07-18)
+
+**Note:** Version bump only for package @sprucelabs/spruce-event-plugin
+
+
+
+
+
+## [44.1.31](https://github.com/sprucelabsai/spruce-features-workspace/compare/v44.1.30...v44.1.31) (2022-07-18)
+
+**Note:** Version bump only for package @sprucelabs/spruce-event-plugin
+
+
+
+
+
+## [44.1.30](https://github.com/sprucelabsai/spruce-features-workspace/compare/v44.1.29...v44.1.30) (2022-07-16)
+
+**Note:** Version bump only for package @sprucelabs/spruce-event-plugin
+
+
+
+
+
 ## [44.1.29](https://github.com/sprucelabsai/spruce-features-workspace/compare/v44.1.28...v44.1.29) (2022-07-16)
 
 **Note:** Version bump only for package @sprucelabs/spruce-event-plugin
