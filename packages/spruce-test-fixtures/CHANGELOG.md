@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [44.2.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v44.1.40...v44.2.0) (2022-07-21)
+
+
+### Features
+
+* can set client for views ([1626544](https://github.com/sprucelabsai/spruce-features-workspace/commit/1626544))
+
+
+
+
+
 ## [44.1.40](https://github.com/sprucelabsai/spruce-features-workspace/compare/v44.1.39...v44.1.40) (2022-07-21)
 
 **Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
