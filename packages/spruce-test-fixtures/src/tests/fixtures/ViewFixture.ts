@@ -212,6 +212,10 @@ export default class ViewFixture {
 		}
 	}
 
+	public setClient(client: MercuryClient) {
+		ViewFixture.viewClient = client
+	}
+
 	public static async beforeAll() {
 		this.resetAuth()
 	}

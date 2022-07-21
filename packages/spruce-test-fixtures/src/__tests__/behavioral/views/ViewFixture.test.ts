@@ -597,6 +597,14 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 		assert.isEqual(formAssert.views, this.fixture.getFactory())
 	}
 
+	@test()
+	protected static async canSetMercuryClient() {
+		const client = await this.mercury.connectToApi({ shouldReUseClient: false })
+		this.fixture.setClient(client)
+		//@ts-ignore
+		assert.isEqual(ViewFixture.viewClient, client)
+	}
+
 	private static ScopedByOrgVc() {
 		return this.fixture.Controller('scopedByOrg' as any, {}) as ScopedByOrgSvc
 	}
