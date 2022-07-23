@@ -24,6 +24,7 @@ import generateRandomName from '../fixtures/generateRandomName'
 import MercuryFixture from '../fixtures/MercuryFixture'
 import PersonFixture from '../fixtures/PersonFixture'
 import SeedFixture from '../fixtures/SeedFixture'
+import ViewFixture from '../fixtures/ViewFixture'
 import seed, { CoreSeedTarget } from './seed'
 
 type Person = SpruceSchemas.Spruce.v2020_07_22.Person
@@ -68,6 +69,7 @@ interface Class extends ClassWithFakes {
 	_fakedLocations: Location[]
 	fakedOwnerClient: Client
 	people: PersonFixture
+	views: ViewFixture
 	cwd: string
 	__fakerSetup?: boolean
 	beforeEach?: () => Promise<void>
@@ -207,7 +209,10 @@ fake.getPerson = () => {
 }
 
 async function login(Class: Class, phone: string) {
-	const { person, client } = await Class.people.loginAsDemoPerson(phone)
+	debugger
+	const { person, client } = await Class.views.loginAsDemoPerson(phone)
+
+	debugger
 
 	if (!person.firstName) {
 		givePersonName(person)
@@ -218,7 +223,7 @@ async function login(Class: Class, phone: string) {
 	Class.fakedOwner = person
 	Class.fakedOwnerClient = client
 
-	await client.registerProxyToken()
+	// await client.registerProxyToken()
 }
 
 function givePersonName(person: SpruceSchemas.Spruce.v2020_07_22.Person) {
@@ -725,6 +730,7 @@ function buildSeeder(target: CoreSeedTarget) {
 
 async function fakeWhoAmI(Class: Class) {
 	await eventFaker.on('whoami::v2020_12_25', (targetAndPayload) => {
+		debugger
 		const { source } = targetAndPayload ?? {}
 		let { personId, proxyToken } = source ?? {}
 

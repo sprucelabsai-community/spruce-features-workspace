@@ -44,11 +44,6 @@ export default class FakeDecoratorTest extends AbstractSpruceFixtureTest {
 	}
 
 	@test()
-	protected static async registersProxyTokenBeforeEach() {
-		assert.isTruthy(fake.getClient().getProxyToken())
-	}
-
-	@test()
 	protected static async fakesWhoAmI() {
 		const number = DEMO_NUMBER_HIRING
 		const auth = await this.fakeLoginAndGetAuth(number)
