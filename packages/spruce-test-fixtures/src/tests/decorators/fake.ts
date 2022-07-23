@@ -209,10 +209,7 @@ fake.getPerson = () => {
 }
 
 async function login(Class: Class, phone: string) {
-	debugger
 	const { person, client } = await Class.views.loginAsDemoPerson(phone)
-
-	debugger
 
 	if (!person.firstName) {
 		givePersonName(person)
@@ -730,7 +727,6 @@ function buildSeeder(target: CoreSeedTarget) {
 
 async function fakeWhoAmI(Class: Class) {
 	await eventFaker.on('whoami::v2020_12_25', (targetAndPayload) => {
-		debugger
 		const { source } = targetAndPayload ?? {}
 		let { personId, proxyToken } = source ?? {}
 
