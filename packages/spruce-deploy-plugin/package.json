@@ -64,18 +64,18 @@
   },
   "dependencies": {
     "@sprucelabs/error": "^5.0.487",
-    "@sprucelabs/schema": "^28.3.14",
+    "@sprucelabs/schema": "^28.3.15",
     "@sprucelabs/spruce-skill-booter": "^44.2.9",
-    "@sprucelabs/spruce-skill-utils": "^26.3.2",
+    "@sprucelabs/spruce-skill-utils": "^26.3.4",
     "heroku-client": "^3.1.0"
   },
   "devDependencies": {
-    "@sprucelabs/esm-postbuild": "^1.0.528",
-    "@sprucelabs/jest-json-reporter": "^6.0.428",
+    "@sprucelabs/esm-postbuild": "^1.0.529",
+    "@sprucelabs/jest-json-reporter": "^6.0.429",
     "@sprucelabs/resolve-path-aliases": "^1.1.75",
     "@sprucelabs/semantic-release": "^4.0.8",
     "@sprucelabs/test": "^7.7.338",
-    "@sprucelabs/test-utils": "^3.1.36",
+    "@sprucelabs/test-utils": "^3.1.37",
     "chokidar-cli": "^3.0.0",
     "concurrently": "^7.3.0",
     "eslint": "^8.20.0",
