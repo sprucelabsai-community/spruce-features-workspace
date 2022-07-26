@@ -209,6 +209,22 @@ fake.getPerson = () => {
 }
 
 async function login(Class: Class, phone: string) {
+	const { person, client } = await loginUsingViewsFallingBackToPeople(
+		Class,
+		phone
+	)
+
+	if (!person.firstName) {
+		givePersonName(person)
+	}
+
+	Class.fakedPeople = [person]
+	Class.fakedOwners = [person]
+	Class.fakedOwner = person
+	Class.fakedOwnerClient = client
+}
+
+async function loginUsingViewsFallingBackToPeople(Class: Class, phone: string) {
 	let person: Person | undefined
 	let client: MercuryClient | undefined
 
@@ -221,15 +237,7 @@ async function login(Class: Class, phone: string) {
 		person = p
 		client = c
 	}
-
-	if (!person.firstName) {
-		givePersonName(person)
-	}
-
-	Class.fakedPeople = [person]
-	Class.fakedOwners = [person]
-	Class.fakedOwner = person
-	Class.fakedOwnerClient = client
+	return { person, client }
 }
 
 function givePersonName(person: SpruceSchemas.Spruce.v2020_07_22.Person) {
