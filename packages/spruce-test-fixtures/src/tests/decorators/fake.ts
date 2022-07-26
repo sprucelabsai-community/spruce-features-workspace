@@ -209,7 +209,18 @@ fake.getPerson = () => {
 }
 
 async function login(Class: Class, phone: string) {
-	const { person, client } = await Class.views.loginAsDemoPerson(phone)
+	let person: Person | undefined
+	let client: MercuryClient | undefined
+
+	try {
+		const { person: p, client: c } = await Class.views.loginAsDemoPerson(phone)
+		person = p
+		client = c
+	} catch {
+		const { person: p, client: c } = await Class.people.loginAsDemoPerson(phone)
+		person = p
+		client = c
+	}
 
 	if (!person.firstName) {
 		givePersonName(person)

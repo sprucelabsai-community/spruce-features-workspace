@@ -23,7 +23,6 @@ export default class ListeningToEventsTest extends AbstractEventPluginTest {
 	protected static async beforeEach() {
 		await super.beforeEach()
 
-		// MercuryClientFactory.setIsTestMode(false)
 		MercuryFixture.setShouldMixinCoreEventContractsWhenImportingLocal(true)
 
 		delete process.env.DID_BOOT_FIRED
