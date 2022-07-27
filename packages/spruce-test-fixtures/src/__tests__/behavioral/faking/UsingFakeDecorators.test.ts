@@ -31,13 +31,14 @@ export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
 		await super.beforeEach()
 		this.wasBeforeEachInvoked = true
 		this.client = await this.mercury.connectToApi()
+
 		await this.client.emitAndFlattenResponses('whoami::v2020_12_25')
 	}
 
 	@test()
 	protected static async canGetClient() {
 		assert.isEqual(MercuryFixture.getDefaultClient(), fake.getClient())
-		assert.isEqual(this.fakedOwner, fake.getPerson())
+		assert.isEqual(this.fakedPerson, fake.getPerson())
 	}
 
 	@test()
@@ -103,7 +104,7 @@ export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
 
 		const { people, fakedRecords } = await this.assertFakedPeople(target, total)
 
-		assert.doesNotInclude(people, this.fakedOwner)
+		assert.doesNotInclude(people, this.fakedPerson)
 		assert.isEqualDeep(people, fakedRecords)
 	}
 
@@ -262,9 +263,10 @@ export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
 		const { client } = await this.views.loginAsDemoPerson()
 
 		assert.isEqualDeep(DummyStore.lastFakedOwner, auth.person)
+
 		//@ts-ignore
 		assert.isEqualDeep(auth.person, client.auth.person)
-		assert.isEqualDeep(auth.person, this.fakedOwner)
+		assert.isEqualDeep(auth.person, this.fakedPerson)
 	}
 
 	private static async emitWhoAmI() {
@@ -294,6 +296,7 @@ export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
 
 DummyStore.seedCb = async () => {
 	fake.getPerson()
+
 	//@ts-ignore
 	DummyStore.lastFakedOwner = MercuryFixture.getDefaultClient()?.auth?.person
 }

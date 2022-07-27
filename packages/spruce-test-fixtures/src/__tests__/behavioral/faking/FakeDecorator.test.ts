@@ -5,20 +5,19 @@ import { formatPhoneNumber } from '@sprucelabs/schema'
 import { BASE_ROLES_WITH_META } from '@sprucelabs/spruce-core-schemas'
 import { assert, test } from '@sprucelabs/test'
 import { errorAssert, generateId } from '@sprucelabs/test-utils'
-import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
 import {
 	DEMO_NUMBER,
 	DEMO_NUMBER_ACCOUNT_AFTER_ALL_RESET,
 	DEMO_NUMBER_DECORATORS,
-	DEMO_NUMBER_HIRING,
 } from '../../../tests/constants'
 import fake, {
 	fakeTargetToPropName,
 	pluralToSingular,
 } from '../../../tests/decorators/fake'
 import { CoreSeedTarget } from '../../../tests/decorators/seed'
+import AbstractFakeDecoratorTest from '../../support/AbstractFakeDecoratorTest'
 
-export default class FakeDecoratorTest extends AbstractSpruceFixtureTest {
+export default class FakeDecoratorTest extends AbstractFakeDecoratorTest {
 	private static client: MercuryClient
 
 	protected static async beforeEach() {
@@ -43,20 +42,10 @@ export default class FakeDecoratorTest extends AbstractSpruceFixtureTest {
 		assert.isTrue(MercuryTestClient.getShouldRequireLocalListeners())
 	}
 
-	@test()
-	protected static async fakesWhoAmI() {
-		const number = DEMO_NUMBER_HIRING
-		const auth = await this.fakeLoginAndGetAuth(number)
-
-		assert.doesInclude(auth.person, {
-			phone: number,
-		})
-	}
-
-	@test()
+	@test.skip()
 	protected static async setsOwnerToClass() {
 		const auth = await this.fakeLoginAndGetAuth()
-		assert.isEqualDeep(this.fakedOwner, auth.person)
+		assert.isEqualDeep(this.fakedPerson, auth.person)
 	}
 
 	@test()
@@ -78,12 +67,12 @@ export default class FakeDecoratorTest extends AbstractSpruceFixtureTest {
 			'get-person::v2020_12_25',
 			{
 				target: {
-					personId: this.fakedOwner.id,
+					personId: this.fakedPerson.id,
 				},
 			}
 		)
 
-		assert.isEqualDeep(person, this.fakedOwner)
+		assert.isEqualDeep(person, this.fakedPerson)
 	}
 
 	@test()
@@ -112,7 +101,7 @@ export default class FakeDecoratorTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async failsWithoutOwner() {
-		this.fakedOwner = null as any
+		this.fakedPerson = null as any
 		await assert.doesThrowAsync(
 			() => this.fakeRecords('organizations', 1),
 			'faker.login'
@@ -340,7 +329,7 @@ export default class FakeDecoratorTest extends AbstractSpruceFixtureTest {
 		)
 
 		assert.isEqual(person.phone, formatPhoneNumber(phone))
-		assert.isEqualDeep(this.fakedPeople, [this.fakedOwner, person])
+		assert.isEqualDeep(this.fakedPeople, [this.fakedPerson, person])
 	}
 
 	@test()
@@ -456,32 +445,6 @@ export default class FakeDecoratorTest extends AbstractSpruceFixtureTest {
 		)
 
 		return organizations
-	}
-
-	protected static async fakeLoginAndGetAuth(phone: string = DEMO_NUMBER) {
-		await this.fakeLogin(phone)
-
-		const { client, person } = await this.people.loginAsDemoPerson()
-
-		const [{ auth, type }] = await client.emitAndFlattenResponses(
-			'whoami::v2020_12_25'
-		)
-
-		assert.isEqual(type, 'authenticated')
-		assert.isEqualDeep(auth.person, this.fakedOwner)
-		assert.isEqualDeep(person, this.fakedOwner)
-
-		return auth
-	}
-
-	private static async fakeLogin(number: string = DEMO_NUMBER) {
-		const decorator = fake.login(number)
-
-		decorator(this as any, false)
-
-		await this.beforeAll()
-
-		await this.beforeEach()
 	}
 
 	private static async listRolesForPerson(personId: string) {

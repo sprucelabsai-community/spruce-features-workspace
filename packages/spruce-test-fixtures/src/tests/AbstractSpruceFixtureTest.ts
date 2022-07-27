@@ -28,7 +28,7 @@ type Organization = SpruceSchemas.Spruce.v2020_07_22.Organization
 type Location = SpruceSchemas.Spruce.v2020_07_22.Location
 
 export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTest {
-	public static fakedOwner: Person
+	public static fakedPerson: Person
 	public static fakedPeople: Person[]
 	public static fakedTeammates: Person[]
 	public static fakedOwners: Person[]
@@ -183,6 +183,7 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 	protected static async beforeEach() {
 		await super.beforeEach()
 		await FixtureFactory.beforeEach(this.cwd)
+
 		this.clearLocalFixtures()
 	}
 

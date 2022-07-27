@@ -24,12 +24,31 @@ export default class AuthenticatingAsAPersonTest extends AbstractSpruceFixtureTe
 	@test()
 	protected static async authReturnsExpectedPerson() {
 		await this.people.loginAsDemoPerson()
+
 		const { token, person } = await this.people.loginAsDemoPerson(
 			'555-111-1234'
 		)
-		const { person: person2 } = await fake.getClient().authenticate({ token })
+
+		const client = await this.connectAnon()
+		const { person: person2 } = await client.authenticate({ token })
 
 		assert.isEqualDeep(person, person2)
+	}
+
+	@test()
+	protected static async authReturnsProperType() {
+		const client = await this.connectAnon()
+		const [{ type }] = await client.emitAndFlattenResponses(
+			'authenticate::v2020_12_25',
+			{
+				payload: {
+					//@ts-ignore
+					token: this.fakedTokens[0]?.token,
+				},
+			}
+		)
+
+		assert.isEqual(type, 'authenticated')
 	}
 
 	@test()
@@ -40,5 +59,9 @@ export default class AuthenticatingAsAPersonTest extends AbstractSpruceFixtureTe
 		)
 
 		assert.isNotEqual(token1, token2)
+	}
+
+	private static async connectAnon() {
+		return await this.mercury.connectToApi({ shouldReUseClient: false })
 	}
 }

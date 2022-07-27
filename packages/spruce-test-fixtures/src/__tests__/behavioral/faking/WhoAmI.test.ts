@@ -58,7 +58,7 @@ export default class WhoAmITest extends AbstractSpruceFixtureTest {
 		client.setProxyToken(proxy)
 
 		const auth = await this.emitWhoAmI(client)
-		assert.isEqualDeep(auth.person, this.fakedOwner)
+		assert.isEqualDeep(auth.person, this.fakedPerson)
 	}
 
 	@test()

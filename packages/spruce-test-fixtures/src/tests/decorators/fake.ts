@@ -59,7 +59,7 @@ type PersonRole = {
 }
 
 interface Class extends ClassWithFakes {
-	fakedOwner?: Person
+	fakedPerson?: Person
 	_fakedOrganizations: Organization[]
 	fakedInstalledSkills: InstalledSkill[]
 	fakedPeopleRoles: PersonRole[]
@@ -67,7 +67,7 @@ interface Class extends ClassWithFakes {
 	fakedTokens: { personId: string; token: string }[]
 	fakedRoles: Role[]
 	_fakedLocations: Location[]
-	fakedOwnerClient: Client
+	fakedClient: Client
 	people: PersonFixture
 	views: ViewFixture
 	cwd: string
@@ -90,7 +90,7 @@ const strategies: Partial<
 	owners: buildSeeder('owners'),
 }
 
-function resetFakes(Class: Class) {
+function resetFakedRecords(Class: Class) {
 	if (shouldSkipNextReset) {
 		shouldSkipNextReset = false
 		return
@@ -106,10 +106,12 @@ function resetFakes(Class: Class) {
 	Class.fakedGroupManagers = []
 	Class.fakedGuests = []
 	Class.fakedRoles = []
-	Class.fakedPeople = []
+	Class.fakedPeople = Class.fakedPeople?.[0] ? [Class.fakedPeople[0]] : []
 	Class.fakedSkills = []
-	Class.fakedTokens = []
-	Class.fakedProxyTokens = []
+	Class.fakedTokens = Class.fakedTokens?.[0] ? [Class.fakedTokens[0]] : []
+	Class.fakedProxyTokens = Class.fakedProxyTokens?.[0]
+		? [Class.fakedProxyTokens[0]]
+		: []
 }
 
 export default function fake(target: CoreSeedTarget, total: number) {
@@ -121,7 +123,7 @@ export default function fake(target: CoreSeedTarget, total: number) {
 
 		descriptor.value = async (...args: any[]) => {
 			assert.isTruthy(
-				Class.fakedOwner,
+				Class.fakedPerson,
 				`You gotta @faker.login(...) before you can create fake '${target}'!`
 			)
 
@@ -166,36 +168,30 @@ fake.login = (phone = '555-000-0000') => {
 			MercuryFixture.beforeEach = async (...args: any[]) => {
 				//@ts-ignore
 				await old(...args)
-				await setupFakes(Class)
-				MercuryFixture.setDefaultClient(Class.fakedOwnerClient)
+				await setupFakeListeners(Class)
 			}
 		}
 
-		let fakedOwner: any
-		let fakedClient: any
-
 		Class.beforeAll = async () => {
 			await beforeAll?.()
-			resetFakes(Class)
 
-			await setupFakes(Class)
-			const { person, client } = await login(Class, phone)
+			resetFakedRecords(Class)
 
-			fakedOwner = person
-			fakedClient = client
+			await setupFakeListeners(Class)
 
-			MercuryFixture.setDefaultClient(Class.fakedOwnerClient)
+			await login(Class, phone)
+
+			MercuryFixture.setDefaultClient(Class.fakedClient)
 		}
 
 		Class.afterEach = async () => {
-			await setupFakes(Class)
+			await setupFakeListeners(Class)
 			await afterEach?.()
 		}
 
 		Class.beforeEach = async () => {
-			resetFakes(Class)
-			await setupFakes(Class)
-			resetFakedOwner(Class, fakedOwner, fakedClient)
+			resetFakedRecords(Class)
+			await setupFakeListeners(Class)
 
 			if (!TestClass.cwd) {
 				return
@@ -225,23 +221,10 @@ async function login(Class: Class, phone: string) {
 		givePersonName(person)
 	}
 
-	resetFakedOwner(Class, person, client)
-
-	return { person, client }
-}
-
-function resetFakedOwner(
-	Class: Class,
-	person: SpruceSchemas.Spruce.v2020_07_22.Person,
-	client: MercuryClient
-) {
-	Class.fakedPeople = [person]
-	Class.fakedOwners = [person]
-	Class.fakedOwner = person
-	Class.fakedOwnerClient = client
-	Class.fakedProxyTokens = [
-		{ personId: person.id, token: client.getProxyToken()! },
-	]
+	//@ts-ignore
+	client.auth.person = person
+	Class.fakedClient = client
+	Class.fakedPerson = person
 }
 
 async function loginUsingViewsFallingBackToPeople(Class: Class, phone: string) {
@@ -260,7 +243,7 @@ async function loginUsingViewsFallingBackToPeople(Class: Class, phone: string) {
 
 	await client.registerProxyToken()
 
-	return { person, client }
+	return { person: Class.fakedPeople.find((p) => p.id === person!.id)!, client }
 }
 
 function givePersonName(person: SpruceSchemas.Spruce.v2020_07_22.Person) {
@@ -270,7 +253,7 @@ function givePersonName(person: SpruceSchemas.Spruce.v2020_07_22.Person) {
 	person.lastName = names.lastName
 }
 
-async function setupFakes(Class: Class) {
+async function setupFakeListeners(Class: Class) {
 	await Promise.all([
 		fakeSkillLifecycleEvents(Class),
 		fakeGetPerson(Class),
@@ -571,7 +554,7 @@ async function fakeCreateLocation(Class: Class) {
 				addPersonAsRoleToLocationOrOrg({
 					Class,
 					roleId: role.id,
-					person: Class.fakedOwner!,
+					person: Class.fakedPerson!,
 					locationId: location.id,
 				})
 			}
@@ -601,7 +584,7 @@ async function fakeCreateOrganization(Class: Class) {
 			Class,
 			organizationId: organization.id,
 			roleId: roles.find((r) => r.base === 'owner')!.id,
-			person: Class.fakedOwner!,
+			person: Class.fakedPerson!,
 		})
 
 		return {
@@ -639,7 +622,7 @@ async function fakeSkillLifecycleEvents(Class: Class) {
 	await eventFaker.on('register-skill::v2020_12_25', ({ payload }) => {
 		const skill = {
 			apiKey: generateId(),
-			creators: [{ personId: Class.fakedOwner!.id }],
+			creators: [{ personId: Class.fakedPerson!.id }],
 			dateCreated: new Date().getTime(),
 			id: generateId(),
 			...payload,
@@ -809,8 +792,8 @@ async function fakeAuthenticationEvents(Class: Class) {
 
 		if (!person) {
 			person =
-				Class.fakedOwner?.phone === formattedPhone
-					? Class.fakedOwner
+				Class.fakedPerson?.phone === formattedPhone
+					? Class.fakedPerson
 					: {
 							id: generateId(),
 							casualName: 'friend',
@@ -898,7 +881,7 @@ async function fakeAuthenticationEvents(Class: Class) {
 		const person = getPersonById(Class, match.personId)
 
 		return {
-			type: 'anonymous' as const,
+			type: 'authenticated' as const,
 			auth: {
 				person,
 			},

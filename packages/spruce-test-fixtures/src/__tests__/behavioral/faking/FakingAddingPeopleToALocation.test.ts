@@ -23,7 +23,7 @@ export default class FakingAddingPeopleToALocationTest extends AbstractSpruceFix
 	@test()
 	@seed('locations', 1)
 	protected static async passesWhenFakedOwnerIsPartOfLocation() {
-		const is = await this.isPartOfLocation(this.fakedOwner.id)
+		const is = await this.isPartOfLocation(this.fakedPerson.id)
 		assert.isTrue(is)
 	}
 
