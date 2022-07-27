@@ -257,7 +257,7 @@ export default class ViewFixture {
 		spyMapUtil.lastOpenNavigationOptions = undefined
 	}
 
-	private static resetAuth() {
+	public static resetAuth() {
 		AuthenticatorImpl.reset()
 		AuthenticatorImpl.setStorage(new StubStorage())
 		ClientProxyDecorator.getInstance().clearProxyTokenGenerator()

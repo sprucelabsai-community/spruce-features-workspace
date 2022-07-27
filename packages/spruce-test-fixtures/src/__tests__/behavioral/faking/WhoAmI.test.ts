@@ -1,3 +1,4 @@
+import { Authenticator } from '@sprucelabs/heartwood-view-controllers'
 import { MercuryClient } from '@sprucelabs/mercury-client'
 import { assert, test } from '@sprucelabs/test'
 import { fake } from '../../..'
@@ -5,11 +6,40 @@ import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
 
 @fake.login()
 export default class WhoAmITest extends AbstractSpruceFixtureTest {
+	private static auth: Authenticator
+	private static didLoginCount = 0
+
+	protected static async beforeEach() {
+		await super.beforeEach()
+		this.cwd = this.resolveTestPath('skill')
+		await this.emitRegister()
+	}
+
+	protected static async afterEach() {
+		super.afterEach()
+		await this.emitRegister()
+	}
+
+	protected static async afterAll() {
+		await super.afterAll()
+		await this.emitRegister()
+	}
+
 	@test()
 	protected static async canWhoAmI() {
-		const [{ auth }] = await fake
-			.getClient()
-			.emitAndFlattenResponses('whoami::v2020_12_25')
+		this.auth = this.views.getAuthenticator()
+		await fake.getClient().emitAndFlattenResponses('whoami::v2020_12_25')
+
+		this.views.getAuthenticator().addEventListener('did-login', async () => {
+			this.didLoginCount++
+		})
+	}
+
+	@test()
+	protected static async canWhoAmI2() {
+		assert.isNotEqual(this.views.getAuthenticator(), this.auth)
+		await fake.getClient().emitAndFlattenResponses('whoami::v2020_12_25')
+		assert.isEqual(this.didLoginCount, 0)
 	}
 
 	@test()
@@ -61,5 +91,21 @@ export default class WhoAmITest extends AbstractSpruceFixtureTest {
 
 	private static get client() {
 		return fake.getClient()
+	}
+
+	protected static resolveTestPath(...pathAfterTestDirsAndFiles: string[]) {
+		return this.resolvePath(
+			__dirname,
+			'..',
+			'..',
+			'testDirsAndFiles',
+			...pathAfterTestDirsAndFiles
+		)
+	}
+
+	private static async emitRegister() {
+		await fake
+			.getClient()
+			.emitAndFlattenResponses('register-proxy-token::v2020_12_25')
 	}
 }

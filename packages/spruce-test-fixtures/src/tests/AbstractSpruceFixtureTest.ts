@@ -183,7 +183,6 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 	protected static async beforeEach() {
 		await super.beforeEach()
 		await FixtureFactory.beforeEach(this.cwd)
-
 		this.clearLocalFixtures()
 	}
 

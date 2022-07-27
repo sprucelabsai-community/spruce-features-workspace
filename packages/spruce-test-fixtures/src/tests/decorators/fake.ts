@@ -185,6 +185,7 @@ fake.login = (phone = '555-000-0000') => {
 		}
 
 		Class.beforeEach = async () => {
+			ViewFixture.resetAuth()
 			await fakeAuthenticationEvents(Class)
 			resetFakes(Class)
 
