@@ -16,7 +16,7 @@ export default class WhoAmITest extends AbstractSpruceFixtureTest {
 	}
 
 	protected static async afterEach() {
-		super.afterEach()
+		await super.afterEach()
 		await this.emitRegister()
 	}
 
