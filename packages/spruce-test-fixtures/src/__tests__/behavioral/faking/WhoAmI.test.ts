@@ -6,6 +6,13 @@ import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
 @fake.login()
 export default class WhoAmITest extends AbstractSpruceFixtureTest {
 	@test()
+	protected static async canWhoAmI() {
+		const [{ auth }] = await fake
+			.getClient()
+			.emitAndFlattenResponses('whoami::v2020_12_25')
+	}
+
+	@test()
 	protected static async canRegisterProxyToken() {
 		const proxy = await this.registerOwnerProxy()
 		assert.isTruthy(proxy)
