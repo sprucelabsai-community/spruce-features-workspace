@@ -554,6 +554,7 @@ export class EventFeaturePlugin implements SkillFeature {
 					this.log.info(`Incoming event - ${fqen}`)
 
 					const event = await this.buildSpruceEvent(fqen, targetAndPayload)
+
 					const decorator = ClientProxyDecorator.getInstance()
 
 					event.client = decorator.decorateEmitToPassProxyToken(

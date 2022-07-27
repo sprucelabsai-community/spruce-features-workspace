@@ -180,6 +180,22 @@ export default class ListeningToEventsTest extends AbstractEventPluginTest {
 	}
 
 	@test()
+	protected static async eventsGetProxyToken() {
+		//assertions in my-cool-event listener
+		const results = await this.setupTwoSkillsRegisterEventsAndEmit(
+			'registered-skill-proxy-token',
+			fake.getClient()
+		)
+
+		const { payloads, errors } =
+			eventResponseUtil.getAllResponsePayloadsAndErrors(results, SpruceError)
+
+		assert.isFalsy(errors)
+
+		assert.isEqualDeep(payloads[0] as any, { taco: 'bravo' })
+	}
+
+	@test()
 	protected static async listenerErrorsGetPassedBack() {
 		const results = await this.setupTwoSkillsRegisterEventsAndEmit(
 			'registered-skill-throw-in-listener'
@@ -445,14 +461,17 @@ export default class ListeningToEventsTest extends AbstractEventPluginTest {
 		bootedSkill.isKilling = false
 	}
 
-	private static async setupTwoSkillsRegisterEventsAndEmit(dirName: string) {
+	private static async setupTwoSkillsRegisterEventsAndEmit(
+		dirName: string,
+		client?: MercuryClient
+	) {
 		const { client1, fqen, org, client2 } = await this.setupTwoSkillsAndBoot(
 			dirName
 		)
 
 		await client2.disconnect()
 
-		const results = await client1.emit(fqen as any, {
+		const results = await (client ?? client1).emit(fqen as any, {
 			target: {
 				organizationId: org.id,
 			},

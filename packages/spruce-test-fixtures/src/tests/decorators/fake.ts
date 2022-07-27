@@ -186,6 +186,7 @@ fake.login = (phone = '555-000-0000') => {
 
 		Class.beforeEach = async () => {
 			ViewFixture.resetAuth()
+
 			await fakeAuthenticationEvents(Class)
 			resetFakes(Class)
 
@@ -223,6 +224,8 @@ async function login(Class: Class, phone: string) {
 	Class.fakedOwners = [person]
 	Class.fakedOwner = person
 	Class.fakedOwnerClient = client
+
+	return { person, client }
 }
 
 async function loginUsingViewsFallingBackToPeople(Class: Class, phone: string) {
@@ -238,6 +241,9 @@ async function loginUsingViewsFallingBackToPeople(Class: Class, phone: string) {
 		person = p
 		client = c
 	}
+
+	await client.registerProxyToken()
+
 	return { person, client }
 }
 
