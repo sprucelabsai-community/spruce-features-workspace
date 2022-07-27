@@ -69,7 +69,7 @@ export default class PersonFixture {
 	): Promise<{ person: Person; client: Client; token: string }> {
 		if (
 			this.lastLoggedIn &&
-			(!phone || phone === this.lastLoggedIn.person.phone)
+			(!phone || formatPhoneNumber(phone) === this.lastLoggedIn.person.phone)
 		) {
 			return this.lastLoggedIn
 		}

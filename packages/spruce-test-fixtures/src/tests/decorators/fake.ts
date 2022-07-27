@@ -95,6 +95,7 @@ function resetFakes(Class: Class) {
 		shouldSkipNextReset = false
 		return
 	}
+
 	Class._fakedOrganizations = []
 	Class._fakedLocations = []
 	Class.fakedTeammates = []
@@ -141,6 +142,7 @@ fake.login = (phone = '555-000-0000') => {
 		`'${phone}' is not a valid phone. Try something like: 555-000-0000`
 	)
 
+	MercuryFixture.setShouldAutomaticallyClearDefaultClient(false)
 	MercuryTestClient.setShouldRequireLocalListeners(true)
 	MercuryClientFactory.setIsTestMode(true)
 
@@ -169,12 +171,18 @@ fake.login = (phone = '555-000-0000') => {
 			}
 		}
 
+		let fakedOwner: any
+		let fakedClient: any
+
 		Class.beforeAll = async () => {
 			await beforeAll?.()
 			resetFakes(Class)
 
 			await setupFakes(Class)
-			await login(Class, phone)
+			const { person, client } = await login(Class, phone)
+
+			fakedOwner = person
+			fakedClient = client
 
 			MercuryFixture.setDefaultClient(Class.fakedOwnerClient)
 		}
@@ -185,16 +193,13 @@ fake.login = (phone = '555-000-0000') => {
 		}
 
 		Class.beforeEach = async () => {
-			ViewFixture.resetAuth()
-
-			await fakeAuthenticationEvents(Class)
 			resetFakes(Class)
+			await setupFakes(Class)
+			resetFakedOwner(Class, fakedOwner, fakedClient)
 
 			if (!TestClass.cwd) {
 				return
 			}
-
-			await login(Class, phone)
 
 			shouldPassHookCalls && (await beforeEach?.())
 		}
@@ -220,12 +225,23 @@ async function login(Class: Class, phone: string) {
 		givePersonName(person)
 	}
 
+	resetFakedOwner(Class, person, client)
+
+	return { person, client }
+}
+
+function resetFakedOwner(
+	Class: Class,
+	person: SpruceSchemas.Spruce.v2020_07_22.Person,
+	client: MercuryClient
+) {
 	Class.fakedPeople = [person]
 	Class.fakedOwners = [person]
 	Class.fakedOwner = person
 	Class.fakedOwnerClient = client
-
-	return { person, client }
+	Class.fakedProxyTokens = [
+		{ personId: person.id, token: client.getProxyToken()! },
+	]
 }
 
 async function loginUsingViewsFallingBackToPeople(Class: Class, phone: string) {

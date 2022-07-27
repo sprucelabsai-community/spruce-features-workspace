@@ -476,8 +476,11 @@ export default class FakeDecoratorTest extends AbstractSpruceFixtureTest {
 
 	private static async fakeLogin(number: string = DEMO_NUMBER) {
 		const decorator = fake.login(number)
+
 		decorator(this as any, false)
+
 		await this.beforeAll()
+
 		await this.beforeEach()
 	}
 
