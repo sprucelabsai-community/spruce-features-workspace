@@ -64,10 +64,10 @@
   "dependencies": {
     "@sprucelabs/data-stores": "^17.0.66",
     "@sprucelabs/error": "^5.0.488",
-    "@sprucelabs/heartwood-view-controllers": "^86.13.29",
-    "@sprucelabs/mercury-client": "^31.0.103",
+    "@sprucelabs/heartwood-view-controllers": "^86.13.31",
+    "@sprucelabs/mercury-client": "^31.0.104",
     "@sprucelabs/mercury-core-events": "^12.0.104",
-    "@sprucelabs/mercury-event-emitter": "^31.0.103",
+    "@sprucelabs/mercury-event-emitter": "^31.0.104",
     "@sprucelabs/schema": "^28.3.19",
     "@sprucelabs/spruce-core-schemas": "^34.2.22",
     "@sprucelabs/spruce-event-utils": "^27.0.80",
