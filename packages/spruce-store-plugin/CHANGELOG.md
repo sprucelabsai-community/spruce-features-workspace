@@ -3,6 +3,86 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [44.2.25](https://github.com/sprucelabsai/spruce-features-workspace/compare/v44.2.24...v44.2.25) (2022-07-29)
+
+**Note:** Version bump only for package @sprucelabs/spruce-store-plugin
+
+
+
+
+
+## [44.2.24](https://github.com/sprucelabsai/spruce-features-workspace/compare/v44.2.23...v44.2.24) (2022-07-29)
+
+**Note:** Version bump only for package @sprucelabs/spruce-store-plugin
+
+
+
+
+
+## [44.2.23](https://github.com/sprucelabsai/spruce-features-workspace/compare/v44.2.22...v44.2.23) (2022-07-29)
+
+**Note:** Version bump only for package @sprucelabs/spruce-store-plugin
+
+
+
+
+
+## [44.2.22](https://github.com/sprucelabsai/spruce-features-workspace/compare/v44.2.21...v44.2.22) (2022-07-28)
+
+**Note:** Version bump only for package @sprucelabs/spruce-store-plugin
+
+
+
+
+
+## [44.2.21](https://github.com/sprucelabsai/spruce-features-workspace/compare/v44.2.20...v44.2.21) (2022-07-28)
+
+**Note:** Version bump only for package @sprucelabs/spruce-store-plugin
+
+
+
+
+
+## [44.2.20](https://github.com/sprucelabsai/spruce-features-workspace/compare/v44.2.19...v44.2.20) (2022-07-28)
+
+**Note:** Version bump only for package @sprucelabs/spruce-store-plugin
+
+
+
+
+
+## [44.2.19](https://github.com/sprucelabsai/spruce-features-workspace/compare/v44.2.18...v44.2.19) (2022-07-28)
+
+**Note:** Version bump only for package @sprucelabs/spruce-store-plugin
+
+
+
+
+
+## [44.2.18](https://github.com/sprucelabsai/spruce-features-workspace/compare/v44.2.17...v44.2.18) (2022-07-28)
+
+**Note:** Version bump only for package @sprucelabs/spruce-store-plugin
+
+
+
+
+
+## [44.2.17](https://github.com/sprucelabsai/spruce-features-workspace/compare/v44.2.16...v44.2.17) (2022-07-27)
+
+**Note:** Version bump only for package @sprucelabs/spruce-store-plugin
+
+
+
+
+
+## [44.2.16](https://github.com/sprucelabsai/spruce-features-workspace/compare/v44.2.15...v44.2.16) (2022-07-27)
+
+**Note:** Version bump only for package @sprucelabs/spruce-store-plugin
+
+
+
+
+
 ## [44.2.15](https://github.com/sprucelabsai/spruce-features-workspace/compare/v44.2.14...v44.2.15) (2022-07-27)
 
 **Note:** Version bump only for package @sprucelabs/spruce-store-plugin
