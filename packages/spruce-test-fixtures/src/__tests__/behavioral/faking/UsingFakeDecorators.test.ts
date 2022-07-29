@@ -36,6 +36,11 @@ export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
 	}
 
 	@test()
+	protected static async resetsFakedOwners() {
+		assert.isEqualDeep(this.fakedOwners, [])
+	}
+
+	@test()
 	protected static async canGetClient() {
 		assert.isEqual(MercuryFixture.getDefaultClient(), fake.getClient())
 		assert.isEqual(this.fakedPerson, fake.getPerson())
@@ -154,6 +159,12 @@ export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
 		)
 
 		assert.isLength(people, 5)
+	}
+
+	@test()
+	@seed('locations', 1)
+	protected static async setsFakedOwners() {
+		assert.isEqual(this.fakedPerson, this.fakedOwners[0])
 	}
 
 	@test()

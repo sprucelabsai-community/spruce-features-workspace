@@ -410,7 +410,7 @@ async function fakeUpdatePerson(Class: Class) {
 async function fakeListRoles(Class: Class) {
 	await eventFaker.on('list-roles::v2020_12_25', ({ target, payload }) => {
 		let { personId, organizationId, locationId } = target ?? {}
-		const { shouldIncludeMetaRoles } = payload ?? {}
+		const { shouldIncludeMetaRoles, shouldIncludePrivateRoles } = payload ?? {}
 
 		let roles: Role[] = []
 
@@ -441,6 +441,10 @@ async function fakeListRoles(Class: Class) {
 			roles = roles.filter(
 				(r) => META_BASE_ROLES.findIndex((m) => m.slug === r.base) === -1
 			)
+		}
+
+		if (!shouldIncludePrivateRoles) {
+			roles = roles.filter((r) => r.isPublic)
 		}
 
 		return {
@@ -723,6 +727,7 @@ function seedRoles(Class: Class, orgId: string) {
 		base: r.slug,
 		dateCreated: new Date().getTime(),
 		organizationId: orgId,
+		isPublic: r.slug === 'guest',
 	}))
 	Class.fakedRoles.push(...roles)
 

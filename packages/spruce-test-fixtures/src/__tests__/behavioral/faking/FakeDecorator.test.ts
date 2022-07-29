@@ -259,7 +259,7 @@ export default class FakeDecoratorTest extends AbstractFakeDecoratorTest {
 	@test()
 	protected static async listRolesForPersonWithoutTargetingOrgReturnsAllRolesForPerson() {
 		const { personId, organizationId } =
-			await FakeDecoratorTest.createMultipleOrgsAndAddOwnerAdditionalTeammateRoleAtRandomOrg()
+			await this.createMultipleOrgsAndAddOwnerAdditionalTeammateRoleAtRandomOrg()
 
 		await this.organizations.addPerson({
 			personId,
@@ -377,6 +377,7 @@ export default class FakeDecoratorTest extends AbstractFakeDecoratorTest {
 				},
 				payload: {
 					shouldIncludeMetaRoles: true,
+					shouldIncludePrivateRoles: true,
 				},
 			}
 		)
@@ -454,7 +455,9 @@ export default class FakeDecoratorTest extends AbstractFakeDecoratorTest {
 				target: {
 					personId,
 				},
-				payload: {},
+				payload: {
+					shouldIncludePrivateRoles: true,
+				},
 			}
 		)
 	}

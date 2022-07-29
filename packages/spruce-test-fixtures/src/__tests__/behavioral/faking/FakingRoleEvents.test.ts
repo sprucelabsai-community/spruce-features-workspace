@@ -58,7 +58,6 @@ export default class FakingRoleEventsTest extends AbstractSpruceFixtureTest {
 	}
 
 	@test()
-	@seed('organizations', 1)
 	protected static async settingListenerOnListRolesResetsNextTest() {
 		let hitCount = 0
 		await eventFaker.on('list-roles::v2020_12_25', () => {
@@ -68,15 +67,37 @@ export default class FakingRoleEventsTest extends AbstractSpruceFixtureTest {
 			}
 		})
 
-		const orgId = this.fakedOrganizations[0].id
-
 		await this.afterEach()
 
-		await this.roles.listRoles({
-			organizationId: orgId,
-		})
+		await this.listRolesForOrg()
 
 		assert.isEqual(hitCount, 0)
+	}
+
+	@test()
+	protected static async allRolesArePrivateButGuestToStart() {
+		for (const role of this.fakedRoles) {
+			assert.isEqual(role.isPublic, role.base === 'guest')
+		}
+	}
+
+	@test()
+	protected static async listRolesCanTogglePrivate() {
+		await this.assertTotalRolesReturned(1)
+		this.fakedRoles[0].isPublic = true
+		await this.assertTotalRolesReturned(2)
+	}
+
+	private static async assertTotalRolesReturned(expected: number) {
+		const [{ roles }] = await fake
+			.getClient()
+			.emitAndFlattenResponses('list-roles::v2020_12_25', {
+				target: {
+					organizationId: this.org.id,
+				},
+			})
+
+		assert.isLength(roles, expected)
 	}
 
 	private static async assertRolesMatchOrg(idx: number) {
@@ -117,7 +138,7 @@ export default class FakingRoleEventsTest extends AbstractSpruceFixtureTest {
 		return this.fakedRoles.find((r) => r.base === base)!
 	}
 
-	private static async listRolesForOrg(personId: string) {
+	private static async listRolesForOrg(personId?: string) {
 		return await this.roles.listRoles({
 			organizationId: this.org.id,
 			personId,
