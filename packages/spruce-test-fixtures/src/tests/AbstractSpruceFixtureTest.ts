@@ -1,4 +1,5 @@
 import { DatabaseFixture } from '@sprucelabs/data-stores'
+import { MercuryClient } from '@sprucelabs/mercury-client'
 import { SpruceSchemas } from '@sprucelabs/mercury-types'
 import {
 	AbstractSkillTest,
@@ -29,6 +30,7 @@ type Location = SpruceSchemas.Spruce.v2020_07_22.Location
 
 export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTest {
 	public static fakedPerson: Person
+	public static fakedClient: MercuryClient
 	public static fakedPeople: Person[]
 	public static fakedTeammates: Person[]
 	public static fakedOwners: Person[]
