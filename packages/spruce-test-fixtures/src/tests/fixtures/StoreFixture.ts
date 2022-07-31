@@ -42,7 +42,7 @@ export default class StoreFixture {
 		const factory = await this.storeFactory
 
 		Object.keys(StoreFixture.storeMap).forEach((name) => {
-			factory.setStore(name, StoreFixture.storeMap[name])
+			factory.setStoreClass(name, StoreFixture.storeMap[name])
 		})
 
 		return factory as StoreFactory
