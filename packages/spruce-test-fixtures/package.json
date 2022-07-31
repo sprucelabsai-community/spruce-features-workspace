@@ -62,12 +62,12 @@
     "lint.tsc": "tsc -p . --noEmit"
   },
   "dependencies": {
-    "@sprucelabs/data-stores": "^17.0.69",
+    "@sprucelabs/data-stores": "^18.0.0",
     "@sprucelabs/error": "^5.0.488",
-    "@sprucelabs/heartwood-view-controllers": "^86.13.34",
-    "@sprucelabs/mercury-client": "^31.0.107",
-    "@sprucelabs/mercury-core-events": "^12.0.107",
-    "@sprucelabs/mercury-event-emitter": "^31.0.107",
+    "@sprucelabs/heartwood-view-controllers": "^86.13.36",
+    "@sprucelabs/mercury-client": "^31.0.108",
+    "@sprucelabs/mercury-core-events": "^12.0.108",
+    "@sprucelabs/mercury-event-emitter": "^31.0.108",
     "@sprucelabs/schema": "^28.3.20",
     "@sprucelabs/spruce-core-schemas": "^34.2.25",
     "@sprucelabs/spruce-event-utils": "^27.0.83",
