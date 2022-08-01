@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [45.1.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v45.0.1...v45.1.0) (2022-08-01)
+
+
+### Features
+
+* store fixture ([77c4850](https://github.com/sprucelabsai/spruce-features-workspace/commit/77c4850))
+
+
+
+
+
 ## [45.0.1](https://github.com/sprucelabsai/spruce-features-workspace/compare/v45.0.0...v45.0.1) (2022-08-01)
 
 **Note:** Version bump only for package spruce-features-workspace

@@ -13,7 +13,7 @@
       "@sprucelabs/spruce-test-fixtures"
     ]
   },
-  "version": "45.0.1",
+  "version": "45.1.0",
   "files": [
     "build/**/*",
     "!build/__tests__",
@@ -62,7 +62,7 @@
     "lint.tsc": "tsc -p . --noEmit"
   },
   "dependencies": {
-    "@sprucelabs/data-stores": "^18.0.4",
+    "@sprucelabs/data-stores": "^18.0.6",
     "@sprucelabs/error": "^5.0.490",
     "@sprucelabs/heartwood-view-controllers": "^86.13.42",
     "@sprucelabs/mercury-client": "^31.0.113",
@@ -71,7 +71,7 @@
     "@sprucelabs/schema": "^28.4.2",
     "@sprucelabs/spruce-core-schemas": "^34.2.29",
     "@sprucelabs/spruce-event-utils": "^27.0.89",
-    "@sprucelabs/spruce-skill-booter": "^45.0.1",
+    "@sprucelabs/spruce-skill-booter": "^45.1.0",
     "@sprucelabs/spruce-skill-utils": "^26.3.21",
     "dotenv": "^16.0.1",
     "unique-names-generator": "^4.7.1"
