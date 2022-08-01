@@ -13,7 +13,7 @@
       "@sprucelabs/spruce-test-fixtures"
     ]
   },
-  "version": "45.2.0",
+  "version": "45.2.1",
   "files": [
     "build/**/*",
     "!build/__tests__",
@@ -71,7 +71,7 @@
     "@sprucelabs/schema": "^28.4.2",
     "@sprucelabs/spruce-core-schemas": "^34.2.29",
     "@sprucelabs/spruce-event-utils": "^27.0.89",
-    "@sprucelabs/spruce-skill-booter": "^45.2.0",
+    "@sprucelabs/spruce-skill-booter": "^45.2.1",
     "@sprucelabs/spruce-skill-utils": "^26.3.21",
     "dotenv": "^16.0.1",
     "unique-names-generator": "^4.7.1"
