@@ -25,10 +25,19 @@ export default abstract class AbstractStoreTest extends AbstractSpruceFixtureTes
 		name: N,
 		options?: O
 	) {
+		const fixture = this.getStoreFixture()
+		return fixture.Store(name, options)
+	}
+
+	private static getStoreFixture() {
 		if (!this.storeFixture) {
 			this.storeFixture = new StoreFixture()
 		}
 
-		return this.storeFixture.Store(name, options)
+		return this.storeFixture
+	}
+
+	protected static async getStore(name: StoreName) {
+		return this.getStoreFixture().getStore(name)
 	}
 }
