@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [45.2.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v45.1.0...v45.2.0) (2022-08-01)
+
+
+### Features
+
+* get store on store test ([64d44c4](https://github.com/sprucelabsai/spruce-features-workspace/commit/64d44c4))
+
+
+
+
+
 # [45.1.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v45.0.1...v45.1.0) (2022-08-01)
 
 **Note:** Version bump only for package @sprucelabs/spruce-store-plugin
