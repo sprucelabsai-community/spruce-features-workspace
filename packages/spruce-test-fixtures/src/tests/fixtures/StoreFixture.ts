@@ -19,12 +19,16 @@ export default class StoreFixture {
 		this.storeMap[name] = Class
 	}
 
+	public async getStore<N extends StoreName>(name: N) {
+		const factory = await this.getStoreFactory()
+		return factory.getStore(name)
+	}
+
 	public async Store<N extends StoreName, O extends StoreOptions<N>>(
 		name: N,
 		options?: O
 	): Promise<StoreMap[N]> {
 		const factory = await this.getStoreFactory()
-
 		return factory.Store(name, options)
 	}
 

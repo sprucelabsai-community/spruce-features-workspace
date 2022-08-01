@@ -36,15 +36,7 @@ export default class StoreFixtureTest extends AbstractSpruceTest {
 
 	@test()
 	protected static async canGetFunctioningStores() {
-		StoreLoader.setStoreDir(
-			this.resolvePath(
-				__dirname,
-				'..',
-				'testDirsAndFiles',
-				'one-good-store-skill',
-				'build'
-			)
-		)
+		this.setStoreDirToOneGoodStore()
 
 		const dbFixture = this.FixtureFactory().Fixture('database')
 		const db = await dbFixture.connectToDatabase()
@@ -133,6 +125,28 @@ export default class StoreFixtureTest extends AbstractSpruceTest {
 
 		await StoreFixture.beforeEach()
 		assert.isTrue(wasHit)
+	}
+
+	@test()
+	protected static async canGetStore() {
+		this.setStoreDirToOneGoodStore()
+		const fixture = this.FixtureFactory().Fixture('store')
+		const stores = await fixture.getStoreFactory()
+		const store1 = await stores.getStore('good')
+		const store2 = await fixture.getStore('good')
+		assert.isEqual(store1, store2)
+	}
+
+	private static setStoreDirToOneGoodStore() {
+		StoreLoader.setStoreDir(
+			this.resolvePath(
+				__dirname,
+				'..',
+				'testDirsAndFiles',
+				'one-good-store-skill',
+				'build'
+			)
+		)
 	}
 
 	private static FixtureFactory() {

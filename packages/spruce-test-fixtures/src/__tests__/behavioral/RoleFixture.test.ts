@@ -9,8 +9,6 @@ import fake from '../../tests/decorators/fake'
 import seed from '../../tests/decorators/seed'
 import RoleFixture from '../../tests/fixtures/RoleFixture'
 
-type Role = SpruceSchemas.Spruce.v2020_07_22.Role
-
 @fake.login(DEMO_NUMBER_ROLE_FIXTURE)
 export default class RoleFixtureTest extends AbstractSpruceFixtureTest {
 	private static fixture: RoleFixture
@@ -125,3 +123,5 @@ export default class RoleFixtureTest extends AbstractSpruceFixtureTest {
 		return allRoles
 	}
 }
+
+type Role = SpruceSchemas.Spruce.v2020_07_22.Role
