@@ -21,6 +21,7 @@ export { default as fake } from './tests/decorators/fake'
 export { default as eventFaker } from './tests/eventFaker'
 export { default as eventMocker } from './tests/eventMocker'
 export { default as ClientProxyDecorator } from './ClientProxyDecorator'
+export { default as FakeThemeManager } from './__tests__/support/FakeThemeManager'
 /**
  * @deprecated phoneNumberIncrementer -> phoneNumberIncrementor
  */

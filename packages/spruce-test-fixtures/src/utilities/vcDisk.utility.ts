@@ -102,6 +102,7 @@ const vcDiskUtil = {
 		if (file && diskUtil.doesFileExist(file)) {
 			const props = require(file).default
 			theme = {
+				name: 'Theme',
 				props,
 			}
 		}

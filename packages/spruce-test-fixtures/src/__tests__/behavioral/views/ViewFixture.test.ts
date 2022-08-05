@@ -27,6 +27,7 @@ import FakeSkillViewController from '../../../tests/Fake.svc'
 import TestScope from '../../../tests/fixtures/TestScope'
 import ViewFixture from '../../../tests/fixtures/ViewFixture'
 import EventFaker from '../../support/EventFaker'
+import FakeThemeManager from '../../support/FakeThemeManager'
 
 const DEMO_NUMBER_FORMATTED = formatPhoneNumber(DEMO_NUMBER ?? '')
 
@@ -605,6 +606,29 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 		assert.isEqual(ViewFixture.viewClient, client)
 	}
 
+	@test()
+	protected static async loadOptionsComeWithFakeThemeManager() {
+		const options = this.buildLoadOptions()
+		assert.isTrue(options.themes instanceof FakeThemeManager)
+	}
+
+	@test()
+	protected static async sameFakeThemeEachTime() {
+		const options1 = this.buildLoadOptions()
+		const options2 = this.buildLoadOptions()
+
+		assert.isEqual(options1.themes, options2.themes)
+	}
+
+	@test()
+	protected static async sameThemesOnFixture() {
+		assert.isEqual(this.fixture.getThemes(), this.buildLoadOptions().themes)
+	}
+
+	private static buildLoadOptions() {
+		return this.router.buildLoadOptions()
+	}
+
 	private static ScopedByOrgVc() {
 		return this.fixture.Controller('scopedByOrg' as any, {}) as ScopedByOrgSvc
 	}
@@ -661,6 +685,10 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 			header: { title: 'hey' },
 		})
 		return vc
+	}
+
+	private static get router() {
+		return this.fixture.getRouter()
 	}
 }
 

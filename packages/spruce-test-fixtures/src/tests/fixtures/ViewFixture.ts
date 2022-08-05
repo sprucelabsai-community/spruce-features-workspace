@@ -147,10 +147,7 @@ export default class ViewFixture {
 					code: 'INVALID_PARAMETERS',
 					parameters: ['vcDir'],
 					originalError: err,
-					friendlyMessage: `No views found! If you are testing, running \`spruce create.view\` will get you started. If you already have views, running \`spruce sync.views\` should help! Heads up, I'm looking for a file called views.[ts|js] in ${vcDir.replace(
-						'/',
-						''
-					)}/.spruce/views/views.\n\nOriginal error:\n\n${err.stack}`,
+					friendlyMessage: `No views found! If you are testing, running \`spruce create.view\` will get you started. If you already have views make sure there are no syntax errors!\n\nOriginal error:\n\n${err.stack}`,
 				})
 			} else {
 				controllerMap = map
@@ -269,6 +266,10 @@ export default class ViewFixture {
 	) {
 		await this.assertScopeRequirementsMet<Svc>(vc)
 		await vc.load(this.getRouter().buildLoadOptions(args ?? {}))
+	}
+
+	public getThemes() {
+		return this.getRouter().getThemes()
 	}
 
 	private async assertScopeRequirementsMet<

@@ -17,6 +17,7 @@ import {
 	MercuryEventEmitter,
 } from '@sprucelabs/mercury-types'
 import testRouterEmitPayloadSchema from '#spruce/schemas/spruceTestFixtures/v2021_07_19/testRouterEmitPayload.schema'
+import FakeThemeManager from '../../__tests__/support/FakeThemeManager'
 import SpyAuthorizer from '../SpyAuthorizer'
 
 const contract = buildEventContract({
@@ -43,6 +44,8 @@ export default class TestRouter
 	private static shouldThrowWhenRedirectingToBadSvc = true
 	private scope: Scope
 	private locale: Locale
+
+	private readonly themes = new FakeThemeManager()
 
 	public static setShouldThrowWhenRedirectingToBadSvc(shouldThrow: boolean) {
 		this.shouldThrowWhenRedirectingToBadSvc = shouldThrow
@@ -82,6 +85,10 @@ export default class TestRouter
 		}
 
 		return this.instance
+	}
+
+	public getThemes() {
+		return this.themes
 	}
 
 	public static setup(options: {
@@ -139,6 +146,7 @@ export default class TestRouter
 			locale: this.locale,
 			authorizer: SpyAuthorizer.getInstance(),
 			scope: this.scope,
+			themes: this.themes,
 		}
 	}
 }
