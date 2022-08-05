@@ -14,21 +14,6 @@ import {
 } from '@sprucelabs/spruce-skill-utils'
 import { StoreHealthCheckItem } from '../types/store.types'
 
-declare module '@sprucelabs/spruce-skill-utils/build/types/skill.types' {
-	interface SkillContext {
-		/**
-		 * @deprecated 'storeFactory' -> 'stores'
-		 */
-		storeFactory: StoreFactory
-		stores: StoreFactory
-		database: Database
-	}
-}
-
-interface DbConnectionOptions {
-	dbConnectionString?: string
-	dbName?: string
-}
 export class StoreFeaturePlugin implements SkillFeature {
 	private skill: Skill
 	private dbConnectionString?: string
@@ -191,4 +176,20 @@ export class StoreFeaturePlugin implements SkillFeature {
 export default (skill: Skill) => {
 	const feature = new StoreFeaturePlugin(skill)
 	skill.registerFeature('store', feature)
+}
+
+declare module '@sprucelabs/spruce-skill-utils/build/types/skill.types' {
+	interface SkillContext {
+		/**
+		 * @deprecated 'storeFactory' -> 'stores'
+		 */
+		storeFactory: StoreFactory
+		stores: StoreFactory
+		database: Database
+	}
+}
+
+interface DbConnectionOptions {
+	dbConnectionString?: string
+	dbName?: string
 }
