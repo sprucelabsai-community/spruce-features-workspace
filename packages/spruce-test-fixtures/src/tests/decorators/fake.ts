@@ -392,9 +392,16 @@ async function fakeUpdatePerson(Class: Class) {
 	await eventFaker.on(
 		'update-person::v2020_12_25',
 		({ target, source, payload }) => {
-			const person = Class.fakedPeople.find(
-				(p) => p.id === source?.personId || p.id === target?.personId
-			)!
+			const person = Class.fakedPeople.find((p) =>
+				target?.personId ? p.id === target?.personId : p.id === source?.personId
+			)
+
+			if (!person) {
+				throw new SpruceError({
+					code: 'INVALID_TARGET',
+					friendlyMessage: `I could not update the faked person you were looking for!`,
+				})
+			}
 
 			person.firstName = payload?.firstName
 			person.lastName = payload?.lastName
