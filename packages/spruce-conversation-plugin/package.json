@@ -69,7 +69,7 @@
     "@sprucelabs/schema": "^28.4.6",
     "@sprucelabs/spruce-core-schemas": "^34.2.34",
     "@sprucelabs/spruce-event-plugin": "^46.0.4",
-    "@sprucelabs/spruce-event-utils": "^27.0.102",
+    "@sprucelabs/spruce-event-utils": "^27.0.103",
     "@sprucelabs/spruce-skill-booter": "^46.0.4",
     "@sprucelabs/spruce-skill-utils": "^26.4.8",
     "@sprucelabs/spruce-test-fixtures": "^46.0.4",
@@ -82,7 +82,7 @@
   "devDependencies": {
     "@sprucelabs/esm-postbuild": "^1.0.540",
     "@sprucelabs/jest-json-reporter": "^6.0.436",
-    "@sprucelabs/mercury-client": "^31.0.121",
+    "@sprucelabs/mercury-client": "^31.0.122",
     "@sprucelabs/resolve-path-aliases": "^1.1.78",
     "@sprucelabs/semantic-release": "^4.0.8",
     "@sprucelabs/test": "^7.7.341",
