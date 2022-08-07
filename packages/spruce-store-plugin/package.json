@@ -3,7 +3,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "45.2.9",
+  "version": "46.0.6",
   "files": [
     "build/**/*",
     "!build/__tests__",
@@ -46,7 +46,7 @@
     "clean.all": "yarn clean.dependencies && yarn clean.build",
     "clean.build": "rm -rf build/",
     "clean.dependencies": "rm -rf node_modules/ package-lock.json yarn.lock",
-    "clean.dist": "rm -rf build/__tests__ build/esm/__tests__",
+    "clean.dist": "true",
     "fix.lint": "cd ../ && yarn fix.lint",
     "fix.lint.local": "eslint --fix --cache '**/*.ts'",
     "lint": "eslint --cache '**/*.ts'",
@@ -64,24 +64,24 @@
     "lint.tsc": "tsc -p . --noEmit"
   },
   "dependencies": {
-    "@sprucelabs/data-stores": "^18.0.16",
-    "@sprucelabs/error": "^5.0.490",
-    "@sprucelabs/schema": "^28.4.3",
-    "@sprucelabs/spruce-core-schemas": "^34.2.31",
-    "@sprucelabs/spruce-event-utils": "^27.0.99",
-    "@sprucelabs/spruce-skill-booter": "^45.2.9",
-    "@sprucelabs/spruce-skill-utils": "^26.4.5",
-    "@sprucelabs/spruce-test-fixtures": "^45.2.9",
+    "@sprucelabs/data-stores": "^18.0.19",
+    "@sprucelabs/error": "^5.0.491",
+    "@sprucelabs/schema": "^28.4.6",
+    "@sprucelabs/spruce-core-schemas": "^34.2.34",
+    "@sprucelabs/spruce-event-utils": "^27.0.103",
+    "@sprucelabs/spruce-skill-booter": "^46.0.6",
+    "@sprucelabs/spruce-skill-utils": "^26.4.8",
+    "@sprucelabs/spruce-test-fixtures": "^46.0.6",
     "globby": "^11.0.4",
     "heroku-client": "^3.1.0"
   },
   "devDependencies": {
-    "@sprucelabs/esm-postbuild": "^1.0.539",
-    "@sprucelabs/jest-json-reporter": "^6.0.435",
-    "@sprucelabs/resolve-path-aliases": "^1.1.77",
+    "@sprucelabs/esm-postbuild": "^1.0.540",
+    "@sprucelabs/jest-json-reporter": "^6.0.436",
+    "@sprucelabs/resolve-path-aliases": "^1.1.78",
     "@sprucelabs/semantic-release": "^4.0.8",
-    "@sprucelabs/test": "^7.7.340",
-    "@sprucelabs/test-utils": "^3.1.44",
+    "@sprucelabs/test": "^7.7.341",
+    "@sprucelabs/test-utils": "^3.1.46",
     "chokidar-cli": "^3.0.0",
     "concurrently": "^7.3.0",
     "eslint": "^8.21.0",
@@ -91,7 +91,7 @@
     "prettier": "^2.7.1",
     "ts-node": "^10.9.1",
     "tsc-watch": "^5.0.3",
-    "tsconfig-paths": "^4.0.0",
+    "tsconfig-paths": "^4.1.0",
     "typescript": "^4.7.4"
   },
   "jest": {

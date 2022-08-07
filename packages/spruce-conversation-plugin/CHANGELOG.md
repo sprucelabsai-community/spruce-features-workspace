@@ -3,6 +3,62 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [46.0.6](https://github.com/sprucelabsai/spruce-features-workspace/compare/v46.0.5...v46.0.6) (2022-08-06)
+
+**Note:** Version bump only for package @sprucelabs/spruce-conversation-plugin
+
+
+
+
+
+## [46.0.5](https://github.com/sprucelabsai/spruce-features-workspace/compare/v46.0.4...v46.0.5) (2022-08-06)
+
+**Note:** Version bump only for package @sprucelabs/spruce-conversation-plugin
+
+
+
+
+
+## [46.0.4](https://github.com/sprucelabsai/spruce-features-workspace/compare/v46.0.3...v46.0.4) (2022-08-06)
+
+**Note:** Version bump only for package @sprucelabs/spruce-conversation-plugin
+
+
+
+
+
+## [46.0.3](https://github.com/sprucelabsai/spruce-features-workspace/compare/v46.0.2...v46.0.3) (2022-08-06)
+
+**Note:** Version bump only for package @sprucelabs/spruce-conversation-plugin
+
+
+
+
+
+## [46.0.2](https://github.com/sprucelabsai/spruce-features-workspace/compare/v46.0.1...v46.0.2) (2022-08-06)
+
+**Note:** Version bump only for package @sprucelabs/spruce-conversation-plugin
+
+
+
+
+
+## [46.0.1](https://github.com/sprucelabsai/spruce-features-workspace/compare/v46.0.0...v46.0.1) (2022-08-05)
+
+**Note:** Version bump only for package @sprucelabs/spruce-conversation-plugin
+
+
+
+
+
+# [46.0.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v45.2.9...v46.0.0) (2022-08-05)
+
+**Note:** Version bump only for package @sprucelabs/spruce-conversation-plugin
+
+
+
+
+
 ## [45.2.9](https://github.com/sprucelabsai/spruce-features-workspace/compare/v45.2.8...v45.2.9) (2022-08-05)
 
 **Note:** Version bump only for package @sprucelabs/spruce-conversation-plugin
