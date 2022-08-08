@@ -64,9 +64,9 @@
   },
   "dependencies": {
     "@sprucelabs/error": "^5.0.491",
-    "@sprucelabs/schema": "^28.4.6",
+    "@sprucelabs/schema": "^28.4.7",
     "@sprucelabs/spruce-skill-booter": "^46.0.8",
-    "@sprucelabs/spruce-skill-utils": "^26.4.8",
+    "@sprucelabs/spruce-skill-utils": "^26.4.9",
     "heroku-client": "^3.1.0"
   },
   "devDependencies": {
@@ -75,7 +75,7 @@
     "@sprucelabs/resolve-path-aliases": "^1.1.78",
     "@sprucelabs/semantic-release": "^4.0.8",
     "@sprucelabs/test": "^7.7.341",
-    "@sprucelabs/test-utils": "^3.1.46",
+    "@sprucelabs/test-utils": "^3.1.47",
     "chokidar-cli": "^3.0.0",
     "concurrently": "^7.3.0",
     "eslint": "^8.21.0",
