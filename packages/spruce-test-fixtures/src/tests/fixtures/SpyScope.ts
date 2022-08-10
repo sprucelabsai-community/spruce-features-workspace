@@ -2,9 +2,9 @@ import { Scope } from '@sprucelabs/heartwood-view-controllers'
 import LocationFixture from './LocationFixture'
 import OrganizationFixture from './OrganizationFixture'
 
-export default class TestScope implements Scope {
-	private currentOrgId?: string | null
-	private currentLocationId?: string | null
+export default class SpyScope implements Scope {
+	public currentOrgId?: string | null
+	public currentLocationId?: string | null
 	private organizationFixture: OrganizationFixture
 	private locationFixture: LocationFixture
 

@@ -24,7 +24,7 @@ import {
 } from '../../../tests/constants'
 import fake from '../../../tests/decorators/fake'
 import FakeSkillViewController from '../../../tests/Fake.svc'
-import TestScope from '../../../tests/fixtures/TestScope'
+import SpyScope from '../../../tests/fixtures/SpyScope'
 import ViewFixture from '../../../tests/fixtures/ViewFixture'
 import EventFaker from '../../support/EventFaker'
 import FakeThemeManager from '../../support/FakeThemeManager'
@@ -547,7 +547,7 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static canSetScope() {
-		const scope = new TestScope({
+		const scope = new SpyScope({
 			organizationFixture: this.organizations,
 			locationFixture: this.locations,
 		})

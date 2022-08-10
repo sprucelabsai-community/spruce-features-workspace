@@ -35,7 +35,7 @@ import FixtureFactory from './FixtureFactory'
 import LocationFixture from './LocationFixture'
 import OrganizationFixture from './OrganizationFixture'
 import PersonFixture from './PersonFixture'
-import TestScope from './TestScope'
+import SpyScope from './SpyScope'
 
 type Factory = TestConnectFactory
 type Client = MercuryClient
@@ -44,7 +44,7 @@ export default class ViewFixture {
 	private static vcFactory?: ViewControllerFactory
 	private static loggedInPersonProxyTokens: Record<string, Promise<string>> = {}
 	private static dontResetProxyTokenForPersonId?: string
-	private static scope?: Scope
+	private static scope?: SpyScope
 	private static shouldAutomaticallyResetAuthenticator = true
 	private static viewClient?: Client
 	protected vcDir: string
@@ -297,12 +297,12 @@ export default class ViewFixture {
 	}
 
 	public setScope(scope: Scope) {
-		ViewFixture.scope = scope
+		ViewFixture.scope = scope as SpyScope
 	}
 
 	public getScope() {
 		if (!ViewFixture.scope) {
-			ViewFixture.scope = new TestScope({
+			ViewFixture.scope = new SpyScope({
 				organizationFixture: this.orgs,
 				locationFixture: this.locations,
 			})
