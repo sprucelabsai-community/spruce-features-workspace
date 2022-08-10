@@ -26,7 +26,7 @@ export default class SpyScope implements Scope {
 		}
 	}
 
-	public setCurrentOrganization(id: string) {
+	public setCurrentOrganization(id: string | null) {
 		this.currentOrgId = id
 		this.currentLocationId = undefined
 	}
@@ -46,7 +46,7 @@ export default class SpyScope implements Scope {
 		return null
 	}
 
-	public setCurrentLocation(id: string) {
+	public setCurrentLocation(id: string | null) {
 		this.currentLocationId = id
 	}
 
