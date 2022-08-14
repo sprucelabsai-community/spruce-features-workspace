@@ -926,8 +926,13 @@ async function fakeInstallEvents(Class: Class) {
 		)
 
 		if (matches.length === 0) {
-			//@ts-ignore
-			throw new SpruceError({ code: 'INVALID_NAMESPACES', namespaces })
+			throw new SpruceError({
+				//@ts-ignore
+				code: 'INVALID_NAMESPACES',
+				namespaces,
+				friendlyMessage:
+					'I could not find the skills by the namespaces you passed!',
+			})
 		}
 
 		return {
