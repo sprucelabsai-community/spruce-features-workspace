@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [47.0.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v46.0.33...v47.0.0) (2022-08-16)
+
+
+### Breaking Changes
+
+* **auto-upgrade:** upgraded packages [upgrade-all] ([f701c53](https://github.com/sprucelabsai/spruce-features-workspace/commit/f701c53))
+
+
+
+
+
 ## [46.0.33](https://github.com/sprucelabsai/spruce-features-workspace/compare/v46.0.32...v46.0.33) (2022-08-16)
 
 **Note:** Version bump only for package @sprucelabs/spruce-store-plugin
