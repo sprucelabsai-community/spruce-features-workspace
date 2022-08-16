@@ -70,8 +70,8 @@
     "heroku-client": "^3.1.0"
   },
   "devDependencies": {
-    "@sprucelabs/esm-postbuild": "^1.0.549",
-    "@sprucelabs/jest-json-reporter": "^6.0.444",
+    "@sprucelabs/esm-postbuild": "^1.0.550",
+    "@sprucelabs/jest-json-reporter": "^6.0.445",
     "@sprucelabs/resolve-path-aliases": "^1.1.80",
     "@sprucelabs/semantic-release": "^4.0.8",
     "@sprucelabs/test": "^7.7.343",
