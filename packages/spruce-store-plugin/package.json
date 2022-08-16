@@ -66,11 +66,11 @@
   "dependencies": {
     "@sprucelabs/data-stores": "^18.0.34",
     "@sprucelabs/error": "^5.0.493",
-    "@sprucelabs/schema": "^28.4.15",
+    "@sprucelabs/schema": "^28.4.16",
     "@sprucelabs/spruce-core-schemas": "^34.2.50",
     "@sprucelabs/spruce-event-utils": "^27.0.121",
     "@sprucelabs/spruce-skill-booter": "^46.0.33",
-    "@sprucelabs/spruce-skill-utils": "^26.4.24",
+    "@sprucelabs/spruce-skill-utils": "^26.4.25",
     "@sprucelabs/spruce-test-fixtures": "^46.0.33",
     "globby": "^11.0.4",
     "heroku-client": "^3.1.0"
@@ -81,7 +81,7 @@
     "@sprucelabs/resolve-path-aliases": "^1.1.80",
     "@sprucelabs/semantic-release": "^4.0.8",
     "@sprucelabs/test": "^7.7.343",
-    "@sprucelabs/test-utils": "^3.1.55",
+    "@sprucelabs/test-utils": "^3.1.56",
     "chokidar-cli": "^3.0.0",
     "concurrently": "^7.3.0",
     "eslint": "^8.22.0",
