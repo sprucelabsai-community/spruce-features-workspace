@@ -66,7 +66,7 @@
     "@sprucelabs/error": "^5.0.495",
     "@sprucelabs/schema": "^28.4.22",
     "@sprucelabs/spruce-skill-booter": "^47.0.15",
-    "@sprucelabs/spruce-skill-utils": "^26.4.35",
+    "@sprucelabs/spruce-skill-utils": "^26.4.36",
     "heroku-client": "^3.1.0"
   },
   "devDependencies": {
