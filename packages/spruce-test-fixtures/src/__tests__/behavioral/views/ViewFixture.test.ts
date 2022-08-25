@@ -13,7 +13,7 @@ import {
 import { formatPhoneNumber } from '@sprucelabs/schema'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { assert, test } from '@sprucelabs/test'
-import { errorAssert } from '@sprucelabs/test-utils'
+import { errorAssert, generateId } from '@sprucelabs/test-utils'
 import { ClientProxyDecorator, seed } from '../../..'
 import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
 import {
@@ -623,6 +623,25 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 	@test()
 	protected static async sameThemesOnFixture() {
 		assert.isEqual(this.fixture.getThemes(), this.buildLoadOptions().themes)
+	}
+
+	@test()
+	protected static async canSetController() {
+		const factory = this.fixture.getFactory()
+		const name: any = generateId()
+		const Vc: any = {}
+
+		let passedName: string | undefined
+		let passedVc: any | undefined
+
+		factory.setController = (name, Vc: any) => {
+			passedName = name
+			passedVc = Vc
+		}
+
+		this.fixture.setController(name, Vc)
+		assert.isEqual(passedName, name)
+		assert.isEqual(passedVc, Vc)
 	}
 
 	private static buildLoadOptions() {

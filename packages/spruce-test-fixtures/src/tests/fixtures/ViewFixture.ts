@@ -17,6 +17,9 @@ import {
 	formAssert,
 	ViewController,
 } from '@sprucelabs/heartwood-view-controllers'
+// REMOVE THIS ON NEXT UPGRADE OF VIEW CONTROLERS AND REIMPORT
+// eslint-disable-next-line spruce/prohibit-import-from-build-folder
+import { ViewControllerConstructor } from '@sprucelabs/heartwood-view-controllers/build/viewControllers/ViewControllerFactory'
 import { MercuryClient } from '@sprucelabs/mercury-client'
 import { SchemaError } from '@sprucelabs/schema'
 import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
@@ -207,6 +210,13 @@ export default class ViewFixture {
 				throw err
 			}
 		}
+	}
+
+	public setController<Vc extends ViewController<any>>(
+		name: ViewControllerId,
+		Class: ViewControllerConstructor<Vc>
+	) {
+		this.getFactory().setController(name, Class)
 	}
 
 	public setClient(client: MercuryClient) {
