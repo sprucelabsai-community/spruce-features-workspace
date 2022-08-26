@@ -11,7 +11,7 @@
       "typescript"
     ]
   },
-  "version": "47.0.24",
+  "version": "48.0.0",
   "files": [
     "build/**/*",
     "!build/__tests__",
@@ -66,9 +66,9 @@
     "@sprucelabs/schema": "^28.4.28",
     "@sprucelabs/spruce-core-schemas": "^34.2.72",
     "@sprucelabs/spruce-event-utils": "^27.0.144",
-    "@sprucelabs/spruce-skill-booter": "^47.0.24",
+    "@sprucelabs/spruce-skill-booter": "^48.0.0",
     "@sprucelabs/spruce-skill-utils": "^26.4.47",
-    "@sprucelabs/spruce-test-fixtures": "^47.0.24"
+    "@sprucelabs/spruce-test-fixtures": "^48.0.0"
   },
   "devDependencies": {
     "@sprucelabs/esm-postbuild": "^1.0.563",
