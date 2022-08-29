@@ -16,8 +16,6 @@
     ]
   },
   "writer": {
-    "skipped": [
-      "tsconfig.json"
-    ]
+    "skipped": []
   }
 }

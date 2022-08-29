@@ -1,24 +1,27 @@
 {
 	"compilerOptions": {
+		"skipLibCheck": true,
 		"module": "commonjs",
 		"esModuleInterop": true,
-		"target": "ES2019",
+		"target": "ES2017",
 		"lib": [
 			"DOM",
-			"es2019"
+			"es2017",
+			"ES2020"
 		],
 		"declaration": true,
 		"noImplicitAny": true,
+		"allowJs": true,
 		"forceConsistentCasingInFileNames": true,
 		"noImplicitReturns": true,
 		"strict": true,
 		"noUnusedLocals": true,
 		"resolveJsonModule": true,
 		"moduleResolution": "node",
-		"experimentalDecorators": true,
 		"sourceMap": false,
 		"outDir": "build",
 		"baseUrl": "src",
+		"experimentalDecorators": true,
 		"paths": {
 			"#spruce/*": [
 				".spruce/*"
@@ -28,9 +31,7 @@
 	"include": [
 		"./src/*.ts",
 		"./src/**/*.ts",
-		"./src/.spruce/**/*",
-		"./src/__tests__/testDirsAndFiles/bad-skill/build/conversations/bookAppointment.topic.js",
-		"./src/__tests__/**/.spruce/**/*.ts"
+		"./src/.spruce/**/*"
 	],
 	"exclude": [
 		"build",

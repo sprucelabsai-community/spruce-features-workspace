@@ -1,5 +1,6 @@
 {
 	"compilerOptions": {
+		"skipLibCheck": true,
 		"module": "commonjs",
 		"esModuleInterop": true,
 		"target": "ES2017",
@@ -30,8 +31,7 @@
 	"include": [
 		"./src/*.ts",
 		"./src/**/*.ts",
-		"./src/.spruce/**/*",
-		"./src/__tests__/**/.spruce/**/*.ts"
+		"./src/.spruce/**/*"
 	],
 	"exclude": [
 		"build",
