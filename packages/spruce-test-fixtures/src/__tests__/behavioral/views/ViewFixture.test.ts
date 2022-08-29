@@ -60,7 +60,7 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 	@test()
 	protected static async canLogin() {
 		const auth = AuthenticatorImpl.getInstance()
-		assert.isFalsy(auth.getPerson())
+		assert.isEqualDeep(auth.getPerson(), this.fakedPerson)
 
 		const { person } = await this.fixtureNoOptions.loginAsDemoPerson(
 			DEMO_NUMBER_VIEW_FIXTURE

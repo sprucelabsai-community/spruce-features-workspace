@@ -198,6 +198,10 @@ fake.login = (phone = '555-000-0000') => {
 			}
 
 			shouldPassHookCalls && (await beforeEach?.())
+
+			Class.views
+				.getAuthenticator()
+				.setSessionToken(generateId(), Class.fakedPerson!)
 		}
 	}
 }
