@@ -17,8 +17,7 @@
       "globby",
       "@sprucelabs/spruce-test-fixtures",
       "inquirer",
-      "@types/inquirer",
-      "typescript"
+      "@types/inquirer"
     ]
   },
   "main": "./build/index.js",

@@ -7,8 +7,7 @@
     "namespace": "event",
     "upgradeIgnoreList": [
       "@types/node",
-      "@sprucelabs/spruce-test-fixtures",
-      "typescript"
+      "@sprucelabs/spruce-test-fixtures"
     ]
   },
   "version": "48.0.4",
