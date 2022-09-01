@@ -45,7 +45,7 @@ export class ConversationFeature implements SkillFeature {
 
 				if (topics.length === 0) {
 					this.log.info('No Topics found to test. Testing cancelled...')
-					this.notifyBooted()
+					await this.notifyBooted()
 				} else {
 					await this.startScriptTesterAndNotifyBoot(topics)
 				}
@@ -57,7 +57,7 @@ export class ConversationFeature implements SkillFeature {
 
 				this.log.info('Conversations loaded. Ready to chat when you are. 🤘')
 
-				this.notifyBooted()
+				await this.notifyBooted()
 			}
 		} catch (err) {
 			this.isExecuting = false
@@ -71,10 +71,10 @@ export class ConversationFeature implements SkillFeature {
 		return topics
 	}
 
-	private notifyBooted() {
+	private async notifyBooted() {
 		this.isExecuting = false
 		this._isBooted = true
-		this.bootHandler?.()
+		await this.bootHandler?.()
 	}
 
 	private async startScriptTesterAndNotifyBoot(
@@ -110,7 +110,7 @@ export class ConversationFeature implements SkillFeature {
 			})
 		})
 
-		this.notifyBooted()
+		await this.notifyBooted()
 		await promise
 	}
 
