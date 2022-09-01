@@ -21,7 +21,7 @@ export class DeployFeature implements SkillFeature {
 	}
 
 	public async execute(): Promise<void> {
-		this.bootHandler?.()
+		await this.bootHandler?.()
 	}
 
 	public async checkHealth(): Promise<DeployHealthCheckItem> {

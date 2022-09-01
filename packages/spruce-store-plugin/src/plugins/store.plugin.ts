@@ -50,7 +50,7 @@ export class StoreFeaturePlugin implements SkillFeature {
 
 			this.skill.updateContext('database', db)
 
-			this.bootHandler?.()
+			await this.bootHandler?.()
 		} finally {
 			this.isExecuting = false
 		}

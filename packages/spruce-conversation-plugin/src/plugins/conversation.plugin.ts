@@ -74,7 +74,7 @@ export class ConversationFeature implements SkillFeature {
 	private notifyBooted() {
 		this.isExecuting = false
 		this._isBooted = true
-		this.bootHandler?.()
+		await this.bootHandler?.()
 	}
 
 	private async startScriptTesterAndNotifyBoot(
