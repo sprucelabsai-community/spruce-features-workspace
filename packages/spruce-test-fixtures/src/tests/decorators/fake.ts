@@ -147,6 +147,7 @@ fake.login = (phone = '555-000-0000') => {
 	MercuryFixture.setShouldAutomaticallyClearDefaultClient(false)
 	MercuryTestClient.setShouldRequireLocalListeners(true)
 	MercuryClientFactory.setIsTestMode(true)
+	ViewFixture.setShouldAutomaticallyResetAuth(false)
 
 	seed.disableResettingTestClient()
 
@@ -197,11 +198,12 @@ fake.login = (phone = '555-000-0000') => {
 				return
 			}
 
-			shouldPassHookCalls && (await beforeEach?.())
+			ViewFixture.resetAuth()
+			const auth = Class.views.getAuthenticator()
+			//@ts-ignore
+			auth.setSessionToken(Class.fakedClient.auth.token, Class.fakedPerson!)
 
-			Class.views
-				.getAuthenticator()
-				.setSessionToken(generateId(), Class.fakedPerson!)
+			shouldPassHookCalls && (await beforeEach?.())
 		}
 	}
 }
@@ -225,6 +227,8 @@ async function login(Class: Class, phone: string) {
 		givePersonName(person)
 	}
 
+	await client.registerProxyToken()
+
 	//@ts-ignore
 	client.auth.person = person
 	Class.fakedClient = client
@@ -244,8 +248,6 @@ async function loginUsingViewsFallingBackToPeople(Class: Class, phone: string) {
 		person = p
 		client = c
 	}
-
-	await client.registerProxyToken()
 
 	return { person: Class.fakedPeople.find((p) => p.id === person!.id)!, client }
 }

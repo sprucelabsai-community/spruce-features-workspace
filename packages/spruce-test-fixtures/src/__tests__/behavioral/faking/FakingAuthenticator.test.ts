@@ -9,4 +9,11 @@ export default class FakingAuthenticatorTest extends AbstractSpruceFixtureTest {
 		const auth = this.views.getAuthenticator()
 		assert.isEqualDeep(auth.getPerson(), this.fakedPerson)
 	}
+
+	@test()
+	protected static async setsProperSessionToken() {
+		const auth = this.views.getAuthenticator()
+		//@ts-ignore
+		assert.isEqual(auth.getSessionToken(), this.fakedClient.auth.token)
+	}
 }

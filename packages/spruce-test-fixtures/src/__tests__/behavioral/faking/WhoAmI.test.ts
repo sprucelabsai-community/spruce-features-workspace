@@ -36,7 +36,7 @@ export default class WhoAmITest extends AbstractSpruceFixtureTest {
 	}
 
 	@test()
-	protected static async canWhoAmI2() {
+	protected static async authIsResetBeforeEachSoListenersAreReset() {
 		assert.isNotEqual(this.views.getAuthenticator(), this.auth)
 		await fake.getClient().emitAndFlattenResponses('whoami::v2020_12_25')
 		assert.isEqual(this.didLoginCount, 0)
