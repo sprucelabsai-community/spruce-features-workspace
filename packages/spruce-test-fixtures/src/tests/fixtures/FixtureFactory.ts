@@ -115,7 +115,7 @@ export default class FixtureFactory {
 			case 'view': {
 				if (!this.namespace) {
 					throw new Error(
-						'You need to be in a registerid skill to load view controllers.'
+						'You need to be in a registered skill to load view controllers.'
 					)
 				}
 				fixture = new ViewFixture({

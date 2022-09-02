@@ -199,9 +199,14 @@ fake.login = (phone = '555-000-0000') => {
 			}
 
 			ViewFixture.resetAuth()
-			const auth = Class.views.getAuthenticator()
-			//@ts-ignore
-			auth.setSessionToken(Class.fakedClient.auth.token, Class.fakedPerson!)
+
+			try {
+				const auth = Class.views.getAuthenticator()
+				//@ts-ignore
+				auth.setSessionToken(Class.fakedClient.auth.token, Class.fakedPerson!)
+			} catch {
+				//hits if not in skill because cant find nameplace
+			}
 
 			shouldPassHookCalls && (await beforeEach?.())
 		}
