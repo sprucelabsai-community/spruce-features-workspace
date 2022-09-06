@@ -1,6 +1,7 @@
 import { SpruceSchemas } from '@sprucelabs/mercury-types'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { assert } from '@sprucelabs/test'
+import { generateId } from '@sprucelabs/test-utils'
 import OrganizationFixture from './OrganizationFixture'
 import PersonFixture from './PersonFixture'
 import RoleFixture from './RoleFixture'
@@ -10,6 +11,7 @@ export default class LocationFixture {
 	private orgs: OrganizationFixture
 	private roles: RoleFixture
 	private locationCounter = 0
+	private static locationCount = 0
 
 	public constructor(options: {
 		people: PersonFixture
@@ -49,7 +51,7 @@ export default class LocationFixture {
 				organizationId: orgId,
 			},
 			payload: {
-				name: 'Location from fixture',
+				name: `Location ${LocationFixture.locationCount++} - ${generateId()}`,
 				slug: this.generateLocationSlug(),
 				isPublic: true,
 				address: {
@@ -146,6 +148,10 @@ export default class LocationFixture {
 	}) {
 		const roles = await this.roles.listRoles(options)
 		return roles.length > 0
+	}
+
+	public static beforeEach() {
+		this.locationCount = 0
 	}
 
 	public async addPerson(options: {

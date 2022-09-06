@@ -197,6 +197,7 @@ export default class FixtureFactory {
 			StoreFixture.beforeEach(),
 			EventFixture.beforeEach(),
 			SchemaFixture.beforeEach(),
+			LocationFixture.beforeEach(),
 		])
 	}
 

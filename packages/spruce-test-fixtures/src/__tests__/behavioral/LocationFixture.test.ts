@@ -5,6 +5,7 @@ import {
 	DEMO_NUMBER_LOCATION_FIXTURE_OUTSIDER,
 } from '../../tests/constants'
 import fake from '../../tests/decorators/fake'
+import LocationFixture from '../../tests/fixtures/LocationFixture'
 
 @fake.login(DEMO_NUMBER_LOCATION_FIXTURE)
 export default class LocationFixtureTest extends AbstractSpruceFixtureTest {
@@ -51,6 +52,19 @@ export default class LocationFixtureTest extends AbstractSpruceFixtureTest {
 		})
 
 		assert.isFalse(isHired)
+	}
+
+	@test()
+	protected static async uniqueLocationName() {
+		const location1 = await this.locations.seedDemoLocation({})
+		const location2 = await this.locations.seedDemoLocation({})
+		assert.isNotEqual(location1.name, location2.name)
+	}
+
+	@test()
+	protected static async locationCountResetBeforeEach() {
+		//@ts-ignore
+		assert.isEqual(LocationFixture.locationCount, 0)
 	}
 
 	@test()
