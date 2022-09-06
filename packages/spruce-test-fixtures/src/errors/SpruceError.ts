@@ -31,7 +31,7 @@ export default class SpruceError extends BaseSpruceError<ErrorOptions> {
 				break
 
 			case 'FAKE_EVENT_ERROR':
-				message = `A faked response threw an error! If this failed a test it's time to try/catch and render an alert()! If this was expected (the tests pass), then ignore it.`
+				message = `A faked response to '${options.fqen}' threw an error! If this failed a test it's time to try/catch and possibly render an alert()! If this was expected (the tests pass), then ignore it.`
 				break
 
 			case 'INVALID_TARGET':
