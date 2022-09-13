@@ -5,7 +5,7 @@ import {
 	pluginUtil,
 	Skill,
 } from '@sprucelabs/spruce-skill-utils'
-import AbstractSpruceTest, { assert } from '@sprucelabs/test'
+import AbstractSpruceTest, { assert } from '@sprucelabs/test-utils'
 import SkillImpl from '../skills/Skill'
 import {
 	SkillFactoryOptions,
