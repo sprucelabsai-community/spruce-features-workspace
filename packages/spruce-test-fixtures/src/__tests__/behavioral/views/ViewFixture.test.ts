@@ -12,7 +12,7 @@ import {
 } from '@sprucelabs/heartwood-view-controllers'
 import { formatPhoneNumber } from '@sprucelabs/schema'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
-import { assert, test } from '@sprucelabs/test'
+import { assert, test } from '@sprucelabs/test-utils'
 import { errorAssert, generateId } from '@sprucelabs/test-utils'
 import { ClientProxyDecorator, seed } from '../../..'
 import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'

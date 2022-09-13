@@ -15,7 +15,7 @@ import {
 } from '@sprucelabs/spruce-core-schemas'
 import { EventTarget } from '@sprucelabs/spruce-event-utils'
 import { namesUtil, testLog } from '@sprucelabs/spruce-skill-utils'
-import { assert } from '@sprucelabs/test'
+import { assert } from '@sprucelabs/test-utils'
 import { generateId } from '@sprucelabs/test-utils'
 import SpruceError from '../../errors/SpruceError'
 import AbstractSpruceFixtureTest from '../AbstractSpruceFixtureTest'

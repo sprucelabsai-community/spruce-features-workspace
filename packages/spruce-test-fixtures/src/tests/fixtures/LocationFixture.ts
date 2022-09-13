@@ -1,6 +1,6 @@
 import { SpruceSchemas } from '@sprucelabs/mercury-types'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
-import { assert } from '@sprucelabs/test'
+import { assert } from '@sprucelabs/test-utils'
 import { generateId } from '@sprucelabs/test-utils'
 import OrganizationFixture from './OrganizationFixture'
 import PersonFixture from './PersonFixture'

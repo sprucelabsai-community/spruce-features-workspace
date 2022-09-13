@@ -4,7 +4,7 @@ import {
 	EMPLOYED_BASE_ROLES,
 	GUEST_BASE_ROLES,
 } from '@sprucelabs/spruce-core-schemas'
-import { assert } from '@sprucelabs/test'
+import { assert } from '@sprucelabs/test-utils'
 import SeedFixture from '../fixtures/SeedFixture'
 import StoreFixture from '../fixtures/StoreFixture'
 import login from './login'

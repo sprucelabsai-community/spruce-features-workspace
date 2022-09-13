@@ -1,6 +1,6 @@
 import { MercuryTestClient } from '@sprucelabs/mercury-client'
 import { AuthService } from '@sprucelabs/spruce-skill-utils'
-import { assert, test } from '@sprucelabs/test'
+import { assert, test } from '@sprucelabs/test-utils'
 import { AbstractSpruceFixtureTest, login, MercuryFixture } from '../..'
 import { DEMO_NUMBER_HANDLING_EVENTS_LOCALLY } from '../../tests/constants'
 

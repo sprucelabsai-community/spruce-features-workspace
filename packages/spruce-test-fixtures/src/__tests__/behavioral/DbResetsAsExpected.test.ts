@@ -1,4 +1,4 @@
-import { test, assert } from '@sprucelabs/test'
+import { test, assert } from '@sprucelabs/test-utils'
 import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
 import seed from '../../tests/decorators/seed'
 import StoreFixture from '../../tests/fixtures/StoreFixture'

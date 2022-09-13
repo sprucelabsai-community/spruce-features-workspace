@@ -1,4 +1,4 @@
-import { test, assert } from '@sprucelabs/test'
+import { test, assert } from '@sprucelabs/test-utils'
 import AbstractStorePluginTest from '../../tests/AbstractStorePluginTest'
 
 export default class GracefullyExitingOnErrorsTest extends AbstractStorePluginTest {

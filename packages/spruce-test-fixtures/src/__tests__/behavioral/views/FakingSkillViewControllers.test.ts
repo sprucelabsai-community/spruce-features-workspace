@@ -1,6 +1,6 @@
 import { skillViewSchema } from '@sprucelabs/heartwood-view-controllers'
 import { validateSchemaValues } from '@sprucelabs/schema'
-import { assert, test } from '@sprucelabs/test'
+import { assert, test } from '@sprucelabs/test-utils'
 import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
 import FakeSkillViewController from '../../../tests/Fake.svc'
 import ViewFixture from '../../../tests/fixtures/ViewFixture'

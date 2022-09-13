@@ -1,5 +1,5 @@
 import { Database, StoreFactory } from '@sprucelabs/data-stores'
-import { test, assert } from '@sprucelabs/test'
+import { test, assert } from '@sprucelabs/test-utils'
 import AbstractStorePluginTest from '../../tests/AbstractStorePluginTest'
 
 export default class AddsStoreFactoryToSkillContextTest extends AbstractStorePluginTest {

@@ -1,4 +1,4 @@
-import AbstractSpruceTest, { test, assert } from '@sprucelabs/test'
+import AbstractSpruceTest, { test, assert } from '@sprucelabs/test-utils'
 import { TopicSuggester } from '../../topics/TopicSuggester'
 
 export default class TopicSuggesterTest extends AbstractSpruceTest {

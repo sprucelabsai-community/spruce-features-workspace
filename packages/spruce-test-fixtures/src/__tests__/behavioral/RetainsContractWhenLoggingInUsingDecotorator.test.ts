@@ -1,5 +1,5 @@
 import { MercuryClient } from '@sprucelabs/mercury-client'
-import { test } from '@sprucelabs/test'
+import { test } from '@sprucelabs/test-utils'
 import { login, StoreFixture } from '../..'
 import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
 import { DEMO_NUMBER_ACCOUNT_RESET } from '../../tests/constants'

@@ -1,6 +1,6 @@
 import { MercuryClient } from '@sprucelabs/mercury-client'
 import { formatPhoneNumber } from '@sprucelabs/schema'
-import { test, assert } from '@sprucelabs/test'
+import { test, assert } from '@sprucelabs/test-utils'
 import { errorAssert, generateId } from '@sprucelabs/test-utils'
 import { seed, StoreFixture } from '../../..'
 import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'

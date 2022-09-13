@@ -1,6 +1,6 @@
 import { AuthenticatorImpl } from '@sprucelabs/heartwood-view-controllers'
 import { MercuryClient, MercuryClientFactory } from '@sprucelabs/mercury-client'
-import { test, assert } from '@sprucelabs/test'
+import { test, assert } from '@sprucelabs/test-utils'
 import { MercuryFixture, StoreFixture } from '../../..'
 import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
 import { DEMO_NUMBER_DECORATORS } from '../../../tests/constants'

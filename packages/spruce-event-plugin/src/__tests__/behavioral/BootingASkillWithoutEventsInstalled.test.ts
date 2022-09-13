@@ -1,4 +1,4 @@
-import { test } from '@sprucelabs/test'
+import { test } from '@sprucelabs/test-utils'
 import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
 
 export default class BootingASkillWithoutEventsInstalledTest extends AbstractEventPluginTest {

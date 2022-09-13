@@ -6,7 +6,7 @@ import {
 } from '@sprucelabs/spruce-event-utils'
 import { BootCallback, diskUtil } from '@sprucelabs/spruce-skill-utils'
 import { fake, MercuryFixture } from '@sprucelabs/spruce-test-fixtures'
-import { assert, test } from '@sprucelabs/test'
+import { assert, test } from '@sprucelabs/test-utils'
 import { EventFeature } from '../..'
 import SpruceError from '../../errors/SpruceError'
 import { EventFeaturePlugin } from '../../plugins/event.plugin'

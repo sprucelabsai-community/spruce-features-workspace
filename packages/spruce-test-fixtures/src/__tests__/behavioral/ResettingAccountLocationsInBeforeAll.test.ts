@@ -1,5 +1,5 @@
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
-import { assert, test } from '@sprucelabs/test'
+import { assert, test } from '@sprucelabs/test-utils'
 import { AbstractSpruceFixtureTest, login, seed } from '../..'
 import { DEMO_NUMBER_ACCOUNT_BEFORE_ALL_RESET_LOCATION } from '../../tests/constants'
 

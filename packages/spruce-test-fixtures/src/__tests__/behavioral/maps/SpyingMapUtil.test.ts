@@ -1,6 +1,6 @@
 import { CardViewControllerImpl } from '@sprucelabs/heartwood-view-controllers'
 import { AddressFieldValue } from '@sprucelabs/schema'
-import { test, assert } from '@sprucelabs/test'
+import { test, assert } from '@sprucelabs/test-utils'
 import { generateId } from '@sprucelabs/test-utils'
 import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
 import spyMapUtil from '../../../utilities/SpyMapUtil'

@@ -1,5 +1,5 @@
 import { DatabaseFixture } from '@sprucelabs/data-stores'
-import { assert, test } from '@sprucelabs/test'
+import { assert, test } from '@sprucelabs/test-utils'
 import {
 	AbstractSpruceFixtureTest,
 	LocationFixture,

@@ -3,7 +3,7 @@ import {
 	AuthorizerCanOptions,
 } from '@sprucelabs/heartwood-view-controllers'
 import { assertOptions } from '@sprucelabs/schema'
-import { assert } from '@sprucelabs/test'
+import { assert } from '@sprucelabs/test-utils'
 
 interface Perm {
 	id: string

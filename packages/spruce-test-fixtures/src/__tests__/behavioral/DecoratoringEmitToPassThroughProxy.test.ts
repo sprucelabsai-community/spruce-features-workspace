@@ -1,5 +1,5 @@
 import { MercuryClient } from '@sprucelabs/mercury-client'
-import { test, assert } from '@sprucelabs/test'
+import { test, assert } from '@sprucelabs/test-utils'
 import { AbstractSpruceFixtureTest, login } from '../..'
 import ClientProxyDecorator from '../../ClientProxyDecorator'
 import { DEMO_NUMBER } from '../../tests/constants'

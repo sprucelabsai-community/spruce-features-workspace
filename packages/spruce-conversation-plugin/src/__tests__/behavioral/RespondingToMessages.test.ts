@@ -1,7 +1,7 @@
 import { MercuryClient } from '@sprucelabs/mercury-client'
 import { EventFeature } from '@sprucelabs/spruce-event-plugin'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
-import { test, assert } from '@sprucelabs/test'
+import { test, assert } from '@sprucelabs/test-utils'
 import AbstractConversationTest from '../../tests/AbstractConversationTest'
 
 export default class RespondingToMessagesTest extends AbstractConversationTest {

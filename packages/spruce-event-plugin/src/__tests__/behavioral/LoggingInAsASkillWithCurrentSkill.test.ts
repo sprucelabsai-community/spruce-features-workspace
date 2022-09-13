@@ -1,4 +1,4 @@
-import { test, assert } from '@sprucelabs/test'
+import { test, assert } from '@sprucelabs/test-utils'
 import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
 
 export default class LoggingInAsASkillWithCurrentSkillTest extends AbstractEventPluginTest {

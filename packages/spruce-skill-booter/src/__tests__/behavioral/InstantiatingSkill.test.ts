@@ -1,5 +1,5 @@
 import { buildLog, diskUtil } from '@sprucelabs/spruce-skill-utils'
-import { test, assert } from '@sprucelabs/test'
+import { test, assert } from '@sprucelabs/test-utils'
 import { errorAssert } from '@sprucelabs/test-utils'
 import Skill from '../../skills/Skill'
 import AbstractSkillTest from '../../tests/AbstractSkillTest'

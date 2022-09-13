@@ -1,5 +1,5 @@
 import { buildLog } from '@sprucelabs/spruce-skill-utils'
-import { assert, test } from '@sprucelabs/test'
+import { assert, test } from '@sprucelabs/test-utils'
 import AbstractSkillTest from '../../tests/AbstractSkillTest'
 
 export default class BootingASkillTest extends AbstractSkillTest {

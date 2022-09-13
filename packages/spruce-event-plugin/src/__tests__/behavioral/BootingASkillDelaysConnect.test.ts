@@ -1,6 +1,6 @@
 import { Skill } from '@sprucelabs/spruce-skill-utils'
 import { fake } from '@sprucelabs/spruce-test-fixtures'
-import { assert, test } from '@sprucelabs/test'
+import { assert, test } from '@sprucelabs/test-utils'
 import ListenerCacher from '../../cache/ListenerCacher'
 import { EventFeaturePlugin } from '../../plugins/event.plugin'
 import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'

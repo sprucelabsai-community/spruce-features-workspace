@@ -1,4 +1,4 @@
-import { assert } from '@sprucelabs/test'
+import { assert } from '@sprucelabs/test-utils'
 
 export default function install() {}
 install.skills = (...namespaces: string[]) => {

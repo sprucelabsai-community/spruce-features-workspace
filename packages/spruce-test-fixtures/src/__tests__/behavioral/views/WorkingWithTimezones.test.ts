@@ -1,5 +1,5 @@
 import { LocaleImpl } from '@sprucelabs/calendar-utils'
-import { test, assert } from '@sprucelabs/test'
+import { test, assert } from '@sprucelabs/test-utils'
 import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
 
 export default class WorkingWithTimezonesTest extends AbstractSpruceFixtureTest {

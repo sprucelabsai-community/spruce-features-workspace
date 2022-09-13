@@ -6,7 +6,7 @@ import {
 	SkillFactoryOptions,
 } from '@sprucelabs/spruce-skill-booter'
 import { diskUtil, testLog } from '@sprucelabs/spruce-skill-utils'
-import { assert } from '@sprucelabs/test'
+import { assert } from '@sprucelabs/test-utils'
 import {
 	FixtureConstructorOptionsMap,
 	FixtureName,

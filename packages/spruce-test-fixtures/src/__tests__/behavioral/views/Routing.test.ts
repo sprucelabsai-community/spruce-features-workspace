@@ -6,7 +6,7 @@ import {
 	ViewControllerFactory,
 } from '@sprucelabs/heartwood-view-controllers'
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
-import { test, assert } from '@sprucelabs/test'
+import { test, assert } from '@sprucelabs/test-utils'
 import { errorAssert } from '@sprucelabs/test-utils'
 import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
 import FakeSkillViewController from '../../../tests/Fake.svc'

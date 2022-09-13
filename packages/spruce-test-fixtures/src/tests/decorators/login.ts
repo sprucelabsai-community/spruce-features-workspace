@@ -1,6 +1,6 @@
 import { MercuryClientFactory, MercuryClient } from '@sprucelabs/mercury-client'
 import { SpruceSchemas } from '@sprucelabs/mercury-types'
-import { assert } from '@sprucelabs/test'
+import { assert } from '@sprucelabs/test-utils'
 import { MercuryFixture, ViewFixture } from '../..'
 
 type Client = MercuryClient

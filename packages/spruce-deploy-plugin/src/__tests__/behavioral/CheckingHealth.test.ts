@@ -1,4 +1,4 @@
-import { test, assert } from '@sprucelabs/test'
+import { test, assert } from '@sprucelabs/test-utils'
 import { errorAssert } from '@sprucelabs/test-utils'
 import plugin from '../../plugins/deploy.plugin'
 import AbstractDeployTest from '../../tests/AbstractDeployTest'

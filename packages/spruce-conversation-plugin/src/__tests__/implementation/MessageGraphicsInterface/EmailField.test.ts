@@ -1,4 +1,4 @@
-import { test, assert } from '@sprucelabs/test'
+import { test, assert } from '@sprucelabs/test-utils'
 import EmailFieldHandler from '../../../interfaces/fieldHandlers/EmailFieldHandler'
 import AbstractGraphicsInterfaceTest from '../../../tests/AbstractGraphicsInterfaceTest'
 

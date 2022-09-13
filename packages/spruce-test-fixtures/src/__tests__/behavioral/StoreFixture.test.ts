@@ -4,7 +4,7 @@ import {
 	StoreFactory,
 	CursorPagerFaker,
 } from '@sprucelabs/data-stores'
-import AbstractSpruceTest, { assert, test } from '@sprucelabs/test'
+import AbstractSpruceTest, { assert, test } from '@sprucelabs/test-utils'
 import FixtureFactory from '../../tests/fixtures/FixtureFactory'
 import StoreFixture from '../../tests/fixtures/StoreFixture'
 

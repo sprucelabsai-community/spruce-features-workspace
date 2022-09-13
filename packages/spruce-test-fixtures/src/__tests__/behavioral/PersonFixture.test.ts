@@ -3,7 +3,7 @@ import {
 	MercuryTestClient,
 } from '@sprucelabs/mercury-client'
 import { formatPhoneNumber } from '@sprucelabs/schema'
-import AbstractSpruceTest, { test, assert } from '@sprucelabs/test'
+import AbstractSpruceTest, { test, assert } from '@sprucelabs/test-utils'
 import { errorAssert } from '@sprucelabs/test-utils'
 import dotenv from 'dotenv'
 import { MercuryFixture } from '../..'

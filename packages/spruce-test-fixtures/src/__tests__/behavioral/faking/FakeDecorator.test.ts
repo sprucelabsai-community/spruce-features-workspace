@@ -3,7 +3,7 @@ import { MercuryClient, MercuryTestClient } from '@sprucelabs/mercury-client'
 import { SpruceSchemas } from '@sprucelabs/mercury-types'
 import { formatPhoneNumber } from '@sprucelabs/schema'
 import { BASE_ROLES_WITH_META } from '@sprucelabs/spruce-core-schemas'
-import { assert, test } from '@sprucelabs/test'
+import { assert, test } from '@sprucelabs/test-utils'
 import { errorAssert, generateId } from '@sprucelabs/test-utils'
 import {
 	DEMO_NUMBER,

@@ -1,5 +1,5 @@
 import { Scope } from '@sprucelabs/heartwood-view-controllers'
-import { assert, test } from '@sprucelabs/test'
+import { assert, test } from '@sprucelabs/test-utils'
 import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
 import { DEMO_NUMBER_SCOPE } from '../../../tests/constants'
 import login from '../../../tests/decorators/login'

@@ -1,7 +1,7 @@
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { buildEmitTargetAndPayloadSchema } from '@sprucelabs/spruce-event-utils'
 import { MercuryFixture } from '@sprucelabs/spruce-test-fixtures'
-import { test, assert } from '@sprucelabs/test'
+import { test, assert } from '@sprucelabs/test-utils'
 import { EventFeature } from '../..'
 import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
 

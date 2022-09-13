@@ -1,4 +1,4 @@
-import { assert, test } from '@sprucelabs/test'
+import { assert, test } from '@sprucelabs/test-utils'
 import { AbstractSpruceFixtureTest, login, seed } from '../..'
 import { DEMO_NUMBER_TEST_CLIENT_RECENT } from '../../tests/constants'
 
