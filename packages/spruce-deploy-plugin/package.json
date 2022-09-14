@@ -66,11 +66,11 @@
     "@sprucelabs/error": "^5.0.513",
     "@sprucelabs/schema": "^28.5.14",
     "@sprucelabs/spruce-skill-booter": "^49.0.44",
-    "@sprucelabs/spruce-skill-utils": "^26.4.81",
+    "@sprucelabs/spruce-skill-utils": "^26.4.82",
     "heroku-client": "^3.1.0"
   },
   "devDependencies": {
-    "@sprucelabs/esm-postbuild": "^1.0.582",
+    "@sprucelabs/esm-postbuild": "^1.0.583",
     "@sprucelabs/jest-json-reporter": "^6.0.474",
     "@sprucelabs/resolve-path-aliases": "^1.1.100",
     "@sprucelabs/semantic-release": "^4.0.8",
