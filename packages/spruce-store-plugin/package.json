@@ -64,11 +64,11 @@
     "lint.tsc": "tsc -p . --noEmit"
   },
   "dependencies": {
-    "@sprucelabs/data-stores": "^18.1.83",
+    "@sprucelabs/data-stores": "^18.1.84",
     "@sprucelabs/error": "^5.0.521",
     "@sprucelabs/schema": "^28.5.28",
     "@sprucelabs/spruce-core-schemas": "^34.2.134",
-    "@sprucelabs/spruce-event-utils": "^27.0.210",
+    "@sprucelabs/spruce-event-utils": "^27.0.211",
     "@sprucelabs/spruce-skill-booter": "^50.0.3",
     "@sprucelabs/spruce-skill-utils": "^26.4.113",
     "@sprucelabs/spruce-test-fixtures": "^50.0.3",
@@ -76,7 +76,7 @@
     "heroku-client": "^3.1.0"
   },
   "devDependencies": {
-    "@sprucelabs/esm-postbuild": "^1.0.598",
+    "@sprucelabs/esm-postbuild": "^1.0.599",
     "@sprucelabs/jest-json-reporter": "^6.0.486",
     "@sprucelabs/resolve-path-aliases": "^1.1.109",
     "@sprucelabs/semantic-release": "^4.0.8",
