@@ -14,8 +14,7 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async canCreateCheckingPermissions() {
-		const instance = CheckingPermissionsTest.instance()
-		assert.isTrue(instance instanceof SpyAuthorizer)
+		assert.isTrue(this.instance instanceof SpyAuthorizer)
 	}
 
 	@test()

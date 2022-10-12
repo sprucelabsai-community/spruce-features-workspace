@@ -20,7 +20,7 @@ export default class ResettingAccountBeforeAllTestsTest extends AbstractSpruceFi
 	protected static async nothing() {}
 
 	private static async listOrgs() {
-		return await this.Fixture('organization').listOrganizations()
+		return await this.organizations.listOrganizations()
 	}
 }
 
