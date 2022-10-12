@@ -5,16 +5,6 @@ import {
 import { assertOptions } from '@sprucelabs/schema'
 import { assert } from '@sprucelabs/test-utils'
 
-interface Perm {
-	id: string
-	can: boolean
-}
-
-interface FakeOptions {
-	contractId: string
-	permissions: Perm[]
-}
-
 export default class SpyAuthorizer implements Authorizer {
 	private static instance?: SpyAuthorizer
 	private fakedPermissions: FakeOptions[] = []
@@ -75,4 +65,14 @@ ${faked.permissions.map((p) => p.id).join('\n')}`
 
 		return results
 	}
+}
+
+interface Perm {
+	id: string
+	can: boolean
+}
+
+interface FakeOptions {
+	contractId: string
+	permissions: Perm[]
 }

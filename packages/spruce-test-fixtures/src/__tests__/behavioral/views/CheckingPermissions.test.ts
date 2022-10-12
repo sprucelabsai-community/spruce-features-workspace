@@ -14,27 +14,27 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async canCreateCheckingPermissions() {
-		const instance = CheckingPermissionsTest.getInstance()
+		const instance = CheckingPermissionsTest.instance()
 		assert.isTrue(instance instanceof SpyAuthorizer)
 	}
 
 	@test()
 	protected static async sharesInstances() {
-		assert.isEqual(this.getInstance(), this.getInstance())
+		assert.isEqual(this.instance, this.instance)
 	}
 
 	@test()
 	protected static async viewsFixtureResetsInstance() {
-		const instance = this.getInstance()
+		const instance = this.instance
 		await ViewFixture.beforeEach()
-		assert.isNotEqual(this.getInstance(), instance)
+		assert.isNotEqual(this.instance, instance)
 	}
 
 	@test()
 	protected static async throwsWhenMissingOnCan() {
 		const err = await assert.doesThrowAsync(() =>
 			//@ts-ignore
-			this.getInstance().can()
+			this.instance.can()
 		)
 
 		errorAssert.assertError(err, 'MISSING_PARAMETERS', {
@@ -140,20 +140,20 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
 	}
 
 	private static fakePermissions(faked: { id: string; can: boolean }[]) {
-		this.getInstance().fakePermissions({
+		this.instance.fakePermissions({
 			contractId: this.contractId,
 			permissions: faked,
 		})
 	}
 
 	private static can(permissionIds: string[]) {
-		return this.getInstance().can({
+		return this.instance.can({
 			contractId: this.contractId,
 			permissionIds,
 		})
 	}
 
-	private static getInstance() {
+	private static get instance() {
 		return SpyAuthorizer.getInstance()
 	}
 }
