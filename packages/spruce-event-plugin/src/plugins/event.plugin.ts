@@ -149,9 +149,7 @@ export class EventFeaturePlugin implements SkillFeature {
 
 			if (willBoot) {
 				this.log.info(`Emitting skill.will-boot internally`)
-
 				const event = await this.buildSpruceEvent('will-boot')
-
 				await willBoot(event)
 			}
 
