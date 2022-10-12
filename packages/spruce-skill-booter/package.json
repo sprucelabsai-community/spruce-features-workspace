@@ -3,7 +3,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "50.0.0",
+  "version": "50.0.18",
   "files": [
     "build/**/*",
     "!build/__tests__",
@@ -59,17 +59,17 @@
     "lint.tsc": "tsc -p . --noEmit"
   },
   "dependencies": {
-    "@sprucelabs/error": "^5.0.521",
-    "@sprucelabs/schema": "^28.5.28",
-    "@sprucelabs/spruce-skill-utils": "^26.4.112",
-    "@sprucelabs/test-utils": "^3.2.17"
+    "@sprucelabs/error": "^5.0.522",
+    "@sprucelabs/schema": "^28.5.33",
+    "@sprucelabs/spruce-skill-utils": "^26.4.127",
+    "@sprucelabs/test-utils": "^3.2.22"
   },
   "devDependencies": {
-    "@sprucelabs/esm-postbuild": "^1.0.597",
-    "@sprucelabs/jest-json-reporter": "^6.0.486",
-    "@sprucelabs/resolve-path-aliases": "^1.1.108",
+    "@sprucelabs/esm-postbuild": "^1.0.607",
+    "@sprucelabs/jest-json-reporter": "^6.0.491",
+    "@sprucelabs/resolve-path-aliases": "^1.1.110",
     "@sprucelabs/semantic-release": "^4.0.8",
-    "@sprucelabs/test": "^7.7.369",
+    "@sprucelabs/test": "^7.7.370",
     "@types/node": "17.0.5",
     "chokidar-cli": "^3.0.0",
     "concurrently": "^7.4.0",

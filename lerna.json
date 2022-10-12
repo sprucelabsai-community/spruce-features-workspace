@@ -1,17 +1,13 @@
 {
-	"lerna": "2.9.1",
-	"packages": [
-		"packages/*"
-	],
-	"version": "50.0.0",
-	"useWorkspaces": true,
-	"command": {
-		"publish": {
-			"allowBranch": [
-				"master"
-			],
-			"conventionalCommits": true,
-			"changelogPreset": "sprucelabs"
-		}
-	}
+  "lerna": "2.9.1",
+  "packages": ["packages/*"],
+  "version": "50.0.18",
+  "useWorkspaces": true,
+  "command": {
+    "publish": {
+      "allowBranch": ["master"],
+      "conventionalCommits": true,
+      "changelogPreset": "sprucelabs"
+    }
+  }
 }
