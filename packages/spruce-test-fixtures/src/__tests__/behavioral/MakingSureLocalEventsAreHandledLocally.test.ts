@@ -10,7 +10,7 @@ export default class MakingSureLocalEventsAreHandledLocallyTest extends Abstract
 	protected static async throwsWhenNoListenerSetForLocalEvent() {
 		await this.SkillFromTestDir('skill')
 
-		const skill = await this.Fixture('skill').seedDemoSkill()
+		const skill = await this.skills.seedDemoSkill()
 
 		AuthService.Auth(this.cwd).updateCurrentSkill(skill)
 
