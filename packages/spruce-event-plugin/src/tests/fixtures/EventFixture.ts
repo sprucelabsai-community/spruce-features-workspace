@@ -109,15 +109,19 @@ export default class EventFixture {
 		eventResponseUtil.getFirstResponseOrThrow(results)
 	}
 
-	public async registerSkillAndSetupListeners(options?: {
-		onUnregisterListeners?: () => void
-		onAttachListeners?: (client: MercuryClient) => void
-		onSetShouldAutoRegisterListeners?: (should: boolean) => void
-		onAttachListener?: (client: MercuryClient) => void
-		onSetListener?: (client: MercuryClient) => void
-		eventSignature?: EventSignature
-	}) {
+	public async registerSkillAndSetupListeners(
+		options?: RegisterSkillSetupListenerOptions
+	) {
 		MercuryClientFactory.setIsTestMode(true)
+
+		const {
+			eventSignature,
+			onUnregisterListeners,
+			onListen: onSetListener,
+			onAttachListeners,
+			onSetShouldAutoRegisterListeners,
+			onAttachListener,
+		} = options ?? {}
 
 		const { skill, client } = await this.skillFixture.loginAsDemoSkill({
 			name: 'skill1',
@@ -126,24 +130,24 @@ export default class EventFixture {
 		const eventName = `my-cool-event::v2021_01_22`
 		const fqen = `${skill.slug}.${eventName}`
 
-		await this.registerEvents(client, eventName, options?.eventSignature)
+		await this.registerEvents(client, eventName, eventSignature)
 
-		const contract = this.buildContract(fqen, options?.eventSignature)
+		const contract = this.buildContract(fqen, eventSignature)
 
 		//@ts-ignore
 		client.mixinContract(contract)
 
 		this.copyListenersIntoPlace(skill.slug)
 		this.dropInNamespaceToListenerMap(skill.slug)
-		this.generateGoodContractFileForSkill(skill.slug, options?.eventSignature)
+		this.generateGoodContractFileForSkill(skill.slug, eventSignature)
 
 		const auth = AuthService.Auth(this.cwd)
 		auth.updateCurrentSkill(skill)
 
-		if (options?.onUnregisterListeners) {
+		if (onUnregisterListeners) {
 			const client2 = await this.mercuryFixture.connectToApi()
 			await client2.on('unregister-listeners::v2020_12_25', async () => {
-				options?.onUnregisterListeners?.()
+				onUnregisterListeners?.()
 				return { unregisterCount: 0 }
 			})
 		}
@@ -151,7 +155,7 @@ export default class EventFixture {
 		const currentSkill = await this.Skill()
 		const events = currentSkill.getFeatureByCode('event') as EventFeaturePlugin
 
-		if (options?.onSetListener) {
+		if (onSetListener) {
 			const attachOnListener = async () => {
 				const pluginClient = await events.connectToApi()
 				const oldOn = pluginClient.on.bind(pluginClient)
@@ -159,7 +163,7 @@ export default class EventFixture {
 				//@ts-ignore
 				pluginClient.on = async (fqen: string, cb: any) => {
 					if (fqen.includes('seed-skill')) {
-						options?.onSetListener?.(pluginClient)
+						onSetListener?.(pluginClient)
 					} else if (fqen.includes('test')) {
 						return
 					}
@@ -179,19 +183,19 @@ export default class EventFixture {
 			await attachOnListener()
 		}
 
-		if (options?.onAttachListeners) {
+		if (onAttachListeners) {
 			//@ts-ignore
 			const oldAttachListeners = events.attachListeners.bind(events)
 
 			//@ts-ignore
 			events.attachListeners = async (client: any) => {
 				const results = await oldAttachListeners(client)
-				options?.onAttachListeners?.(client)
+				onAttachListeners?.(client)
 				return results
 			}
 		}
 
-		if (options?.onSetShouldAutoRegisterListeners) {
+		if (onSetShouldAutoRegisterListeners) {
 			const oldConnect = events.connectToApi.bind(events)
 			events.connectToApi = async (connectOptions: any) => {
 				const client = await oldConnect(connectOptions)
@@ -200,20 +204,20 @@ export default class EventFixture {
 				client.setShouldAutoRegisterListeners = (should: boolean) => {
 					//@ts-ignore
 					client.shouldAutoRegisterListeners = should
-					options?.onSetShouldAutoRegisterListeners?.(should)
+					onSetShouldAutoRegisterListeners?.(should)
 				}
 
 				//@ts-ignore
 				client.on = () => {
 					//@ts-ignore
-					options?.onAttachListener?.(client)
+					onAttachListener?.(client)
 				}
 
 				return client
 			}
 		}
 
-		return { currentSkill, events, fqen }
+		return { currentSkill, events, fqen, loggedInSkill: skill }
 	}
 
 	public generateGoodContractFileForSkill(
@@ -291,4 +295,13 @@ export default class EventFixture {
 
 		diskUtil.writeFile(destination, updatedContents)
 	}
+}
+
+export interface RegisterSkillSetupListenerOptions {
+	onUnregisterListeners?: () => void
+	onAttachListeners?: (client: MercuryClient) => void
+	onSetShouldAutoRegisterListeners?: (should: boolean) => void
+	onAttachListener?: (client: MercuryClient) => void
+	onListen?: (client: MercuryClient) => void
+	eventSignature?: EventSignature
 }

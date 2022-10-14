@@ -537,40 +537,56 @@ export class EventFeaturePlugin implements SkillFeature {
 		)
 	}
 
-	private async attachListeners(client: any) {
-		client.setShouldAutoRegisterListeners(!this.areListenersCached())
+	private async attachListeners(client: MercuryClient) {
+		client.setShouldAutoRegisterListeners(false)
 
-		const all = this.listeners.map(async (listener) => {
-			if (listener.eventNamespace !== 'skill') {
-				const fqen = eventNameUtil.join({
-					eventName: listener.eventName,
-					eventNamespace: listener.eventNamespace,
-					version: listener.version,
-				})
+		const remoteListeners = this.listeners
+			.filter((l) => l.eventNamespace !== 'skill')
+			.map((l) => ({
+				...l,
+				fqen: eventNameUtil.join({
+					eventName: l.eventName,
+					eventNamespace: l.eventNamespace,
+					version: l.version,
+				}),
+			}))
 
-				await client.on(fqen, async (targetAndPayload: any) => {
-					this.log.info(`Incoming event - ${fqen}`)
+		if (remoteListeners.length > 0 && !this.areListenersCached()) {
+			await client.emitAndFlattenResponses('register-listeners::v2020_12_25', {
+				payload: {
+					events: remoteListeners.map((l) => ({
+						eventName: l.fqen,
+						isGlobal: !!l.isGlobal,
+					})),
+				},
+			})
+		}
 
-					const event = await this.buildSpruceEvent(fqen, targetAndPayload)
+		const all = remoteListeners.map(async (listener) => {
+			const { fqen, callback } = listener
 
-					const decorator = ClientProxyDecorator.getInstance()
+			await client.on(fqen as any, async (targetAndPayload: any) => {
+				this.log.info(`Incoming event - ${fqen}`)
 
-					event.client = decorator.decorateEmitToPassProxyToken(
-						event.client,
-						targetAndPayload?.source?.proxyToken
-					)
+				const event = await this.buildSpruceEvent(fqen, targetAndPayload)
 
-					try {
-						const results = await listener.callback(event)
-						return results
-					} catch (err: any) {
-						this.log.error(err.stack ?? err.message)
-						throw err
-					}
-				})
+				const decorator = ClientProxyDecorator.getInstance()
 
-				this.log.info(`Listening to ${fqen}`)
-			}
+				event.client = decorator.decorateEmitToPassProxyToken(
+					event.client,
+					targetAndPayload?.source?.proxyToken
+				)
+
+				try {
+					const results = await callback(event)
+					return results
+				} catch (err: any) {
+					this.log.error(err.stack ?? err.message)
+					throw err
+				}
+			})
+
+			this.log.info(`Listening to ${fqen}`)
 		})
 
 		await Promise.all(all)

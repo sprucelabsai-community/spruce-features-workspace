@@ -5,13 +5,16 @@ import {
 	MercuryFixture,
 	AbstractSpruceFixtureTest,
 } from '@sprucelabs/spruce-test-fixtures'
+import EventFaker from '../__tests__/support/EventFaker'
 import plugin, { EventFeaturePlugin } from './../plugins/event.plugin'
 import EventFixture from './fixtures/EventFixture'
 
 export default class AbstractEventPluginTest extends AbstractSpruceFixtureTest {
+	protected static eventFaker: EventFaker
 	protected static async beforeEach() {
 		await super.beforeEach()
 
+		this.eventFaker = new EventFaker()
 		this.cwd = await this.generateSkillFromTestPath('skill')
 		EventFeaturePlugin.shouldClientUseEventContracts(false)
 

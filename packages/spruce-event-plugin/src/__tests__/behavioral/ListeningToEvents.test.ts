@@ -1,5 +1,4 @@
 import { MercuryClient } from '@sprucelabs/mercury-client'
-import { EventSignature } from '@sprucelabs/mercury-types'
 import {
 	eventDiskUtil,
 	eventResponseUtil,
@@ -11,6 +10,7 @@ import { EventFeature } from '../..'
 import SpruceError from '../../errors/SpruceError'
 import { EventFeaturePlugin } from '../../plugins/event.plugin'
 import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
+import { RegisterSkillSetupListenerOptions } from '../../tests/fixtures/EventFixture'
 
 declare module '@sprucelabs/spruce-skill-utils/build/types/skill.types' {
 	interface SkillContext {
@@ -23,6 +23,7 @@ export default class ListeningToEventsTest extends AbstractEventPluginTest {
 	protected static async beforeEach() {
 		await super.beforeEach()
 
+		await this.eventFaker.fakeRegisterListeners()
 		MercuryFixture.setShouldMixinCoreEventContractsWhenImportingLocal(true)
 
 		delete process.env.DID_BOOT_FIRED
@@ -274,7 +275,7 @@ export default class ListeningToEventsTest extends AbstractEventPluginTest {
 			onUnregisterListeners: () => {
 				unRegisterListenerCount++
 			},
-			onSetListener: (client) => {
+			onListen: (client) => {
 				//@ts-ignore
 				shouldAutoRegisterListeners = client.shouldAutoRegisterListeners
 				onSetListenerCount++
@@ -286,7 +287,7 @@ export default class ListeningToEventsTest extends AbstractEventPluginTest {
 
 		assert.isEqual(onSetListenerCount, 1)
 		assert.isEqual(unRegisterListenerCount, 1)
-		assert.isTrue(shouldAutoRegisterListeners)
+		assert.isFalse(shouldAutoRegisterListeners)
 
 		await this.bootKillAndResetSkill(currentSkill, events)
 
@@ -294,43 +295,30 @@ export default class ListeningToEventsTest extends AbstractEventPluginTest {
 		assert.isEqual(unRegisterListenerCount, 1)
 		assert.isFalse(shouldAutoRegisterListeners)
 
+		//@ts-ignore
+		assert.isTrue(events.areListenersCached())
+
 		this.addNewListener()
 
 		await this.bootKillAndResetSkill(currentSkill, events)
 
 		assert.isEqual(onSetListenerCount, 3)
 		assert.isEqual(unRegisterListenerCount, 2)
-		assert.isTrue(shouldAutoRegisterListeners)
+		assert.isFalse(shouldAutoRegisterListeners)
 		assert.isTrue(lastClient.shouldAutoRegisterListeners)
+
+		//@ts-ignore
+		assert.isFalse(events.areListenersCached())
 	}
 
 	@test()
 	protected static async shouldRegisterListenersEachBootIfEnvNotSet() {
 		delete process.env.SHOULD_CACHE_LISTENER_REGISTRATIONS
 
-		let unRegisterListenerCount = 0
-		const shoulds: boolean[] = []
-
-		const { currentSkill, events } = await this.registerSkillAndSetupListeners({
-			onUnregisterListeners: () => {
-				unRegisterListenerCount++
-			},
-			onAttachListeners: () => {},
-			onSetShouldAutoRegisterListeners: (should) => {
-				shoulds.push(should)
-			},
-			onAttachListener: () => {},
-		})
-
-		await this.bootKillAndResetSkill(currentSkill, events)
-		await this.bootKillAndResetSkill(currentSkill, events)
-
-		assert.isEqual(unRegisterListenerCount, 2)
-		assert.isLength(shoulds, 4)
-		assert.isTrue(shoulds[0])
-		assert.isTrue(shoulds[1])
-		assert.isTrue(shoulds[2])
-		assert.isTrue(shoulds[3])
+		const { currentSkill } = await this.registerSkillAndSetupListeners({})
+		const events = currentSkill.getFeatureByCode('event') as EventFeaturePlugin
+		//@ts-ignore
+		assert.isFalse(events.areListenersCached())
 	}
 
 	@test.skip(
@@ -544,15 +532,11 @@ export default class ListeningToEventsTest extends AbstractEventPluginTest {
 		return this.EventFixture().buildContract(eventName)
 	}
 
-	protected static async registerSkillAndSetupListeners(options?: {
-		onUnregisterListeners?: () => void
-		onAttachListeners?: (client: MercuryClient) => void
-		onSetShouldAutoRegisterListeners?: (should: boolean) => void
-		onAttachListener?: (client: MercuryClient) => void
-		onSetListener?: (client: MercuryClient) => void
-		eventSignature?: EventSignature
-		testDir?: string
-	}) {
+	protected static async registerSkillAndSetupListeners(
+		options?: {
+			testDir?: string
+		} & RegisterSkillSetupListenerOptions
+	) {
 		this.cwd = await this.generateSkillFromTestPath(
 			options?.testDir ?? 'registered-skill'
 		)
