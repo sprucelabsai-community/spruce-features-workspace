@@ -4,13 +4,13 @@ import {
 	eventResponseUtil,
 } from '@sprucelabs/spruce-event-utils'
 import { BootCallback, diskUtil } from '@sprucelabs/spruce-skill-utils'
-import { fake, MercuryFixture } from '@sprucelabs/spruce-test-fixtures'
+import { fake } from '@sprucelabs/spruce-test-fixtures'
 import { assert, test } from '@sprucelabs/test-utils'
-import { EventFeature } from '../..'
-import SpruceError from '../../errors/SpruceError'
-import { EventFeaturePlugin } from '../../plugins/event.plugin'
-import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
-import { RegisterSkillSetupListenerOptions } from '../../tests/fixtures/EventFixture'
+import { EventFeature } from '../../..'
+import SpruceError from '../../../errors/SpruceError'
+import { EventFeaturePlugin } from '../../../plugins/event.plugin'
+import { RegisterSkillSetupListenerOptions } from '../../../tests/fixtures/EventFixture'
+import AbstractListenerTest from './AbstractListenersTest'
 
 declare module '@sprucelabs/spruce-skill-utils/build/types/skill.types' {
 	interface SkillContext {
@@ -19,12 +19,9 @@ declare module '@sprucelabs/spruce-skill-utils/build/types/skill.types' {
 }
 
 @fake.login()
-export default class ListeningToEventsTest extends AbstractEventPluginTest {
+export default class ListeningToEventsTest extends AbstractListenerTest {
 	protected static async beforeEach() {
 		await super.beforeEach()
-
-		await this.eventFaker.fakeRegisterListeners()
-		MercuryFixture.setShouldMixinCoreEventContractsWhenImportingLocal(true)
 
 		delete process.env.DID_BOOT_FIRED
 		delete process.env.WILL_BOOT_FIRED
@@ -271,17 +268,18 @@ export default class ListeningToEventsTest extends AbstractEventPluginTest {
 		let shouldAutoRegisterListeners = false
 		let lastClient: any
 
-		const { currentSkill, events } = await this.registerSkillAndSetupListeners({
-			onUnregisterListeners: () => {
-				unRegisterListenerCount++
-			},
-			onListen: (client) => {
-				//@ts-ignore
-				shouldAutoRegisterListeners = client.shouldAutoRegisterListeners
-				onSetListenerCount++
-				lastClient = client
-			},
-		})
+		const { currentSkill, events } =
+			await this.setCwdRegisterSkillAndSetupListeners({
+				onUnregisterListeners: () => {
+					unRegisterListenerCount++
+				},
+				onListen: (client) => {
+					//@ts-ignore
+					shouldAutoRegisterListeners = client.shouldAutoRegisterListeners
+					onSetListenerCount++
+					lastClient = client
+				},
+			})
 
 		await this.bootKillAndResetSkill(currentSkill, events)
 
@@ -315,7 +313,7 @@ export default class ListeningToEventsTest extends AbstractEventPluginTest {
 	protected static async shouldRegisterListenersEachBootIfEnvNotSet() {
 		delete process.env.SHOULD_CACHE_LISTENER_REGISTRATIONS
 
-		const { currentSkill } = await this.registerSkillAndSetupListeners({})
+		const { currentSkill } = await this.setCwdRegisterSkillAndSetupListeners({})
 		const events = currentSkill.getFeatureByCode('event') as EventFeaturePlugin
 		//@ts-ignore
 		assert.isFalse(events.areListenersCached())
@@ -327,11 +325,12 @@ export default class ListeningToEventsTest extends AbstractEventPluginTest {
 	protected static async willReRegisterListenersWithDifferentHost() {
 		let unRegisterListenerCount = 0
 
-		const { currentSkill, events } = await this.registerSkillAndSetupListeners({
-			onUnregisterListeners: () => {
-				unRegisterListenerCount++
-			},
-		})
+		const { currentSkill, events } =
+			await this.setCwdRegisterSkillAndSetupListeners({
+				onUnregisterListeners: () => {
+					unRegisterListenerCount++
+				},
+			})
 
 		await this.bootKillAndResetSkill(currentSkill, events)
 
@@ -366,27 +365,28 @@ export default class ListeningToEventsTest extends AbstractEventPluginTest {
 
 	@test()
 	protected static async canEmitFromListenerOnAnonEvent() {
-		const { fqen, currentSkill } = await this.registerSkillAndSetupListeners({
-			testDir: 'registered-skill-proxied',
-			eventSignature: {
-				isGlobal: true,
-				emitPermissionContract: {
-					id: 'anon-can',
-					name: 'can anon',
-					permissions: [
-						{
-							id: 'can-emit',
-							name: 'can do it!',
-							defaults: {
-								anonymous: {
-									default: true,
+		const { fqen, currentSkill } =
+			await this.setCwdRegisterSkillAndSetupListeners({
+				testDir: 'registered-skill-proxied',
+				eventSignature: {
+					isGlobal: true,
+					emitPermissionContract: {
+						id: 'anon-can',
+						name: 'can anon',
+						permissions: [
+							{
+								id: 'can-emit',
+								name: 'can do it!',
+								defaults: {
+									anonymous: {
+										default: true,
+									},
 								},
 							},
-						},
-					],
+						],
+					},
 				},
-			},
-		})
+			})
 
 		await this.bootSkill({ skill: currentSkill })
 
@@ -529,20 +529,15 @@ export default class ListeningToEventsTest extends AbstractEventPluginTest {
 	}
 
 	private static buildContract(eventName: string) {
-		return this.EventFixture().buildContract(eventName)
+		return this.EventFixture().buildEventContract(eventName)
 	}
 
-	protected static async registerSkillAndSetupListeners(
+	protected static async setCwdRegisterSkillAndSetupListeners(
 		options?: {
 			testDir?: string
 		} & RegisterSkillSetupListenerOptions
 	) {
-		this.cwd = await this.generateSkillFromTestPath(
-			options?.testDir ?? 'registered-skill'
-		)
-
-		return this.EventFixture().registerSkillAndSetupListeners({
-			...options,
-		})
+		await this.setCwdToTestSkill(options?.testDir ?? 'registered-skill')
+		return this.registerSkillAndSetupListeners(options)
 	}
 }

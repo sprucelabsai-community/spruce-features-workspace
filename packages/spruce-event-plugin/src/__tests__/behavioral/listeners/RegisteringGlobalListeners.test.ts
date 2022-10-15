@@ -1,23 +1,17 @@
-import { Skill as RegisteredSkill } from '@sprucelabs/spruce-core-schemas'
 import { eventNameUtil } from '@sprucelabs/spruce-event-utils'
-import { Skill } from '@sprucelabs/spruce-skill-utils'
-import { fake, MercuryFixture } from '@sprucelabs/spruce-test-fixtures'
+import { fake } from '@sprucelabs/spruce-test-fixtures'
 import { assert, test } from '@sprucelabs/test-utils'
-import { EventFeaturePlugin } from '../../plugins/event.plugin'
-import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
-import { RegisterListerTargetAndPayload } from '../support/EventFaker'
+import { EventFeaturePlugin } from '../../../plugins/event.plugin'
+import { RegisterListerTargetAndPayload } from '../../support/EventFaker'
+import AbstractListenerTest from './AbstractListenersTest'
 
 @fake.login()
-export default class RegisteringGlobalEventsTest extends AbstractEventPluginTest {
+export default class RegisteringGlobalEventsTest extends AbstractListenerTest {
 	private static passedPayload?: RegisterListerTargetAndPayload['payload']
-	private static skill: Skill
-	private static registeredSkill: RegisteredSkill
 
 	protected static async beforeEach() {
 		await super.beforeEach()
 		this.passedPayload = undefined
-
-		MercuryFixture.setShouldMixinCoreEventContractsWhenImportingLocal(true)
 
 		await this.eventFaker.fakeRegisterListeners(({ payload }) => {
 			this.passedPayload = payload
@@ -61,27 +55,5 @@ export default class RegisteringGlobalEventsTest extends AbstractEventPluginTest
 				},
 			],
 		})
-	}
-
-	private static async bootSkillNamed(name: string) {
-		await this.setCwdToTestSkill(name)
-		await this.boot()
-	}
-
-	private static async setCwdToTestSkill(name: string) {
-		this.cwd = await this.generateSkillFromTestPath(name)
-	}
-
-	private static async boot() {
-		await this.registerSkillAndSetupListeners()
-		await this.bootSkill({ skill: this.skill })
-	}
-
-	private static async registerSkillAndSetupListeners() {
-		const { currentSkill, loggedInSkill } =
-			await this.EventFixture().registerSkillAndSetupListeners({})
-
-		this.skill = currentSkill
-		this.registeredSkill = loggedInSkill
 	}
 }

@@ -9,7 +9,7 @@ import {
 	MercuryFixture,
 } from '@sprucelabs/spruce-test-fixtures'
 import { assert, test } from '@sprucelabs/test-utils'
-import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
+import AbstractEventPluginTest from '../../../tests/AbstractEventPluginTest'
 
 MercuryFixture.setShouldAutoImportContracts(false)
 

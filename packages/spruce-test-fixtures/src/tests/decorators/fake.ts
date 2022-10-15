@@ -286,6 +286,7 @@ async function setupFakeListeners(Class: Class) {
 		fakeGetOrganization(Class),
 		fakeUpdateOrganization(Class),
 		fakeListOrganization(Class),
+		fakeRegisterListeners(Class),
 	])
 }
 
@@ -990,4 +991,10 @@ function findOrgFromTarget(Class: Class, target: EventTarget) {
 		})
 	}
 	return match
+}
+
+async function fakeRegisterListeners() {
+	await eventFaker.on('register-listeners::v2020_12_25', () => {
+		return {}
+	})
 }

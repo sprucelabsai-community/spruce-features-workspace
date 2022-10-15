@@ -51,7 +51,10 @@ export default class EventFixture {
 		diskUtil.writeFile(path, content)
 	}
 
-	public buildContract(eventName: string, eventSignature?: EventSignature) {
+	public buildEventContract(
+		eventName: string,
+		eventSignature?: EventSignature
+	) {
 		return {
 			eventSignatures: {
 				[eventName]: eventSignature ?? {
@@ -99,7 +102,7 @@ export default class EventFixture {
 		eventName: string,
 		eventSignature?: EventSignature
 	) {
-		const contract = this.buildContract(eventName, eventSignature)
+		const contract = this.buildEventContract(eventName, eventSignature)
 		const results = await client.emit(`sync-event-contracts::v2020_12_25`, {
 			payload: {
 				contract,
@@ -132,7 +135,7 @@ export default class EventFixture {
 
 		await this.registerEvents(client, eventName, eventSignature)
 
-		const contract = this.buildContract(fqen, eventSignature)
+		const contract = this.buildEventContract(fqen, eventSignature)
 
 		//@ts-ignore
 		client.mixinContract(contract)
