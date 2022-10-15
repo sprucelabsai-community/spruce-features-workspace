@@ -286,7 +286,7 @@ async function setupFakeListeners(Class: Class) {
 		fakeGetOrganization(Class),
 		fakeUpdateOrganization(Class),
 		fakeListOrganization(Class),
-		fakeRegisterListeners(Class),
+		fakeRegisterListeners(),
 	])
 }
 
