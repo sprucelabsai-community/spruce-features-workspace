@@ -77,6 +77,17 @@ export default class AssertingGlobalListenersTest extends AbstractListenerTest {
 		this.assertGlobalNotSet(eventNameUtil.join(e1))
 	}
 
+	@test()
+	protected static async canHandleCoreEvents() {
+		const event = {
+			eventName: 'event-1',
+			version: 'v2020_10_11',
+			eventNamespace: '',
+		}
+		this.addListener(true, event)
+		this.assertGlobalListenerFound(eventNameUtil.join(event))
+	}
+
 	private static assertGlobalNotSet(fqen: string) {
 		this.assertThrowsWithMessage(fqen, 'export const isGlobal = true')
 	}

@@ -11,12 +11,8 @@ const listenerAssert = {
 	) {
 		const events = skill.getFeatureByCode('event') as SpyEventFeaturePlugin
 
-		const { eventName, eventNamespace, version } = eventNameUtil.split(fqen)
 		const listener = events.listeners.find(
-			(e) =>
-				e.eventName === eventName &&
-				e.eventNamespace === eventNamespace &&
-				e.version === version
+			(e) => eventNameUtil.join(e) === fqen
 		)
 
 		assert.isTruthy(
