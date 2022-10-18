@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [50.1.4](https://github.com/sprucelabsai/spruce-features-workspace/compare/v50.1.3...v50.1.4) (2022-10-18)
+
+**Note:** Version bump only for package @sprucelabs/spruce-deploy-plugin
+
 ## [50.1.3](https://github.com/sprucelabsai/spruce-features-workspace/compare/v50.1.2...v50.1.3) (2022-10-18)
 
 **Note:** Version bump only for package @sprucelabs/spruce-deploy-plugin
