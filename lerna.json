@@ -1,7 +1,7 @@
 {
   "lerna": "2.9.1",
   "packages": ["packages/*"],
-  "version": "51.0.1",
+  "version": "51.0.2",
   "useWorkspaces": true,
   "command": {
     "publish": {
