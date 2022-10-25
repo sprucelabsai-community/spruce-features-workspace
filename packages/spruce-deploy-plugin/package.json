@@ -63,10 +63,10 @@
     "lint.tsc": "tsc -p . --noEmit"
   },
   "dependencies": {
-    "@sprucelabs/error": "^5.0.529",
-    "@sprucelabs/schema": "^28.5.48",
+    "@sprucelabs/error": "^5.0.530",
+    "@sprucelabs/schema": "^28.5.49",
     "@sprucelabs/spruce-skill-booter": "^51.0.4",
-    "@sprucelabs/spruce-skill-utils": "^28.0.22",
+    "@sprucelabs/spruce-skill-utils": "^28.0.23",
     "heroku-client": "^3.1.0"
   },
   "devDependencies": {
