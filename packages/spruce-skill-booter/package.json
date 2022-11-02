@@ -59,17 +59,17 @@
     "lint.tsc": "tsc -p . --noEmit"
   },
   "dependencies": {
-    "@sprucelabs/error": "^5.0.531",
-    "@sprucelabs/schema": "^28.5.55",
-    "@sprucelabs/spruce-skill-utils": "^28.0.33",
-    "@sprucelabs/test-utils": "^3.2.43"
+    "@sprucelabs/error": "^5.0.532",
+    "@sprucelabs/schema": "^28.5.56",
+    "@sprucelabs/spruce-skill-utils": "^28.0.34",
+    "@sprucelabs/test-utils": "^3.2.44"
   },
   "devDependencies": {
-    "@sprucelabs/esm-postbuild": "^2.0.19",
-    "@sprucelabs/jest-json-reporter": "^6.0.510",
-    "@sprucelabs/resolve-path-aliases": "^1.1.119",
+    "@sprucelabs/esm-postbuild": "^2.0.20",
+    "@sprucelabs/jest-json-reporter": "^6.0.511",
+    "@sprucelabs/resolve-path-aliases": "^1.1.120",
     "@sprucelabs/semantic-release": "^4.0.8",
-    "@sprucelabs/test": "^7.7.377",
+    "@sprucelabs/test": "^7.7.378",
     "@types/node": "17.0.5",
     "chokidar-cli": "^3.0.0",
     "concurrently": "^7.5.0",
