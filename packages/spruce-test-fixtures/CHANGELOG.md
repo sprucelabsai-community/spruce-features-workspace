@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [52.0.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v51.0.33...v52.0.0) (2022-11-12)
+
+
+### Breaking Changes
+
+* **auto-upgrade:** upgraded packages [upgrade-all] ([642a461](https://github.com/sprucelabsai/spruce-features-workspace/commit/642a461))
+
+
+
+
+
 ## [51.0.33](https://github.com/sprucelabsai/spruce-features-workspace/compare/v51.0.32...v51.0.33) (2022-11-09)
 
 **Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
