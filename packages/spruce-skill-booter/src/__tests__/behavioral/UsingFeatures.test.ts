@@ -99,6 +99,6 @@ class DummyFeature implements SkillFeature {
 		return true
 	}
 	public onBoot(cb: BootCallback): void {
-		cb()
+		void cb()
 	}
 }
