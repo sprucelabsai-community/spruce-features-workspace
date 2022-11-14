@@ -13,20 +13,12 @@ import {
 } from '@sprucelabs/spruce-skill-utils'
 import SpruceError from '../errors/SpruceError'
 
-export interface SkillOptions {
-	rootDir: string
-	activeDir: string
-	hashSpruceDir: string
-	log?: Log
-	shouldCountdownOnExit?: boolean
-}
-
 export default class Skill implements ISkill {
 	public rootDir
 	public activeDir
 	public hashSpruceDir
 
-	private featureMap: Record<string, SkillFeature> = {}
+	private _featureMap: FeatureMap = {}
 	private _log: Log
 	private bootHandlers: BootCallback[] = []
 	private postBootHandlers: BootCallback[] = []
@@ -316,4 +308,28 @@ export default class Skill implements ISkill {
 			transportsByLevel,
 		})
 	}
+
+	private set featureMap(map: FeatureMap) {
+		this._featureMap = map
+	}
+	private get featureMap() {
+		if (process.env.ENABLED_SKILL_FEATURES) {
+			const features = process.env.ENABLED_SKILL_FEATURES.split(',')
+			return features.reduce<FeatureMap>((map, name) => {
+				map[name] = this._featureMap[name]
+				return map
+			}, {})
+		}
+		return this._featureMap
+	}
 }
+
+export interface SkillOptions {
+	rootDir: string
+	activeDir: string
+	hashSpruceDir: string
+	log?: Log
+	shouldCountdownOnExit?: boolean
+}
+
+export type FeatureMap = Record<string, SkillFeature>

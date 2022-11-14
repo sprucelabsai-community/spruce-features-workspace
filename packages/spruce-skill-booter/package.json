@@ -106,10 +106,9 @@
         "@sprucelabs/jest-sheets-reporter",
         {
           "sheetId": "1DoWM7mYgGDa-PJXptLomrZmbIBZiuxS1YiAsRXU2Gm0",
-          "worksheetId": 843037832,
+          "worksheetId": 889384139,
           "testMap": {
-            "abstractSkillTestBootCrashesIfFeatureThrows": "I96",
-            "cantSetSameLevelFor2Transports": "I242"
+            "letsYouSpecifyWhichFeaturesToLoad": "P6"
           }
         }
       ]
