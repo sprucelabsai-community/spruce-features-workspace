@@ -155,20 +155,22 @@ export class EventFeaturePlugin implements SkillFeature {
 
 			re()
 
-			await this.loadEvents()
+			if (this.getShouldRegisterEventsAndListeners()) {
+				await this.loadEvents()
 
-			if (
-				!this.hasLocalContractBeenUpdated &&
-				process.env.SHOULD_CACHE_EVENT_REGISTRATIONS === 'true'
-			) {
-				this.log.info(
-					'Skipping re-registering events because events.contract has not changed.'
-				)
-			} else {
-				await this.reRegisterEvents()
+				if (
+					!this.hasLocalContractBeenUpdated &&
+					this.getShouldCacheListeners()
+				) {
+					this.log.info(
+						'Skipping re-registering events because events.contract has not changed.'
+					)
+				} else {
+					await this.reRegisterEvents()
+				}
+
+				await this.registerListeners()
 			}
-
-			await this.registerListeners()
 
 			const done = async () => {
 				this.isExecuting = false
@@ -210,6 +212,14 @@ export class EventFeaturePlugin implements SkillFeature {
 
 			throw err
 		}
+	}
+
+	private getShouldCacheListeners() {
+		return process.env.SHOULD_CACHE_EVENT_REGISTRATIONS === 'true'
+	}
+
+	private getShouldRegisterEventsAndListeners() {
+		return process.env.SHOULD_REGISTER_EVENTS_AND_LISTENERS !== 'false'
 	}
 
 	private async queueDidBoot(didBoot: (event: SpruceEvent) => Promise<void>) {
@@ -431,7 +441,7 @@ export class EventFeaturePlugin implements SkillFeature {
 		return { client, currentSkill }
 	}
 
-	private async registerListeners() {
+	protected async registerListeners() {
 		if (!this.shouldConnectToApi()) {
 			return
 		}
@@ -689,7 +699,7 @@ export class EventFeaturePlugin implements SkillFeature {
 		return pkg.skill.namespace
 	}
 
-	private async loadEvents() {
+	protected async loadEvents() {
 		if (!this.shouldConnectToApi()) {
 			return
 		}
