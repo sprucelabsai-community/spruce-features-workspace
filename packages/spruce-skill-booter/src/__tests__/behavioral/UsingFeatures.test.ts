@@ -55,6 +55,13 @@ export default class UsingFeaturesTest extends AbstractSkillTest {
 		})
 	}
 
+	@test()
+	protected static async registeringFeaturesAfterSettingEnabledSkillsEnvWorks() {
+		this.setEnabledSkills('one')
+		const one = this.registerFeatureNamed('one')
+		this.assertFeatureMapEquals({ one })
+	}
+
 	private static setEnabledSkillsAndAssertMapEquals(
 		enabledFeatures: string,
 		expected: FeatureMap

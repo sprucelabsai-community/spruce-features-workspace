@@ -60,7 +60,7 @@ export default class Skill implements ISkill {
 
 	public registerFeature = (featureCode: string, feature: SkillFeature) => {
 		this.log.info(`Registering feature.${featureCode}`)
-		this.featureMap[featureCode] = feature
+		this._featureMap[featureCode] = feature
 	}
 
 	public isRunning(): boolean {
