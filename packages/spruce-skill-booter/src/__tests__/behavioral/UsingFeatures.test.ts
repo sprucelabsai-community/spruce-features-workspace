@@ -48,6 +48,11 @@ export default class UsingFeaturesTest extends AbstractSkillTest {
 			one,
 			two,
 		})
+
+		this.setEnabledSkillsAndAssertMapEquals('two , one ', {
+			one,
+			two,
+		})
 	}
 
 	private static setEnabledSkillsAndAssertMapEquals(
