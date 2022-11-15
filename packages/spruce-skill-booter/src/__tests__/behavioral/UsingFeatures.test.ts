@@ -27,7 +27,7 @@ export default class UsingFeaturesTest extends AbstractSkillTest {
 	}
 
 	@test()
-	protected static async letsYouSpecifyWhichFeaturesToLoad() {
+	protected static async letsYouSpecifyWhichFeaturesToLoadWithEnv() {
 		const one = this.registerFeatureNamed('one')
 		const two = this.registerFeatureNamed('two')
 
@@ -40,6 +40,11 @@ export default class UsingFeaturesTest extends AbstractSkillTest {
 		})
 
 		this.setEnabledSkillsAndAssertMapEquals('two,one', {
+			one,
+			two,
+		})
+
+		this.setEnabledSkillsAndAssertMapEquals('two,one,234234', {
 			one,
 			two,
 		})

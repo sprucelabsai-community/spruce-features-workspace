@@ -316,7 +316,10 @@ export default class Skill implements ISkill {
 		if (process.env.ENABLED_SKILL_FEATURES) {
 			const features = process.env.ENABLED_SKILL_FEATURES.split(',')
 			return features.reduce<FeatureMap>((map, name) => {
-				map[name] = this._featureMap[name]
+				const feature = this._featureMap[name]
+				if (feature) {
+					map[name] = feature
+				}
 				return map
 			}, {})
 		}
