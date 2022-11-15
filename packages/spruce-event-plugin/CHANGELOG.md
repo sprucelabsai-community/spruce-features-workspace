@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [52.2.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v52.1.4...v52.2.0) (2022-11-15)
+
+
+### Features
+
+* SHOULD_REGISTER_EVENTS_AND_LISTENERS for registering events ([a545bce](https://github.com/sprucelabsai/spruce-features-workspace/commit/a545bce))
+
+
+
+
+
 ## [52.1.4](https://github.com/sprucelabsai/spruce-features-workspace/compare/v52.1.3...v52.1.4) (2022-11-15)
 
 **Note:** Version bump only for package @sprucelabs/spruce-event-plugin
