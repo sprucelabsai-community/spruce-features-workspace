@@ -44,6 +44,7 @@ export default class FakingErrorResponsesTest extends AbstractSpruceFixtureTest 
 			wasOldHit = true
 		})
 
+		//@ts-ignore
 		await eventFaker.on(fqen, () => {
 			wasNewHit = true
 

@@ -994,7 +994,5 @@ function findOrgFromTarget(Class: Class, target: EventTarget) {
 }
 
 async function fakeRegisterListeners() {
-	await eventFaker.on('register-listeners::v2020_12_25', () => {
-		return {}
-	})
+	await eventFaker.on('register-listeners::v2020_12_25', async () => {})
 }

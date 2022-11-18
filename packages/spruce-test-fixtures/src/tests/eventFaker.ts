@@ -1,20 +1,26 @@
 import { MercuryTestClient } from '@sprucelabs/mercury-client'
 import { SkillEventContract } from '@sprucelabs/mercury-types'
-import { SchemaValues } from '@sprucelabs/schema'
+import { SchemaValues, Schema } from '@sprucelabs/schema'
 import SpruceError from '../errors/SpruceError'
 
-/** @ts-ignore */
-type Fqen = keyof SkillEventContract['eventSignatures']
+type Fqen = Extract<keyof SkillEventContract['eventSignatures'], string>
 
-type TargetAndPayload<E extends Fqen> = SchemaValues<
-	/** @ts-ignore */
+type EmitPayloadSchema<E extends Fqen> =
 	SkillEventContract['eventSignatures'][E]['emitPayloadSchema']
->
 
-type Response<E extends Fqen> = SchemaValues<
-	/** @ts-ignore> */
+type TargetAndPayload<
+	E extends Fqen,
+	S extends Schema | never = EmitPayloadSchema<E> extends Schema
+		? EmitPayloadSchema<E>
+		: never
+> = SchemaValues<S>
+
+type ResponsePayloadSchema<E extends Fqen> =
 	SkillEventContract['eventSignatures'][E]['responsePayloadSchema']
->
+
+type Response<E extends Fqen> = ResponsePayloadSchema<E> extends Schema
+	? SchemaValues<ResponsePayloadSchema<E>>
+	: void
 
 const eventFaker = {
 	async makeEventThrow(fqen: Fqen, error?: any) {
@@ -38,13 +44,10 @@ const eventFaker = {
 		await client.on(fqen, () => {})
 	},
 
-	/** @ts-ignore */
 	async on<E extends Fqen>(
 		fqen: E,
 		cb: (
-			/** @ts-ignore */
 			targetAndPayload: TargetAndPayload<E>
-			/** @ts-ignore */
 		) => Response<E> | Promise<Response<E>>
 	) {
 		const client = getClient(fqen)
