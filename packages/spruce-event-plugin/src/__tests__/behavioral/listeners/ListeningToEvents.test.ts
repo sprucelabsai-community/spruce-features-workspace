@@ -225,7 +225,9 @@ export default class ListeningToEventsTest extends AbstractListenerTest {
 
 		currentSkill.updateContext('helloWorld', 'yes please')
 
-		const results = await client1.emit(fqen as any, {
+		//@ts-ignore
+		const results = await client1.emit(fqen, {
+			//@ts-ignore
 			target: {
 				organizationId: org.id,
 			},
@@ -247,6 +249,7 @@ export default class ListeningToEventsTest extends AbstractListenerTest {
 		)
 
 		const results = await client1.emit(fqen as any, {
+			//@ts-ignore
 			target: {
 				organizationId: org.id,
 			},
@@ -348,7 +351,9 @@ export default class ListeningToEventsTest extends AbstractListenerTest {
 
 		currentSkill.updateContext('helloWorld', 'yes please')
 
-		const results = await client1.emit(fqen as any, {
+		//@ts-ignore
+		const results = await client1.emit(fqen, {
+			//@ts-ignore
 			target: {
 				organizationId: org.id,
 			},
@@ -460,6 +465,7 @@ export default class ListeningToEventsTest extends AbstractListenerTest {
 		await client2.disconnect()
 
 		const results = await (client ?? client1).emit(fqen as any, {
+			//@ts-ignore
 			target: {
 				organizationId: org.id,
 			},

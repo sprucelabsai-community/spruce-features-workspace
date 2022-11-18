@@ -8,7 +8,6 @@ export default class EventFaker {
 			'register-listeners::v2020_12_25',
 			(targetAndPayload) => {
 				cb?.(targetAndPayload)
-				return {}
 			}
 		)
 	}
