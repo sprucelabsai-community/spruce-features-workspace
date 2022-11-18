@@ -45,7 +45,8 @@ export default class HandlingProxiedEventsTest extends AbstractEventPluginTest {
 			passedSource = source
 		})
 
-		const results = await client.emit(fqen as any, {
+		//@ts-ignore
+		const results = await client.emit(fqen, {
 			target: {
 				organizationId: 'aoeu',
 			},
