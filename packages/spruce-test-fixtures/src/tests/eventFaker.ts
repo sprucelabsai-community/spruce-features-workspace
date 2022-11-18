@@ -1,12 +1,21 @@
 import { MercuryTestClient } from '@sprucelabs/mercury-client'
-import { SkillEventContract } from '@sprucelabs/mercury-types'
+import {
+	EventNames,
+	EventSignature,
+	SkillEventContract,
+} from '@sprucelabs/mercury-types'
 import { SchemaValues, Schema } from '@sprucelabs/schema'
 import SpruceError from '../errors/SpruceError'
 
-type Fqen = Extract<keyof SkillEventContract['eventSignatures'], string>
+type Fqen = EventNames
 
 type EmitPayloadSchema<E extends Fqen> =
 	SkillEventContract['eventSignatures'][E]['emitPayloadSchema']
+
+type ResponsePayloadSchema<E extends Fqen> =
+	SkillEventContract['eventSignatures'][E] extends EventSignature
+		? SkillEventContract['eventSignatures'][E]['responsePayloadSchema']
+		: never
 
 type TargetAndPayload<
 	E extends Fqen,
@@ -14,9 +23,6 @@ type TargetAndPayload<
 		? EmitPayloadSchema<E>
 		: never
 > = SchemaValues<S>
-
-type ResponsePayloadSchema<E extends Fqen> =
-	SkillEventContract['eventSignatures'][E]['responsePayloadSchema']
 
 type Response<E extends Fqen> = ResponsePayloadSchema<E> extends Schema
 	? SchemaValues<ResponsePayloadSchema<E>>
