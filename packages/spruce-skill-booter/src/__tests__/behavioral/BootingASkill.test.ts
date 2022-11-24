@@ -12,6 +12,16 @@ export default class BootingASkillTest extends AbstractSkillTest {
 	}
 
 	@test()
+	protected static async canSetCwd() {
+		this.cwd = 'aoeuaoeu'
+	}
+
+	@test()
+	protected static async resetsCwd() {
+		assert.isEqual(this.cwd, process.cwd())
+	}
+
+	@test()
 	protected static async bootShouldNotStartCountdownUntilAfterExecute() {
 		this.cwd = process.cwd()
 

@@ -17,6 +17,11 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
 	protected static registeredSkills: Skill[] = []
 	protected static skillBootError?: any
 
+	protected static async beforeEach(): Promise<void> {
+		await super.beforeEach()
+		this.cwd = process.cwd()
+	}
+
 	protected static async afterEach() {
 		await super.afterEach()
 
