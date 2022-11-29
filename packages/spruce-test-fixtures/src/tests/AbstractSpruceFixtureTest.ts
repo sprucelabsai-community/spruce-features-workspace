@@ -1,6 +1,11 @@
 import { DatabaseFixture } from '@sprucelabs/data-stores'
 import { MercuryClient } from '@sprucelabs/mercury-client'
-import { SpruceSchemas } from '@sprucelabs/mercury-types'
+import {
+	Organization,
+	Person,
+	Role,
+	Skill,
+} from '@sprucelabs/spruce-core-schemas'
 import {
 	AbstractSkillTest,
 	SkillFactoryOptions,
@@ -21,12 +26,6 @@ import SeedFixture from './fixtures/SeedFixture'
 import SkillFixture from './fixtures/SkillFixture'
 import StoreFixture from './fixtures/StoreFixture'
 import ViewFixture from './fixtures/ViewFixture'
-
-type Person = SpruceSchemas.Spruce.v2020_07_22.Person
-type Role = SpruceSchemas.Spruce.v2020_07_22.Role
-type Skill = SpruceSchemas.Spruce.v2020_07_22.Skill
-type Organization = SpruceSchemas.Spruce.v2020_07_22.Organization
-type Location = SpruceSchemas.Spruce.v2020_07_22.Location
 
 export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTest {
 	public static fakedPerson: Person
@@ -53,7 +52,7 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		this._fakedOrganizations = orgs
 	}
 
-	public static get fakedLocations(): SpruceSchemas.Spruce.v2020_07_22.Location[] {
+	public static get fakedLocations(): Location[] {
 		assert.isAbove(
 			this._fakedLocations.length,
 			0,

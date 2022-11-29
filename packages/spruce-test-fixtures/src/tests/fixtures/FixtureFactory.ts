@@ -11,6 +11,7 @@ import EventFixture from './EventFixture'
 import LocationFixture from './LocationFixture'
 import MercuryFixture from './MercuryFixture'
 import OrganizationFixture from './OrganizationFixture'
+import PermissionFixture from './PermissionFixture'
 import PersonFixture from './PersonFixture'
 import RoleFixture from './RoleFixture'
 import SchemaFixture from './SchemaFixture'
@@ -84,15 +85,15 @@ export default class FixtureFactory {
 				fixture = new SkillFixture({
 					personFixture,
 					connectToApi: mercuryFixture.getConnectFactory(),
-				}) as any
+				}) as FixtureMap[Name]
 				break
 			}
 			case 'database': {
-				fixture = new DatabaseFixture() as any
+				fixture = new DatabaseFixture() as FixtureMap[Name]
 				break
 			}
 			case 'store': {
-				fixture = new StoreFixture() as any
+				fixture = new StoreFixture() as FixtureMap[Name]
 				break
 			}
 			case 'location': {
@@ -102,7 +103,7 @@ export default class FixtureFactory {
 					people: options?.people ?? this.Fixture('person'),
 					//@ts-ignore
 					organizations: options?.organizations ?? this.Fixture('organization'),
-				}) as any
+				}) as FixtureMap[Name]
 				break
 			}
 			case 'seed':
@@ -110,7 +111,7 @@ export default class FixtureFactory {
 					organizations: this.Fixture('organization'),
 					locations: this.Fixture('location'),
 					people: this.Fixture('person'),
-				}) as any
+				}) as FixtureMap[Name]
 				break
 			case 'view': {
 				if (!this.namespace) {
@@ -198,6 +199,7 @@ export default class FixtureFactory {
 			EventFixture.beforeEach(),
 			SchemaFixture.beforeEach(),
 			LocationFixture.beforeEach(),
+			PermissionFixture.beforeEach(),
 		])
 	}
 
