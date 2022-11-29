@@ -44,8 +44,7 @@ Valid contracts are:
 ${this.fakedPermissions.map((p) => p.contractId).join('\n')}`
 		)
 
-		//@ts-ignore
-		const results: Record<Id, boolean> = {}
+		const results: Record<PermissionId<Contract>, boolean> = {}
 
 		for (const actual of permissionIds) {
 			const fakedPerm: Perm | undefined = faked.permissions.find(
@@ -60,7 +59,6 @@ Valid permissions on this contract are:
 ${faked.permissions.map((p) => p.id).join('\n')}`
 			)
 
-			//@ts-ignore
 			permissionIds.forEach((id) => (results[id] = fakedPerm.can))
 		}
 
