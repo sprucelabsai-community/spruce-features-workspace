@@ -1,6 +1,7 @@
 import { DatabaseFixture } from '@sprucelabs/data-stores'
 import { MercuryClient } from '@sprucelabs/mercury-client'
 import {
+	Location,
 	Organization,
 	Person,
 	Role,
