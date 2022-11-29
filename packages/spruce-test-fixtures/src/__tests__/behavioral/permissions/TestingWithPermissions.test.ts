@@ -1,6 +1,6 @@
 import { fake } from '@sprucelabs/spruce-test-fixtures'
-import { AbstractSpruceFixtureTest } from '@sprucelabs/spruce-test-fixtures'
 import { test, assert } from '@sprucelabs/test-utils'
+import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
 
 @fake.login()
 export default class DisablingPermissionsInTestsTest extends AbstractSpruceFixtureTest {

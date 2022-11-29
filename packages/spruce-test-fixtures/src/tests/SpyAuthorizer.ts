@@ -2,6 +2,7 @@ import {
 	Authorizer,
 	AuthorizerCanOptions,
 } from '@sprucelabs/heartwood-view-controllers'
+import { PermissionContractId, PermissionId } from '@sprucelabs/mercury-types'
 import { assertOptions } from '@sprucelabs/schema'
 import { assert } from '@sprucelabs/test-utils'
 
@@ -24,11 +25,11 @@ export default class SpyAuthorizer implements Authorizer {
 		this.fakedPermissions.unshift(options)
 	}
 
-	public async can<PermissionId extends string>(
-		options: AuthorizerCanOptions<PermissionId>
-	): Promise<Record<PermissionId, boolean>> {
+	public async can<Contract extends PermissionContractId>(
+		options: AuthorizerCanOptions<Contract>
+	): Promise<Record<PermissionId<Contract>, boolean>> {
 		const { contractId, permissionIds } = assertOptions(
-			options as AuthorizerCanOptions<string>,
+			options as AuthorizerCanOptions<Contract>,
 			['contractId', 'permissionIds']
 		)
 
@@ -44,7 +45,7 @@ ${this.fakedPermissions.map((p) => p.contractId).join('\n')}`
 		)
 
 		//@ts-ignore
-		const results: Record<PermissionId, boolean> = {}
+		const results: Record<Id, boolean> = {}
 
 		for (const actual of permissionIds) {
 			const fakedPerm: Perm | undefined = faked.permissions.find(

@@ -1,5 +1,8 @@
 import { SpruceSchemas } from '@sprucelabs/mercury-types'
-import { BASE_ROLES_WITH_META } from '@sprucelabs/spruce-core-schemas'
+import {
+	BASE_ROLES_WITH_META,
+	Organization,
+} from '@sprucelabs/spruce-core-schemas'
 import { test, assert } from '@sprucelabs/test-utils'
 import { errorAssert, generateId } from '@sprucelabs/test-utils'
 import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
@@ -7,7 +10,6 @@ import fake from '../../../tests/decorators/fake'
 import seed from '../../../tests/decorators/seed'
 import eventFaker from '../../../tests/eventFaker'
 import { RoleBase } from '../../../types/fixture.types'
-import { Organization } from '../../test.types'
 
 @fake.login()
 export default class FakingRoleEventsTest extends AbstractSpruceFixtureTest {
