@@ -387,7 +387,7 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async testRouterThrowsOnRedirect() {
-		const router = this.views.getRouter()
+		const router = this.fixture.getRouter()
 		await assert.doesThrowAsync(() => router.redirect('heartwood.root'))
 
 		await vcAssert.assertActionRedirects({
