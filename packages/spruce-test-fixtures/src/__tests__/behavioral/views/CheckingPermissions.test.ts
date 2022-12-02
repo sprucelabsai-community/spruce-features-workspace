@@ -147,9 +147,8 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
 
 	private static can(permissionIds: string[]) {
 		return this.instance.can({
-			//@ts-ignore
-			contractId: this.contractId,
-			permissionIds,
+			contractId: this.contractId as any,
+			permissionIds: permissionIds as any,
 		})
 	}
 

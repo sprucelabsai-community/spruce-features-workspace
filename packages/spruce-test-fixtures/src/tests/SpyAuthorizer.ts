@@ -25,11 +25,14 @@ export default class SpyAuthorizer implements Authorizer {
 		this.fakedPermissions.unshift(options)
 	}
 
-	public async can<Contract extends PermissionContractId>(
-		options: AuthorizerCanOptions<Contract>
-	): Promise<Record<PermissionId<Contract>, boolean>> {
+	public async can<
+		ContractId extends PermissionContractId,
+		Ids extends PermissionId<ContractId>
+	>(
+		options: AuthorizerCanOptions<ContractId, Ids>
+	): Promise<Record<Ids, boolean>> {
 		const { contractId, permissionIds } = assertOptions(
-			options as AuthorizerCanOptions<Contract>,
+			options as AuthorizerCanOptions<ContractId>,
 			['contractId', 'permissionIds']
 		)
 
@@ -44,7 +47,7 @@ Valid contracts are:
 ${this.fakedPermissions.map((p) => p.contractId).join('\n')}`
 		)
 
-		const results: Record<PermissionId<Contract>, boolean> = {}
+		const results: Record<Ids, boolean> = {} as Record<Ids, boolean>
 
 		for (const actual of permissionIds) {
 			const fakedPerm: Perm | undefined = faked.permissions.find(
@@ -59,6 +62,7 @@ Valid permissions on this contract are:
 ${faked.permissions.map((p) => p.id).join('\n')}`
 			)
 
+			//@ts-ignore
 			permissionIds.forEach((id) => (results[id] = fakedPerm.can))
 		}
 
