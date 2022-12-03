@@ -23,7 +23,7 @@
     "build.resolve-paths": "lerna run build.resolve-paths",
     "rebuild": "yarn clean.all && yarn && yarn build.dev",
     "test": "lerna run test --stream",
-    "upgrade.packages": "yarn add -D lerna -W ; for d in packages/*; do echo $d; cd $d; spruce upgrade &&  cd ../..; done",
+    "upgrade.packages": "yarn add -D eslint lerna @sprucelabs/resolve-path-aliases @sprucelabs/semantic-release -W ; for d in packages/*; do echo $d; cd $d; spruce upgrade &&  cd ../..; done",
     "upgrade.packages.all": "yarn install && yarn upgrade.packages",
     "update.dependencies": "yarn clean.dependencies && yarn; yarn add -D lerna -W ; for d in packages/*; do echo $d; cd $d; spruce update.dependencies; cd ../..; done",
     "watch.build.dev": "lerna run watch.build.dev --stream --parallel",
@@ -38,7 +38,9 @@
     "watch.rebuild": "true"
   },
   "devDependencies": {
+    "@sprucelabs/resolve-path-aliases": "^1.1.139",
     "@sprucelabs/semantic-release": "^4.0.8",
+    "eslint": "^8.29.0",
     "lerna": "^6.1.0"
   }
 }
