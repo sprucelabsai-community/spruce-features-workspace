@@ -62,7 +62,7 @@
     "lint.tsc": "tsc -p . --noEmit"
   },
   "dependencies": {
-    "@sprucelabs/data-stores": "^19.0.63",
+    "@sprucelabs/data-stores": "^19.1.0",
     "@sprucelabs/error": "^5.0.548",
     "@sprucelabs/heartwood-view-controllers": "^99.0.5",
     "@sprucelabs/mercury-client": "^35.0.3",
