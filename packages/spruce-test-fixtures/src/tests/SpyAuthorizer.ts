@@ -21,7 +21,9 @@ export default class SpyAuthorizer implements Authorizer {
 		this.instance = undefined
 	}
 
-	public fakePermissions(options: FakeOptions) {
+	public fakePermissions<
+		ContractId extends PermissionContractId = PermissionContractId
+	>(options: FakeOptions<ContractId>) {
 		this.fakedPermissions.unshift(options)
 	}
 
