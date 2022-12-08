@@ -140,8 +140,8 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
 
 	private static fakePermissions(faked: { id: string; can: boolean }[]) {
 		this.instance.fakePermissions({
-			contractId: this.contractId,
-			permissions: faked,
+			contractId: this.contractId as any,
+			permissions: faked as any,
 		})
 	}
 
