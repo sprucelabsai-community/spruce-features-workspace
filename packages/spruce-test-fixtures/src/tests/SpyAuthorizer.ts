@@ -50,9 +50,9 @@ ${this.fakedPermissions.map((p) => p.contractId).join('\n')}`
 		const results: Record<Ids, boolean> = {} as Record<Ids, boolean>
 
 		for (const actual of permissionIds) {
-			const fakedPerm: Perm | undefined = faked.permissions.find(
+			const fakedPerm: Perm<ContractId> | undefined = faked.permissions.find(
 				(p) => p.id === actual
-			)
+			) as Perm<ContractId> | undefined
 			assert.isTruthy(
 				fakedPerm,
 				`Oops! I could not find the permissionId '${actual}'! Make sure you faked it with 'this.views.getAuthorizer().fakePermissions(...)'
@@ -70,12 +70,14 @@ ${faked.permissions.map((p) => p.id).join('\n')}`
 	}
 }
 
-interface Perm {
-	id: string
+interface Perm<ContractId extends PermissionContractId> {
+	id: PermissionId<ContractId>
 	can: boolean
 }
 
-interface FakeOptions {
-	contractId: string
-	permissions: Perm[]
+interface FakeOptions<
+	ContractId extends PermissionContractId = PermissionContractId
+> {
+	contractId: ContractId
+	permissions: Perm<ContractId>[]
 }
