@@ -11,7 +11,7 @@ import { errorAssert } from '@sprucelabs/test-utils'
 import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
 import FakeSkillViewController from '../../../tests/Fake.svc'
 import TestRouter from '../../../tests/routers/TestRouter'
-import SpyAuthorizer from '../../../tests/SpyAuthorizer'
+import FakeAuthorizer from '../../../tests/FakeAuthorizer'
 import BookSkillViewController from '../../testDirsAndFiles/skill/build/skillViewControllers/Book.svc'
 import SpySkillViewController from '../../testDirsAndFiles/skill/build/skillViewControllers/Spy.svc'
 
@@ -163,7 +163,7 @@ export default class RoutingTest extends AbstractSpruceFixtureTest {
 	protected static testRouterBuildsOptionsWithLocaleAndAuthorizer() {
 		const options = this.router.buildLoadOptions()
 		assert.isTrue(options.locale instanceof LocaleImpl)
-		assert.isTrue(options.authorizer instanceof SpyAuthorizer)
+		assert.isTrue(options.authorizer instanceof FakeAuthorizer)
 	}
 
 	private static async assertRedirects(action: () => Promise<any>) {

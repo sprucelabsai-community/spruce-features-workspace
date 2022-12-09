@@ -18,7 +18,7 @@ import {
 } from '@sprucelabs/mercury-types'
 import testRouterEmitPayloadSchema from '#spruce/schemas/spruceTestFixtures/v2021_07_19/testRouterEmitPayload.schema'
 import FakeThemeManager from '../../__tests__/support/FakeThemeManager'
-import SpyAuthorizer from '../SpyAuthorizer'
+import FakeAuthorizer from '../FakeAuthorizer'
 
 const contract = buildEventContract({
 	eventSignatures: {
@@ -144,7 +144,7 @@ export default class TestRouter
 			authenticator: AuthenticatorImpl.getInstance(),
 			args,
 			locale: this.locale,
-			authorizer: SpyAuthorizer.getInstance(),
+			authorizer: FakeAuthorizer.getInstance(),
 			scope: this.scope,
 			themes: this.themes,
 		}

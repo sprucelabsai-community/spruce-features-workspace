@@ -1,8 +1,8 @@
 import { test, assert } from '@sprucelabs/test-utils'
 import { errorAssert, generateId } from '@sprucelabs/test-utils'
 import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
+import FakeAuthorizer from '../../../tests/FakeAuthorizer'
 import ViewFixture from '../../../tests/fixtures/ViewFixture'
-import SpyAuthorizer from '../../../tests/SpyAuthorizer'
 
 export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
 	private static contractId: string
@@ -14,7 +14,7 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async canCreateCheckingPermissions() {
-		assert.isTrue(this.instance instanceof SpyAuthorizer)
+		assert.isTrue(this.instance instanceof FakeAuthorizer)
 	}
 
 	@test()
@@ -113,6 +113,21 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
 	}
 
 	@test()
+	protected static async usesLatestMatchWhenMultipleSent() {
+		this.fakePermissions([
+			{ id: 'test', can: false },
+			{ id: 'test2', can: false },
+		])
+		this.fakePermissions([
+			{ id: 'test', can: true },
+			{ id: 'test2', can: false },
+		])
+
+		const perms = await this.can(['test', 'test2'])
+		assert.isTrue(perms['test'])
+	}
+
+	@test()
 	protected static async canHandleMulplePermissionsWithDifferentContracts() {
 		const firstId = this.contractId
 		this.fakePermissions([{ id: 'test', can: true }])
@@ -153,6 +168,6 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
 	}
 
 	private static get instance() {
-		return SpyAuthorizer.getInstance()
+		return FakeAuthorizer.getInstance()
 	}
 }

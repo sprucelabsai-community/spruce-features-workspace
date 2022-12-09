@@ -31,7 +31,7 @@ import spyMapUtil from '../../utilities/SpyMapUtil'
 import vcDiskUtil from '../../utilities/vcDisk.utility'
 import FakeSkillViewController from '../Fake.svc'
 import TestRouter from '../routers/TestRouter'
-import SpyAuthorizer from '../SpyAuthorizer'
+import FakeAuthorizer from '../FakeAuthorizer'
 import FixtureFactory from './FixtureFactory'
 import LocationFixture from './LocationFixture'
 import OrganizationFixture from './OrganizationFixture'
@@ -247,7 +247,7 @@ export default class ViewFixture {
 		}
 
 		TestRouter.reset()
-		SpyAuthorizer.reset()
+		FakeAuthorizer.reset()
 		ViewFixture.resetMaps()
 
 		ActiveRecordCardViewController.setShouldThrowOnResponseError(true)
@@ -336,7 +336,7 @@ export default class ViewFixture {
 	}
 
 	public getAuthorizer() {
-		return SpyAuthorizer.getInstance()
+		return FakeAuthorizer.getInstance()
 	}
 
 	public getProxyTokenGenerator() {
