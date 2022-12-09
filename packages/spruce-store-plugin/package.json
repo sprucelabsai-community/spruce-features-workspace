@@ -64,13 +64,13 @@
     "lint.tsc": "tsc -p . --noEmit"
   },
   "dependencies": {
-    "@sprucelabs/data-stores": "^19.1.6",
+    "@sprucelabs/data-stores": "^19.1.7",
     "@sprucelabs/error": "^5.0.554",
     "@sprucelabs/schema": "^28.5.82",
-    "@sprucelabs/spruce-core-schemas": "^35.1.83",
-    "@sprucelabs/spruce-event-utils": "^30.0.13",
+    "@sprucelabs/spruce-core-schemas": "^35.1.84",
+    "@sprucelabs/spruce-event-utils": "^30.0.14",
     "@sprucelabs/spruce-skill-booter": "^52.3.23",
-    "@sprucelabs/spruce-skill-utils": "^28.1.11",
+    "@sprucelabs/spruce-skill-utils": "^28.1.12",
     "@sprucelabs/spruce-test-fixtures": "^52.3.23",
     "globby": "^11.0.4",
     "heroku-client": "^3.1.0"
