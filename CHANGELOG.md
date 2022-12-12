@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [52.4.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v52.3.25...v52.4.0) (2022-12-12)
+
+
+### Features
+
+* new MockMessageInterface to make testing conversations easier! ([dcfdf55](https://github.com/sprucelabsai/spruce-features-workspace/commit/dcfdf55))
+
+
+
+
+
 ## [52.3.25](https://github.com/sprucelabsai/spruce-features-workspace/compare/v52.3.24...v52.3.25) (2022-12-11)
 
 **Note:** Version bump only for package spruce-features-workspace
