@@ -125,6 +125,7 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
 
 		const perms = await this.can(['test', 'test2'])
 		assert.isTrue(perms['test'])
+		assert.isFalse(perms['test2'])
 	}
 
 	@test()

@@ -8,7 +8,7 @@ import { assert } from '@sprucelabs/test-utils'
 
 export default class FakeAuthorizer implements Authorizer {
 	private static instance?: FakeAuthorizer
-	private fakedPermissions: FakeOptions[] = []
+	private fakedContracts: FakeOptions[] = []
 
 	public static getInstance() {
 		if (!this.instance) {
@@ -24,7 +24,7 @@ export default class FakeAuthorizer implements Authorizer {
 	public fakePermissions<
 		ContractId extends PermissionContractId = PermissionContractId
 	>(options: FakeOptions<ContractId>) {
-		this.fakedPermissions.unshift(options)
+		this.fakedContracts.unshift(options)
 	}
 
 	public async can<
@@ -38,23 +38,24 @@ export default class FakeAuthorizer implements Authorizer {
 			['contractId', 'permissionIds']
 		)
 
-		const faked = this.fakedPermissions.find((f) => f.contractId === contractId)
+		const fakedContract = this.fakedContracts.find(
+			(f) => f.contractId === contractId
+		)
 
-		this.assertValidContractId(faked, contractId)
+		this.assertValidContractId(fakedContract, contractId)
 
 		const results: Record<Ids, boolean> = {} as Record<Ids, boolean>
 
 		permissionIds.reverse()
 
 		for (const actual of permissionIds) {
-			const fakedPerm: Perm<ContractId> | undefined = faked.permissions.find(
-				(p) => p.id === actual
-			) as Perm<ContractId> | undefined
+			const fakedPerm: Perm<ContractId> | undefined =
+				fakedContract.permissions.find((p) => p.id === actual) as
+					| Perm<ContractId>
+					| undefined
 
-			this.assertValidPermission<ContractId>(fakedPerm, actual, faked)
-
-			//@ts-ignore
-			permissionIds.forEach((id) => (results[id] = fakedPerm.can))
+			this.assertValidPermission<ContractId>(fakedPerm, actual, fakedContract)
+			results[fakedPerm.id as Ids] = fakedPerm.can
 		}
 
 		return results
@@ -85,7 +86,7 @@ ${faked.permissions.map((p) => p.id).join('\n')}`
 
 Valid contracts are: 
 
-${this.fakedPermissions.map((p) => p.contractId).join('\n')}`
+${this.fakedContracts.map((p) => p.contractId).join('\n')}`
 		)
 	}
 }
