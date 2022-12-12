@@ -16,7 +16,7 @@ export default class SpyMessageBeforeAndAfterEachTest extends AbstractSpruceTest
 	protected static async throwsIfDanglingPrompt() {
 		MockMessageInterface.afterEach()
 		const ui = MockMessageInterface.Ui()
-		ui.prompt({ type: 'number' })
+		void ui.prompt({ type: 'number' })
 		ui.renderLine('Hey there!')
 		assert.doesThrow(() => MockMessageInterface.afterEach())
 	}
