@@ -9,35 +9,6 @@ import { TopicSuggester } from '../topics/TopicSuggester'
 import { LoadedTopicDefinition, Message } from '../types/conversation.types'
 import randomUtil from '../utilities/random.utility'
 
-type WriteHandler = (message: Pick<Message, 'body' | 'choices'>) => void
-type SelectHandler = (
-	message: Pick<Message, 'body' | 'choices'>
-) => Promise<string>
-type SimplifiedTopic = LoadedTopicDefinition
-
-const inquirerSelectPromptHandler: SelectHandler = async (message) => {
-	const answer = await inquirer.prompt({
-		type: 'list',
-		name: 'select',
-		message: message.body,
-		choices: message.choices?.map((c) => ({ name: c.label, value: c.value })),
-	})
-
-	return answer.select as string
-}
-
-const inquirerPromptHandler: SelectHandler = async (message) => {
-	const answer = await inquirer.prompt({
-		type: 'input',
-		name: 'input',
-		message: message.body,
-	})
-
-	return answer.input as string
-}
-
-export const END_OF_LINE = 'END OF LINE 👾'
-
 export default class ScriptTester {
 	private writeHandler: WriteHandler
 	private player?: TopicScriptPlayer
@@ -123,6 +94,7 @@ export default class ScriptTester {
 			await this.promptHandler({ body: 'Enter to start again.' })
 		}
 	}
+
 	private async reportOnConfidence(msg: string) {
 		if (!this.suggester) {
 			this.suggester = await TopicSuggester.Suggester({ topics: this.topics })
@@ -208,3 +180,32 @@ export function generateTransitionMessage(
 ): string {
 	return `Conversation exited. Transitioning to ${transitionConversationTo}.`
 }
+
+type WriteHandler = (message: Pick<Message, 'body' | 'choices'>) => void
+type SelectHandler = (
+	message: Pick<Message, 'body' | 'choices'>
+) => Promise<string>
+type SimplifiedTopic = LoadedTopicDefinition
+
+const inquirerSelectPromptHandler: SelectHandler = async (message) => {
+	const answer = await inquirer.prompt({
+		type: 'list',
+		name: 'select',
+		message: message.body,
+		choices: message.choices?.map((c) => ({ name: c.label, value: c.value })),
+	})
+
+	return answer.select as string
+}
+
+const inquirerPromptHandler: SelectHandler = async (message) => {
+	const answer = await inquirer.prompt({
+		type: 'input',
+		name: 'input',
+		message: message.body,
+	})
+
+	return answer.input as string
+}
+
+export const END_OF_LINE = 'END OF LINE 👾'

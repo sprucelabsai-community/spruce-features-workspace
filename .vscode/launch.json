@@ -18,7 +18,7 @@
 			"type": "node",
 			"request": "launch",
 			"name": "conversation-plugin.test.file",
-			"runtimeExecutable": "/usr/local/bin/node",
+			"runtimeExecutable": "node",
 			"runtimeArgs": [
 				"--inspect-brk",
 				"--trace-warnings",
@@ -35,7 +35,7 @@
 			"type": "node",
 			"request": "launch",
 			"name": "test-fixtures.test.file",
-			"runtimeExecutable": "/usr/local/bin/node",
+			"runtimeExecutable": "node",
 			"runtimeArgs": [
 				"--inspect-brk",
 				"--trace-warnings",
@@ -52,7 +52,7 @@
 			"type": "node",
 			"request": "launch",
 			"name": "event-plugin.test.file",
-			"runtimeExecutable": "/usr/local/bin/node",
+			"runtimeExecutable": "node",
 			"runtimeArgs": [
 				"--inspect-brk",
 				"--trace-warnings",
@@ -69,7 +69,7 @@
 			"type": "node",
 			"request": "launch",
 			"name": "event-plugin.test.all",
-			"runtimeExecutable": "/usr/local/bin/node",
+			"runtimeExecutable": "node",
 			"runtimeArgs": [
 				"--inspect-brk",
 				"--trace-warnings",
