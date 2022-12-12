@@ -322,28 +322,6 @@ export default class ListeningToEventsTest extends AbstractListenerTest {
 		assert.isFalse(events.areListenersCached())
 	}
 
-	@test.skip(
-		'socket.io issue (logs in mercury) dont have time to track down. never gets passed second bootSkillAndResetSkill()'
-	)
-	protected static async willReRegisterListenersWithDifferentHost() {
-		let unRegisterListenerCount = 0
-
-		const { currentSkill, events } =
-			await this.setCwdRegisterSkillAndSetupListeners({
-				onUnregisterListeners: () => {
-					unRegisterListenerCount++
-				},
-			})
-
-		await this.bootKillAndResetSkill(currentSkill, events)
-
-		process.env.HOST = process.env.HOST + ':443'
-
-		await this.bootKillAndResetSkill(currentSkill, events)
-
-		assert.isEqual(unRegisterListenerCount, 2)
-	}
-
 	@test()
 	protected static async doesNotDestroySettingsFile() {
 		const { client1, fqen, currentSkill, org } =

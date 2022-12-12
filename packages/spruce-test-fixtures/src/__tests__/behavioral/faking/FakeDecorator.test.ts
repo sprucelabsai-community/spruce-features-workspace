@@ -42,12 +42,6 @@ export default class FakeDecoratorTest extends AbstractFakeDecoratorTest {
 		assert.isTrue(MercuryTestClient.getShouldRequireLocalListeners())
 	}
 
-	@test.skip()
-	protected static async setsOwnerToClass() {
-		const auth = await this.fakeLoginAndGetAuth()
-		assert.isEqualDeep(this.fakedPerson, auth.person)
-	}
-
 	@test()
 	protected static async getPersonThrowsWithoutPersonId() {
 		await this.fakeLogin()

@@ -2,7 +2,6 @@ import {
 	AbstractSkillViewController,
 	ActiveRecordListViewController,
 	AuthenticatorImpl,
-	buildForm,
 	formAssert,
 	ScopeFlag,
 	SkillViewControllerLoadOptions,
@@ -422,23 +421,6 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 	protected static activeRecordThrowReset() {
 		//@ts-ignore
 		assert.isTrue(ActiveRecordListViewController.shouldThrowOnResponseError)
-	}
-
-	@test.skip()
-	protected static async patchesFormsToThrow() {
-		const viewFixture = this.Fixture('view', {
-			controllerMap: {},
-		})
-		const formVc = viewFixture.Controller(
-			'form',
-			buildForm({
-				id: 'test',
-				schema: { id: 'test', fields: {} },
-				sections: [],
-			})
-		)
-
-		await assert.doesThrowAsync(() => formVc.submit())
 	}
 
 	@test()
