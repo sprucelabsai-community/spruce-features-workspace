@@ -1,3 +1,4 @@
+import { AuthenticatorImpl } from '@sprucelabs/heartwood-view-controllers'
 import FakeAuthorizer from '../FakeAuthorizer'
 
 export default class PermissionFixture {
@@ -7,5 +8,9 @@ export default class PermissionFixture {
 
 	public getAuthorizer() {
 		return FakeAuthorizer.getInstance()
+	}
+
+	public getAuthenticator() {
+		return AuthenticatorImpl.getInstance()
 	}
 }

@@ -138,10 +138,18 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
 	}
 
 	@test()
-	protected static async permissionFixtures() {
+	protected static async sameAuthorizerAsViews() {
 		this.setupEmptyViewFixture()
 		const auth1 = this.views.getAuthorizer()
 		const auth2 = this.permissions.getAuthorizer()
+		assert.isEqual(auth1, auth2)
+	}
+
+	@test()
+	protected static async sameAuthenticatorAsViews() {
+		this.setupEmptyViewFixture()
+		const auth1 = this.views.getAuthenticator()
+		const auth2 = this.permissions.getAuthenticator()
 		assert.isEqual(auth1, auth2)
 	}
 
