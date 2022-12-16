@@ -3,7 +3,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "52.3.25",
+  "version": "52.4.6",
   "files": [
     "build/**/*",
     "!build/__tests__",
@@ -60,13 +60,13 @@
   },
   "dependencies": {
     "@sprucelabs/error": "^5.0.554",
-    "@sprucelabs/schema": "^28.5.83",
-    "@sprucelabs/spruce-skill-utils": "^28.1.13",
-    "@sprucelabs/test-utils": "^3.2.71"
+    "@sprucelabs/schema": "^28.5.85",
+    "@sprucelabs/spruce-skill-utils": "^28.1.15",
+    "@sprucelabs/test-utils": "^3.2.73"
   },
   "devDependencies": {
-    "@sprucelabs/esm-postbuild": "^2.0.48",
-    "@sprucelabs/jest-json-reporter": "^6.0.534",
+    "@sprucelabs/esm-postbuild": "^2.0.50",
+    "@sprucelabs/jest-json-reporter": "^6.0.536",
     "@sprucelabs/resolve-path-aliases": "^1.1.144",
     "@sprucelabs/semantic-release": "^4.0.8",
     "@sprucelabs/test": "^7.7.398",
