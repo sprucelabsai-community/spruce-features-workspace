@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [52.5.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v52.4.7...v52.5.0) (2022-12-16)
+
+
+### Features
+
+* can get authorizer off perms fixuter now! ([3ca2afa](https://github.com/sprucelabsai/spruce-features-workspace/commit/3ca2afa))
+* permission fixture is available and has shared authenticator and authorizer ([d22a2a1](https://github.com/sprucelabsai/spruce-features-workspace/commit/d22a2a1))
+
+
+
+
+
 ## [52.4.7](https://github.com/sprucelabsai/spruce-features-workspace/compare/v52.4.6...v52.4.7) (2022-12-16)
 
 **Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
