@@ -5,6 +5,7 @@ import FakeSkillViewController from '../tests/Fake.svc'
 import LocationFixture from '../tests/fixtures/LocationFixture'
 import MercuryFixture from '../tests/fixtures/MercuryFixture'
 import OrganizationFixture from '../tests/fixtures/OrganizationFixture'
+import PermissionFixture from '../tests/fixtures/PermissionFixture'
 import PersonFixture from '../tests/fixtures/PersonFixture'
 import RoleFixture from '../tests/fixtures/RoleFixture'
 import SeedFixture from '../tests/fixtures/SeedFixture'
@@ -33,6 +34,7 @@ export interface FixtureClassMap {
 	location: typeof LocationFixture
 	role: typeof RoleFixture
 	seed: typeof SeedFixture
+	permission: typeof PermissionFixture
 }
 
 export type RoleBase = NonNullable<

@@ -331,10 +331,16 @@ export default class ViewFixture {
 		return TestRouter.getInstance()
 	}
 
+	/**
+	 * @deprecated this.views.getAuthorizer() -> this.permissions.getAuthorizer()
+	 */
 	public getAuthenticator() {
 		return AuthenticatorImpl.getInstance()
 	}
 
+	/**
+	 * @deprecated this.views.getAuthorizer() -> this.permissions.getAuthorizer()
+	 */
 	public getAuthorizer() {
 		return FakeAuthorizer.getInstance()
 	}

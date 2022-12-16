@@ -113,6 +113,9 @@ export default class FixtureFactory {
 					people: this.Fixture('person'),
 				}) as FixtureMap[Name]
 				break
+			case 'permission':
+				fixture = new PermissionFixture() as FixtureMap[Name]
+				break
 			case 'view': {
 				if (!this.namespace) {
 					throw new Error(

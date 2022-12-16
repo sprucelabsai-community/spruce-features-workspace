@@ -21,6 +21,7 @@ import FixtureFactory from './fixtures/FixtureFactory'
 import LocationFixture from './fixtures/LocationFixture'
 import MercuryFixture from './fixtures/MercuryFixture'
 import OrganizationFixture from './fixtures/OrganizationFixture'
+import PermissionFixture from './fixtures/PermissionFixture'
 import PersonFixture from './fixtures/PersonFixture'
 import RoleFixture from './fixtures/RoleFixture'
 import SeedFixture from './fixtures/SeedFixture'
@@ -79,6 +80,17 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 	public static set views(fixture: ViewFixture | undefined) {
 		this._views = fixture
 	}
+
+	public static get permissions(): PermissionFixture {
+		if (!this._permissions) {
+			this._permissions = this.Fixture('permission')
+		}
+		return this._permissions
+	}
+	public static set permissions(fixture: PermissionFixture | undefined) {
+		this._permissions = fixture
+	}
+
 	public static get roles(): RoleFixture {
 		if (!this._roles) {
 			this._roles = this.Fixture('role')
@@ -174,6 +186,7 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 	private static _mercury?: MercuryFixture
 	private static _stores?: StoreFixture
 	private static _database?: DatabaseFixture
+	private static _permissions?: PermissionFixture
 
 	protected static async beforeAll() {
 		await super.beforeAll()

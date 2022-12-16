@@ -1,8 +1,8 @@
 import { test, assert } from '@sprucelabs/test-utils'
 import { errorAssert, generateId } from '@sprucelabs/test-utils'
-import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
-import FakeAuthorizer from '../../../tests/FakeAuthorizer'
-import ViewFixture from '../../../tests/fixtures/ViewFixture'
+import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
+import FakeAuthorizer from '../../tests/FakeAuthorizer'
+import ViewFixture from '../../tests/fixtures/ViewFixture'
 
 export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
 	private static contractId: string
@@ -96,9 +96,7 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async fixtureAndLoadOptionsShareAuthorizer() {
-		this.views = this.Fixture('view', {
-			controllerMap: {},
-		})
+		this.setupEmptyViewFixture()
 		const auth = this.views.getAuthorizer()
 		const router = this.views.getRouter()
 		assert.isEqual(auth, router.buildLoadOptions().authorizer)
@@ -139,6 +137,14 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
 		assert.isTrue(perms['test'])
 	}
 
+	@test()
+	protected static async permissionFixtures() {
+		this.setupEmptyViewFixture()
+		const auth1 = this.views.getAuthorizer()
+		const auth2 = this.permissions.getAuthorizer()
+		assert.isEqual(auth1, auth2)
+	}
+
 	private static async assertPermNotFound(checkIds: string[], id: string) {
 		await assert.doesThrowAsync(() => this.can(checkIds), id)
 	}
@@ -165,6 +171,12 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
 		return this.instance.can({
 			contractId: this.contractId as any,
 			permissionIds: permissionIds as any,
+		})
+	}
+
+	private static setupEmptyViewFixture() {
+		this.views = this.Fixture('view', {
+			controllerMap: {},
 		})
 	}
 
