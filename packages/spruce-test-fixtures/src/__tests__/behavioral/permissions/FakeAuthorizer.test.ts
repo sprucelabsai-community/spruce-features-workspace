@@ -1,8 +1,8 @@
 import { test, assert } from '@sprucelabs/test-utils'
 import { errorAssert, generateId } from '@sprucelabs/test-utils'
-import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
-import FakeAuthorizer from '../../tests/FakeAuthorizer'
-import ViewFixture from '../../tests/fixtures/ViewFixture'
+import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
+import FakeAuthorizer from '../../../tests/FakeAuthorizer'
+import ViewFixture from '../../../tests/fixtures/ViewFixture'
 
 export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
 	private static contractId: string
