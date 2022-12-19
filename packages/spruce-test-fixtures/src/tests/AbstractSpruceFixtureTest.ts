@@ -5,6 +5,7 @@ import {
 	Organization,
 	Person,
 	Role,
+	Skill as ISkill,
 } from '@sprucelabs/spruce-core-schemas'
 import {
 	AbstractSkillTest,
@@ -35,7 +36,7 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 	public static fakedTeammates: Person[]
 	public static fakedOwners: Person[]
 	public static fakedRoles: Role[]
-	public static fakedSkills: Skill[]
+	public static fakedSkills: ISkill[]
 	public static fakedManagers: Person[]
 	public static fakedGuests: Person[]
 	public static fakedGroupManagers: Person[]
