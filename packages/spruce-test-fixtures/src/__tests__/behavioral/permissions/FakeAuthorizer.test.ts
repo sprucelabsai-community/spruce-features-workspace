@@ -2,7 +2,7 @@ import { test, assert } from '@sprucelabs/test-utils'
 import { errorAssert, generateId } from '@sprucelabs/test-utils'
 import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
 import FakeAuthorizer from '../../../tests/FakeAuthorizer'
-import ViewFixture from '../../../tests/fixtures/ViewFixture'
+import PermissionFixture from '../../../tests/fixtures/PermissionFixture'
 
 export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
 	private static contractId: string
@@ -23,9 +23,9 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
 	}
 
 	@test()
-	protected static async viewsFixtureResetsInstance() {
+	protected static async permsFixtureResetsInstance() {
 		const instance = this.instance
-		await ViewFixture.beforeEach()
+		PermissionFixture.beforeEach()
 		assert.isNotEqual(this.instance, instance)
 	}
 
@@ -97,7 +97,7 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
 	@test()
 	protected static async fixtureAndLoadOptionsShareAuthorizer() {
 		this.setupEmptyViewFixture()
-		const auth = this.views.getAuthorizer()
+		const auth = this.permissions.getAuthorizer()
 		const router = this.views.getRouter()
 		assert.isEqual(auth, router.buildLoadOptions().authorizer)
 	}
@@ -164,7 +164,7 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
 	private static async assertThrowsFakeError() {
 		await assert.doesThrowAsync(
 			() => this.can(['test']),
-			`Contract by the id '${this.contractId}'`
+			`Contract with the id of '${this.contractId}'`
 		)
 	}
 
@@ -189,6 +189,6 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
 	}
 
 	private static get instance() {
-		return FakeAuthorizer.getInstance()
+		return this.permissions.getAuthorizer()
 	}
 }

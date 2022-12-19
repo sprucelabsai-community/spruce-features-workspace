@@ -114,7 +114,7 @@ export default class FixtureFactory {
 				}) as FixtureMap[Name]
 				break
 			case 'permission':
-				fixture = new PermissionFixture() as FixtureMap[Name]
+				fixture = new PermissionFixture(mercuryFixture) as FixtureMap[Name]
 				break
 			case 'view': {
 				if (!this.namespace) {
@@ -130,6 +130,7 @@ export default class FixtureFactory {
 					namespace: this.namespace,
 					proxyDecorator: ClientProxyDecorator.getInstance(),
 					cwd: this.cwd,
+					permissions: this.Fixture('permission'),
 					...options,
 				}) as any
 				break

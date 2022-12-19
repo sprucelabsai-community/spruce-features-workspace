@@ -7,19 +7,7 @@ import { assertOptions } from '@sprucelabs/schema'
 import { assert } from '@sprucelabs/test-utils'
 
 export default class FakeAuthorizer implements Authorizer {
-	private static instance?: FakeAuthorizer
 	private fakedContracts: FakeOptions[] = []
-
-	public static getInstance() {
-		if (!this.instance) {
-			this.instance = new this()
-		}
-		return this.instance
-	}
-
-	public static reset() {
-		this.instance = undefined
-	}
 
 	public fakePermissions<
 		ContractId extends PermissionContractId = PermissionContractId

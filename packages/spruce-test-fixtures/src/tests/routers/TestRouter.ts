@@ -1,6 +1,7 @@
 import { Locale } from '@sprucelabs/calendar-utils'
 import {
 	AuthenticatorImpl,
+	Authorizer,
 	Router,
 	routerTestPatcher,
 	Scope,
@@ -18,7 +19,6 @@ import {
 } from '@sprucelabs/mercury-types'
 import testRouterEmitPayloadSchema from '#spruce/schemas/spruceTestFixtures/v2021_07_19/testRouterEmitPayload.schema'
 import FakeThemeManager from '../../__tests__/support/FakeThemeManager'
-import FakeAuthorizer from '../FakeAuthorizer'
 
 const contract = buildEventContract({
 	eventSignatures: {
@@ -46,6 +46,8 @@ export default class TestRouter
 	private locale: Locale
 
 	private readonly themes = new FakeThemeManager()
+	private authorizer: Authorizer
+	private static authorizer: Authorizer
 
 	public static setShouldThrowWhenRedirectingToBadSvc(shouldThrow: boolean) {
 		this.shouldThrowWhenRedirectingToBadSvc = shouldThrow
@@ -55,12 +57,14 @@ export default class TestRouter
 		vcFactory: ViewControllerFactory
 		scope: Scope
 		locale: Locale
+		authorizer: Authorizer
 	}) {
 		super(contract)
 
 		this.vcFactory = options.vcFactory
 		this.scope = options.scope
 		this.locale = options.locale
+		this.authorizer = options.authorizer
 	}
 
 	public static setShouldLoadDestinationVc(shouldLoad: boolean) {
@@ -73,6 +77,7 @@ export default class TestRouter
 				vcFactory: this.vcFactory,
 				scope: this.scope,
 				locale: this.locale,
+				authorizer: this.authorizer,
 			})
 
 			routerTestPatcher.patchRedirectToThrow(this.instance)
@@ -95,10 +100,12 @@ export default class TestRouter
 		vcFactory: ViewControllerFactory
 		scope: Scope
 		locale: Locale
+		authorizer: Authorizer
 	}) {
 		this.vcFactory = options.vcFactory
 		this.scope = options.scope
 		this.locale = options.locale
+		this.authorizer = options.authorizer
 	}
 
 	public getPresentVc() {
@@ -144,7 +151,7 @@ export default class TestRouter
 			authenticator: AuthenticatorImpl.getInstance(),
 			args,
 			locale: this.locale,
-			authorizer: FakeAuthorizer.getInstance(),
+			authorizer: this.authorizer,
 			scope: this.scope,
 			themes: this.themes,
 		}

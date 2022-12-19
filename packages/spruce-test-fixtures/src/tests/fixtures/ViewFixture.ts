@@ -30,11 +30,11 @@ import { ArgsFromSvc } from '../../types/view.types'
 import spyMapUtil from '../../utilities/SpyMapUtil'
 import vcDiskUtil from '../../utilities/vcDisk.utility'
 import FakeSkillViewController from '../Fake.svc'
-import FakeAuthorizer from '../FakeAuthorizer'
 import TestRouter from '../routers/TestRouter'
 import FixtureFactory from './FixtureFactory'
 import LocationFixture from './LocationFixture'
 import OrganizationFixture from './OrganizationFixture'
+import PermissionFixture from './PermissionFixture'
 import PersonFixture from './PersonFixture'
 import SpyScope from './SpyScope'
 
@@ -57,6 +57,7 @@ export default class ViewFixture {
 	private locations: LocationFixture
 	private proxyDecorator: ClientProxyDecorator
 	private locale: Locale
+	private permissions: PermissionFixture
 
 	public static lockProxyCacheForPerson(id: any) {
 		this.dontResetProxyTokenForPersonId = id
@@ -75,6 +76,7 @@ export default class ViewFixture {
 		controllerMap?: Record<string, any>
 		namespace: string
 		proxyDecorator: ClientProxyDecorator
+		permissions: PermissionFixture
 	}) {
 		this.connectToApi = options.connectToApi
 		this.people = options.people
@@ -87,6 +89,7 @@ export default class ViewFixture {
 		this.orgs = options.fixtureFactory.Fixture('organization', {
 			people: this.people,
 		})
+		this.permissions = options.permissions
 
 		this.locale = new LocaleImpl()
 		this.locations = options.fixtureFactory.Fixture('location', {
@@ -247,7 +250,6 @@ export default class ViewFixture {
 		}
 
 		TestRouter.reset()
-		FakeAuthorizer.reset()
 		ViewFixture.resetMaps()
 
 		ActiveRecordCardViewController.setShouldThrowOnResponseError(true)
@@ -327,6 +329,7 @@ export default class ViewFixture {
 			vcFactory: this.getFactory(),
 			scope: this.getScope(),
 			locale: this.getLocale(),
+			authorizer: this.permissions.getAuthorizer(),
 		})
 		return TestRouter.getInstance()
 	}
@@ -335,14 +338,14 @@ export default class ViewFixture {
 	 * @deprecated this.views.getAuthorizer() -> this.permissions.getAuthorizer()
 	 */
 	public getAuthenticator() {
-		return AuthenticatorImpl.getInstance()
+		return this.permissions.getAuthenticator()
 	}
 
 	/**
 	 * @deprecated this.views.getAuthorizer() -> this.permissions.getAuthorizer()
 	 */
 	public getAuthorizer() {
-		return FakeAuthorizer.getInstance()
+		return this.permissions.getAuthorizer()
 	}
 
 	public getProxyTokenGenerator() {
@@ -359,7 +362,7 @@ export default class ViewFixture {
 	}> {
 		const { person, token, client } = await this.people.loginAsDemoPerson(phone)
 
-		this.getAuthenticator().setSessionToken(token, person)
+		this.permissions.getAuthenticator().setSessionToken(token, person)
 
 		this.proxyDecorator.setProxyTokenGenerator(async () => {
 			if (!ViewFixture.loggedInPersonProxyTokens[person.id]) {
