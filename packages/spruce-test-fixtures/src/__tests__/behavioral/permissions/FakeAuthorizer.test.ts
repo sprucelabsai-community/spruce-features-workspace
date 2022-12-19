@@ -164,7 +164,7 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
 	private static async assertThrowsFakeError() {
 		await assert.doesThrowAsync(
 			() => this.can(['test']),
-			`Contract with the id of '${this.contractId}'`
+			`Contract with the id '${this.contractId}'`
 		)
 	}
 
