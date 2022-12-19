@@ -41,6 +41,119 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 	public static fakedGuests: Person[]
 	public static fakedGroupManagers: Person[]
 
+	private static _fakedOrganizations: Organization[] = []
+	private static _fakedLocations: Location[] = []
+
+	public static cwd: string
+
+	private static _views?: ViewFixture
+	private static _roles?: RoleFixture
+	private static _locations?: LocationFixture
+	private static _organizations?: OrganizationFixture
+	private static _people?: PersonFixture
+	private static _seeder?: SeedFixture
+	private static _skills?: SkillFixture
+	private static _mercury?: MercuryFixture
+	private static _stores?: StoreFixture
+	private static _database?: DatabaseFixture
+	private static _permissions?: PermissionFixture
+	private static _fixtures?: FixtureFactory
+	protected static _namespace?: string
+
+	protected static async beforeAll() {
+		await super.beforeAll()
+		await FixtureFactory.beforeAll()
+
+		console.error = testLog.error
+	}
+
+	protected static async beforeEach() {
+		await super.beforeEach()
+		await FixtureFactory.beforeEach(this.cwd)
+
+		this._fixtures = undefined
+		this.clearLocalFixtures()
+	}
+
+	private static clearLocalFixtures() {
+		this.views = undefined
+		this.roles = undefined
+		this.locations = undefined
+		this.organizations = undefined
+		this.people = undefined
+		this.seeder = undefined
+		this.skills = undefined
+		this.mercury = undefined
+		this.stores = undefined
+		this.database = undefined
+		this.permissions = undefined
+	}
+
+	protected static async afterEach() {
+		await super.afterEach()
+		await FixtureFactory.afterEach()
+		this.clearLocalFixtures()
+	}
+
+	protected static async afterAll() {
+		await super.afterAll()
+		await FixtureFactory.afterAll()
+	}
+
+	public static Fixture<Name extends FixtureName>(
+		name: Name,
+		options?: Partial<FixtureConstructorOptionsMap[Name]>
+	) {
+		if (!this._fixtures) {
+			if (!this._namespace) {
+				const pkg = diskUtil.resolvePath(this.cwd, 'package.json')
+
+				if (diskUtil.doesFileExist(pkg)) {
+					const values = JSON.parse(diskUtil.readFile(pkg))
+					this._namespace = values?.skill?.namespace
+				}
+			}
+
+			this._fixtures = new FixtureFactory({
+				cwd: this.cwd,
+				namespace: this._namespace,
+			})
+		}
+
+		return this._fixtures.Fixture(name, options)
+	}
+
+	protected static async bootAndRegisterNewSkill(
+		options: SkillFactoryOptions & { name: string; slug?: string }
+	) {
+		const { name, slug, ...skillOptions } = options
+
+		const { skill, client } = await this.skills.loginAsDemoSkill({
+			name,
+			slug,
+		})
+
+		process.env.SKILL_ID = skill.id
+		process.env.SKILL_API_KEY = skill.apiKey
+
+		const { skill: bootedSkill, executionPromise } = await this.bootSkill(
+			skillOptions
+		)
+
+		return { skill: bootedSkill, client, executionPromise }
+	}
+
+	protected static async bootAndRegisterSkillFromTestDir(key: string) {
+		const registeredSkill = await this.skills.seedDemoSkill({
+			name: 'my test skill',
+		})
+
+		process.env.SKILL_ID = registeredSkill.id
+		process.env.SKILL_API_KEY = registeredSkill.apiKey
+
+		return this.bootSkillFromTestDir(key)
+	}
+
 	public static get fakedOrganizations(): Organization[] {
 		return this._fakedOrganizations
 	}
@@ -67,10 +180,6 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		this._fakedLocations = locations
 	}
 
-	private static _fakedOrganizations: Organization[] = []
-	private static _fakedLocations: Location[] = []
-
-	public static cwd: string
 	public static get views(): ViewFixture {
 		if (!this._views) {
 			this._views = this.Fixture('view')
@@ -174,104 +283,5 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 
 	public static set database(fixture: DatabaseFixture | undefined) {
 		this._database = fixture
-	}
-
-	private static _views?: ViewFixture
-	private static _roles?: RoleFixture
-	private static _locations?: LocationFixture
-	private static _organizations?: OrganizationFixture
-	private static _people?: PersonFixture
-	private static _seeder?: SeedFixture
-	private static _skills?: SkillFixture
-	private static _mercury?: MercuryFixture
-	private static _stores?: StoreFixture
-	private static _database?: DatabaseFixture
-	private static _permissions?: PermissionFixture
-
-	protected static async beforeAll() {
-		await super.beforeAll()
-		await FixtureFactory.beforeAll()
-
-		console.error = testLog.error
-	}
-
-	protected static async beforeEach() {
-		await super.beforeEach()
-		await FixtureFactory.beforeEach(this.cwd)
-
-		this.clearLocalFixtures()
-	}
-
-	private static clearLocalFixtures() {
-		this.views = undefined
-		this.roles = undefined
-		this.locations = undefined
-		this.organizations = undefined
-		this.people = undefined
-		this.seeder = undefined
-		this.skills = undefined
-		this.mercury = undefined
-		this.stores = undefined
-		this.database = undefined
-	}
-
-	protected static async afterEach() {
-		await super.afterEach()
-		await FixtureFactory.afterEach()
-		this.clearLocalFixtures()
-	}
-
-	protected static async afterAll() {
-		await super.afterAll()
-		await FixtureFactory.afterAll()
-	}
-
-	public static Fixture<Name extends FixtureName>(
-		name: Name,
-		options?: Partial<FixtureConstructorOptionsMap[Name]>
-	) {
-		const pkg = diskUtil.resolvePath(this.cwd, 'package.json')
-		let namespace: undefined | string
-
-		if (diskUtil.doesFileExist(pkg)) {
-			const values = JSON.parse(diskUtil.readFile(pkg))
-			namespace = values?.skill?.namespace
-		}
-
-		return new FixtureFactory({ cwd: this.cwd, namespace }).Fixture(
-			name,
-			options
-		)
-	}
-
-	protected static async bootAndRegisterNewSkill(
-		options: SkillFactoryOptions & { name: string; slug?: string }
-	) {
-		const { name, slug, ...skillOptions } = options
-
-		const { skill, client } = await this.skills.loginAsDemoSkill({
-			name,
-			slug,
-		})
-
-		process.env.SKILL_ID = skill.id
-		process.env.SKILL_API_KEY = skill.apiKey
-
-		const { skill: bootedSkill, executionPromise } = await this.bootSkill(
-			skillOptions
-		)
-
-		return { skill: bootedSkill, client, executionPromise }
-	}
-
-	protected static async bootAndRegisterSkillFromTestDir(key: string) {
-		const registeredSkill = await this.skills.seedDemoSkill({
-			name: 'my test skill',
-		})
-
-		process.env.SKILL_ID = registeredSkill.id
-		process.env.SKILL_API_KEY = registeredSkill.apiKey
-
-		return this.bootSkillFromTestDir(key)
 	}
 }

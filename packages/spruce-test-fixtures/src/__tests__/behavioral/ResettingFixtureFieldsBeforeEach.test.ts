@@ -11,6 +11,7 @@ import {
 	StoreFixture,
 	ViewFixture,
 } from '../..'
+import PermissionFixture from '../../tests/fixtures/PermissionFixture'
 import SeedFixture from '../../tests/fixtures/SeedFixture'
 
 const toCheck = [
@@ -73,6 +74,12 @@ const toCheck = [
 		privatePropName: '_stores',
 		fixtureName: 'store',
 		instanceOf: StoreFixture,
+	},
+	{
+		prop: 'permissions',
+		privatePropName: '_permissions',
+		fixtureName: 'permission',
+		instanceOf: PermissionFixture,
 	},
 ]
 
