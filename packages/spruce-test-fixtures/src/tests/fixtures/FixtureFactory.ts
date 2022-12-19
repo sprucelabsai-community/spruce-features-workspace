@@ -39,6 +39,14 @@ export default class FixtureFactory {
 		this.namespace = options.namespace
 	}
 
+	public setCwd(cwd: string) {
+		this.cwd = cwd
+	}
+
+	public setNamespace(namespace: string) {
+		this.namespace = namespace
+	}
+
 	public Fixture<Name extends FixtureName>(
 		named: Name,
 		options?: Partial<FixtureConstructorOptionsMap[Name]>

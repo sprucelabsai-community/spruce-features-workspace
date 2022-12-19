@@ -5,13 +5,12 @@ import {
 	Organization,
 	Person,
 	Role,
-	Skill,
 } from '@sprucelabs/spruce-core-schemas'
 import {
 	AbstractSkillTest,
 	SkillFactoryOptions,
 } from '@sprucelabs/spruce-skill-booter'
-import { diskUtil, testLog } from '@sprucelabs/spruce-skill-utils'
+import { diskUtil, Skill, testLog } from '@sprucelabs/spruce-skill-utils'
 import { assert } from '@sprucelabs/test-utils'
 import {
 	FixtureConstructorOptionsMap,
@@ -58,7 +57,6 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 	private static _database?: DatabaseFixture
 	private static _permissions?: PermissionFixture
 	private static _fixtures?: FixtureFactory
-	protected static _namespace?: string
 
 	protected static async beforeAll() {
 		await super.beforeAll()
@@ -105,18 +103,17 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		options?: Partial<FixtureConstructorOptionsMap[Name]>
 	) {
 		if (!this._fixtures) {
-			if (!this._namespace) {
-				const pkg = diskUtil.resolvePath(this.cwd, 'package.json')
+			const pkg = diskUtil.resolvePath(this.cwd, 'package.json')
+			let namespace: string | undefined
 
-				if (diskUtil.doesFileExist(pkg)) {
-					const values = JSON.parse(diskUtil.readFile(pkg))
-					this._namespace = values?.skill?.namespace
-				}
+			if (diskUtil.doesFileExist(pkg)) {
+				const values = JSON.parse(diskUtil.readFile(pkg))
+				namespace = values?.skill?.namespace
 			}
 
 			this._fixtures = new FixtureFactory({
 				cwd: this.cwd,
-				namespace: this._namespace,
+				namespace,
 			})
 		}
 
@@ -154,6 +151,14 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		return this.bootSkillFromTestDir(key)
 	}
 
+	protected static async SkillFromTestDir(
+		key: string,
+		options?: SkillFactoryOptions | undefined
+	): Promise<Skill> {
+		const skill = await super.SkillFromTestDir(key, options)
+		this._fixtures = undefined
+		return skill
+	}
 	public static get fakedOrganizations(): Organization[] {
 		return this._fakedOrganizations
 	}

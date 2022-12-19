@@ -124,7 +124,6 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
 		options?: SkillFactoryOptions
 	) {
 		const skill = await this.SkillFromTestDir(key, options)
-
 		const results = await this.bootSkillAndWait(skill)
 
 		return results
