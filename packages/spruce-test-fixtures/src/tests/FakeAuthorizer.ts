@@ -70,7 +70,7 @@ ${faked.permissions.map((p) => p.id).join('\n')}`
 	): asserts faked {
 		assert.isTruthy(
 			faked,
-			`Contract by the id '${contractId}' not found! You need to tell the authorizer how to respond. Try 'this.views.getAuthorizer().fakePermissions(...)'
+			`Contract with the id '${contractId}' not found! You need to tell the authorizer how to respond. Try 'this.views.getAuthorizer().fakePermissions(...)'
 
 Valid contracts are: 
 
