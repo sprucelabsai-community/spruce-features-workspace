@@ -431,7 +431,7 @@ export class EventFeaturePlugin implements SkillFeature {
 
 				currentSkill = skill
 
-				this.log.info(`Authenticated as ${currentSkill?.slug}.`)
+				this.log.info(`Authenticated with namespace: ${currentSkill?.slug}.`)
 			} catch (err: any) {
 				await client.disconnect()
 				this.apiClientPromise = undefined
