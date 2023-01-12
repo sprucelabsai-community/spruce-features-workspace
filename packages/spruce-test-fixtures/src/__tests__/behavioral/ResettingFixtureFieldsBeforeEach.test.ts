@@ -129,7 +129,7 @@ export default class ResettingFixtureFieldsBeforeEachTest extends AbstractSpruce
 		}
 	}
 
-	private static getFixture(check: typeof toCheck[number]) {
+	private static getFixture(check: (typeof toCheck)[number]) {
 		//@ts-ignore
 		return this[check.prop]
 	}

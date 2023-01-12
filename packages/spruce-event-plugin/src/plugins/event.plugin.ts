@@ -407,10 +407,12 @@ export class EventFeaturePlugin implements SkillFeature {
 		host: string | undefined,
 		contracts: any
 	) {
+		const retries = process.env.MERCURY_CONNECTION_RETRIES
 		const client = await MercuryClientFactory.Client({
 			host,
 			allowSelfSignedCrt: true,
 			contracts,
+			connectionRetries: retries ? +retries : 9999,
 		})
 
 		this.log.info('Connection successful')

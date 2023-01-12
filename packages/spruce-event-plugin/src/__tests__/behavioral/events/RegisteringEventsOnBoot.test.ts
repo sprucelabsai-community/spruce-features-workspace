@@ -9,6 +9,7 @@ import {
 	MercuryFixture,
 } from '@sprucelabs/spruce-test-fixtures'
 import { assert, test } from '@sprucelabs/test-utils'
+import { EventFeaturePlugin } from '../../../plugins/event.plugin'
 import AbstractEventPluginTest from '../../../tests/AbstractEventPluginTest'
 
 MercuryFixture.setShouldAutoImportContracts(false)
@@ -117,6 +118,42 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 			})
 
 		await Promise.all(promises)
+	}
+
+	@test()
+	protected static async defaultConnectionRetriesIsALot() {
+		delete process.env.MERCURY_CONNECTION_RETRIES
+		await this.assertConnectionRetriesEquals(9999)
+	}
+
+	@test('uses connection retries from env 1', 123)
+	@test('uses connection retries from env 2', 535)
+	protected static async usesConnectionRetriesFromEnv(expected: number) {
+		process.env.MERCURY_CONNECTION_RETRIES = `${expected}`
+		await this.assertConnectionRetriesEquals(expected)
+	}
+
+	@test()
+	protected static async mercuryConnectionRetriesStartsAtExpected() {
+		assert.isEqual(process.env.MERCURY_CONNECTION_RETRIES, '10')
+	}
+
+	private static async assertConnectionRetriesEquals(expected: number) {
+		const client = await this.connectToApi()
+		//@ts-ignore
+		assert.isEqual(client.connectionRetries, expected)
+	}
+
+	private static async connectToApi() {
+		const event = await this.bootAndGetEventFeature()
+		const client = await event.connectToApi()
+		return client
+	}
+
+	private static async bootAndGetEventFeature() {
+		const { skill } = await this.bootSkill()
+		const event = skill.getFeatureByCode('event') as EventFeaturePlugin
+		return event
 	}
 
 	private static doesIncudeEventBySkill(contracts: any, registeredSkill: any) {
