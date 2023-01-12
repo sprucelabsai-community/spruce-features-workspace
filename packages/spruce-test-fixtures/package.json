@@ -71,7 +71,7 @@
     "@sprucelabs/schema": "^28.5.100",
     "@sprucelabs/spruce-core-schemas": "^35.1.124",
     "@sprucelabs/spruce-event-utils": "^30.0.63",
-    "@sprucelabs/spruce-permission-utils": "^1.1.70",
+    "@sprucelabs/spruce-permission-utils": "^1.1.71",
     "@sprucelabs/spruce-skill-booter": "^52.5.40",
     "@sprucelabs/spruce-skill-utils": "^28.1.46",
     "@sprucelabs/test-utils": "^3.2.91",
