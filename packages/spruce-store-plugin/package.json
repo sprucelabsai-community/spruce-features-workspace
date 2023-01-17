@@ -64,11 +64,11 @@
     "lint.tsc": "tsc -p . --noEmit"
   },
   "dependencies": {
-    "@sprucelabs/data-stores": "^19.1.44",
+    "@sprucelabs/data-stores": "^19.1.45",
     "@sprucelabs/error": "^5.0.569",
     "@sprucelabs/schema": "^28.5.111",
-    "@sprucelabs/spruce-core-schemas": "^35.1.141",
-    "@sprucelabs/spruce-event-utils": "^30.0.86",
+    "@sprucelabs/spruce-core-schemas": "^35.1.142",
+    "@sprucelabs/spruce-event-utils": "^30.0.88",
     "@sprucelabs/spruce-skill-booter": "^52.5.58",
     "@sprucelabs/spruce-skill-utils": "^28.1.60",
     "@sprucelabs/spruce-test-fixtures": "^52.5.58",
@@ -78,7 +78,7 @@
   "devDependencies": {
     "@sprucelabs/esm-postbuild": "^2.0.74",
     "@sprucelabs/jest-json-reporter": "^6.0.553",
-    "@sprucelabs/resolve-path-aliases": "^1.1.162",
+    "@sprucelabs/resolve-path-aliases": "^1.1.163",
     "@sprucelabs/semantic-release": "^4.0.8",
     "@sprucelabs/test": "^7.7.410",
     "@sprucelabs/test-utils": "^3.2.99",
