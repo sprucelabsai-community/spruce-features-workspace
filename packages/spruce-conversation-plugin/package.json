@@ -65,7 +65,7 @@
   "dependencies": {
     "@nlpjs/nlu": "^4.26.1",
     "@sprucelabs/error": "^5.0.570",
-    "@sprucelabs/mercury-core-events": "^15.0.224",
+    "@sprucelabs/mercury-core-events": "^15.0.226",
     "@sprucelabs/schema": "^28.5.112",
     "@sprucelabs/spruce-core-schemas": "^35.1.145",
     "@sprucelabs/spruce-event-plugin": "^52.5.60",
@@ -82,7 +82,7 @@
   "devDependencies": {
     "@sprucelabs/esm-postbuild": "^2.0.75",
     "@sprucelabs/jest-json-reporter": "^6.0.554",
-    "@sprucelabs/mercury-client": "^35.0.110",
+    "@sprucelabs/mercury-client": "^35.0.112",
     "@sprucelabs/resolve-path-aliases": "^1.1.165",
     "@sprucelabs/semantic-release": "^4.0.8",
     "@sprucelabs/test": "^7.7.411",
