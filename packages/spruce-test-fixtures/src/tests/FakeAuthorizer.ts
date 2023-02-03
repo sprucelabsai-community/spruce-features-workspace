@@ -58,8 +58,14 @@ export default class FakeAuthorizer implements Authorizer {
 		this.lastSavePermissionOptions = options
 	}
 
-	public getLastSavePermissionsOptions() {
-		return this.lastSavePermissionOptions
+	public getLastSavePermissionsOptions<
+		ContractId extends PermissionContractId = PermissionContractId,
+		Ids extends PermissionId<ContractId> = PermissionId<ContractId>
+	>(): SavePermissionsOptions<ContractId, Ids> {
+		return this.lastSavePermissionOptions as SavePermissionsOptions<
+			ContractId,
+			Ids
+		>
 	}
 
 	private assertValidPermission<ContractId extends PermissionContractId>(
