@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [52.6.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v52.5.73...v52.6.0) (2023-02-03)
+
+
+### Features
+
+* upgrade and ability to spy on fake permissions ([6d10edf](https://github.com/sprucelabsai/spruce-features-workspace/commit/6d10edf))
+
+
+
+
+
 ## [52.5.73](https://github.com/sprucelabsai/spruce-features-workspace/compare/v52.5.72...v52.5.73) (2023-01-29)
 
 **Note:** Version bump only for package @sprucelabs/spruce-skill-booter
