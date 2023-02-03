@@ -1,3 +1,5 @@
+import { SavePermissionsOptions } from '@sprucelabs/heartwood-view-controllers'
+import { PermissionContractId, PermissionId } from '@sprucelabs/mercury-types'
 import { test, assert } from '@sprucelabs/test-utils'
 import { errorAssert, generateId } from '@sprucelabs/test-utils'
 import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
@@ -97,7 +99,7 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
 	@test()
 	protected static async fixtureAndLoadOptionsShareAuthorizer() {
 		this.setupEmptyViewFixture()
-		const auth = this.permissions.getAuthorizer()
+		const auth = this.auth
 		const router = this.views.getRouter()
 		assert.isEqual(auth, router.buildLoadOptions().authorizer)
 	}
@@ -153,6 +155,39 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
 		assert.isEqual(auth1, auth2)
 	}
 
+	@test()
+	protected static async canSpyOnSavePermissions() {
+		await this.assertSpysOnOptionsWhenSaving({
+			contractId: 'events-contract',
+			target: {},
+			permissions: [],
+		})
+
+		await this.assertSpysOnOptionsWhenSaving({
+			contractId: 'feed-contract',
+			target: {
+				locationId: generateId(),
+				personId: generateId(),
+			},
+			permissions: [
+				{
+					id: 'can-see-other-persons-feed',
+					can: {
+						clockedIn: true,
+					},
+				},
+			],
+		})
+	}
+
+	private static async assertSpysOnOptionsWhenSaving<
+		ContractId extends PermissionContractId,
+		Ids extends PermissionId<ContractId>
+	>(options: SavePermissionsOptions<ContractId, Ids>) {
+		await this.auth.savePermissions(options)
+		assert.isEqualDeep(this.auth.getLastSavePermissionsOptions(), options)
+	}
+
 	private static async assertPermNotFound(checkIds: string[], id: string) {
 		await assert.doesThrowAsync(() => this.can(checkIds), id)
 	}
@@ -189,6 +224,10 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
 	}
 
 	private static get instance() {
+		return this.permissions.getAuthorizer()
+	}
+
+	private static get auth() {
 		return this.permissions.getAuthorizer()
 	}
 }

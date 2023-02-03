@@ -1,6 +1,7 @@
 import {
 	Authorizer,
 	AuthorizerCanOptions,
+	SavePermissionsOptions,
 } from '@sprucelabs/heartwood-view-controllers'
 import { PermissionContractId, PermissionId } from '@sprucelabs/mercury-types'
 import { assertOptions } from '@sprucelabs/schema'
@@ -8,6 +9,7 @@ import { assert } from '@sprucelabs/test-utils'
 
 export default class FakeAuthorizer implements Authorizer {
 	private fakedContracts: FakeOptions[] = []
+	private lastSavePermissionOptions?: SavePermissionsOptions<any, any>
 
 	public fakePermissions<
 		ContractId extends PermissionContractId = PermissionContractId
@@ -47,6 +49,17 @@ export default class FakeAuthorizer implements Authorizer {
 		}
 
 		return results
+	}
+
+	public async savePermissions<
+		ContractId extends PermissionContractId,
+		Ids extends PermissionId<ContractId>
+	>(options: SavePermissionsOptions<ContractId, Ids>): Promise<void> {
+		this.lastSavePermissionOptions = options
+	}
+
+	public getLastSavePermissionsOptions() {
+		return this.lastSavePermissionOptions
 	}
 
 	private assertValidPermission<ContractId extends PermissionContractId>(
