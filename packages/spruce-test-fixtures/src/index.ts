@@ -23,6 +23,7 @@ export { default as eventMocker } from './tests/eventMocker'
 export { default as ClientProxyDecorator } from './ClientProxyDecorator'
 export { default as FakeThemeManager } from './__tests__/support/FakeThemeManager'
 export { default as SpyScope } from './tests/fixtures/SpyScope'
+export { default as FakeAuthorizer } from './tests/FakeAuthorizer'
 /**
  * @deprecated phoneNumberIncrementer -> phoneNumberIncrementor
  */
