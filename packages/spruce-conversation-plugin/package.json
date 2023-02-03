@@ -65,7 +65,7 @@
   "dependencies": {
     "@nlpjs/nlu": "^4.26.1",
     "@sprucelabs/error": "^5.0.576",
-    "@sprucelabs/mercury-core-events": "^15.1.6",
+    "@sprucelabs/mercury-core-events": "^15.1.7",
     "@sprucelabs/schema": "^28.5.119",
     "@sprucelabs/spruce-core-schemas": "^35.1.156",
     "@sprucelabs/spruce-event-plugin": "^52.6.1",
@@ -86,7 +86,7 @@
     "@sprucelabs/resolve-path-aliases": "^1.1.170",
     "@sprucelabs/semantic-release": "^4.0.8",
     "@sprucelabs/test": "^7.7.416",
-    "@sprucelabs/test-utils": "^3.2.108",
+    "@sprucelabs/test-utils": "^3.3.0",
     "@types/fuzzyset": "^1.0.4",
     "@types/inquirer": "^8.2.1",
     "@types/node": "17.0.5",
