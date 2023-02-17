@@ -1,4 +1,7 @@
-import { SavePermissionsOptions } from '@sprucelabs/heartwood-view-controllers'
+import {
+	AuthorizerCanOptions,
+	SavePermissionsOptions,
+} from '@sprucelabs/heartwood-view-controllers'
 import { PermissionContractId, PermissionId } from '@sprucelabs/mercury-types'
 import { test, assert } from '@sprucelabs/test-utils'
 import { errorAssert, generateId } from '@sprucelabs/test-utils'
@@ -178,6 +181,49 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
 				},
 			],
 		})
+	}
+
+	@test('can see last can options 1', {
+		contractId: 'events-contract',
+		permissionIds: ['can-register-global-events'],
+		target: {},
+	})
+	@test('can see last can options 2', {
+		contractId: 'events-contract-2',
+		permissionIds: [
+			'can-register-global-events',
+			'can-register-global-events-2',
+		],
+		target: {
+			personId: generateId(),
+		},
+	})
+	protected static async canSeeLastCanOptions(can: AuthorizerCanOptions<any>) {
+		await this.assertCanOptionsMatch(can)
+	}
+
+	private static async assertCanOptionsMatch(can: AuthorizerCanOptions<any>) {
+		const { contractId } = can
+		this.auth.fakePermissions({
+			contractId: contractId as any,
+			permissions: [
+				{
+					id: 'can-register-global-events',
+					can: true,
+				},
+				{
+					id: 'can-register-global-events-2',
+					can: true,
+				},
+				{
+					id: 'can-register-global-events-3',
+					can: true,
+				},
+			],
+		})
+
+		await this.auth.can(can)
+		assert.isEqualDeep(this.auth.getLastCanOptions(), can)
 	}
 
 	private static async assertSpysOnOptionsWhenSaving<

@@ -10,6 +10,7 @@ import { assert } from '@sprucelabs/test-utils'
 export default class FakeAuthorizer implements Authorizer {
 	private fakedContracts: FakeOptions[] = []
 	private lastSavePermissionOptions?: SavePermissionsOptions<any, any>
+	private lastCanOptions?: AuthorizerCanOptions<any>
 
 	public fakePermissions<
 		ContractId extends PermissionContractId = PermissionContractId
@@ -23,6 +24,8 @@ export default class FakeAuthorizer implements Authorizer {
 	>(
 		options: AuthorizerCanOptions<ContractId, Ids>
 	): Promise<Record<Ids, boolean>> {
+		this.lastCanOptions = options
+
 		const { contractId, permissionIds } = assertOptions(
 			options as AuthorizerCanOptions<ContractId>,
 			['contractId', 'permissionIds']
@@ -49,6 +52,10 @@ export default class FakeAuthorizer implements Authorizer {
 		}
 
 		return results
+	}
+
+	public getLastCanOptions(): AuthorizerCanOptions<any> | undefined {
+		return this.lastCanOptions
 	}
 
 	public async savePermissions<
