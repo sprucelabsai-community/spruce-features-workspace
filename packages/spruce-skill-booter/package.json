@@ -3,7 +3,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "52.8.0",
+  "version": "52.8.5",
   "files": [
     "build/**/*",
     "!build/__tests__",
@@ -65,9 +65,9 @@
     "@sprucelabs/test-utils": "^3.3.10"
   },
   "devDependencies": {
-    "@sprucelabs/esm-postbuild": "^2.0.89",
+    "@sprucelabs/esm-postbuild": "^2.0.90",
     "@sprucelabs/jest-json-reporter": "^6.0.562",
-    "@sprucelabs/resolve-path-aliases": "^1.1.176",
+    "@sprucelabs/resolve-path-aliases": "^1.1.177",
     "@sprucelabs/semantic-release": "^4.0.8",
     "@sprucelabs/test": "^7.7.420",
     "@types/node": "17.0.5",
