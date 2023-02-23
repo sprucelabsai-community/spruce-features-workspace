@@ -2,7 +2,7 @@ import { assert, test } from '@sprucelabs/test-utils'
 import { AbstractSpruceFixtureTest, login, seed } from '../..'
 import { DEMO_NUMBER_ACCOUNT_BEFORE_ALL_RESET } from '../../tests/constants'
 
-@login(DEMO_NUMBER_ACCOUNT_BEFORE_ALL_RESET)
+@login('+1 555-555-9999')
 export default class ResettingAccountBeforeAllTestsTest extends AbstractSpruceFixtureTest {
 	@test()
 	protected static async delayToGivesSeederTimeToWrite() {
