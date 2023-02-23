@@ -1,8 +1,14 @@
 import { assert, test } from '@sprucelabs/test-utils'
 import { AbstractSpruceFixtureTest, login, seed } from '../..'
+import { DEMO_NUMBER_ACCOUNT_BEFORE_ALL_RESET } from '../../tests/constants'
 
-@login('+1 555-555-9999')
+@login(DEMO_NUMBER_ACCOUNT_BEFORE_ALL_RESET)
 export default class ResettingAccountBeforeAllTestsTest extends AbstractSpruceFixtureTest {
+	protected static async beforeAll(): Promise<void> {
+		await this.wait(5000)
+		await super.beforeAll()
+	}
+
 	@test()
 	protected static async delayToGivesSeederTimeToWrite() {
 		await this.wait(1000)
@@ -29,5 +35,5 @@ void ResettingAccountBeforeAllTestsTest.Fixture(
 	'organization'
 ).seedDemoOrganization({
 	name: 'Outside of test',
-	phone: '+1 555-555-9999',
+	phone: DEMO_NUMBER_ACCOUNT_BEFORE_ALL_RESET,
 })
