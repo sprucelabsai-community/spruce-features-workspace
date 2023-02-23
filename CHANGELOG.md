@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [54.0.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v53.0.0...v54.0.0) (2023-02-23)
+
+
+### Breaking Changes
+
+* **auto-upgrade:** upgraded packages [upgrade-all] ([ad9ae75](https://github.com/sprucelabsai/spruce-features-workspace/commit/ad9ae75))
+
+
+
+
+
 # [53.0.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v52.8.5...v53.0.0) (2023-02-23)
 
 
