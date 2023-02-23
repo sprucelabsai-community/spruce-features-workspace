@@ -1,6 +1,5 @@
 import { assert, test } from '@sprucelabs/test-utils'
 import { AbstractSpruceFixtureTest, login, seed } from '../..'
-import { DEMO_NUMBER_ACCOUNT_BEFORE_ALL_RESET } from '../../tests/constants'
 
 @login('+1 555-555-9999')
 export default class ResettingAccountBeforeAllTestsTest extends AbstractSpruceFixtureTest {
@@ -30,5 +29,5 @@ void ResettingAccountBeforeAllTestsTest.Fixture(
 	'organization'
 ).seedDemoOrganization({
 	name: 'Outside of test',
-	phone: DEMO_NUMBER_ACCOUNT_BEFORE_ALL_RESET,
+	phone: '+1 555-555-9999',
 })
