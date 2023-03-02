@@ -138,6 +138,83 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 		assert.isEqual(process.env.MERCURY_CONNECTION_RETRIES, '10')
 	}
 
+	@test()
+	protected static async waitsForFirstPrereqBeforeSyncingEvents() {
+		const { events, skill } =
+			await this.bootSkillWithContractAndGetEventPlugin()
+
+		let wasHit = false
+		await eventFaker.on('sync-event-contracts::v2020_12_25', () => {
+			wasHit = true
+			return {
+				fqens: ['test'],
+			}
+		})
+
+		const resolve = this.addPreReq(events)
+
+		const skillPromise = this.bootSkill({
+			skill,
+		})
+
+		assert.isFalse(wasHit)
+
+		resolve()
+
+		await skillPromise
+
+		assert.isTrue(wasHit)
+	}
+
+	@test()
+	protected static async canWaitForMoreThanOnePreReq() {
+		const { events, skill } =
+			await this.bootSkillWithContractAndGetEventPlugin()
+
+		let wasHit = false
+		await eventFaker.on('sync-event-contracts::v2020_12_25', () => {
+			wasHit = true
+			return {
+				fqens: ['test'],
+			}
+		})
+
+		const resolve1 = this.addPreReq(events)
+		const resolve2 = this.addPreReq(events)
+
+		const skillPromise = this.bootSkill({
+			skill,
+		})
+
+		assert.isFalse(wasHit)
+		resolve2()
+		await this.wait(100)
+		assert.isFalse(wasHit)
+		resolve1()
+		await this.wait(100)
+		assert.isTrue(wasHit)
+		await skillPromise
+	}
+
+	private static addPreReq(events: any) {
+		let resolve: Resolve = () => {}
+		const promise = new Promise((r) => {
+			resolve = r as Resolve
+		})
+
+		events.addPreReq(promise)
+		return resolve!
+	}
+
+	private static async bootSkillWithContractAndGetEventPlugin() {
+		const currentSkill = await this.registerCurrentSkill()
+		this.generateGoodContractFileForSkill(currentSkill)
+
+		const skill = await this.Skill()
+		const events = skill.getFeatureByCode('event') as EventFeaturePlugin
+		return { events, skill }
+	}
+
 	private static async assertConnectionRetriesEquals(expected: number) {
 		const client = await this.connectToApi()
 		//@ts-ignore
@@ -198,3 +275,5 @@ export default class RegisteringEventsOnBootTest extends AbstractEventPluginTest
 		return { contracts, currentSkill, skill2 }
 	}
 }
+
+type Resolve = () => void

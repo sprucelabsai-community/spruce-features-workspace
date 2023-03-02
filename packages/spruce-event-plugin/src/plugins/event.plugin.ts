@@ -9,7 +9,6 @@ import {
 	eventContractUtil,
 	eventDiskUtil,
 	eventNameUtil,
-	eventResponseUtil,
 	NamedEventSignature,
 	EventHealthCheckItem,
 	EventFeatureListener,
@@ -82,6 +81,7 @@ export class EventFeaturePlugin implements SkillFeature {
 	//@ts-ignore
 	private listenerCacher?: ListenerCacher // for testing
 	private bootHandler?: () => void
+	private preRequisites: Promise<unknown>[] = []
 
 	private get settings() {
 		if (!this._settings) {
@@ -133,19 +133,19 @@ export class EventFeaturePlugin implements SkillFeature {
 
 	public async execute() {
 		this.isExecuting = true
-		let re: any
-		let rej: any
+
+		let willBootResolve: any
+		let willBootReject: any
 
 		this.willBootPromise = new Promise((resolve, reject) => {
-			re = resolve
-			rej = reject
+			willBootResolve = resolve
+			willBootReject = reject
 		})
 
 		try {
 			await this.loadLocal()
 
 			const willBoot = this.getListener('skill', 'will-boot')
-			const didBoot = this.getListener('skill', 'did-boot')
 
 			if (willBoot) {
 				this.log.info(`Emitting skill.will-boot internally`)
@@ -153,7 +153,9 @@ export class EventFeaturePlugin implements SkillFeature {
 				await willBoot(event)
 			}
 
-			re()
+			willBootResolve()
+
+			await Promise.all(this.preRequisites ?? [])
 
 			if (this.getShouldRegisterEventsAndListeners()) {
 				await this.loadEvents()
@@ -172,17 +174,6 @@ export class EventFeaturePlugin implements SkillFeature {
 				await this.registerListeners()
 			}
 
-			const done = async () => {
-				this.isExecuting = false
-				this._isBooted = true
-
-				if (didBoot) {
-					await this.queueDidBoot(didBoot)
-				} else {
-					this.bootHandler?.()
-				}
-			}
-
 			if (this.apiClientPromise) {
 				this.log.info('Connection to Mercury successful. Waiting for events.')
 
@@ -191,7 +182,7 @@ export class EventFeaturePlugin implements SkillFeature {
 				//@ts-ignore
 				this.skill.updateContext('client', client)
 
-				await done()
+				await this.finishExecute()
 
 				await new Promise((resolve) => {
 					this.executeResolve = resolve
@@ -203,14 +194,26 @@ export class EventFeaturePlugin implements SkillFeature {
 						: "I couldn't find any events or remote listeners so I'll hold off on connecting to Mercury. 🌲🤖"
 				)
 
-				await done()
+				await this.finishExecute()
 			}
 		} catch (err: any) {
-			rej(err)
+			willBootReject(err)
 			this._isBooted = false
 			this.isExecuting = false
 
 			throw err
+		}
+	}
+
+	private async finishExecute() {
+		this.isExecuting = false
+		this._isBooted = true
+		const didBoot = this.getListener('skill', 'did-boot')
+
+		if (didBoot) {
+			await this.queueDidBoot(didBoot)
+		} else {
+			this.bootHandler?.()
 		}
 	}
 
@@ -533,20 +536,19 @@ export class EventFeaturePlugin implements SkillFeature {
 			contract.eventSignatures[name] = event.signature
 		}
 
-		const registerResults = await client.emit(
-			'sync-event-contracts::v2020_12_25',
-			{
-				payload: { contract },
-			}
-		)
-
-		eventResponseUtil.getFirstResponseOrThrow(registerResults)
+		await client.emitAndFlattenResponses('sync-event-contracts::v2020_12_25', {
+			payload: { contract },
+		})
 
 		this.log.info(
 			`Registered ${this.eventsIRegistered.length} event signature${
 				this.eventsIRegistered.length === 1 ? '' : 's'
 			}`
 		)
+	}
+
+	public addPreReq(req: Promise<unknown>) {
+		this.preRequisites.push(req)
 	}
 
 	private async attachListeners(client: MercuryClient) {
