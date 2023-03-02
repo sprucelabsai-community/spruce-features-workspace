@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [55.1.0](https://github.com/sprucelabsai/spruce-features-workspace/compare/v55.0.5...v55.1.0) (2023-03-02)
+
+
+### Features
+
+* can add preRequisites that need to finish before registering events (so permissions can hook in and hold the register of events until permissions are synced) ([5ee724b](https://github.com/sprucelabsai/spruce-features-workspace/commit/5ee724b))
+
+
+
+
+
 ## [55.0.5](https://github.com/sprucelabsai/spruce-features-workspace/compare/v55.0.4...v55.0.5) (2023-03-02)
 
 **Note:** Version bump only for package @sprucelabs/spruce-event-plugin
