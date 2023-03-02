@@ -458,7 +458,7 @@ export class EventFeaturePlugin implements SkillFeature {
 		)
 	}
 
-	private async reRegisterEvents() {
+	protected async reRegisterEvents() {
 		if (!this.shouldConnectToApi()) {
 			return
 		}
