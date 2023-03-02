@@ -29,31 +29,6 @@ import SpruceError from '../errors/SpruceError'
 
 require('dotenv').config()
 
-// so we don't have to require mercury to run this plugin
-export type MercuryClient<
-	Contract extends SkillEventContract = SkillEventContract
-> =
-	/** @ts-ignore */
-	MercuryEventEmitter<Contract> & {
-		isConnected: () => boolean
-		connect: () => Promise<void>
-		disconnect: () => Promise<void>
-		getProxyToken: () => string | null
-		setProxyToken: (token: string) => void
-		registerProxyToken: () => Promise<string>
-		getIsTestClient(): boolean
-		setShouldAutoRegisterListeners: (should: boolean) => void
-		isAuthenticated(): boolean
-		authenticate(options: {
-			skillId?: string
-			apiKey?: string
-			token?: string
-		}): Promise<{
-			skill?: SpruceSchemas.Spruce.v2020_07_22.Skill
-			person?: SpruceSchemas.Spruce.v2020_07_22.Person
-		}>
-	}
-
 export class EventFeaturePlugin implements SkillFeature {
 	private skill: Skill
 	private listenersPath: string | boolean
@@ -81,7 +56,7 @@ export class EventFeaturePlugin implements SkillFeature {
 	//@ts-ignore
 	private listenerCacher?: ListenerCacher // for testing
 	private bootHandler?: () => void
-	private preRequisites: Promise<unknown>[] = []
+	protected preRequisites: Promise<unknown>[] = []
 
 	private get settings() {
 		if (!this._settings) {
@@ -746,3 +721,28 @@ export default (skill: Skill) => {
 	const feature = new EventFeaturePlugin(skill)
 	skill.registerFeature('event', feature)
 }
+
+// so we don't have to require mercury to run this plugin
+export type MercuryClient<
+	Contract extends SkillEventContract = SkillEventContract
+> =
+	/** @ts-ignore */
+	MercuryEventEmitter<Contract> & {
+		isConnected: () => boolean
+		connect: () => Promise<void>
+		disconnect: () => Promise<void>
+		getProxyToken: () => string | null
+		setProxyToken: (token: string) => void
+		registerProxyToken: () => Promise<string>
+		getIsTestClient(): boolean
+		setShouldAutoRegisterListeners: (should: boolean) => void
+		isAuthenticated(): boolean
+		authenticate(options: {
+			skillId?: string
+			apiKey?: string
+			token?: string
+		}): Promise<{
+			skill?: SpruceSchemas.Spruce.v2020_07_22.Skill
+			person?: SpruceSchemas.Spruce.v2020_07_22.Person
+		}>
+	}
