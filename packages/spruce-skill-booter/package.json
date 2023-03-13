@@ -60,16 +60,16 @@
   },
   "dependencies": {
     "@sprucelabs/error": "^5.0.586",
-    "@sprucelabs/schema": "^28.5.144",
-    "@sprucelabs/spruce-skill-utils": "^28.1.99",
-    "@sprucelabs/test-utils": "^3.4.16"
+    "@sprucelabs/schema": "^28.5.145",
+    "@sprucelabs/spruce-skill-utils": "^28.1.100",
+    "@sprucelabs/test-utils": "^3.4.17"
   },
   "devDependencies": {
-    "@sprucelabs/esm-postbuild": "^3.0.5",
-    "@sprucelabs/jest-json-reporter": "^7.0.5",
-    "@sprucelabs/resolve-path-aliases": "^1.1.193",
+    "@sprucelabs/esm-postbuild": "^3.0.6",
+    "@sprucelabs/jest-json-reporter": "^7.0.6",
+    "@sprucelabs/resolve-path-aliases": "^1.1.194",
     "@sprucelabs/semantic-release": "^4.0.8",
-    "@sprucelabs/test": "^7.7.425",
+    "@sprucelabs/test": "^7.7.426",
     "@types/node": "17.0.5",
     "chokidar-cli": "^3.0.0",
     "concurrently": "^7.6.0",
