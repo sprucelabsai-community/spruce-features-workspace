@@ -1,6 +1,6 @@
 import pathUtil from 'path'
+import globby from '@sprucelabs/globby'
 import { SchemaError } from '@sprucelabs/schema'
-import globby from 'globby'
 import SpruceError from '../errors/SpruceError'
 import { LoadedTopicDefinition } from '../types/conversation.types'
 
