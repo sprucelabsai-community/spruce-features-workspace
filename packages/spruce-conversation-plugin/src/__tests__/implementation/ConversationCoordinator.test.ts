@@ -5,20 +5,24 @@ import AbstractConversationTest from '../../tests/AbstractConversationTest'
 import { SendMessage } from '../../types/conversation.types'
 
 export default class TopicCoordinatorTest extends AbstractConversationTest {
-	private static coordinator: ConversationCoordinator
+	private static coordinator: SpyCoordinator
 	private static sentMessages: SendMessage[] = []
+	private static skillContext: Record<string, any> = {}
+
 	protected static async beforeEach() {
 		await super.beforeEach()
 
 		this.sentMessages = []
 
-		this.coordinator = await ConversationCoordinator.Coordinator({
+		this.coordinator = (await ConversationCoordinator.Coordinator({
 			lineDelay: 0,
 			sendMessageHandler: async (message) => {
 				this.sentMessages.push(message)
 			},
 			topicLookupPath: this.resolveTestPath('skill', 'build'),
-		})
+			getContext: () => this.skillContext,
+			Class: SpyCoordinator as any,
+		})) as SpyCoordinator
 	}
 
 	@test()
@@ -57,6 +61,7 @@ export default class TopicCoordinatorTest extends AbstractConversationTest {
 		const coordinator = await ConversationCoordinator.Coordinator({
 			topicLookupPath: this.cwd,
 			sendMessageHandler: async () => {},
+			getContext: () => this.skillContext,
 		})
 
 		const results = await coordinator.handleMessage(
@@ -185,5 +190,31 @@ export default class TopicCoordinatorTest extends AbstractConversationTest {
 		assert.isLength(this.sentMessages, 2)
 		assert.isEqual(this.sentMessages[0]?.body, 'string 1')
 		assert.isEqual(this.sentMessages[1]?.body, 'prompt 1')
+	}
+
+	@test('can passthrough context 1', { hello: 'world' })
+	@test('can passthrough context 2', { go: 'team' })
+	protected static async passesThroughContextGetter(
+		context: Record<string, any>
+	) {
+		await this.coordinator.handleMessage(
+			this.buildMessage({ body: 'answer 2', source: { personId: '1234' } }),
+			'bookAppointment'
+		)
+
+		this.skillContext = context
+
+		const player = this.coordinator.getPlayer()
+		assert.isTruthy(player)
+
+		//@ts-ignore
+		const actual = player.getContext()
+		assert.isEqualDeep(actual, this.skillContext)
+	}
+}
+
+class SpyCoordinator extends ConversationCoordinator {
+	public getPlayer() {
+		return this.player
 	}
 }

@@ -1,4 +1,4 @@
-import { test, assert } from '@sprucelabs/test-utils'
+import { test, assert, generateId } from '@sprucelabs/test-utils'
 import { errorAssert } from '@sprucelabs/test-utils'
 import AbstractConversationTest from '../../tests/AbstractConversationTest'
 import { TopicScriptPlayer } from '../../topics/TopicScriptPlayer'
@@ -14,7 +14,12 @@ export default class TopicScriptPlayerTest extends AbstractConversationTest {
 		//@ts-ignore
 		const err = assert.doesThrow(() => new TopicScriptPlayer())
 		errorAssert.assertError(err, 'MISSING_PARAMETERS', {
-			parameters: ['script', 'sendMessageHandler', 'target.personId'],
+			parameters: [
+				'script',
+				'sendMessageHandler',
+				'target.personId',
+				'getContext',
+			],
 		})
 	}
 
@@ -436,14 +441,38 @@ export default class TopicScriptPlayerTest extends AbstractConversationTest {
 		assert.isEqual(stateCount, 4)
 	}
 
+	@test('can passe context 1', { skill: 'test' })
+	@test('can passe context 2', { hello: 'world' })
+	protected static async skillContextAvailableOnScriptLine(
+		context: Record<string, any>
+	) {
+		let passedContext: Record<string, any> | undefined
+
+		const player = this.Player({
+			getContext: () => context,
+			script: [
+				async (options) => {
+					passedContext = options.context
+				},
+			],
+		})
+
+		await this.sendMessage(player, {
+			body: generateId(),
+		})
+
+		assert.isEqualDeep(passedContext, context)
+	}
+
 	private static Player(
 		options: Partial<ScriptPlayerOptions> & { script: Script }
 	) {
 		return new TopicScriptPlayer({
 			target: options.target ?? { personId: '12345' },
-			script: options.script,
 			lineDelay: 0,
 			sendMessageHandler: options.sendMessageHandler ?? async function () {},
+			getContext: () => ({}),
+			...options,
 		})
 	}
 

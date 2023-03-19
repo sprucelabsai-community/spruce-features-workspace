@@ -1,8 +1,8 @@
 import { EventFeature } from '@sprucelabs/spruce-event-plugin'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
-import { test, assert } from '@sprucelabs/test-utils'
+import { test, assert, generateId } from '@sprucelabs/test-utils'
 import { errorAssert } from '@sprucelabs/test-utils'
-import plugin from '../../plugins/conversation.plugin'
+import plugin, { ConversationFeature } from '../../plugins/conversation.plugin'
 import AbstractConversationTest from '../../tests/AbstractConversationTest'
 
 export default class RegisteringConversationsOnBootTest extends AbstractConversationTest {
@@ -19,16 +19,14 @@ export default class RegisteringConversationsOnBootTest extends AbstractConversa
 	@test()
 	protected static async noConvosToStart() {
 		this.cwd = this.resolveTestPath('empty-skill')
-		const topics = await this.registerAndBoot()
+		const { topics } = await this.registerAndBoot()
 		assert.isLength(topics, 0)
 	}
 
 	@test()
 	protected static async registersConvosOnBoot() {
 		this.cwd = this.resolveTestPath('skill')
-
-		const topics = await this.registerAndBoot()
-
+		const { topics } = await this.registerAndBoot()
 		this.assertExpectedTopics(topics)
 	}
 
@@ -44,11 +42,11 @@ export default class RegisteringConversationsOnBootTest extends AbstractConversa
 	protected static async canBootASecondTime() {
 		this.cwd = this.resolveTestPath('skill')
 
-		const topics = await this.registerAndBoot()
+		const { topics } = await this.registerAndBoot()
 
 		this.assertExpectedTopics(topics)
 
-		const topics2 = await this.registerAndBoot({
+		const { topics: topics2 } = await this.registerAndBoot({
 			skillId: process.env.SKILL_ID as string,
 			apiKey: process.env.SKILL_API_KEY as string,
 		})
@@ -66,6 +64,52 @@ export default class RegisteringConversationsOnBootTest extends AbstractConversa
 			skillId: process.env.SKILL_ID as string,
 			apiKey: process.env.SKILL_API_KEY as string,
 		})
+	}
+
+	@test()
+	protected static async coordinaterGetsSkillContext() {
+		this.cwd = this.resolveTestPath('skill')
+
+		const { skill, client } = await this.registerBootAndConnect()
+
+		const id = generateId()
+		await client.emitAndFlattenResponses('did-message::v2020_12_25', {
+			payload: {
+				message: this.buildMessage({
+					body: generateId(),
+					source: {
+						personId: id,
+					},
+				}),
+			},
+		})
+
+		const conversations = skill.getFeatureByCode(
+			'conversation'
+		) as ConversationFeature
+
+		//@ts-ignore
+		const coordinator = await conversations.coordinatorsBySource[id]
+		assert.isTruthy(coordinator)
+
+		//@ts-ignore
+		skill.updateContext('hello', 'world')
+		assert.isEqualDeep(coordinator.getContext(), { hello: 'world' })
+
+		//@ts-ignore
+		skill.updateContext('hello2', 'world2')
+		assert.isEqualDeep(coordinator.getContext(), {
+			hello: 'world',
+			hello2: 'world2',
+		})
+	}
+
+	private static async registerBootAndConnect() {
+		const { skill } = await this.registerAndBoot()
+		const events = skill.getFeatureByCode('event') as EventFeature
+		const client = await events.connectToApi()
+
+		return { skill, client }
 	}
 
 	private static assertExpectedTopics(topics: any) {
@@ -107,6 +151,6 @@ export default class RegisteringConversationsOnBootTest extends AbstractConversa
 
 		topics = payload.topics
 
-		return topics
+		return { topics, skill }
 	}
 }

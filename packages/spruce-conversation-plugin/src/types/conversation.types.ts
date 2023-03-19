@@ -6,6 +6,7 @@ import { EventTarget } from '@sprucelabs/spruce-event-utils'
 import {
 	GraphicsInterface,
 	HealthCheckItem,
+	SkillContext,
 } from '@sprucelabs/spruce-skill-utils'
 import MessageGraphicsInterface from '../interfaces/MessageGraphicsInterface'
 
@@ -22,6 +23,7 @@ export type ScriptLineCallbackOptions = {
 	state: Record<string, any>
 	rand<T>(possibilities: T[]): T
 	message: Message
+	context: SkillContext
 }
 
 export type ScriptLine = string | ScriptLineCallback | string[]
@@ -39,6 +41,7 @@ export interface ScriptPlayerOptions {
 	target: EventTarget
 	lineDelay?: number
 	graphicsInterface?: MessageGraphicsInterface
+	getContext: () => SkillContext
 }
 
 export type ScriptPlayerSendMessage = {

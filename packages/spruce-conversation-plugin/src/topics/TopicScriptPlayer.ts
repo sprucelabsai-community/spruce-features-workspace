@@ -1,5 +1,6 @@
-import { SchemaError } from '@sprucelabs/schema'
+import { assertOptions } from '@sprucelabs/schema'
 import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
+import { SkillContext } from '@sprucelabs/spruce-skill-utils'
 import MessageGraphicsInterface from '../interfaces/MessageGraphicsInterface'
 import {
 	Script,
@@ -25,32 +26,22 @@ export class TopicScriptPlayer {
 	private scriptState: Record<string, any> = {}
 	private runningLine: any
 	private scriptLineIndex = -1
+	private getContext: () => SkillContext
 
 	public constructor(options: ScriptPlayerOptions) {
-		const missing: string[] = []
-		if (!options?.script) {
-			missing.push('script')
-		}
+		const { script, target, sendMessageHandler, lineDelay, getContext } =
+			assertOptions(options, [
+				'script',
+				'sendMessageHandler',
+				'target.personId',
+				'getContext',
+			])
 
-		if (!options?.sendMessageHandler) {
-			missing.push('sendMessageHandler')
-		}
-
-		if (!options?.target.personId) {
-			missing.push('target.personId')
-		}
-
-		if (missing.length > 0) {
-			throw new SchemaError({
-				code: 'MISSING_PARAMETERS',
-				parameters: missing,
-			})
-		}
-
-		this.script = options.script
-		this.target = options.target
-		this.sendMessageHandler = options.sendMessageHandler
-		this.lineDelay = options.lineDelay ?? 2000
+		this.script = script
+		this.target = target
+		this.sendMessageHandler = sendMessageHandler
+		this.lineDelay = lineDelay ?? 2000
+		this.getContext = getContext
 
 		this.graphicsInterface =
 			options.graphicsInterface ??
@@ -94,6 +85,7 @@ export class TopicScriptPlayer {
 
 		for (let idx = this.scriptLineIndex + 1; idx < this.script.length; idx++) {
 			this.scriptLineIndex = idx
+
 			const line = this.script[idx]
 
 			if (!isFirstLine) {
@@ -137,12 +129,9 @@ export class TopicScriptPlayer {
 		return null
 	}
 
-	private async handleLineCallback(
-		normalizedLine: ScriptLineCallback,
-		message: Message
-	) {
+	private async handleLineCallback(line: ScriptLineCallback, message: Message) {
 		this.runningLine = {
-			promise: normalizedLine(this.buildCallbackOptions(message))
+			promise: line(this.buildCallbackOptions(message))
 				.then((results) => {
 					this.runningLine.isDone = true
 					return results
@@ -184,6 +173,7 @@ export class TopicScriptPlayer {
 			state: this.scriptState,
 			rand: randomUtil.rand,
 			message,
+			context: this.getContext(),
 		}
 	}
 

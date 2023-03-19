@@ -133,6 +133,7 @@ export class ConversationFeature implements SkillFeature {
 
 		this.coordinatorsBySource[sourceId] = ConversationCoordinator.Coordinator({
 			topicLookupPath: this.skill.activeDir,
+			getContext: () => this.skill.getContext(),
 			sendMessageHandler: async (message) => {
 				try {
 					const { target, ...values } = message

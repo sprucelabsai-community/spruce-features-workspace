@@ -1,5 +1,6 @@
 import { SkillEventContract } from '@sprucelabs/mercury-core-events'
 import { SchemaError, SchemaValues } from '@sprucelabs/schema'
+import { SkillContext } from '@sprucelabs/spruce-skill-utils'
 import SpruceError from '../errors/SpruceError'
 import TopicLoader from '../topics/TopicLoader'
 import { TopicScriptPlayer } from '../topics/TopicScriptPlayer'
@@ -14,39 +15,55 @@ type MessageResponsePayloadSchema =
 	SkillEventContract['eventSignatures']['did-message::v2020_12_25']['responsePayloadSchema']
 type MessageResponsePayload = SchemaValues<MessageResponsePayloadSchema>
 
+type GetContext = () => SkillContext
+
 export class ConversationCoordinator {
 	private suggester: TopicSuggester
 	private sendMessageHandler: SendMessageHandler
 	private topics: LoadedTopicDefinition[]
-	private player?: TopicScriptPlayer
+	protected player?: TopicScriptPlayer
 	private lastTopic?: string
 	private lineDelay?: number
+	private getContext: GetContext
 
-	private constructor(options: {
+	protected constructor(options: {
 		suggester: TopicSuggester
 		sendMessageHandler: SendMessageHandler
 		topics: LoadedTopicDefinition[]
 		lineDelay?: number
+		getContext: GetContext
 	}) {
 		this.suggester = options.suggester
 		this.sendMessageHandler = options.sendMessageHandler
 		this.topics = options.topics
 		this.lineDelay = options.lineDelay
+		this.getContext = options.getContext
 	}
 
 	public static async Coordinator(options: {
 		topicLookupPath: string
 		sendMessageHandler: SendMessageHandler
 		lineDelay?: number
+		getContext: GetContext
+		Class?: new (...args: any[]) => ConversationCoordinator
 	}) {
-		const topics = await TopicLoader.loadTopics(options.topicLookupPath)
+		const {
+			Class,
+			topicLookupPath,
+			sendMessageHandler,
+			lineDelay,
+			getContext,
+		} = options
+
+		const topics = await TopicLoader.loadTopics(topicLookupPath)
 		const suggester = await TopicSuggester.Suggester({ topics })
 
-		return new ConversationCoordinator({
+		return new (Class ?? ConversationCoordinator)({
 			suggester,
-			sendMessageHandler: options.sendMessageHandler,
+			sendMessageHandler,
 			topics,
-			lineDelay: options.lineDelay,
+			lineDelay,
+			getContext,
 		})
 	}
 
@@ -91,6 +108,7 @@ export class ConversationCoordinator {
 				sendMessageHandler: this.sendMessageHandler,
 				script: matchedTopic.script,
 				lineDelay: this.lineDelay,
+				getContext: this.getContext,
 			})
 		}
 

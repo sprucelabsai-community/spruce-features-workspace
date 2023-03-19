@@ -58,6 +58,7 @@ export default class ScriptTester {
 			sendMessageHandler: async (message) => {
 				return this.writeHandler(message)
 			},
+			getContext: () => ({}),
 		})
 
 		let msg = firstMessage
