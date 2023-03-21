@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [56.1.7](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v56.1.6...v56.1.7) (2023-03-21)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
 ## [56.1.6](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v56.1.5...v56.1.6) (2023-03-21)
 
 **Note:** Version bump only for package spruce-features-workspace
