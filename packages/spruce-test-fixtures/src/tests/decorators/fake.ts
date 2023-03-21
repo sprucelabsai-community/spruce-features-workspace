@@ -394,7 +394,7 @@ function getPersonById(
 	if (!person && shouldThrowWhenNotFound) {
 		throw new SpruceError({
 			code: 'INVALID_TARGET',
-			friendlyMessage: `I could not find a faked person with the id ${personId} you were looking.`,
+			friendlyMessage: `I could not find the faked person with id '${personId}' you were looking for.`,
 		})
 	}
 	return person!
