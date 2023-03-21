@@ -204,7 +204,7 @@ export default class MessageGraphicsInterface implements GraphicsInterface {
 		return !!this.resolve
 	}
 
-	public destory() {
+	public destroy() {
 		this.isDestroyed = true
 	}
 }

@@ -193,7 +193,6 @@ export class ConversationFeature implements SkillFeature {
 
 	private async connectToApi() {
 		const events = this.skill.getFeatureByCode('event') as EventFeature
-
 		const client = await events.connectToApi()
 		return client
 	}

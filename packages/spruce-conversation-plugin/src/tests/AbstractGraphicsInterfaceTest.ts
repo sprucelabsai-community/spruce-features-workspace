@@ -22,7 +22,7 @@ export default abstract class AbstractGraphicsInterfaceTest extends AbstractConv
 
 	protected static async afterEach() {
 		await super.afterEach()
-		;(this.ui as MessageGraphicsInterface).destory()
+		;(this.ui as MessageGraphicsInterface).destroy()
 	}
 
 	protected static async sendMessage(body: string) {
