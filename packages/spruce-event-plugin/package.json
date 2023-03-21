@@ -10,7 +10,7 @@
       "@sprucelabs/spruce-test-fixtures"
     ]
   },
-  "version": "56.1.5",
+  "version": "56.1.6",
   "files": [
     "build/**/*",
     "!build/__tests__",
@@ -65,9 +65,9 @@
     "@sprucelabs/schema": "^28.5.155",
     "@sprucelabs/spruce-core-schemas": "^37.2.21",
     "@sprucelabs/spruce-event-utils": "^34.0.33",
-    "@sprucelabs/spruce-skill-booter": "^56.1.5",
+    "@sprucelabs/spruce-skill-booter": "^56.1.6",
     "@sprucelabs/spruce-skill-utils": "^28.1.111",
-    "@sprucelabs/spruce-test-fixtures": "^56.1.5"
+    "@sprucelabs/spruce-test-fixtures": "^56.1.6"
   },
   "devDependencies": {
     "@sprucelabs/esm-postbuild": "^3.0.15",
