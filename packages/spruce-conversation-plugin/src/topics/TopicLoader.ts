@@ -15,6 +15,7 @@ export default class TopicLoader {
 		)
 
 		const matches = await globby(pattern)
+
 		const topics: LoadedTopicDefinition[] = []
 
 		if (matches.length > 0) {

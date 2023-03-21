@@ -25,6 +25,7 @@ export class ConversationFeature implements SkillFeature {
 	private _isTesting = false
 	private coordinatorsBySource: Record<string, any> = {}
 	private bootHandler?: BootCallback
+	private tester?: ScriptTester
 
 	public constructor(skill: Skill) {
 		this.skill = skill
@@ -41,6 +42,7 @@ export class ConversationFeature implements SkillFeature {
 		try {
 			if (process.env.ACTION === 'test.conversation') {
 				this._isTesting = true
+
 				const topics = await this.loadTopics()
 
 				if (topics.length === 0) {
@@ -53,6 +55,7 @@ export class ConversationFeature implements SkillFeature {
 				await this.syncTopics()
 
 				const client = await this.connectToApi()
+
 				await this.startConversationCoordinator(client as any)
 
 				this.log.info('Conversations loaded. Ready to chat when you are. 🤘')
@@ -80,7 +83,10 @@ export class ConversationFeature implements SkillFeature {
 	private async startScriptTesterAndNotifyBoot(
 		topics: LoadedTopicDefinition[]
 	) {
-		const tester = await ScriptTester.Tester({ topics })
+		this.tester = await ScriptTester.Tester({
+			topics,
+			getContext: () => this.skill.getContext(),
+		})
 
 		const promise = new Promise<void>((resolve, reject) => {
 			this.skill.onBoot(async () => {
@@ -95,7 +101,8 @@ export class ConversationFeature implements SkillFeature {
 				console.clear()
 
 				try {
-					await tester.go(process.env.FIRST_MESSAGE)
+					await this.tester?.go(process.env.FIRST_MESSAGE)
+
 					resolve()
 				} catch (err: any) {
 					this.isExecuting = false
@@ -164,14 +171,12 @@ export class ConversationFeature implements SkillFeature {
 
 		this.log.info('Unregistering all past conversation topics.')
 
-		const unregisterResults = await client.emit(
+		await client.emitAndFlattenResponses(
 			'unregister-conversation-topics::v2020_12_25',
 			{
 				payload: { shouldUnregisterAll: true },
 			}
 		)
-
-		eventResponseUtil.getFirstResponseOrThrow(unregisterResults)
 
 		if (topics.length > 0) {
 			this.log.info(
@@ -239,6 +244,7 @@ export class ConversationFeature implements SkillFeature {
 		this._isTesting = false
 		this.executeResolver?.()
 		this.executeResolver = undefined
+		this.tester?.destroy()
 
 		while (this.isExecuting) {
 			await new Promise<void>((resolve) => setTimeout(resolve, 250))

@@ -1,4 +1,6 @@
+import { MercuryClientFactory } from '@sprucelabs/mercury-client'
 import { TestBootOptions } from '@sprucelabs/spruce-skill-booter'
+import { Skill, SkillContext } from '@sprucelabs/spruce-skill-utils'
 import { test, assert } from '@sprucelabs/test-utils'
 import { errorAssert } from '@sprucelabs/test-utils'
 import { ConversationFeature } from '../../plugins/conversation.plugin'
@@ -30,7 +32,6 @@ export default class TestingAConversationTest extends AbstractConversationTest {
 	protected static async bootsInTestModeWithProperAction() {
 		process.env.ACTION = 'test.conversation'
 		const conversation = await this.bootAndGetConversationFeature()
-
 		assert.isTrue(conversation.isTesting())
 	}
 
@@ -56,15 +57,62 @@ export default class TestingAConversationTest extends AbstractConversationTest {
 		errorAssert.assertError(err, 'CONVERSATION_ABORTED')
 	}
 
+	@test('can get context 1', { hello: 'world' })
+	@test('can get context 2', { what: 'the!?' })
+	protected static async scriptTesterGetsContext(context: SkillContext) {
+		this.cwd = this.resolveTestPath('skill-with-one-topic')
+
+		MercuryClientFactory.setIsTestMode(true)
+		process.env.ACTION = 'test.conversation'
+		process.env.FIRST_MESSAGE = 'hey there!'
+
+		const skill = await this.Skill()
+		const getContext = () => context
+		//@ts-ignore
+		skill.getContext = getContext
+
+		void this.bootSkill({ skill })
+		await this.wait(100)
+
+		const scriptTester = await this.getScriptTester(skill)
+		//@ts-ignore
+		scriptTester.writeHandler = () => {}
+
+		//@ts-ignore
+		const player = scriptTester.player
+		assert.isTruthy(player)
+
+		//@ts-ignore
+		assert.isEqualDeep(player.getContext(), context)
+
+		await skill.kill()
+	}
+
+	private static async getScriptTester(skill: Skill) {
+		const conversation = this.getConversationFeature(skill)
+		//@ts-ignore
+		while (!conversation.tester) {
+			await this.wait(100)
+		}
+
+		//@ts-ignore
+		const scriptTester = conversation.tester
+		assert.isTruthy(scriptTester)
+
+		return scriptTester
+	}
+
 	private static async bootAndGetConversationFeature(
 		options?: TestBootOptions
 	) {
 		const { skill } = await this.bootSkill(options)
 
-		const conversation = skill.getFeatureByCode(
-			'conversation'
-		) as ConversationFeature
+		const conversation = this.getConversationFeature(skill)
 
 		return conversation
+	}
+
+	private static getConversationFeature(skill: Skill) {
+		return skill.getFeatureByCode('conversation') as ConversationFeature
 	}
 }

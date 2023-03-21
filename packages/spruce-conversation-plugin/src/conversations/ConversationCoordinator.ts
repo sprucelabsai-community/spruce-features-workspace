@@ -70,7 +70,7 @@ export class ConversationCoordinator {
 	public async handleMessage(
 		message: Message,
 		topic?: string
-	): Promise<MessageResponsePayload | void> {
+	): Promise<MessageResponsePayload | null> {
 		if (!message.source.personId) {
 			throw new SchemaError({
 				code: 'MISSING_PARAMETERS',
@@ -117,5 +117,7 @@ export class ConversationCoordinator {
 		if (results) {
 			return results
 		}
+
+		return null
 	}
 }

@@ -1,3 +1,4 @@
+import { SkillContext } from '@sprucelabs/spruce-skill-utils'
 import { test, assert, generateId } from '@sprucelabs/test-utils'
 import { errorAssert } from '@sprucelabs/test-utils'
 import AbstractConversationTest from '../../tests/AbstractConversationTest'
@@ -444,7 +445,7 @@ export default class TopicScriptPlayerTest extends AbstractConversationTest {
 	@test('can passe context 1', { skill: 'test' })
 	@test('can passe context 2', { hello: 'world' })
 	protected static async skillContextAvailableOnScriptLine(
-		context: Record<string, any>
+		context: SkillContext
 	) {
 		let passedContext: Record<string, any> | undefined
 
@@ -471,7 +472,7 @@ export default class TopicScriptPlayerTest extends AbstractConversationTest {
 			target: options.target ?? { personId: '12345' },
 			lineDelay: 0,
 			sendMessageHandler: options.sendMessageHandler ?? async function () {},
-			getContext: () => ({}),
+			getContext: () => ({} as SkillContext),
 			...options,
 		})
 	}

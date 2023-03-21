@@ -1,4 +1,5 @@
 import { SchemaError } from '@sprucelabs/schema'
+import { SkillContext } from '@sprucelabs/spruce-skill-utils'
 import inquirer from 'inquirer'
 import SpruceError from '../errors/SpruceError'
 import TestGraphicsInterface, {
@@ -18,9 +19,12 @@ export default class ScriptTester {
 	private lineDelay?: number
 	private shouldPlayReplayAfterFinish: boolean
 	private suggester?: TopicSuggester
+	private getContext: () => SkillContext
+	private isDestroyed = false
 
 	private constructor(
 		topics: SimplifiedTopic[],
+		getContext: () => SkillContext,
 		writeHandler?: WriteHandler,
 		selectPromptHandler?: SelectHandler,
 		promptHandler?: PromptHandler,
@@ -28,6 +32,7 @@ export default class ScriptTester {
 		shouldPlayReplayAfterFinish?: boolean
 	) {
 		this.writeHandler = writeHandler ?? ((message) => console.log(message.body))
+		this.getContext = getContext
 		this.topics = topics
 		this.selectPromptHandler =
 			selectPromptHandler ?? inquirerSelectPromptHandler
@@ -58,7 +63,7 @@ export default class ScriptTester {
 			sendMessageHandler: async (message) => {
 				return this.writeHandler(message)
 			},
-			getContext: () => ({}),
+			getContext: this.getContext,
 		})
 
 		let msg = firstMessage
@@ -73,7 +78,15 @@ export default class ScriptTester {
 
 		// eslint-disable-next-line no-constant-condition
 		while (true) {
+			if (this.isDestroyed) {
+				return
+			}
+
 			const response = await this.handleInput(msg)
+
+			if (this.isDestroyed) {
+				return
+			}
 
 			if (response?.transitionConversationTo) {
 				if (response.topicChangers) {
@@ -88,12 +101,16 @@ export default class ScriptTester {
 
 			this.writeHandler({ body: END_OF_LINE })
 
-			if (!this.shouldPlayReplayAfterFinish) {
+			if (!this.shouldPlayReplayAfterFinish || this.isDestroyed) {
 				return
 			}
 
 			await this.promptHandler({ body: 'Enter to start again.' })
 		}
+	}
+
+	public destroy() {
+		this.isDestroyed = true
 	}
 
 	private async reportOnConfidence(msg: string) {
@@ -147,14 +164,7 @@ export default class ScriptTester {
 		return this.player?.handleMessage({ body: input })
 	}
 
-	public static async Tester(options: {
-		topics: SimplifiedTopic[]
-		writeHandler?: WriteHandler
-		selectPromptHandler?: SelectHandler
-		promptHandler?: PromptHandler
-		lineDelay?: number
-		shouldPlayReplayAfterFinish?: boolean
-	}) {
+	public static async Tester(options: ScriptTesterOptions) {
 		const missing: string[] = []
 
 		if (!options?.topics) {
@@ -167,6 +177,7 @@ export default class ScriptTester {
 
 		return new ScriptTester(
 			options.topics,
+			options.getContext,
 			options.writeHandler,
 			options.selectPromptHandler,
 			options.promptHandler,
@@ -210,3 +221,13 @@ const inquirerPromptHandler: SelectHandler = async (message) => {
 }
 
 export const END_OF_LINE = 'END OF LINE 👾'
+
+export interface ScriptTesterOptions {
+	topics: SimplifiedTopic[]
+	writeHandler?: WriteHandler
+	selectPromptHandler?: SelectHandler
+	promptHandler?: PromptHandler
+	lineDelay?: number
+	shouldPlayReplayAfterFinish?: boolean
+	getContext: () => SkillContext
+}

@@ -1,3 +1,5 @@
+import { SkillContext } from '@sprucelabs/spruce-skill-utils'
+import { fake } from '@sprucelabs/spruce-test-fixtures'
 import { test, assert } from '@sprucelabs/test-utils'
 import { errorAssert } from '@sprucelabs/test-utils'
 import { ConversationCoordinator } from '../../conversations/ConversationCoordinator'
@@ -7,7 +9,9 @@ import { SendMessage } from '../../types/conversation.types'
 export default class TopicCoordinatorTest extends AbstractConversationTest {
 	private static coordinator: SpyCoordinator
 	private static sentMessages: SendMessage[] = []
-	private static skillContext: Record<string, any> = {}
+	private static skillContext: SkillContext = {
+		client: fake.getClient(),
+	}
 
 	protected static async beforeEach() {
 		await super.beforeEach()
@@ -194,9 +198,7 @@ export default class TopicCoordinatorTest extends AbstractConversationTest {
 
 	@test('can passthrough context 1', { hello: 'world' })
 	@test('can passthrough context 2', { go: 'team' })
-	protected static async passesThroughContextGetter(
-		context: Record<string, any>
-	) {
+	protected static async passesThroughContextGetter(context: SkillContext) {
 		await this.coordinator.handleMessage(
 			this.buildMessage({ body: 'answer 2', source: { personId: '1234' } }),
 			'bookAppointment'

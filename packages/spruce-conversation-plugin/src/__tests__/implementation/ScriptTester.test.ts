@@ -1,13 +1,30 @@
+import { SkillContext } from '@sprucelabs/spruce-skill-utils'
 import { test, assert } from '@sprucelabs/test-utils'
 import { errorAssert } from '@sprucelabs/test-utils'
 import AbstractConversationTest from '../../tests/AbstractConversationTest'
 import ScriptTester, {
 	END_OF_LINE,
 	generateTransitionMessage,
+	ScriptTesterOptions,
 } from '../../tests/ScriptTester'
 import { Script } from '../../types/conversation.types'
 
 export default class ScriptTesterTest extends AbstractConversationTest {
+	private static readonly basicBookingScript = [
+		{
+			utterances: [],
+			key: 'bookAppointment',
+			label: 'Book appointment',
+			script: ['you ready to book?'],
+		},
+		{
+			utterances: [],
+			key: 'cancelAppointment',
+			label: 'Cancel appointment',
+			script: ['Lets cancel'],
+		},
+	]
+
 	@test()
 	protected static async throwsWithoutScript() {
 		//@ts-ignore
@@ -19,7 +36,7 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 
 	@test()
 	protected static async acceptsSimpleScript() {
-		const tester = await ScriptTester.Tester({
+		const tester = await ScriptTesterTest.Tester({
 			topics: [
 				{
 					utterances: [],
@@ -34,7 +51,7 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 
 	@test()
 	protected static async callingGoDoesntCrash() {
-		const tester = await ScriptTester.Tester({
+		const tester = await this.Tester({
 			topics: [
 				{
 					utterances: [],
@@ -53,7 +70,7 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 
 	@test()
 	protected static async cantHandleMessageBeforeStartup() {
-		const tester = await ScriptTester.Tester({
+		const tester = await this.Tester({
 			topics: [
 				{
 					utterances: [],
@@ -74,7 +91,7 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 
 	@test()
 	protected static async selectingBadScriptToStartThrows() {
-		const tester = await ScriptTester.Tester({
+		const tester = await this.Tester({
 			topics: this.basicBookingScript,
 			selectPromptHandler: async () => {
 				return 'oeuou'
@@ -91,26 +108,11 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 		})
 	}
 
-	private static readonly basicBookingScript = [
-		{
-			utterances: [],
-			key: 'bookAppointment',
-			label: 'Book appointment',
-			script: ['you ready to book?'],
-		},
-		{
-			utterances: [],
-			key: 'cancelAppointment',
-			label: 'Cancel appointment',
-			script: ['Lets cancel'],
-		},
-	]
-
 	@test()
 	protected static async asksWhichScriptYouWantToStartWithWhenThereIsMoreThanOne() {
 		let choices: any
 		const writes: string[] = []
-		const tester = await ScriptTester.Tester({
+		const tester = await this.Tester({
 			topics: this.basicBookingScript,
 			selectPromptHandler: async (message) => {
 				choices = message.choices ?? []
@@ -144,7 +146,7 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 	@test('plays multi line script', ['hey there', 'how are you?'])
 	protected static async playsSimpleScript(script: Script) {
 		const writes: string[] = []
-		const tester = await ScriptTester.Tester({
+		const tester = await this.Tester({
 			shouldPlayReplayAfterFinish: false,
 			lineDelay: 0,
 			topics: [{ key: 'test', label: 'Testing', script, utterances: [] }],
@@ -175,7 +177,7 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 	@test('fails the confirm', 'no')
 	protected static async canSendInputToThePlayer(answer: string) {
 		const writes: string[] = []
-		const tester = await ScriptTester.Tester({
+		const tester = await this.Tester({
 			shouldPlayReplayAfterFinish: false,
 			topics: [
 				{
@@ -223,7 +225,7 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 		const promptWrites: string[] = []
 		let promptResolve: any
 
-		const tester = await ScriptTester.Tester({
+		const tester = await this.Tester({
 			lineDelay: 0,
 			topics: [
 				{
@@ -271,7 +273,7 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 		const writes: string[] = []
 		const promptWrites: string[] = []
 
-		const tester = await ScriptTester.Tester({
+		const tester = await this.Tester({
 			lineDelay: 0,
 			topics: [
 				{
@@ -302,7 +304,7 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 	protected static async promptsToStartAgainAfterDone() {
 		const writes: string[] = []
 		let promptHitCount = 0
-		const tester = await ScriptTester.Tester({
+		const tester = await this.Tester({
 			lineDelay: 0,
 			topics: [
 				{
@@ -347,7 +349,7 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 	protected static async messagesAboutTransitionResponseTopicChanger() {
 		const writes: string[] = []
 		let promptHitCount = 0
-		const tester = await ScriptTester.Tester({
+		const tester = await this.Tester({
 			lineDelay: 0,
 			topics: [
 				{
@@ -403,7 +405,7 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 	protected static async messagesAboutTransitionResponseWithRepairs() {
 		const writes: string[] = []
 		let promptHitCount = 0
-		const tester = await ScriptTester.Tester({
+		const tester = await this.Tester({
 			lineDelay: 0,
 			topics: [
 				{
@@ -453,5 +455,13 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 			generateTransitionMessage('greeting'),
 			END_OF_LINE,
 		])
+	}
+
+	private static async Tester(options: Partial<ScriptTesterOptions>) {
+		return await ScriptTester.Tester({
+			getContext: () => ({} as SkillContext),
+			topics: [],
+			...options,
+		})
 	}
 }
