@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "description": "Spruce Features!",
-  "repository": "git@github.com:sprucelabsai/spruce-features-workspace.git",
+  "repository": "git@github.com:sprucelabsai-community/spruce-features-workspace.git",
   "license": "MIT",
   "useWorkspaces": true,
   "workspaces": [
