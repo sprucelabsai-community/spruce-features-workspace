@@ -64,14 +64,14 @@
   "dependencies": {
     "@sprucelabs/data-stores": "^23.0.5",
     "@sprucelabs/error": "^5.0.596",
-    "@sprucelabs/heartwood-view-controllers": "^102.1.37",
-    "@sprucelabs/mercury-client": "^39.0.6",
-    "@sprucelabs/mercury-core-events": "^20.0.3",
-    "@sprucelabs/mercury-event-emitter": "^39.0.6",
+    "@sprucelabs/heartwood-view-controllers": "^102.1.38",
+    "@sprucelabs/mercury-client": "^39.0.7",
+    "@sprucelabs/mercury-core-events": "^20.0.4",
+    "@sprucelabs/mercury-event-emitter": "^39.0.7",
     "@sprucelabs/schema": "^28.6.3",
     "@sprucelabs/spruce-core-schemas": "^38.0.7",
     "@sprucelabs/spruce-event-utils": "^36.0.7",
-    "@sprucelabs/spruce-permission-utils": "^4.0.8",
+    "@sprucelabs/spruce-permission-utils": "^4.0.9",
     "@sprucelabs/spruce-skill-booter": "^57.0.8",
     "@sprucelabs/spruce-skill-utils": "^28.1.119",
     "@sprucelabs/test-utils": "^3.4.32",
@@ -97,7 +97,7 @@
     "prettier": "^2.8.7",
     "ts-node": "^10.9.1",
     "tsc-watch": "^6.0.0",
-    "tsconfig-paths": "^4.1.2",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.0.2"
   },
   "jest": {
