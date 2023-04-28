@@ -67,7 +67,7 @@
     "@sprucelabs/error": "^5.0.605",
     "@sprucelabs/schema": "^28.6.18",
     "@sprucelabs/spruce-core-schemas": "^38.0.34",
-    "@sprucelabs/spruce-event-utils": "^36.0.35",
+    "@sprucelabs/spruce-event-utils": "^36.0.36",
     "@sprucelabs/spruce-skill-booter": "^57.0.45",
     "@sprucelabs/spruce-skill-utils": "^28.1.135",
     "@sprucelabs/spruce-test-fixtures": "^57.0.45",
