@@ -4,10 +4,7 @@ import {
 	connectionStatusContract,
 } from '@sprucelabs/mercury-client'
 import { coreEventContracts } from '@sprucelabs/mercury-core-events'
-import {
-	eventContractUtil,
-	eventDiskUtil,
-} from '@sprucelabs/spruce-event-utils'
+import { eventContractUtil } from '@sprucelabs/spruce-event-utils'
 import { diskUtil, HASH_SPRUCE_BUILD_DIR } from '@sprucelabs/spruce-skill-utils'
 import { test, assert } from '@sprucelabs/test-utils'
 import { TestConnectFactory, TestConnectionOptions } from '../..'
