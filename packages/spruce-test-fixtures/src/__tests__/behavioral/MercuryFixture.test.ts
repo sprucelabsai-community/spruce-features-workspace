@@ -1,9 +1,13 @@
 import {
 	MercuryConnectFactory,
 	MercuryTestClient,
+	connectionStatusContract,
 } from '@sprucelabs/mercury-client'
 import { coreEventContracts } from '@sprucelabs/mercury-core-events'
-import { eventContractUtil } from '@sprucelabs/spruce-event-utils'
+import {
+	eventContractUtil,
+	eventDiskUtil,
+} from '@sprucelabs/spruce-event-utils'
 import { diskUtil, HASH_SPRUCE_BUILD_DIR } from '@sprucelabs/spruce-skill-utils'
 import { test, assert } from '@sprucelabs/test-utils'
 import { TestConnectFactory, TestConnectionOptions } from '../..'
@@ -19,17 +23,22 @@ export default class MercuryFixtureTest extends AbstractSpruceFixtureTest {
 		this.fixture = this.Fixture('mercury')
 	}
 
-	@test.skip('skip until you figure out how to mixin core contracts')
+	@test()
 	protected static async hasDefaultContractByDefault() {
 		const client = await this.fixture.connectToApi()
 
 		//@ts-ignore
 		assert.isTruthy(client.eventContract)
 
+		const mixed = eventContractUtil.unifyContracts([
+			coreEventContracts[0],
+			connectionStatusContract,
+		])
+
 		assert.doesInclude(
 			//@ts-ignore
-			client.eventContract.eventSignatures,
-			coreEventContracts[0].eventSignatures
+			client.eventContract,
+			mixed
 		)
 	}
 
