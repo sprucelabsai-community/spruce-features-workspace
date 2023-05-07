@@ -3,6 +3,46 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [58.0.5](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v58.0.4...v58.0.5) (2023-05-06)
+
+**Note:** Version bump only for package @sprucelabs/spruce-skill-booter
+
+
+
+
+
+## [58.0.4](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v58.0.3...v58.0.4) (2023-05-06)
+
+**Note:** Version bump only for package @sprucelabs/spruce-skill-booter
+
+
+
+
+
+## [58.0.3](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v58.0.2...v58.0.3) (2023-05-06)
+
+**Note:** Version bump only for package @sprucelabs/spruce-skill-booter
+
+
+
+
+
+## [58.0.2](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v58.0.1...v58.0.2) (2023-05-05)
+
+**Note:** Version bump only for package @sprucelabs/spruce-skill-booter
+
+
+
+
+
+## [58.0.1](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v58.0.0...v58.0.1) (2023-05-05)
+
+**Note:** Version bump only for package @sprucelabs/spruce-skill-booter
+
+
+
+
+
 # [58.0.0](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v57.0.57...v58.0.0) (2023-05-04)
 
 
