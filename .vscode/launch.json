@@ -26,7 +26,6 @@
 				"${fileBasenameNoExtension}",
 				"--detectOpenHandles"
 			],
-			"port": 9229,
 			"cwd": "${workspaceFolder}/packages/spruce-conversation-plugin",
 			"console": "integratedTerminal",
 			"internalConsoleOptions": "neverOpen"
@@ -43,8 +42,23 @@
 				"${fileBasenameNoExtension}",
 				"--detectOpenHandles"
 			],
-			"port": 9229,
 			"cwd": "${workspaceFolder}/packages/spruce-test-fixtures",
+			"console": "integratedTerminal",
+			"internalConsoleOptions": "neverOpen"
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "deploy.test.file",
+			"runtimeExecutable": "node",
+			"runtimeArgs": [
+				"--inspect-brk",
+				"--trace-warnings",
+				"${workspaceFolder}/node_modules/.bin/jest",
+				"${fileBasenameNoExtension}",
+				"--detectOpenHandles"
+			],
+			"cwd": "${workspaceFolder}/packages/spruce-deploy-plugin",
 			"console": "integratedTerminal",
 			"internalConsoleOptions": "neverOpen"
 		},
@@ -60,7 +74,6 @@
 				"${fileBasenameNoExtension}",
 				"--detectOpenHandles"
 			],
-			"port": 9229,
 			"cwd": "${workspaceFolder}/packages/spruce-event-plugin",
 			"console": "integratedTerminal",
 			"internalConsoleOptions": "neverOpen"
@@ -76,7 +89,6 @@
 				"${workspaceFolder}/node_modules/.bin/jest",
 				"--detectOpenHandles"
 			],
-			"port": 9229,
 			"cwd": "${workspaceFolder}/packages/spruce-event-plugin",
 			"console": "integratedTerminal",
 			"internalConsoleOptions": "neverOpen"

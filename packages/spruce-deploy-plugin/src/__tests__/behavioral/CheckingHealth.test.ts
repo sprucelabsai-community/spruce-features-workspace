@@ -10,7 +10,7 @@ const WEB_URL_NEVER_DEPLOYED = 'https://spruce-test-app.herokuapp.com/'
 const WEB_URL_DEPLOYED = 'https://sb-skill-schrutebucks-pos.herokuapp.com/'
 
 export default class CheckingHealthTest extends AbstractDeployTest {
-	@test()
+	@test.only('Enable these when needed for deploying to heroku')
 	protected static async pluginReturnsInstance() {
 		assert.isTruthy(plugin instanceof Function)
 	}
