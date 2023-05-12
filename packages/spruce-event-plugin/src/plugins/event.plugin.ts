@@ -566,7 +566,7 @@ export class EventFeaturePlugin implements SkillFeature {
 					const results = await callback(event)
 					return results
 				} catch (err: any) {
-					this.log.error(err.stack ?? err.message)
+					this.log.error(`FQEN:`, fqen, err.stack ?? err.message)
 					throw err
 				}
 			})
