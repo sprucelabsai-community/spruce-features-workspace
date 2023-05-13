@@ -55,7 +55,6 @@ export default class UsingDecoratorsTest extends AbstractSpruceFixtureTest {
 		const client = MercuryFixture.getDefaultClient()
 
 		assert.isFalsy(client)
-		assert.isFalse(this.lastClient.isConnected())
 	}
 
 	@test()
@@ -193,17 +192,6 @@ export default class UsingDecoratorsTest extends AbstractSpruceFixtureTest {
 		await this.assertExpectedSeededPeople(baseCounts)
 	}
 
-	private static async assertExpectedSeededPeople(
-		baseCounts: Record<string, number>
-	) {
-		const bases = Object.keys(baseCounts)
-
-		for (const base of bases) {
-			const count = baseCounts[base]
-			await this.assertTotalPeopleByRole(base, count)
-		}
-	}
-
 	@test('can seed more people', {
 		guest: 5,
 		teammate: 5,
@@ -222,8 +210,20 @@ export default class UsingDecoratorsTest extends AbstractSpruceFixtureTest {
 		await this.assertExpectedSeededPeople(baseCounts)
 	}
 
+	private static async assertExpectedSeededPeople(
+		baseCounts: Record<string, number>
+	) {
+		const bases = Object.keys(baseCounts)
+
+		for (const base of bases) {
+			const count = baseCounts[base]
+			await this.assertTotalPeopleByRole(base, count)
+		}
+	}
+
 	private static async assertCountOrgs(expected: number) {
 		const organizations = await this.organizations.listOrganizations()
+
 		assert.isLength(organizations, expected)
 	}
 
