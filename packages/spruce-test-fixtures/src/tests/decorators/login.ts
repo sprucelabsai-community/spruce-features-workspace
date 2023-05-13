@@ -50,10 +50,11 @@ export default function login(phone: string) {
 		Class.afterAll = async () => {
 			const client = MercuryFixture.getDefaultClient()
 			await emitWillLogout(client)
-			await client?.disconnect()
 
 			MercuryFixture.clearDefaultClient()
 			await afterAll()
+
+			await client?.disconnect()
 		}
 	}
 }

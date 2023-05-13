@@ -1,4 +1,4 @@
-import { assert, test } from '@sprucelabs/test-utils'
+import { assert, generateId, test } from '@sprucelabs/test-utils'
 import { AbstractSpruceFixtureTest, login, seed } from '../..'
 import { DEMO_NUMBER_TEST_CLIENT_RECENT } from '../../tests/constants'
 
@@ -16,7 +16,12 @@ export class ResettingLocalEventListeningBeforeSeedingTest extends AbstractSpruc
 		await login.getClient().on('create-organization::v2020_12_25', () => {
 			this.hitCount++
 			return {
-				organization: {} as any,
+				organization: {
+					id: generateId(),
+					dateCreated: new Date().getTime(),
+					name: generateId(),
+					slug: generateId(),
+				},
 			}
 		})
 	}

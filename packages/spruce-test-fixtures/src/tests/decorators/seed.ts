@@ -26,8 +26,14 @@ export default function seed(
 	...params: any[]
 ) {
 	return function (Class: any, key: string, descriptor: any) {
-		if (storeName === 'organizations' || storeName === 'locations') {
+		if (
+			(storeName === 'organizations' || storeName === 'locations') &&
+			!Class.beforeAll.__patched
+		) {
 			const beforeAll = Class.beforeAll.bind(Class)
+
+			Class.__shouldResetAccount = false
+
 			Class.beforeAll = async () => {
 				await beforeAll()
 
@@ -36,9 +42,15 @@ export default function seed(
 				})
 
 				await login.on('will-logout', async () => {
-					await forceResetAccount(Class)
+					// await forceResetAccount(Class)
+					// if (shouldResetTestClientOnWillLogout) {
+					//
+					// 	MercuryTestClient.reset()
+					// }
 				})
 			}
+
+			Class.beforeAll.__patched = true
 		}
 
 		StoreFixture.setShouldAutomaticallyResetDatabase(false)
@@ -94,9 +106,9 @@ function attachCleanup(Class: any) {
 		const beforeEach = Class.beforeEach.bind(Class)
 
 		Class.afterEach = async () => {
-			shouldResetTestClient && MercuryTestClient.reset()
 			await afterEach?.()
 
+			shouldResetTestClient && MercuryTestClient.reset()
 			delete Class.__lastReset
 		}
 
