@@ -9,9 +9,9 @@ export default abstract class AbstractListenerTest extends AbstractEventPluginTe
 	protected static registeredSkill: RegisteredSkill
 
 	protected static async beforeEach() {
-		await super.beforeEach()
-
 		MercuryFixture.setShouldMixinCoreEventContractsWhenImportingLocal(true)
+
+		await super.beforeEach()
 
 		delete process.env.DID_BOOT_FIRED
 		delete process.env.WILL_BOOT_FIRED

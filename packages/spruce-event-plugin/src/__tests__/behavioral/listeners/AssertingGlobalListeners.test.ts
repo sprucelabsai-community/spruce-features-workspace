@@ -13,6 +13,7 @@ export default class AssertingGlobalListenersTest extends AbstractListenerTest {
 	private static event: SpyEventFeaturePlugin
 	protected static async beforeEach() {
 		await super.beforeEach()
+
 		await this.bootSkillNamed('registered-skill')
 
 		this.event = this.skill.getFeatureByCode('event') as SpyEventFeaturePlugin
