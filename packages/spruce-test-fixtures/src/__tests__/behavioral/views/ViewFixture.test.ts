@@ -2,6 +2,7 @@ import {
 	AbstractSkillViewController,
 	ActiveRecordListViewController,
 	AuthenticatorImpl,
+	Device,
 	formAssert,
 	ScopeFlag,
 	SkillViewControllerLoadOptions,
@@ -35,18 +36,12 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 	private static fixture: ViewFixture
 	private static fixtureNoOptions: ViewFixture
 	private static eventFaker: EventFaker
+	private static lastDevice?: Device
 
 	protected static async beforeEach() {
 		await super.beforeEach()
 
-		this.fixture = this.Fixture('view', {
-			controllerMap: {
-				scope: ScopeSvc,
-				client: ClientSvc,
-				scopedByOrg: ScopedByOrgSvc,
-				scopedByLocation: ScopedByLocationSvc,
-			},
-		})
+		this.fixture = this.ViewFixture()
 
 		this.fixtureNoOptions = this.Fixture('view')
 		this.eventFaker = new EventFaker()
@@ -624,6 +619,35 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 		this.fixture.setController(name, Vc)
 		assert.isEqual(passedName, name)
 		assert.isEqual(passedVc, Vc)
+	}
+
+	@test()
+	protected static async deviceIsSetOnFixtureAndFactory() {
+		const factory = this.fixture.getFactory()
+		const device = this.fixture.getDevice()
+		//@ts-ignore
+		assert.isEqual(factory.device, device)
+
+		const factory2 = this.ViewFixture()
+		assert.isEqual(factory2.getDevice(), device)
+		this.lastDevice = device
+	}
+
+	@test()
+	protected static async newDeviceBeforeEach() {
+		const device = this.fixture.getDevice()
+		assert.isNotEqual(device, this.lastDevice)
+	}
+
+	private static ViewFixture(): ViewFixture {
+		return this.Fixture('view', {
+			controllerMap: {
+				scope: ScopeSvc,
+				client: ClientSvc,
+				scopedByOrg: ScopedByOrgSvc,
+				scopedByLocation: ScopedByLocationSvc,
+			},
+		})
 	}
 
 	private static buildLoadOptions() {

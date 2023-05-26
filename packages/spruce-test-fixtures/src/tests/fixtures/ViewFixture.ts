@@ -58,6 +58,7 @@ export default class ViewFixture {
 	private proxyDecorator: ClientProxyDecorator
 	private locale: Locale
 	private permissions: PermissionFixture
+	private static device?: SpyDevice
 
 	public static lockProxyCacheForPerson(id: any) {
 		this.dontResetProxyTokenForPersonId = id
@@ -78,21 +79,33 @@ export default class ViewFixture {
 		proxyDecorator: ClientProxyDecorator
 		permissions: PermissionFixture
 	}) {
-		this.connectToApi = options.connectToApi
-		this.people = options.people
-		this.vcDir =
-			options?.vcDir ??
-			diskUtil.resolvePath(options.cwd ?? process.cwd(), 'build')
+		const {
+			connectToApi,
+			people,
+			fixtureFactory,
+			vcDir,
+			cwd,
+			namespace,
+			proxyDecorator,
+			permissions,
+		} = options
+
+		this.connectToApi = connectToApi
+		this.people = people
+		this.vcDir = vcDir ?? diskUtil.resolvePath(cwd ?? process.cwd(), 'build')
 		this.controllerMap = options?.controllerMap
-		this.namespace = options.namespace
-		this.proxyDecorator = options.proxyDecorator
-		this.orgs = options.fixtureFactory.Fixture('organization', {
+		this.namespace = namespace
+		this.proxyDecorator = proxyDecorator
+		this.orgs = fixtureFactory.Fixture('organization', {
 			people: this.people,
 		})
-		this.permissions = options.permissions
+		this.permissions = permissions
+		if (!ViewFixture.device) {
+			ViewFixture.device = new SpyDevice()
+		}
 
 		this.locale = new LocaleImpl()
-		this.locations = options.fixtureFactory.Fixture('location', {
+		this.locations = fixtureFactory.Fixture('location', {
 			people: this.people,
 			organizations: this.orgs,
 		})
@@ -164,7 +177,7 @@ export default class ViewFixture {
 
 		this.vcFactory = ViewControllerFactory.Factory({
 			controllerMap,
-			device: new SpyDevice(),
+			device: this.device!,
 			connectToApi: async (options?: ConnectOptions) => {
 				return this.viewClient ?? connectToApi(options)
 			},
@@ -190,6 +203,10 @@ export default class ViewFixture {
 		}
 
 		return this.vcFactory
+	}
+
+	public getDevice() {
+		return ViewFixture.device!
 	}
 
 	public Controller<N extends ViewControllerId>(
@@ -236,6 +253,7 @@ export default class ViewFixture {
 		}
 
 		this.viewClient = undefined
+		this.device = undefined
 
 		const lockedToken =
 			this.dontResetProxyTokenForPersonId &&
