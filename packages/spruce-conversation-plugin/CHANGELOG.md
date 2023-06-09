@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [59.0.56](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v59.0.55...v59.0.56) (2023-06-09)
+
+**Note:** Version bump only for package @sprucelabs/spruce-conversation-plugin
+
+
+
+
+
 ## [59.0.55](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v59.0.54...v59.0.55) (2023-06-08)
 
 **Note:** Version bump only for package @sprucelabs/spruce-conversation-plugin
