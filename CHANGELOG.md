@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [59.1.0](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v59.0.93...v59.1.0) (2023-06-20)
+
+
+### Features
+
+* can get/set namespace on router ([f661f33](https://github.com/sprucelabsai-community/spruce-features-workspace/commit/f661f33))
+
+
+
+
+
 ## [59.0.93](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v59.0.92...v59.0.93) (2023-06-20)
 
 **Note:** Version bump only for package spruce-features-workspace
