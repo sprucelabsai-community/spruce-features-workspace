@@ -1,6 +1,7 @@
 /* eslint-disable spruce/prohibit-import-from-build-folder */
 import { LocaleImpl } from '@sprucelabs/calendar-utils'
 import {
+	SkillViewController,
 	SkillViewControllerId,
 	vcAssert,
 	ViewControllerFactory,
@@ -164,6 +165,45 @@ export default class RoutingTest extends AbstractSpruceFixtureTest {
 		const options = this.router.buildLoadOptions()
 		assert.isTrue(options.locale instanceof LocaleImpl)
 		assert.isTrue(options.authorizer instanceof FakeAuthorizer)
+	}
+
+	@test()
+	protected static async canSetPresentVc() {
+		const vc = this.views.Controller('heartwood.root', {})
+		this.setPresentVc(vc)
+		const actual = this.router.getPresentVc()
+		assert.isEqual(actual, vc as any)
+	}
+
+	@test('can set namespace to heartwood', 'heartwood.root', 'heartwood')
+	@test('can set namespace to forms', 'forms.root', 'forms')
+	@test('can set namespace to forms.go', 'forms.go', 'forms')
+	protected static async canPullNamespaceFromPresentVc(
+		id: any,
+		namespace: string
+	) {
+		this.views.setController(id, FakeSkillViewController)
+		const vc = this.views.Controller(id, {})
+		this.setPresentVc(vc)
+		this.assertCurrentNamespace(namespace)
+	}
+
+	@test()
+	protected static async canSetNamespaceDirectly() {
+		this.router.setNamespace('forms')
+		this.assertCurrentNamespace('forms')
+
+		this.router.setNamespace('heartwood')
+		this.assertCurrentNamespace('heartwood')
+	}
+
+	private static assertCurrentNamespace(namespace: string) {
+		const actual = this.router.getNamespace()
+		assert.isEqual(actual, namespace)
+	}
+
+	private static setPresentVc(vc: SkillViewController) {
+		this.router.setPresentVc(vc)
 	}
 
 	private static async assertRedirects(action: () => Promise<any>) {

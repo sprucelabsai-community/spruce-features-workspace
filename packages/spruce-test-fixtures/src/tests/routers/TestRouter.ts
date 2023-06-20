@@ -20,15 +20,6 @@ import {
 import testRouterEmitPayloadSchema from '#spruce/schemas/spruceTestFixtures/v2021_07_19/testRouterEmitPayload.schema'
 import FakeThemeManager from '../../__tests__/support/FakeThemeManager'
 
-const contract = buildEventContract({
-	eventSignatures: {
-		'did-redirect': {
-			emitPayloadSchema: testRouterEmitPayloadSchema,
-		},
-	},
-})
-type Contract = typeof contract
-
 export default class TestRouter
 	extends AbstractEventEmitter<Contract>
 	implements Router, MercuryEventEmitter<Contract>
@@ -44,6 +35,7 @@ export default class TestRouter
 	private static shouldThrowWhenRedirectingToBadSvc = true
 	private scope: Scope
 	private locale: Locale
+	private manuallySetNamespace?: string
 
 	private readonly themes = new FakeThemeManager()
 	private authorizer: Authorizer
@@ -79,7 +71,6 @@ export default class TestRouter
 				locale: this.locale,
 				authorizer: this.authorizer,
 			})
-
 			routerTestPatcher.patchRedirectToThrow(this.instance)
 		}
 
@@ -94,6 +85,23 @@ export default class TestRouter
 
 	public getThemes() {
 		return this.themes
+	}
+
+	public setPresentVc(vc: SkillViewController) {
+		this.presentVc = vc
+	}
+
+	public setNamespace(namespace: string) {
+		this.manuallySetNamespace = namespace
+	}
+
+	public getNamespace() {
+		if (this.manuallySetNamespace) {
+			return this.manuallySetNamespace
+		}
+		//@ts-ignore
+		const id = this.presentVc?.id ?? 'heartwood.root'
+		return id.split('.')[0]
 	}
 
 	public static setup(options: {
@@ -157,3 +165,12 @@ export default class TestRouter
 		}
 	}
 }
+
+const contract = buildEventContract({
+	eventSignatures: {
+		'did-redirect': {
+			emitPayloadSchema: testRouterEmitPayloadSchema,
+		},
+	},
+})
+type Contract = typeof contract
