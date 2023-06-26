@@ -3,7 +3,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "59.1.0",
+  "version": "59.1.6",
   "files": [
     "build/**/*",
     "!build/__tests__",
@@ -60,8 +60,8 @@
   },
   "dependencies": {
     "@sprucelabs/error": "^5.1.11",
-    "@sprucelabs/schema": "^28.6.49",
-    "@sprucelabs/spruce-skill-utils": "^29.1.19",
+    "@sprucelabs/schema": "^28.8.1",
+    "@sprucelabs/spruce-skill-utils": "^29.1.20",
     "@sprucelabs/test-utils": "^3.4.75"
   },
   "devDependencies": {
