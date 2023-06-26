@@ -510,7 +510,8 @@ async function fakeListLocations(Class: Class) {
 	await eventFaker.on('list-locations::v2020_12_25', ({ target, payload }) => {
 		return {
 			locations: applyPaging(Class._fakedLocations, payload).filter(
-				(l) => l.organizationId === target?.organizationId
+				(l) =>
+					!target?.organizationId || l.organizationId === target?.organizationId
 			),
 		}
 	})
