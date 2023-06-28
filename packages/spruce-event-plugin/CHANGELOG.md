@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [59.2.0](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v59.1.7...v59.2.0) (2023-06-28)
+
+
+### Features
+
+* scope now throws when accessing location or org outside of set scope ([f221263](https://github.com/sprucelabsai-community/spruce-features-workspace/commit/f221263))
+
+
+
+
+
 ## [59.1.7](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v59.1.6...v59.1.7) (2023-06-26)
 
 **Note:** Version bump only for package @sprucelabs/spruce-event-plugin
