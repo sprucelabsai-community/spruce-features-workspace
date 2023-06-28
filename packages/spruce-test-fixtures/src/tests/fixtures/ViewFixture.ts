@@ -140,7 +140,6 @@ export default class ViewFixture {
 		controllerMap?: any
 		connectToApi: Factory
 	}) {
-		debugger
 		if (this.vcFactory) {
 			if (options.controllerMap) {
 				this.vcFactory.mixinControllers(options.controllerMap)

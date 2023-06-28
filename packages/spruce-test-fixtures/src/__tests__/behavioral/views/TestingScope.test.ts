@@ -1,6 +1,5 @@
 import {
 	AbstractSkillViewController,
-	CardViewControllerImpl,
 	ScopeFlag,
 	SpruceSchemas,
 } from '@sprucelabs/heartwood-view-controllers'
