@@ -36,6 +36,10 @@ import LocationFixture from './LocationFixture'
 import OrganizationFixture from './OrganizationFixture'
 import PermissionFixture from './PermissionFixture'
 import PersonFixture from './PersonFixture'
+import {
+	doesScopeIncludeLocation,
+	doesScopeIncludeOrganization,
+} from './scopeUtils'
 import SpyScope from './SpyScope'
 
 type Factory = TestConnectFactory
@@ -136,6 +140,7 @@ export default class ViewFixture {
 		controllerMap?: any
 		connectToApi: Factory
 	}) {
+		debugger
 		if (this.vcFactory) {
 			if (options.controllerMap) {
 				this.vcFactory.mixinControllers(options.controllerMap)
@@ -293,6 +298,10 @@ export default class ViewFixture {
 		args?: ArgsFromSvc<Svc>
 	) {
 		await this.assertScopeRequirementsMet<Svc>(vc)
+		const scope = vc?.getScope?.()
+		if (scope) {
+			this.getScope().setFlags(scope)
+		}
 		await vc.load(this.getRouter().buildLoadOptions(args ?? {}))
 	}
 
@@ -303,7 +312,7 @@ export default class ViewFixture {
 	private async assertScopeRequirementsMet<
 		Svc extends SkillViewController = SkillViewController
 	>(vc: Pick<Svc, 'load' | 'getScope'>) {
-		if ((vc.getScope?.()?.indexOf('organization') ?? -1) > -1) {
+		if (doesScopeIncludeOrganization(vc.getScope?.())) {
 			const org = await this.getScope().getCurrentOrganization()
 			if (!org) {
 				throw new SpruceError({
@@ -313,7 +322,7 @@ export default class ViewFixture {
 			}
 		}
 
-		if ((vc.getScope?.()?.indexOf('location') ?? -1) > -1) {
+		if (doesScopeIncludeLocation(vc.getScope?.())) {
 			const location = await this.getScope().getCurrentLocation()
 			if (!location) {
 				throw new SpruceError({

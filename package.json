@@ -40,6 +40,6 @@
 		"@sprucelabs/resolve-path-aliases": "^1.1.227",
 		"@sprucelabs/semantic-release": "^4.0.8",
 		"eslint": "^8.43.0",
-		"lerna": "^7.0.2"
+		"lerna": "^7.1.1"
 	}
 }

@@ -173,6 +173,44 @@ export declare namespace SpruceErrors.SpruceTestFixtures {
 export declare namespace SpruceErrors.SpruceTestFixtures {
 
 	
+	export interface InvalidScopeRequest {
+		
+			
+			'flags': string[]
+			
+			'attemptedToGet': ("location" | "organization")
+	}
+
+	export interface InvalidScopeRequestSchema extends SpruceSchema.Schema {
+		id: 'invalidScopeRequest',
+		namespace: 'SpruceTestFixtures',
+		name: '',
+		    fields: {
+		            /** . */
+		            'flags': {
+		                type: 'text',
+		                isRequired: true,
+		                isArray: true,
+		                options: undefined
+		            },
+		            /** . */
+		            'attemptedToGet': {
+		                type: 'select',
+		                isRequired: true,
+		                options: {choices: [{"value":"location","label":"Location"},{"value":"organization","label":"Organization"}],}
+		            },
+		    }
+	}
+
+	export type InvalidScopeRequestEntity = SchemaEntity<SpruceErrors.SpruceTestFixtures.InvalidScopeRequestSchema>
+
+}
+
+
+
+export declare namespace SpruceErrors.SpruceTestFixtures {
+
+	
 	export interface InvalidFixture {
 		
 			

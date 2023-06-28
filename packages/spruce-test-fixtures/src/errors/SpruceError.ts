@@ -46,6 +46,14 @@ export default class SpruceError extends BaseSpruceError<ErrorOptions> {
 				message = `Scope requirements not met! Make sure you are seeding what you expect (location or org)!`
 				break
 
+			case 'INVALID_SCOPE_REQUEST':
+				message = `You just tried to get the current ${
+					options.attemptedToGet
+				} but are currently scoped to ${options.flags.join(
+					', '
+				)}! Check your skill view's getScope() implementation.`
+				break
+
 			default:
 				message = super.friendlyMessage()
 		}
