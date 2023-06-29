@@ -100,15 +100,7 @@ export default class TestingScopeTest extends AbstractSpruceFixtureTest {
 	@test()
 	protected static async getCurrentOrgThrowsWhenScopedToNone() {
 		this.setFlags(['none'])
-
-		const err = await assert.doesThrowAsync(() =>
-			this.scope.getCurrentOrganization()
-		)
-
-		errorAssert.assertError(err, 'INVALID_SCOPE_REQUEST', {
-			flags: ['none'],
-			attemptedToGet: 'organization',
-		})
+		await this.asserthInvalidScopeOnGetOrganization()
 	}
 
 	@test('can get lecation when scoped to location', ['location'])
@@ -121,8 +113,7 @@ export default class TestingScopeTest extends AbstractSpruceFixtureTest {
 		flags: ScopeFlag[]
 	) {
 		this.setFlags(flags)
-		const location = await this.scope.getCurrentLocation()
-		assert.isTruthy(location)
+		await this.assertCurrentLocationEqualsLatest()
 	}
 
 	@test('can get current org when scoped to org', ['organization'])
@@ -135,8 +126,7 @@ export default class TestingScopeTest extends AbstractSpruceFixtureTest {
 		flags: ScopeFlag[]
 	) {
 		this.setFlags(flags)
-		const org = await this.scope.getCurrentOrganization()
-		assert.isTruthy(org)
+		await this.assertCurrentOrgEqualsLatest()
 	}
 
 	@test('loading svc sets flags 1', ['location'])
@@ -150,6 +140,50 @@ export default class TestingScopeTest extends AbstractSpruceFixtureTest {
 			this.scope.getFlags(),
 			ScopedSkillViewController.scopeFlags
 		)
+	}
+
+	@test()
+	@seed('locations', 1)
+	protected static async canDisableThrowOnInvalidScopeRequest() {
+		this.disableThrowOnRequestOutOfScope()
+		this.setFlags(['organization'])
+		await this.assertCurrentLocationEqualsLatest()
+		this.setFlags(['none'])
+		await this.assertCurrentOrgEqualsLatest()
+	}
+
+	@test()
+	@seed('locations', 1)
+	protected static async canEnableThrowsOnInvalidScopeRequest() {
+		this.disableThrowOnRequestOutOfScope()
+		this.scope.enableThrowOnRequestOutOfScope()
+		this.setFlags(['none'])
+		await this.asserthInvalidScopeOnGetOrganization()
+	}
+
+	private static disableThrowOnRequestOutOfScope() {
+		this.scope.disableThrowOnRequestOutOfScope()
+	}
+
+	private static async asserthInvalidScopeOnGetOrganization() {
+		const err = await assert.doesThrowAsync(() =>
+			this.scope.getCurrentOrganization()
+		)
+
+		errorAssert.assertError(err, 'INVALID_SCOPE_REQUEST', {
+			flags: ['none'],
+			attemptedToGet: 'organization',
+		})
+	}
+
+	private static async assertCurrentOrgEqualsLatest() {
+		const org = await this.scope.getCurrentOrganization()
+		assert.isEqualDeep(org, this.fakedOrganizations[0])
+	}
+
+	private static async assertCurrentLocationEqualsLatest() {
+		const location = await this.scope.getCurrentLocation()
+		assert.isEqualDeep(location, this.fakedLocations[0])
 	}
 
 	private static setFlags(flags: ScopeFlag[]) {

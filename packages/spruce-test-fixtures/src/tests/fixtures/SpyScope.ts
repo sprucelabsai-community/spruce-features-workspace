@@ -13,6 +13,7 @@ export default class SpyScope implements Scope {
 	private organizationFixture: OrganizationFixture
 	private locationFixture: LocationFixture
 	private flags?: ScopeFlag[]
+	private shouldThrowOnRequestOutOfScope = true
 
 	public constructor(options: {
 		organizationFixture: OrganizationFixture
@@ -23,7 +24,19 @@ export default class SpyScope implements Scope {
 	}
 
 	public async getCurrentOrganization() {
+		this.assertScopedByOrg()
+		if (this.currentOrgId === null) {
+			return null
+		} else if (this.currentOrgId) {
+			return this.organizationFixture.getOrganizationById(this.currentOrgId)
+		} else {
+			return this.organizationFixture.getNewestOrganization()
+		}
+	}
+
+	private assertScopedByOrg() {
 		if (
+			this.shouldThrowOnRequestOutOfScope &&
 			this.flags &&
 			!doesScopeIncludeOrganization(this.flags) &&
 			!this.isScopedByLocation
@@ -33,13 +46,6 @@ export default class SpyScope implements Scope {
 				flags: ['none'],
 				attemptedToGet: 'organization',
 			})
-		}
-		if (this.currentOrgId === null) {
-			return null
-		} else if (this.currentOrgId) {
-			return this.organizationFixture.getOrganizationById(this.currentOrgId)
-		} else {
-			return this.organizationFixture.getNewestOrganization()
 		}
 	}
 
@@ -57,13 +63,7 @@ export default class SpyScope implements Scope {
 	}
 
 	public async getCurrentLocation() {
-		if (this.flags && !this.isScopedByLocation) {
-			throw new SpruceError({
-				code: 'INVALID_SCOPE_REQUEST',
-				flags: this.getFlags(),
-				attemptedToGet: 'location',
-			})
-		}
+		this.assertScopedToCurrentLocation()
 
 		if (this.currentLocationId === null) {
 			return null
@@ -79,6 +79,20 @@ export default class SpyScope implements Scope {
 		return null
 	}
 
+	private assertScopedToCurrentLocation() {
+		if (
+			this.shouldThrowOnRequestOutOfScope &&
+			this.flags &&
+			!this.isScopedByLocation
+		) {
+			throw new SpruceError({
+				code: 'INVALID_SCOPE_REQUEST',
+				flags: this.getFlags(),
+				attemptedToGet: 'location',
+			})
+		}
+	}
+
 	public setCurrentLocation(id: string | null) {
 		this.currentLocationId = id
 	}
@@ -91,5 +105,13 @@ export default class SpyScope implements Scope {
 	private get isScopedByLocation() {
 		const flags = this.flags
 		return doesScopeIncludeLocation(flags)
+	}
+
+	public disableThrowOnRequestOutOfScope() {
+		this.shouldThrowOnRequestOutOfScope = false
+	}
+
+	public enableThrowOnRequestOutOfScope() {
+		this.shouldThrowOnRequestOutOfScope = true
 	}
 }
