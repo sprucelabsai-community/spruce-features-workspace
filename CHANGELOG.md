@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [59.3.0](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v59.2.0...v59.3.0) (2023-06-29)
+
+
+### Features
+
+* can enable/disable throwing on out of scope requests ([6a699ff](https://github.com/sprucelabsai-community/spruce-features-workspace/commit/6a699ff))
+
+
+
+
+
 # [59.2.0](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v59.1.7...v59.2.0) (2023-06-28)
 
 
