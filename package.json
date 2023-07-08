@@ -16,7 +16,7 @@
 		"clean.all": "yarn clean.dependencies && yarn clean.build",
 		"clean.build": "for d in packages/*; do echo $d; cd $d; yarn clean.build; cd ../..; done",
 		"clean.dependencies": "rm -rf node_modules/ package-lock.json yarn.lock && for d in packages/*; do echo $d; cd $d; yarn clean.dependencies; cd ../..; done",
-		"fix.lint": "lerna run fix.lint.local --parallel --stream",
+		"fix.lint": "lerna run fix.lint.local --stream",
 		"lint": "lerna run lint",
 		"publish": "lerna publish",
 		"build.resolve-paths": "lerna run build.resolve-paths",
