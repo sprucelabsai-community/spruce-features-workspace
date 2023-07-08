@@ -48,7 +48,7 @@
 		"clean.dist": "true",
 		"fix.lint": "cd ../ && yarn fix.lint",
 		"fix.lint.local.backup": "eslint --fix --cache '**/*.ts'",
-		"fix.lint.local": "eslint --fix '**/*.miss",
+		"fix.lint.local": "eslint --fix --cache '**/*.miss'",
 		"lint": "eslint --cache '**/*.ts'",
 		"rebuild": "cd .. && yarn rebuild",
 		"resolve-paths.lint": "yarn build.resolve-paths ; yarn lint",
