@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [60.0.30](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.0.29...v60.0.30) (2023-07-23)
+
+**Note:** Version bump only for package @sprucelabs/spruce-event-plugin
+
+
+
+
+
 ## [60.0.29](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.0.28...v60.0.29) (2023-07-23)
 
 **Note:** Version bump only for package @sprucelabs/spruce-event-plugin
