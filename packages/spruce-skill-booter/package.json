@@ -60,8 +60,8 @@
   },
   "dependencies": {
     "@sprucelabs/error": "^5.1.19",
-    "@sprucelabs/schema": "^29.0.21",
-    "@sprucelabs/spruce-skill-utils": "^29.1.48",
+    "@sprucelabs/schema": "^29.0.22",
+    "@sprucelabs/spruce-skill-utils": "^29.1.49",
     "@sprucelabs/test-utils": "^4.0.14"
   },
   "devDependencies": {
