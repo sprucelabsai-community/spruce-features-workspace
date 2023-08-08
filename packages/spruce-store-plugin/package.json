@@ -3,7 +3,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "60.0.53",
+  "version": "60.0.54",
   "files": [
     "build/**/*",
     "!build/__tests__",
@@ -68,9 +68,9 @@
     "@sprucelabs/schema": "^29.0.24",
     "@sprucelabs/spruce-core-schemas": "^39.0.30",
     "@sprucelabs/spruce-event-utils": "^38.0.28",
-    "@sprucelabs/spruce-skill-booter": "^60.0.53",
+    "@sprucelabs/spruce-skill-booter": "^60.0.54",
     "@sprucelabs/spruce-skill-utils": "^29.1.51",
-    "@sprucelabs/spruce-test-fixtures": "^60.0.53",
+    "@sprucelabs/spruce-test-fixtures": "^60.0.54",
     "heroku-client": "^3.1.0"
   },
   "devDependencies": {
