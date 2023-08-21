@@ -67,9 +67,9 @@
     "@sprucelabs/error": "^5.1.22",
     "@sprucelabs/schema": "^29.0.32",
     "@sprucelabs/spruce-core-schemas": "^39.0.42",
-    "@sprucelabs/spruce-event-utils": "^38.0.42",
+    "@sprucelabs/spruce-event-utils": "^38.0.43",
     "@sprucelabs/spruce-skill-booter": "^60.0.76",
-    "@sprucelabs/spruce-skill-utils": "^30.0.3",
+    "@sprucelabs/spruce-skill-utils": "^30.0.4",
     "@sprucelabs/spruce-test-fixtures": "^60.0.76",
     "heroku-client": "^3.1.0"
   },
