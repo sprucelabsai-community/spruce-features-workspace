@@ -101,7 +101,7 @@ export type ScriptPlayerSendMessageHandler = (
 ) => Promise<void>
 
 export interface FieldHandlerOptions<
-	D extends FieldDefinitions = FieldDefinitions
+	D extends FieldDefinitions = FieldDefinitions,
 > {
 	sendMessageHandler: ScriptPlayerSendMessageHandler
 	waitForNextMessageHandler: () => Promise<string>

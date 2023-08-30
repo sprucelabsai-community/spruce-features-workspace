@@ -472,7 +472,7 @@ export default class TopicScriptPlayerTest extends AbstractConversationTest {
 			target: options.target ?? { personId: '12345' },
 			lineDelay: 0,
 			sendMessageHandler: options.sendMessageHandler ?? async function () {},
-			getContext: () => ({} as SkillContext),
+			getContext: () => ({}) as SkillContext,
 			...options,
 		})
 	}

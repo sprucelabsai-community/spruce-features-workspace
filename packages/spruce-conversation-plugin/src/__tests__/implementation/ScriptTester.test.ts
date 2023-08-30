@@ -459,7 +459,7 @@ export default class ScriptTesterTest extends AbstractConversationTest {
 
 	private static async Tester(options: Partial<ScriptTesterOptions>) {
 		return await ScriptTester.Tester({
-			getContext: () => ({} as SkillContext),
+			getContext: () => ({}) as SkillContext,
 			topics: [],
 			...options,
 		})
