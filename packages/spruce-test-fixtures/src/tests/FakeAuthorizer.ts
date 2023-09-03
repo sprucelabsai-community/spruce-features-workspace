@@ -13,14 +13,14 @@ export default class FakeAuthorizer implements Authorizer {
 	private lastCanOptions?: AuthorizerCanOptions<any>
 
 	public fakePermissions<
-		ContractId extends PermissionContractId = PermissionContractId
+		ContractId extends PermissionContractId = PermissionContractId,
 	>(options: FakeOptions<ContractId>) {
 		this.fakedContracts.unshift(options)
 	}
 
 	public async can<
 		ContractId extends PermissionContractId,
-		Ids extends PermissionId<ContractId>
+		Ids extends PermissionId<ContractId>,
 	>(
 		options: AuthorizerCanOptions<ContractId, Ids>
 	): Promise<Record<Ids, boolean>> {
@@ -60,14 +60,14 @@ export default class FakeAuthorizer implements Authorizer {
 
 	public async savePermissions<
 		ContractId extends PermissionContractId,
-		Ids extends PermissionId<ContractId>
+		Ids extends PermissionId<ContractId>,
 	>(options: SavePermissionsOptions<ContractId, Ids>): Promise<void> {
 		this.lastSavePermissionOptions = options
 	}
 
 	public getLastSavePermissionsOptions<
 		ContractId extends PermissionContractId = PermissionContractId,
-		Ids extends PermissionId<ContractId> = PermissionId<ContractId>
+		Ids extends PermissionId<ContractId> = PermissionId<ContractId>,
 	>(): SavePermissionsOptions<ContractId, Ids> {
 		return this.lastSavePermissionOptions as SavePermissionsOptions<
 			ContractId,
@@ -111,7 +111,7 @@ interface Perm<ContractId extends PermissionContractId> {
 }
 
 interface FakeOptions<
-	ContractId extends PermissionContractId = PermissionContractId
+	ContractId extends PermissionContractId = PermissionContractId,
 > {
 	contractId: ContractId
 	permissions: Perm<ContractId>[]

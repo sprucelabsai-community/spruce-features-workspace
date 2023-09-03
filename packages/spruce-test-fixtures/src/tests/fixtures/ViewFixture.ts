@@ -309,7 +309,7 @@ export default class ViewFixture {
 	}
 
 	private async assertScopeRequirementsMet<
-		Svc extends SkillViewController = SkillViewController
+		Svc extends SkillViewController = SkillViewController,
 	>(vc: Pick<Svc, 'load' | 'getScope'>) {
 		if (doesScopeIncludeOrganization(vc.getScope?.())) {
 			const org = await this.getScope().getCurrentOrganization()

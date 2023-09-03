@@ -447,9 +447,8 @@ async function fakeListRoles(Class: Class) {
 			roles = personRoles
 		} else {
 			if (locationId) {
-				organizationId = Class._fakedLocations.find(
-					(l) => l.id === locationId
-				)?.organizationId
+				organizationId = Class._fakedLocations.find((l) => l.id === locationId)
+					?.organizationId
 			}
 			roles = Class.fakedRoles.filter(
 				(r) => r.organizationId === organizationId
@@ -779,9 +778,8 @@ async function fakeWhoAmI(Class: Class) {
 		let { personId, proxyToken } = source ?? {}
 
 		if (proxyToken) {
-			personId = Class.fakedProxyTokens.find(
-				(t) => t.token === proxyToken
-			)?.personId
+			personId = Class.fakedProxyTokens.find((t) => t.token === proxyToken)
+				?.personId
 		}
 		const person = getPersonById(Class, personId, false)
 		const skill = Class.fakedSkills.find((s) => s.id === source?.skillId)

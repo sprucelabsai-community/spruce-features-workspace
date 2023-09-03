@@ -21,7 +21,7 @@ type TargetAndPayload<
 	E extends Fqen,
 	S extends Schema | never = EmitPayloadSchema<E> extends Schema
 		? EmitPayloadSchema<E>
-		: never
+		: never,
 > = SchemaValues<S>
 
 type Response<E extends Fqen> = ResponsePayloadSchema<E> extends Schema

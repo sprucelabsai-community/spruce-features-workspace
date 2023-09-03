@@ -134,9 +134,8 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 		process.env.SKILL_ID = skill.id
 		process.env.SKILL_API_KEY = skill.apiKey
 
-		const { skill: bootedSkill, executionPromise } = await this.bootSkill(
-			skillOptions
-		)
+		const { skill: bootedSkill, executionPromise } =
+			await this.bootSkill(skillOptions)
 
 		return { skill: bootedSkill, client, executionPromise }
 	}

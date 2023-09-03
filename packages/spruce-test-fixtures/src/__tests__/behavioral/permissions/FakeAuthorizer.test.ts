@@ -228,7 +228,7 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
 
 	private static async assertSpysOnOptionsWhenSaving<
 		ContractId extends PermissionContractId,
-		Ids extends PermissionId<ContractId>
+		Ids extends PermissionId<ContractId>,
 	>(options: SavePermissionsOptions<ContractId, Ids>) {
 		await this.auth.savePermissions(options)
 		assert.isEqualDeep(this.auth.getLastSavePermissionsOptions(), options)
