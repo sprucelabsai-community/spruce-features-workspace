@@ -25,9 +25,8 @@ export default class AuthenticatingAsAPersonTest extends AbstractSpruceFixtureTe
 	protected static async authReturnsExpectedPerson() {
 		await this.people.loginAsDemoPerson()
 
-		const { token, person } = await this.people.loginAsDemoPerson(
-			'555-111-1234'
-		)
+		const { token, person } =
+			await this.people.loginAsDemoPerson('555-111-1234')
 
 		const client = await this.connectAnon()
 		const { person: person2 } = await client.authenticate({ token })
@@ -54,9 +53,8 @@ export default class AuthenticatingAsAPersonTest extends AbstractSpruceFixtureTe
 	@test()
 	protected static async tokenAlwaysDifferent() {
 		const { token: token1 } = await this.people.loginAsDemoPerson()
-		const { token: token2 } = await this.people.loginAsDemoPerson(
-			'555-111-1234'
-		)
+		const { token: token2 } =
+			await this.people.loginAsDemoPerson('555-111-1234')
 
 		assert.isNotEqual(token1, token2)
 	}

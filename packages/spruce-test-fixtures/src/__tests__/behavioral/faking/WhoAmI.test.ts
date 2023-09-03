@@ -72,9 +72,8 @@ export default class WhoAmITest extends AbstractSpruceFixtureTest {
 	}
 
 	private static async loginAsOutsider() {
-		const { client, person } = await this.people.loginAsDemoPerson(
-			'555-555-1234'
-		)
+		const { client, person } =
+			await this.people.loginAsDemoPerson('555-555-1234')
 		return { client, person }
 	}
 

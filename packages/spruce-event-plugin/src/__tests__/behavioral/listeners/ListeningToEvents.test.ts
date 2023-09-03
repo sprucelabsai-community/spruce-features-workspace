@@ -165,9 +165,8 @@ export default class ListeningToEventsTest extends AbstractListenerTest {
 	@test()
 	protected static async eventsGetProperContext() {
 		//assertions in my-cool-event listener
-		const results = await this.setupTwoSkillsRegisterEventsAndEmit(
-			'registered-skill'
-		)
+		const results =
+			await this.setupTwoSkillsRegisterEventsAndEmit('registered-skill')
 
 		const { payloads, errors } =
 			eventResponseUtil.getAllResponsePayloadsAndErrors(results, SpruceError)
@@ -436,9 +435,8 @@ export default class ListeningToEventsTest extends AbstractListenerTest {
 		dirName: string,
 		client?: MercuryClient
 	) {
-		const { client1, fqen, org, client2 } = await this.setupTwoSkillsAndBoot(
-			dirName
-		)
+		const { client1, fqen, org, client2 } =
+			await this.setupTwoSkillsAndBoot(dirName)
 
 		await client2.disconnect()
 

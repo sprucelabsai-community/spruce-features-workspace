@@ -24,9 +24,8 @@ export default abstract class AbstractListenerTest extends AbstractEventPluginTe
 	protected static async registerSkillAndSetupListeners(
 		options?: RegisterSkillSetupListenerOptions
 	) {
-		const results = await this.EventFixture().registerSkillAndSetupListeners(
-			options
-		)
+		const results =
+			await this.EventFixture().registerSkillAndSetupListeners(options)
 
 		const { currentSkill, loggedInSkill } = results
 
