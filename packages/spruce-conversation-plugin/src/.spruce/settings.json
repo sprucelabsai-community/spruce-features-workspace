@@ -14,7 +14,8 @@
       "rebuild",
       "update.dependencies",
       "watch.build.dev",
-      "build.tsc"
+      "build.tsc",
+      "lint"
     ]
   },
   "writer": {
