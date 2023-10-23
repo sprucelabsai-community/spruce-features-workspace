@@ -13,12 +13,11 @@ export default class SpruceError extends BaseSpruceError<ErrorOptions> {
 				}
 				break
 
-			
-            case 'FAILED_TO_LOAD_DB_ADAPTER':
-                message = 'A Failed to load db adapter just happened!'
-                break
+			case 'FAILED_TO_LOAD_DB_ADAPTER':
+				message = `I could not load your database adapter '${options.name}'. Check env.DB_ADAPTER is set to something you have included in your package.json.`
+				break
 
-default:
+			default:
 				message = super.friendlyMessage()
 		}
 
