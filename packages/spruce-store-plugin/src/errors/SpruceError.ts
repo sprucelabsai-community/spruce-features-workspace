@@ -13,7 +13,12 @@ export default class SpruceError extends BaseSpruceError<ErrorOptions> {
 				}
 				break
 
-			default:
+			
+            case 'FAILED_TO_LOAD_DB_ADAPTER':
+                message = 'A Failed to load db adapter just happened!'
+                break
+
+default:
 				message = super.friendlyMessage()
 		}
 

@@ -37,4 +37,33 @@ export declare namespace SpruceErrors.Store {
 
 
 
+export declare namespace SpruceErrors.Store {
+
+	
+	export interface FailedToLoadDbAdapter {
+		
+			
+			'name': string
+	}
+
+	export interface FailedToLoadDbAdapterSchema extends SpruceSchema.Schema {
+		id: 'failedToLoadDbAdapter',
+		namespace: 'Store',
+		name: 'Failed to load db adapter',
+		    fields: {
+		            /** . */
+		            'name': {
+		                type: 'text',
+		                isRequired: true,
+		                options: undefined
+		            },
+		    }
+	}
+
+	export type FailedToLoadDbAdapterEntity = SchemaEntity<SpruceErrors.Store.FailedToLoadDbAdapterSchema>
+
+}
+
+
+
 

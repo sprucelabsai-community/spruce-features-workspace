@@ -12,6 +12,7 @@ import {
 	namesUtil,
 	BootCallback,
 } from '@sprucelabs/spruce-skill-utils'
+import SpruceError from '../errors/SpruceError'
 import { StoreHealthCheckItem } from '../types/store.types'
 
 export class StoreFeaturePlugin implements SkillFeature {
@@ -25,7 +26,6 @@ export class StoreFeaturePlugin implements SkillFeature {
 
 	public constructor(skill: Skill) {
 		this.skill = skill
-
 		this.dbConnectionString = process.env.DB_CONNECTION_STRING
 		this.dbName = process.env.DB_NAME
 	}
@@ -36,6 +36,7 @@ export class StoreFeaturePlugin implements SkillFeature {
 
 	public async execute(): Promise<void> {
 		this.isExecuting = true
+
 		try {
 			const { errors, factory, db } = await this.loadStores()
 
@@ -47,7 +48,6 @@ export class StoreFeaturePlugin implements SkillFeature {
 
 			this.skill.updateContext('storeFactory', this.storeFactory)
 			this.skill.updateContext('stores', this.storeFactory)
-
 			this.skill.updateContext('database', db)
 
 			await this.bootHandler?.()
@@ -89,8 +89,17 @@ export class StoreFeaturePlugin implements SkillFeature {
 				options?.dbConnectionString ?? this.dbConnectionString
 
 			const missing: string[] = []
-			if (dbConnectionString !== 'memory://' && !dbName) {
-				missing.push('env.DB_NAME')
+
+			if (process.env.DB_ADAPTER) {
+				try {
+					require(process.env.DB_ADAPTER)
+				} catch (err: any) {
+					throw new SpruceError({
+						code: 'FAILED_TO_LOAD_DB_ADAPTER',
+						name: process.env.DB_ADAPTER,
+						originalError: err,
+					})
+				}
 			}
 
 			if (!dbConnectionString) {
