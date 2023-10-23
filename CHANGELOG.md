@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [60.1.0](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.0.140...v60.1.0) (2023-10-23)
+
+
+### Features
+
+* DB_ADAPTER support ([eb55d02](https://github.com/sprucelabsai-community/spruce-features-workspace/commit/eb55d02))
+
+
+
+
+
 ## [60.0.140](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.0.139...v60.0.140) (2023-10-23)
 
 **Note:** Version bump only for package spruce-features-workspace
