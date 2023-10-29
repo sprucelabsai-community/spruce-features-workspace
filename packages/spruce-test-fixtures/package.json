@@ -66,7 +66,7 @@
     "@sprucelabs/error": "^5.1.37",
     "@sprucelabs/heartwood-view-controllers": "^107.2.85",
     "@sprucelabs/mercury-client": "^41.0.116",
-    "@sprucelabs/mercury-core-events": "^22.0.113",
+    "@sprucelabs/mercury-core-events": "^22.0.114",
     "@sprucelabs/mercury-event-emitter": "^41.0.116",
     "@sprucelabs/schema": "^29.0.73",
     "@sprucelabs/spruce-core-schemas": "^39.0.108",
