@@ -3,6 +3,137 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [60.1.15](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.1.14...v60.1.15) (2023-10-31)
+
+**Note:** Version bump only for package @sprucelabs/spruce-store-plugin
+
+
+
+
+
+## [60.1.14](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.1.13...v60.1.14) (2023-10-31)
+
+**Note:** Version bump only for package @sprucelabs/spruce-store-plugin
+
+
+
+
+
+## [60.1.13](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.1.12...v60.1.13) (2023-10-30)
+
+**Note:** Version bump only for package @sprucelabs/spruce-store-plugin
+
+
+
+
+
+## [60.1.12](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.1.11...v60.1.12) (2023-10-30)
+
+**Note:** Version bump only for package @sprucelabs/spruce-store-plugin
+
+
+
+
+
+## [60.1.11](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.1.10...v60.1.11) (2023-10-29)
+
+**Note:** Version bump only for package @sprucelabs/spruce-store-plugin
+
+
+
+
+
+## [60.1.10](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.1.9...v60.1.10) (2023-10-27)
+
+**Note:** Version bump only for package @sprucelabs/spruce-store-plugin
+
+
+
+
+
+## [60.1.9](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.1.8...v60.1.9) (2023-10-27)
+
+**Note:** Version bump only for package @sprucelabs/spruce-store-plugin
+
+
+
+
+
+## [60.1.8](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.1.7...v60.1.8) (2023-10-27)
+
+**Note:** Version bump only for package @sprucelabs/spruce-store-plugin
+
+
+
+
+
+## [60.1.7](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.1.6...v60.1.7) (2023-10-26)
+
+**Note:** Version bump only for package @sprucelabs/spruce-store-plugin
+
+
+
+
+
+## [60.1.6](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.1.5...v60.1.6) (2023-10-25)
+
+**Note:** Version bump only for package @sprucelabs/spruce-store-plugin
+
+
+
+
+
+## [60.1.5](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.1.4...v60.1.5) (2023-10-25)
+
+**Note:** Version bump only for package @sprucelabs/spruce-store-plugin
+
+
+
+
+
+## [60.1.4](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.1.3...v60.1.4) (2023-10-25)
+
+**Note:** Version bump only for package @sprucelabs/spruce-store-plugin
+
+
+
+
+
+## [60.1.3](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.1.2...v60.1.3) (2023-10-24)
+
+**Note:** Version bump only for package @sprucelabs/spruce-store-plugin
+
+
+
+
+
+## [60.1.2](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.1.1...v60.1.2) (2023-10-24)
+
+**Note:** Version bump only for package @sprucelabs/spruce-store-plugin
+
+
+
+
+
+## [60.1.1](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.1.0...v60.1.1) (2023-10-24)
+
+**Note:** Version bump only for package @sprucelabs/spruce-store-plugin
+
+
+
+
+
+# [60.1.0](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.0.140...v60.1.0) (2023-10-23)
+
+
+### Features
+
+* DB_ADAPTER support ([eb55d02](https://github.com/sprucelabsai-community/spruce-features-workspace/commit/eb55d02))
+
+
+
+
+
 ## [60.0.140](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.0.139...v60.0.140) (2023-10-23)
 
 **Note:** Version bump only for package @sprucelabs/spruce-store-plugin
