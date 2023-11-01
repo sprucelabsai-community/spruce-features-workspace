@@ -551,7 +551,9 @@ export class EventFeaturePlugin implements SkillFeature {
 			const { fqen, callback } = listener
 
 			await client.on(fqen as any, async (targetAndPayload: any) => {
-				this.log.info(`Incoming event - ${fqen}`)
+				const now = Date.now()
+
+				this.log.info(`Incoming - ${fqen}`)
 
 				const event = await this.buildSpruceEvent(fqen, targetAndPayload)
 
@@ -575,6 +577,8 @@ export class EventFeaturePlugin implements SkillFeature {
 						'\n\n************************************\n\n'
 					)
 					throw err
+				} finally {
+					this.log.info(`Finished - ${fqen} (${Date.now() - now}ms)`)
 				}
 			})
 
