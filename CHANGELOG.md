@@ -3,6 +3,54 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [60.1.21](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.1.20...v60.1.21) (2023-11-04)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+## [60.1.20](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.1.19...v60.1.20) (2023-11-04)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+## [60.1.19](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.1.18...v60.1.19) (2023-11-04)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+## [60.1.18](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.1.17...v60.1.18) (2023-11-04)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+## [60.1.17](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.1.16...v60.1.17) (2023-11-04)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+## [60.1.16](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.1.15...v60.1.16) (2023-11-01)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
 ## [60.1.15](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.1.14...v60.1.15) (2023-10-31)
 
 **Note:** Version bump only for package spruce-features-workspace
