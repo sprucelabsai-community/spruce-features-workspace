@@ -522,7 +522,9 @@ async function fakeGetLocation(Class: Class) {
 		if (!match) {
 			throw new SpruceError({
 				code: 'INVALID_TARGET',
-				friendlyMessage: `I could not find that location (get-location::v2020_12_25)!`,
+				friendlyMessage: `I could not find that location (get-location::v2020_12_25)!\n\nTarget:${JSON.stringify(
+					{ target }
+				)}`,
 			})
 		}
 		return {
