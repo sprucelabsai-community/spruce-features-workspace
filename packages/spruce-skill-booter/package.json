@@ -60,9 +60,9 @@
   },
   "dependencies": {
     "@sprucelabs/error": "^5.1.41",
-    "@sprucelabs/schema": "^29.0.79",
-    "@sprucelabs/spruce-skill-utils": "^30.1.13",
-    "@sprucelabs/test-utils": "^4.0.67"
+    "@sprucelabs/schema": "^29.0.80",
+    "@sprucelabs/spruce-skill-utils": "^30.1.14",
+    "@sprucelabs/test-utils": "^4.0.68"
   },
   "devDependencies": {
     "@sprucelabs/esm-postbuild": "^5.0.89",
