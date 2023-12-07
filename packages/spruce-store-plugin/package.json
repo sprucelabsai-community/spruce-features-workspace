@@ -63,7 +63,7 @@
     "lint.tsc": "tsc -p . --noEmit"
   },
   "dependencies": {
-    "@sprucelabs/data-stores": "^26.2.2",
+    "@sprucelabs/data-stores": "^26.2.3",
     "@sprucelabs/error": "^5.1.52",
     "@sprucelabs/schema": "^29.2.1",
     "@sprucelabs/spruce-core-schemas": "^39.0.151",
