@@ -66,10 +66,10 @@
     "@sprucelabs/data-stores": "^26.2.5",
     "@sprucelabs/error": "^5.1.52",
     "@sprucelabs/schema": "^29.2.4",
-    "@sprucelabs/spruce-core-schemas": "^39.0.152",
-    "@sprucelabs/spruce-event-utils": "^38.0.173",
+    "@sprucelabs/spruce-core-schemas": "^39.0.153",
+    "@sprucelabs/spruce-event-utils": "^38.0.174",
     "@sprucelabs/spruce-skill-booter": "^60.1.93",
-    "@sprucelabs/spruce-skill-utils": "^30.1.42",
+    "@sprucelabs/spruce-skill-utils": "^30.1.43",
     "@sprucelabs/spruce-test-fixtures": "^60.1.93",
     "heroku-client": "^3.1.0"
   },
