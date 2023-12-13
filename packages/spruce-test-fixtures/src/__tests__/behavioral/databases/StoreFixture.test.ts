@@ -142,6 +142,7 @@ export default class StoreFixtureTest extends AbstractSpruceTest {
 			this.resolvePath(
 				__dirname,
 				'..',
+				'..',
 				'testDirsAndFiles',
 				'one-good-store-skill',
 				'build'

@@ -31,7 +31,7 @@ export default class SpruceError extends BaseSpruceError<ErrorOptions> {
 				? `\n\nOriginal error: ${this.originalError.message.replace(
 						message,
 						''
-					)}`
+				  )}`
 				: ''
 		}`
 	}
