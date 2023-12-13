@@ -1,9 +1,9 @@
 import { test, assert } from '@sprucelabs/test-utils'
-import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
-import seed from '../../tests/decorators/seed'
-import StoreFixture from '../../tests/fixtures/StoreFixture'
+import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
+import seed from '../../../tests/decorators/seed'
+import StoreFixture from '../../../tests/fixtures/StoreFixture'
 // eslint-disable-next-line spruce/prohibit-import-from-build-folder
-import GoodStore from '../testDirsAndFiles/one-good-store-skill/build/stores/Good.store'
+import GoodStore from '../../testDirsAndFiles/one-good-store-skill/build/stores/Good.store'
 
 export default class CanUseStoresSetupInBeforeEachTest extends AbstractSpruceFixtureTest {
 	private static goodStore: GoodStore

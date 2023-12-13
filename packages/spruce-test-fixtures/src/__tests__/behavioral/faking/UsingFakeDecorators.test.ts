@@ -13,7 +13,7 @@ import eventFaker from '../../../tests/eventFaker'
 import MercuryFixture from '../../../tests/fixtures/MercuryFixture'
 // eslint-disable-next-line spruce/prohibit-import-from-build-folder
 import GoodStore from '../../testDirsAndFiles/one-good-store-skill/build/stores/Good.store'
-import { DummyStore } from '../DummyStore'
+import { DummyStore } from '../databases/DummyStore'
 
 @fake.login('555-000-0001')
 export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {

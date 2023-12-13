@@ -1,7 +1,7 @@
 import { AbstractStore } from '@sprucelabs/data-stores'
 import { SpruceSchemas } from '@sprucelabs/mercury-types'
 import { buildSchema } from '@sprucelabs/schema'
-import { StoreSeedOptions } from '../../types/store.types'
+import { StoreSeedOptions } from '../../../types/store.types'
 
 const dummySchema = buildSchema({
 	id: 'dummy',

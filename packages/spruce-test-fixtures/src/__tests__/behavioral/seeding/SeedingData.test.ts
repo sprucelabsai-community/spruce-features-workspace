@@ -4,16 +4,16 @@ import { formatPhoneNumber } from '@sprucelabs/schema'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { assert, test } from '@sprucelabs/test-utils'
 import { errorAssert } from '@sprucelabs/test-utils'
-import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
+import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
 import {
 	DEMO_NUMBER_SEED_FIXTURE,
 	DEMO_NUMBER_SEED_FIXTURE_STARTING_PHONE,
 	DEMO_NUMBER_SEED_FIXTURE_STARTING_PHONE_ALT,
-} from '../../tests/constants'
-import fake from '../../tests/decorators/fake'
+} from '../../../tests/constants'
+import fake from '../../../tests/decorators/fake'
 import SeedFixture, {
 	SeedLocationOptions,
-} from '../../tests/fixtures/SeedFixture'
+} from '../../../tests/fixtures/SeedFixture'
 
 const sorter = (a: any, b: any) => (a.id > b.id ? 1 : -1)
 

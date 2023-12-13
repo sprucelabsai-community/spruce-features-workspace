@@ -8,7 +8,7 @@ import login from '../../../tests/decorators/login'
 import seed from '../../../tests/decorators/seed'
 // eslint-disable-next-line spruce/prohibit-import-from-build-folder
 import GoodStore from '../../testDirsAndFiles/one-good-store-skill/build/stores/Good.store'
-import { DummyStore } from '../DummyStore'
+import { DummyStore } from '../databases/DummyStore'
 
 @login(DEMO_NUMBER_DECORATORS)
 export default class UsingDecoratorsTest extends AbstractSpruceFixtureTest {

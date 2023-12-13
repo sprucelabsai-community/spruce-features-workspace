@@ -824,7 +824,7 @@ async function fakeAuthenticationEvents(Class: Class) {
 							casualName: 'friend',
 							dateCreated: new Date().getTime(),
 							phone: formatPhoneNumber(formattedPhone),
-					  }
+						}
 			Class.fakedPeople.push(person)
 		}
 

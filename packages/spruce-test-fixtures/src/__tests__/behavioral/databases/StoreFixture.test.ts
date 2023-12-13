@@ -5,8 +5,8 @@ import {
 	CursorPagerFaker,
 } from '@sprucelabs/data-stores'
 import AbstractSpruceTest, { assert, test } from '@sprucelabs/test-utils'
-import FixtureFactory from '../../tests/fixtures/FixtureFactory'
-import StoreFixture from '../../tests/fixtures/StoreFixture'
+import FixtureFactory from '../../../tests/fixtures/FixtureFactory'
+import StoreFixture from '../../../tests/fixtures/StoreFixture'
 
 declare module '@sprucelabs/data-stores/build/types/stores.types' {
 	interface StoreMap {
