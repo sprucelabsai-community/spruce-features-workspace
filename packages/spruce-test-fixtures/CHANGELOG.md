@@ -3,6 +3,102 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [60.1.134](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.1.133...v60.1.134) (2023-12-20)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [60.1.133](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.1.132...v60.1.133) (2023-12-20)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [60.1.132](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.1.131...v60.1.132) (2023-12-20)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [60.1.131](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.1.130...v60.1.131) (2023-12-20)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [60.1.130](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.1.129...v60.1.130) (2023-12-19)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [60.1.129](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.1.128...v60.1.129) (2023-12-19)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [60.1.128](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.1.127...v60.1.128) (2023-12-19)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [60.1.127](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.1.126...v60.1.127) (2023-12-19)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [60.1.126](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.1.125...v60.1.126) (2023-12-19)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [60.1.125](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.1.124...v60.1.125) (2023-12-19)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [60.1.124](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.1.123...v60.1.124) (2023-12-19)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [60.1.123](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.1.122...v60.1.123) (2023-12-19)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
 ## [60.1.122](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.1.121...v60.1.122) (2023-12-18)
 
 **Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
