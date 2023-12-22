@@ -798,16 +798,22 @@ async function fakeWhoAmI(Class: Class) {
 }
 
 async function fakeRegisterProxyToken(Class: Class) {
-	await eventFaker.on('register-proxy-token::v2020_12_25', ({ source }) => {
-		const token = generateId()
-		Class.fakedProxyTokens.push({
-			personId: source!.personId!,
-			token,
-		})
-		return {
-			token,
+	await eventFaker.on(
+		'register-proxy-token::v2020_12_25',
+		(targeAndPayload) => {
+			const { source } = targeAndPayload ?? {}
+			const token = generateId()
+			if (source?.personId) {
+				Class.fakedProxyTokens.push({
+					personId: source!.personId!,
+					token,
+				})
+			}
+			return {
+				token,
+			}
 		}
-	})
+	)
 }
 
 async function fakeAuthenticationEvents(Class: Class) {

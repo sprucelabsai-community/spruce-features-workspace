@@ -361,6 +361,12 @@ export default class FakeDecoratorTest extends AbstractFakeDecoratorTest {
 		)
 	}
 
+	@test()
+	protected static async callingRegisterProxyTokenOnAnonClientDoesNotThrough() {
+		const client = await this.mercury.connectToApi({ shouldReUseClient: false })
+		await client.emitAndFlattenResponses('register-proxy-token::v2020_12_25')
+	}
+
 	private static async fakeLoginAndListRoles(orgIdx: number) {
 		await this.fakeLoginAndRecords('organizations', 2)
 		const [{ roles }] = await this.client.emitAndFlattenResponses(
