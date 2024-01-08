@@ -178,6 +178,11 @@ export default class MercuryFixtureTest extends AbstractSpruceFixtureTest {
 		assert.isNotEqual(client, client2)
 	}
 
+	@test()
+	protected static async setsRequiresLocalListenersByDefault() {
+		assert.isTrue(MercuryTestClient.getShouldRequireLocalListeners())
+	}
+
 	private static async connectToApi(options?: TestConnectionOptions) {
 		return await new FixtureFactory({ cwd: this.cwd })
 			.Fixture('mercury')

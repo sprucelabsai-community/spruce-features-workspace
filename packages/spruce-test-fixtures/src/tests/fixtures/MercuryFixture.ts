@@ -169,6 +169,7 @@ export default class MercuryFixture {
 
 		MercuryClientFactory.reset()
 		MercuryClientFactory.setIsTestMode(true)
+		MercuryTestClient.setShouldRequireLocalListeners(true)
 
 		if (this.shouldAutomaticallyClearDefaultClient) {
 			this.clearDefaultClient()
