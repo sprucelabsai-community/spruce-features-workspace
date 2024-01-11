@@ -21,7 +21,7 @@ import {
 import { MercuryClient } from '@sprucelabs/mercury-client'
 import { SchemaError } from '@sprucelabs/schema'
 import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
-import { diskUtil } from '@sprucelabs/spruce-skill-utils'
+import { buildLog, diskUtil } from '@sprucelabs/spruce-skill-utils'
 import { ClientProxyDecorator } from '../..'
 import { TokenGenerator } from '../../ClientProxyDecorator'
 import SpruceError from '../../errors/SpruceError'
@@ -184,6 +184,13 @@ export default class ViewFixture {
 			device: this.device!,
 			connectToApi: async (options?: ConnectOptions) => {
 				return this.viewClient ?? connectToApi(options)
+			},
+			log: {
+				prefix: 'ViewFixture',
+				error: () => '',
+				warn: () => '',
+				info: () => '',
+				buildLog: buildLog
 			},
 			maps: spyMapUtil,
 		})

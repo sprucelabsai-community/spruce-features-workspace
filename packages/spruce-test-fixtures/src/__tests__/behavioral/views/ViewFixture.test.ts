@@ -1,7 +1,9 @@
 import {
 	AbstractSkillViewController,
+	AbstractViewController,
 	ActiveRecordListViewController,
 	AuthenticatorImpl,
+	Card,
 	Device,
 	formAssert,
 	ScopeFlag,
@@ -9,6 +11,7 @@ import {
 	SpruceSchemas,
 	SwipeViewControllerImpl,
 	vcAssert,
+	ViewControllerId,
 } from '@sprucelabs/heartwood-view-controllers'
 import { formatPhoneNumber } from '@sprucelabs/schema'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
@@ -639,6 +642,20 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 		assert.isNotEqual(device, this.lastDevice)
 	}
 
+	@test()
+	protected static async mutesLogs() {
+		console.log = () => assert.fail('should not be called')
+		console.warn = () => assert.fail('should not be called')
+		console.error = () => assert.fail('should not be called')
+		
+		const vc = this.MockVc('logging') as LoggingViewController
+		const log = vc.getLog()
+		
+		log.info('hey')
+		log.error('hey')
+		log.warn('hey')
+	}
+
 	private static ViewFixture(): ViewFixture {
 		return this.Fixture('view', {
 			controllerMap: {
@@ -698,15 +715,16 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 		return { vc, fixture: this.fixture }
 	}
 
-	private static MockVc() {
+	private static MockVc(named: ViewControllerId = 'card') {
 		const viewFixture = this.Fixture('view', {
 			controllerMap: {
 				card: FakeSkillViewController,
+				logging: LoggingViewController,
 			},
 		})
 		const factory = viewFixture.getFactory()
 
-		const vc = factory.Controller('card', {
+		const vc = factory.Controller(named, {
 			header: { title: 'hey' },
 		})
 		return vc
@@ -721,12 +739,22 @@ declare module '@sprucelabs/heartwood-view-controllers/build/types/heartwood.typ
 	interface ViewControllerMap {
 		scope: ScopeSvc
 		client: ClientSvc
+		logging: LoggingViewController
 	}
 }
 
 interface Args {
 	hello?: string
 	world?: number
+}
+
+class LoggingViewController extends AbstractViewController<Card> {
+	public getLog() {
+		return this.log
+	}
+	public render(): SpruceSchemas.HeartwoodViewControllers.v2021_02_11.Card {
+		return {}
+	}
 }
 
 class ScopeSvc extends AbstractSkillViewController<Args> {
