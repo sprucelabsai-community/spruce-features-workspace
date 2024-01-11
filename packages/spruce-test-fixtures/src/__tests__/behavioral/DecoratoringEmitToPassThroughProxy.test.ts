@@ -1,8 +1,12 @@
 import { MercuryClient } from '@sprucelabs/mercury-client'
 import { test, assert } from '@sprucelabs/test-utils'
-import { AbstractSpruceFixtureTest, login } from '../..'
 import ClientProxyDecorator from '../../ClientProxyDecorator'
+import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
 import { DEMO_NUMBER } from '../../tests/constants'
+import login from '../../tests/decorators/login'
+import MercuryFixture from '../../tests/fixtures/MercuryFixture'
+
+MercuryFixture.setShouldRequireLocalListeners(false)
 
 @login(DEMO_NUMBER)
 export default class DecoratingEmitToPassThroughProxyTest extends AbstractSpruceFixtureTest {

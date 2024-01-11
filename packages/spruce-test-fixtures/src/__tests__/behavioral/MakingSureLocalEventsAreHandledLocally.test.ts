@@ -1,8 +1,12 @@
 import { MercuryTestClient } from '@sprucelabs/mercury-client'
 import { AuthService } from '@sprucelabs/spruce-skill-utils'
 import { assert, test } from '@sprucelabs/test-utils'
-import { AbstractSpruceFixtureTest, login, MercuryFixture } from '../..'
+import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
 import { DEMO_NUMBER_HANDLING_EVENTS_LOCALLY } from '../../tests/constants'
+import login from '../../tests/decorators/login'
+import MercuryFixture from '../../tests/fixtures/MercuryFixture'
+
+MercuryFixture.setShouldRequireLocalListeners(false)
 
 @login(DEMO_NUMBER_HANDLING_EVENTS_LOCALLY)
 export default class MakingSureLocalEventsAreHandledLocallyTest extends AbstractSpruceFixtureTest {

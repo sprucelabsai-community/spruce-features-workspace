@@ -29,6 +29,7 @@ export default class MercuryFixture {
 	private static shouldMixinCoreEventContractWhenImportingLocal = false
 	private static defaultClient?: MercuryClient
 	private static shouldAutomaticallyClearDefaultClient = true
+	private static shouldRequireLocalListeners: boolean = true
 
 	public static setDefaultClient(client: MercuryClient) {
 		//@ts-ignore
@@ -169,7 +170,9 @@ export default class MercuryFixture {
 
 		MercuryClientFactory.reset()
 		MercuryClientFactory.setIsTestMode(true)
-		MercuryTestClient.setShouldRequireLocalListeners(true)
+		MercuryTestClient.setShouldRequireLocalListeners(
+			this.shouldRequireLocalListeners
+		)
 
 		if (this.shouldAutomaticallyClearDefaultClient) {
 			this.clearDefaultClient()
@@ -186,6 +189,11 @@ export default class MercuryFixture {
 			}
 			// eslint-disable-next-line no-empty
 		} catch {}
+	}
+
+	public static setShouldRequireLocalListeners(shouldRequireLocal: boolean) {
+		this.shouldRequireLocalListeners = shouldRequireLocal
+		MercuryTestClient.setShouldRequireLocalListeners(shouldRequireLocal)
 	}
 
 	public static setShouldMixinCoreEventContractsWhenImportingLocal(

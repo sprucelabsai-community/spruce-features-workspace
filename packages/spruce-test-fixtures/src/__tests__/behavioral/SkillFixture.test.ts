@@ -4,10 +4,13 @@ import {
 } from '@sprucelabs/spruce-event-utils'
 import { test, assert } from '@sprucelabs/test-utils'
 import { errorAssert } from '@sprucelabs/test-utils'
-import { login } from '../..'
 import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
 import { DEMO_NUMBER_SKILL_FIXTURE } from '../../tests/constants'
+import login from '../../tests/decorators/login'
+import MercuryFixture from '../../tests/fixtures/MercuryFixture'
 import SkillFixture from '../../tests/fixtures/SkillFixture'
+
+MercuryFixture.setShouldRequireLocalListeners(false)
 
 @login(DEMO_NUMBER_SKILL_FIXTURE)
 export default class SkillFixtureTest extends AbstractSpruceFixtureTest {

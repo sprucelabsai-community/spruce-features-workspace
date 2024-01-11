@@ -1,5 +1,8 @@
+import { MercuryFixture } from '@sprucelabs/spruce-test-fixtures'
 import { test, assert } from '@sprucelabs/test-utils'
 import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
+
+MercuryFixture.setShouldRequireLocalListeners(false)
 
 export default class LoggingInAsASkillWithCurrentSkillTest extends AbstractEventPluginTest {
 	protected static async beforeEach(): Promise<void> {

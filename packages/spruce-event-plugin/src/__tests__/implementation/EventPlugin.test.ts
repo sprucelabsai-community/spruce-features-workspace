@@ -1,7 +1,10 @@
 import { diskUtil, Skill } from '@sprucelabs/spruce-skill-utils'
+import { MercuryFixture } from '@sprucelabs/spruce-test-fixtures'
 import { test, assert } from '@sprucelabs/test-utils'
 import { EventFeaturePlugin } from '../../plugins/event.plugin'
 import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
+
+MercuryFixture.setShouldRequireLocalListeners(false)
 
 export default class EventPluginTest extends AbstractEventPluginTest {
 	private static skill: Skill

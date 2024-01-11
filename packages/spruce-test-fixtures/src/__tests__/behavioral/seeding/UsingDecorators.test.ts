@@ -10,6 +10,8 @@ import seed from '../../../tests/decorators/seed'
 import GoodStore from '../../testDirsAndFiles/one-good-store-skill/build/stores/Good.store'
 import { DummyStore } from '../databases/DummyStore'
 
+MercuryFixture.setShouldRequireLocalListeners(false)
+
 @login(DEMO_NUMBER_DECORATORS)
 export default class UsingDecoratorsTest extends AbstractSpruceFixtureTest {
 	private static lastClient: MercuryClient

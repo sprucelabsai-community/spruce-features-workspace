@@ -1,6 +1,11 @@
 import { assert, test } from '@sprucelabs/test-utils'
-import { AbstractSpruceFixtureTest, login, seed } from '../..'
+import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
 import { DEMO_NUMBER_ACCOUNT_BEFORE_ALL_RESET } from '../../tests/constants'
+import login from '../../tests/decorators/login'
+import seed from '../../tests/decorators/seed'
+import MercuryFixture from '../../tests/fixtures/MercuryFixture'
+
+MercuryFixture.setShouldRequireLocalListeners(false)
 
 @login(DEMO_NUMBER_ACCOUNT_BEFORE_ALL_RESET)
 export default class ResettingAccountBeforeAllTestsTest extends AbstractSpruceFixtureTest {

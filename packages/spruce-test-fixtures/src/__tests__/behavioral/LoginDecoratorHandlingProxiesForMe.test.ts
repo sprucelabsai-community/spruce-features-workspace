@@ -1,11 +1,15 @@
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { test, assert } from '@sprucelabs/test-utils'
-import { AbstractSpruceFixtureTest, login } from '../..'
 import ClientProxyDecorator from '../../ClientProxyDecorator'
+import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
 import {
 	DEMO_NUMBER_LOGIN_DECORATOR,
 	DEMO_NUMBER_LOGIN_DECORATOR_2,
 } from '../../tests/constants'
+import login from '../../tests/decorators/login'
+import MercuryFixture from '../../tests/fixtures/MercuryFixture'
+
+MercuryFixture.setShouldRequireLocalListeners(false)
 
 @login(DEMO_NUMBER_LOGIN_DECORATOR)
 export default class LoginDecoratorHandlingProxiesForMeTest extends AbstractSpruceFixtureTest {

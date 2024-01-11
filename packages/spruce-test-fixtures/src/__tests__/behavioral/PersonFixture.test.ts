@@ -16,6 +16,8 @@ import FixtureFactory from '../../tests/fixtures/FixtureFactory'
 import PersonFixture from '../../tests/fixtures/PersonFixture'
 dotenv.config()
 
+MercuryFixture.setShouldRequireLocalListeners(false)
+
 export default class PersonFixtureTest extends AbstractSpruceTest {
 	private static fixture: PersonFixture
 

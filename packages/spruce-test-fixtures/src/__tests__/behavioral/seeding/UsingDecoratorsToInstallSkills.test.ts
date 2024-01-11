@@ -5,6 +5,9 @@ import { DEMO_NUMBER_SKILL_DECORATORS } from '../../../tests/constants'
 import install from '../../../tests/decorators/install'
 import login from '../../../tests/decorators/login'
 import seed from '../../../tests/decorators/seed'
+import MercuryFixture from '../../../tests/fixtures/MercuryFixture'
+
+MercuryFixture.setShouldRequireLocalListeners(false)
 
 @login(DEMO_NUMBER_SKILL_DECORATORS)
 export default class UsingDecoratorsToInstallSkills extends AbstractSpruceFixtureTest {

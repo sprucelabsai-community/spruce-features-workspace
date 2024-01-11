@@ -5,6 +5,8 @@ import { test, assert } from '@sprucelabs/test-utils'
 import { EventFeaturePlugin } from '../../../plugins/event.plugin'
 import AbstractEventPluginTest from '../../../tests/AbstractEventPluginTest'
 
+MercuryFixture.setShouldRequireLocalListeners(false)
+
 export default class HandlingProxiedEventsTest extends AbstractEventPluginTest {
 	protected static async beforeEach() {
 		await super.beforeEach()
