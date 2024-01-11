@@ -647,10 +647,10 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 		console.log = () => assert.fail('should not be called')
 		console.warn = () => assert.fail('should not be called')
 		console.error = () => assert.fail('should not be called')
-		
+
 		const vc = this.MockVc('logging') as LoggingViewController
 		const log = vc.getLog()
-		
+
 		log.info('hey')
 		log.error('hey')
 		log.warn('hey')

@@ -190,7 +190,7 @@ export default class ViewFixture {
 				error: () => '',
 				warn: () => '',
 				info: () => '',
-				buildLog: buildLog
+				buildLog,
 			},
 			maps: spyMapUtil,
 		})
