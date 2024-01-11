@@ -1,5 +1,8 @@
 import { test, assert } from '@sprucelabs/test-utils'
 import AbstractConversationTest from '../../tests/AbstractConversationTest'
+import { MercuryFixture } from '@sprucelabs/spruce-test-fixtures'
+
+MercuryFixture.setShouldRequireLocalListeners(false)
 
 export default class KillingASkillTest extends AbstractConversationTest {
 	@test()

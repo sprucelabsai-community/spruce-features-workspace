@@ -4,6 +4,9 @@ import { test, assert, generateId } from '@sprucelabs/test-utils'
 import { errorAssert } from '@sprucelabs/test-utils'
 import plugin, { ConversationFeature } from '../../plugins/conversation.plugin'
 import AbstractConversationTest from '../../tests/AbstractConversationTest'
+import { MercuryFixture } from '@sprucelabs/spruce-test-fixtures'
+
+MercuryFixture.setShouldRequireLocalListeners(false)
 
 export default class RegisteringConversationsOnBootTest extends AbstractConversationTest {
 	@test()

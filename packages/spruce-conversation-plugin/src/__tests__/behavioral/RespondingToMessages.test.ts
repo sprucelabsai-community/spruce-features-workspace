@@ -3,6 +3,9 @@ import { EventFeature } from '@sprucelabs/spruce-event-plugin'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { test, assert } from '@sprucelabs/test-utils'
 import AbstractConversationTest from '../../tests/AbstractConversationTest'
+import { MercuryFixture } from '@sprucelabs/spruce-test-fixtures'
+
+MercuryFixture.setShouldRequireLocalListeners(false)
 
 export default class RespondingToMessagesTest extends AbstractConversationTest {
 	private static client: MercuryClient
