@@ -1,3 +1,4 @@
+import os from 'os'
 import {
 	buildLog,
 	HealthCheckResults,
@@ -304,7 +305,7 @@ export default class Skill implements ISkill {
 			}
 		}
 
-		return buildLog(`Skill (${process.pid})`, {
+		return buildLog(`Skill (${os.hostname()} - ${process.pid})`, {
 			transportsByLevel,
 		})
 	}
