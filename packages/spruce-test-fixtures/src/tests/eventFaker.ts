@@ -24,9 +24,10 @@ type TargetAndPayload<
 		: never,
 > = SchemaValues<S>
 
-type Response<E extends Fqen> = ResponsePayloadSchema<E> extends Schema
-	? SchemaValues<ResponsePayloadSchema<E>>
-	: void
+type Response<E extends Fqen> =
+	ResponsePayloadSchema<E> extends Schema
+		? SchemaValues<ResponsePayloadSchema<E>>
+		: void
 
 const eventFaker = {
 	async makeEventThrow(fqen: Fqen, error?: any) {

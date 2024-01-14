@@ -12,9 +12,8 @@ export interface ViewHealthCheckItem extends HealthCheckItem {
 	skillViewControllers: HealthCheckView[]
 }
 
-export type ArgsFromSvc<T> = T extends SkillViewController<infer R>
-	? R
-	: Record<string, any>
+export type ArgsFromSvc<T> =
+	T extends SkillViewController<infer R> ? R : Record<string, any>
 
 declare module '@sprucelabs/spruce-skill-utils/build/types/skill.types' {
 	export interface HealthCheckResults {
