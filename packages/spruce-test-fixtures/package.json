@@ -13,7 +13,7 @@
       "@sprucelabs/spruce-test-fixtures"
     ]
   },
-  "version": "60.1.162",
+  "version": "60.1.163",
   "files": [
     "build/**/*",
     "!build/__tests__",
@@ -64,15 +64,15 @@
   "dependencies": {
     "@sprucelabs/data-stores": "^26.4.13",
     "@sprucelabs/error": "^5.1.57",
-    "@sprucelabs/heartwood-view-controllers": "^108.40.1",
-    "@sprucelabs/mercury-client": "^41.0.212",
+    "@sprucelabs/heartwood-view-controllers": "^108.40.2",
+    "@sprucelabs/mercury-client": "^41.0.213",
     "@sprucelabs/mercury-core-events": "^22.1.18",
-    "@sprucelabs/mercury-event-emitter": "^41.0.212",
+    "@sprucelabs/mercury-event-emitter": "^41.0.213",
     "@sprucelabs/schema": "^29.3.11",
     "@sprucelabs/spruce-core-schemas": "^39.0.179",
     "@sprucelabs/spruce-event-utils": "^38.0.207",
-    "@sprucelabs/spruce-permission-utils": "^7.0.358",
-    "@sprucelabs/spruce-skill-booter": "^60.1.162",
+    "@sprucelabs/spruce-permission-utils": "^7.0.359",
+    "@sprucelabs/spruce-skill-booter": "^60.1.163",
     "@sprucelabs/spruce-skill-utils": "^30.1.66",
     "@sprucelabs/test-utils": "^4.0.97",
     "dotenv": "^16.3.1",
