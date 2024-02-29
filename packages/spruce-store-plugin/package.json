@@ -63,11 +63,11 @@
     "lint.tsc": "tsc -p . --noEmit"
   },
   "dependencies": {
-    "@sprucelabs/data-stores": "^26.4.30",
+    "@sprucelabs/data-stores": "^26.4.31",
     "@sprucelabs/error": "^5.1.65",
     "@sprucelabs/schema": "^29.4.8",
-    "@sprucelabs/spruce-core-schemas": "^39.0.236",
-    "@sprucelabs/spruce-event-utils": "^38.0.279",
+    "@sprucelabs/spruce-core-schemas": "^39.0.237",
+    "@sprucelabs/spruce-event-utils": "^38.0.280",
     "@sprucelabs/spruce-skill-booter": "^60.1.261",
     "@sprucelabs/spruce-skill-utils": "^30.2.1",
     "@sprucelabs/spruce-test-fixtures": "^60.1.261",
