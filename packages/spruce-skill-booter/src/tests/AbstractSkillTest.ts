@@ -1,7 +1,7 @@
 import { SchemaRegistry } from '@sprucelabs/schema'
 import {
 	diskUtil,
-	mockLog,
+	stubLog,
 	pluginUtil,
 	Skill,
 } from '@sprucelabs/spruce-skill-utils'
@@ -53,7 +53,7 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
 	}
 
 	protected static async Skill(options?: SkillFactoryOptions) {
-		const { plugins = [], log = mockLog } = options ?? {}
+		const { plugins = [], log = stubLog } = options ?? {}
 
 		const skill = new SkillImpl({
 			rootDir: this.cwd,
