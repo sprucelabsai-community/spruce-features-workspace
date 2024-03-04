@@ -1,4 +1,4 @@
-import { buildLog } from '@sprucelabs/spruce-skill-utils'
+import { LoggableType, buildLog } from '@sprucelabs/spruce-skill-utils'
 import { assert, test } from '@sprucelabs/test-utils'
 import AbstractSkillTest from '../../tests/AbstractSkillTest'
 
@@ -25,10 +25,10 @@ export default class BootingASkillTest extends AbstractSkillTest {
 	protected static async bootShouldNotStartCountdownUntilAfterExecute() {
 		this.cwd = process.cwd()
 
-		const messages: string[] = []
+		const messages: LoggableType[] = []
 
 		const logger = buildLog()
-		logger.info = (...m: string[]) => {
+		logger.info = (...m: LoggableType[]) => {
 			messages.push(...m)
 			return m.join(' ')
 		}
