@@ -63,19 +63,19 @@
     "lint.tsc": "tsc -p . --noEmit"
   },
   "dependencies": {
-    "@sprucelabs/error": "^5.1.65",
-    "@sprucelabs/schema": "^29.4.10",
+    "@sprucelabs/error": "^5.1.66",
+    "@sprucelabs/schema": "^29.4.12",
     "@sprucelabs/spruce-skill-booter": "^60.1.271",
-    "@sprucelabs/spruce-skill-utils": "^30.3.1",
+    "@sprucelabs/spruce-skill-utils": "^30.3.3",
     "heroku-client": "^3.1.0"
   },
   "devDependencies": {
-    "@sprucelabs/esm-postbuild": "^5.0.161",
-    "@sprucelabs/jest-json-reporter": "^7.0.173",
-    "@sprucelabs/resolve-path-aliases": "^1.1.283",
+    "@sprucelabs/esm-postbuild": "^5.0.163",
+    "@sprucelabs/jest-json-reporter": "^7.0.175",
+    "@sprucelabs/resolve-path-aliases": "^1.1.284",
     "@sprucelabs/semantic-release": "^4.0.8",
-    "@sprucelabs/test": "^8.0.41",
-    "@sprucelabs/test-utils": "^4.0.108",
+    "@sprucelabs/test": "^8.0.42",
+    "@sprucelabs/test-utils": "^4.0.110",
     "chokidar-cli": "^3.0.0",
     "concurrently": "^8.2.2",
     "eslint": "^8.57.0",
@@ -86,7 +86,7 @@
     "ts-node": "^10.9.2",
     "tsc-watch": "^6.0.4",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.2"
   },
   "jest": {
     "maxWorkers": 2,
