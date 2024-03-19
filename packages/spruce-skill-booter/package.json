@@ -59,10 +59,10 @@
     "lint.tsc": "tsc -p . --noEmit"
   },
   "dependencies": {
-    "@sprucelabs/error": "^5.1.76",
-    "@sprucelabs/schema": "^29.4.24",
-    "@sprucelabs/spruce-skill-utils": "^30.3.17",
-    "@sprucelabs/test-utils": "^4.0.123"
+    "@sprucelabs/error": "^5.1.77",
+    "@sprucelabs/schema": "^29.4.25",
+    "@sprucelabs/spruce-skill-utils": "^30.3.19",
+    "@sprucelabs/test-utils": "^4.0.124"
   },
   "devDependencies": {
     "@sprucelabs/esm-postbuild": "^5.0.172",
