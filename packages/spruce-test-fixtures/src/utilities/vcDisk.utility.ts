@@ -5,6 +5,7 @@ import {
 	AbstractSkillViewController,
 	ViewControllerMap,
 	SpruceSchemas,
+	ViewControllerPluginsByName,
 } from '@sprucelabs/heartwood-view-controllers'
 import {
 	diskUtil,
@@ -28,7 +29,7 @@ const vcDiskUtil = {
 			)
 		}
 
-		const controllerMap = require(path).default
+		const { default: controllerMap, pluginsByName } = require(path)
 		const controllers = Object.values(controllerMap) as (
 			| (ViewController<any> & { name?: string })
 			| (SkillViewController & { name?: string })
@@ -107,11 +108,17 @@ const vcDiskUtil = {
 			}
 		}
 
-		return { svcs, vcs, ids, theme }
+		return {
+			svcs,
+			vcs,
+			ids,
+			theme,
+			pluginsByName: pluginsByName as ViewControllerPluginsByName,
+		}
 	},
 
 	loadViewControllersAndBuildMap(namespace: string, vcDir: string) {
-		const { vcs, svcs } = this.loadViewControllers(vcDir)
+		const { vcs, svcs, pluginsByName } = this.loadViewControllers(vcDir)
 		const map: Partial<ViewControllerMap> = {}
 
 		const all = [...vcs, ...svcs]
@@ -123,7 +130,10 @@ const vcDiskUtil = {
 			}
 		}
 
-		return map
+		return {
+			map,
+			pluginsByName,
+		}
 	},
 
 	resolveCombinedViewsPath(activeDir: string) {

@@ -17,12 +17,15 @@ import {
 	formAssert,
 	ViewController,
 	ViewControllerConstructor,
+	ViewControllerPluginsByName,
 } from '@sprucelabs/heartwood-view-controllers'
 import { MercuryClient } from '@sprucelabs/mercury-client'
 import { SchemaError } from '@sprucelabs/schema'
 import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
 import { buildLog, diskUtil } from '@sprucelabs/spruce-skill-utils'
 import { ClientProxyDecorator } from '../..'
+import RandomViewPlugin from '../../__tests__/support/RandomViewPlugin'
+import RandomViewPlugin2 from '../../__tests__/support/RandomViewPlugin2'
 import { TokenGenerator } from '../../ClientProxyDecorator'
 import SpruceError from '../../errors/SpruceError'
 import { ConnectOptions, TestConnectFactory } from '../../types/fixture.types'
@@ -151,17 +154,18 @@ export default class ViewFixture {
 		const { namespace, controllerMap: map, vcDir, connectToApi } = options
 
 		let controllerMap: any
+		let pluginsByName: ViewControllerPluginsByName = {}
 
 		try {
-			const loadedControllerMap = vcDiskUtil.loadViewControllersAndBuildMap(
-				namespace,
-				vcDir
-			)
+			const { map: loadedControllerMap, pluginsByName: plugins } =
+				vcDiskUtil.loadViewControllersAndBuildMap(namespace, vcDir)
 
 			controllerMap = {
 				...loadedControllerMap,
 				...map,
 			}
+
+			pluginsByName = plugins
 		} catch (err: any) {
 			if (!map) {
 				throw new SchemaError({
@@ -182,6 +186,7 @@ export default class ViewFixture {
 		this.vcFactory = ViewControllerFactory.Factory({
 			controllerMap,
 			device: this.device!,
+			pluginsByName,
 			connectToApi: async (options?: ConnectOptions) => {
 				return this.viewClient ?? connectToApi(options)
 			},
