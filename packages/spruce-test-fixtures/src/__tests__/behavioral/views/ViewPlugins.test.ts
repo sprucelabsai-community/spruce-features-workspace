@@ -1,7 +1,4 @@
-import {
-	ViewControllerFactory,
-	vcPluginAssert,
-} from '@sprucelabs/heartwood-view-controllers'
+import { vcPluginAssert } from '@sprucelabs/heartwood-view-controllers'
 import { test, assert, generateId } from '@sprucelabs/test-utils'
 import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
 import FixtureFactory from '../../../tests/fixtures/FixtureFactory'
