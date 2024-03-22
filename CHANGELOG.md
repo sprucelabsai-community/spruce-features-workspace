@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [61.0.0](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.1.308...v61.0.0) (2024-03-22)
+
+
+### Breaking Changes
+
+* View plugin support in tests!! ([f4720c8](https://github.com/sprucelabsai-community/spruce-features-workspace/commit/f4720c8))
+
+
+
+
+
 ## [60.1.308](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v60.1.307...v60.1.308) (2024-03-21)
 
 **Note:** Version bump only for package spruce-features-workspace
