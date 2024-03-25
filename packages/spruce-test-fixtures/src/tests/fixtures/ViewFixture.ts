@@ -18,6 +18,8 @@ import {
 	ViewController,
 	ViewControllerConstructor,
 	ViewControllerPluginsByName,
+	ViewControllerPluginOptions,
+	ViewControllerPlugin,
 } from '@sprucelabs/heartwood-view-controllers'
 import { MercuryClient } from '@sprucelabs/mercury-client'
 import { SchemaError } from '@sprucelabs/schema'
@@ -123,6 +125,12 @@ export default class ViewFixture {
 			controllerMap: this.controllerMap,
 			connectToApi: this.connectToApi,
 		})
+	}
+
+	public BuildPlugin<P extends ViewControllerPlugin>(
+		Plugin: new (options: ViewControllerPluginOptions) => P
+	): P {
+		return this.getFactory().BuildPlugin(Plugin)
 	}
 
 	public getMaps() {

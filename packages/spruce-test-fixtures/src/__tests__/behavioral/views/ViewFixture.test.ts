@@ -12,6 +12,7 @@ import {
 	SwipeViewControllerImpl,
 	vcAssert,
 	ViewControllerId,
+	ViewControllerPlugin,
 } from '@sprucelabs/heartwood-view-controllers'
 import { formatPhoneNumber } from '@sprucelabs/schema'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
@@ -656,6 +657,28 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 		log.warn('hey')
 	}
 
+	@test()
+	protected static async buildVcPluginExposedInFixture() {
+		const factory = this.fixture.getFactory()
+
+		let wasHit = false
+		let PassedClass: any | undefined
+		let response = {}
+
+		//@ts-ignore
+		factory.BuildPlugin = (Class) => {
+			wasHit = true
+			PassedClass = Class
+			return response
+		}
+
+		const plugin = this.fixture.BuildPlugin(SpyVcPlugin)
+
+		assert.isTrue(wasHit)
+		assert.isEqual(PassedClass, SpyVcPlugin)
+		assert.isEqual(plugin, response)
+	}
+
 	private static ViewFixture(): ViewFixture {
 		return this.Fixture('view', {
 			controllerMap: {
@@ -804,3 +827,5 @@ class ClientSvc extends AbstractSkillViewController {
 		}
 	}
 }
+
+class SpyVcPlugin implements ViewControllerPlugin {}
