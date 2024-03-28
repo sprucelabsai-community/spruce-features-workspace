@@ -13,6 +13,8 @@
     ]
   },
   "writer": {
-    "skipped": []
+    "skipped": [
+      ".gitignore"
+    ]
   }
 }

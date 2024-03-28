@@ -21,3 +21,4 @@ yarn-error.log*
 /esm/
 .env
 
+**/.spruce/*cache.json

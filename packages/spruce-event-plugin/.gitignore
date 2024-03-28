@@ -19,3 +19,5 @@ yarn-error.log*
 /esm/
 
 yarn.lock
+
+**/.spruce/*cache.json
