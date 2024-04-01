@@ -40,6 +40,7 @@ export default class ListenerCacher {
 	private get settings() {
 		if (!this._settings) {
 			this._settings = new SettingsService(this.cwd)
+			this._settings.setFile('event-cache.json')
 		}
 
 		return this._settings

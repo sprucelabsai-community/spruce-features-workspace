@@ -5,8 +5,9 @@ import {
 } from '@sprucelabs/spruce-event-utils'
 import { BootCallback, diskUtil } from '@sprucelabs/spruce-skill-utils'
 import { fake } from '@sprucelabs/spruce-test-fixtures'
-import { assert, test } from '@sprucelabs/test-utils'
+import { assert, generateId, test } from '@sprucelabs/test-utils'
 import { EventFeature } from '../../..'
+import ListenerCacher from '../../../cache/ListenerCacher'
 import SpruceError from '../../../errors/SpruceError'
 import { EventFeaturePlugin } from '../../../plugins/event.plugin'
 import { RegisterSkillSetupListenerOptions } from '../../../tests/fixtures/EventFixture'
@@ -383,6 +384,20 @@ export default class ListeningToEventsTest extends AbstractListenerTest {
 		void client.on('test-proxied-event::v1', () => {})
 
 		await client.emitAndFlattenResponses(fqen as any)
+	}
+
+	@test()
+	protected static async listenerCacherUsesEventCacheJSonFile() {
+		const cacher = new ListenerCacher({
+			cwd: this.cwd,
+			host: generateId(),
+			listeners: [],
+		})
+
+		//@ts-ignore
+		const settings = cacher.settings
+		//@ts-ignore
+		assert.isEqual(settings.fileName, 'event-cache.json')
 	}
 
 	private static addNewListener() {
