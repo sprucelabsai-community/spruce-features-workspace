@@ -14,7 +14,6 @@ export default async (
 	>
 ): SpruceEventResponse<{ taco: string }> => {
 	
-	debugger
 	assert.isTruthy((event.client as MercuryClient).getProxyToken(), 'Missing proxy token')
 
 	return {
