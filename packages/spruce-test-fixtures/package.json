@@ -65,9 +65,9 @@
     "@sprucelabs/data-stores": "^26.4.89",
     "@sprucelabs/error": "^5.1.108",
     "@sprucelabs/heartwood-view-controllers": "^109.7.42",
-    "@sprucelabs/mercury-client": "^41.0.384",
+    "@sprucelabs/mercury-client": "^41.0.385",
     "@sprucelabs/mercury-core-events": "^22.2.88",
-    "@sprucelabs/mercury-event-emitter": "^41.0.384",
+    "@sprucelabs/mercury-event-emitter": "^41.0.385",
     "@sprucelabs/schema": "^29.4.60",
     "@sprucelabs/spruce-core-schemas": "^39.0.294",
     "@sprucelabs/spruce-event-utils": "^38.1.42",
@@ -85,7 +85,7 @@
     "@sprucelabs/mercury-types": "^46.0.300",
     "@sprucelabs/resolve-path-aliases": "^1.1.304",
     "@sprucelabs/semantic-release": "^4.0.8",
-    "@sprucelabs/test": "^8.0.50",
+    "@sprucelabs/test": "^8.0.51",
     "@types/node": "17.0.5",
     "calendar-utils": "^0.10.4",
     "chokidar-cli": "^3.0.0",
@@ -98,7 +98,7 @@
     "ts-node": "^10.9.2",
     "tsc-watch": "^6.2.0",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.4.4"
+    "typescript": "^5.4.5"
   },
   "jest": {
     "maxWorkers": 2,
