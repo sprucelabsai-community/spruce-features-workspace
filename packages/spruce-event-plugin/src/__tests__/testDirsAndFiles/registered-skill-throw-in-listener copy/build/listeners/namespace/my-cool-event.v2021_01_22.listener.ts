@@ -1,3 +1,3 @@
 export default async () => {
-	throw new Error('Taco Bravo')
+    throw new Error('Taco Bravo')
 }

@@ -1,17 +1,17 @@
 import {
-	MapUtil,
-	OpenNavigationOptions,
+    MapUtil,
+    OpenNavigationOptions,
 } from '@sprucelabs/heartwood-view-controllers'
 
 export type SpyMapUtil = MapUtil & {
-	lastOpenNavigationOptions: OpenNavigationOptions | undefined
+    lastOpenNavigationOptions: OpenNavigationOptions | undefined
 }
 
 const spyMapUtil: SpyMapUtil = {
-	lastOpenNavigationOptions: undefined,
-	openNavigation(options: OpenNavigationOptions): void {
-		this.lastOpenNavigationOptions = options
-	},
+    lastOpenNavigationOptions: undefined,
+    openNavigation(options: OpenNavigationOptions): void {
+        this.lastOpenNavigationOptions = options
+    },
 }
 
 export default spyMapUtil

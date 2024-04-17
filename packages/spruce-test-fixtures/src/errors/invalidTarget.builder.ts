@@ -1,7 +1,7 @@
 import { buildErrorSchema } from '@sprucelabs/schema'
 
 export default buildErrorSchema({
-	id: 'invalidTarget',
-	name: 'invalid target',
-	fields: {},
+    id: 'invalidTarget',
+    name: 'invalid target',
+    fields: {},
 })

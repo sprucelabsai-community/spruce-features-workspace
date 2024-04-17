@@ -12,19 +12,19 @@ MercuryFixture.setShouldRequireLocalListeners(false)
 
 @login(DEMO_NUMBER_ACCOUNT_RESET)
 export default class RetainsContractWhenLoggingInUsingDecorator extends AbstractSpruceFixtureTest {
-	private static client: MercuryClient
-	protected static async beforeEach() {
-		await super.beforeEach()
-		this.client = login.getClient()
-	}
+    private static client: MercuryClient
+    protected static async beforeEach() {
+        await super.beforeEach()
+        this.client = login.getClient()
+    }
 
-	@test()
-	protected static async clientStillHasContract() {
-		await this.client.on('whoami::v2020_12_25', () => ({
-			auth: {},
-			type: 'authenticated' as const,
-		}))
-	}
+    @test()
+    protected static async clientStillHasContract() {
+        await this.client.on('whoami::v2020_12_25', () => ({
+            auth: {},
+            type: 'authenticated' as const,
+        }))
+    }
 }
 
 StoreFixture.setStore('good', GoodStore)

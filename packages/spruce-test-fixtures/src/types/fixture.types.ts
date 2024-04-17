@@ -14,53 +14,53 @@ import StoreFixture from '../tests/fixtures/StoreFixture'
 import ViewFixture from '../tests/fixtures/ViewFixture'
 
 export interface TestConnectionOptions {
-	shouldReUseClient?: boolean
+    shouldReUseClient?: boolean
 }
 
 export type ConnectOptions = TestConnectionOptions & ConnectionOptions
 
 export type TestConnectFactory = (
-	options?: ConnectOptions
+    options?: ConnectOptions
 ) => Promise<MercuryClient>
 
 export interface FixtureClassMap {
-	person: typeof PersonFixture
-	organization: typeof OrganizationFixture
-	skill: typeof SkillFixture
-	mercury: typeof MercuryFixture
-	store: typeof StoreFixture
-	database: typeof DatabaseFixture
-	view: typeof ViewFixture
-	location: typeof LocationFixture
-	role: typeof RoleFixture
-	seed: typeof SeedFixture
-	permission: typeof PermissionFixture
+    person: typeof PersonFixture
+    organization: typeof OrganizationFixture
+    skill: typeof SkillFixture
+    mercury: typeof MercuryFixture
+    store: typeof StoreFixture
+    database: typeof DatabaseFixture
+    view: typeof ViewFixture
+    location: typeof LocationFixture
+    role: typeof RoleFixture
+    seed: typeof SeedFixture
+    permission: typeof PermissionFixture
 }
 
 export type RoleBase = NonNullable<
-	SpruceSchemas.Spruce.v2020_07_22.Role['base']
+    SpruceSchemas.Spruce.v2020_07_22.Role['base']
 >
 
 export type FixtureMap = {
-	[K in keyof FixtureClassMap]: InstanceType<FixtureClassMap[K]>
+    [K in keyof FixtureClassMap]: InstanceType<FixtureClassMap[K]>
 }
 
 export type FixtureConstructorOptionsMap = {
-	[K in keyof FixtureClassMap]: ConstructorParameters<FixtureClassMap[K]>[0]
+    [K in keyof FixtureClassMap]: ConstructorParameters<FixtureClassMap[K]>[0]
 }
 
 export type FixtureName = keyof FixtureMap
 
 declare module '@sprucelabs/heartwood-view-controllers/build/types/heartwood.types' {
-	interface SkillViewControllerMap {
-		'heartwood.root': FakeSkillViewController
-	}
+    interface SkillViewControllerMap {
+        'heartwood.root': FakeSkillViewController
+    }
 
-	interface SkillViewControllerArgsMap {
-		'heartwood.root': Parameters<FakeSkillViewController['load']>[0]['args']
-	}
+    interface SkillViewControllerArgsMap {
+        'heartwood.root': Parameters<FakeSkillViewController['load']>[0]['args']
+    }
 
-	interface ViewControllerMap {
-		'heartwood.root': FakeSkillViewController
-	}
+    interface ViewControllerMap {
+        'heartwood.root': FakeSkillViewController
+    }
 }

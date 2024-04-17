@@ -19,39 +19,39 @@ MercuryTestClient.reset = () => {}
 //@ts-ignore
 const emitter = MercuryTestClient.getInternalEmitter(coreEventContracts[0])
 void emitter.on('list-organizations::v2020_12_25', () => {
-	hitCount++
-	return {
-		organizations: [],
-	}
+    hitCount++
+    return {
+        organizations: [],
+    }
 })
 
 @login(DEMO_NUMBER_ACCOUNT_RESET)
 export default class DoesntResetAccountIfOnlySeedingLocally extends AbstractSpruceFixtureTest {
-	protected static async beforeEach() {
-		await super.beforeEach()
-	}
+    protected static async beforeEach() {
+        await super.beforeEach()
+    }
 
-	@test()
-	@seed('good', 5)
-	protected static doesNotResetAccount() {
-		assert.isEqual(hitCount, 1)
-	}
+    @test()
+    @seed('good', 5)
+    protected static doesNotResetAccount() {
+        assert.isEqual(hitCount, 1)
+    }
 
-	@test()
-	@seed('organizations', 1)
-	protected static async doesNotResetBefore() {
-		assert.isEqual(hitCount, 1)
-	}
+    @test()
+    @seed('organizations', 1)
+    protected static async doesNotResetBefore() {
+        assert.isEqual(hitCount, 1)
+    }
 
-	@test()
-	protected static resetAfterSeedingOrgs() {
-		assert.isEqual(hitCount, 2)
-	}
+    @test()
+    protected static resetAfterSeedingOrgs() {
+        assert.isEqual(hitCount, 2)
+    }
 
-	@test()
-	protected static shouldNotHaveHit() {
-		assert.isEqual(hitCount, 2)
-	}
+    @test()
+    protected static shouldNotHaveHit() {
+        assert.isEqual(hitCount, 2)
+    }
 }
 
 StoreFixture.setStore('good', GoodStore)

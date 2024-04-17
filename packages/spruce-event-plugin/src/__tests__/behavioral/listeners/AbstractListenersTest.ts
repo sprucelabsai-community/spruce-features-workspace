@@ -5,48 +5,48 @@ import AbstractEventPluginTest from '../../../tests/AbstractEventPluginTest'
 import { RegisterSkillSetupListenerOptions } from '../../../tests/fixtures/EventFixture'
 
 export default abstract class AbstractListenerTest extends AbstractEventPluginTest {
-	protected static skill: Skill
-	protected static registeredSkill: RegisteredSkill
+    protected static skill: Skill
+    protected static registeredSkill: RegisteredSkill
 
-	protected static async beforeEach() {
-		MercuryFixture.setShouldMixinCoreEventContractsWhenImportingLocal(true)
+    protected static async beforeEach() {
+        MercuryFixture.setShouldMixinCoreEventContractsWhenImportingLocal(true)
 
-		await super.beforeEach()
+        await super.beforeEach()
 
-		delete process.env.DID_BOOT_FIRED
-		delete process.env.WILL_BOOT_FIRED
-		delete process.env.DID_BOOT_FIRED_2
-		delete process.env.WILL_BOOT_FIRED_2
-		delete process.env.TO_COPY_SKILL_API_KEY
-		delete process.env.TO_COPY_SKILL_ID
-	}
+        delete process.env.DID_BOOT_FIRED
+        delete process.env.WILL_BOOT_FIRED
+        delete process.env.DID_BOOT_FIRED_2
+        delete process.env.WILL_BOOT_FIRED_2
+        delete process.env.TO_COPY_SKILL_API_KEY
+        delete process.env.TO_COPY_SKILL_ID
+    }
 
-	protected static async registerSkillAndSetupListeners(
-		options?: RegisterSkillSetupListenerOptions
-	) {
-		const results =
-			await this.EventFixture().registerSkillAndSetupListeners(options)
+    protected static async registerSkillAndSetupListeners(
+        options?: RegisterSkillSetupListenerOptions
+    ) {
+        const results =
+            await this.EventFixture().registerSkillAndSetupListeners(options)
 
-		const { currentSkill, loggedInSkill } = results
+        const { currentSkill, loggedInSkill } = results
 
-		this.skill = currentSkill
-		this.registeredSkill = loggedInSkill
+        this.skill = currentSkill
+        this.registeredSkill = loggedInSkill
 
-		return results
-	}
+        return results
+    }
 
-	protected static async bootSkillNamed(name: string) {
-		await this.setCwdToTestSkill(name)
-		return this.setupListenersAndBoot()
-	}
+    protected static async bootSkillNamed(name: string) {
+        await this.setCwdToTestSkill(name)
+        return this.setupListenersAndBoot()
+    }
 
-	protected static async setCwdToTestSkill(name: string) {
-		this.cwd = await this.generateSkillFromTestPath(name)
-	}
+    protected static async setCwdToTestSkill(name: string) {
+        this.cwd = await this.generateSkillFromTestPath(name)
+    }
 
-	protected static async setupListenersAndBoot() {
-		const results = await this.registerSkillAndSetupListeners()
-		await this.bootSkill({ skill: this.skill })
-		return results
-	}
+    protected static async setupListenersAndBoot() {
+        const results = await this.registerSkillAndSetupListeners()
+        await this.bootSkill({ skill: this.skill })
+        return results
+    }
 }

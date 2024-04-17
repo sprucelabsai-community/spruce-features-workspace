@@ -9,14 +9,14 @@ import GoodStore from '../../testDirsAndFiles/one-good-store-skill/build/stores/
 //seed is called
 
 export default class DbResetsAsExpectedTest extends AbstractSpruceFixtureTest {
-	@test()
-	protected static shouldBeReset() {
-		assert.isEqual(process.env.DB_NAME, 'memory')
-		assert.isEqual(process.env.DB_CONNECTION_STRING, 'memory://')
-	}
+    @test()
+    protected static shouldBeReset() {
+        assert.isEqual(process.env.DB_NAME, 'memory')
+        assert.isEqual(process.env.DB_CONNECTION_STRING, 'memory://')
+    }
 
-	@seed('good', 1)
-	protected static doesNothing() {}
+    @seed('good', 1)
+    protected static doesNothing() {}
 }
 
 StoreFixture.setStore('good', GoodStore)

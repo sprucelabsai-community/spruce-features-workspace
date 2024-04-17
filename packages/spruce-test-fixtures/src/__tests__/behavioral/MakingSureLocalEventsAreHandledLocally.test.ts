@@ -10,19 +10,19 @@ MercuryFixture.setShouldRequireLocalListeners(false)
 
 @login(DEMO_NUMBER_HANDLING_EVENTS_LOCALLY)
 export default class MakingSureLocalEventsAreHandledLocallyTest extends AbstractSpruceFixtureTest {
-	@test()
-	protected static async throwsWhenNoListenerSetForLocalEvent() {
-		await this.SkillFromTestDir('skill')
+    @test()
+    protected static async throwsWhenNoListenerSetForLocalEvent() {
+        await this.SkillFromTestDir('skill')
 
-		const skill = await this.skills.seedDemoSkill()
+        const skill = await this.skills.seedDemoSkill()
 
-		AuthService.Auth(this.cwd).updateCurrentSkill(skill)
+        AuthService.Auth(this.cwd).updateCurrentSkill(skill)
 
-		await MercuryFixture.beforeEach(this.cwd)
+        await MercuryFixture.beforeEach(this.cwd)
 
-		assert.isEqualDeep(
-			MercuryTestClient.getNamespacesThatMustBeHandledLocally(),
-			[skill.slug]
-		)
-	}
+        assert.isEqualDeep(
+            MercuryTestClient.getNamespacesThatMustBeHandledLocally(),
+            [skill.slug]
+        )
+    }
 }

@@ -1,11 +1,10 @@
 import {
-	SpruceEvent,
-	SpruceEventResponse,
+    SpruceEvent,
+    SpruceEventResponse,
 } from '@sprucelabs/spruce-event-utils'
 
 export default async (e: SpruceEvent): SpruceEventResponse => {
+    process.env.DID_BOOT = 'true'
 
-	process.env.DID_BOOT = 'true'
-
-	return
+    return
 }

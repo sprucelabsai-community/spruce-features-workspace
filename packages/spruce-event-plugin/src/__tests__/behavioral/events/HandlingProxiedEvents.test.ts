@@ -8,65 +8,72 @@ import AbstractEventPluginTest from '../../../tests/AbstractEventPluginTest'
 MercuryFixture.setShouldRequireLocalListeners(false)
 
 export default class HandlingProxiedEventsTest extends AbstractEventPluginTest {
-	protected static async beforeEach() {
-		await super.beforeEach()
-		this.cwd = await this.generateSkillFromTestPath('registered-skill-proxied')
-		MercuryFixture.setShouldMixinCoreEventContractsWhenImportingLocal(true)
-	}
+    protected static async beforeEach() {
+        await super.beforeEach()
+        this.cwd = await this.generateSkillFromTestPath(
+            'registered-skill-proxied'
+        )
+        MercuryFixture.setShouldMixinCoreEventContractsWhenImportingLocal(true)
+    }
 
-	@test()
-	protected static async passesThroughProxyToken() {
-		const { fqen, currentSkill, events } =
-			await this.EventFixture().registerSkillAndSetupListeners()
+    @test()
+    protected static async passesThroughProxyToken() {
+        const { fqen, currentSkill, events } =
+            await this.EventFixture().registerSkillAndSetupListeners()
 
-		await this.bootSkill({ skill: currentSkill })
+        await this.bootSkill({ skill: currentSkill })
 
-		const { client } = await this.people.loginAsDemoPerson()
+        const { client } = await this.people.loginAsDemoPerson()
 
-		const proxyResults = await client.emit('register-proxy-token::v2020_12_25')
-		const { token } = eventResponseUtil.getFirstResponseOrThrow(proxyResults)
+        const proxyResults = await client.emit(
+            'register-proxy-token::v2020_12_25'
+        )
+        const { token } =
+            eventResponseUtil.getFirstResponseOrThrow(proxyResults)
 
-		client.setProxyToken(token)
+        client.setProxyToken(token)
 
-		const eventName = 'test-proxied-event::v1'
-		const targetWithOrgId = buildEmitTargetAndPayloadSchema({
-			eventName,
-		})
+        const eventName = 'test-proxied-event::v1'
+        const targetWithOrgId = buildEmitTargetAndPayloadSchema({
+            eventName,
+        })
 
-		//@ts-ignore
-		client.mixinContract({
-			eventSignatures: {
-				'test-proxied-event::v1': { emitPayloadSchema: targetWithOrgId },
-			},
-		})
+        //@ts-ignore
+        client.mixinContract({
+            eventSignatures: {
+                'test-proxied-event::v1': {
+                    emitPayloadSchema: targetWithOrgId,
+                },
+            },
+        })
 
-		let passedSource: any
+        let passedSource: any
 
-		//@ts-ignore
-		await client.on('test-proxied-event::v1', ({ source }) => {
-			passedSource = source
-		})
+        //@ts-ignore
+        await client.on('test-proxied-event::v1', ({ source }) => {
+            passedSource = source
+        })
 
-		//@ts-ignore
-		const results = await client.emit(fqen, {
-			target: {
-				organizationId: 'aoeu',
-			},
-		})
+        //@ts-ignore
+        const results = await client.emit(fqen, {
+            target: {
+                organizationId: 'aoeu',
+            },
+        })
 
-		eventResponseUtil.getFirstResponseOrThrow(results)
+        eventResponseUtil.getFirstResponseOrThrow(results)
 
-		assert.isEqual(passedSource.proxyToken, token)
+        assert.isEqual(passedSource.proxyToken, token)
 
-		await this.assertPrimaryMercuryClientDoesNotHaveProxyTokenSet(events)
-	}
+        await this.assertPrimaryMercuryClientDoesNotHaveProxyTokenSet(events)
+    }
 
-	private static async assertPrimaryMercuryClientDoesNotHaveProxyTokenSet(
-		events: EventFeaturePlugin
-	) {
-		const c = await events.connectToApi()
+    private static async assertPrimaryMercuryClientDoesNotHaveProxyTokenSet(
+        events: EventFeaturePlugin
+    ) {
+        const c = await events.connectToApi()
 
-		//@ts-ignore
-		assert.isFalsy(c.getProxyToken())
-	}
+        //@ts-ignore
+        assert.isFalsy(c.getProxyToken())
+    }
 }

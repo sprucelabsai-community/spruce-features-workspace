@@ -1,10 +1,12 @@
-import { SpruceErrors } from "#spruce/errors/errors.types"
-import { ErrorOptions as ISpruceErrorOptions} from "@sprucelabs/error"
+import { ErrorOptions as ISpruceErrorOptions } from '@sprucelabs/error'
+import { SpruceErrors } from '#spruce/errors/errors.types'
 
-export interface EventPluginErrorErrorOptions extends SpruceErrors.Event.EventPluginError, ISpruceErrorOptions {
-	code: 'EVENT_PLUGIN_ERROR'
+export interface EventPluginErrorErrorOptions
+    extends SpruceErrors.Event.EventPluginError,
+        ISpruceErrorOptions {
+    code: 'EVENT_PLUGIN_ERROR'
 }
 
-type ErrorOptions =  | EventPluginErrorErrorOptions 
+type ErrorOptions = EventPluginErrorErrorOptions
 
 export default ErrorOptions

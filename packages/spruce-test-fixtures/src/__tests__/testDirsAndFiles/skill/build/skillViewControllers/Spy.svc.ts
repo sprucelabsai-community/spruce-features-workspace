@@ -1,4 +1,8 @@
-import { AbstractSkillViewController, SkillViewControllerLoadOptions, SpruceSchemas } from "@sprucelabs/heartwood-view-controllers"
+import {
+    AbstractSkillViewController,
+    SkillViewControllerLoadOptions,
+    SpruceSchemas,
+} from '@sprucelabs/heartwood-view-controllers'
 
 export default class SpySkillViewController extends AbstractSkillViewController {
     public static id = 'spy'

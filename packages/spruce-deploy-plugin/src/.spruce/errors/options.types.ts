@@ -1,10 +1,12 @@
-import { SpruceErrors } from "#spruce/errors/errors.types"
-import { ErrorOptions as ISpruceErrorOptions} from "@sprucelabs/error"
+import { ErrorOptions as ISpruceErrorOptions } from '@sprucelabs/error'
+import { SpruceErrors } from '#spruce/errors/errors.types'
 
-export interface HerokuErrorErrorOptions extends SpruceErrors.Deploy.HerokuError, ISpruceErrorOptions {
-	code: 'HEROKU_ERROR'
+export interface HerokuErrorErrorOptions
+    extends SpruceErrors.Deploy.HerokuError,
+        ISpruceErrorOptions {
+    code: 'HEROKU_ERROR'
 }
 
-type ErrorOptions =  | HerokuErrorErrorOptions 
+type ErrorOptions = HerokuErrorErrorOptions
 
 export default ErrorOptions

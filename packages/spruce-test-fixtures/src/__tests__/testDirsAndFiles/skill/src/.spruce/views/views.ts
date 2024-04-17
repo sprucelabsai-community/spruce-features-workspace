@@ -3,10 +3,12 @@ import BookFormViewController from '../../viewControllers/BookForm.vc'
 
 const vcs = {
     BookSkillViewController,
-    BookFormViewController
+    BookFormViewController,
 }
 
 //@ts-ignore
-if (typeof heartwood === 'function') { heartwood(vcs) }
+if (typeof heartwood === 'function') {
+    heartwood(vcs)
+}
 
 export default vcs

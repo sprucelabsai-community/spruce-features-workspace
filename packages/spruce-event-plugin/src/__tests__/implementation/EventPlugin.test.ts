@@ -7,81 +7,81 @@ import AbstractEventPluginTest from '../../tests/AbstractEventPluginTest'
 MercuryFixture.setShouldRequireLocalListeners(false)
 
 export default class EventPluginTest extends AbstractEventPluginTest {
-	private static skill: Skill
-	private static events: EventFeaturePlugin
+    private static skill: Skill
+    private static events: EventFeaturePlugin
 
-	protected static async beforeEach() {
-		await super.beforeEach()
+    protected static async beforeEach() {
+        await super.beforeEach()
 
-		await this.registerSkill()
-		this.skill = await this.SkillFromTestDir('skill-boot-events')
-		this.events = this.skill.getFeatureByCode('event') as EventFeaturePlugin
-	}
+        await this.registerSkill()
+        this.skill = await this.SkillFromTestDir('skill-boot-events')
+        this.events = this.skill.getFeatureByCode('event') as EventFeaturePlugin
+    }
 
-	@test(
-		'pulls from package.json',
-		`namespace-${Math.round(Math.random() * 100)}`
-	)
-	protected static async canGetNamespace(namespace: string) {
-		diskUtil.writeFile(
-			this.resolvePath('package.json'),
-			JSON.stringify({
-				skill: {
-					namespace,
-				},
-			})
-		)
+    @test(
+        'pulls from package.json',
+        `namespace-${Math.round(Math.random() * 100)}`
+    )
+    protected static async canGetNamespace(namespace: string) {
+        diskUtil.writeFile(
+            this.resolvePath('package.json'),
+            JSON.stringify({
+                skill: {
+                    namespace,
+                },
+            })
+        )
 
-		const actual = await this.events.getNamespace()
-		assert.isEqual(actual, namespace)
-	}
+        const actual = await this.events.getNamespace()
+        assert.isEqual(actual, namespace)
+    }
 
-	@test()
-	protected static async usesListenersEvenIfNotInstalled() {
-		this.skill = await this.SkillFromTestDir(
-			'skill-event-not-installed-did-boot-event'
-		)
+    @test()
+    protected static async usesListenersEvenIfNotInstalled() {
+        this.skill = await this.SkillFromTestDir(
+            'skill-event-not-installed-did-boot-event'
+        )
 
-		await this.bootSkill({
-			skill: this.skill,
-		})
+        await this.bootSkill({
+            skill: this.skill,
+        })
 
-		assert.isEqual(process.env.DID_BOOT, 'true')
-	}
+        assert.isEqual(process.env.DID_BOOT, 'true')
+    }
 
-	@test()
-	protected static async featuresDoesNotFinishExecuteUntilKilledIfConnectedToApi() {
-		const skill = await this.SkillFromTestDir('empty-skill')
+    @test()
+    protected static async featuresDoesNotFinishExecuteUntilKilledIfConnectedToApi() {
+        const skill = await this.SkillFromTestDir('empty-skill')
 
-		const events = new EventFeaturePlugin(skill)
+        const events = new EventFeaturePlugin(skill)
 
-		await events.connectToApi()
+        await events.connectToApi()
 
-		let didFinish = false
+        let didFinish = false
 
-		const promise = events.execute().then(() => {
-			didFinish = true
-		})
+        const promise = events.execute().then(() => {
+            didFinish = true
+        })
 
-		await this.wait(1000)
+        await this.wait(1000)
 
-		assert.isFalse(didFinish)
+        assert.isFalse(didFinish)
 
-		await events.destroy()
+        await events.destroy()
 
-		assert.isTrue(didFinish)
+        assert.isTrue(didFinish)
 
-		await promise
-	}
+        await promise
+    }
 
-	private static async registerSkill() {
-		const registeredSkill = await this.skills.seedDemoSkill({
-			name: 'my great skill',
-		})
+    private static async registerSkill() {
+        const registeredSkill = await this.skills.seedDemoSkill({
+            name: 'my great skill',
+        })
 
-		process.env.SKILL_ID = registeredSkill.id
-		process.env.SKILL_API_KEY = registeredSkill.apiKey
+        process.env.SKILL_ID = registeredSkill.id
+        process.env.SKILL_API_KEY = registeredSkill.apiKey
 
-		return registeredSkill
-	}
+        return registeredSkill
+    }
 }
