@@ -89,8 +89,8 @@ export default class FixtureFactory {
                 break
             }
             case 'skill': {
-                //@ts-ignore
                 const personFixture =
+                    //@ts-ignore
                     options?.personFixture ?? this.Fixture('person')
 
                 fixture = new SkillFixture({
@@ -112,8 +112,8 @@ export default class FixtureFactory {
                     roles: this.Fixture('role'),
                     //@ts-ignore
                     people: options?.people ?? this.Fixture('person'),
-                    //@ts-ignore
                     organizations:
+                        //@ts-ignore
                         options?.organizations ?? this.Fixture('organization'),
                 }) as FixtureMap[Name]
                 break

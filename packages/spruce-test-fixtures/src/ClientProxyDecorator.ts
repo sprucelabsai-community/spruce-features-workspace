@@ -49,10 +49,12 @@ export default class ClientProxyDecorator {
                 )
                 return client.emit(eventName, builtTp, cb)
             },
-            //@ts-ignore
             emitAndFlattenResponses: async (
+                //@ts-ignore
                 eventName,
+                //@ts-ignore
                 targetAndPayload,
+                //@ts-ignore
                 cb
             ) => {
                 let builtTp = await this.mixinProxyToken(

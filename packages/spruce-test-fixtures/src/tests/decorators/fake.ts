@@ -205,8 +205,8 @@ fake.login = (phone = '555-000-0000') => {
 
             try {
                 const auth = Class.views.getAuthenticator()
-                //@ts-ignore
                 auth.setSessionToken(
+                    //@ts-ignore
                     Class.fakedClient.auth.token,
                     Class.fakedPerson!
                 )

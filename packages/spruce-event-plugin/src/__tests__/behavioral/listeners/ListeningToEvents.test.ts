@@ -291,8 +291,8 @@ export default class ListeningToEventsTest extends AbstractListenerTest {
                     unRegisterListenerCount++
                 },
                 onListen: (client) => {
-                    //@ts-ignore
                     shouldAutoRegisterListeners =
+                        //@ts-ignore
                         client.shouldAutoRegisterListeners
                     onSetListenerCount++
                     lastClient = client

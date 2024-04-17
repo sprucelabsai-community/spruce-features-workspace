@@ -9,12 +9,14 @@ import { assert } from '@sprucelabs/test'
 export default async (
     event: SpruceEvent<SkillEventContract, { target: EventTarget; source: any }>
 ): SpruceEventResponse<{}> => {
-    //@ts-ignore
-    await event.client
+	//@ts-ignore
+	await event.client
+    	//@ts-ignore
         .emit('test-proxied-event::v1')
 
+		//@ts-ignore
         [('on', 'emit', 'disconnect')].forEach((k) => {
-            //@ts-ignore
+			//@ts-ignore
             assert.isFunction(event.client[k], `${k}() is not being delegated.`)
         })
 

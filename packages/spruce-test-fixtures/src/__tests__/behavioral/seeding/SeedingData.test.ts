@@ -110,8 +110,8 @@ export default class SeedingDataTest extends AbstractSpruceFixtureTest {
 
     @test()
     protected static async throwsWhenSeedingWithoutCount() {
-        //@ts-ignore
         const err = await assert.doesThrowAsync(() =>
+            //@ts-ignore
             this.fixture.seedAccount({})
         )
         errorAssert.assertError(err, 'MISSING_PARAMETERS', {

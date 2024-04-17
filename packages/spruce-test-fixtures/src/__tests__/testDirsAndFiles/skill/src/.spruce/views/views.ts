@@ -8,6 +8,7 @@ const vcs = {
 
 //@ts-ignore
 if (typeof heartwood === 'function') {
+    //@ts-ignore
     heartwood(vcs)
 }
 
