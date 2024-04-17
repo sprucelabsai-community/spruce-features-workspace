@@ -1,24 +1,23 @@
 import { SkillEventContract } from '@sprucelabs/mercury-types'
 import {
-    EventTarget,
-    SpruceEvent,
-    SpruceEventResponse,
+	EventTarget,
+	SpruceEvent,
+	SpruceEventResponse,
 } from '@sprucelabs/spruce-event-utils'
 import { assert } from '@sprucelabs/test'
 
 export default async (
-    event: SpruceEvent<SkillEventContract, { target: EventTarget; source: any }>
+	event: SpruceEvent<SkillEventContract, { target: EventTarget; source: any }>
 ): SpruceEventResponse<{}> => {
+	
 	//@ts-ignore
-	await event.client
-    	//@ts-ignore
-        .emit('test-proxied-event::v1')
+	await event.client.emit('test-proxied-event::v1')
+	const events = ['on', 'emit', 'disconnect']
 
+	events.forEach((k) => {
 		//@ts-ignore
-        [('on', 'emit', 'disconnect')].forEach((k) => {
-			//@ts-ignore
-            assert.isFunction(event.client[k], `${k}() is not being delegated.`)
-        })
+		assert.isFunction(event.client[k], `${k}() is not being delegated.`)
+	})
 
-    return {}
+	return {}
 }
