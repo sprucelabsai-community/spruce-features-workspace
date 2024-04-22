@@ -7,61 +7,65 @@ import { NluManager, NluNeural } from '@nlpjs/nlu'
 import { SuggestedConversationTopic, Topic } from '../types/conversation.types'
 
 type NlpProcessor = (messageBody: string) => Promise<{
-	classifications: {
-		score: number
-		intent: string
-	}[]
+    classifications: {
+        score: number
+        intent: string
+    }[]
 }>
 
 export class TopicSuggester {
-	private nlp: NlpProcessor
-	private topics: Topic[]
+    private nlp: NlpProcessor
+    private topics: Topic[]
 
-	private constructor(nlp: NlpProcessor, topics: Topic[]) {
-		this.nlp = nlp
-		this.topics = topics
-	}
+    private constructor(nlp: NlpProcessor, topics: Topic[]) {
+        this.nlp = nlp
+        this.topics = topics
+    }
 
-	public static async Suggester(options: { topics: Topic[] }) {
-		const container = containerBootstrap()
-		container.use(LangEn)
-		container.use(NluNeural)
+    public static async Suggester(options: { topics: Topic[] }) {
+        const container = containerBootstrap()
+        container.use(LangEn)
+        container.use(NluNeural)
 
-		const manager = new NluManager({ container, locales: ['en'], log: false })
+        const manager = new NluManager({
+            container,
+            locales: ['en'],
+            log: false,
+        })
 
-		for (const topic of options.topics) {
-			manager.assignDomain('en', topic.key, topic.key)
-			for (const utterance of topic.utterances) {
-				manager.add('en', utterance, topic.key)
-			}
-		}
+        for (const topic of options.topics) {
+            manager.assignDomain('en', topic.key, topic.key)
+            for (const utterance of topic.utterances) {
+                manager.add('en', utterance, topic.key)
+            }
+        }
 
-		if (options.topics.length > 0) {
-			await manager.train()
-		}
+        if (options.topics.length > 0) {
+            await manager.train()
+        }
 
-		return new this(manager.process.bind(manager), options.topics)
-	}
+        return new this(manager.process.bind(manager), options.topics)
+    }
 
-	public async suggest(
-		messageBody: string
-	): Promise<SuggestedConversationTopic[]> {
-		const { classifications } = await this.nlp(messageBody)
+    public async suggest(
+        messageBody: string
+    ): Promise<SuggestedConversationTopic[]> {
+        const { classifications } = await this.nlp(messageBody)
 
-		const suggestedTopics: SuggestedConversationTopic[] = []
+        const suggestedTopics: SuggestedConversationTopic[] = []
 
-		for (const c of classifications) {
-			const match = this.topics.find((t) => t.key === c.intent)
+        for (const c of classifications) {
+            const match = this.topics.find((t) => t.key === c.intent)
 
-			if (match) {
-				suggestedTopics.push({
-					key: match.key,
-					label: match.label,
-					confidence: c.score,
-				})
-			}
-		}
+            if (match) {
+                suggestedTopics.push({
+                    key: match.key,
+                    label: match.label,
+                    confidence: c.score,
+                })
+            }
+        }
 
-		return suggestedTopics
-	}
+        return suggestedTopics
+    }
 }

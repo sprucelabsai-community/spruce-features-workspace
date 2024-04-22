@@ -1,9 +1,12 @@
+/* eslint-disable import/order */
+
 export { SpruceSchemas } from '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schemas.types'
 
-import * as HeartwoodViewController from '@sprucelabs/heartwood-view-controllers'
 import { default as SchemaEntity } from '@sprucelabs/schema'
 
 import * as SpruceSchema from '@sprucelabs/schema'
+
+import * as HeartwoodViewController from '@sprucelabs/heartwood-view-controllers'
 
 declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schemas.types' {
     namespace SpruceSchemas.SpruceTestFixtures.v2021_07_19 {
