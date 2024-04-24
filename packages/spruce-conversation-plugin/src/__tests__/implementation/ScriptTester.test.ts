@@ -1,6 +1,5 @@
 import { SkillContext } from '@sprucelabs/spruce-skill-utils'
-import { test, assert } from '@sprucelabs/test-utils'
-import { errorAssert } from '@sprucelabs/test-utils'
+import { test, assert, errorAssert } from '@sprucelabs/test-utils'
 import AbstractConversationTest from '../../tests/AbstractConversationTest'
 import ScriptTester, {
     END_OF_LINE,
