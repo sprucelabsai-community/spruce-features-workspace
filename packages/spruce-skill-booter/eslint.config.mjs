@@ -5,6 +5,7 @@ export default buildEsLintConfig({
 		'build/**',
 		'esm/**',
 		'node_modules/**',
-		'**/testDirsAndFiles/**'
+		'**/testDirsAndFiles/**',
+		'**/.spruce/**'
 	]
 })

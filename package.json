@@ -26,7 +26,6 @@
 		"upgrade.packages.all": "yarn install && yarn upgrade.packages",
 		"update.dependencies": "yarn clean.dependencies && yarn; yarn add -D lerna -W ; for d in packages/*; do echo $d; cd $d; spruce update.dependencies; cd ../..; done",
 		"watch.build.dev": "lerna run watch.build.dev --stream --parallel",
-		"watch.lint": "lerna run lint.watch --stream --parallel",
 		"watch.tests": "lerna run watch.tests --parallel",
 		"build.copy-files": "true",
 		"build.tsc": "true",
@@ -37,7 +36,7 @@
 		"watch.rebuild": "true"
 	},
 	"devDependencies": {
-		"@sprucelabs/resolve-path-aliases": "^2.0.7",
+		"@sprucelabs/resolve-path-aliases": "^2.0.13",
 		"@sprucelabs/semantic-release": "^5.0.1",
 		"eslint": "^9.1.1",
 		"lerna": "^8.1.2"
