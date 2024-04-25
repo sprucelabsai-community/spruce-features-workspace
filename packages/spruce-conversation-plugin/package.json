@@ -68,7 +68,7 @@
     "@sprucelabs/error": "^6.0.13",
     "@sprucelabs/globby": "^2.0.11",
     "@sprucelabs/mercury-core-events": "^24.0.11",
-    "@sprucelabs/schema": "^30.0.18",
+    "@sprucelabs/schema": "^30.0.19",
     "@sprucelabs/spruce-core-schemas": "^40.0.14",
     "@sprucelabs/spruce-event-plugin": "^62.0.6",
     "@sprucelabs/spruce-event-utils": "^40.0.15",
