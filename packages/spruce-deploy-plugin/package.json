@@ -62,19 +62,19 @@
     "lint.tsc": "tsc -p . --noEmit"
   },
   "dependencies": {
-    "@sprucelabs/error": "^6.0.28",
-    "@sprucelabs/schema": "^30.0.52",
+    "@sprucelabs/error": "^6.0.29",
+    "@sprucelabs/schema": "^30.0.53",
     "@sprucelabs/spruce-skill-booter": "^62.0.60",
-    "@sprucelabs/spruce-skill-utils": "^31.0.55",
+    "@sprucelabs/spruce-skill-utils": "^31.0.56",
     "heroku-client": "^3.1.0"
   },
   "devDependencies": {
-    "@sprucelabs/esm-postbuild": "^6.0.23",
-    "@sprucelabs/jest-json-reporter": "^8.0.31",
-    "@sprucelabs/resolve-path-aliases": "^2.0.24",
+    "@sprucelabs/esm-postbuild": "^6.0.24",
+    "@sprucelabs/jest-json-reporter": "^8.0.32",
+    "@sprucelabs/resolve-path-aliases": "^2.0.25",
     "@sprucelabs/semantic-release": "^5.0.1",
-    "@sprucelabs/test": "^9.0.15",
-    "@sprucelabs/test-utils": "^5.0.41",
+    "@sprucelabs/test": "^9.0.16",
+    "@sprucelabs/test-utils": "^5.0.42",
     "chokidar-cli": "^3.0.0",
     "eslint": "^9.2.0",
     "eslint-config-spruce": "^11.2.18",
