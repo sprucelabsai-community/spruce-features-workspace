@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [62.0.86](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v62.0.85...v62.0.86) (2024-06-01)
+
+**Note:** Version bump only for package @sprucelabs/spruce-skill-booter
+
+
+
+
+
 ## [62.0.85](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v62.0.84...v62.0.85) (2024-06-01)
 
 **Note:** Version bump only for package @sprucelabs/spruce-skill-booter
