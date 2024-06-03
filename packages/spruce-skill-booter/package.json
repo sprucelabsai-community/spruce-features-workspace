@@ -3,7 +3,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "62.0.93",
+  "version": "62.0.94",
   "files": [
     "build/**/*",
     "!build/__tests__",
@@ -98,6 +98,5 @@
     "moduleNameMapper": {
       "^#spruce/(.*)$": "<rootDir>/build/.spruce/$1"
     }
-   
   }
 }
