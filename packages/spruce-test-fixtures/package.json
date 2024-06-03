@@ -80,7 +80,6 @@
   "devDependencies": {
     "@sprucelabs/esm-postbuild": "^6.0.34",
     "@sprucelabs/jest-json-reporter": "^8.0.48",
-    "@sprucelabs/jest-sheets-reporter": "^3.0.26",
     "@sprucelabs/mercury-types": "^47.0.76",
     "@sprucelabs/resolve-path-aliases": "^2.0.33",
     "@sprucelabs/semantic-release": "^5.0.1",
@@ -113,21 +112,7 @@
     ],
     "moduleNameMapper": {
       "^#spruce/(.*)$": "<rootDir>/build/.spruce/$1"
-    },
-    "reporters": [
-      "default",
-      [
-        "@sprucelabs/jest-sheets-reporter",
-        {
-          "sheetId": "1DoWM7mYgGDa-PJXptLomrZmbIBZiuxS1YiAsRXU2Gm0",
-          "worksheetId": 843037832,
-          "testMap": {
-            "canGetFunctioningStores": "I90",
-            "canAttachPersonToOrg": "I144",
-            "loadingWithLocationScopeAndSeededLocation": "1823878579:J25"
-          }
-        }
-      ]
-    ]
+    }
+    
   }
 }
