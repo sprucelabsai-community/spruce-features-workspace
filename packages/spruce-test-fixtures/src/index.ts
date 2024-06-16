@@ -23,6 +23,8 @@ export { default as ClientProxyDecorator } from './ClientProxyDecorator'
 export { default as FakeThemeManager } from './__tests__/support/FakeThemeManager'
 export { default as SpyScope } from './tests/fixtures/SpyScope'
 export { default as FakeAuthorizer } from './tests/FakeAuthorizer'
+export { default as SpyViewControllerFactory } from './tests/SpyViewControllerFactory'
+
 /**
  * @deprecated phoneNumberIncrementer -> phoneNumberIncrementor
  */
