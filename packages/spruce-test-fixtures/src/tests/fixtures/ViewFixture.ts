@@ -34,6 +34,7 @@ import spyMapUtil from '../../utilities/SpyMapUtil'
 import vcDiskUtil from '../../utilities/vcDisk.utility'
 import FakeSkillViewController from '../Fake.svc'
 import TestRouter from '../routers/TestRouter'
+import SpyViewControllerFactory from '../SpyViewControllerFactory'
 import FixtureFactory from './FixtureFactory'
 import LocationFixture from './LocationFixture'
 import OrganizationFixture from './OrganizationFixture'
@@ -274,6 +275,7 @@ export default class ViewFixture {
     }
 
     public static async beforeEach() {
+        ViewControllerFactory.Class = SpyViewControllerFactory
         SwipeViewControllerImpl.swipeDelay = 0
 
         if (this.shouldAutomaticallyResetAuthenticator) {

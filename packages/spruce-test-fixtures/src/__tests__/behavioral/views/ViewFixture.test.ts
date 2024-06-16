@@ -11,6 +11,7 @@ import {
     SpruceSchemas,
     SwipeViewControllerImpl,
     vcAssert,
+    ViewControllerFactory,
     ViewControllerId,
     ViewControllerPlugin,
 } from '@sprucelabs/heartwood-view-controllers'
@@ -30,6 +31,7 @@ import fake from '../../../tests/decorators/fake'
 import FakeSkillViewController from '../../../tests/Fake.svc'
 import SpyScope from '../../../tests/fixtures/SpyScope'
 import ViewFixture from '../../../tests/fixtures/ViewFixture'
+import SpyViewControllerFactory from '../../../tests/SpyViewControllerFactory'
 import EventFaker from '../../support/EventFaker'
 import FakeThemeManager from '../../support/FakeThemeManager'
 
@@ -700,6 +702,25 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 
         assert.isEqual(passedName, name)
         assert.isEqual(passedPlugin, plugin)
+    }
+
+    @test()
+    protected static async getFactoryReturnsSpyFactory() {
+        this.assertSpyFactoryUsed()
+    }
+
+    @test()
+    protected static async spyFactoryResetForEachTest() {
+        delete ViewControllerFactory.Class
+    }
+
+    @test()
+    protected static async getFactoryReturnsSpyFactoryForNextTest() {
+        this.assertSpyFactoryUsed()
+    }
+
+    private static assertSpyFactoryUsed() {
+        assert.isInstanceOf(this.fixture.getFactory(), SpyViewControllerFactory)
     }
 
     private static ViewFixture(): ViewFixture {
