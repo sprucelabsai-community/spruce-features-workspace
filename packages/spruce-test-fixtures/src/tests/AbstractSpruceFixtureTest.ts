@@ -31,7 +31,7 @@ import ViewFixture from './fixtures/ViewFixture'
 
 export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTest {
     public static fakedPerson: Person
-    public static fakedClient: MercuryClient
+
     public static fakedPeople: Person[]
     public static fakedTeammates: Person[]
     public static fakedOwners: Person[]
@@ -46,6 +46,7 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
 
     public static cwd: string
 
+    public static _fakedClient?: MercuryClient
     private static _views?: ViewFixture
     private static _roles?: RoleFixture
     private static _locations?: LocationFixture
@@ -159,6 +160,19 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
         this._fixtures = undefined
         return skill
     }
+
+    public static get fakedClient(): MercuryClient {
+        assert.isTruthy(
+            this._fakedClient,
+            `You gotta @fake.login() on your test class to get the test client.`
+        )
+        return this._fakedClient
+    }
+
+    public static set fakedClient(client: MercuryClient) {
+        this._fakedClient = client
+    }
+
     public static get fakedOrganizations(): Organization[] {
         return this._fakedOrganizations
     }
@@ -191,6 +205,7 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
         }
         return this._views
     }
+
     public static set views(fixture: ViewFixture | undefined) {
         this._views = fixture
     }
@@ -201,6 +216,7 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
         }
         return this._permissions
     }
+
     public static set permissions(fixture: PermissionFixture | undefined) {
         this._permissions = fixture
     }

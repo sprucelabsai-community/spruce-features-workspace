@@ -681,6 +681,27 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
         assert.isEqual(plugin, response)
     }
 
+    @test()
+    protected static async addPluginExposedInFixure() {
+        const factory = this.fixture.getFactory()
+
+        const name = generateId()
+
+        let passedName: string | undefined
+        let passedPlugin: ViewControllerPlugin | undefined
+
+        const plugin = this.fixture.BuildPlugin(SpyVcPlugin)
+        factory.addPlugin = (named, plugin) => {
+            passedName = named
+            passedPlugin = plugin
+        }
+
+        this.fixture.addPlugin(name, plugin)
+
+        assert.isEqual(passedName, name)
+        assert.isEqual(passedPlugin, plugin)
+    }
+
     private static ViewFixture(): ViewFixture {
         return this.Fixture('view', {
             controllerMap: {

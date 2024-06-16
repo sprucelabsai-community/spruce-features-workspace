@@ -120,6 +120,10 @@ export default class ViewFixture {
         })
     }
 
+    public addPlugin(name: string, plugin: ViewControllerPlugin) {
+        this.getFactory().addPlugin(name, plugin)
+    }
+
     public getFactory() {
         return ViewFixture.getSharedFactory({
             namespace: this.namespace,
