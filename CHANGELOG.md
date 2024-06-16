@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [62.1.0](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v62.0.129...v62.1.0) (2024-06-16)
+
+
+### Features
+
+* view fixture has "addPlugin" passthrough to view controller factory ([48cb73c](https://github.com/sprucelabsai-community/spruce-features-workspace/commit/48cb73c))
+
+
+
+
+
 ## [62.0.129](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v62.0.128...v62.0.129) (2024-06-15)
 
 **Note:** Version bump only for package spruce-features-workspace
