@@ -275,7 +275,9 @@ export default class ViewFixture {
     }
 
     public static async beforeEach() {
-        ViewControllerFactory.Class = SpyViewControllerFactory
+        if (!ViewControllerFactory.Class) {
+            ViewControllerFactory.Class = SpyViewControllerFactory
+        }
         SwipeViewControllerImpl.swipeDelay = 0
 
         if (this.shouldAutomaticallyResetAuthenticator) {

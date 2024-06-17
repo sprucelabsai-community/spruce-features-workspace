@@ -19,21 +19,21 @@ import { formatPhoneNumber } from '@sprucelabs/schema'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { assert, test } from '@sprucelabs/test-utils'
 import { errorAssert, generateId } from '@sprucelabs/test-utils'
-import { ClientProxyDecorator, seed } from '../../..'
-import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
+import { ClientProxyDecorator, seed } from '../../../..'
+import AbstractSpruceFixtureTest from '../../../../tests/AbstractSpruceFixtureTest'
 import {
     DEMO_NUMBER_VIEW_FIXTURE,
     DEMO_NUMBER,
     DEMO_NUMBER_VIEW_FIXTURE_2,
     DEMO_NUMBER_VIEW_FIXTURE_CLIENT_2,
-} from '../../../tests/constants'
-import fake from '../../../tests/decorators/fake'
-import FakeSkillViewController from '../../../tests/Fake.svc'
-import SpyScope from '../../../tests/fixtures/SpyScope'
-import ViewFixture from '../../../tests/fixtures/ViewFixture'
-import SpyViewControllerFactory from '../../../tests/SpyViewControllerFactory'
-import EventFaker from '../../support/EventFaker'
-import FakeThemeManager from '../../support/FakeThemeManager'
+} from '../../../../tests/constants'
+import fake from '../../../../tests/decorators/fake'
+import FakeSkillViewController from '../../../../tests/Fake.svc'
+import SpyScope from '../../../../tests/fixtures/SpyScope'
+import ViewFixture from '../../../../tests/fixtures/ViewFixture'
+import SpyViewControllerFactory from '../../../../tests/SpyViewControllerFactory'
+import EventFaker from '../../../support/EventFaker'
+import FakeThemeManager from '../../../support/FakeThemeManager'
 
 const DEMO_NUMBER_FORMATTED = formatPhoneNumber(DEMO_NUMBER ?? '')
 
@@ -710,7 +710,7 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
     }
 
     @test()
-    protected static async spyFactoryResetForEachTest() {
+    protected static async spyFactoryResetForEachTestIfDeleted() {
         delete ViewControllerFactory.Class
     }
 
