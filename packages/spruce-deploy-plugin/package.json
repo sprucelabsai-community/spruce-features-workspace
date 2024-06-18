@@ -63,9 +63,9 @@
   },
   "dependencies": {
     "@sprucelabs/error": "^6.0.59",
-    "@sprucelabs/schema": "^30.0.103",
+    "@sprucelabs/schema": "^30.0.104",
     "@sprucelabs/spruce-skill-booter": "^62.2.9",
-    "@sprucelabs/spruce-skill-utils": "^31.0.114",
+    "@sprucelabs/spruce-skill-utils": "^31.0.115",
     "heroku-client": "^3.1.0"
   },
   "devDependencies": {
