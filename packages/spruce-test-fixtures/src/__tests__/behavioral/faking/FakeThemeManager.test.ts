@@ -1,7 +1,7 @@
 import { SpruceSchemas } from '@sprucelabs/mercury-types'
 import AbstractSpruceTest, { test, assert } from '@sprucelabs/test-utils'
 import { generateId } from '@sprucelabs/test-utils'
-import FakeThemeManager from '../../support/FakeThemeManager'
+import FakeThemeManager from '../../../tests/FakeThemeManager'
 
 export default class FakeThemeManagerTest extends AbstractSpruceTest {
     private static manager: FakeThemeManager

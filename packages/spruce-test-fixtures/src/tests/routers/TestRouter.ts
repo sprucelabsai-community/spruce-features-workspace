@@ -18,7 +18,7 @@ import {
     MercuryEventEmitter,
 } from '@sprucelabs/mercury-types'
 import testRouterEmitPayloadSchema from '#spruce/schemas/spruceTestFixtures/v2021_07_19/testRouterEmitPayload.schema'
-import FakeThemeManager from '../../__tests__/support/FakeThemeManager'
+import FakeThemeManager from '../FakeThemeManager'
 
 export default class TestRouter
     extends AbstractEventEmitter<Contract>

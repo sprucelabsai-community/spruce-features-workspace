@@ -33,7 +33,7 @@ import SpyScope from '../../../../tests/fixtures/SpyScope'
 import ViewFixture from '../../../../tests/fixtures/ViewFixture'
 import SpyViewControllerFactory from '../../../../tests/SpyViewControllerFactory'
 import EventFaker from '../../../support/EventFaker'
-import FakeThemeManager from '../../../support/FakeThemeManager'
+import FakeThemeManager from '../../../../tests/FakeThemeManager'
 
 const DEMO_NUMBER_FORMATTED = formatPhoneNumber(DEMO_NUMBER ?? '')
 
