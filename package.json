@@ -36,9 +36,9 @@
 		"watch.rebuild": "true"
 	},
 	"devDependencies": {
-		"@sprucelabs/resolve-path-aliases": "^2.0.167",
+		"@sprucelabs/resolve-path-aliases": "^2.0.257",
 		"@sprucelabs/semantic-release": "^5.0.2",
-		"eslint": "^9.9.0",
+		"eslint": "^9.9.1",
 		"lerna": "^8.1.8"
 	}
 }
