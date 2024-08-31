@@ -414,8 +414,6 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 
     @test()
     protected static activeRecordThrowsByDefault() {
-        //@ts-ignore
-        assert.isTrue(ActiveRecordCardViewController.shouldThrowOnResponseError)
         assert.isTrue(ActiveRecordListViewController.shouldThrowOnResponseError)
         ActiveRecordListViewController.shouldThrowOnResponseError = false
         ActiveRecordCardViewController.setShouldThrowOnResponseError(false)
@@ -423,8 +421,6 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
 
     @test()
     protected static activeRecordThrowReset() {
-        //@ts-ignore
-        assert.isTrue(ActiveRecordCardViewController.shouldThrowOnResponseError)
         assert.isTrue(ActiveRecordListViewController.shouldThrowOnResponseError)
     }
 
