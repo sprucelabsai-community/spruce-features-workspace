@@ -23,12 +23,7 @@ export default class LocationFixture {
         this.roles = options.roles
     }
 
-    public async seedDemoLocation(
-        values?: Partial<SpruceSchemas.Mercury.v2020_12_25.CreateLocationEmitPayload> & {
-            phone?: string | null
-            organizationId?: string | null
-        }
-    ) {
+    public async seedDemoLocation(values?: SeedLocationValues) {
         const { client } = await this.people.loginAsDemoPerson(
             values?.phone ?? undefined
         )
@@ -178,3 +173,9 @@ export default class LocationFixture {
         await this.roles.removeRoleFromPerson(options)
     }
 }
+
+export type SeedLocationValues =
+    Partial<SpruceSchemas.Mercury.v2020_12_25.CreateLocationEmitPayload> & {
+        phone?: string | null
+        organizationId?: string | null
+    }

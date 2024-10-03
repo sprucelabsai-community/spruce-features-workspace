@@ -10,6 +10,7 @@ import fake, {
 } from '../../../tests/decorators/fake'
 import { CoreSeedTarget } from '../../../tests/decorators/seed'
 import eventFaker from '../../../tests/eventFaker'
+import { SeedLocationValues } from '../../../tests/fixtures/LocationFixture'
 import MercuryFixture from '../../../tests/fixtures/MercuryFixture'
 // eslint-disable-next-line spruce/prohibit-import-from-build-folder
 import GoodStore from '../../testDirsAndFiles/one-good-store-skill/build/stores/Good.store'
@@ -66,7 +67,7 @@ export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
     @seed('organizations', 2)
     protected static async seedingLocationSeedsToExpectedOrg(orgIdx: number) {
         const id = this.fakedOrganizations[orgIdx].id
-        const location = await this.locations.seedDemoLocation({
+        const location = await this.seedLocation({
             name: 'Test location',
             organizationId: id,
         })
@@ -246,17 +247,62 @@ export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
     @test()
     protected static async thisTestShouldNotCrashBecauseTestBeforeIt() {}
 
-    protected static async emitGetLocationEvent(locationId: string) {
-        const [{ location }] = await this.client.emitAndFlattenResponses(
-            'get-location::v2020_12_25',
-            {
-                target: {
-                    locationId,
-                },
-            }
+    @test()
+    @seed('locations', 1)
+    protected static async updateLocationThrowsWithBadLocationId() {
+        const locationId = generateId()
+        const values = {}
+
+        const err = await assert.doesThrowAsync(() =>
+            this.updateLocation(locationId, values)
         )
 
-        return location
+        errorAssert.assertError(err, 'INVALID_TARGET')
+    }
+
+    @test()
+    protected static async canActuallyUpdateLocation() {
+        const location = await this.seedLocation()
+        const name = generateId()
+        const num = generateId()
+        await this.updateLocation(location.id, { name, num })
+        this.assertLocationName(0, name)
+        this.assertLocationNum(0, num)
+    }
+
+    @test()
+    protected static async canUpdateTheSecondLocation() {
+        await this.seedLocation()
+        await this.seedLocation()
+        const newName = generateId()
+        const newNum = generateId()
+        await this.updateLocation(this.fakedLocations[1].id, {
+            name: newName,
+            num: newNum,
+        })
+        this.assertLocationName(1, newName)
+        this.assertLocationNum(1, newNum)
+    }
+
+    @test()
+    @seed('locations', 1)
+    protected static async retainsNameIfUpdatingJustNum() {
+        const newNum = generateId()
+        const originalName = this.fakedLocations[0].name
+        await this.updateLocation(this.fakedLocations[0].id, { num: newNum })
+        this.assertLocationName(0, originalName)
+    }
+
+    @test()
+    protected static async updateReturnsProperLocation() {
+        const location1 = await this.seedLocation()
+        const location2 = await this.seedLocation()
+
+        const actual1 = await this.updateLocation(location1.id, {})
+        const actual2 = await this.updateLocation(location2.id, {})
+
+        assert.isEqualDeep(actual1, location1)
+        assert.isEqualDeep(actual2, location2)
     }
 
     @test()
@@ -285,6 +331,51 @@ export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
         assert.isEqualDeep(auth.person, this.fakedPerson)
     }
 
+    private static assertLocationNum(idx: number, num: string) {
+        assert.isEqual(
+            this.fakedLocations[idx].num,
+            num,
+            'Num should be updated'
+        )
+    }
+
+    private static assertLocationName(idx: number, name: string) {
+        assert.isEqual(
+            this.fakedLocations[idx].name,
+            name,
+            'Name should be updated'
+        )
+    }
+
+    private static async updateLocation(locationId: string, values: {}) {
+        const [{ location }] = await this.fakedClient.emitAndFlattenResponses(
+            'update-location::v2020_12_25',
+            {
+                target: {
+                    locationId,
+                },
+                payload: {
+                    ...values,
+                },
+            }
+        )
+
+        return location
+    }
+
+    protected static async emitGetLocationEvent(locationId: string) {
+        const [{ location }] = await this.client.emitAndFlattenResponses(
+            'get-location::v2020_12_25',
+            {
+                target: {
+                    locationId,
+                },
+            }
+        )
+
+        return location
+    }
+
     private static async emitWhoAmI() {
         return this.client.emitAndFlattenResponses('whoami::v2020_12_25')
     }
@@ -307,6 +398,10 @@ export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
         assert.isNotEqual(fakedRecords[0].casualName, 'friend')
 
         return { people, fakedRecords }
+    }
+
+    private static async seedLocation(values?: SeedLocationValues) {
+        return await this.locations.seedDemoLocation(values)
     }
 }
 

@@ -291,6 +291,7 @@ async function setupFakeListeners(Class: Class) {
         fakeUpdatePerson(Class),
         fakeListLocations(Class),
         fakeGetLocation(Class),
+        fakeUpdateLocation(Class),
         fakeDeleteOrganization(Class),
         fakeCreateLocation(Class),
         fakeCreateOrganization(Class),
@@ -554,6 +555,35 @@ async function fakeGetLocation(Class: Class) {
             location: match,
         }
     })
+}
+
+async function fakeUpdateLocation(Class: Class) {
+    await eventFaker.on(
+        'update-location::v2020_12_25',
+        ({ target, payload }) => {
+            const { locationId } = target
+
+            let idx = Class._fakedLocations.findIndex(
+                (l) => l.id === locationId
+            )
+
+            if (!Class._fakedLocations[idx]) {
+                throw new SpruceError({
+                    code: 'INVALID_TARGET',
+                    friendlyMessage: `I could not find that location to update!`,
+                })
+            }
+
+            Class._fakedLocations[idx] = {
+                ...Class._fakedLocations[idx],
+                ...(payload as Location),
+            }
+
+            return {
+                location: Class._fakedLocations[idx],
+            }
+        }
+    )
 }
 
 async function fakeDeleteOrganization(Class: Class) {

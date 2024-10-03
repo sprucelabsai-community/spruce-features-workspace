@@ -1,5 +1,5 @@
 import { MercuryClient } from '@sprucelabs/mercury-client'
-import { AddressFieldValue, assertOptions } from '@sprucelabs/schema'
+import { assertOptions } from '@sprucelabs/schema'
 import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
 import { RoleBase } from '../../types/fixture.types'
 import PersonFixture from './PersonFixture'
@@ -72,11 +72,8 @@ export default class OrganizationFixture {
 
     public async updateOrganization(
         id: string,
-        values: {
-            name?: string
+        values: SpruceSchemas.Mercury.v2020_12_25.UpdateOrgEmitPayload & {
             phone?: string
-            address?: AddressFieldValue
-            isPublic?: boolean
         }
     ) {
         const { phone, ...payload } = values
