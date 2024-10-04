@@ -301,6 +301,9 @@ export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
         const actual1 = await this.updateLocation(location1.id, {})
         const actual2 = await this.updateLocation(location2.id, {})
 
+        delete actual1.dateUpdated
+        delete actual2.dateUpdated
+
         assert.isEqualDeep(actual1, location1)
         assert.isEqualDeep(actual2, location2)
     }

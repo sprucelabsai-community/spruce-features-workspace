@@ -16,14 +16,43 @@ export default class FakingLocationsTest extends AbstractSpruceFixtureTest {
 
     @test()
     protected static async seededLocationsComeBackInDateCreatedDescOrder() {
-        const location1 = await this.locations.seedDemoLocation({})
-
-        const location2 = await this.locations.seedDemoLocation({})
-        const location3 = await this.locations.seedDemoLocation({})
+        const location1 = await this.locations.seedDemoLocation()
+        const location2 = await this.locations.seedDemoLocation()
+        const location3 = await this.locations.seedDemoLocation()
 
         const locations = await this.emitListLocations()
 
         assert.isEqualDeep(locations, [location3, location2, location1])
+    }
+
+    @test()
+    protected static async updatingLocationSetsDateUpdated() {
+        const location = await this.locations.seedDemoLocation()
+        assert.isFalsy(location.dateUpdated)
+
+        const floor = Date.now()
+        const [{ location: updated }] =
+            await this.fakedClient.emitAndFlattenResponses(
+                'update-location::v2020_12_25',
+                {
+                    target: {
+                        locationId: location.id,
+                    },
+                    payload: {
+                        name: 'Updated Name',
+                    },
+                }
+            )
+
+        const ceiling = Date.now()
+
+        assert.isBetweenInclusive(
+            this.fakedLocations[0].dateUpdated!,
+            floor,
+            ceiling
+        )
+
+        assert.isEqualDeep(updated, this.fakedLocations[0])
     }
 
     private static async emitListLocations() {

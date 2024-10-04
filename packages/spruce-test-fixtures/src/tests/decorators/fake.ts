@@ -577,6 +577,7 @@ async function fakeUpdateLocation(Class: Class) {
             Class._fakedLocations[idx] = {
                 ...Class._fakedLocations[idx],
                 ...(payload as Location),
+                dateUpdated: Date.now(),
             }
 
             return {
