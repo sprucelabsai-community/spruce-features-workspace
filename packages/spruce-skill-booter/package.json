@@ -58,15 +58,15 @@
     "lint.tsc": "tsc -p . --noEmit"
   },
   "dependencies": {
-    "@sprucelabs/error": "^6.0.509",
-    "@sprucelabs/schema": "^30.0.520",
-    "@sprucelabs/spruce-skill-utils": "^31.0.579",
-    "@sprucelabs/test-utils": "^5.1.464"
+    "@sprucelabs/error": "^6.0.511",
+    "@sprucelabs/schema": "^30.0.522",
+    "@sprucelabs/spruce-skill-utils": "^31.0.581",
+    "@sprucelabs/test-utils": "^5.1.466"
   },
   "devDependencies": {
-    "@sprucelabs/esm-postbuild": "^6.0.492",
-    "@sprucelabs/jest-json-reporter": "^8.0.510",
-    "@sprucelabs/resolve-path-aliases": "^2.0.488",
+    "@sprucelabs/esm-postbuild": "^6.0.494",
+    "@sprucelabs/jest-json-reporter": "^8.0.512",
+    "@sprucelabs/resolve-path-aliases": "^2.0.490",
     "@sprucelabs/semantic-release": "^5.0.2",
     "@sprucelabs/test": "^9.0.55",
     "@types/node": "17.0.5",
