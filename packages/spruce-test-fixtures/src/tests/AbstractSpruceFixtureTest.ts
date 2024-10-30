@@ -28,10 +28,10 @@ import SeedFixture from './fixtures/SeedFixture'
 import SkillFixture from './fixtures/SkillFixture'
 import StoreFixture from './fixtures/StoreFixture'
 import ViewFixture from './fixtures/ViewFixture'
+const env = require('dotenv')
 
 export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTest {
     public static fakedPerson: Person
-
     public static fakedPeople: Person[]
     public static fakedTeammates: Person[]
     public static fakedOwners: Person[]
@@ -61,6 +61,7 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
     private static _fixtures?: FixtureFactory
 
     protected static async beforeAll() {
+        env.config = () => {}
         await super.beforeAll()
         await FixtureFactory.beforeAll()
 
