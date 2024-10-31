@@ -3,7 +3,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "62.3.88",
+  "version": "62.3.89",
   "files": [
     "build/**/*",
     "!build/__tests__",
@@ -64,7 +64,7 @@
   "dependencies": {
     "@sprucelabs/error": "^6.0.529",
     "@sprucelabs/schema": "^30.0.541",
-    "@sprucelabs/spruce-skill-booter": "^62.3.88",
+    "@sprucelabs/spruce-skill-booter": "^62.3.89",
     "@sprucelabs/spruce-skill-utils": "^31.0.601",
     "heroku-client": "^3.1.0"
   },
