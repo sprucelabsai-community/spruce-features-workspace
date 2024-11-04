@@ -295,6 +295,7 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
                 organizationId: generateId(),
             },
         }
+        this.fakePermissions([{ id: generateId(), can: true }])
         await this.instance.doesHonorPermissionContract(expected)
         const actual = this.instance.getLastDoesHonorContractOptions()
 
