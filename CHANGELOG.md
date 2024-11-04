@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [62.4.0](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v62.3.103...v62.4.0) (2024-11-04)
+
+
+### Features
+
+* fake authorizer updated ([9d824f9](https://github.com/sprucelabsai-community/spruce-features-workspace/commit/9d824f9))
+
+
+
+
+
 ## [62.3.103](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v62.3.102...v62.3.103) (2024-11-02)
 
 **Note:** Version bump only for package spruce-features-workspace
