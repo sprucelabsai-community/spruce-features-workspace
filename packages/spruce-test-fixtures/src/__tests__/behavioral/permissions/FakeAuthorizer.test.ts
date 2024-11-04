@@ -1,5 +1,6 @@
 import {
     AuthorizerCanOptions,
+    AuthorizerDoesHonorOptions,
     SavePermissionsOptions,
 } from '@sprucelabs/heartwood-view-controllers'
 import { PermissionContractId, PermissionId } from '@sprucelabs/mercury-types'
@@ -10,11 +11,11 @@ import FakeAuthorizer from '../../../tests/FakeAuthorizer'
 import PermissionFixture from '../../../tests/fixtures/PermissionFixture'
 
 export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
-    private static contractId: string
+    private static contractId: PermissionContractId
 
     protected static async beforeEach(): Promise<void> {
         await super.beforeEach()
-        this.contractId = generateId()
+        this.contractId = generateId() as PermissionContractId
     }
 
     @test()
@@ -228,6 +229,103 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
         assert.isEqualDeep(this.auth.getLastCanOptions(), can)
     }
 
+    @test()
+    protected static async doesHonorContractThrowsWithMissing() {
+        const err = await assert.doesThrowAsync(() =>
+            //@ts-ignore
+            this.instance.doesHonorPermissionContract()
+        )
+
+        errorAssert.assertError(err, 'MISSING_PARAMETERS', {
+            parameters: ['contractId'],
+        })
+    }
+
+    @test()
+    protected static async doesHonorContractThrowsWithBadContractId() {
+        await assert.doesThrowAsync(() =>
+            this.doesHonorPermissionContract({
+                contractId: generateId() as PermissionContractId,
+            })
+        )
+    }
+
+    @test()
+    protected static async doesHonorDoesNotThrowWithGoodContractId() {
+        this.fakePermissions([])
+        await this.doesHonorPermissionContract()
+    }
+
+    @test()
+    protected static async doesHonorReturnsFalseIfPermissionNotTrue() {
+        this.fakePermissions([])
+        await this.assertDoesNotHonorPermissionContract()
+    }
+
+    @test()
+    protected static async doesHonorReturnsTrueIfFirstPermissionIsTrue() {
+        this.fakePermissions([{ id: generateId(), can: true }])
+        await this.assertDoesHonorPermissionContract()
+    }
+
+    @test()
+    protected static async doesHonorReturnsTrueIfSecondPermissionIsTrue() {
+        this.fakePermissions([
+            { id: generateId(), can: false },
+            { id: generateId(), can: true },
+        ])
+        await this.assertDoesHonorPermissionContract()
+    }
+
+    @test()
+    protected static async doesHonorReturnsFalseIfAllPermissionsAreFalse() {
+        this.fakePermissions([
+            { id: generateId(), can: false },
+            { id: generateId(), can: false },
+        ])
+        await this.assertDoesNotHonorPermissionContract()
+    }
+
+    @test()
+    protected static async canGetLastDoesHonorOptions() {
+        const expected = {
+            contractId: this.contractId,
+            target: {
+                locationId: generateId(),
+                organizationId: generateId(),
+            },
+        }
+        await this.instance.doesHonorPermissionContract(expected)
+        const actual = this.instance.getLastDoesHonorContractOptions()
+
+        assert.isEqualDeep(actual, expected)
+    }
+
+    private static async assertDoesHonorPermissionContract() {
+        const actual = await this.doesHonorPermissionContract()
+        assert.isTrue(
+            actual,
+            'Expected doesHonorPermissionContract to return true'
+        )
+    }
+
+    private static async assertDoesNotHonorPermissionContract() {
+        const actual = await this.doesHonorPermissionContract()
+        assert.isFalse(
+            actual,
+            'Expected doesHonorPermissionContract to return false'
+        )
+    }
+
+    private static doesHonorPermissionContract(
+        options?: AuthorizerDoesHonorOptions<PermissionContractId>
+    ) {
+        return this.instance.doesHonorPermissionContract({
+            contractId: this.contractId,
+            ...options,
+        })
+    }
+
     private static async assertSpysOnOptionsWhenSaving<
         ContractId extends PermissionContractId,
         Ids extends PermissionId<ContractId>,
@@ -241,7 +339,7 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
     }
 
     private static changeContractId() {
-        this.contractId = generateId()
+        this.contractId = generateId() as PermissionContractId
     }
 
     private static async assertThrowsFakeError() {

@@ -1,6 +1,7 @@
 import {
     Authorizer,
     AuthorizerCanOptions,
+    AuthorizerDoesHonorOptions,
     SavePermissionsOptions,
 } from '@sprucelabs/heartwood-view-controllers'
 import { PermissionContractId, PermissionId } from '@sprucelabs/mercury-types'
@@ -11,6 +12,7 @@ export default class FakeAuthorizer implements Authorizer {
     private fakedContracts: FakeOptions[] = []
     private lastSavePermissionOptions?: SavePermissionsOptions<any, any>
     private lastCanOptions?: AuthorizerCanOptions<any>
+    private lastDoesHonorContractOptions?: AuthorizerDoesHonorOptions<PermissionContractId>
 
     public fakePermissions<
         ContractId extends PermissionContractId = PermissionContractId,
@@ -31,11 +33,7 @@ export default class FakeAuthorizer implements Authorizer {
             ['contractId', 'permissionIds']
         )
 
-        const fakedContract = this.fakedContracts.find(
-            (f) => f.contractId === contractId
-        )
-
-        this.assertValidContractId(fakedContract, contractId)
+        const fakedContract = this.getContractFromId<ContractId>(contractId)
 
         const results: Record<Ids, boolean> = {} as Record<Ids, boolean>
 
@@ -56,6 +54,17 @@ export default class FakeAuthorizer implements Authorizer {
         }
 
         return results
+    }
+
+    private getContractFromId<ContractId extends PermissionContractId>(
+        contractId: ContractId
+    ) {
+        const fakedContract = this.fakedContracts.find(
+            (f) => f.contractId === contractId
+        )
+
+        this.assertValidContractId(fakedContract, contractId)
+        return fakedContract
     }
 
     public getLastCanOptions(): AuthorizerCanOptions<any> | undefined {
@@ -106,6 +115,20 @@ Valid contracts are:
 
 ${this.fakedContracts.map((p) => p.contractId).join('\n')}`
         )
+    }
+
+    public async doesHonorPermissionContract<
+        ContractId extends PermissionContractId,
+    >(options: AuthorizerDoesHonorOptions<ContractId>): Promise<boolean> {
+        const { contractId } = assertOptions(options, ['contractId'])
+
+        this.lastDoesHonorContractOptions = options
+        const contract = this.getContractFromId(contractId)
+        return contract.permissions.filter((p) => p.can).length > 0
+    }
+
+    public getLastDoesHonorContractOptions() {
+        return this.lastDoesHonorContractOptions
     }
 }
 
