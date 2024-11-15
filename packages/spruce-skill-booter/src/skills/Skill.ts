@@ -10,6 +10,7 @@ import {
     Level,
     diskUtil,
     BootCallback,
+    PkgService,
 } from '@sprucelabs/spruce-skill-utils'
 import SpruceError from '../errors/SpruceError'
 
@@ -38,7 +39,6 @@ export default class Skill implements ISkill {
         this.activeDir = options.activeDir
         this.hashSpruceDir = options.hashSpruceDir
         this._log = options.log ?? this.buildLogWithTransports()
-
         this.shouldCountdownOnExit = options.shouldCountdownOnExit ?? true
     }
 
@@ -138,6 +138,12 @@ export default class Skill implements ISkill {
         this._isRunning = true
 
         try {
+            try {
+                const pkg = new PkgService(this.rootDir)
+                const namespace = pkg.get(['skill', 'namespace'])
+                process.title = `${namespace} skill (node)`
+            } catch {}
+
             const features = this.getFeatures()
 
             if (features.length === 0) {

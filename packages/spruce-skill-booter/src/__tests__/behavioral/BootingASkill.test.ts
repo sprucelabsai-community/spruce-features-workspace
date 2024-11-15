@@ -1,5 +1,9 @@
-import { LoggableType, buildLog } from '@sprucelabs/spruce-skill-utils'
-import { assert, test } from '@sprucelabs/test-utils'
+import {
+    LoggableType,
+    PkgService,
+    buildLog,
+} from '@sprucelabs/spruce-skill-utils'
+import { assert, generateId, test } from '@sprucelabs/test-utils'
 import AbstractSkillTest from '../../tests/AbstractSkillTest'
 
 export default class BootingASkillTest extends AbstractSkillTest {
@@ -75,5 +79,22 @@ export default class BootingASkillTest extends AbstractSkillTest {
 
         logged = messages.join(' ')
         assert.isTrue(logged.includes('Shutting down'))
+    }
+
+    @test()
+    protected static async setsProcessTitleToMatchSkillNamespace() {
+        const skill = await this.SkillFromTestDir('skill-with-pkg-json')
+
+        const pkg = new PkgService(this.cwd)
+        const namespace = generateId()
+
+        pkg.set({
+            path: ['skill', 'namespace'],
+            value: namespace,
+        })
+
+        await this.bootSkill({ skill })
+
+        assert.isEqual(process.title, `${namespace} skill (node)`)
     }
 }

@@ -49,6 +49,22 @@
 		{
 			"type": "node",
 			"request": "launch",
+			"name": "skill-booter.test.file",
+			"runtimeExecutable": "node",
+			"runtimeArgs": [
+				"--inspect-brk",
+				"--trace-warnings",
+				"${workspaceFolder}/node_modules/.bin/jest",
+				"${fileBasenameNoExtension}",
+				"--detectOpenHandles"
+			],
+			"cwd": "${workspaceFolder}/packages/spruce-skill-booter",
+			"console": "integratedTerminal",
+			"internalConsoleOptions": "neverOpen"
+		},
+		{
+			"type": "node",
+			"request": "launch",
 			"name": "deploy.test.file",
 			"runtimeExecutable": "node",
 			"runtimeArgs": [
