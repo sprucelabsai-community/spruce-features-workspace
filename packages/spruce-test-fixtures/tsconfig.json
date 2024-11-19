@@ -33,7 +33,7 @@
 		"./src/.spruce/**/*",
 		"./src/__tests__/**/.spruce/**/*.ts",
 		"./src/__tests__/**/build/**/*.ts"
-	],
+, "src/__tests__/testDirsAndFiles/app1/build/App.ac.ts"	],
 	"exclude": [
 		"build",
 		"esm"
