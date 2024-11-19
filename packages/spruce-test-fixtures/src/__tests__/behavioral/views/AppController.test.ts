@@ -1,5 +1,11 @@
-import { assert, test } from '@sprucelabs/test-utils'
+import {
+    AppController,
+    AppControllerConstructor,
+    AppControllerId,
+} from '@sprucelabs/heartwood-view-controllers'
+import { assert, generateId, test } from '@sprucelabs/test-utils'
 import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
+import FixtureFactory from '../../../tests/fixtures/FixtureFactory'
 import vcDiskUtil from '../../../utilities/vcDisk.utility'
 
 export default class AppControllerTest extends AbstractSpruceFixtureTest {
@@ -18,10 +24,7 @@ export default class AppControllerTest extends AbstractSpruceFixtureTest {
     @test()
     protected static async returnsActualApp1() {
         const App = this.app1()
-        assert.isTruthy(App, 'App should have been returned')
-        const app = new App({} as any)
-        //@ts-ignore
-        assert.isEqual(app.getOne(), 'applesauce')
+        this.assertValidApp1(App)
     }
 
     @test()
@@ -31,6 +34,30 @@ export default class AppControllerTest extends AbstractSpruceFixtureTest {
         const app = new App({} as any)
         //@ts-ignore
         assert.isEqual(app.getTwo(), 'butter')
+    }
+
+    @test()
+    protected static async viewFixtureGetsTheAppMixedIp() {
+        const namespace = generateId() as AppControllerId
+        const fixture = new FixtureFactory({
+            cwd: this.resolvePath(this.resolvePathToTestSkill('app1'), '..'),
+            namespace,
+        })
+
+        const views = fixture.Fixture('view')
+        const app = views.App(namespace)
+        this.assertIsApp1(app)
+    }
+
+    private static assertValidApp1(App?: AppControllerConstructor) {
+        assert.isTruthy(App, 'App should have been returned')
+        const app = new App({} as any)
+        this.assertIsApp1(app)
+    }
+
+    private static assertIsApp1(app: AppController) {
+        //@ts-ignore
+        assert.isEqual(app.getOne(), 'applesauce')
     }
 
     private static app1() {

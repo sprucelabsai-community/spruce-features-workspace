@@ -21,6 +21,7 @@ import {
     ViewControllerPluginOptions,
     ViewControllerPlugin,
     AppControllerId,
+    AppControllerConstructor,
 } from '@sprucelabs/heartwood-view-controllers'
 import { MercuryClient } from '@sprucelabs/mercury-client'
 import { SchemaError } from '@sprucelabs/schema'
@@ -169,15 +170,21 @@ export default class ViewFixture {
 
         let controllerMap: any
         let pluginsByName: ViewControllerPluginsByName = {}
+        let App: AppControllerConstructor | undefined
 
         try {
-            const { map: loadedControllerMap, pluginsByName: plugins } =
-                vcDiskUtil.loadViewControllersAndBuildMap(namespace, vcDir)
+            const {
+                map: loadedControllerMap,
+                pluginsByName: plugins,
+                App: loadedApp,
+            } = vcDiskUtil.loadViewControllersAndBuildMap(namespace, vcDir)
 
             controllerMap = {
                 ...loadedControllerMap,
                 ...map,
             }
+
+            App = loadedApp
 
             pluginsByName = plugins
         } catch (err: any) {
@@ -217,6 +224,10 @@ export default class ViewFixture {
         vcAssert._setVcFactory(this.vcFactory)
         //@ts-ignore
         formAssert._setVcFactory(this.vcFactory)
+
+        if (App) {
+            this.vcFactory.importControllers([], undefined, App)
+        }
 
         const oldFactory = this.vcFactory.Controller.bind(this.vcFactory)
 

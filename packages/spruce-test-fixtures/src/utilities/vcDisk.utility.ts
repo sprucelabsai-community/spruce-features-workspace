@@ -133,6 +133,10 @@ const vcDiskUtil = {
             }
         }
 
+        if (App) {
+            App.id = `${namespace}`
+        }
+
         return {
             map,
             pluginsByName,
