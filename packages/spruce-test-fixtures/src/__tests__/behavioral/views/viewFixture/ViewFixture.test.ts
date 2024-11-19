@@ -3,6 +3,7 @@ import {
     AbstractViewController,
     ActiveRecordCardViewController,
     ActiveRecordListViewController,
+    AppControllerId,
     AuthenticatorImpl,
     Card,
     Device,
@@ -719,8 +720,56 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
         this.assertSpyFactoryUsed()
     }
 
+    @test()
+    protected static async canCheckForApp() {
+        const expected = {}
+
+        let passedId: string | undefined
+        const id = generateId()
+
+        this.vcFactory.hasApp = (id) => {
+            passedId = id
+            return expected as any
+        }
+
+        const actual = this.fixture.hasApp(id)
+
+        assert.isEqual(passedId, id, `Did not pass id to hasApp on factory`)
+        assert.isEqual(
+            actual,
+            expected,
+            `Did not return expected value from factory`
+        )
+    }
+
+    @test()
+    protected static async canGetApp() {
+        const expected = {}
+
+        let passedId: string | undefined
+        const id = generateId() as AppControllerId
+
+        this.vcFactory.App = (id) => {
+            passedId = id
+            return expected as any
+        }
+
+        const actual = this.fixture.App(id)
+
+        assert.isEqual(passedId, id, `Did not pass id to App on factory`)
+        assert.isEqual(
+            actual,
+            expected,
+            `Did not return expected value from factory`
+        )
+    }
+
     private static assertSpyFactoryUsed() {
-        assert.isInstanceOf(this.fixture.getFactory(), SpyViewControllerFactory)
+        assert.isInstanceOf(this.vcFactory, SpyViewControllerFactory)
+    }
+
+    private static get vcFactory() {
+        return this.fixture.getFactory()
     }
 
     private static ViewFixture(): ViewFixture {

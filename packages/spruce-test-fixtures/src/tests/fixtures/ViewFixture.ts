@@ -20,6 +20,7 @@ import {
     ViewControllerPluginsByName,
     ViewControllerPluginOptions,
     ViewControllerPlugin,
+    AppControllerId,
 } from '@sprucelabs/heartwood-view-controllers'
 import { MercuryClient } from '@sprucelabs/mercury-client'
 import { SchemaError } from '@sprucelabs/schema'
@@ -131,7 +132,7 @@ export default class ViewFixture {
             vcDir: this.vcDir,
             controllerMap: this.controllerMap,
             connectToApi: this.connectToApi,
-        })
+        }) as SpyViewControllerFactory
     }
 
     public BuildPlugin<P extends ViewControllerPlugin>(
@@ -336,6 +337,14 @@ export default class ViewFixture {
 
     public getThemes() {
         return this.getRouter().getThemes()
+    }
+
+    public hasApp(namespace: string) {
+        return this.getFactory().hasApp(namespace)
+    }
+
+    public App(namespace: AppControllerId) {
+        return this.getFactory().App(namespace)
     }
 
     private async assertScopeRequirementsMet<
