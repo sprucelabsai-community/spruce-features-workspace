@@ -226,7 +226,7 @@ export default class ViewFixture {
         formAssert._setVcFactory(this.vcFactory)
 
         if (App) {
-            this.vcFactory.importControllers([], undefined, App)
+            this.vcFactory.setAppController(App)
         }
 
         const oldFactory = this.vcFactory.Controller.bind(this.vcFactory)
