@@ -22,6 +22,7 @@ import {
     ViewControllerPlugin,
     AppControllerId,
     AppControllerConstructor,
+    AppControllerMap,
 } from '@sprucelabs/heartwood-view-controllers'
 import { MercuryClient } from '@sprucelabs/mercury-client'
 import { SchemaError } from '@sprucelabs/schema'
@@ -359,7 +360,10 @@ export default class ViewFixture {
     }
 
     public App<Id extends AppControllerId>(namespace: Id) {
-        return this.getFactory().App(namespace)
+        return this.getFactory().App(namespace) as Omit<
+            AppControllerMap[Id],
+            'id'
+        >
     }
 
     private async assertScopeRequirementsMet<
