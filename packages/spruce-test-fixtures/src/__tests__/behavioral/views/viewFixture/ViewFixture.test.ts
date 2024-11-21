@@ -3,6 +3,7 @@ import {
     AbstractViewController,
     ActiveRecordCardViewController,
     ActiveRecordListViewController,
+    AppControllerConstructor,
     AppControllerId,
     AuthenticatorImpl,
     Card,
@@ -761,6 +762,26 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
             actual,
             expected,
             `Did not return expected value from factory`
+        )
+    }
+
+    @test()
+    protected static async canSetApp() {
+        let wasHit = false
+        let passedApp: any | undefined
+        this.vcFactory.setAppController = (App) => {
+            wasHit = true
+            passedApp = App
+        }
+
+        const App = {} as AppControllerConstructor
+        this.fixture.setAppController(App)
+
+        assert.isTrue(wasHit, `Did not call setAppController on factory`)
+        assert.isEqual(
+            passedApp,
+            App,
+            `Did not pass App to setAppController on factory`
         )
     }
 

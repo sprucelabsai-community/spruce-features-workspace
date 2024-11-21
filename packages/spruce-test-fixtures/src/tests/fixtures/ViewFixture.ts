@@ -278,6 +278,10 @@ export default class ViewFixture {
         this.getFactory().setController(name, Class)
     }
 
+    public setAppController(App: AppControllerConstructor) {
+        this.getFactory().setAppController(App)
+    }
+
     public setClient(client: MercuryClient) {
         ViewFixture.viewClient = client
     }
