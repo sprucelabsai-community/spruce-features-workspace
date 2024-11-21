@@ -22,7 +22,6 @@ import {
     ViewControllerPlugin,
     AppControllerId,
     AppControllerConstructor,
-    AppControllerMap,
 } from '@sprucelabs/heartwood-view-controllers'
 import { MercuryClient } from '@sprucelabs/mercury-client'
 import { SchemaError } from '@sprucelabs/schema'
