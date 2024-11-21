@@ -134,6 +134,7 @@ const vcDiskUtil = {
         }
 
         if (App) {
+            //@ts-ignore
             App.id = `${namespace}`
         }
 
