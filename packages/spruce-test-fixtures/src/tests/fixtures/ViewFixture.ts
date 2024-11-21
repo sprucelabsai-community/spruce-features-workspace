@@ -360,10 +360,7 @@ export default class ViewFixture {
     }
 
     public App<Id extends AppControllerId>(namespace: Id) {
-        return this.getFactory().App(namespace) as Omit<
-            AppControllerMap[Id],
-            'id'
-        >
+        return this.getFactory().App(namespace)
     }
 
     private async assertScopeRequirementsMet<
