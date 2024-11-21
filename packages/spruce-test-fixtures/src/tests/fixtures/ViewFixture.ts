@@ -354,7 +354,7 @@ export default class ViewFixture {
         return this.getFactory().hasApp(namespace)
     }
 
-    public App(namespace: AppControllerId) {
+    public App<Id extends AppControllerId>(namespace: Id) {
         return this.getFactory().App(namespace)
     }
 
