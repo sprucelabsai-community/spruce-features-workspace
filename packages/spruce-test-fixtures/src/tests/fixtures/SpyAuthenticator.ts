@@ -1,4 +1,7 @@
-import { AuthenticatorImpl } from '@sprucelabs/heartwood-view-controllers'
+import {
+    AuthenticatorImpl,
+    Storage,
+} from '@sprucelabs/heartwood-view-controllers'
 
 export default class SpyAuthenticator extends AuthenticatorImpl {
     public constructor(storage: Storage) {
