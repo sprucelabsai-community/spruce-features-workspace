@@ -46,6 +46,7 @@ import {
     doesScopeIncludeLocation,
     doesScopeIncludeOrganization,
 } from './scopeUtils'
+import { SpyAuthenticator } from './SpyAuthenticator'
 import SpyScope from './SpyScope'
 
 type Factory = TestConnectFactory
@@ -334,6 +335,7 @@ export default class ViewFixture {
 
     public static resetAuth() {
         AuthenticatorImpl.reset()
+        AuthenticatorImpl.Class = SpyAuthenticator
         AuthenticatorImpl.setStorage(new StubStorage())
         ClientProxyDecorator.getInstance().clearProxyTokenGenerator()
     }
