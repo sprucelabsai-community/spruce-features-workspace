@@ -26,6 +26,7 @@ export default class PermissionFixtureTest extends AbstractSpruceFixtureTest {
 
     @test()
     protected static async shouldBeAbleToOverrideAuthenticatorClass() {
+        //@ts-ignore
         AuthenticatorImpl.Class = AuthenticatorImpl
         const auth = this.getAuthenticator()
         assert.doesThrow(() => assert.isInstanceOf(auth, SpyAuthenticator))
