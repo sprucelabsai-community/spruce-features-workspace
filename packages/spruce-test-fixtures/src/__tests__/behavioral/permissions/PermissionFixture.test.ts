@@ -1,4 +1,10 @@
-import { AuthenticatorImpl } from '@sprucelabs/heartwood-view-controllers'
+import {
+    Authenticator,
+    AuthenticatorEventPayloads,
+    AuthenticatorImpl,
+    StubStorage,
+} from '@sprucelabs/heartwood-view-controllers'
+import { Person } from '@sprucelabs/spruce-core-schemas'
 import { AuthorizerFactory } from '@sprucelabs/spruce-permission-utils'
 import { test, assert } from '@sprucelabs/test-utils'
 import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
@@ -26,10 +32,11 @@ export default class PermissionFixtureTest extends AbstractSpruceFixtureTest {
 
     @test()
     protected static async shouldBeAbleToOverrideAuthenticatorClass() {
-        //@ts-ignore
-        AuthenticatorImpl.Class = AuthenticatorImpl
-        const auth = this.getAuthenticator()
-        assert.doesThrow(() => assert.isInstanceOf(auth, SpyAuthenticator))
+        AuthenticatorImpl.reset()
+        AuthenticatorImpl.setStorage(new StubStorage())
+        AuthenticatorImpl.Class = TempAuthenticator
+        const auth = this.getAuthenticator() as TempAuthenticator
+        assert.isInstanceOf(auth, TempAuthenticator)
     }
 
     @test()
@@ -45,4 +52,21 @@ export default class PermissionFixtureTest extends AbstractSpruceFixtureTest {
     private static getAuthenticator() {
         return this.permissions.getAuthenticator()
     }
+}
+
+class TempAuthenticator implements Authenticator {
+    public getPerson(): Person | null {
+        return null
+    }
+    public setSessionToken(_token: string, _person: Person): void {}
+    public getSessionToken(): string | null {
+        return null
+    }
+    public isLoggedIn(): boolean {
+        return true
+    }
+    public clearSession(): void {}
+    public addEventListener<
+        N extends 'did-login' | 'did-logout' | 'will-logout',
+    >(_name: N, _cb: AuthenticatorEventPayloads[N]): void {}
 }
