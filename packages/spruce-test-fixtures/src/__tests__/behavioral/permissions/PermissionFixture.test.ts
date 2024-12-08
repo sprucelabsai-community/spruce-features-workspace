@@ -3,7 +3,7 @@ import { AuthorizerFactory } from '@sprucelabs/spruce-permission-utils'
 import { test, assert } from '@sprucelabs/test-utils'
 import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
 import fake from '../../../tests/decorators/fake'
-import { SpyAuthenticator } from '../../../tests/fixtures/SpyAuthenticator'
+import SpyAuthenticator from '../../../tests/fixtures/SpyAuthenticator'
 
 @fake.login()
 export default class PermissionFixtureTest extends AbstractSpruceFixtureTest {

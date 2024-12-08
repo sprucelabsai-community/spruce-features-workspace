@@ -46,7 +46,7 @@ import {
     doesScopeIncludeLocation,
     doesScopeIncludeOrganization,
 } from './scopeUtils'
-import { SpyAuthenticator } from './SpyAuthenticator'
+import SpyAuthenticator from './SpyAuthenticator'
 import SpyScope from './SpyScope'
 
 type Factory = TestConnectFactory

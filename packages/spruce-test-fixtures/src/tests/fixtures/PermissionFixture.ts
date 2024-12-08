@@ -3,6 +3,7 @@ import { AuthorizerFactory } from '@sprucelabs/spruce-permission-utils'
 import { TestConnectFactory } from '../../types/fixture.types'
 import FakeAuthorizer from '../FakeAuthorizer'
 import MercuryFixture from './MercuryFixture'
+import SpyAuthenticator from './SpyAuthenticator'
 
 export default class PermissionFixture {
     private connectToApi: TestConnectFactory
@@ -23,6 +24,6 @@ export default class PermissionFixture {
     }
 
     public getAuthenticator() {
-        return AuthenticatorImpl.getInstance()
+        return AuthenticatorImpl.getInstance() as SpyAuthenticator
     }
 }

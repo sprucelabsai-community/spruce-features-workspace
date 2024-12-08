@@ -24,6 +24,7 @@ export { default as FakeThemeManager } from './tests/FakeThemeManager'
 export { default as SpyScope } from './tests/fixtures/SpyScope'
 export { default as FakeAuthorizer } from './tests/FakeAuthorizer'
 export { default as SpyViewControllerFactory } from './tests/SpyViewControllerFactory'
+export { default as SpyAuthenticator } from './tests/fixtures/SpyAuthenticator'
 
 /**
  * @deprecated phoneNumberIncrementer -> phoneNumberIncrementor
