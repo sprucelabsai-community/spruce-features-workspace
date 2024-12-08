@@ -410,6 +410,7 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
         assert.isFunction(viewFixture.getAuthenticator)
         assert.isEqual(
             viewFixture.getAuthenticator(),
+            //@ts-ignore
             AuthenticatorImpl.getInstance()
         )
     }
