@@ -11,6 +11,7 @@ import {
     diskUtil,
     BootCallback,
     PkgService,
+    LogTransport,
 } from '@sprucelabs/spruce-skill-utils'
 import SpruceError from '../errors/SpruceError'
 
@@ -319,7 +320,10 @@ export default class Skill implements ISkill {
                     if (!transportsByLevel[level]) {
                         transportsByLevel[level] = []
                     }
-                    transportsByLevel[level].push(first.transport)
+
+                    ;(transportsByLevel[level] as LogTransport[]).push(
+                        first.transport
+                    )
                 })
             }
         }
