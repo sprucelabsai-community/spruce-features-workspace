@@ -149,15 +149,19 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
             '/testDirsAndFiles/',
             `${new Date().getTime() * Math.random()}`
         )
-        const source = this.resolvePath(
+        const source = this.resolveTestDirsAndFilesPath(testDirName)
+
+        await diskUtil.copyDir(source, destination)
+        return destination
+    }
+
+    protected static resolveTestDirsAndFilesPath(testDirName: string) {
+        return this.resolvePath(
             process.cwd(),
             'build',
             '__tests__',
             '/testDirsAndFiles/',
             testDirName
         )
-
-        await diskUtil.copyDir(source, destination)
-        return destination
     }
 }

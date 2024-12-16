@@ -5,12 +5,13 @@ export default function (): {
     transport: LogTransport
 } | null {
     return {
-        levels: ['WARN'],
+        levels: ['ERROR', 'INFO', 'WARN'],
         transport: (...messageParts: string[]) => {
+			debugger
             const message = messageParts.join(' ')
             diskUtil.writeFile(
-                diskUtil.resolvePath(__dirname, '..', '..', 'error.txt'),
-                message
+                diskUtil.resolvePath(process.env.TEST_LOG_DESTINATION!, 'log.txt'),
+                message + '::fileTransport3'
             )
         },
     }

@@ -267,54 +267,62 @@ export default class Skill implements ISkill {
     }
 
     private buildLogWithTransports() {
-        let transportsByLevel:
-            | Partial<LogOptions['transportsByLevel']>
-            | undefined = undefined
+        let transportsByLevel: TransportsByLevel = {}
         const lookupDir = diskUtil.resolvePath(this.activeDir, 'logTransports')
 
         if (diskUtil.doesDirExist(lookupDir)) {
-            const matches = pluginUtil.importSync([], lookupDir)
+            this.importLogsFromMutating(lookupDir, transportsByLevel)
+        }
+        const logTransportPluginDir = process.env.LOG_TRANSPORT_PLUGIN_DIR
+        if (
+            logTransportPluginDir &&
+            diskUtil.doesDirExist(logTransportPluginDir)
+        ) {
+            this.importLogsFromMutating(
+                logTransportPluginDir,
+                transportsByLevel
+            )
+        }
 
-            if (matches.length > 0) {
-                transportsByLevel = {}
+        debugger
+        return buildLog(`Skill`, {
+            transportsByLevel,
+        })
+    }
 
-                for (const first of matches) {
-                    if (!first) {
-                        continue
-                    }
-                    if (!Array.isArray(first.levels)) {
-                        throw new SpruceError({
-                            //@ts-ignore
-                            code: 'INVALID_LOG_TRANSPORT',
-                            friendlyMessage: `The log transport you supplied is invalid. Make sure it exports a function by default and returns an object that looks like:
+    private importLogsFromMutating(
+        lookupDir: string,
+        transportsByLevel: TransportsByLevel
+    ) {
+        const matches = pluginUtil.importSync([], lookupDir)
+
+        if (matches.length > 0) {
+            for (const first of matches) {
+                if (!first) {
+                    continue
+                }
+                if (!Array.isArray(first.levels)) {
+                    throw new SpruceError({
+                        //@ts-ignore
+                        code: 'INVALID_LOG_TRANSPORT',
+                        friendlyMessage: `The log transport you supplied is invalid. Make sure it exports a function by default and returns an object that looks like:
 							
 			{ 
 				level: string[], 
 				transport: (...messageParts: string[]) => void
 			}
 			`,
-                        })
-                    }
-
-                    first.levels.forEach((level: Level) => {
-                        if (transportsByLevel) {
-                            if (transportsByLevel[level]) {
-                                throw new SpruceError({
-                                    //@ts-ignore
-                                    code: 'DUPLICATE_LOG_TRANSPORT',
-                                    friendlyMessage: `You have two transports handling '${level}' and that is not supported.`,
-                                })
-                            }
-                            transportsByLevel[level] = first.transport
-                        }
                     })
                 }
+
+                first.levels.forEach((level: Level) => {
+                    if (!transportsByLevel[level]) {
+                        transportsByLevel[level] = []
+                    }
+                    transportsByLevel[level].push(first.transport)
+                })
             }
         }
-
-        return buildLog(`Skill`, {
-            transportsByLevel,
-        })
     }
 
     private set featureMap(map: FeatureMap) {
@@ -345,3 +353,5 @@ export interface SkillOptions {
 }
 
 export type FeatureMap = Record<string, SkillFeature>
+
+type TransportsByLevel = Partial<NonNullable<LogOptions['transportsByLevel']>>
