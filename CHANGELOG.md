@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [62.6.0](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v62.5.10...v62.6.0) (2024-12-17)
+
+
+### Features
+
+* support for LOG_TRANSPORT_PLUGIN_DIR ([66f2582](https://github.com/sprucelabsai-community/spruce-features-workspace/commit/66f2582))
+
+
+
+
+
 ## [62.5.10](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v62.5.9...v62.5.10) (2024-12-12)
 
 **Note:** Version bump only for package spruce-features-workspace
