@@ -285,7 +285,6 @@ export default class Skill implements ISkill {
             )
         }
 
-        debugger
         return buildLog(`Skill`, {
             transportsByLevel,
         })
