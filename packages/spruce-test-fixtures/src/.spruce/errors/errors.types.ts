@@ -19,9 +19,9 @@ export declare namespace SpruceErrors.SpruceTestFixtures {
 	export interface UnknownViewControllerError {
 		
 			
-			'id'?: string| undefined | null
+			'id'?: string | undefined | null
 			
-			'name'?: string| undefined | null
+			'name'?: string | undefined | null
 	}
 
 	export interface UnknownViewControllerErrorSchema extends SpruceSchema.Schema {
@@ -121,9 +121,9 @@ export declare namespace SpruceErrors.SpruceTestFixtures {
 	export interface InvalidViewController {
 		
 			
-			'name'?: string| undefined | null
+			'name'?: string | undefined | null
 			
-			'id'?: string| undefined | null
+			'id'?: string | undefined | null
 	}
 
 	export interface InvalidViewControllerSchema extends SpruceSchema.Schema {
