@@ -1,6 +1,7 @@
 import {
     CursorPagerFaker,
     DatabaseFixture,
+    MockStoreFactory,
     StoreFactory,
     StoreLoader,
     StoreMap,
@@ -49,7 +50,7 @@ export default class StoreFixture {
             factory.setStoreClass(name, StoreFixture.storeMap[name])
         })
 
-        return factory as StoreFactory
+        return factory as MockStoreFactory
     }
 
     public static setShouldAutomaticallyResetDatabase(shouldReset: boolean) {
@@ -59,6 +60,7 @@ export default class StoreFixture {
     public static async beforeAll() {
         const cwd = diskUtil.resolvePath(process.cwd(), 'build')
 
+        StoreFactory.Class = MockStoreFactory
         StoreLoader.setStoreDir(cwd)
         DatabaseFixture.beforeAll()
 
