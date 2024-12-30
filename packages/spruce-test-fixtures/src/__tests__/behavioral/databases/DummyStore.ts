@@ -27,7 +27,7 @@ export class DummyStore extends AbstractStore<DummySchema> {
     public static wasSeedInvoked = false
     public static seedOptions = {}
     public static Store(options: any) {
-        return new this(options)
+        return new this(options.db)
     }
 
     public async seed(options: StoreSeedOptions) {

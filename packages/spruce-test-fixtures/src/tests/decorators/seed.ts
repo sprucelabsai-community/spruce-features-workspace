@@ -167,7 +167,7 @@ function attachSeeder(
         let fixture = TestClass.Fixture(fixtureName)
 
         if (fixtureName === 'store') {
-            fixture = await fixture.Store(storeName)
+            fixture = await fixture.getStore(storeName)
             options.TestClass = TestClass
         } else {
             TestClass.__shouldResetAccount = true

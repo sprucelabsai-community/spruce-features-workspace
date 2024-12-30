@@ -1,3 +1,4 @@
+import { NeDbDatabase } from '@sprucelabs/data-stores'
 import { AuthenticatorImpl } from '@sprucelabs/heartwood-view-controllers'
 import { MercuryClient, MercuryClientFactory } from '@sprucelabs/mercury-client'
 import { test, assert } from '@sprucelabs/test-utils'
@@ -216,6 +217,21 @@ export default class UsingDecoratorsTest extends AbstractSpruceFixtureTest {
         baseCounts: Record<string, number>
     ) {
         await this.assertExpectedSeededPeople(baseCounts)
+    }
+
+    @test()
+    @seed('good', 1)
+    protected static async seedUsesSameStoreInstance() {
+        const factory = await this.Fixture('store').getStoreFactory()
+        const db = new NeDbDatabase()
+        await db.connect()
+
+        factory.setDatabaseForStore('good', db)
+
+        const good = await factory.getStore('good')
+        const count = await good.count({})
+
+        assert.isEqual(count, 6)
     }
 
     private static async assertExpectedSeededPeople(

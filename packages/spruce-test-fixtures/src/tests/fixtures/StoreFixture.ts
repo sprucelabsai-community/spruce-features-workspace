@@ -11,7 +11,7 @@ import {
 import { diskUtil } from '@sprucelabs/spruce-skill-utils'
 
 export default class StoreFixture {
-    private storeFactory?: Promise<StoreFactory>
+    private static storeFactory?: Promise<StoreFactory>
     private loader?: Promise<StoreLoader>
     private static storeMap: Record<string, any> = {}
     private static shouldAutomaticallyResetDatabase = true
@@ -31,6 +31,14 @@ export default class StoreFixture {
     ): Promise<StoreMap[N]> {
         const factory = await this.getStoreFactory()
         return factory.Store(name, options)
+    }
+
+    private get storeFactory(): Promise<StoreFactory> | undefined {
+        return StoreFixture.storeFactory
+    }
+
+    private set storeFactory(factory: Promise<StoreFactory>) {
+        StoreFixture.storeFactory = factory
     }
 
     public async getStoreFactory() {
@@ -76,6 +84,7 @@ export default class StoreFixture {
     }
 
     public static async reset() {
+        this.storeFactory = undefined
         this.resetDbConnectionSettings()
 
         await DatabaseFixture.beforeEach()
