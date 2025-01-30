@@ -55,7 +55,10 @@ export default class StoreFixture {
         const factory = await this.storeFactory
 
         Object.keys(StoreFixture.storeMap).forEach((name) => {
-            factory.setStoreClass(name, StoreFixture.storeMap[name])
+            factory.setStoreClass(
+                name as StoreName,
+                StoreFixture.storeMap[name]
+            )
         })
 
         return factory as MockStoreFactory
