@@ -30,7 +30,7 @@ export default class WhoAmITest extends AbstractSpruceFixtureTest {
         this.auth = this.views.getAuthenticator()
         await fake.getClient().emitAndFlattenResponses('whoami::v2020_12_25')
 
-        this.views
+        await this.views
             .getAuthenticator()
             .addEventListener('did-login', async () => {
                 this.didLoginCount++
