@@ -22,6 +22,7 @@ import AbstractSpruceFixtureTest from '../AbstractSpruceFixtureTest'
 import eventFaker from '../eventFaker'
 import generateRandomName from '../fixtures/generateRandomName'
 import MercuryFixture from '../fixtures/MercuryFixture'
+import PermissionFixture from '../fixtures/PermissionFixture'
 import PersonFixture from '../fixtures/PersonFixture'
 import SeedFixture from '../fixtures/SeedFixture'
 import ViewFixture from '../fixtures/ViewFixture'
@@ -70,6 +71,7 @@ interface Class extends ClassWithFakes {
     fakedClient: Client
     people: PersonFixture
     views: ViewFixture
+    permissions: PermissionFixture
     cwd: string
     __fakerSetup?: boolean
     beforeEach?: () => Promise<void>
@@ -204,12 +206,14 @@ fake.login = (phone = '555-000-0000') => {
             ViewFixture.resetAuth()
 
             try {
-                const auth = Class.views.getAuthenticator()
-                auth.setSessionToken(
-                    //@ts-ignore
-                    Class.fakedClient.auth.token,
-                    Class.fakedPerson!
-                )
+                if (Class.fakedPerson) {
+                    const auth = Class.permissions.getAuthenticator()
+                    auth.setSessionToken(
+                        //@ts-ignore
+                        Class.fakedClient.auth.token,
+                        Class.fakedPerson!
+                    )
+                }
             } catch {
                 //hits if not in skill because cant find nameplace
             }
