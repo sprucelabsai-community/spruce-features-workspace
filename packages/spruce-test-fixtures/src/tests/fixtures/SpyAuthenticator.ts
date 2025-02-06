@@ -9,6 +9,6 @@ export default class SpyAuthenticator extends AuthenticatorImpl {
     }
 
     public getEventEmitter() {
-        return this.eventEmitter
+        return this.emitter
     }
 }

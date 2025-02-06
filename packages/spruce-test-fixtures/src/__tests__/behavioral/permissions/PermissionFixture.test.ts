@@ -1,9 +1,10 @@
 import {
+    AuthContract,
     Authenticator,
-    AuthenticatorEventPayloads,
     AuthenticatorImpl,
     StubStorage,
 } from '@sprucelabs/heartwood-view-controllers'
+import { MercuryEventEmitter } from '@sprucelabs/mercury-types'
 import { Person } from '@sprucelabs/spruce-core-schemas'
 import { AuthorizerFactory } from '@sprucelabs/spruce-permission-utils'
 import { test, assert } from '@sprucelabs/test-utils'
@@ -65,8 +66,7 @@ class TempAuthenticator implements Authenticator {
     public isLoggedIn(): boolean {
         return true
     }
-    public clearSession(): void {}
-    public addEventListener<
-        N extends 'did-login' | 'did-logout' | 'will-logout',
-    >(_name: N, _cb: AuthenticatorEventPayloads[N]): void {}
+    public async clearSession() {}
+    public addEventListener: MercuryEventEmitter<AuthContract>['on'] =
+        async () => {}
 }
