@@ -296,6 +296,8 @@ export default class FakeDecoratorTest extends AbstractFakeDecoratorTest {
             organizationId: this.fakedOrganizations[0]?.id,
         })
 
+        //TODO: remove ts-ignore when you find it
+        //@ts-ignore
         assert.isEqualDeep(fakedProp, people)
     }
 
