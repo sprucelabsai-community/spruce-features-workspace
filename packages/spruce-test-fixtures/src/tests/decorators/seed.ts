@@ -5,7 +5,6 @@ import {
     GUEST_BASE_ROLES,
 } from '@sprucelabs/spruce-core-schemas'
 import { assert, SpruceTestResolver } from '@sprucelabs/test-utils'
-import { FixtureName } from '../..'
 import FakerTracker from '../../FakerTracker'
 import FixtureWarehouse from '../fixtures/FixtureWarehourse'
 import MercuryFixture from '../fixtures/MercuryFixture'
