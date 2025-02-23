@@ -1,5 +1,4 @@
 import { assert, test } from '@sprucelabs/test-utils'
-import FakerTracker from '../../FakerTracker'
 import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
 import { DEMO_NUMBER_ACCOUNT_AFTER_ALL_RESET } from '../../tests/constants'
 import login from '../../tests/decorators/login'
