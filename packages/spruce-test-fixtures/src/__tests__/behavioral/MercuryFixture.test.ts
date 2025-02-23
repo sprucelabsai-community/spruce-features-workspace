@@ -8,8 +8,8 @@ import { eventContractUtil } from '@sprucelabs/spruce-event-utils'
 import { diskUtil, HASH_SPRUCE_BUILD_DIR } from '@sprucelabs/spruce-skill-utils'
 import { test, assert } from '@sprucelabs/test-utils'
 import { TestConnectFactory, TestConnectionOptions } from '../..'
+import FakerTracker from '../../FakerTracker'
 import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
-import FixtureFactory from '../../tests/fixtures/FixtureFactory'
 import MercuryFixture from '../../tests/fixtures/MercuryFixture'
 
 export default class MercuryFixtureTest extends AbstractSpruceFixtureTest {
@@ -158,9 +158,10 @@ export default class MercuryFixtureTest extends AbstractSpruceFixtureTest {
         const client = await this.connectToApi()
 
         MercuryFixture.setDefaultClient(client)
+
         await MercuryFixture.beforeEach(this.cwd)
 
-        const client2 = await this.connectToApi()
+        const client2 = MercuryFixture.getDefaultClient()
 
         assert.isNotEqual(client, client2)
     }
@@ -184,13 +185,14 @@ export default class MercuryFixtureTest extends AbstractSpruceFixtureTest {
     }
 
     private static async connectToApi(options?: TestConnectionOptions) {
-        return await new FixtureFactory({ cwd: this.cwd })
-            .Fixture('mercury')
-            .connectToApi(options)
+        return await this.mercury.connectToApi(options)
     }
 
     private static createDirWriteContractFileAndSetCwd(sigs: any[]) {
         this.cwd = diskUtil.createRandomTempDir()
+
+        MercuryFixture.clearContractCache()
+        FakerTracker.setCwd(this.cwd)
 
         const destination = diskUtil.resolvePath(
             this.cwd,

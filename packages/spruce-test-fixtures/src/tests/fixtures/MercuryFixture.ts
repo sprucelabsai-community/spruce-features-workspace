@@ -69,6 +69,7 @@ export default class MercuryFixture {
     public async connectToApi(
         options?: TestConnectionOptions
     ): Promise<MercuryClient> {
+        debugger
         const shouldReUseClient = options?.shouldReUseClient !== false
         if (shouldReUseClient && MercuryFixture.defaultClient) {
             return MercuryFixture.defaultClient
@@ -101,6 +102,10 @@ export default class MercuryFixture {
         return promise
     }
 
+    public static clearContractCache() {
+        this.contractsByCwd = {}
+    }
+
     public static setDefaultContractToLocalEventsIfExist(cwd: string) {
         if (this.contractsByCwd[cwd]) {
             MercuryFixture.setDefaultContract(this.contractsByCwd[cwd])
@@ -112,7 +117,7 @@ export default class MercuryFixture {
         ) {
             const contract = this.loadEventContract(cwd)
             this.contractsByCwd[cwd] = contract!
-            MercuryFixture.setDefaultContract(coreEventContracts[0])
+            MercuryFixture.setDefaultContract(contract)
         }
     }
 

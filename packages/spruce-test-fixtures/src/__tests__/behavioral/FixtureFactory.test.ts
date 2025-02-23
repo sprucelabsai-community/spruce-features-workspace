@@ -25,10 +25,6 @@ export default class FixtureFactoryTest extends AbstractSpruceTest {
         assert.isTrue(fixture instanceof Class)
     }
 
-    private static Fixture() {
-        return new FixtureFactory({ cwd: this.cwd })
-    }
-
     @test()
     protected static async destroyDisconnectsClient() {
         const { client } = await this.Fixture()
@@ -40,5 +36,9 @@ export default class FixtureFactoryTest extends AbstractSpruceTest {
         await FixtureFactory.destroy()
 
         assert.isFalse(client.isConnected())
+    }
+
+    private static Fixture() {
+        return new FixtureFactory({ cwd: this.cwd })
     }
 }
