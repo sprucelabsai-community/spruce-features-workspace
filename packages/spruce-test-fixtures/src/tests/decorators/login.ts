@@ -22,10 +22,14 @@ export default function login(phone: string) {
             MercuryClientFactory.setIsTestMode(true)
         })
 
+        let client: MercuryClient | undefined
+
         SpruceTestResolver.onDidCallBeforeAll(async () => {
-            const viewFixture = FakerTracker.fixtures.views
-            const { client, person } =
+            const viewFixture = FakerTracker.getFixtures(Class.cwd).views
+            const { client: c, person } =
                 await viewFixture.loginAsDemoPerson(phone)
+
+            client = c
 
             proxyGenerator = viewFixture.getProxyTokenGenerator()
 
@@ -40,15 +44,13 @@ export default function login(phone: string) {
 
         SpruceTestResolver.onWillCallBeforeEach(async () => {
             MercuryFixture.setDefaultContractToLocalEventsIfExist(Class.cwd)
-            FakerTracker.fixtures.views.setProxyTokenGenerator(proxyGenerator)
+            FakerTracker.getFixtures(Class.cwd).views.setProxyTokenGenerator(
+                proxyGenerator
+            )
         })
 
-        let client: MercuryClient | undefined
-
         SpruceTestResolver.onWillCallAfterAll(async () => {
-            client = MercuryFixture.getDefaultClient()
             await emitWillLogout(client)
-            MercuryFixture.clearDefaultClient()
         })
 
         SpruceTestResolver.onDidCallAfterAll(async () => {

@@ -138,7 +138,7 @@ fake.login = (phone = '555-000-0000') => {
             await setupFakeListeners()
         })
 
-        SpruceTestResolver.onWillCallBeforeEach(async () => {
+        SpruceTestResolver.onWillCallBeforeEach(async (TestClass) => {
             resetFakedRecords()
             await setupFakeListeners()
 
@@ -151,7 +151,7 @@ fake.login = (phone = '555-000-0000') => {
             try {
                 if (FakerTracker.fakedPerson) {
                     const auth =
-                        FakerTracker.fixtures.permissions.getAuthenticator()
+                        getFixturesForActiveTest().permissions.getAuthenticator()
                     auth.setSessionToken(
                         //@ts-ignore
                         FakerTracker.fakedClient.auth.token,
@@ -195,12 +195,12 @@ async function loginUsingViewsFallingBackToPeople(phone: string) {
 
     try {
         const { person: p, client: c } =
-            await FakerTracker.fixtures.views.loginAsDemoPerson(phone)
+            await getFixturesForActiveTest().views.loginAsDemoPerson(phone)
         person = p
         client = c
     } catch {
         const { person: p, client: c } =
-            await FakerTracker.fixtures.people.loginAsDemoPerson(phone)
+            await getFixturesForActiveTest().people.loginAsDemoPerson(phone)
         person = p
         client = c
     }
@@ -740,7 +740,7 @@ function applyPaging<T>(records: T[], payload: any): T[] {
 }
 
 async function seedOrganizations(total: number) {
-    await FakerTracker.fixtures.seeder.seedOrganizations({
+    await getFixturesForActiveTest().seeder.seedOrganizations({
         totalOrganizations: total,
     })
 }
@@ -760,7 +760,7 @@ function seedRoles(orgId: string) {
 }
 
 async function seedLocations(total: number) {
-    await FakerTracker.fixtures.seeder.seedAccount({
+    await getFixturesForActiveTest().seeder.seedAccount({
         totalLocations: total,
     })
 }
@@ -774,7 +774,9 @@ function buildSeeder(target: CoreSeedTarget) {
         }
 
         //@ts-ignore
-        await FakerTracker.fixtures.seeder[`seed${upperCaseFirst(target)}`]({
+        await getFixturesForActiveTest().seeder[
+            `seed${upperCaseFirst(target)}`
+        ]({
             [`total${upperCaseFirst(target)}`]: total,
         })
     }
@@ -1015,4 +1017,9 @@ function findOrgFromTarget(target: EventTarget) {
 
 async function fakeRegisterListeners() {
     await eventFaker.on('register-listeners::v2020_12_25', async () => {})
+}
+
+function getFixturesForActiveTest() {
+    const Test = SpruceTestResolver.getActiveTest()
+    return FakerTracker.getFixtures(Test.cwd)
 }

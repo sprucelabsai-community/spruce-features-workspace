@@ -140,6 +140,6 @@ export default class ResettingFixtureFieldsBeforeEachTest extends AbstractSpruce
 
     private static getPrivateProp(check: (typeof toCheck)[number]) {
         //@ts-ignore
-        return FakerTracker.fixtures[check.privatePropName]
+        return FakerTracker.getFixtures(this.cwd)[check.privatePropName]
     }
 }

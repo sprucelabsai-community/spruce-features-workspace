@@ -40,7 +40,9 @@
 				"--trace-warnings",
 				"${workspaceFolder}/node_modules/.bin/jest",
 				"${fileBasenameNoExtension}",
-				"--detectOpenHandles"
+				"--detectOpenHandles",
+				"--runInBand",
+				"--forceExit"
 			],
 			"cwd": "${workspaceFolder}/packages/spruce-test-fixtures",
 			"console": "integratedTerminal",

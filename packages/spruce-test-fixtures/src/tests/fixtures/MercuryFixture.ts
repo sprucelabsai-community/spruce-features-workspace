@@ -31,7 +31,8 @@ export default class MercuryFixture {
     private static defaultClient?: MercuryClient
     private static shouldAutomaticallyClearDefaultClient = true
     private static shouldRequireLocalListeners = true
-    private static contractsByCwd: Record<string, EventContract> = {}
+    private static contractsByCwd: Record<string, EventContract | undefined> =
+        {}
     private static namespacesByCwd: Record<string, string | undefined> = {}
 
     public static setDefaultClient(client: MercuryClient) {
@@ -107,7 +108,7 @@ export default class MercuryFixture {
     }
 
     public static setDefaultContractToLocalEventsIfExist(cwd: string) {
-        if (this.contractsByCwd[cwd]) {
+        if (cwd in this.contractsByCwd) {
             MercuryFixture.setDefaultContract(this.contractsByCwd[cwd])
         }
 
@@ -116,8 +117,8 @@ export default class MercuryFixture {
             diskUtil.doesBuiltHashSprucePathExist(cwd)
         ) {
             const contract = this.loadEventContract(cwd)
-            this.contractsByCwd[cwd] = contract!
-            MercuryFixture.setDefaultContract(contract)
+            this.contractsByCwd[cwd] = contract
+            contract && MercuryFixture.setDefaultContract(contract)
         }
     }
 
@@ -152,6 +153,8 @@ export default class MercuryFixture {
     private static setDefaultContract(contract: any) {
         //@ts-ignore
         MercuryClientFactory.setDefaultContract(contract)
+        if (!contract) {
+        }
         //@ts-ignore
         MercuryTestClient.emitter?.mixinOnlyUniqueSignatures(contract)
     }
@@ -163,6 +166,7 @@ export default class MercuryFixture {
     public async destroy() {
         for (const clientPromise of this.clientPromises) {
             const client = await clientPromise
+
             //@ts-ignore
             if (client.shouldDestroy !== false) {
                 await client.disconnect()

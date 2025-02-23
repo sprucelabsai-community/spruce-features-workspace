@@ -29,6 +29,11 @@ export default class PersonFixtureTest extends AbstractSpruceTest {
         MercuryTestClient.reset()
     }
 
+    protected async afterEach() {
+        await super.afterEach()
+        await FixtureFactory.destroy()
+    }
+
     private Fixture(): PersonFixture {
         return new FixtureFactory({ cwd: this.cwd }).Fixture('person')
     }

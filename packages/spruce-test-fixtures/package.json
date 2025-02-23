@@ -52,7 +52,7 @@
     "lint": "eslint --cache '**/*.ts'",
     "rebuild": "cd .. && yarn rebuild",
     "resolve-paths.lint": "yarn run build.resolve-paths ; yarn run lint",
-    "test": "jest",
+    "test": "jest --detectOpenHandles --runInBand --forceExit",
     "post.watch.build": "yarn run build.copy-files && yarn run build.resolve-paths",
     "spruce.upgrade": "spruce upgrade",
     "watch.build.dev": "tsc-watch --sourceMap --onCompilationComplete 'yarn run post.watch.build'",

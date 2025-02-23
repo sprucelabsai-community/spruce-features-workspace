@@ -32,6 +32,11 @@ export default class PersonFixtureTest extends AbstractSpruceTest {
         return new FixtureFactory({ cwd: this.cwd }).Fixture('person')
     }
 
+    protected static async afterEach() {
+        await super.afterEach()
+        await FixtureFactory.destroy()
+    }
+
     @test()
     protected static async canCreatePersonFixture() {
         assert.isTruthy(this.fixture)

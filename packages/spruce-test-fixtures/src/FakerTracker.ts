@@ -12,8 +12,6 @@ export default class FakerTracker {
     public static fakedClient: MercuryClient
     public static fakedPerson: Person
 
-    private static cwd: string
-
     public static fakedPeople: Person[] = []
     public static fakedTeammates: Person[] = []
     public static fakedOwners: Person[] = []
@@ -30,9 +28,11 @@ export default class FakerTracker {
     public static fakedTokens: FakedAuthToken[] = []
 
     private static _fixtures?: FixtureWarehouse
-    public static get fixtures(): FixtureWarehouse {
+    public static getFixtures(cwd: string): FixtureWarehouse {
         if (!this._fixtures) {
-            this._fixtures = FixtureWarehouse.Warehouse(this.cwd)
+            this._fixtures = FixtureWarehouse.Warehouse(cwd)
+        } else {
+            this._fixtures.setCwd(cwd)
         }
         return this._fixtures
     }
@@ -43,7 +43,6 @@ export default class FakerTracker {
 
     public static setCwd(cwd: string) {
         this._fixtures?.setCwd(cwd)
-        this.cwd = cwd
     }
 
     public static resetFakedData() {

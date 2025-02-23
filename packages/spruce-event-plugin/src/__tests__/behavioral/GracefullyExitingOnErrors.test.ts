@@ -69,7 +69,7 @@ export default class GracefullyExitingOnErrorsTest extends AbstractEventPluginTe
             'registered-skill-bad-signature'
         )
 
-        const { skill } = await this.Fixture('skill').loginAsDemoSkill({
+        const { skill } = await this.skills.loginAsDemoSkill({
             name: 'boot-events',
         })
 

@@ -28,8 +28,9 @@ export default class ResettingAccountAfterAllTestsTest extends AbstractSpruceFix
     }
 }
 
-FakerTracker.setCwd(process.cwd())
-void FakerTracker.fixtures.organizations.seedDemoOrganization({
-    name: 'Outside of test',
-    phone: DEMO_NUMBER_ACCOUNT_AFTER_ALL_RESET,
-})
+void FakerTracker.getFixtures(process.cwd()).organizations.seedDemoOrganization(
+    {
+        name: 'Outside of test',
+        phone: DEMO_NUMBER_ACCOUNT_AFTER_ALL_RESET,
+    }
+)

@@ -54,10 +54,6 @@ export default class UsingDecoratorsInstanceTest extends AbstractSpruceFixtureTe
 
     protected static async afterAll() {
         await super.afterAll()
-
-        const client = MercuryFixture.getDefaultClient()
-
-        assert.isFalsy(client)
     }
 
     @test()

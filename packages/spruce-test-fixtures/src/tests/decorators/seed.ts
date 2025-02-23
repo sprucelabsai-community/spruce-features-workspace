@@ -5,6 +5,7 @@ import {
     GUEST_BASE_ROLES,
 } from '@sprucelabs/spruce-core-schemas'
 import { assert, SpruceTestResolver } from '@sprucelabs/test-utils'
+import { FixtureName } from '../..'
 import FakerTracker from '../../FakerTracker'
 import MercuryFixture from '../fixtures/MercuryFixture'
 import SeedFixture from '../fixtures/SeedFixture'
@@ -34,7 +35,7 @@ export default function seed(
         ) {
             Class.__shouldResetAccount = false
 
-            SpruceTestResolver.onDidCallBeforeAll(async () => {
+            SpruceTestResolver.onDidCallBeforeAll(async (Class) => {
                 await login.on('did-login', async () => {
                     await forceResetAccount(Class)
                 })
@@ -81,7 +82,8 @@ async function optionallyReset(Class: any, key: string) {
 async function reset(Class: any) {
     if (Class.__shouldResetAccount) {
         Class.__shouldResetAccount = false
-        await FakerTracker.fixtures.seeder.resetAccount()
+        const cwd = SpruceTestResolver.getActiveTest().cwd
+        await FakerTracker.getFixtures(cwd).seeder.resetAccount()
     }
     await StoreFixture.reset()
 }
@@ -147,31 +149,32 @@ function attachSeeder(
         owners: 'totalOwners',
     }
 
-    const method = methodMap[storeName] ?? 'seed'
+    const method = (methodMap[storeName] ?? 'seed') as any
     const optionsKey = keyMap[storeName] ?? 'totalToSeed'
-    const fixtureName = fixtureMap[storeName] ?? 'store'
+    const fixtureName = (fixtureMap[storeName] ?? 'store') as FixtureName
     const options = { [optionsKey]: totalToSeed }
 
     return async function () {
-        //@ts-ignore
-        let fixture = FakerTracker.fixtures.Fixture(fixtureName)
+        const ActiveTest = SpruceTestResolver.getActiveTest()
+        let fixture = FakerTracker.getFixtures(ActiveTest.cwd).Fixture(
+            fixtureName
+        )
 
         if (fixtureName === 'store') {
-            //@ts-ignore
-            fixture = await fixture.getStore(storeName)
-            options.TestClass = SpruceTestResolver.getActiveTest()
+            fixture = await (fixture as StoreFixture).getStore(
+                storeName as StoreName
+            )
+            options.TestClass = ActiveTest
         } else {
             TestClass.__shouldResetAccount = true
         }
 
         assert.isFunction(
-            //@ts-ignore
-            fixture[method],
+            fixture[method as keyof typeof fixture],
             `The '${storeName}' store you created needs a method called 'seed(options: StoreSeedOptions)' in order for seeding. You must implement it yourself... for now.`
         )
 
         const args = [options, ...(params ?? [])]
-
         //@ts-ignore
         await fixture[method](...args)
     }

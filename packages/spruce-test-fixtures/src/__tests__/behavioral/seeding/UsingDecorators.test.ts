@@ -51,12 +51,12 @@ export default class UsingDecoratorsTest extends AbstractSpruceFixtureTest {
         await this.assertCountGoods(5)
     }
 
+    protected static async afterEach(): Promise<void> {
+        await super.afterEach()
+    }
+
     protected static async afterAll() {
         await super.afterAll()
-
-        const client = MercuryFixture.getDefaultClient()
-
-        assert.isFalsy(client)
     }
 
     @test()

@@ -10,7 +10,9 @@ install.skills = (...namespaces: string[]) => {
         const old = descriptor.value
 
         descriptor.value = async (...args: any[]) => {
-            const orgsFixture = FakerTracker.fixtures.Fixture('organization')
+            const orgsFixture = FakerTracker.getFixtures(Class.cwd).Fixture(
+                'organization'
+            )
             const latestOrg = await orgsFixture.getNewestOrganization()
 
             assert.isTruthy(
