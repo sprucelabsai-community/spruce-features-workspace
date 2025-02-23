@@ -5,6 +5,7 @@ import {
 } from '@sprucelabs/mercury-client'
 import '@sprucelabs/mercury-core-events'
 import { coreEventContracts } from '@sprucelabs/mercury-core-events'
+import { EventContract } from '@sprucelabs/mercury-types'
 import { SchemaError } from '@sprucelabs/schema'
 import {
     eventContractUtil,
@@ -30,6 +31,7 @@ export default class MercuryFixture {
     private static defaultClient?: MercuryClient
     private static shouldAutomaticallyClearDefaultClient = true
     private static shouldRequireLocalListeners = true
+    private static contractsByCwd: Record<string, EventContract> = {}
 
     public static setDefaultClient(client: MercuryClient) {
         //@ts-ignore
@@ -100,42 +102,46 @@ export default class MercuryFixture {
     }
 
     public static setDefaultContractToLocalEventsIfExist(cwd: string) {
+        if (this.contractsByCwd[cwd]) {
+            MercuryFixture.setDefaultContract(this.contractsByCwd[cwd])
+        }
+
         if (
             MercuryFixture.shouldAutoImportContracts &&
             diskUtil.doesBuiltHashSprucePathExist(cwd)
         ) {
-            try {
-                const combinedContract =
-                    eventDiskUtil.resolveCombinedEventsContractFile(cwd)
+            const contract = this.loadEventContract(cwd)
+            this.contractsByCwd[cwd] = contract!
+            MercuryFixture.setDefaultContract(coreEventContracts[0])
+        }
+    }
 
-                let contracts = require(combinedContract).default
+    private static loadEventContract(cwd: string) {
+        let contract: EventContract | undefined
 
-                if (
-                    MercuryFixture.shouldMixinCoreEventContractWhenImportingLocal
-                ) {
-                    contracts = [...contracts, ...coreEventContracts]
-                }
+        try {
+            const combinedContract =
+                eventDiskUtil.resolveCombinedEventsContractFile(cwd)
 
-                const combined = eventContractUtil.unifyContracts(contracts)
+            let contracts = require(combinedContract).default
 
-                if (combined) {
-                    MercuryFixture.setDefaultContract(combined)
-                }
-            } catch (err: any) {
-                //since we default to the
-                if (err.options?.code === 'EVENT_CONTRACTS_NOT_SYNCED') {
-                    MercuryFixture.setDefaultContract(coreEventContracts[0])
-                    return
-                }
+            if (this.shouldMixinCoreEventContractWhenImportingLocal) {
+                contracts = [...contracts, ...coreEventContracts]
+            }
 
+            contract = eventContractUtil.unifyContracts(contracts)
+        } catch (err: any) {
+            //since we default to the
+            if (err.options?.code === 'EVENT_CONTRACTS_NOT_SYNCED') {
+                contract = coreEventContracts[0]
+            } else {
                 throw new Error(
                     'Mixing in local event contracts failed. Original error:\n\n' +
                         err.stack
                 )
             }
-        } else {
-            MercuryFixture.setDefaultContract(coreEventContracts[0])
         }
+        return contract
     }
 
     private static setDefaultContract(contract: any) {
