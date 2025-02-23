@@ -35,9 +35,9 @@ export default class ResettingAccountBeforeAllTestsTest extends AbstractSpruceFi
     }
 }
 
-//@ts-ignore
-FakerTracker.setCwd(process.cwd())
-void FakerTracker.fixtures.organizations.seedDemoOrganization({
-    name: 'Outside of test',
-    phone: DEMO_NUMBER_ACCOUNT_BEFORE_ALL_RESET,
-})
+void FakerTracker.getFixtures(process.cwd()).organizations.seedDemoOrganization(
+    {
+        name: 'Outside of test',
+        phone: DEMO_NUMBER_ACCOUNT_BEFORE_ALL_RESET,
+    }
+)
