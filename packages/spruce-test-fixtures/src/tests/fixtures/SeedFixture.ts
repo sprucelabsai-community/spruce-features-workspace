@@ -9,22 +9,6 @@ import LocationFixture from './LocationFixture'
 import OrganizationFixture from './OrganizationFixture'
 import PersonFixture from './PersonFixture'
 
-type Organization = SpruceSchemas.Spruce.v2020_07_22.Organization
-type Location = SpruceSchemas.Spruce.v2020_07_22.Location
-type Person = SpruceSchemas.Spruce.v2020_07_22.Person
-
-export interface SeedLocationOptions {
-    totalLocations: number
-    organizationId?: string
-    phone?: string
-    totalGuests?: number
-    totalTeammates?: number
-    totalManagers?: number
-    totalOwners?: number
-    totalGroupManagers?: number
-    startingPhone?: string
-}
-
 export default class SeedFixture {
     private organizations: OrganizationFixture
     private locations: LocationFixture
@@ -293,4 +277,20 @@ export default class SeedFixture {
     public async resetAccount(phone?: string) {
         await this.organizations.deleteAllOrganizations(phone)
     }
+}
+
+type Organization = SpruceSchemas.Spruce.v2020_07_22.Organization
+type Location = SpruceSchemas.Spruce.v2020_07_22.Location
+type Person = SpruceSchemas.Spruce.v2020_07_22.Person
+
+export interface SeedLocationOptions {
+    totalLocations: number
+    organizationId?: string
+    phone?: string
+    totalGuests?: number
+    totalTeammates?: number
+    totalManagers?: number
+    totalOwners?: number
+    totalGroupManagers?: number
+    startingPhone?: string
 }

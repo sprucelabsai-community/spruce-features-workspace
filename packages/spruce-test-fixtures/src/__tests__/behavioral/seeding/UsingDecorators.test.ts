@@ -90,7 +90,7 @@ export default class UsingDecoratorsTest extends AbstractSpruceFixtureTest {
 
     @test()
     @seed('locations', 3)
-    protected static async canSeedTwoLocations() {
+    protected static async canSeedThreeLocations() {
         await this.assertCountLocations(3)
     }
 

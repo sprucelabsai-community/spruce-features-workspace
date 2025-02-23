@@ -24,7 +24,7 @@ export default class FixtureFactory {
     private static fixtures: any[] = []
     private cwd: string
     private namespace?: string
-    private static viewMercury?: any
+    private static mercuryFixture?: MercuryFixture
 
     public constructor(options: { cwd: string; namespace?: string }) {
         this.cwd = options.cwd
@@ -51,7 +51,7 @@ export default class FixtureFactory {
         named: Name,
         options?: Partial<FixtureConstructorOptionsMap[Name]>
     ): FixtureMap[Name] {
-        const mercuryFixture = this.getMercuryFixture(named)
+        const mercuryFixture = this.getMercuryFixture()
         let fixture: FixtureMap[Name] | undefined
 
         switch (named) {
@@ -181,21 +181,17 @@ export default class FixtureFactory {
         })
     }
 
-    private getMercuryFixture<Name extends FixtureName>(name: Name) {
-        let mercury
-        if (name === 'view') {
-            if (!FixtureFactory.viewMercury) {
-                FixtureFactory.viewMercury = new MercuryFixture(this.cwd)
-                FixtureFactory.fixtures.push(FixtureFactory.viewMercury)
-            }
-            mercury = FixtureFactory.viewMercury
-        }
-        if (!mercury) {
-            mercury = new MercuryFixture(this.cwd)
-            FixtureFactory.fixtures.push(mercury)
+    public static clearMercuryFixture() {
+        delete this.mercuryFixture
+    }
+
+    private getMercuryFixture() {
+        if (!FixtureFactory.mercuryFixture) {
+            FixtureFactory.mercuryFixture = new MercuryFixture(this.cwd)
+            FixtureFactory.fixtures.push(FixtureFactory.mercuryFixture)
         }
 
-        return mercury
+        return FixtureFactory.mercuryFixture
     }
 
     public static async destroy() {
@@ -206,7 +202,7 @@ export default class FixtureFactory {
         }
 
         this.fixtures = []
-        FixtureFactory.viewMercury = undefined
+        FixtureFactory.mercuryFixture = undefined
     }
 
     public static async beforeAll() {

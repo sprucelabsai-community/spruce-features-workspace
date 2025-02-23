@@ -49,6 +49,7 @@ export default function login(phone: string) {
         })
 
         SpruceTestResolver.onWillCallAfterAll(async () => {
+            MercuryFixture.setDefaultContractToLocalEventsIfExist(Class.cwd)
             await emitWillLogout(client)
         })
 

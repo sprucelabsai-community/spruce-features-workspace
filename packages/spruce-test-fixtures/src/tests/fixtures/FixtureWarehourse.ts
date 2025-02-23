@@ -45,6 +45,7 @@ export default class FixtureWarehouse {
         if (this.cwd !== cwd) {
             this.cwd = cwd
             delete this._fixtures
+            FixtureFactory.clearMercuryFixture()
         }
     }
 

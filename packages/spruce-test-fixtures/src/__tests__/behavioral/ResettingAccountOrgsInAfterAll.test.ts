@@ -1,4 +1,5 @@
 import { assert, test } from '@sprucelabs/test-utils'
+import FakerTracker from '../../FakerTracker'
 import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
 import { DEMO_NUMBER_ACCOUNT_AFTER_ALL_RESET } from '../../tests/constants'
 import login from '../../tests/decorators/login'
@@ -10,12 +11,13 @@ MercuryFixture.setShouldRequireLocalListeners(false)
 @login(DEMO_NUMBER_ACCOUNT_AFTER_ALL_RESET)
 export default class ResettingAccountAfterAllTestsTest extends AbstractSpruceFixtureTest {
     protected static async afterAll() {
-        await super.afterAll()
-
         const orgs = await this.organizations.listOrganizations(
             DEMO_NUMBER_ACCOUNT_AFTER_ALL_RESET
         )
+
         assert.isLength(orgs, 0)
+
+        await super.afterAll()
     }
 
     @test()

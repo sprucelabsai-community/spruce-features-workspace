@@ -26,29 +26,6 @@ import MercuryFixture from '../fixtures/MercuryFixture'
 import ViewFixture from '../fixtures/ViewFixture'
 import seed, { CoreSeedTarget } from './seed'
 
-type Person = SpruceSchemas.Spruce.v2020_07_22.Person
-type Location = SpruceSchemas.Spruce.v2020_07_22.Location
-type Skill = SpruceSchemas.Spruce.v2020_07_22.Skill
-type Role = SpruceSchemas.Spruce.v2020_07_22.Role
-
-/** @ts-ignore */
-type Client = MercuryClient
-
-interface FakedData {
-    fakedOwners?: Person[]
-    fakedTeammates?: Person[]
-    fakedManagers?: Person[]
-    fakedGuests: Person[]
-    fakedPeople: Person[]
-    fakedSkills: Skill[]
-    fakedGroupManagers: Person[]
-}
-
-interface Class {
-    cwd: string
-    __fakerSetup?: boolean
-}
-
 const strategies: Partial<
     Record<CoreSeedTarget, (total: number) => Promise<void> | void>
 > = {
@@ -200,10 +177,7 @@ async function loginUsingViewsFallingBackToPeople(phone: string) {
         client = c
     } catch {
         const { person: p, client: c } =
-            await getFixturesForActiveTest().people.loginAsDemoPerson(
-                phone,
-                true
-            )
+            await getFixturesForActiveTest().people.loginAsDemoPerson(phone)
         person = p
         client = c
     }
@@ -1025,4 +999,27 @@ async function fakeRegisterListeners() {
 function getFixturesForActiveTest() {
     const Test = SpruceTestResolver.getActiveTest()
     return FakerTracker.getFixtures(Test.cwd)
+}
+
+type Person = SpruceSchemas.Spruce.v2020_07_22.Person
+type Location = SpruceSchemas.Spruce.v2020_07_22.Location
+type Skill = SpruceSchemas.Spruce.v2020_07_22.Skill
+type Role = SpruceSchemas.Spruce.v2020_07_22.Role
+
+/** @ts-ignore */
+type Client = MercuryClient
+
+interface FakedData {
+    fakedOwners?: Person[]
+    fakedTeammates?: Person[]
+    fakedManagers?: Person[]
+    fakedGuests: Person[]
+    fakedPeople: Person[]
+    fakedSkills: Skill[]
+    fakedGroupManagers: Person[]
+}
+
+interface Class {
+    cwd: string
+    __fakerSetup?: boolean
 }

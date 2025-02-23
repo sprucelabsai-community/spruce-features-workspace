@@ -4,6 +4,7 @@ import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
 import dotenv from 'dotenv'
 import { TestConnectFactory } from '../../types/fixture.types'
 import generateRandomName from './generateRandomName'
+import MercuryFixture from './MercuryFixture'
 
 dotenv.config()
 
@@ -14,7 +15,7 @@ type Client = ClientPromise extends PromiseLike<infer C> ? C : ClientPromise
 
 export default class PersonFixture {
     private connectToApi: Factory
-    private lastLoggedIn?: {
+    private firstLoggedIn?: {
         person: Person
         client: Client
         token: string
@@ -65,16 +66,29 @@ export default class PersonFixture {
     }
 
     public async loginAsDemoPerson(
-        phone?: string,
-        shouldCache?: boolean
+        phone?: string
     ): Promise<{ person: Person; client: Client; token: string }> {
-        if (
-            shouldCache &&
-            this.lastLoggedIn &&
-            (!phone ||
-                formatPhoneNumber(phone) === this.lastLoggedIn.person.phone)
-        ) {
-            return this.lastLoggedIn
+        let phoneFormated = phone ? formatPhoneNumber(phone) : undefined
+
+        const defaultClient = MercuryFixture.getDefaultClient() as any
+        const isDefaultClient =
+            defaultClient &&
+            (!phone || defaultClient?.auth?.person?.phone === phoneFormated)
+
+        if (isDefaultClient) {
+            return {
+                client: defaultClient,
+                person: defaultClient.auth.person,
+                token: defaultClient.auth.token,
+            }
+        }
+
+        const isFirstLoggedIn =
+            this.firstLoggedIn &&
+            (!phone || phoneFormated === this.firstLoggedIn.person.phone)
+
+        if (isFirstLoggedIn) {
+            return this.firstLoggedIn!
         }
 
         const client = (await this.connectToApi({
@@ -128,8 +142,8 @@ export default class PersonFixture {
         //@ts-ignore
         client.auth = { person, token }
 
-        if (shouldCache) {
-            this.lastLoggedIn = { person, client, token }
+        if (!this.firstLoggedIn) {
+            this.firstLoggedIn = { person, client, token }
         }
 
         return { person, client, token }

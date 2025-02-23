@@ -452,10 +452,8 @@ export default class ViewFixture {
         person: SpruceSchemas.Spruce.v2020_07_22.Person
         client: Client
     }> {
-        const { person, token, client } = await this.people.loginAsDemoPerson(
-            phone,
-            true
-        )
+        const { person, token, client } =
+            await this.people.loginAsDemoPerson(phone)
 
         this.permissions.getAuthenticator().setSessionToken(token, person)
 

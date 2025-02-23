@@ -161,8 +161,6 @@ export default class MercuryFixture {
     private static setDefaultContract(contract: any) {
         //@ts-ignore
         MercuryClientFactory.setDefaultContract(contract)
-        if (!contract) {
-        }
         //@ts-ignore
         MercuryTestClient.emitter?.mixinOnlyUniqueSignatures(contract)
     }
