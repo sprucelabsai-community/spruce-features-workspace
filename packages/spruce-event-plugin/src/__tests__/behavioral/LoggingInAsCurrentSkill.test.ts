@@ -17,7 +17,7 @@ export default class LoggingInAsCurrentSkillTest extends AbstractEventPluginTest
 
     @test()
     protected static async logsInAsSkillIfEnvVarsAreSet() {
-        const skill = await this.Fixture('skill').seedDemoSkill({
+        const skill = await this.skills.seedDemoSkill({
             name: 'event test skill',
         })
 

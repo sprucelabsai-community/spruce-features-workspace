@@ -110,15 +110,23 @@ export default class MercuryFixture {
     public static setDefaultContractToLocalEventsIfExist(cwd: string) {
         if (cwd in this.contractsByCwd) {
             MercuryFixture.setDefaultContract(this.contractsByCwd[cwd])
+            return
         }
 
-        if (
+        let contract: EventContract | undefined
+
+        const shouldImport =
             MercuryFixture.shouldAutoImportContracts &&
             diskUtil.doesBuiltHashSprucePathExist(cwd)
-        ) {
-            const contract = this.loadEventContract(cwd)
-            this.contractsByCwd[cwd] = contract
-            contract && MercuryFixture.setDefaultContract(contract)
+        if (shouldImport) {
+            contract = this.loadEventContract(cwd)
+        } else {
+            contract = coreEventContracts[0]
+        }
+
+        this.contractsByCwd[cwd] = contract
+        if (contract) {
+            MercuryFixture.setDefaultContract(contract)
         }
     }
 

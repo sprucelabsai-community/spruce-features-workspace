@@ -11,6 +11,7 @@ export default class BootingASkillDelaysConnectTest extends AbstractEventPluginT
     private static currentSkill: Skill
     protected static async beforeEach() {
         await super.beforeEach()
+
         const skill = await this.skills.seedDemoSkill({
             creatorPhone: DEMO_NUMBER_DELAYED_CONNECT,
         })

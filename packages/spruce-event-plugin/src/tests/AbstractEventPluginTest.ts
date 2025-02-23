@@ -16,7 +16,9 @@ export default class AbstractEventPluginTest extends AbstractSpruceFixtureTest {
 
         this.eventFaker = new EventFaker()
         this.cwd = await this.generateSkillFromTestPath('skill')
+
         EventFeaturePlugin.shouldClientUseEventContracts(false)
+        MercuryFixture.setShouldMixinCoreEventContractsWhenImportingLocal(true)
 
         await MercuryFixture.beforeEach(this.cwd)
     }
