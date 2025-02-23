@@ -17,12 +17,11 @@ export default function login(phone: string) {
         ViewFixture.setShouldAutomaticallyResetAuth(false)
 
         let proxyGenerator: any
+        let client: MercuryClient | undefined
 
         SpruceTestResolver.onWillCallBeforeAll(async () => {
             MercuryClientFactory.setIsTestMode(true)
         })
-
-        let client: MercuryClient | undefined
 
         SpruceTestResolver.onDidCallBeforeAll(async () => {
             const viewFixture = FakerTracker.getFixtures(Class.cwd).views

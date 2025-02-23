@@ -7,6 +7,7 @@ import {
 import { assert, SpruceTestResolver } from '@sprucelabs/test-utils'
 import { FixtureName } from '../..'
 import FakerTracker from '../../FakerTracker'
+import FixtureWarehouse from '../fixtures/FixtureWarehourse'
 import MercuryFixture from '../fixtures/MercuryFixture'
 import SeedFixture from '../fixtures/SeedFixture'
 import StoreFixture from '../fixtures/StoreFixture'
@@ -116,15 +117,14 @@ function attachSeeder(
     totalToSeed: number | undefined,
     params?: any[]
 ) {
-    //@ts-ignore
-    const fixtureMap: Record<SeedTarget, string> = {
-        locations: 'seed',
-        organizations: 'seed',
-        teammates: 'seed',
-        guests: 'seed',
-        groupManagers: 'seed',
-        managers: 'seed',
-        owners: 'seed',
+    const fixtureMap: Partial<Record<SeedTarget, string>> = {
+        locations: 'seeder',
+        organizations: 'seeder',
+        teammates: 'seeder',
+        guests: 'seeder',
+        groupManagers: 'seeder',
+        managers: 'seeder',
+        owners: 'seeder',
     }
 
     //@ts-ignore
@@ -151,16 +151,17 @@ function attachSeeder(
 
     const method = (methodMap[storeName] ?? 'seed') as any
     const optionsKey = keyMap[storeName] ?? 'totalToSeed'
-    const fixtureName = (fixtureMap[storeName] ?? 'store') as FixtureName
+    const fixtureName = (fixtureMap[storeName] ??
+        'stores') as keyof FixtureWarehouse
     const options = { [optionsKey]: totalToSeed }
 
     return async function () {
         const ActiveTest = SpruceTestResolver.getActiveTest()
-        let fixture = FakerTracker.getFixtures(ActiveTest.cwd).Fixture(
-            fixtureName
-        )
+        const fixtures = FakerTracker.getFixtures(ActiveTest.cwd)
 
-        if (fixtureName === 'store') {
+        let fixture = fixtures[fixtureName]!
+
+        if (fixtureName === 'stores') {
             fixture = await (fixture as StoreFixture).getStore(
                 storeName as StoreName
             )
@@ -175,6 +176,7 @@ function attachSeeder(
         )
 
         const args = [options, ...(params ?? [])]
+
         //@ts-ignore
         await fixture[method](...args)
     }

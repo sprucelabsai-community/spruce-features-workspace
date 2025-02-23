@@ -25,12 +25,14 @@ export default class ResettingAccountAfterAllTestsTest extends AbstractSpruceFix
         await this.organizations.seedDemoOrganization({
             phone: DEMO_NUMBER_ACCOUNT_AFTER_ALL_RESET,
         })
+
+        await this.wait(5000)
     }
 }
 
-void FakerTracker.getFixtures(process.cwd()).organizations.seedDemoOrganization(
-    {
+void FakerTracker.getFixtures(process.cwd())
+    .Fixture('organization')
+    .seedDemoOrganization({
         name: 'Outside of test',
         phone: DEMO_NUMBER_ACCOUNT_AFTER_ALL_RESET,
-    }
-)
+    })
