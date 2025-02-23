@@ -200,7 +200,10 @@ async function loginUsingViewsFallingBackToPeople(phone: string) {
         client = c
     } catch {
         const { person: p, client: c } =
-            await getFixturesForActiveTest().people.loginAsDemoPerson(phone)
+            await getFixturesForActiveTest().people.loginAsDemoPerson(
+                phone,
+                true
+            )
         person = p
         client = c
     }

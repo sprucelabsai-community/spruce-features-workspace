@@ -84,17 +84,18 @@ export default class FixtureFactory {
                     })
                 fixture = new OrganizationFixture({
                     people,
-                    roles: this.Fixture('role'),
+                    //@ts-ignore
+                    roles: options?.roles ?? this.Fixture('role'),
                 }) as FixtureMap[Name]
                 break
             }
             case 'skill': {
                 const personFixture =
                     //@ts-ignore
-                    options?.personFixture ?? this.Fixture('person')
+                    options?.people ?? this.Fixture('person')
 
                 fixture = new SkillFixture({
-                    personFixture,
+                    people: personFixture,
                     connectToApi: mercuryFixture.getConnectFactory(),
                 }) as FixtureMap[Name]
                 break
@@ -109,7 +110,8 @@ export default class FixtureFactory {
             }
             case 'location': {
                 fixture = new LocationFixture({
-                    roles: this.Fixture('role'),
+                    //@ts-ignore
+                    roles: options?.roles ?? this.Fixture('role'),
                     //@ts-ignore
                     people: options?.people ?? this.Fixture('person'),
                     organizations:
@@ -120,9 +122,13 @@ export default class FixtureFactory {
             }
             case 'seed':
                 fixture = new SeedFixture({
-                    organizations: this.Fixture('organization'),
-                    locations: this.Fixture('location'),
-                    people: this.Fixture('person'),
+                    organizations:
+                        //@ts-ignore
+                        options?.organizations ?? this.Fixture('organization'),
+                    //@ts-ignore
+                    locations: options?.locations ?? this.Fixture('location'),
+                    //@ts-ignore
+                    people: options?.people ?? this.Fixture('person'),
                 }) as FixtureMap[Name]
                 break
             case 'permission':
@@ -137,8 +143,8 @@ export default class FixtureFactory {
                     )
                 }
                 fixture = new ViewFixture({
-                    //@ts-ignore
-                    people: options?.personFixture ?? this.Fixture('person'),
+                    //@ts-ignore
+                    people: options?.people ?? this.Fixture('person'),
                     connectToApi: mercuryFixture.getConnectFactory(),
                     fixtureFactory: this,
                     namespace: this.namespace,

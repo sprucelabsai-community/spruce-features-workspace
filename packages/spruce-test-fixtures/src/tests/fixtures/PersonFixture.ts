@@ -65,9 +65,11 @@ export default class PersonFixture {
     }
 
     public async loginAsDemoPerson(
-        phone?: string
+        phone?: string,
+        shouldCache?: boolean
     ): Promise<{ person: Person; client: Client; token: string }> {
         if (
+            shouldCache &&
             this.lastLoggedIn &&
             (!phone ||
                 formatPhoneNumber(phone) === this.lastLoggedIn.person.phone)
@@ -126,9 +128,11 @@ export default class PersonFixture {
         //@ts-ignore
         client.auth = { person, token }
 
-        this.lastLoggedIn = { person, client, token }
+        if (shouldCache) {
+            this.lastLoggedIn = { person, client, token }
+        }
 
-        return this.lastLoggedIn
+        return { person, client, token }
     }
 
     public async destroy() {}

@@ -72,7 +72,11 @@ export default class FixtureWarehouse {
 
     public get views(): ViewFixture {
         if (!this._views) {
-            this._views = this.Fixture('view')
+            this._views = this.Fixture('view', {
+                people: this.people,
+                organizations: this.organizations,
+                locations: this.locations,
+            })
         }
         return this._views
     }
@@ -101,18 +105,28 @@ export default class FixtureWarehouse {
     public set roles(fixture: RoleFixture | undefined) {
         this._roles = fixture
     }
+
     public get locations(): LocationFixture {
         if (!this._locations) {
-            this._locations = this.Fixture('location')
+            this._locations = this.Fixture('location', {
+                organizations: this.organizations,
+                people: this.people,
+                roles: this.roles,
+            })
         }
         return this._locations
     }
+
     public set locations(fixture: LocationFixture | undefined) {
         this._locations = fixture
     }
+
     public get organizations(): OrganizationFixture {
         if (!this._organizations) {
-            this._organizations = this.Fixture('organization')
+            this._organizations = this.Fixture('organization', {
+                people: this.people,
+                roles: this.roles,
+            })
         }
         return this._organizations
     }
@@ -130,16 +144,24 @@ export default class FixtureWarehouse {
     }
     public get seeder(): SeedFixture {
         if (!this._seeder) {
-            this._seeder = this.Fixture('seed')
+            this._seeder = this.Fixture('seed', {
+                locations: this.locations,
+                organizations: this.organizations,
+                people: this.people,
+            })
         }
         return this._seeder
     }
+
     public set seeder(fixture: SeedFixture | undefined) {
         this._seeder = fixture
     }
+
     public get skills(): SkillFixture {
         if (!this._skills) {
-            this._skills = this.Fixture('skill')
+            this._skills = this.Fixture('skill', {
+                people: this.people,
+            })
         }
         return this._skills
     }

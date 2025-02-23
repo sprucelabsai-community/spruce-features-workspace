@@ -60,13 +60,15 @@ export default class ViewFixture {
     private static scope?: SpyScope
     private static shouldAutomaticallyResetAuthenticator = true
     private static viewClient?: Client
+
+    protected people: PersonFixture
+    protected organizations: OrganizationFixture
+    protected locations: LocationFixture
+
     protected vcDir: string
     private controllerMap?: Record<string, any>
     private connectToApi: Factory
     private namespace: string
-    private people: PersonFixture
-    private orgs: OrganizationFixture
-    private locations: LocationFixture
     private proxyDecorator: ClientProxyDecorator
     private locale: Locale
     private permissions: PermissionFixture
@@ -83,6 +85,8 @@ export default class ViewFixture {
     public constructor(options: {
         connectToApi: Factory
         people: PersonFixture
+        organizations?: OrganizationFixture
+        locations?: LocationFixture
         fixtureFactory: FixtureFactory
         vcDir?: string
         cwd?: string
@@ -94,6 +98,8 @@ export default class ViewFixture {
         const {
             connectToApi,
             people,
+            organizations: orgs,
+            locations,
             fixtureFactory,
             vcDir,
             cwd,
@@ -109,19 +115,23 @@ export default class ViewFixture {
         this.controllerMap = options?.controllerMap
         this.namespace = namespace
         this.proxyDecorator = proxyDecorator
-        this.orgs = fixtureFactory.Fixture('organization', {
-            people: this.people,
-        })
+        this.organizations =
+            orgs ??
+            fixtureFactory.Fixture('organization', {
+                people: this.people,
+            })
         this.permissions = permissions
         if (!ViewFixture.device) {
             ViewFixture.device = new SpyDevice()
         }
 
         this.locale = new LocaleImpl()
-        this.locations = fixtureFactory.Fixture('location', {
-            people: this.people,
-            organizations: this.orgs,
-        })
+        this.locations =
+            locations ??
+            fixtureFactory.Fixture('location', {
+                people: this.people,
+                organizations: this.organizations,
+            })
     }
 
     public addPlugin(name: string, plugin: ViewControllerPlugin) {
@@ -395,7 +405,7 @@ export default class ViewFixture {
     public getScope() {
         if (!ViewFixture.scope) {
             ViewFixture.scope = new SpyScope({
-                organizationFixture: this.orgs,
+                organizationFixture: this.organizations,
                 locationFixture: this.locations,
             })
         }
@@ -442,8 +452,10 @@ export default class ViewFixture {
         person: SpruceSchemas.Spruce.v2020_07_22.Person
         client: Client
     }> {
-        const { person, token, client } =
-            await this.people.loginAsDemoPerson(phone)
+        const { person, token, client } = await this.people.loginAsDemoPerson(
+            phone,
+            true
+        )
 
         this.permissions.getAuthenticator().setSessionToken(token, person)
 

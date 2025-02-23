@@ -15,24 +15,23 @@ export interface SeedDemoSkillValues {
 }
 
 export default class SkillFixture {
-    private personFixture: PersonFixture
+    private people: PersonFixture
     private connectToApi: Factory
     private skills: { client: MercuryClient; skill: Skill }[] = []
     private skillCounter = process.pid
 
     public constructor(options: {
-        personFixture: PersonFixture
+        people: PersonFixture
         connectToApi: Factory
     }) {
         this.connectToApi = options.connectToApi
-        this.personFixture = options.personFixture
+        this.people = options.people
     }
 
     public async seedDemoSkill(options?: SeedDemoSkillValues) {
         const { creatorPhone, ...values } = options ?? {}
 
-        const { client } =
-            await this.personFixture.loginAsDemoPerson(creatorPhone)
+        const { client } = await this.people.loginAsDemoPerson(creatorPhone)
 
         const [{ skill }] = await client.emitAndFlattenResponses(
             'register-skill::v2020_12_25',

@@ -8,7 +8,7 @@ import RoleFixture from './RoleFixture'
 
 export default class LocationFixture {
     private people: PersonFixture
-    private orgs: OrganizationFixture
+    private organizations: OrganizationFixture
     private roles: RoleFixture
     private locationCounter = 0
     private static locationCount = 0
@@ -19,7 +19,7 @@ export default class LocationFixture {
         roles: RoleFixture
     }) {
         this.people = options.people
-        this.orgs = options.organizations
+        this.organizations = options.organizations
         this.roles = options.roles
     }
 
@@ -30,13 +30,13 @@ export default class LocationFixture {
         let { organizationId: orgId, ...rest } = values ?? {}
 
         if (!orgId) {
-            const last = await this.orgs.getNewestOrganization(
+            const last = await this.organizations.getNewestOrganization(
                 values?.phone ?? undefined
             )
             if (last) {
                 orgId = last.id
             } else {
-                const org = await this.orgs.seedDemoOrganization({
+                const org = await this.organizations.seedDemoOrganization({
                     name: 'Org to support seed location',
                     phone: values?.phone ?? undefined,
                 })
@@ -92,7 +92,7 @@ export default class LocationFixture {
         const { client } = await this.people.loginAsDemoPerson()
 
         if (!organizationId) {
-            const org = await this.orgs.getNewestOrganization()
+            const org = await this.organizations.getNewestOrganization()
             assert.isTruthy(
                 org,
                 `You gotta @seed('locations', 1) before you can get the newest location.`
@@ -120,7 +120,7 @@ export default class LocationFixture {
         const { client } = await this.people.loginAsDemoPerson()
 
         if (!organizationId) {
-            const org = await this.orgs.getNewestOrganization()
+            const org = await this.organizations.getNewestOrganization()
             if (!org) {
                 throw new Error(
                     `You have to @seed('organizations',1) before you can list locations.`

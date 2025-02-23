@@ -157,6 +157,7 @@ export default class SeedFixture {
 
         if (!organizationId) {
             const org = await this.organizations.getNewestOrganization()
+
             assert.isTruthy(
                 org,
                 `You gotta @seed('organizations',1) before seeding people.`

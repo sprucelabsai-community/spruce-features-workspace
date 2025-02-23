@@ -117,7 +117,7 @@ export default class SkillFixtureTest extends AbstractSpruceFixtureTest {
     @test()
     protected static canPassThroughPersonFixture() {
         const personFixture = this.Fixture('person')
-        const fixture = this.Fixture('skill', { personFixture })
+        const fixture = this.Fixture('skill', { people: personFixture })
 
         //@ts-ignore
         assert.isEqual(fixture.personFixture, personFixture)

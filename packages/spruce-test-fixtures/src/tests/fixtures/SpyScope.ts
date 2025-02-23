@@ -25,6 +25,7 @@ export default class SpyScope implements Scope {
 
     public async getCurrentOrganization() {
         this.assertScopedByOrg()
+
         if (this.currentOrgId === null) {
             return null
         } else if (this.currentOrgId) {

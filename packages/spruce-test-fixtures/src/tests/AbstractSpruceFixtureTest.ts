@@ -35,17 +35,13 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
     protected static async beforeAll() {
         env.config = () => {}
         await super.beforeAll()
-
         await FixtureFactory.beforeAll()
-
         console.error = testLog.error
     }
 
     protected static async beforeEach() {
         await super.beforeEach()
-
         await FixtureFactory.beforeEach(this.cwd)
-
         FakerTracker.resetFixtureWarehouse()
     }
 
