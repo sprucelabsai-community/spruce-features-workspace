@@ -1,8 +1,6 @@
-import { fake } from '@sprucelabs/spruce-test-fixtures'
 import AbstractSpruceTest, { test, assert } from '@sprucelabs/test-utils'
 import MockMessageInterface from '../../../interfaces/MockMessageInterface'
 
-@fake.login()
 export default class SpyMessageBeforeAndAfterEachTest extends AbstractSpruceTest {
     @test()
     protected static async throwsIfInstantiatingTwoWithoutCallingAfterEach() {
