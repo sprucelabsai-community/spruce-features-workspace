@@ -9,13 +9,13 @@ import {
     DEMO_NUMBER,
     DEMO_NUMBER_ACCOUNT_AFTER_ALL_RESET,
     DEMO_NUMBER_DECORATORS,
-} from '../../../tests/constants'
+} from '../../../../tests/constants'
 import fake, {
     fakeTargetToPropName,
     pluralToSingular,
-} from '../../../tests/decorators/fake'
-import { CoreSeedTarget } from '../../../tests/decorators/seed'
-import AbstractFakeDecoratorTest from '../../support/AbstractFakeDecoratorTest'
+} from '../../../../tests/decorators/fake'
+import { CoreSeedTarget } from '../../../../tests/decorators/seed'
+import AbstractFakeDecoratorTest from '../../../support/AbstractFakeDecoratorTest'
 
 export default class FakeDecoratorTest extends AbstractFakeDecoratorTest {
     private static client: MercuryClient
@@ -55,7 +55,9 @@ export default class FakeDecoratorTest extends AbstractFakeDecoratorTest {
 
     @test()
     protected static async fakesGetPerson() {
+        debugger
         await this.fakeLogin()
+        debugger
 
         const [{ person }] = await this.client.emitAndFlattenResponses(
             'get-person::v2020_12_25',
@@ -347,9 +349,12 @@ export default class FakeDecoratorTest extends AbstractFakeDecoratorTest {
 
     @test()
     protected static async fakesSkillLifecycleEvents() {
+        await this.fakeLogin()
+
         await this.client.emitAndFlattenResponses(
             'unregister-listeners::v2020_12_25'
         )
+
         await this.client.emitAndFlattenResponses(
             'sync-event-contracts::v2020_12_25',
             {
@@ -366,6 +371,8 @@ export default class FakeDecoratorTest extends AbstractFakeDecoratorTest {
 
     @test()
     protected static async callingRegisterProxyTokenOnAnonClientDoesNotThrough() {
+        await this.fakeLogin()
+
         const client = await this.mercury.connectToApi({
             shouldReUseClient: false,
         })

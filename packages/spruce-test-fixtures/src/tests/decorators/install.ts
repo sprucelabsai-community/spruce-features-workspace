@@ -1,4 +1,5 @@
-import { assert } from '@sprucelabs/test-utils'
+import { assert, SpruceTestResolver } from '@sprucelabs/test-utils'
+import FakerTracker from '../../FakerTracker'
 
 export default function install() {}
 install.skills = (...namespaces: string[]) => {
@@ -6,10 +7,10 @@ install.skills = (...namespaces: string[]) => {
         assert.fail(`You must pass the skill namespaces so I can install them.`)
     }
     return function (Class: any, key: string, descriptor: any) {
-        const old = descriptor.value.bind(Class)
+        const old = descriptor.value
 
         descriptor.value = async (...args: any[]) => {
-            const orgsFixture = Class.Fixture('organization')
+            const orgsFixture = FakerTracker.fixtures.Fixture('organization')
             const latestOrg = await orgsFixture.getNewestOrganization()
 
             assert.isTruthy(
@@ -22,7 +23,10 @@ install.skills = (...namespaces: string[]) => {
                 namespaces,
             })
 
-            return old(...args)
+            const Test = SpruceTestResolver.getActiveTest()
+            const bound = old.bind(Test)
+
+            return bound(...args)
         }
     }
 }

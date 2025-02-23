@@ -2,27 +2,28 @@ import { randomInt } from 'crypto'
 import { AddressFieldValue } from '@sprucelabs/schema'
 import { eventAssertUtil } from '@sprucelabs/spruce-event-utils'
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
-import { test, assert } from '@sprucelabs/test-utils'
+import { test, assert, suite } from '@sprucelabs/test-utils'
 import { errorAssert, generateId } from '@sprucelabs/test-utils'
-import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
+import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
 import {
-    DEMO_NUMBER,
     DEMO_NUMBER_HIRING,
-    DEMO_NUMBER_INSTALLING_SKILLS,
     DEMO_NUMBER_ORGANIZATION_FIXTURE,
-} from '../../tests/constants'
-import fake from '../../tests/decorators/fake'
-import { RoleBase } from '../../types/fixture.types'
+    DEMO_NUMBER_INSTALLING_SKILLS,
+    DEMO_NUMBER,
+} from '../../../tests/constants'
+import fake from '../../../tests/decorators/fake'
+import { RoleBase } from '../../../types/fixture.types'
 
 @fake.login()
+@suite()
 export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
     @test()
-    protected static async canCreateOrganizationFixture() {
+    protected async canCreateOrganizationFixture() {
         assert.isTruthy(this.organizations)
     }
 
     @test()
-    protected static async canSeedOrg() {
+    protected async canSeedOrg() {
         const org = await this.organizations.seedDemoOrganization({
             name: 'my org',
         })
@@ -31,15 +32,11 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
     }
 
     @test()
-    protected static async orgFixtureDestroysOrgs() {
-        debugger
+    protected async orgFixtureDestroysOrgs() {
         const org = await this.Org()
 
-        debugger
         await this.organizations.destroy()
-        debugger
         await this.organizations.destroy()
-        debugger
 
         const client = await this.mercury.connectToApi()
         const results = await client.emit('get-organization::v2020_12_25', {
@@ -48,12 +45,11 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
             },
         })
 
-        debugger
         eventAssertUtil.assertErrorFromResponse(results, 'INVALID_TARGET')
     }
 
     @test()
-    protected static async isNotPartOfOrgtoStart() {
+    protected async isNotPartOfOrgtoStart() {
         const org = await this.Org()
 
         const { person } =
@@ -69,14 +65,14 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
     }
 
     @test()
-    protected static async updatingBadOrgTHrows() {
+    protected async updatingBadOrgTHrows() {
         await assert.doesThrowAsync(() =>
             this.organizations.updateOrganization('aoeu', {})
         )
     }
 
     @test()
-    protected static async canUpdateOrg() {
+    protected async canUpdateOrg() {
         const org = await this.organizations.seedDemoOrganization({
             name: 'my org',
             phone: DEMO_NUMBER_ORGANIZATION_FIXTURE,
@@ -93,7 +89,7 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
     }
 
     @test()
-    protected static async canUpdateOrgAddress() {
+    protected async canUpdateOrgAddress() {
         const org = await this.organizations.seedDemoOrganization({
             name: 'my org',
             phone: DEMO_NUMBER_ORGANIZATION_FIXTURE,
@@ -117,7 +113,7 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
     }
 
     @test()
-    protected static async canMakeOrgPublicAndPrivate() {
+    protected async canMakeOrgPublicAndPrivate() {
         const org = await this.organizations.seedDemoOrganization({
             name: 'my org',
             phone: DEMO_NUMBER_ORGANIZATION_FIXTURE,
@@ -130,7 +126,7 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 
     @test('can add as guest', 'guest')
     @test('can add as teammate', 'teammate')
-    protected static async canAddPersonToOrg(base: RoleBase) {
+    protected async canAddPersonToOrg(base: RoleBase) {
         const { person, org } = await this.seedOrgAndHirePerson(base)
 
         const isHired = await this.isPersonPartOfOrg(person.id, org.id)
@@ -146,7 +142,7 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
         assert.isEqual(roles[0].base, base as any)
     }
 
-    private static async isPersonPartOfOrg(personId: string, orgId: string) {
+    private async isPersonPartOfOrg(personId: string, orgId: string) {
         return await this.organizations.isPartOfOrg({
             personId,
             organizationId: orgId,
@@ -154,7 +150,7 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
     }
 
     @test()
-    protected static async isNotInstalledByDefault() {
+    protected async isNotInstalledByDefault() {
         const { skill, org } = await this.seedOrgAndSkill()
         const isInstalled = await this.organizations.isSkillInstalled(
             skill.id,
@@ -164,14 +160,14 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
     }
 
     @test()
-    protected static async showsAsInstalled() {
+    protected async showsAsInstalled() {
         const { skill, org } = await this.seedOrgAndSkill()
         await this.organizations.installSkill(skill.id, org.id)
         await this.assertSkillIsInstalled(skill.id, org.id)
     }
 
     @test()
-    protected static async cantInstallWithBadSkill() {
+    protected async cantInstallWithBadSkill() {
         const { org } = await this.seedOrgAndSkill()
         const err = await assert.doesThrowAsync(() =>
             this.organizations.installSkillsByNamespace({
@@ -186,7 +182,7 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
     }
 
     @test()
-    protected static async canInstallWithSlug() {
+    protected async canInstallWithSlug() {
         const { skill, org } = await this.seedOrgAndSkill()
         await this.organizations.installSkillsByNamespace({
             organizationId: org.id,
@@ -197,7 +193,7 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
     }
 
     @test()
-    protected static async canInstallSkillFromAnotherPerson() {
+    protected async canInstallSkillFromAnotherPerson() {
         const { skill, org } = await this.seedOrgAndSkill()
 
         const skill2 = await this.skills.seedDemoSkill({
@@ -215,7 +211,7 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
     }
 
     @test()
-    protected static async canDeleteAllExistingOrgs() {
+    protected async canDeleteAllExistingOrgs() {
         const firstFixture = this.Fixture('organization')
 
         await firstFixture.seedDemoOrganization({
@@ -258,7 +254,7 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
     }
 
     @test()
-    protected static async passesThroughAllFieldsToRequest() {
+    protected async passesThroughAllFieldsToRequest() {
         await assert.doesThrowAsync(() =>
             this.Fixture('organization').seedDemoOrganization({
                 //@ts-ignore
@@ -268,7 +264,7 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
     }
 
     @test()
-    protected static canPassPersonFixture() {
+    protected canPassPersonFixture() {
         const personFixture = this.Fixture('person')
         const orgFixture = this.Fixture('organization', {
             people: personFixture,
@@ -279,13 +275,13 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
     }
 
     @test()
-    protected static async canSeedOrgWithNoOptions() {
+    protected async canSeedOrgWithNoOptions() {
         const org = await this.Fixture('organization').seedDemoOrganization()
         assert.isTruthy(org)
     }
 
     @test()
-    protected static async removePersonThrowsWithBadIds() {
+    protected async removePersonThrowsWithBadIds() {
         await assert.doesThrowAsync(() =>
             this.organizations.removePerson({
                 phone: DEMO_NUMBER_HIRING,
@@ -298,7 +294,7 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 
     @test('can remove guest', 'guest')
     @test('can remove teammate', 'teammate')
-    protected static async canRemovePersonFromOrg(roleBase: RoleBase) {
+    protected async canRemovePersonFromOrg(roleBase: RoleBase) {
         const { person, org } = await this.seedOrgAndHirePerson(roleBase)
 
         await this.organizations.removePerson({
@@ -313,14 +309,14 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
         assert.isFalse(isHired)
     }
 
-    private static async Org() {
+    private async Org() {
         return await this.organizations.seedDemoOrganization({
             name: 'my org',
             phone: DEMO_NUMBER_ORGANIZATION_FIXTURE,
         })
     }
 
-    private static async seedOrgAndHirePerson(base: RoleBase) {
+    private async seedOrgAndHirePerson(base: RoleBase) {
         const org = await this.organizations.seedDemoOrganization({
             name: 'my org',
             phone: DEMO_NUMBER_HIRING,
@@ -338,10 +334,7 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
         return { person, org }
     }
 
-    private static async assertSkillIsInstalled(
-        skillId: string,
-        orgId: string
-    ) {
+    private async assertSkillIsInstalled(skillId: string, orgId: string) {
         const isInstalled = await this.organizations.isSkillInstalled(
             skillId,
             orgId
@@ -349,7 +342,7 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
         assert.isTrue(isInstalled)
     }
 
-    private static async seedOrgAndSkill() {
+    private async seedOrgAndSkill() {
         const skill = await this.skills.seedDemoSkill({
             name: 'testing testy',
         })
@@ -359,10 +352,7 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
         return { skill, org }
     }
 
-    private static async assertOrgIsPublicValue(
-        orgId: string,
-        expected: boolean
-    ) {
+    private async assertOrgIsPublicValue(orgId: string, expected: boolean) {
         const org = await this.organizations.getOrganizationById(orgId)
         if (expected) {
             assert.isTrue(org.isPublic)
@@ -371,10 +361,7 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
         }
     }
 
-    private static async setAndAssertOrgIsPublic(
-        orgId: string,
-        isPublic: boolean
-    ) {
+    private async setAndAssertOrgIsPublic(orgId: string, isPublic: boolean) {
         await this.organizations.updateOrganization(orgId, {
             isPublic,
             phone: DEMO_NUMBER_ORGANIZATION_FIXTURE,

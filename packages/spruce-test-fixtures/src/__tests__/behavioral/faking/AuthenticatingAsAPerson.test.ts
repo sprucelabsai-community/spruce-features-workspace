@@ -1,5 +1,6 @@
 import { eventAssertUtil } from '@sprucelabs/spruce-event-utils'
 import { test, assert } from '@sprucelabs/test-utils'
+import FakerTracker from '../../../FakerTracker'
 import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
 import fake from '../../../tests/decorators/fake'
 
@@ -43,8 +44,7 @@ export default class AuthenticatingAsAPersonTest extends AbstractSpruceFixtureTe
             'authenticate::v2020_12_25',
             {
                 payload: {
-                    //@ts-ignore
-                    token: this.fakedTokens[0]?.token,
+                    token: FakerTracker.fakedTokens[0]?.token,
                 },
             }
         )

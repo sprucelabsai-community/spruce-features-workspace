@@ -1,10 +1,10 @@
 import { MercuryClient } from '@sprucelabs/mercury-client'
 import { test, assert } from '@sprucelabs/test-utils'
-import ClientProxyDecorator from '../../ClientProxyDecorator'
-import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
-import { DEMO_NUMBER } from '../../tests/constants'
-import login from '../../tests/decorators/login'
-import MercuryFixture from '../../tests/fixtures/MercuryFixture'
+import ClientProxyDecorator from '../../../ClientProxyDecorator'
+import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
+import { DEMO_NUMBER } from '../../../tests/constants'
+import login from '../../../tests/decorators/login'
+import MercuryFixture from '../../../tests/fixtures/MercuryFixture'
 
 MercuryFixture.setShouldRequireLocalListeners(false)
 

@@ -1,5 +1,5 @@
 import { SpruceSchemas } from '@sprucelabs/mercury-types'
-import { assert, test } from '@sprucelabs/test-utils'
+import { assert, suite, test } from '@sprucelabs/test-utils'
 import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
 import { DEMO_NUMBER_SKILL_DECORATORS } from '../../../tests/constants'
 import install from '../../../tests/decorators/install'
@@ -10,29 +10,30 @@ import MercuryFixture from '../../../tests/fixtures/MercuryFixture'
 MercuryFixture.setShouldRequireLocalListeners(false)
 
 @login(DEMO_NUMBER_SKILL_DECORATORS)
-export default class UsingDecoratorsToInstallSkills extends AbstractSpruceFixtureTest {
-    private static skill: SpruceSchemas.Spruce.v2020_07_22.Skill
+@suite()
+export default class UsingDecoratorsToInstallSkillsInstance extends AbstractSpruceFixtureTest {
+    private skill!: SpruceSchemas.Spruce.v2020_07_22.Skill
 
-    protected static async beforeEach() {
+    protected async beforeEach() {
         await super.beforeEach()
-        debugger
+
         this.skill = await this.skills.seedDemoSkill()
     }
 
     @test()
-    protected static throwsWhenMissingNamespaces() {
+    protected throwsWhenMissingNamespaces() {
         assert.doesThrow(() => install.skills())
     }
 
     @test()
-    protected static returnsDecorator() {
+    protected returnsDecorator() {
         const decorator = this.getDecorator()
         assert.isFunction(decorator)
     }
 
     @test()
     @seed('organizations', 1)
-    protected static async callsOriginalTestMethod() {
+    protected async callsOriginalTestMethod() {
         let wasHit = false
         await this.executeDecorator({
             testFunction: async () => {
@@ -46,13 +47,17 @@ export default class UsingDecoratorsToInstallSkills extends AbstractSpruceFixtur
     @test('passes args 1', [1])
     @test('passes args 1', ['hello', 'world'])
     @seed('organizations', 1)
-    protected static async passesThroughOriginalArgs(args: any) {
-        debugger
+    protected async passesThroughOriginalArgs(args: any) {
         let passedArgs: any
 
+        debugger
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
+        const me = this
         await this.executeDecorator({
-            testFunction: async (...args: any[]) => {
+            async testFunction(...args: any[]) {
                 passedArgs = args
+                //@ts-ignore
+                assert.isEqual(this, me)
             },
             args,
         })
@@ -61,7 +66,7 @@ export default class UsingDecoratorsToInstallSkills extends AbstractSpruceFixtur
     }
 
     @test()
-    protected static async throwsWithoutSeedingOrg() {
+    protected async throwsWithoutSeedingOrg() {
         await assert.doesThrowAsync(() =>
             this.executeDecorator({ testFunction: async () => {} })
         )
@@ -69,7 +74,7 @@ export default class UsingDecoratorsToInstallSkills extends AbstractSpruceFixtur
 
     @test()
     @seed('organizations', 1)
-    protected static async throwsWhenInstallingBadSkill() {
+    protected async throwsWhenInstallingBadSkill() {
         await assert.doesThrowAsync(() =>
             this.executeDecorator({
                 testFunction: async () => {},
@@ -80,7 +85,7 @@ export default class UsingDecoratorsToInstallSkills extends AbstractSpruceFixtur
 
     @test()
     @seed('organizations', 1)
-    protected static async doesNotEmitDidInstall() {
+    protected async doesNotEmitDidInstall() {
         let passedPayload: any
 
         await login
@@ -97,7 +102,7 @@ export default class UsingDecoratorsToInstallSkills extends AbstractSpruceFixtur
         assert.isFalse(passedPayload.shouldNotifySkillOfInstall)
     }
 
-    private static async executeDecorator(options: {
+    private async executeDecorator(options: {
         testFunction: () => Promise<any>
         args?: any[]
         namespaces?: string[]
@@ -109,13 +114,17 @@ export default class UsingDecoratorsToInstallSkills extends AbstractSpruceFixtur
         }
 
         const decorator = this.getDecorator(namespaces)
-        decorator(this, 'myTest', mockDescriptor)
+        decorator(
+            UsingDecoratorsToInstallSkillsInstance,
+            'myTest',
+            mockDescriptor
+        )
 
         //@ts-ignore
         await mockDescriptor.value(...(args ? args : []))
     }
 
-    private static getDecorator(namespaces?: string[]) {
+    private getDecorator(namespaces?: string[]) {
         const slugs = namespaces ?? [this.skill.slug]
         return install.skills(...slugs)
     }

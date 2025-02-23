@@ -3,7 +3,7 @@ import {
     BASE_ROLES_WITH_META,
     Organization,
 } from '@sprucelabs/spruce-core-schemas'
-import { test, assert } from '@sprucelabs/test-utils'
+import { test, assert, TestLifecycleListeners } from '@sprucelabs/test-utils'
 import { errorAssert, generateId } from '@sprucelabs/test-utils'
 import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
 import fake from '../../../tests/decorators/fake'
@@ -72,7 +72,8 @@ export default class FakingRoleEventsTest extends AbstractSpruceFixtureTest {
             }
         })
 
-        await this.afterEach()
+        await TestLifecycleListeners.emitWillRunAfterEach()
+        await TestLifecycleListeners.emitDidRunAfterEach()
 
         await this.listRolesForOrg()
 

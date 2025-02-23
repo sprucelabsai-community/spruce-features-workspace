@@ -11,6 +11,7 @@ import {
     StoreFixture,
     ViewFixture,
 } from '../..'
+import FakerTracker from '../../FakerTracker'
 import PermissionFixture from '../../tests/fixtures/PermissionFixture'
 import SeedFixture from '../../tests/fixtures/SeedFixture'
 
@@ -86,6 +87,7 @@ const toCheck = [
 export default class ResettingFixtureFieldsBeforeEachTest extends AbstractSpruceFixtureTest {
     @test()
     protected static shouldBeAbleToGetAllFixtures() {
+        debugger
         for (const check of toCheck) {
             const fixture = this.getFixture(check)
 
@@ -137,8 +139,8 @@ export default class ResettingFixtureFieldsBeforeEachTest extends AbstractSpruce
         return this[check.prop]
     }
 
-    private static getPrivateProp(check: { privatePropName: string }) {
+    private static getPrivateProp(check: (typeof toCheck)[number]) {
         //@ts-ignore
-        return this[check.privatePropName]
+        return FakerTracker.fixtures[check.privatePropName]
     }
 }

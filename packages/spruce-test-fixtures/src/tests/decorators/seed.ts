@@ -4,7 +4,9 @@ import {
     EMPLOYED_BASE_ROLES,
     GUEST_BASE_ROLES,
 } from '@sprucelabs/spruce-core-schemas'
-import { assert } from '@sprucelabs/test-utils'
+import { assert, SpruceTestResolver } from '@sprucelabs/test-utils'
+import FakerTracker from '../../FakerTracker'
+import MercuryFixture from '../fixtures/MercuryFixture'
 import SeedFixture from '../fixtures/SeedFixture'
 import StoreFixture from '../fixtures/StoreFixture'
 import login from './login'
@@ -28,36 +30,24 @@ export default function seed(
     return function (Class: any, key: string, descriptor: any) {
         if (
             (storeName === 'organizations' || storeName === 'locations') &&
-            !Class.beforeAll.__patched
+            !Class.__isSeedingPatched
         ) {
-            const beforeAll = Class.beforeAll.bind(Class)
-
             Class.__shouldResetAccount = false
 
-            Class.beforeAll = async () => {
-                await beforeAll()
-
+            SpruceTestResolver.onDidCallBeforeAll(async () => {
                 await login.on('did-login', async () => {
                     await forceResetAccount(Class)
                 })
+            })
 
-                await login.on('will-logout', async () => {
-                    // await forceResetAccount(Class)
-                    // if (shouldResetTestClientOnWillLogout) {
-                    //
-                    // 	MercuryTestClient.reset()
-                    // }
-                })
-            }
-
-            Class.beforeAll.__patched = true
+            Class.__isSeedingPatched = true
         }
 
         StoreFixture.setShouldAutomaticallyResetDatabase(false)
         StoreFixture.resetDbConnectionSettings()
 
         const seed = attachSeeder(storeName, Class, totalToSeed, params)
-        const bound = descriptor?.value?.bind?.(Class)
+        const unbound = descriptor?.value
 
         attachCleanup(Class)
 
@@ -66,7 +56,10 @@ export default function seed(
 
             await seed()
 
-            await bound?.(...args)
+            const Test = SpruceTestResolver.getActiveTest()
+            const allArgs = [Test, args]
+
+            await unbound?.apply(...allArgs)
         }
     }
 }
@@ -88,7 +81,7 @@ async function optionallyReset(Class: any, key: string) {
 async function reset(Class: any) {
     if (Class.__shouldResetAccount) {
         Class.__shouldResetAccount = false
-        await Class.Fixture('seed').resetAccount()
+        await FakerTracker.fixtures.seeder.resetAccount()
     }
     await StoreFixture.reset()
 }
@@ -102,20 +95,16 @@ seed.disableResettingTestClient = () => {
 function attachCleanup(Class: any) {
     if (!Class.__attachedStoreAfterEach) {
         Class.__attachedStoreAfterEach = true
-        const afterEach = Class.afterEach.bind(Class)
-        const beforeEach = Class.beforeEach.bind(Class)
 
-        Class.afterEach = async () => {
-            await afterEach?.()
+        SpruceTestResolver.onWillCallBeforeEach(async (Class) => {
+            MercuryFixture.setDefaultContractToLocalEventsIfExist(Class.cwd)
+            await optionallyReset(Class, 'beforeEach')
+        })
 
+        SpruceTestResolver.onDidCallAfterEach(async () => {
             shouldResetTestClient && MercuryTestClient.reset()
             delete Class.__lastReset
-        }
-
-        Class.beforeEach = async () => {
-            await optionallyReset(Class, 'beforeEach')
-            await beforeEach?.()
-        }
+        })
     }
 }
 
@@ -164,22 +153,26 @@ function attachSeeder(
     const options = { [optionsKey]: totalToSeed }
 
     return async function () {
-        let fixture = TestClass.Fixture(fixtureName)
+        //@ts-ignore
+        let fixture = FakerTracker.fixtures.Fixture(fixtureName)
 
         if (fixtureName === 'store') {
+            //@ts-ignore
             fixture = await fixture.getStore(storeName)
-            options.TestClass = TestClass
+            options.TestClass = SpruceTestResolver.getActiveTest()
         } else {
             TestClass.__shouldResetAccount = true
         }
 
         assert.isFunction(
+            //@ts-ignore
             fixture[method],
             `The '${storeName}' store you created needs a method called 'seed(options: StoreSeedOptions)' in order for seeding. You must implement it yourself... for now.`
         )
 
         const args = [options, ...(params ?? [])]
 
+        //@ts-ignore
         await fixture[method](...args)
     }
 }

@@ -1,7 +1,8 @@
 import { MercuryClientFactory, MercuryClient } from '@sprucelabs/mercury-client'
 import { SpruceSchemas } from '@sprucelabs/mercury-types'
-import { assert } from '@sprucelabs/test-utils'
+import { assert, SpruceTestResolver } from '@sprucelabs/test-utils'
 import { MercuryFixture, ViewFixture } from '../..'
+import FakerTracker from '../../FakerTracker'
 
 type Client = MercuryClient
 
@@ -15,15 +16,14 @@ export default function login(phone: string) {
         MercuryFixture.setShouldAutomaticallyClearDefaultClient(false)
         ViewFixture.setShouldAutomaticallyResetAuth(false)
 
-        const beforeAll = Class.beforeAll.bind(Class)
         let proxyGenerator: any
 
-        Class.beforeAll = async () => {
+        SpruceTestResolver.onWillCallBeforeAll(async () => {
             MercuryClientFactory.setIsTestMode(true)
+        })
 
-            await beforeAll()
-
-            const viewFixture = Class.Fixture('view')
+        SpruceTestResolver.onDidCallBeforeAll(async () => {
+            const viewFixture = FakerTracker.fixtures.views
             const { client, person } =
                 await viewFixture.loginAsDemoPerson(phone)
 
@@ -36,27 +36,24 @@ export default function login(phone: string) {
             ViewFixture.lockProxyCacheForPerson(person.id)
 
             await emitDidLogin(client)
-        }
+        })
 
-        const beforeEach = Class.beforeEach.bind(Class)
-
-        Class.beforeEach = async () => {
-            Class.Fixture('view').setProxyTokenGenerator(proxyGenerator)
+        SpruceTestResolver.onWillCallBeforeEach(async () => {
             MercuryFixture.setDefaultContractToLocalEventsIfExist(Class.cwd)
-            await beforeEach?.()
-        }
+            FakerTracker.fixtures.views.setProxyTokenGenerator(proxyGenerator)
+        })
 
-        const afterAll = Class.afterAll.bind(Class)
+        let client: MercuryClient | undefined
 
-        Class.afterAll = async () => {
-            const client = MercuryFixture.getDefaultClient()
+        SpruceTestResolver.onWillCallAfterAll(async () => {
+            client = MercuryFixture.getDefaultClient()
             await emitWillLogout(client)
-
             MercuryFixture.clearDefaultClient()
-            await afterAll()
+        })
 
+        SpruceTestResolver.onDidCallAfterAll(async () => {
             await client?.disconnect()
-        }
+        })
     }
 }
 

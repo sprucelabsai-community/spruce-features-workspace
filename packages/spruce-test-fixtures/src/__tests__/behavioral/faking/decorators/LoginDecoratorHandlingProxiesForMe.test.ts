@@ -1,13 +1,13 @@
 import { eventResponseUtil } from '@sprucelabs/spruce-event-utils'
 import { test, assert } from '@sprucelabs/test-utils'
-import ClientProxyDecorator from '../../ClientProxyDecorator'
-import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
+import ClientProxyDecorator from '../../../../ClientProxyDecorator'
+import AbstractSpruceFixtureTest from '../../../../tests/AbstractSpruceFixtureTest'
 import {
     DEMO_NUMBER_LOGIN_DECORATOR,
     DEMO_NUMBER_LOGIN_DECORATOR_2,
-} from '../../tests/constants'
-import login from '../../tests/decorators/login'
-import MercuryFixture from '../../tests/fixtures/MercuryFixture'
+} from '../../../../tests/constants'
+import login from '../../../../tests/decorators/login'
+import MercuryFixture from '../../../../tests/fixtures/MercuryFixture'
 
 MercuryFixture.setShouldRequireLocalListeners(false)
 

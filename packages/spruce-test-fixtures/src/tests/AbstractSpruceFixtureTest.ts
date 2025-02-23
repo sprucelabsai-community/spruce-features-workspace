@@ -11,8 +11,9 @@ import {
     AbstractSkillTest,
     SkillFactoryOptions,
 } from '@sprucelabs/spruce-skill-booter'
-import { diskUtil, Skill, testLog } from '@sprucelabs/spruce-skill-utils'
+import { Skill, testLog } from '@sprucelabs/spruce-skill-utils'
 import { assert } from '@sprucelabs/test-utils'
+import FakerTracker from '../FakerTracker'
 import {
     FixtureConstructorOptionsMap,
     FixtureName,
@@ -31,38 +32,11 @@ import ViewFixture from './fixtures/ViewFixture'
 const env = require('dotenv')
 
 export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTest {
-    public static fakedPerson: Person
-    public static fakedPeople: Person[]
-    public static fakedTeammates: Person[]
-    public static fakedOwners: Person[]
-    public static fakedRoles: Role[]
-    public static fakedSkills: ISkill[]
-    public static fakedManagers: Person[]
-    public static fakedGuests: Person[]
-    public static fakedGroupManagers: Person[]
-
-    private static _fakedOrganizations: Organization[] = []
-    private static _fakedLocations: Location[] = []
-
-    public static cwd: string
-
-    public static _fakedClient?: MercuryClient
-    private static _views?: ViewFixture
-    private static _roles?: RoleFixture
-    private static _locations?: LocationFixture
-    private static _organizations?: OrganizationFixture
-    private static _people?: PersonFixture
-    private static _seeder?: SeedFixture
-    private static _skills?: SkillFixture
-    private static _mercury?: MercuryFixture
-    private static _stores?: StoreFixture
-    private static _database?: DatabaseFixture
-    private static _permissions?: PermissionFixture
-    private static _fixtures?: FixtureFactory
-
     protected static async beforeAll() {
         env.config = () => {}
         await super.beforeAll()
+
+        FakerTracker.setCwd(this.cwd)
         await FixtureFactory.beforeAll()
 
         console.error = testLog.error
@@ -71,56 +45,18 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
     protected static async beforeEach() {
         await super.beforeEach()
         await FixtureFactory.beforeEach(this.cwd)
-
-        this._fixtures = undefined
-        this.clearLocalFixtures()
-    }
-
-    private static clearLocalFixtures() {
-        this.views = undefined
-        this.roles = undefined
-        this.locations = undefined
-        this.organizations = undefined
-        this.people = undefined
-        this.seeder = undefined
-        this.skills = undefined
-        this.mercury = undefined
-        this.stores = undefined
-        this.database = undefined
-        this.permissions = undefined
+        FakerTracker.resetFixtureWarehouse()
     }
 
     protected static async afterEach() {
         await super.afterEach()
         await FixtureFactory.afterEach()
-        this.clearLocalFixtures()
+        FakerTracker.resetFixtureWarehouse()
     }
 
     protected static async afterAll() {
         await super.afterAll()
         await FixtureFactory.afterAll()
-    }
-
-    public static Fixture<Name extends FixtureName>(
-        name: Name,
-        options?: Partial<FixtureConstructorOptionsMap[Name]>
-    ) {
-        if (!this._fixtures) {
-            const pkg = diskUtil.resolvePath(this.cwd, 'package.json')
-            let namespace: string | undefined
-
-            if (diskUtil.doesFileExist(pkg)) {
-                const values = JSON.parse(diskUtil.readFile(pkg))
-                namespace = values?.skill?.namespace
-            }
-
-            this._fixtures = new FixtureFactory({
-                cwd: this.cwd,
-                namespace,
-            })
-        }
-
-        return this._fixtures.Fixture(name, options)
     }
 
     protected static async bootAndRegisterNewSkill(
@@ -157,153 +93,422 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
         key: string,
         options?: SkillFactoryOptions | undefined
     ): Promise<Skill> {
+        debugger
         const skill = await super.SkillFromTestDir(key, options)
-        this._fixtures = undefined
+        FakerTracker.setCwd(this.cwd)
         return skill
+    }
+
+    public static Fixture<Name extends FixtureName>(
+        name: Name,
+        options?: Partial<FixtureConstructorOptionsMap[Name]>
+    ) {
+        return FakerTracker.fixtures.Fixture(name, options)
+    }
+
+    public static get fakedPerson() {
+        return FakerTracker.fakedPerson
+    }
+
+    public static set fakedPerson(person: Person) {
+        FakerTracker.fakedPerson = person
+    }
+
+    public static get fakedPeople() {
+        return FakerTracker.fakedPeople
+    }
+
+    public static set fakedPeople(people: Person[]) {
+        FakerTracker.fakedPeople = people
+    }
+
+    public static get fakedTeammates() {
+        return FakerTracker.fakedTeammates
+    }
+
+    public static set fakedTeammates(teammates: Person[]) {
+        FakerTracker.fakedTeammates = teammates
+    }
+
+    public static get fakedOwners() {
+        return FakerTracker.fakedOwners
+    }
+
+    public static set fakedOwners(owners: Person[]) {
+        FakerTracker.fakedOwners = owners
+    }
+
+    public static get fakedRoles() {
+        return FakerTracker.fakedRoles
+    }
+
+    public static set fakedRoles(roles: Role[]) {
+        FakerTracker.fakedRoles = roles
+    }
+
+    public static get fakedSkills() {
+        return FakerTracker.fakedSkills
+    }
+
+    public static set fakedSkills(skills: ISkill[]) {
+        FakerTracker.fakedSkills = skills
+    }
+
+    public static get fakedManagers() {
+        return FakerTracker.fakedManagers
+    }
+
+    public static set fakedManagers(managers: Person[]) {
+        FakerTracker.fakedManagers = managers
+    }
+
+    public static get fakedGuests() {
+        return FakerTracker.fakedGuests
+    }
+
+    public static set fakedGuests(guests: Person[]) {
+        FakerTracker.fakedGuests = guests
+    }
+
+    public static get fakedGroupManagers() {
+        return FakerTracker.fakedGroupManagers
+    }
+
+    public static set fakedGroupManagers(groupManagers: Person[]) {
+        FakerTracker.fakedGroupManagers = groupManagers
     }
 
     public static get fakedClient(): MercuryClient {
         assert.isTruthy(
-            this._fakedClient,
+            FakerTracker.fakedClient,
             `You gotta @fake.login() on your test class to get the test client.`
         )
-        return this._fakedClient
+        return FakerTracker.fakedClient
     }
 
     public static set fakedClient(client: MercuryClient) {
-        this._fakedClient = client
+        FakerTracker.fakedClient = client
     }
 
     public static get fakedOrganizations(): Organization[] {
-        return this._fakedOrganizations
+        return FakerTracker.fakedOrganizations
     }
 
     public static set fakedOrganizations(orgs) {
-        assert.isAbove(
-            this._fakedOrganizations.length,
-            0,
-            `You gotta @seed('organizations', 1) (and use @fake.login(...)) before getting faked orgs.`
-        )
-        this._fakedOrganizations = orgs
+        FakerTracker.fakedOrganizations = orgs
     }
 
     public static get fakedLocations(): Location[] {
         assert.isAbove(
-            this._fakedLocations.length,
+            FakerTracker.fakedLocations.length,
             0,
             `You gotta @seed('locations', 1) (and use @fake.login(...)) before getting faked locations.`
         )
-        return this._fakedLocations
+        return FakerTracker.fakedLocations
     }
 
     public static set fakedLocations(locations) {
-        this._fakedLocations = locations
+        FakerTracker.fakedLocations = locations
     }
 
     public static get views(): ViewFixture {
-        if (!this._views) {
-            this._views = this.Fixture('view')
-        }
-        return this._views
+        return FakerTracker.fixtures.views
     }
 
     public static set views(fixture: ViewFixture | undefined) {
-        this._views = fixture
+        FakerTracker.fixtures.views = fixture
     }
 
     public static get permissions(): PermissionFixture {
-        if (!this._permissions) {
-            this._permissions = this.Fixture('permission')
-        }
-        return this._permissions
+        return FakerTracker.fixtures.permissions
     }
 
     public static set permissions(fixture: PermissionFixture | undefined) {
-        this._permissions = fixture
+        FakerTracker.fixtures.permissions = fixture
     }
 
     public static get roles(): RoleFixture {
-        if (!this._roles) {
-            this._roles = this.Fixture('role')
-        }
-        return this._roles
+        return FakerTracker.fixtures.roles
     }
+
     public static set roles(fixture: RoleFixture | undefined) {
-        this._roles = fixture
+        FakerTracker.fixtures.roles = fixture
     }
+
     public static get locations(): LocationFixture {
-        if (!this._locations) {
-            this._locations = this.Fixture('location')
-        }
-        return this._locations
+        return FakerTracker.fixtures.locations
     }
+
     public static set locations(fixture: LocationFixture | undefined) {
-        this._locations = fixture
+        FakerTracker.fixtures.locations = fixture
     }
+
     public static get organizations(): OrganizationFixture {
-        if (!this._organizations) {
-            this._organizations = this.Fixture('organization')
-        }
-        return this._organizations
+        return FakerTracker.fixtures.organizations
     }
+
     public static set organizations(fixture: OrganizationFixture | undefined) {
-        this._organizations = fixture
+        FakerTracker.fixtures.organizations = fixture
     }
+
     public static get people(): PersonFixture {
-        if (!this._people) {
-            this._people = this.Fixture('person')
-        }
-        return this._people
+        return FakerTracker.fixtures.people
     }
+
     public static set people(fixture: PersonFixture | undefined) {
-        this._people = fixture
+        FakerTracker.fixtures.people = fixture
     }
+
     public static get seeder(): SeedFixture {
-        if (!this._seeder) {
-            this._seeder = this.Fixture('seed')
-        }
-        return this._seeder
+        return FakerTracker.fixtures.seeder
     }
+
     public static set seeder(fixture: SeedFixture | undefined) {
-        this._seeder = fixture
+        FakerTracker.fixtures.seeder = fixture
     }
+
     public static get skills(): SkillFixture {
-        if (!this._skills) {
-            this._skills = this.Fixture('skill')
-        }
-        return this._skills
+        return FakerTracker.fixtures.skills
     }
+
     public static set skills(fixture: SkillFixture | undefined) {
-        this._skills = fixture
+        FakerTracker.fixtures.skills = fixture
     }
+
     public static get mercury(): MercuryFixture {
-        if (!this._mercury) {
-            this._mercury = this.Fixture('mercury')
-        }
-        return this._mercury
+        return FakerTracker.fixtures.mercury
     }
+
     public static set mercury(fixture: MercuryFixture | undefined) {
-        this._mercury = fixture
+        FakerTracker.fixtures.mercury = fixture
     }
+
     public static get stores(): StoreFixture {
-        if (!this._stores) {
-            this._stores = this.Fixture('store')
-        }
-        return this._stores
+        return FakerTracker.fixtures.stores
     }
 
     public static set stores(fixture: StoreFixture | undefined) {
-        this._stores = fixture
+        FakerTracker.fixtures.stores = fixture
     }
 
     public static get database(): DatabaseFixture {
-        if (!this._database) {
-            this._database = this.Fixture('database')
-        }
-        return this._database
+        return FakerTracker.fixtures.database
     }
 
     public static set database(fixture: DatabaseFixture | undefined) {
-        this._database = fixture
+        FakerTracker.fixtures.database = fixture
+    }
+
+    //instance version of things above
+    protected async beforeEach() {
+        await super.beforeEach()
+
+        await FixtureFactory.beforeEach(this.cwd)
+        FakerTracker.resetFixtureWarehouse()
+    }
+
+    protected async afterEach() {
+        await super.afterEach()
+        await FixtureFactory.afterEach()
+    }
+
+    public Fixture<Name extends FixtureName>(
+        name: Name,
+        options?: Partial<FixtureConstructorOptionsMap[Name]>
+    ) {
+        return FakerTracker.fixtures.Fixture(name, options)
+    }
+
+    public get fakedPerson() {
+        return FakerTracker.fakedPerson
+    }
+
+    public set fakedPerson(person: Person) {
+        FakerTracker.fakedPerson = person
+    }
+
+    public get fakedPeople() {
+        return FakerTracker.fakedPeople
+    }
+
+    public set fakedPeople(people: Person[]) {
+        FakerTracker.fakedPeople = people
+    }
+
+    public get fakedTeammates() {
+        return FakerTracker.fakedTeammates
+    }
+
+    public set fakedTeammates(teammates: Person[]) {
+        FakerTracker.fakedTeammates = teammates
+    }
+
+    public get fakedOwners() {
+        return FakerTracker.fakedOwners
+    }
+
+    public set fakedOwners(owners: Person[]) {
+        FakerTracker.fakedOwners = owners
+    }
+
+    public get fakedRoles() {
+        return FakerTracker.fakedRoles
+    }
+
+    public set fakedRoles(roles: Role[]) {
+        FakerTracker.fakedRoles = roles
+    }
+
+    public get fakedSkills() {
+        return FakerTracker.fakedSkills
+    }
+
+    public set fakedSkills(skills: ISkill[]) {
+        FakerTracker.fakedSkills = skills
+    }
+
+    public get fakedManagers() {
+        return FakerTracker.fakedManagers
+    }
+
+    public set fakedManagers(managers: Person[]) {
+        FakerTracker.fakedManagers = managers
+    }
+
+    public get fakedGuests() {
+        return FakerTracker.fakedGuests
+    }
+
+    public set fakedGuests(guests: Person[]) {
+        FakerTracker.fakedGuests = guests
+    }
+
+    public get fakedGroupManagers() {
+        return FakerTracker.fakedGroupManagers
+    }
+
+    public set fakedGroupManagers(groupManagers: Person[]) {
+        FakerTracker.fakedGroupManagers = groupManagers
+    }
+
+    public get fakedClient(): MercuryClient {
+        assert.isTruthy(
+            FakerTracker.fakedClient,
+            `You gotta @fake.login() on your test class to get the test client.`
+        )
+        return FakerTracker.fakedClient
+    }
+
+    public set fakedClient(client: MercuryClient) {
+        FakerTracker.fakedClient = client
+    }
+
+    public get fakedOrganizations(): Organization[] {
+        return FakerTracker.fakedOrganizations
+    }
+
+    public set fakedOrganizations(orgs) {
+        FakerTracker.fakedOrganizations = orgs
+    }
+
+    public get fakedLocations(): Location[] {
+        assert.isAbove(
+            FakerTracker.fakedLocations.length,
+            0,
+            `You gotta @seed('locations', 1) (and use @fake.login(...)) before getting faked locations.`
+        )
+        return FakerTracker.fakedLocations
+    }
+
+    public set fakedLocations(locations) {
+        FakerTracker.fakedLocations = locations
+    }
+
+    public get views(): ViewFixture {
+        return FakerTracker.fixtures.views
+    }
+
+    public set views(fixture: ViewFixture | undefined) {
+        FakerTracker.fixtures.views = fixture
+    }
+
+    public get permissions(): PermissionFixture {
+        return FakerTracker.fixtures.permissions
+    }
+
+    public set permissions(fixture: PermissionFixture | undefined) {
+        FakerTracker.fixtures.permissions = fixture
+    }
+
+    public get roles(): RoleFixture {
+        return FakerTracker.fixtures.roles
+    }
+
+    public set roles(fixture: RoleFixture | undefined) {
+        FakerTracker.fixtures.roles = fixture
+    }
+
+    public get locations(): LocationFixture {
+        return FakerTracker.fixtures.locations
+    }
+
+    public set locations(fixture: LocationFixture | undefined) {
+        FakerTracker.fixtures.locations = fixture
+    }
+
+    public get organizations(): OrganizationFixture {
+        return FakerTracker.fixtures.organizations
+    }
+
+    public set organizations(fixture: OrganizationFixture | undefined) {
+        FakerTracker.fixtures.organizations = fixture
+    }
+
+    public get people(): PersonFixture {
+        return FakerTracker.fixtures.people
+    }
+
+    public set people(fixture: PersonFixture | undefined) {
+        FakerTracker.fixtures.people = fixture
+    }
+
+    public get seeder(): SeedFixture {
+        return FakerTracker.fixtures.seeder
+    }
+
+    public set seeder(fixture: SeedFixture | undefined) {
+        FakerTracker.fixtures.seeder = fixture
+    }
+
+    public get skills(): SkillFixture {
+        return FakerTracker.fixtures.skills
+    }
+
+    public set skills(fixture: SkillFixture | undefined) {
+        FakerTracker.fixtures.skills = fixture
+    }
+
+    public get mercury(): MercuryFixture {
+        return FakerTracker.fixtures.mercury
+    }
+
+    public set mercury(fixture: MercuryFixture | undefined) {
+        FakerTracker.fixtures.mercury = fixture
+    }
+
+    public get stores(): StoreFixture {
+        return FakerTracker.fixtures.stores
+    }
+
+    public set stores(fixture: StoreFixture | undefined) {
+        FakerTracker.fixtures.stores = fixture
+    }
+
+    public get database(): DatabaseFixture {
+        return FakerTracker.fixtures.database
+    }
+
+    public set database(fixture: DatabaseFixture | undefined) {
+        FakerTracker.fixtures.database = fixture
     }
 }

@@ -15,21 +15,18 @@ import {
 } from '@sprucelabs/spruce-core-schemas'
 import { EventTarget } from '@sprucelabs/spruce-event-utils'
 import { namesUtil, testLog } from '@sprucelabs/spruce-skill-utils'
-import { assert } from '@sprucelabs/test-utils'
+import { assert, SpruceTestResolver } from '@sprucelabs/test-utils'
 import { generateId } from '@sprucelabs/test-utils'
 import SpruceError from '../../errors/SpruceError'
+import FakerTracker from '../../FakerTracker'
 import AbstractSpruceFixtureTest from '../AbstractSpruceFixtureTest'
 import eventFaker from '../eventFaker'
 import generateRandomName from '../fixtures/generateRandomName'
 import MercuryFixture from '../fixtures/MercuryFixture'
-import PermissionFixture from '../fixtures/PermissionFixture'
-import PersonFixture from '../fixtures/PersonFixture'
-import SeedFixture from '../fixtures/SeedFixture'
 import ViewFixture from '../fixtures/ViewFixture'
 import seed, { CoreSeedTarget } from './seed'
 
 type Person = SpruceSchemas.Spruce.v2020_07_22.Person
-type Organization = SpruceSchemas.Spruce.v2020_07_22.Organization
 type Location = SpruceSchemas.Spruce.v2020_07_22.Location
 type Skill = SpruceSchemas.Spruce.v2020_07_22.Skill
 type Role = SpruceSchemas.Spruce.v2020_07_22.Role
@@ -37,7 +34,7 @@ type Role = SpruceSchemas.Spruce.v2020_07_22.Role
 /** @ts-ignore */
 type Client = MercuryClient
 
-interface ClassWithFakes {
+interface FakedData {
     fakedOwners?: Person[]
     fakedTeammates?: Person[]
     fakedManagers?: Person[]
@@ -47,44 +44,13 @@ interface ClassWithFakes {
     fakedGroupManagers: Person[]
 }
 
-interface InstalledSkill {
-    skillId: string
-    orgId: string
-}
-
-interface PersonRole {
-    roleId: string
-    personId: string
-    organizationId?: string | null
-    locationId?: string | null
-}
-
-interface Class extends ClassWithFakes {
-    fakedPerson?: Person
-    _fakedOrganizations: Organization[]
-    fakedInstalledSkills: InstalledSkill[]
-    fakedPeopleRoles: PersonRole[]
-    fakedProxyTokens: { personId: string; token: string }[]
-    fakedTokens: { personId: string; token: string }[]
-    fakedRoles: Role[]
-    _fakedLocations: Location[]
-    fakedClient: Client
-    people: PersonFixture
-    views: ViewFixture
-    permissions: PermissionFixture
+interface Class {
     cwd: string
     __fakerSetup?: boolean
-    beforeEach?: () => Promise<void>
-    beforeAll?: () => Promise<void>
-    afterEach?: () => Promise<void>
-    seeder: SeedFixture
 }
 
 const strategies: Partial<
-    Record<
-        CoreSeedTarget,
-        (Class: Class, total: number) => Promise<void> | void
-    >
+    Record<CoreSeedTarget, (total: number) => Promise<void> | void>
 > = {
     organizations: seedOrganizations,
     locations: seedLocations,
@@ -95,28 +61,13 @@ const strategies: Partial<
     owners: buildSeeder('owners'),
 }
 
-function resetFakedRecords(Class: Class) {
+function resetFakedRecords() {
     if (shouldSkipNextReset) {
         shouldSkipNextReset = false
         return
     }
 
-    Class._fakedOrganizations = []
-    Class._fakedLocations = []
-    Class.fakedTeammates = []
-    Class.fakedInstalledSkills = []
-    Class.fakedPeopleRoles = []
-    Class.fakedManagers = []
-    Class.fakedOwners = []
-    Class.fakedGroupManagers = []
-    Class.fakedGuests = []
-    Class.fakedRoles = []
-    Class.fakedPeople = Class.fakedPeople?.[0] ? [Class.fakedPeople[0]] : []
-    Class.fakedSkills = []
-    Class.fakedTokens = Class.fakedTokens?.[0] ? [Class.fakedTokens[0]] : []
-    Class.fakedProxyTokens = Class.fakedProxyTokens?.[0]
-        ? [Class.fakedProxyTokens[0]]
-        : []
+    FakerTracker.resetFakedData()
 }
 
 export default function fake(target: CoreSeedTarget, total: number) {
@@ -128,7 +79,7 @@ export default function fake(target: CoreSeedTarget, total: number) {
 
         descriptor.value = async (...args: any[]) => {
             assert.isTruthy(
-                Class.fakedPerson,
+                FakerTracker.fakedPerson,
                 `You gotta @faker.login(...) before you can create fake '${target}'!`
             )
 
@@ -136,7 +87,7 @@ export default function fake(target: CoreSeedTarget, total: number) {
 
             assert.isTruthy(strategy, `Faking ${target} is not ready yet!`)
 
-            await strategy?.(Class, total)
+            await strategy?.(total)
             await bound?.(...args)
         }
     }
@@ -164,40 +115,32 @@ fake.login = (phone = '555-000-0000') => {
             return
         }
 
-        const Class = TestClass as Class
-        const beforeEach = Class.beforeEach?.bind(Class)
-        const beforeAll = Class.beforeAll?.bind(Class)
-        const afterEach = Class.afterEach?.bind(Class)
-
         if (shouldPassHookCalls) {
             const old = MercuryFixture.beforeEach.bind(MercuryFixture)
             MercuryFixture.beforeEach = async (...args: any[]) => {
                 //@ts-ignore
                 await old(...args)
-                await setupFakeListeners(Class)
+                await setupFakeListeners()
             }
         }
 
-        Class.beforeAll = async () => {
-            await beforeAll?.()
+        SpruceTestResolver.onDidCallBeforeAll(async () => {
+            resetFakedRecords()
 
-            resetFakedRecords(Class)
+            await setupFakeListeners()
 
-            await setupFakeListeners(Class)
+            await login(phone)
 
-            await login(Class, phone)
+            MercuryFixture.setDefaultClient(FakerTracker.fakedClient)
+        })
 
-            MercuryFixture.setDefaultClient(Class.fakedClient)
-        }
+        SpruceTestResolver.onDidCallAfterEach(async () => {
+            await setupFakeListeners()
+        })
 
-        Class.afterEach = async () => {
-            await setupFakeListeners(Class)
-            await afterEach?.()
-        }
-
-        Class.beforeEach = async () => {
-            resetFakedRecords(Class)
-            await setupFakeListeners(Class)
+        SpruceTestResolver.onWillCallBeforeEach(async () => {
+            resetFakedRecords()
+            await setupFakeListeners()
 
             if (!TestClass.cwd) {
                 return
@@ -206,20 +149,19 @@ fake.login = (phone = '555-000-0000') => {
             ViewFixture.resetAuth()
 
             try {
-                if (Class.fakedPerson) {
-                    const auth = Class.permissions.getAuthenticator()
+                if (FakerTracker.fakedPerson) {
+                    const auth =
+                        FakerTracker.fixtures.permissions.getAuthenticator()
                     auth.setSessionToken(
                         //@ts-ignore
-                        Class.fakedClient.auth.token,
-                        Class.fakedPerson!
+                        FakerTracker.fakedClient.auth.token,
+                        FakerTracker.fakedPerson!
                     )
                 }
             } catch {
                 //hits if not in skill because cant find nameplace
             }
-
-            shouldPassHookCalls && (await beforeEach?.())
-        }
+        })
     }
 }
 
@@ -232,11 +174,8 @@ fake.getPerson = () => {
     return fake.getClient()!.auth!.person as Person
 }
 
-async function login(Class: Class, phone: string) {
-    const { person, client } = await loginUsingViewsFallingBackToPeople(
-        Class,
-        phone
-    )
+async function login(phone: string) {
+    const { person, client } = await loginUsingViewsFallingBackToPeople(phone)
 
     if (!person.firstName) {
         givePersonName(person)
@@ -246,28 +185,28 @@ async function login(Class: Class, phone: string) {
 
     //@ts-ignore
     client.auth.person = person
-    Class.fakedClient = client
-    Class.fakedPerson = person
+    FakerTracker.fakedClient = client
+    FakerTracker.fakedPerson = person
 }
 
-async function loginUsingViewsFallingBackToPeople(Class: Class, phone: string) {
+async function loginUsingViewsFallingBackToPeople(phone: string) {
     let person: Person | undefined
     let client: MercuryClient | undefined
 
     try {
         const { person: p, client: c } =
-            await Class.views.loginAsDemoPerson(phone)
+            await FakerTracker.fixtures.views.loginAsDemoPerson(phone)
         person = p
         client = c
     } catch {
         const { person: p, client: c } =
-            await Class.people.loginAsDemoPerson(phone)
+            await FakerTracker.fixtures.people.loginAsDemoPerson(phone)
         person = p
         client = c
     }
 
     return {
-        person: Class.fakedPeople.find((p) => p.id === person!.id)!,
+        person: FakerTracker.fakedPeople.find((p) => p.id === person!.id)!,
         client,
     }
 }
@@ -279,41 +218,40 @@ function givePersonName(person: SpruceSchemas.Spruce.v2020_07_22.Person) {
     person.lastName = names.lastName
 }
 
-async function setupFakeListeners(Class: Class) {
+async function setupFakeListeners() {
     await Promise.all([
-        fakeSkillLifecycleEvents(Class),
-        fakeGetPerson(Class),
-        fakeRegisterProxyToken(Class),
-        fakeWhoAmI(Class),
-        fakeInstallEvents(Class),
-        fakeAuthenticationEvents(Class),
-        fakeAddRole(Class),
-        fakeGetRole(Class),
-        fakeRemoveRole(Class),
-        fakeListRoles(Class),
-        fakeListPeople(Class),
-        fakeUpdatePerson(Class),
-        fakeListLocations(Class),
-        fakeGetLocation(Class),
-        fakeUpdateLocation(Class),
-        fakeDeleteOrganization(Class),
-        fakeCreateLocation(Class),
-        fakeCreateOrganization(Class),
-        fakeGetOrganization(Class),
-        fakeUpdateOrganization(Class),
-        fakeListOrganization(Class),
+        fakeSkillLifecycleEvents(),
+        fakeGetPerson(),
+        fakeRegisterProxyToken(),
+        fakeWhoAmI(),
+        fakeInstallEvents(),
+        fakeAuthenticationEvents(),
+        fakeAddRole(),
+        fakeGetRole(),
+        fakeRemoveRole(),
+        fakeListRoles(),
+        fakeListPeople(),
+        fakeUpdatePerson(),
+        fakeListLocations(),
+        fakeGetLocation(),
+        fakeUpdateLocation(),
+        fakeDeleteOrganization(),
+        fakeCreateLocation(),
+        fakeCreateOrganization(),
+        fakeGetOrganization(),
+        fakeUpdateOrganization(),
+        fakeListOrganization(),
         fakeRegisterListeners(),
     ])
 }
 
-async function fakeAddRole(Class: Class) {
+async function fakeAddRole() {
     await eventFaker.on('add-role::v2020_12_25', ({ payload, target }) => {
         const { organizationId, locationId } = target ?? {}
         const { roleId } = payload
 
-        const person = getPersonById(Class, payload.personId)
+        const person = getPersonById(payload.personId)
         addPersonAsRoleToLocationOrOrg({
-            Class,
             roleId,
             person,
             organizationId,
@@ -325,27 +263,26 @@ async function fakeAddRole(Class: Class) {
 }
 
 function addPersonAsRoleToLocationOrOrg(options: {
-    Class: Class
     roleId: string
     person: SpruceSchemas.Spruce.v2020_07_22.Person
     organizationId?: string | null
     locationId?: string | null
 }) {
-    const { Class, roleId, person, organizationId, locationId } = options
+    const { roleId, person, organizationId, locationId } = options
 
-    const role = getRoleById(Class, roleId)
+    const role = getRoleById(roleId)
     const key = roleBaseToLocalFakedProp(role.base!)
 
     //@ts-ignore
-    assert.isTruthy(Class[key], `Could not find property ${key}`)
+    assert.isTruthy(FakerTracker[key], `Could not find property ${key}`)
 
-    const idx = Class[key]!.findIndex((p) => p.id === person.id)
+    const idx = FakerTracker[key]!.findIndex((p) => p.id === person.id)
     if (idx === -1) {
         //@ts-ignore
-        Class[key]!.unshift(person)
+        FakerTracker[key]!.unshift(person)
     }
 
-    Class.fakedPeopleRoles.push({
+    FakerTracker.fakedPeopleRoles.push({
         personId: person.id,
         roleId: role.id,
         organizationId,
@@ -353,17 +290,17 @@ function addPersonAsRoleToLocationOrOrg(options: {
     })
 }
 
-function getRoleById(Class: Class, roleId: string) {
-    const role = Class.fakedRoles.find((r) => r.id === roleId)
+function getRoleById(roleId: string) {
+    const role = FakerTracker.fakedRoles.find((r) => r.id === roleId)
     assert.isTruthy(role, `Could not load faked role with the id of ${roleId}.`)
 
     return role
 }
 
-async function fakeGetRole(Class: Class) {
+async function fakeGetRole() {
     await eventFaker.on('get-role::v2020_12_25', ({ target }) => {
         const { roleId } = target
-        const role = Class.fakedRoles.find((r) => r.id === roleId)
+        const role = FakerTracker.fakedRoles.find((r) => r.id === roleId)
         if (!role) {
             throw new SpruceError({
                 code: 'NOT_FOUND',
@@ -376,18 +313,18 @@ async function fakeGetRole(Class: Class) {
     })
 }
 
-async function fakeRemoveRole(Class: Class) {
+async function fakeRemoveRole() {
     await eventFaker.on('remove-role::v2020_12_25', ({ payload }) => {
         const { personId, roleId } = payload
 
-        const role = getRoleById(Class, roleId)
+        const role = getRoleById(roleId)
 
-        const people = Class[roleBaseToLocalFakedProp(role.base!)]
+        const people = FakerTracker[roleBaseToLocalFakedProp(role.base!)]
         const idx = people?.findIndex((p) => p.id === personId) ?? -1
 
         people?.splice(idx, 1)
 
-        Class.fakedPeopleRoles = Class.fakedPeopleRoles.filter(
+        FakerTracker.fakedPeopleRoles = FakerTracker.fakedPeopleRoles.filter(
             (p) => !(p.personId === personId && p.roleId === roleId)
         )
 
@@ -402,11 +339,10 @@ function roleBaseToLocalFakedProp(
 }
 
 function getPersonById(
-    Class: Class,
     personId?: string | null,
     shouldThrowWhenNotFound = true
 ) {
-    const person = Class.fakedPeople.find((p) => p.id === personId)
+    const person = FakerTracker.fakedPeople.find((p) => p.id === personId)
     if (!person && shouldThrowWhenNotFound) {
         throw new SpruceError({
             code: 'INVALID_TARGET',
@@ -416,11 +352,11 @@ function getPersonById(
     return person!
 }
 
-async function fakeUpdatePerson(Class: Class) {
+async function fakeUpdatePerson() {
     await eventFaker.on(
         'update-person::v2020_12_25',
         ({ target, source, payload }) => {
-            const person = Class.fakedPeople.find((p) =>
+            const person = FakerTracker.fakedPeople.find((p) =>
                 target?.personId
                     ? p.id === target?.personId
                     : p.id === source?.personId
@@ -444,7 +380,7 @@ async function fakeUpdatePerson(Class: Class) {
     )
 }
 
-async function fakeListRoles(Class: Class) {
+async function fakeListRoles() {
     await eventFaker.on('list-roles::v2020_12_25', ({ target, payload }) => {
         let { personId, organizationId, locationId } = target ?? {}
         const { shouldIncludeMetaRoles, shouldIncludePrivateRoles } =
@@ -453,7 +389,7 @@ async function fakeListRoles(Class: Class) {
         let roles: Role[] = []
 
         if (personId) {
-            const personRoles = Class.fakedPeopleRoles
+            const personRoles = FakerTracker.fakedPeopleRoles
                 .filter(
                     (p) =>
                         p.personId === personId &&
@@ -462,16 +398,16 @@ async function fakeListRoles(Class: Class) {
                             (p.locationId && p.locationId === locationId) ||
                             (!locationId && !organizationId))
                 )
-                .map((pr) => getRoleById(Class, pr.roleId))
+                .map((pr) => getRoleById(pr.roleId))
 
             roles = personRoles
         } else {
             if (locationId) {
-                organizationId = Class._fakedLocations.find(
+                organizationId = FakerTracker.fakedLocations.find(
                     (l) => l.id === locationId
                 )?.organizationId
             }
-            roles = Class.fakedRoles.filter(
+            roles = FakerTracker.fakedRoles.filter(
                 (r) => r.organizationId === organizationId
             )
         }
@@ -493,7 +429,7 @@ async function fakeListRoles(Class: Class) {
     })
 }
 
-async function fakeListPeople(Class: Class) {
+async function fakeListPeople() {
     await eventFaker.on('list-people::v2020_12_25', ({ payload }) => {
         let people: Person[] = []
 
@@ -508,31 +444,34 @@ async function fakeListPeople(Class: Class) {
         )
 
         for (const base of payload?.roleBases ?? []) {
-            const faked = getFakedRecordsByRoleBase(Class, base)
+            const faked = getFakedRecordsByRoleBase(base)
             if (faked) {
                 people.push(...faked)
             }
         }
 
         return {
-            people: payload?.roleBases ? people : Class.fakedPeople,
+            people: payload?.roleBases ? people : FakerTracker.fakedPeople,
         }
     })
 }
 
-function getFakedRecordsByRoleBase(Class: Class, base: string) {
+function getFakedRecordsByRoleBase(base: string) {
     //@ts-ignore
-    return Class[fakeTargetToPropName(singularToPlural(base))] as
+    return FakerTracker[fakeTargetToPropName(singularToPlural(base))] as
         | Person[]
         | undefined
 }
 
-async function fakeListLocations(Class: Class) {
+async function fakeListLocations() {
     await eventFaker.on(
         'list-locations::v2020_12_25',
         ({ target, payload }) => {
             return {
-                locations: applyPaging(Class._fakedLocations, payload).filter(
+                locations: applyPaging(
+                    FakerTracker.fakedLocations,
+                    payload
+                ).filter(
                     (l) =>
                         !target?.organizationId ||
                         l.organizationId === target?.organizationId
@@ -542,9 +481,9 @@ async function fakeListLocations(Class: Class) {
     )
 }
 
-async function fakeGetLocation(Class: Class) {
+async function fakeGetLocation() {
     await eventFaker.on('get-location::v2020_12_25', ({ target }) => {
-        const match = Class._fakedLocations.find(
+        const match = FakerTracker.fakedLocations.find(
             (l) => l.id === target.locationId
         )
         if (!match) {
@@ -561,41 +500,41 @@ async function fakeGetLocation(Class: Class) {
     })
 }
 
-async function fakeUpdateLocation(Class: Class) {
+async function fakeUpdateLocation() {
     await eventFaker.on(
         'update-location::v2020_12_25',
         ({ target, payload }) => {
             const { locationId } = target
 
-            let idx = Class._fakedLocations.findIndex(
+            let idx = FakerTracker.fakedLocations.findIndex(
                 (l) => l.id === locationId
             )
 
-            if (!Class._fakedLocations[idx]) {
+            if (!FakerTracker.fakedLocations[idx]) {
                 throw new SpruceError({
                     code: 'INVALID_TARGET',
                     friendlyMessage: `I could not find that location to update!`,
                 })
             }
 
-            Class._fakedLocations[idx] = {
-                ...Class._fakedLocations[idx],
+            FakerTracker.fakedLocations[idx] = {
+                ...FakerTracker.fakedLocations[idx],
                 ...(payload as Location),
                 dateUpdated: Date.now(),
             }
 
             return {
-                location: Class._fakedLocations[idx],
+                location: FakerTracker.fakedLocations[idx],
             }
         }
     )
 }
 
-async function fakeDeleteOrganization(Class: Class) {
+async function fakeDeleteOrganization() {
     await eventFaker.on(
         'delete-organization::v2020_12_25',
         ({ target: { organizationId } }) => {
-            const idx = Class._fakedOrganizations.findIndex(
+            const idx = FakerTracker.fakedOrganizations.findIndex(
                 (o) => o.id === organizationId
             )
 
@@ -606,8 +545,8 @@ async function fakeDeleteOrganization(Class: Class) {
                 })
             }
 
-            const match = Class._fakedOrganizations[idx]
-            Class._fakedOrganizations.splice(idx, 1)
+            const match = FakerTracker.fakedOrganizations[idx]
+            FakerTracker.fakedOrganizations.splice(idx, 1)
 
             return {
                 organization: match,
@@ -616,7 +555,7 @@ async function fakeDeleteOrganization(Class: Class) {
     )
 }
 
-async function fakeCreateLocation(Class: Class) {
+async function fakeCreateLocation() {
     await eventFaker.on(
         'create-location::v2020_12_25',
         ({ target, payload, source }) => {
@@ -631,14 +570,15 @@ async function fakeCreateLocation(Class: Class) {
                 slug: payload.slug ?? namesUtil.toKebab(payload.name),
             }
 
-            Class._fakedLocations.unshift(location)
+            FakerTracker.fakedLocations.unshift(location)
 
             if (personId) {
-                const role = Class.fakedRoles.find((r) => r.base === 'owner')!
+                const role = FakerTracker.fakedRoles.find(
+                    (r) => r.base === 'owner'
+                )!
                 addPersonAsRoleToLocationOrOrg({
-                    Class,
                     roleId: role.id,
-                    person: Class.fakedPerson!,
+                    person: FakerTracker.fakedPerson!,
                     locationId: location.id,
                 })
             }
@@ -650,7 +590,7 @@ async function fakeCreateLocation(Class: Class) {
     )
 }
 
-async function fakeCreateOrganization(Class: Class) {
+async function fakeCreateOrganization() {
     await eventFaker.on('create-organization::v2020_12_25', ({ payload }) => {
         const organization = {
             id: generateId(),
@@ -660,15 +600,14 @@ async function fakeCreateOrganization(Class: Class) {
             slug: payload.slug ?? namesUtil.toKebab(payload.name),
         }
 
-        Class._fakedOrganizations.unshift(organization)
+        FakerTracker.fakedOrganizations.unshift(organization)
 
-        const roles = seedRoles(Class, organization.id)
+        const roles = seedRoles(organization.id)
 
         addPersonAsRoleToLocationOrOrg({
-            Class,
             organizationId: organization.id,
             roleId: roles.find((r) => r.base === 'owner')!.id,
-            person: Class.fakedPerson!,
+            person: FakerTracker.fakedPerson!,
         })
 
         return {
@@ -677,14 +616,14 @@ async function fakeCreateOrganization(Class: Class) {
     })
 }
 
-async function fakeGetPerson(Class: Class) {
+async function fakeGetPerson() {
     await eventFaker.on('get-person::v2020_12_25', ({ target }) => {
         assert.isTruthy(
             target?.personId,
             `@fake only supports 'get-person::v2020_12_25' when passing an id. To fake more, use 'eventFaker.on(...)'.`
         )
 
-        const person = getPersonById(Class, target.personId)
+        const person = getPersonById(target.personId)
 
         if (!person) {
             throw new SpruceError({
@@ -699,21 +638,21 @@ async function fakeGetPerson(Class: Class) {
     })
 }
 
-async function fakeSkillLifecycleEvents(Class: Class) {
+async function fakeSkillLifecycleEvents() {
     process.env.SKILL_ID = process.env.SKILL_ID || generateId()
     process.env.SKILL_API_KEY = process.env.SKILL_API_KEY || generateId()
 
     await eventFaker.on('register-skill::v2020_12_25', ({ payload }) => {
         const skill = {
             apiKey: generateId(),
-            creators: [{ personId: Class.fakedPerson!.id }],
+            creators: [{ personId: FakerTracker.fakedPerson!.id }],
             dateCreated: new Date().getTime(),
             id: generateId(),
             ...payload,
             slug: payload.slug ?? generateId(),
         }
 
-        Class.fakedSkills.unshift(skill)
+        FakerTracker.fakedSkills.unshift(skill)
         return {
             skill,
         }
@@ -738,20 +677,20 @@ function buildCasualName(names: {
     }`.trim()
 }
 
-async function fakeGetOrganization(Class: Class) {
+async function fakeGetOrganization() {
     await eventFaker.on('get-organization::v2020_12_25', ({ target }) => {
-        const match = findOrgFromTarget(Class, target)
+        const match = findOrgFromTarget(target)
         return {
             organization: match,
         }
     })
 }
 
-async function fakeUpdateOrganization(Class: Class) {
+async function fakeUpdateOrganization() {
     await eventFaker.on(
         'update-organization::v2020_12_25',
         ({ target, payload }) => {
-            const match = findOrgFromTarget(Class, target)
+            const match = findOrgFromTarget(target)
 
             if (payload?.name) {
                 match.name = payload.name
@@ -776,14 +715,17 @@ async function fakeUpdateOrganization(Class: Class) {
     )
 }
 
-async function fakeListOrganization(Class: Class) {
+async function fakeListOrganization() {
     await eventFaker.on(
         'list-organizations::v2020_12_25',
         (targetAndPayload) => {
             const { payload } = targetAndPayload ?? {}
 
             return {
-                organizations: applyPaging(Class._fakedOrganizations, payload),
+                organizations: applyPaging(
+                    FakerTracker.fakedOrganizations,
+                    payload
+                ),
             }
         }
     )
@@ -797,13 +739,13 @@ function applyPaging<T>(records: T[], payload: any): T[] {
     return copy as any[]
 }
 
-async function seedOrganizations(Class: Class, total: number) {
-    await Class.seeder.seedOrganizations({
+async function seedOrganizations(total: number) {
+    await FakerTracker.fixtures.seeder.seedOrganizations({
         totalOrganizations: total,
     })
 }
 
-function seedRoles(Class: Class, orgId: string) {
+function seedRoles(orgId: string) {
     const roles = BASE_ROLES_WITH_META.map((r) => ({
         id: generateId(),
         name: `Faked ${r.name}`,
@@ -812,44 +754,46 @@ function seedRoles(Class: Class, orgId: string) {
         organizationId: orgId,
         isPublic: r.slug === 'guest',
     }))
-    Class.fakedRoles.push(...roles)
+    FakerTracker.fakedRoles.push(...roles)
 
     return roles
 }
 
-async function seedLocations(Class: Class, total: number) {
-    await Class.seeder.seedAccount({
+async function seedLocations(total: number) {
+    await FakerTracker.fixtures.seeder.seedAccount({
         totalLocations: total,
     })
 }
 
 function buildSeeder(target: CoreSeedTarget) {
-    return async function seed(Class: Class, total: number) {
-        if (Class._fakedLocations.length === 0) {
+    return async function seed(total: number) {
+        if (FakerTracker.fakedLocations.length === 0) {
             assert.fail(
                 `You gotta @seed('locations', 1) before seeding teammates!`
             )
         }
 
         //@ts-ignore
-        await Class.seeder[`seed${upperCaseFirst(target)}`]({
+        await FakerTracker.fixtures.seeder[`seed${upperCaseFirst(target)}`]({
             [`total${upperCaseFirst(target)}`]: total,
         })
     }
 }
 
-async function fakeWhoAmI(Class: Class) {
+async function fakeWhoAmI() {
     await eventFaker.on('whoami::v2020_12_25', (targetAndPayload) => {
         const { source } = targetAndPayload ?? {}
         let { personId, proxyToken } = source ?? {}
 
         if (proxyToken) {
-            personId = Class.fakedProxyTokens.find(
+            personId = FakerTracker.fakedProxyTokens.find(
                 (t) => t.token === proxyToken
             )?.personId
         }
-        const person = getPersonById(Class, personId, false)
-        const skill = Class.fakedSkills.find((s) => s.id === source?.skillId)
+        const person = getPersonById(personId, false)
+        const skill = FakerTracker.fakedSkills.find(
+            (s) => s.id === source?.skillId
+        )
 
         return {
             auth: {
@@ -864,14 +808,14 @@ async function fakeWhoAmI(Class: Class) {
     })
 }
 
-async function fakeRegisterProxyToken(Class: Class) {
+async function fakeRegisterProxyToken() {
     await eventFaker.on(
         'register-proxy-token::v2020_12_25',
         (targeAndPayload) => {
             const { source } = targeAndPayload ?? {}
             const token = generateId()
             if (source?.personId) {
-                Class.fakedProxyTokens.push({
+                FakerTracker.fakedProxyTokens.push({
                     personId: source!.personId!,
                     token,
                 })
@@ -883,22 +827,24 @@ async function fakeRegisterProxyToken(Class: Class) {
     )
 }
 
-async function fakeAuthenticationEvents(Class: Class) {
+async function fakeAuthenticationEvents() {
     await eventFaker.on('request-pin::v2020_12_25', ({ payload }) => {
         const formattedPhone = formatPhoneNumber(payload.phone)
-        let person = Class.fakedPeople.find((p) => p.phone === formattedPhone)
+        let person = FakerTracker.fakedPeople.find(
+            (p) => p.phone === formattedPhone
+        )
 
         if (!person) {
             person =
-                Class.fakedPerson?.phone === formattedPhone
-                    ? Class.fakedPerson
+                FakerTracker.fakedPerson?.phone === formattedPhone
+                    ? FakerTracker.fakedPerson
                     : {
                           id: generateId(),
                           casualName: 'friend',
                           dateCreated: new Date().getTime(),
                           phone: formatPhoneNumber(formattedPhone),
                       }
-            Class.fakedPeople.push(person)
+            FakerTracker.fakedPeople.push(person)
         }
 
         return {
@@ -907,11 +853,11 @@ async function fakeAuthenticationEvents(Class: Class) {
     })
 
     await eventFaker.on('confirm-pin::v2020_12_25', ({ payload }) => {
-        const idx = Class.fakedPeople.findIndex(
+        const idx = FakerTracker.fakedPeople.findIndex(
             (p) => p.phone === payload.challenge
         )
 
-        const person = Class.fakedPeople[idx]
+        const person = FakerTracker.fakedPeople[idx]
 
         if (!person) {
             throw new SpruceError({
@@ -923,7 +869,7 @@ async function fakeAuthenticationEvents(Class: Class) {
         delete person._challenge
 
         const token = generateId()
-        Class.fakedTokens.push({
+        FakerTracker.fakedTokens.push({
             personId: person.id,
             token,
         })
@@ -939,7 +885,7 @@ async function fakeAuthenticationEvents(Class: Class) {
     await eventFaker.on('authenticate::v2020_12_25', ({ payload }) => {
         const { token, apiKey, skillId } = payload ?? {}
 
-        let skill = Class.fakedSkills.find(
+        let skill = FakerTracker.fakedSkills.find(
             (s) => s.apiKey === apiKey && s.id === skillId
         )
 
@@ -969,14 +915,14 @@ async function fakeAuthenticationEvents(Class: Class) {
             }
         }
 
-        const match = Class.fakedTokens.find((f) => f.token === token)
+        const match = FakerTracker.fakedTokens.find((f) => f.token === token)
 
         if (!match) {
             //@ts-ignore
             throw new SpruceError({ code: 'INVALID_AUTH_TOKEN' })
         }
 
-        const person = getPersonById(Class, match.personId)
+        const person = getPersonById(match.personId)
 
         return {
             type: 'authenticated' as const,
@@ -987,17 +933,17 @@ async function fakeAuthenticationEvents(Class: Class) {
     })
 }
 
-async function fakeInstallEvents(Class: Class) {
+async function fakeInstallEvents() {
     await eventFaker.on('is-skill-installed::v2020_12_25', ({ payload }) => {
         return {
-            isInstalled: !!Class.fakedInstalledSkills.find(
+            isInstalled: !!FakerTracker.fakedInstalledSkills.find(
                 (i) => i.skillId === payload?.skillId
             ),
         }
     })
 
     await eventFaker.on('install-skill::v2020_12_25', ({ target, payload }) => {
-        Class.fakedInstalledSkills.push({
+        FakerTracker.fakedInstalledSkills.push({
             orgId: target.organizationId,
             skillId: payload.skillId,
         })
@@ -1007,7 +953,7 @@ async function fakeInstallEvents(Class: Class) {
 
     await eventFaker.on('list-skills::v2020_12_25', ({ payload }) => {
         const namespaces = payload?.namespaces
-        const matches = Class.fakedSkills.filter(
+        const matches = FakerTracker.fakedSkills.filter(
             (s) => (namespaces?.indexOf(s.slug) ?? 0) > -1
         )
 
@@ -1036,7 +982,7 @@ async function fakeInstallEvents(Class: Class) {
 }
 
 export function fakeTargetToPropName(target: CoreSeedTarget) {
-    return `faked${upperCaseFirst(target)}` as keyof ClassWithFakes
+    return `faked${upperCaseFirst(target)}` as keyof FakedData
 }
 
 function upperCaseFirst(target: string) {
@@ -1053,8 +999,8 @@ export function singularToPlural(target: string): string {
 
 let shouldSkipNextReset = false
 
-function findOrgFromTarget(Class: Class, target: EventTarget) {
-    const match = Class._fakedOrganizations.find(
+function findOrgFromTarget(target: EventTarget) {
+    const match = FakerTracker.fakedOrganizations.find(
         (o: any) => o.id === target.organizationId
     )
 

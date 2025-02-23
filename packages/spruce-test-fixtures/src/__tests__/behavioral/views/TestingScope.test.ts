@@ -13,6 +13,7 @@ import SpyScope from '../../../tests/fixtures/SpyScope'
 @fake.login(DEMO_NUMBER_SCOPE)
 export default class TestingScopeTest extends AbstractSpruceFixtureTest {
     private static scope: SpyScope
+
     protected static async beforeEach() {
         await super.beforeEach()
         this.views = this.Fixture('view', {
@@ -103,8 +104,8 @@ export default class TestingScopeTest extends AbstractSpruceFixtureTest {
         await this.asserthInvalidScopeOnGetOrganization()
     }
 
-    @test('can get lecation when scoped to location', ['location'])
-    @test('can get lecation when scoped to location and employed', [
+    @test('can get location when scoped to location', ['location'])
+    @test('can get location when scoped to location and employed', [
         'employed',
         'location',
     ])

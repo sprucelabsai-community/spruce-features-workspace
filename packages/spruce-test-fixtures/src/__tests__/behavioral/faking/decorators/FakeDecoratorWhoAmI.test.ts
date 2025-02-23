@@ -1,6 +1,6 @@
 import { assert, test } from '@sprucelabs/test-utils'
-import { DEMO_NUMBER_HIRING } from '../../../tests/constants'
-import AbstractFakeDecoratorTest from '../../support/AbstractFakeDecoratorTest'
+import { DEMO_NUMBER_HIRING } from '../../../../tests/constants'
+import AbstractFakeDecoratorTest from '../../../support/AbstractFakeDecoratorTest'
 
 export default class FakeDecoratorTest extends AbstractFakeDecoratorTest {
     @test()

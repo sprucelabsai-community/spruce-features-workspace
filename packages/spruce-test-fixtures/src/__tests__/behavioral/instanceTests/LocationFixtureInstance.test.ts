@@ -1,23 +1,26 @@
-import { test, assert } from '@sprucelabs/test-utils'
-import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
+import { test, assert, suite } from '@sprucelabs/test-utils'
+import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
 import {
-    DEMO_NUMBER_LOCATION_FIXTURE,
     DEMO_NUMBER_LOCATION_FIXTURE_OUTSIDER,
-} from '../../tests/constants'
-import fake from '../../tests/decorators/fake'
-import LocationFixture from '../../tests/fixtures/LocationFixture'
+    DEMO_NUMBER_LOCATION_FIXTURE,
+} from '../../../tests/constants'
+import fake from '../../../tests/decorators/fake'
+import LocationFixture from '../../../tests/fixtures/LocationFixture'
 
-@fake.login(DEMO_NUMBER_LOCATION_FIXTURE)
-export default class LocationFixtureTest extends AbstractSpruceFixtureTest {
-    protected static async beforeEach() {
+@fake.login()
+@suite()
+export default class LocationFixtureInstanceTest extends AbstractSpruceFixtureTest {
+    protected async beforeEach() {
         await super.beforeEach()
+
+        assert.isInstanceOf(this, LocationFixtureInstanceTest)
 
         await this.seeder.resetAccount()
         await this.seeder.resetAccount(DEMO_NUMBER_LOCATION_FIXTURE_OUTSIDER)
     }
 
     @test()
-    protected static async canCreateWithSpecificOrg() {
+    protected async canCreateWithSpecificOrg() {
         const org = await this.organizations.seedDemoOrganization({
             name: 'Location fixture org',
         })
@@ -31,13 +34,13 @@ export default class LocationFixtureTest extends AbstractSpruceFixtureTest {
     }
 
     @test()
-    protected static async canCreatLocationWithNoParams() {
+    protected async canCreatLocationWithNoParams() {
         const location = await this.locations.seedDemoLocation({})
         assert.isTruthy(location)
     }
 
     @test()
-    protected static async isNotPartOfLocationToStart() {
+    protected async isNotPartOfLocationToStart() {
         const location = await this.locations.seedDemoLocation({
             name: 'Location fixture location',
         })
@@ -56,23 +59,23 @@ export default class LocationFixtureTest extends AbstractSpruceFixtureTest {
     }
 
     @test()
-    protected static async uniqueLocationName() {
+    protected async uniqueLocationName() {
         const location1 = await this.locations.seedDemoLocation({})
         const location2 = await this.locations.seedDemoLocation({})
         assert.isNotEqual(location1.name, location2.name)
     }
 
     @test()
-    protected static async locationCountResetBeforeEach() {
+    protected async locationCountResetBeforeEach() {
         //@ts-ignore
         assert.isEqual(LocationFixture.locationCount, 0)
     }
 
     @test()
-    protected static async canAddPersonToLocation() {
+    protected async canAddPersonToLocation() {
         const { person, location } = await this.seedLocationAndAddPerson()
 
-        const isHired = await LocationFixtureTest.isPersonPartOfLocation(
+        const isHired = await this.isPersonPartOfLocation(
             person.id,
             location.id
         )
@@ -81,7 +84,7 @@ export default class LocationFixtureTest extends AbstractSpruceFixtureTest {
     }
 
     @test()
-    protected static async throwsWhenTryingToRemovePersonWithBadIds() {
+    protected async throwsWhenTryingToRemovePersonWithBadIds() {
         await assert.doesThrowAsync(() =>
             this.locations.removePerson({
                 phone: DEMO_NUMBER_LOCATION_FIXTURE,
@@ -94,7 +97,7 @@ export default class LocationFixtureTest extends AbstractSpruceFixtureTest {
     }
 
     @test()
-    protected static async canRemoveRole() {
+    protected async canRemoveRole() {
         const { person, location } = await this.seedLocationAndAddPerson()
 
         await this.locations.removePerson({
@@ -113,10 +116,7 @@ export default class LocationFixtureTest extends AbstractSpruceFixtureTest {
         assert.isFalse(isHired)
     }
 
-    private static async isPersonPartOfLocation(
-        personId: string,
-        locationId: string
-    ) {
+    private async isPersonPartOfLocation(personId: string, locationId: string) {
         return await this.locations.isPartOfLocation({
             phone: DEMO_NUMBER_LOCATION_FIXTURE,
             personId,
@@ -124,7 +124,7 @@ export default class LocationFixtureTest extends AbstractSpruceFixtureTest {
         })
     }
 
-    protected static async seedLocationAndAddPerson() {
+    protected async seedLocationAndAddPerson() {
         const org = await this.organizations.seedDemoOrganization({
             name: 'Location fixture org',
             phone: DEMO_NUMBER_LOCATION_FIXTURE,

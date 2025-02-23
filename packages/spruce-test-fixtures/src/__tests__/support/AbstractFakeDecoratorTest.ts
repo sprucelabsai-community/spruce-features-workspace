@@ -1,4 +1,4 @@
-import { assert } from '@sprucelabs/test-utils'
+import { assert, TestLifecycleListeners } from '@sprucelabs/test-utils'
 import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
 import { DEMO_NUMBER } from '../../tests/constants'
 import fake from '../../tests/decorators/fake'
@@ -23,10 +23,17 @@ export default class AbstractFakeDecoratorTest extends AbstractSpruceFixtureTest
     protected static async fakeLogin(number: string = DEMO_NUMBER) {
         const decorator = fake.login(number)
 
+        TestLifecycleListeners.willBeforeAllListeners = []
+        TestLifecycleListeners.didBeforeAllListeners = []
+        TestLifecycleListeners.willBeforeEachListeners = []
+        TestLifecycleListeners.didBeforeEachListeners = []
+
         decorator(this as any, false)
 
-        await this.beforeAll()
+        await TestLifecycleListeners.emitWillRunBeforeAll()
+        await TestLifecycleListeners.emitDidRunBeforeAll()
 
-        await this.beforeEach()
+        await TestLifecycleListeners.emitWillRunBeforeEach()
+        await TestLifecycleListeners.emitDidRunBeforeEach()
     }
 }

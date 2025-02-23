@@ -7,7 +7,6 @@ export default function (): {
     return {
         levels: ['ERROR', 'INFO', 'WARN'],
         transport: (...messageParts: string[]) => {
-			debugger
             const message = messageParts.join(' ')
             diskUtil.writeFile(
                 diskUtil.resolvePath(process.env.TEST_LOG_DESTINATION!, 'log.txt'),

@@ -2,19 +2,19 @@ import { MercuryClient } from '@sprucelabs/mercury-client'
 import { formatPhoneNumber } from '@sprucelabs/schema'
 import { test, assert } from '@sprucelabs/test-utils'
 import { errorAssert, generateId } from '@sprucelabs/test-utils'
-import { seed, StoreFixture } from '../../..'
-import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
+import { seed, StoreFixture } from '../../../..'
+import AbstractSpruceFixtureTest from '../../../../tests/AbstractSpruceFixtureTest'
 import fake, {
     fakeTargetToPropName,
     pluralToSingular,
-} from '../../../tests/decorators/fake'
-import { CoreSeedTarget } from '../../../tests/decorators/seed'
-import eventFaker from '../../../tests/eventFaker'
-import { SeedLocationValues } from '../../../tests/fixtures/LocationFixture'
-import MercuryFixture from '../../../tests/fixtures/MercuryFixture'
+} from '../../../../tests/decorators/fake'
+import { CoreSeedTarget } from '../../../../tests/decorators/seed'
+import eventFaker from '../../../../tests/eventFaker'
+import { SeedLocationValues } from '../../../../tests/fixtures/LocationFixture'
+import MercuryFixture from '../../../../tests/fixtures/MercuryFixture'
 // eslint-disable-next-line spruce/prohibit-import-from-build-folder
-import GoodStore from '../../testDirsAndFiles/one-good-store-skill/build/stores/Good.store'
-import { DummyStore } from '../databases/DummyStore'
+import GoodStore from '../../../testDirsAndFiles/one-good-store-skill/build/stores/Good.store'
+import { DummyStore } from '../../databases/DummyStore'
 
 @fake.login('555-000-0001')
 export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
@@ -23,6 +23,7 @@ export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
     private static client: MercuryClient
 
     protected static async beforeAll(): Promise<void> {
+        debugger
         await super.beforeAll()
         this.wasBeforeAllInvoked = true
     }

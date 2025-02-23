@@ -1,4 +1,5 @@
 import { assert, test } from '@sprucelabs/test-utils'
+import FakerTracker from '../../FakerTracker'
 import AbstractSpruceFixtureTest from '../../tests/AbstractSpruceFixtureTest'
 import { DEMO_NUMBER_ACCOUNT_BEFORE_ALL_RESET } from '../../tests/constants'
 import login from '../../tests/decorators/login'
@@ -35,10 +36,8 @@ export default class ResettingAccountBeforeAllTestsTest extends AbstractSpruceFi
 }
 
 //@ts-ignore
-ResettingAccountBeforeAllTestsTest.cwd = process.cwd()
-void ResettingAccountBeforeAllTestsTest.Fixture(
-    'organization'
-).seedDemoOrganization({
+FakerTracker.setCwd(process.cwd())
+void FakerTracker.fixtures.organizations.seedDemoOrganization({
     name: 'Outside of test',
     phone: DEMO_NUMBER_ACCOUNT_BEFORE_ALL_RESET,
 })
