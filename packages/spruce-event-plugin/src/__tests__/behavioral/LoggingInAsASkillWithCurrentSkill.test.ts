@@ -7,6 +7,7 @@ MercuryFixture.setShouldRequireLocalListeners(false)
 export default class LoggingInAsASkillWithCurrentSkillTest extends AbstractEventPluginTest {
     protected static async beforeEach(): Promise<void> {
         await super.beforeEach()
+
         await this.SkillFromTestDir('registered-skill')
         await this.registerCurrentSkill()
     }

@@ -56,8 +56,7 @@ export default class FixtureFactory {
 
         switch (named) {
             case 'mercury':
-                fixture = mercuryFixture as FixtureMap[Name]
-                break
+                return mercuryFixture as FixtureMap[Name]
             case 'person': {
                 fixture = new PersonFixture({
                     connectToApi: mercuryFixture.getConnectFactory(),
@@ -188,7 +187,6 @@ export default class FixtureFactory {
     private getMercuryFixture() {
         if (!FixtureFactory.mercuryFixture) {
             FixtureFactory.mercuryFixture = new MercuryFixture(this.cwd)
-            FixtureFactory.fixtures.push(FixtureFactory.mercuryFixture)
         }
 
         return FixtureFactory.mercuryFixture
@@ -202,6 +200,7 @@ export default class FixtureFactory {
         }
 
         this.fixtures = []
+        await FixtureFactory.mercuryFixture?.destroy()
         FixtureFactory.mercuryFixture = undefined
     }
 
