@@ -55,9 +55,7 @@ export default class FakeDecoratorTest extends AbstractFakeDecoratorTest {
 
     @test()
     protected static async fakesGetPerson() {
-        debugger
         await this.fakeLogin()
-        debugger
 
         const [{ person }] = await this.client.emitAndFlattenResponses(
             'get-person::v2020_12_25',

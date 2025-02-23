@@ -93,7 +93,6 @@ export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTes
         key: string,
         options?: SkillFactoryOptions | undefined
     ): Promise<Skill> {
-        debugger
         const skill = await super.SkillFromTestDir(key, options)
         FakerTracker.setCwd(this.cwd)
         return skill

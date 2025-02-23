@@ -14,12 +14,10 @@ export class ResettingLocalEventListeningBeforeSeedingTest extends AbstractSpruc
     @seed('organizations', 1)
     protected static async beforeEach(): Promise<void> {
         await super.beforeEach()
-        debugger
     }
 
     @test()
     protected static async testClientIsResetBeforeSeeding() {
-        debugger
         await login.getClient().on('create-organization::v2020_12_25', () => {
             this.hitCount++
             return {
@@ -35,7 +33,6 @@ export class ResettingLocalEventListeningBeforeSeedingTest extends AbstractSpruc
 
     @test()
     protected static async hitCountShouldBeZero() {
-        debugger
         assert.isEqual(this.hitCount, 0)
     }
 }

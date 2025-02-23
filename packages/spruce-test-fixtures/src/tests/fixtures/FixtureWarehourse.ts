@@ -35,7 +35,6 @@ export default class FixtureWarehouse {
     private cwd: string
     protected constructor(cwd: string) {
         if (!cwd) {
-            debugger
         }
         this.cwd = cwd
     }
@@ -45,7 +44,6 @@ export default class FixtureWarehouse {
     }
 
     public setCwd(cwd: string) {
-        debugger
         this.cwd = cwd
         delete this._fixtures
     }

@@ -15,7 +15,7 @@ export default class UsingDecoratorsToInstallSkills extends AbstractSpruceFixtur
 
     protected static async beforeEach() {
         await super.beforeEach()
-        debugger
+
         this.skill = await this.skills.seedDemoSkill()
     }
 
@@ -47,7 +47,6 @@ export default class UsingDecoratorsToInstallSkills extends AbstractSpruceFixtur
     @test('passes args 1', ['hello', 'world'])
     @seed('organizations', 1)
     protected static async passesThroughOriginalArgs(args: any) {
-        debugger
         let passedArgs: any
 
         await this.executeDecorator({

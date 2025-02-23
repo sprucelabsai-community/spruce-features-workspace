@@ -23,7 +23,6 @@ export default class UsingFakeDecoratorsTest extends AbstractSpruceFixtureTest {
     private static client: MercuryClient
 
     protected static async beforeAll(): Promise<void> {
-        debugger
         await super.beforeAll()
         this.wasBeforeAllInvoked = true
     }

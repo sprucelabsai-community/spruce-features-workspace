@@ -29,7 +29,6 @@ export default class FixtureFactory {
     public constructor(options: { cwd: string; namespace?: string }) {
         this.cwd = options.cwd
         if (!this.cwd) {
-            debugger
             throw new SchemaError({
                 code: 'MISSING_PARAMETERS',
                 friendlyMessage: 'Mercury fixture needs cwd.',

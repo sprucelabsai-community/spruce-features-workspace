@@ -50,7 +50,6 @@ export default class UsingDecoratorsToInstallSkillsInstance extends AbstractSpru
     protected async passesThroughOriginalArgs(args: any) {
         let passedArgs: any
 
-        debugger
         // eslint-disable-next-line @typescript-eslint/no-this-alias
         const me = this
         await this.executeDecorator({

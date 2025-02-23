@@ -32,14 +32,11 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
 
     @test()
     protected static async orgFixtureDestroysOrgs() {
-        debugger
         const org = await this.Org()
 
-        debugger
         await this.organizations.destroy()
-        debugger
+
         await this.organizations.destroy()
-        debugger
 
         const client = await this.mercury.connectToApi()
         const results = await client.emit('get-organization::v2020_12_25', {
@@ -48,7 +45,6 @@ export default class OrganizationFixtureTest extends AbstractSpruceFixtureTest {
             },
         })
 
-        debugger
         eventAssertUtil.assertErrorFromResponse(results, 'INVALID_TARGET')
     }
 

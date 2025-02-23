@@ -35,7 +35,6 @@ export default class RoleFixtureTest extends AbstractSpruceFixtureTest {
     @seed('organizations', 1)
     protected async listsValidRoles() {
         const roles = await this.roles.listRoles()
-        debugger
 
         assert.isArray(roles)
         assert.isAbove(roles.length, 0)

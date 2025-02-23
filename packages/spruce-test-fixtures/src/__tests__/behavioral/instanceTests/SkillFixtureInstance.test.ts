@@ -19,7 +19,7 @@ export default class SkillFixtureTest extends AbstractSpruceFixtureTest {
 
     protected async beforeEach() {
         await super.beforeEach()
-        debugger
+
         this.fixture = this.Fixture('skill')
         delete process.env.SKILL_ID
         delete process.env.SKILL_API_KEY

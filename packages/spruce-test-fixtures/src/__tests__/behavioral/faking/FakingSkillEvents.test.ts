@@ -13,7 +13,6 @@ export default class FakingSkillEventsTest extends AbstractSpruceFixtureTest {
 
     @test()
     protected static async canSeedSkill() {
-        debugger
         const skill = await this.seedDemoSkill()
         assert.isEqual(skill.creators[0].personId, this.fakedPerson.id)
     }

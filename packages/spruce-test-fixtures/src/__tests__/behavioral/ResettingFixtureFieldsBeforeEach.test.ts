@@ -87,7 +87,6 @@ const toCheck = [
 export default class ResettingFixtureFieldsBeforeEachTest extends AbstractSpruceFixtureTest {
     @test()
     protected static shouldBeAbleToGetAllFixtures() {
-        debugger
         for (const check of toCheck) {
             const fixture = this.getFixture(check)
 

@@ -31,7 +31,6 @@ export class DummyStore extends AbstractStore<DummySchema> {
     }
 
     public async seed(options: StoreSeedOptions) {
-        debugger
         DummyStore.wasSeedInvoked = true
         DummyStore.seedOptions = options
         await DummyStore.seedCb?.()

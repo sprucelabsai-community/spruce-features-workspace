@@ -32,6 +32,7 @@ export default class MercuryFixture {
     private static shouldAutomaticallyClearDefaultClient = true
     private static shouldRequireLocalListeners = true
     private static contractsByCwd: Record<string, EventContract> = {}
+    private static namespacesByCwd: Record<string, string | undefined> = {}
 
     public static setDefaultClient(client: MercuryClient) {
         //@ts-ignore
@@ -69,7 +70,6 @@ export default class MercuryFixture {
     public async connectToApi(
         options?: TestConnectionOptions
     ): Promise<MercuryClient> {
-        debugger
         const shouldReUseClient = options?.shouldReUseClient !== false
         if (shouldReUseClient && MercuryFixture.defaultClient) {
             return MercuryFixture.defaultClient
@@ -197,8 +197,7 @@ export default class MercuryFixture {
         this.setDefaultContractToLocalEventsIfExist(cwd)
 
         try {
-            const auth = AuthService.Auth(cwd)
-            const namespace = auth.getCurrentSkill()?.slug
+            const namespace = this.getCurrentSkillsNamespace(cwd)
 
             if (namespace) {
                 MercuryTestClient.setNamespacesThatMustBeHandledLocally([
@@ -206,6 +205,15 @@ export default class MercuryFixture {
                 ])
             }
         } catch {}
+    }
+
+    private static getCurrentSkillsNamespace(cwd: string) {
+        if (!(cwd in this.namespacesByCwd)) {
+            const auth = AuthService.Auth(cwd)
+            const namespace = auth.getCurrentSkill()?.slug
+            this.namespacesByCwd[cwd] = namespace
+        }
+        return this.namespacesByCwd[cwd]
     }
 
     public static setShouldRequireLocalListeners(shouldRequireLocal: boolean) {
