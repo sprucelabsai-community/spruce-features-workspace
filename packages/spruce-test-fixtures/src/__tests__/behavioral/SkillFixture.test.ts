@@ -120,6 +120,6 @@ export default class SkillFixtureTest extends AbstractSpruceFixtureTest {
         const fixture = this.Fixture('skill', { people: personFixture })
 
         //@ts-ignore
-        assert.isEqual(fixture.personFixture, personFixture)
+        assert.isEqual(fixture.people, personFixture)
     }
 }

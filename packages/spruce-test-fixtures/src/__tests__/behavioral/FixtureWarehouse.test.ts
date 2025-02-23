@@ -9,6 +9,7 @@ export default class FixtureWarehouseTest extends AbstractSpruceFixtureTest {
             'people',
             'organizations',
             'locations',
+            'permissions',
         ])
     }
 
@@ -38,6 +39,11 @@ export default class FixtureWarehouseTest extends AbstractSpruceFixtureTest {
             'locations',
             'people',
         ])
+    }
+
+    @test()
+    protected static rolesReusesDependentFixtures() {
+        this.assertDependenciesReused('roles', ['people'])
     }
 
     private static assertDependenciesReused(

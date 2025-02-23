@@ -66,7 +66,8 @@ export default class FixtureFactory {
             }
             case 'role': {
                 fixture = new RoleFixture({
-                    people: this.Fixture('person'),
+                    //@ts-ignore
+                    people: options?.people ?? this.Fixture('person'),
                     getNewestOrg: async () => {
                         return this.Fixture(
                             'organization'
@@ -76,14 +77,13 @@ export default class FixtureFactory {
                 break
             }
             case 'organization': {
-                const people =
-                    //@ts-ignore
-                    options?.people ??
-                    new PersonFixture({
-                        connectToApi: mercuryFixture.getConnectFactory(),
-                    })
                 fixture = new OrganizationFixture({
-                    people,
+                    people:
+                        //@ts-ignore
+                        options?.people ??
+                        new PersonFixture({
+                            connectToApi: mercuryFixture.getConnectFactory(),
+                        }),
                     //@ts-ignore
                     roles: options?.roles ?? this.Fixture('role'),
                 }) as FixtureMap[Name]
@@ -150,7 +150,9 @@ export default class FixtureFactory {
                     namespace: this.namespace,
                     proxyDecorator: ClientProxyDecorator.getInstance(),
                     cwd: this.cwd,
-                    permissions: this.Fixture('permission'),
+                    permissions:
+                        //@ts-ignore
+                        options?.permissions ?? this.Fixture('permission'),
                     ...options,
                 }) as any
                 break

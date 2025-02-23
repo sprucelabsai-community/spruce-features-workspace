@@ -76,6 +76,7 @@ export default class FixtureWarehouse {
                 people: this.people,
                 organizations: this.organizations,
                 locations: this.locations,
+                permissions: this.permissions,
             })
         }
         return this._views
@@ -98,7 +99,9 @@ export default class FixtureWarehouse {
 
     public get roles(): RoleFixture {
         if (!this._roles) {
-            this._roles = this.Fixture('role')
+            this._roles = this.Fixture('role', {
+                people: this.people,
+            })
         }
         return this._roles
     }

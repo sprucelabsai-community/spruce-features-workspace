@@ -8,14 +8,14 @@ type GetNewestOrgHandler =
     () => Promise<SpruceSchemas.Spruce.v2020_07_22.Organization | null>
 
 export default class RoleFixture {
-    private personFixture: PersonFixture
+    private people: PersonFixture
     private getNewestOrgHandler: GetNewestOrgHandler
 
     public constructor(options: {
         people: PersonFixture
         getNewestOrg: GetNewestOrgHandler
     }) {
-        this.personFixture = options.people
+        this.people = options.people
         this.getNewestOrgHandler = options.getNewestOrg
     }
 
@@ -34,7 +34,7 @@ export default class RoleFixture {
             shouldIncludeMetaRoles,
         } = options ?? {}
 
-        const { client } = await this.personFixture.loginAsDemoPerson(phone)
+        const { client } = await this.people.loginAsDemoPerson(phone)
 
         if (!organizationId && !locationId) {
             const latest = await this.getNewestOrgHandler()
@@ -77,7 +77,7 @@ export default class RoleFixture {
         const { personId, organizationId, locationId, roleBase, phone } =
             options
 
-        const { client } = await this.personFixture.loginAsDemoPerson(phone)
+        const { client } = await this.people.loginAsDemoPerson(phone)
 
         const match = await this.getFirstRoleWithBase({
             organizationId,
@@ -119,7 +119,7 @@ export default class RoleFixture {
             roleBase,
             locationId,
         } = options
-        const { client } = await this.personFixture.loginAsDemoPerson(phone)
+        const { client } = await this.people.loginAsDemoPerson(phone)
 
         const role = await this.getFirstRoleWithBase({
             phone,
