@@ -273,7 +273,7 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
             //@ts-ignore
             fixture.organizations,
             //@ts-ignore
-            fixture.locations.orgs
+            fixture.locations.organizations
         )
     }
 
