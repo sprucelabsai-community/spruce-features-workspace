@@ -24,8 +24,6 @@ export default class ResettingAccountAfterAllTestsTest extends AbstractSpruceFix
         await this.organizations.seedDemoOrganization({
             phone: DEMO_NUMBER_ACCOUNT_AFTER_ALL_RESET,
         })
-
-        await this.wait(5000)
     }
 }
 
