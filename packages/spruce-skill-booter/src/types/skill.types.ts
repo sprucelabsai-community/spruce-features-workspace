@@ -12,7 +12,7 @@ export interface SkillFactoryOptions {
 
 export interface TestBootWaitOptions {
     shouldSuppressBootErrors?: boolean
-    shouldWaitForPostBoot?: boolean
+    shouldWaitForDidBoot?: boolean
 }
 
 export type TestBootOptions = SkillFactoryOptions &

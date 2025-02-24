@@ -3,12 +3,13 @@ import {
     PkgService,
     buildLog,
 } from '@sprucelabs/spruce-skill-utils'
-import { assert, generateId, test } from '@sprucelabs/test-utils'
-import AbstractSkillTest from '../../tests/AbstractSkillTest'
+import { assert, generateId, suite, test } from '@sprucelabs/test-utils'
+import AbstractSkillTest from '../../../tests/AbstractSkillTest'
 
-export default class BootingASkillTest extends AbstractSkillTest {
+@suite()
+export default class BootingASkillInstanceTest extends AbstractSkillTest {
     @test()
-    protected static async bootLoadsPluginsFromBuildDir() {
+    protected async bootLoadsPluginsFromBuildDir() {
         await assert.doesThrowAsync(
             () => this.bootSkillFromTestDir('skill'),
             'LOADED CORRECTLY'
@@ -16,17 +17,17 @@ export default class BootingASkillTest extends AbstractSkillTest {
     }
 
     @test()
-    protected static async canSetCwd() {
+    protected async canSetCwd() {
         this.cwd = 'aoeuaoeu'
     }
 
     @test()
-    protected static async resetsCwd() {
+    protected async resetsCwd() {
         assert.isEqual(this.cwd, process.cwd())
     }
 
     @test()
-    protected static async bootShouldNotStartCountdownUntilAfterExecute() {
+    protected async bootShouldNotStartCountdownUntilAfterExecute() {
         this.cwd = process.cwd()
 
         const messages: LoggableType[] = []
@@ -82,7 +83,7 @@ export default class BootingASkillTest extends AbstractSkillTest {
     }
 
     @test()
-    protected static async setsProcessTitleToMatchSkillNamespace() {
+    protected async setsProcessTitleToMatchSkillNamespace() {
         const skill = await this.SkillFromTestDir('skill-with-pkg-json')
 
         const pkg = new PkgService(this.cwd)
