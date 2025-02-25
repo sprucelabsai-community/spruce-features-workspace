@@ -3,7 +3,7 @@
   "packages": [
     "packages/*"
   ],
-  "version": "66.0.25",
+  "version": "66.0.26",
   "command": {
     "publish": {
       "allowBranch": [
