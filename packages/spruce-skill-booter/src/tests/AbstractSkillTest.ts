@@ -140,8 +140,6 @@ export default class AbstractSkillTest extends AbstractSpruceTest {
 
         SchemaRegistry.getInstance().forgetAllSchemas()
 
-        debugger
-
         for (const skill of this.registeredSkills) {
             await skill.kill()
         }
