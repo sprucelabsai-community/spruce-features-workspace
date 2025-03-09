@@ -3,6 +3,78 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [66.0.33](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v66.0.32...v66.0.33) (2025-03-06)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [66.0.32](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v66.0.31...v66.0.32) (2025-03-06)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [66.0.31](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v66.0.30...v66.0.31) (2025-03-05)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [66.0.30](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v66.0.29...v66.0.30) (2025-03-05)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [66.0.29](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v66.0.28...v66.0.29) (2025-03-01)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [66.0.28](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v66.0.27...v66.0.28) (2025-02-28)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [66.0.27](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v66.0.26...v66.0.27) (2025-02-28)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [66.0.26](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v66.0.25...v66.0.26) (2025-02-25)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [66.0.25](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v66.0.24...v66.0.25) (2025-02-25)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
 ## [66.0.24](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v66.0.23...v66.0.24) (2025-02-24)
 
 **Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
