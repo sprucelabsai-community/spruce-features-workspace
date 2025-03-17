@@ -23,14 +23,14 @@ export type CoreSeedTarget =
 
 type SeedTarget = CoreSeedTarget | StoreName
 
-interface ITracker {
+interface ISeedTracker {
     isSeedingPatched: boolean
     shouldResetAccount: boolean
     lastReset?: string
     attachedStoreAfterEach: boolean
 }
 
-const Tracker: ITracker = {
+const SeedTracker: ISeedTracker = {
     isSeedingPatched: false,
     shouldResetAccount: false,
     attachedStoreAfterEach: false,
@@ -44,9 +44,9 @@ export default function seed(
     return function (_Class: any, key: string, descriptor: any) {
         if (
             (storeName === 'organizations' || storeName === 'locations') &&
-            !Tracker.isSeedingPatched
+            !SeedTracker.isSeedingPatched
         ) {
-            Tracker.shouldResetAccount = false
+            SeedTracker.shouldResetAccount = false
 
             SpruceTestResolver.onDidCallBeforeAll(async () => {
                 await login.on('did-login', async () => {
@@ -54,7 +54,7 @@ export default function seed(
                 })
             })
 
-            Tracker.isSeedingPatched = true
+            SeedTracker.isSeedingPatched = true
         }
 
         StoreFixture.setShouldAutomaticallyResetDatabase(false)
@@ -79,22 +79,22 @@ export default function seed(
 }
 
 async function forceResetAccount() {
-    Tracker.shouldResetAccount = true
+    SeedTracker.shouldResetAccount = true
     await reset()
 }
 
 async function optionallyReset(key: string) {
-    if (Tracker.lastReset !== key) {
-        if (Tracker.lastReset !== 'beforeEach') {
+    if (SeedTracker.lastReset !== key) {
+        if (SeedTracker.lastReset !== 'beforeEach') {
             await reset()
         }
-        Tracker.lastReset = key
+        SeedTracker.lastReset = key
     }
 }
 
 async function reset() {
-    if (Tracker.shouldResetAccount) {
-        Tracker.shouldResetAccount = false
+    if (SeedTracker.shouldResetAccount) {
+        SeedTracker.shouldResetAccount = false
         const cwd = SpruceTestResolver.getActiveTest().cwd
         await FakerTracker.getFixtures(cwd).seeder.resetAccount()
     }
@@ -108,8 +108,8 @@ seed.disableResettingTestClient = () => {
 }
 
 function attachCleanup() {
-    if (!Tracker.attachedStoreAfterEach) {
-        Tracker.attachedStoreAfterEach = true
+    if (!SeedTracker.attachedStoreAfterEach) {
+        SeedTracker.attachedStoreAfterEach = true
 
         SpruceTestResolver.onWillCallBeforeEach(async (Class) => {
             MercuryFixture.setDefaultContractToLocalEventsIfExist(Class.cwd)
@@ -118,7 +118,7 @@ function attachCleanup() {
 
         SpruceTestResolver.onDidCallAfterEach(async () => {
             shouldResetTestClient && MercuryTestClient.reset()
-            delete Tracker.lastReset
+            delete SeedTracker.lastReset
         })
     }
 }
@@ -178,7 +178,7 @@ function attachSeeder(
             )
             options.TestClass = ActiveTest
         } else {
-            Tracker.shouldResetAccount = true
+            SeedTracker.shouldResetAccount = true
         }
 
         assert.isFunction(
