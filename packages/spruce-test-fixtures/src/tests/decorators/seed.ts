@@ -23,37 +23,50 @@ export type CoreSeedTarget =
 
 type SeedTarget = CoreSeedTarget | StoreName
 
+interface ITracker {
+    isSeedingPatched: boolean
+    shouldResetAccount: boolean
+    lastReset?: string
+    attachedStoreAfterEach: boolean
+}
+
+const Tracker: ITracker = {
+    isSeedingPatched: false,
+    shouldResetAccount: false,
+    attachedStoreAfterEach: false,
+}
+
 export default function seed(
     storeName: SeedTarget,
     totalToSeed?: number,
     ...params: any[]
 ) {
-    return function (Class: any, key: string, descriptor: any) {
+    return function (_Class: any, key: string, descriptor: any) {
         if (
             (storeName === 'organizations' || storeName === 'locations') &&
-            !Class.__isSeedingPatched
+            !Tracker.isSeedingPatched
         ) {
-            Class.__shouldResetAccount = false
+            Tracker.shouldResetAccount = false
 
-            SpruceTestResolver.onDidCallBeforeAll(async (Class) => {
+            SpruceTestResolver.onDidCallBeforeAll(async () => {
                 await login.on('did-login', async () => {
-                    await forceResetAccount(Class)
+                    await forceResetAccount()
                 })
             })
 
-            Class.__isSeedingPatched = true
+            Tracker.isSeedingPatched = true
         }
 
         StoreFixture.setShouldAutomaticallyResetDatabase(false)
         StoreFixture.resetDbConnectionSettings()
 
-        const seed = attachSeeder(storeName, Class, totalToSeed, params)
+        const seed = attachSeeder(storeName, totalToSeed, params)
         const unbound = descriptor?.value
 
-        attachCleanup(Class)
+        attachCleanup()
 
         descriptor.value = async (...args: any[]) => {
-            await optionallyReset(Class, key)
+            await optionallyReset(key)
 
             await seed()
 
@@ -65,23 +78,23 @@ export default function seed(
     }
 }
 
-async function forceResetAccount(Class: any) {
-    Class.__shouldResetAccount = true
-    await reset(Class)
+async function forceResetAccount() {
+    Tracker.shouldResetAccount = true
+    await reset()
 }
 
-async function optionallyReset(Class: any, key: string) {
-    if (Class.__lastReset !== key) {
-        if (Class.__lastReset !== 'beforeEach') {
-            await reset(Class)
+async function optionallyReset(key: string) {
+    if (Tracker.lastReset !== key) {
+        if (Tracker.lastReset !== 'beforeEach') {
+            await reset()
         }
-        Class.__lastReset = key
+        Tracker.lastReset = key
     }
 }
 
-async function reset(Class: any) {
-    if (Class.__shouldResetAccount) {
-        Class.__shouldResetAccount = false
+async function reset() {
+    if (Tracker.shouldResetAccount) {
+        Tracker.shouldResetAccount = false
         const cwd = SpruceTestResolver.getActiveTest().cwd
         await FakerTracker.getFixtures(cwd).seeder.resetAccount()
     }
@@ -94,25 +107,24 @@ seed.disableResettingTestClient = () => {
     shouldResetTestClient = false
 }
 
-function attachCleanup(Class: any) {
-    if (!Class.__attachedStoreAfterEach) {
-        Class.__attachedStoreAfterEach = true
+function attachCleanup() {
+    if (!Tracker.attachedStoreAfterEach) {
+        Tracker.attachedStoreAfterEach = true
 
         SpruceTestResolver.onWillCallBeforeEach(async (Class) => {
             MercuryFixture.setDefaultContractToLocalEventsIfExist(Class.cwd)
-            await optionallyReset(Class, 'beforeEach')
+            await optionallyReset('beforeEach')
         })
 
         SpruceTestResolver.onDidCallAfterEach(async () => {
             shouldResetTestClient && MercuryTestClient.reset()
-            delete Class.__lastReset
+            delete Tracker.lastReset
         })
     }
 }
 
 function attachSeeder(
     storeName: SeedTarget,
-    TestClass: any,
     totalToSeed: number | undefined,
     params?: any[]
 ) {
@@ -166,7 +178,7 @@ function attachSeeder(
             )
             options.TestClass = ActiveTest
         } else {
-            TestClass.__shouldResetAccount = true
+            Tracker.shouldResetAccount = true
         }
 
         assert.isFunction(
