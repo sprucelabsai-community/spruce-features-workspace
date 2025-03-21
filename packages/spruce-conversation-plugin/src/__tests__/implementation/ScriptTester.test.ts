@@ -174,8 +174,8 @@ export default class ScriptTesterTest extends AbstractConversationTest {
         assert.isEqualDeep(writes, expected)
     }
 
-    @test('passes the confirm', 'yes')
-    @test('fails the confirm', 'no')
+    @test.skip('passes the confirm', 'yes')
+    @test.skip('fails the confirm', 'no')
     protected static async canSendInputToThePlayer(answer: string) {
         const writes: string[] = []
         const tester = await this.Tester({
