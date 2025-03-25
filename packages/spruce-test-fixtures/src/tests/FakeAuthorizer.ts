@@ -125,6 +125,7 @@ ${this.fakedContracts.map((p) => p.contractId).join('\n')}`
         )
     }
 
+    // WARNING - does not yet support targetting
     public async doesHonorPermissionContract<
         ContractId extends PermissionContractId,
     >(options: AuthorizerDoesHonorOptions<ContractId>): Promise<boolean> {
