@@ -4,19 +4,23 @@ import {
     AuthorizerDoesHonorOptions,
     SavePermissionsOptions,
 } from '@sprucelabs/heartwood-view-controllers'
-import { PermissionContractId, PermissionId } from '@sprucelabs/mercury-types'
+import {
+    PermissionContractId,
+    PermissionId,
+    SpruceSchemas,
+} from '@sprucelabs/mercury-types'
 import { assertOptions } from '@sprucelabs/schema'
 import { assert } from '@sprucelabs/test-utils'
 
 export default class FakeAuthorizer implements Authorizer {
-    private fakedContracts: FakeOptions[] = []
+    private fakedContracts: FakePermissionOptions[] = []
     private lastSavePermissionOptions?: SavePermissionsOptions<any, any>
     private lastCanOptions?: AuthorizerCanOptions<any>
     private lastDoesHonorContractOptions?: AuthorizerDoesHonorOptions<PermissionContractId>
 
     public fakePermissions<
         ContractId extends PermissionContractId = PermissionContractId,
-    >(options: FakeOptions<ContractId>) {
+    >(options: FakePermissionOptions<ContractId>) {
         this.fakedContracts.unshift(options)
     }
 
@@ -28,7 +32,7 @@ export default class FakeAuthorizer implements Authorizer {
     ): Promise<Record<Ids, boolean>> {
         this.lastCanOptions = options
 
-        const { contractId, permissionIds } = assertOptions(
+        const { contractId, permissionIds, target } = assertOptions(
             options as AuthorizerCanOptions<ContractId>,
             ['contractId', 'permissionIds']
         )
@@ -50,7 +54,11 @@ export default class FakeAuthorizer implements Authorizer {
                 actual,
                 fakedContract
             )
-            results[fakedPerm.id as Ids] = fakedPerm.can
+            results[fakedPerm.id as Ids] =
+                fakedPerm.can &&
+                fakedContract.target?.organizationId ===
+                    target?.organizationId &&
+                fakedContract.target?.locationId === target?.locationId
         }
 
         return results
@@ -91,7 +99,7 @@ export default class FakeAuthorizer implements Authorizer {
     private assertValidPermission<ContractId extends PermissionContractId>(
         fakedPerm: Perm<ContractId> | undefined,
         actual: PermissionId<ContractId>,
-        faked: FakeOptions
+        faked: FakePermissionOptions
     ): asserts fakedPerm {
         assert.isTruthy(
             fakedPerm,
@@ -104,7 +112,7 @@ ${faked.permissions.map((p) => p.id).join('\n')}`
     }
 
     private assertValidContractId<ContractId extends PermissionContractId>(
-        faked: FakeOptions | undefined,
+        faked: FakePermissionOptions | undefined,
         contractId: ContractId
     ): asserts faked {
         assert.isTruthy(
@@ -137,9 +145,13 @@ interface Perm<ContractId extends PermissionContractId> {
     can: boolean
 }
 
-interface FakeOptions<
+export type PermissionContractTarget =
+    SpruceSchemas.Mercury.v2020_12_25.DoesHonorPermissionContractEmitTarget
+
+export interface FakePermissionOptions<
     ContractId extends PermissionContractId = PermissionContractId,
 > {
     contractId: ContractId
     permissions: Perm<ContractId>[]
+    target?: PermissionContractTarget
 }
