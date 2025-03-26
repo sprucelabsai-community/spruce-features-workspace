@@ -56,9 +56,11 @@ export default class FakeAuthorizer implements Authorizer {
             )
             results[fakedPerm.id as Ids] =
                 fakedPerm.can &&
-                fakedContract.target?.organizationId ===
-                    target?.organizationId &&
-                fakedContract.target?.locationId === target?.locationId
+                (!fakedContract.target ||
+                    (fakedContract.target?.organizationId ===
+                        target?.organizationId &&
+                        fakedContract.target?.locationId ===
+                            target?.locationId))
         }
 
         return results

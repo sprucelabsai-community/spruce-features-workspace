@@ -268,6 +268,24 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
         await this.assertCan(contractid, target)
     }
 
+    @test()
+    protected static async matchesIfPermissionHasNoTargetNoMatterWhat() {
+        const contractid = this.generateRandomPermissionId()
+
+        const target = {
+            locationId: generateId(),
+        }
+
+        this.fakePermissions([
+            {
+                id: contractid,
+                can: true,
+            },
+        ])
+
+        await this.assertCan(contractid, target)
+    }
+
     private static async assertCan(
         contractid: PermissionContractId,
         target?: PermissionContractTarget
