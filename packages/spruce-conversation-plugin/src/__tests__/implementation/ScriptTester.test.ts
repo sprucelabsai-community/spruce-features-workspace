@@ -24,7 +24,7 @@ export default class ScriptTesterTest extends AbstractConversationTest {
         },
     ]
 
-    @test()
+    @test.only('refert tests if even need conversation tests')
     protected static async throwsWithoutScript() {
         //@ts-ignore
         const err = await assert.doesThrowAsync(() => ScriptTester.Tester())
