@@ -37,33 +37,54 @@ export default class FakeAuthorizer implements Authorizer {
             ['contractId', 'permissionIds']
         )
 
-        const fakedContract = this.getContractFromId<ContractId>(contractId)
-
+        const fakedContracts = this.getContractsFromId<ContractId>(contractId)
         const results: Record<Ids, boolean> = {} as Record<Ids, boolean>
 
         permissionIds.reverse()
 
-        for (const actual of permissionIds) {
-            const fakedPerm: Perm<ContractId> | undefined =
-                fakedContract.permissions.find((p) => p.id === actual) as
-                    | Perm<ContractId>
-                    | undefined
+        const fakedPermissions = fakedContracts.reduce((acc, fakedContract) => {
+            const fakedPerms = fakedContract.permissions.filter((p) =>
+                permissionIds.includes(p.id as Ids)
+            ) as Perm<ContractId>[]
+            return acc.concat(fakedPerms)
+        }, [] as Perm<ContractId>[])
 
-            this.assertValidPermission<ContractId>(
-                fakedPerm,
-                actual,
-                fakedContract
-            )
-            results[fakedPerm.id as Ids] =
-                fakedPerm.can &&
-                (!fakedContract.target ||
-                    (fakedContract.target?.organizationId ===
-                        target?.organizationId &&
-                        fakedContract.target?.locationId ===
-                            target?.locationId))
+        for (const fakedContract of fakedContracts) {
+            for (const actual of permissionIds) {
+                const fakedPerm: Perm<ContractId> | undefined =
+                    fakedPermissions.find((p) => p.id === actual) as
+                        | Perm<ContractId>
+                        | undefined
+
+                this.assertValidPermission<ContractId>(
+                    fakedPerm,
+                    actual,
+                    fakedContract
+                )
+                results[fakedPerm.id as Ids] =
+                    results[fakedPerm.id as Ids] ||
+                    (fakedPerm.can &&
+                        (!fakedContract.target ||
+                            (fakedContract.target?.organizationId ===
+                                target?.organizationId &&
+                                fakedContract.target?.locationId ===
+                                    target?.locationId)))
+            }
         }
 
         return results
+    }
+
+    private getContractsFromId<ContractId extends PermissionContractId>(
+        contractId: ContractId
+    ) {
+        const fakedContracts = this.fakedContracts.filter(
+            (f) => f.contractId === contractId
+        )
+
+        this.assertValidContractId(fakedContracts[0], contractId)
+
+        return fakedContracts
     }
 
     private getContractFromId<ContractId extends PermissionContractId>(
