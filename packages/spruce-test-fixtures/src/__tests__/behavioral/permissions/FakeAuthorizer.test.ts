@@ -320,6 +320,37 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
         await this.assertCan(permissionId1, target1)
     }
 
+    @test()
+    protected static async canOverridePermissionWithTarget() {
+        const permissionId = this.generateRandomPermissionId()
+
+        const target = {
+            locationId: generateId(),
+        }
+
+        this.fakePermissions(
+            [
+                {
+                    id: permissionId,
+                    can: true,
+                },
+            ],
+            target
+        )
+
+        this.fakePermissions(
+            [
+                {
+                    id: permissionId,
+                    can: false,
+                },
+            ],
+            target
+        )
+
+        await this.assertCant(permissionId, target)
+    }
+
     private static async assertCan(
         contractid: PermissionContractId,
         target?: PermissionContractTarget
@@ -328,8 +359,11 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
         assert.isTrue(perms[contractid])
     }
 
-    private static async assertCant(permissionId: any) {
-        const perms = await this.can([permissionId])
+    private static async assertCant(
+        permissionId: any,
+        target?: PermissionContractTarget
+    ) {
+        const perms = await this.can([permissionId], target)
         assert.isFalse(perms[permissionId])
     }
 
