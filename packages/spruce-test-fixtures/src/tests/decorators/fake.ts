@@ -12,6 +12,7 @@ import {
 import {
     BASE_ROLES_WITH_META,
     META_BASE_ROLES,
+    Organization,
 } from '@sprucelabs/spruce-core-schemas'
 import { EventTarget } from '@sprucelabs/spruce-event-utils'
 import { namesUtil, testLog } from '@sprucelabs/spruce-skill-utils'
@@ -696,16 +697,36 @@ async function fakeListOrganization() {
     await eventFaker.on(
         'list-organizations::v2020_12_25',
         (targetAndPayload) => {
-            const { payload } = targetAndPayload ?? {}
+            const { payload, target } = targetAndPayload ?? {}
+            let { organizationIds } = target ?? {}
+            let fakedOrgs = FakerTracker.fakedOrganizations
+
+            if (organizationIds) {
+                fakedOrgs = filterOrgsByIds(organizationIds)
+            }
 
             return {
-                organizations: applyPaging(
-                    FakerTracker.fakedOrganizations,
-                    payload
-                ),
+                organizations: applyPaging(fakedOrgs, payload),
             }
         }
     )
+}
+
+function filterOrgsByIds(organizationIds: string[]) {
+    const uniqueIds = [...new Set(organizationIds)] as string[]
+    const filteredOrgs: Organization[] = []
+    for (const orgId of uniqueIds) {
+        const org = FakerTracker.fakedOrganizations.find((o) => o.id === orgId)
+        if (!org) {
+            throw new SpruceError({
+                code: 'NOT_FOUND',
+                friendlyMessage: `I could not find an organization with the id of '${orgId}'`,
+            })
+        }
+
+        filteredOrgs.push(org)
+    }
+    return filteredOrgs
 }
 
 function applyPaging<T>(records: T[], payload: any): T[] {

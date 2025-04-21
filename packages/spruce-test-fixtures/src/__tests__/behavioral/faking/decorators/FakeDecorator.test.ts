@@ -165,6 +165,52 @@ export default class FakeDecoratorTest extends AbstractFakeDecoratorTest {
     }
 
     @test()
+    protected static async listingOrgsThrowsWithOneBadOrganizationIds() {
+        await this.fakeLoginAndRecords('organizations', 1)
+        const err = await assert.doesThrowAsync(() =>
+            this.listOrganizations(
+                {},
+                {
+                    organizationIds: [generateId()],
+                }
+            )
+        )
+
+        errorAssert.assertError(err, 'NOT_FOUND')
+    }
+
+    @test()
+    protected static async listingMatchesBasedOnOneGoodOrganizationIds() {
+        await this.fakeLoginAndRecords('organizations', 1)
+        const orgs = await this.listOrgsByOrganizationIds([
+            this.fakedOrganizations[0].id,
+        ])
+        assert.isLength(orgs, 1)
+    }
+
+    @test()
+    protected static async canReturn2OrgsByListingByIds() {
+        await this.fakeLoginAndRecords('organizations', 3)
+        const orgs = await this.listOrgsByOrganizationIds([
+            this.fakedOrganizations[2].id,
+            this.fakedOrganizations[0].id,
+        ])
+        assert.isLength(orgs, 2)
+        assert.isEqual(orgs[1].id, this.fakedOrganizations[0].id)
+        assert.isEqual(orgs[0].id, this.fakedOrganizations[2].id)
+    }
+
+    @test()
+    protected static async passingSameOrgIdsToListOrgsReturnsOneOrg() {
+        await this.fakeLoginAndRecords('organizations', 1)
+        const orgs = await this.listOrgsByOrganizationIds([
+            this.fakedOrganizations[0].id,
+            this.fakedOrganizations[0].id,
+        ])
+        assert.isLength(orgs, 1)
+    }
+
+    @test()
     protected static async canGetLatestOrgWithScope() {
         await this.fakeLoginAndRecords('organizations', 5)
         const org = await this.views.getScope().getCurrentOrganization()
@@ -379,6 +425,15 @@ export default class FakeDecoratorTest extends AbstractFakeDecoratorTest {
         )
     }
 
+    private static async listOrgsByOrganizationIds(orgIds: string[]) {
+        return await this.listOrganizations(
+            {},
+            {
+                organizationIds: orgIds,
+            }
+        )
+    }
+
     private static async fakeLoginAndListRoles(orgIdx: number) {
         await this.fakeLoginAndRecords('organizations', 2)
         const [{ roles }] = await this.client.emitAndFlattenResponses(
@@ -450,12 +505,16 @@ export default class FakeDecoratorTest extends AbstractFakeDecoratorTest {
     private static async listOrganizations(
         payload?:
             | SpruceSchemas.Mercury.v2020_12_25.ListOrgsEmitPayload
+            | undefined,
+        target?:
+            | SpruceSchemas.Mercury.v2020_12_25.ListOrgsEmitTarget
             | undefined
     ) {
         const [{ organizations }] = await this.client.emitAndFlattenResponses(
             'list-organizations::v2020_12_25',
             {
                 payload,
+                target,
             }
         )
 
