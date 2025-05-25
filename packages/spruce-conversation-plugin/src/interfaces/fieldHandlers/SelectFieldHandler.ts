@@ -20,14 +20,14 @@ export default class SelectFieldHandler {
         const { sendMessageHandler, definition, waitForNextMessageHandler } =
             options
 
-        let value: string | undefined
+        let value: string | number | undefined
 
         definition.label &&
-            sendMessageHandler({
+            (await sendMessageHandler({
                 body: definition.label,
                 //@ts-ignore
                 choices: definition.options?.choices,
-            })
+            }))
 
         const response = await waitForNextMessageHandler()
 
@@ -40,7 +40,7 @@ export default class SelectFieldHandler {
         } else {
             const ranked = await suggesterUtil.rank(
                 definition.options.choices.map((c) => ({
-                    key: c.value,
+                    key: `${c.value}`,
                     phrase: `${c.value} ${c.label}`,
                 })),
                 response
