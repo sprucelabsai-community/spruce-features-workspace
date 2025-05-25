@@ -23,11 +23,11 @@ export default class SelectFieldHandler {
         let value: string | number | undefined
 
         definition.label &&
-            (await sendMessageHandler({
+            void sendMessageHandler({
                 body: definition.label,
                 //@ts-ignore
                 choices: definition.options?.choices,
-            }))
+            })
 
         const response = await waitForNextMessageHandler()
 
