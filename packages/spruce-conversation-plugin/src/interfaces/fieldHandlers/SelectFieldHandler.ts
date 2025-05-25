@@ -25,7 +25,6 @@ export default class SelectFieldHandler {
         definition.label &&
             void sendMessageHandler({
                 body: definition.label,
-                //@ts-ignore
                 choices: definition.options?.choices,
             })
 
