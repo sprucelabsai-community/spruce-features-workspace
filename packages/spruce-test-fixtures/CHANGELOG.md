@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [68.0.0](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v67.0.1...v68.0.0) (2025-06-10)
+
+
+### Breaking Changes
+
+* jest upgrade ([708bfa6](https://github.com/sprucelabsai-community/spruce-features-workspace/commit/708bfa6))
+
+
+
+
+
 ## [67.0.1](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v67.0.0...v67.0.1) (2025-06-09)
 
 **Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
