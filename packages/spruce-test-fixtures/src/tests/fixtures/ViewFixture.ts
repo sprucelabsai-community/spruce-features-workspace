@@ -72,7 +72,7 @@ export default class ViewFixture {
     private proxyDecorator: ClientProxyDecorator
     private locale: Locale
     private permissions: PermissionFixture
-    private static device?: SpyDevice
+    private static device: SpyDevice
 
     public static lockProxyCacheForPerson(id: any) {
         this.dontResetProxyTokenForPersonId = id
@@ -122,7 +122,7 @@ export default class ViewFixture {
             })
         this.permissions = permissions
         if (!ViewFixture.device) {
-            ViewFixture.device = new SpyDevice()
+            ViewFixture.resetDevice()
         }
 
         this.locale = new LocaleImpl()
@@ -132,6 +132,10 @@ export default class ViewFixture {
                 people: this.people,
                 organizations: this.organizations,
             })
+    }
+
+    private static resetDevice() {
+        ViewFixture.device = new SpyDevice()
     }
 
     public addPlugin(name: string, plugin: ViewControllerPlugin) {
@@ -217,7 +221,7 @@ export default class ViewFixture {
 
         this.vcFactory = ViewControllerFactory.Factory({
             controllerMap,
-            device: this.device!,
+            device: this.device ?? new SpyDevice(),
             pluginsByName,
             connectToApi: async (options?: ConnectOptions) => {
                 return this.viewClient ?? connectToApi(options)
@@ -312,7 +316,7 @@ export default class ViewFixture {
         }
 
         this.viewClient = undefined
-        this.device = undefined
+        this.resetDevice()
 
         const lockedToken =
             this.dontResetProxyTokenForPersonId &&

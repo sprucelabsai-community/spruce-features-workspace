@@ -636,8 +636,8 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
     protected static async deviceIsSetOnFixtureAndFactory() {
         const factory = this.fixture.getFactory()
         const device = this.fixture.getDevice()
-        //@ts-ignore
-        assert.isEqual(factory.device, device)
+
+        assert.isEqual(factory.getDevice(), device)
 
         const factory2 = this.ViewFixture()
         assert.isEqual(factory2.getDevice(), device)
@@ -784,6 +784,23 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
             App,
             `Did not pass App to setAppController on factory`
         )
+    }
+
+    @test()
+    protected static async returnsNewVcFactoryEachTime() {
+        const vcFactory = this.fixture.getFactory()
+        await ViewFixture.beforeEach()
+        const vcFactory2 = this.fixture.getFactory()
+        assert.isNotEqual(vcFactory, vcFactory2, 'Did not return new factory')
+    }
+
+    @test()
+    protected static async vcFactoryGetsSameDeviceAsViewFixture() {
+        await ViewFixture.beforeEach()
+        const vcFactory = this.fixture.getFactory()
+        const device = this.fixture.getDevice()
+        const device2 = vcFactory.getDevice()
+        assert.isEqual(device, device2, 'Did not return same device')
     }
 
     private static assertSpyFactoryUsed() {
