@@ -221,7 +221,7 @@ export default class ViewFixture {
 
         this.vcFactory = ViewControllerFactory.Factory({
             controllerMap,
-            device: this.device ?? new SpyDevice(),
+            device: this.device,
             pluginsByName,
             connectToApi: async (options?: ConnectOptions) => {
                 return this.viewClient ?? connectToApi(options)
