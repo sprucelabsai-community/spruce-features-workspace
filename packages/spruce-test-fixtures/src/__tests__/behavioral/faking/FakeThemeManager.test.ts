@@ -32,8 +32,10 @@ export default class FakeThemeManagerTest extends AbstractSpruceTest {
                 color4ComplimentTransparent: 'rgba(0,0,0,0.1)',
                 color4Inverse: 'white',
                 color4InverseCompliment: '#c7c7c7',
-                controlBarColor1: 'black',
-                controlBarColor2: 'white',
+                controlBar: {
+                    foregroundColor: 'black',
+                    backgroundColor: 'white',
+                },
                 toolBeltColor2: '#f1f1f1',
                 errorColor1: '#fff',
                 errorColor1Inverse: '#FF3326',
