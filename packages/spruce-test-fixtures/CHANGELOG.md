@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [69.0.3](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v69.0.2...v69.0.3) (2025-07-14)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
 ## [69.0.2](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v69.0.1...v69.0.2) (2025-07-06)
 
 **Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
