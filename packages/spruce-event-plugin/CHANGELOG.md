@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [71.0.0](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v70.0.7...v71.0.0) (2025-07-21)
+
+
+### Breaking Changes
+
+* upgrade ([3123f94](https://github.com/sprucelabsai-community/spruce-features-workspace/commit/3123f94))
+
+
+
+
+
 ## [70.0.7](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v70.0.6...v70.0.7) (2025-07-19)
 
 **Note:** Version bump only for package @sprucelabs/spruce-event-plugin
