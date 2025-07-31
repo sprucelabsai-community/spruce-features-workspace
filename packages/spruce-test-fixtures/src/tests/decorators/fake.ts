@@ -683,8 +683,6 @@ async function fakeUpdateOrganization() {
             }
 
             const { ...copy } = match
-            //@ts-ignore
-            delete copy.id
 
             return {
                 organization: copy,
