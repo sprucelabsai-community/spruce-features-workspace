@@ -3,7 +3,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "73.0.0",
+  "version": "73.0.8",
   "files": [
     "build/**/*",
     "!build/__tests__",
@@ -58,14 +58,14 @@
     "lint.tsc": "tsc -p . --noEmit"
   },
   "dependencies": {
-    "@sprucelabs/error": "^7.0.29",
-    "@sprucelabs/schema": "^32.1.2",
-    "@sprucelabs/spruce-skill-utils": "^32.0.51",
-    "@sprucelabs/test-utils": "^6.0.45"
+    "@sprucelabs/error": "^7.0.30",
+    "@sprucelabs/schema": "^32.1.5",
+    "@sprucelabs/spruce-skill-utils": "^32.0.55",
+    "@sprucelabs/test-utils": "^6.0.48"
   },
   "devDependencies": {
-    "@sprucelabs/esm-postbuild": "^7.0.19",
-    "@sprucelabs/jest-json-reporter": "^9.0.31",
+    "@sprucelabs/esm-postbuild": "^7.0.20",
+    "@sprucelabs/jest-json-reporter": "^9.0.32",
     "@sprucelabs/resolve-path-aliases": "^3.0.16",
     "@sprucelabs/semantic-release": "^5.0.2",
     "@sprucelabs/test": "^10.0.13",
