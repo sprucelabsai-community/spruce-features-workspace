@@ -8,14 +8,14 @@ import { errorAssert } from '@sprucelabs/test-utils'
 import dotenv from 'dotenv'
 import { MercuryFixture } from '../..'
 import {
-    DEMO_NUMBER_SECOND_LOGIN,
+	DEMO_NUMBER_SECOND_LOGIN,
     DEMO_NUMBER,
     DEMO_NUMBER_PERSON_FIXTURE,
 } from '../../tests/constants'
 import FixtureFactory from '../../tests/fixtures/FixtureFactory'
 import PersonFixture from '../../tests/fixtures/PersonFixture'
-dotenv.config()
 
+dotenv.config({ quiet: true })
 MercuryFixture.setShouldRequireLocalListeners(false)
 
 export default class PersonFixtureTest extends AbstractSpruceTest {

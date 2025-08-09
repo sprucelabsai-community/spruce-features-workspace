@@ -20,10 +20,10 @@ import {
     HASH_SPRUCE_DIR_NAME,
 } from '@sprucelabs/spruce-skill-utils'
 import { ClientProxyDecorator } from '@sprucelabs/spruce-test-fixtures'
+import dotenv from 'dotenv'
 import ListenerCacher from '../cache/ListenerCacher'
 import SpruceError from '../errors/SpruceError'
-
-require('dotenv').config()
+dotenv.config({ quiet: true })
 
 export class EventFeaturePlugin implements SkillFeature {
     private skill: Skill

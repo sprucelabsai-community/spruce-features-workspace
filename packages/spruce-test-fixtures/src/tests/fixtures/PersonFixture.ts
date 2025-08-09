@@ -6,7 +6,7 @@ import { TestConnectFactory } from '../../types/fixture.types'
 import generateRandomName from './generateRandomName'
 import MercuryFixture from './MercuryFixture'
 
-dotenv.config()
+dotenv.config({ quiet: true })
 
 type Person = SpruceSchemas.Spruce.v2020_07_22.Person
 type Factory = TestConnectFactory

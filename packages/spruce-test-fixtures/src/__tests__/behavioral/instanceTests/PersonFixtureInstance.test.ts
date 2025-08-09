@@ -14,7 +14,7 @@ import {
 import FixtureFactory from '../../../tests/fixtures/FixtureFactory'
 import MercuryFixture from '../../../tests/fixtures/MercuryFixture'
 import PersonFixture from '../../../tests/fixtures/PersonFixture'
-dotenv.config()
+dotenv.config({ quiet: true })
 
 MercuryFixture.setShouldRequireLocalListeners(false)
 

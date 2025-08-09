@@ -16,8 +16,8 @@ import {
     TestConnectFactory,
     TestConnectionOptions,
 } from '../../types/fixture.types'
-const env = require('dotenv')
-env.config()
+import dotenv from 'dotenv'
+dotenv.config({ quiet: true })
 
 const TEST_HOST = process.env.TEST_HOST ?? process.env.HOST
 

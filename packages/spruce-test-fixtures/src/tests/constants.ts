@@ -1,5 +1,5 @@
 import dotenv from 'dotenv'
-dotenv.config()
+dotenv.config({ quiet: true })
 
 export const DEMO_NUMBER = process.env.DEMO_NUMBER ?? '**MISSING**'
 export const DEMO_NUMBER_HIRING =
