@@ -12,11 +12,11 @@ import {
     eventDiskUtil,
 } from '@sprucelabs/spruce-event-utils'
 import { AuthService, diskUtil } from '@sprucelabs/spruce-skill-utils'
+import dotenv from 'dotenv'
 import {
     TestConnectFactory,
     TestConnectionOptions,
 } from '../../types/fixture.types'
-import dotenv from 'dotenv'
 dotenv.config({ quiet: true })
 
 const TEST_HOST = process.env.TEST_HOST ?? process.env.HOST

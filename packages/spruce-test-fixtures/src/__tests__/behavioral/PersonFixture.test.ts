@@ -8,7 +8,7 @@ import { errorAssert } from '@sprucelabs/test-utils'
 import dotenv from 'dotenv'
 import { MercuryFixture } from '../..'
 import {
-	DEMO_NUMBER_SECOND_LOGIN,
+    DEMO_NUMBER_SECOND_LOGIN,
     DEMO_NUMBER,
     DEMO_NUMBER_PERSON_FIXTURE,
 } from '../../tests/constants'
