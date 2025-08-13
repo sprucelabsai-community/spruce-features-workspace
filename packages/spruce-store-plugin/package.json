@@ -64,7 +64,7 @@
   "dependencies": {
     "@sprucelabs/data-stores": "^30.0.27",
     "@sprucelabs/error": "^7.1.0",
-    "@sprucelabs/schema": "^32.1.14",
+    "@sprucelabs/schema": "^32.1.15",
     "@sprucelabs/spruce-core-schemas": "^41.0.60",
     "@sprucelabs/spruce-event-utils": "^41.0.72",
     "@sprucelabs/spruce-skill-booter": "^73.0.26",
