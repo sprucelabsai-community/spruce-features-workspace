@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [74.0.0](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v73.0.26...v74.0.0) (2025-08-13)
+
+
+### Breaking Changes
+
+* upgrade ([99f8f58](https://github.com/sprucelabsai-community/spruce-features-workspace/commit/99f8f58))
+
+
+
+
+
 ## [73.0.26](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v73.0.25...v73.0.26) (2025-08-12)
 
 **Note:** Version bump only for package @sprucelabs/spruce-skill-booter
