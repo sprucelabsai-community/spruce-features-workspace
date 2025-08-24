@@ -67,7 +67,7 @@
     "@nlpjs/nlu": "^5.0.0-alpha.5",
     "@sprucelabs/error": "^7.1.3",
     "@sprucelabs/globby": "^2.0.506",
-    "@sprucelabs/mercury-core-events": "^27.0.89",
+    "@sprucelabs/mercury-core-events": "^27.0.90",
     "@sprucelabs/schema": "^32.1.19",
     "@sprucelabs/spruce-core-schemas": "^41.0.65",
     "@sprucelabs/spruce-event-plugin": "^74.0.13",
