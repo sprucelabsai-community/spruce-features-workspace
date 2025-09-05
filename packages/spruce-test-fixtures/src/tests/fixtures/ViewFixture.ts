@@ -22,6 +22,7 @@ import {
     ViewControllerPlugin,
     AppControllerId,
     AppControllerConstructor,
+    MockToastMessageHandler,
 } from '@sprucelabs/heartwood-view-controllers'
 import { MercuryClient } from '@sprucelabs/mercury-client'
 import { SchemaError } from '@sprucelabs/schema'
@@ -219,12 +220,18 @@ export default class ViewFixture {
             controllerMap['heartwood.root'] = FakeSkillViewController
         }
 
+        const toastHandler = MockToastMessageHandler.Handler()
+        MockToastMessageHandler.setInstance(toastHandler)
+
         this.vcFactory = ViewControllerFactory.Factory({
             controllerMap,
             device: this.device,
             pluginsByName,
             connectToApi: async (options?: ConnectOptions) => {
                 return this.viewClient ?? connectToApi(options)
+            },
+            toastHandler: async (message) => {
+                MockToastMessageHandler.getInstance().handleMessage(message)
             },
             log: {
                 prefix: 'ViewFixture',
