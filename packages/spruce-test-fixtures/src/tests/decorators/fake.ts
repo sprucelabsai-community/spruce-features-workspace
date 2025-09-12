@@ -827,7 +827,7 @@ async function fakeRegisterProxyToken() {
 
 async function fakeAuthenticationEvents() {
     await eventFaker.on('request-pin::v2020_12_25', ({ payload }) => {
-        const formattedPhone = formatPhoneNumber(payload.phone!)
+        const formattedPhone = formatPhoneNumber(payload!.phone!)
         let person = FakerTracker.fakedPeople.find(
             (p) => p.phone === formattedPhone
         )
