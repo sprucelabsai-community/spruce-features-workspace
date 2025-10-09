@@ -170,7 +170,7 @@ interface Perm<ContractId extends PermissionContractId> {
 }
 
 export type PermissionContractTarget =
-    SpruceSchemas.Mercury.v2020_12_25.DoesHonorPermissionContractEmitTarget
+    SpruceSchemas.Mercury.v2020_12_25.GetResolvedPermissionsContractEmitTarget
 
 export interface FakePermissionOptions<
     ContractId extends PermissionContractId = PermissionContractId,
