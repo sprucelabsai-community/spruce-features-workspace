@@ -61,14 +61,26 @@ export default class FakeAuthorizer implements Authorizer {
                     actual,
                     fakedContract
                 )
+
+                const doesOrganizationMatch =
+                    fakedContract.target?.organizationId ===
+                    target?.organizationId
+
+                const doesLocationMatch =
+                    fakedContract.target?.locationId === target?.locationId
+
+                const doesPersonMatch =
+                    !fakedContract.target?.contractPersonId ||
+                    target?.contractPersonId ===
+                        fakedContract.target?.contractPersonId
+
                 results[fakedPerm.id as Ids] =
                     results[fakedPerm.id as Ids] ||
                     (fakedPerm.can &&
                         (!fakedContract.target ||
-                            (fakedContract.target?.organizationId ===
-                                target?.organizationId &&
-                                fakedContract.target?.locationId ===
-                                    target?.locationId)))
+                            (doesOrganizationMatch &&
+                                doesPersonMatch &&
+                                doesLocationMatch)))
             }
         }
 
