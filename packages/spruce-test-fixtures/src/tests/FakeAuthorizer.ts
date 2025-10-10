@@ -61,6 +61,13 @@ export default class FakeAuthorizer implements Authorizer {
                     actual,
                     fakedContract
                 )
+
+                assert.isEqual(
+                    target?.contractPersonId,
+                    fakedContract.target?.contractPersonId,
+                    'The contractPersonId on the target does not match the faked contractPersonId on the permission contract. Make sure they are the same so the authorizer can find the right contract.'
+                )
+
                 results[fakedPerm.id as Ids] =
                     results[fakedPerm.id as Ids] ||
                     (fakedPerm.can &&

@@ -351,46 +351,6 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
         await this.assertCant(permissionId, target)
     }
 
-    private static async assertCan(
-        contractid: PermissionContractId,
-        target?: PermissionContractTarget
-    ) {
-        const perms = await this.can([contractid], target)
-        assert.isTrue(perms[contractid])
-    }
-
-    private static async assertCant(
-        permissionId: any,
-        target?: PermissionContractTarget
-    ) {
-        const perms = await this.can([permissionId], target)
-        assert.isFalse(perms[permissionId])
-    }
-
-    private static async assertCanOptionsMatch(can: AuthorizerCanOptions<any>) {
-        const { contractId } = can
-        this.auth.fakePermissions({
-            contractId: contractId as any,
-            permissions: [
-                {
-                    id: 'can-register-global-events',
-                    can: true,
-                },
-                {
-                    id: 'can-register-global-events-2',
-                    can: true,
-                },
-                {
-                    id: 'can-register-global-events-3',
-                    can: true,
-                },
-            ],
-        })
-
-        await this.auth.can(can)
-        assert.isEqualDeep(this.auth.getLastCanOptions(), can)
-    }
-
     @test()
     protected static async doesHonorContractThrowsWithMissing() {
         const err = await assert.doesThrowAsync(() =>
@@ -473,6 +433,68 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
         const actual = this.instance.getLastDoesHonorContractOptions()
 
         assert.isEqualDeep(actual, expected)
+    }
+
+    @test()
+    protected static async throwsIfContractPersonIdDoesNotMatch() {
+        const permissionId = this.generateRandomPermissionId()
+        this.fakePermissions(
+            [
+                {
+                    id: permissionId,
+                    can: true,
+                },
+            ],
+            {
+                contractPersonId: generateId(),
+            }
+        )
+
+        await assert.doesThrowAsync(() =>
+            this.can([permissionId], {
+                contractPersonId: generateId(),
+            })
+        )
+    }
+
+    private static async assertCan(
+        contractid: PermissionContractId,
+        target?: PermissionContractTarget
+    ) {
+        const perms = await this.can([contractid], target)
+        assert.isTrue(perms[contractid])
+    }
+
+    private static async assertCant(
+        permissionId: any,
+        target?: PermissionContractTarget
+    ) {
+        const perms = await this.can([permissionId], target)
+        assert.isFalse(perms[permissionId])
+    }
+
+    private static async assertCanOptionsMatch(can: AuthorizerCanOptions<any>) {
+        const { contractId } = can
+        this.auth.fakePermissions({
+            contractId: contractId as any,
+            permissions: [
+                {
+                    id: 'can-register-global-events',
+                    can: true,
+                },
+                {
+                    id: 'can-register-global-events-2',
+                    can: true,
+                },
+                {
+                    id: 'can-register-global-events-3',
+                    can: true,
+                },
+            ],
+        })
+
+        await this.auth.can(can)
+        assert.isEqualDeep(this.auth.getLastCanOptions(), can)
     }
 
     private static async assertDoesHonorPermissionContract() {
