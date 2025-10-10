@@ -261,10 +261,16 @@ export default class UsingDecoratorsInstanceTest extends AbstractSpruceFixtureTe
 
     private async assertTotalPeopleByRole(roleBase: string, total: number) {
         const org = await this.organizations.getNewestOrganization()
-        assert.isTruthy(org)
+        assert.isTruthy(
+            org,
+            'Did not find an organization. Did you forget to seed one?'
+        )
+
+        const loc = await this.locations.getNewestLocation(org.id)
 
         const teammates = await this.people.listPeople({
             organizationId: org.id,
+            locationId: loc?.id,
             roleBases: [roleBase],
         })
 
