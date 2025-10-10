@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [74.2.0](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v74.1.40...v74.2.0) (2025-10-10)
+
+
+### Features
+
+* can get all saved permissions in authorizer ([082cf6e](https://github.com/sprucelabsai-community/spruce-features-workspace/commit/082cf6e))
+
+
+
+
+
 ## [74.1.40](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v74.1.39...v74.1.40) (2025-10-10)
 
 **Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
