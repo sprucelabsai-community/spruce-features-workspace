@@ -232,7 +232,6 @@ export default class UsingDecoratorsTest extends AbstractSpruceFixtureTest {
         baseCounts: Record<string, number>
     ) {
         const bases = Object.keys(baseCounts)
-
         for (const base of bases) {
             const count = baseCounts[base]
             await this.assertTotalPeopleByRole(base, count)
@@ -241,7 +240,6 @@ export default class UsingDecoratorsTest extends AbstractSpruceFixtureTest {
 
     private static async assertCountOrgs(expected: number) {
         const organizations = await this.organizations.listOrganizations()
-
         assert.isLength(organizations, expected)
     }
 
@@ -273,14 +271,20 @@ export default class UsingDecoratorsTest extends AbstractSpruceFixtureTest {
         total: number
     ) {
         const org = await this.organizations.getNewestOrganization()
-        assert.isTruthy(org)
+        assert.isTruthy(
+            org,
+            'Did not find an organization. Did you forget to seed one?'
+        )
+
+        const loc = await this.locations.getNewestLocation(org.id)
 
         const teammates = await this.people.listPeople({
             organizationId: org.id,
+            locationId: loc?.id,
             roleBases: [roleBase],
         })
 
-        assert.isLength(teammates, total)
+        assert.isLength(teammates, total, ' wrong number of ' + roleBase)
     }
 }
 
