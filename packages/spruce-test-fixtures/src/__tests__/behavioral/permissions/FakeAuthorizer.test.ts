@@ -492,6 +492,45 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
         })
     }
 
+    @test()
+    protected static async canGetAllSavedPermissionOptions() {
+        const perm1: SavePermissionsOptions<any, any> = {
+            contractId: 'agent-contract',
+            target: {
+                locationId: generateId(),
+            },
+            permissions: [
+                {
+                    can: {
+                        default: true,
+                    },
+                    id: 'can-get-platform-agent',
+                },
+            ],
+        }
+
+        const perm2: SavePermissionsOptions<any, any> = {
+            contractId: 'events-contract',
+            target: {
+                organizationId: generateId(),
+            },
+            permissions: [
+                {
+                    can: { clockedIn: true },
+                    id: 'can-register-global-events',
+                },
+            ],
+        }
+        await this.auth.savePermissions(perm1)
+        await this.auth.savePermissions(perm2)
+
+        assert.isEqualDeep(
+            this.auth.getAllSavedPermissions(),
+            [perm1, perm2],
+            'Expected saved permissions to match'
+        )
+    }
+
     private static generateRandomPermissionId() {
         return generateId() as any
     }

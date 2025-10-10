@@ -17,6 +17,7 @@ export default class FakeAuthorizer implements Authorizer {
     private lastSavePermissionOptions?: SavePermissionsOptions<any, any>
     private lastCanOptions?: AuthorizerCanOptions<any>
     private lastDoesHonorContractOptions?: AuthorizerDoesHonorOptions<PermissionContractId>
+    private savedPermissions: SavePermissionsOptions<any, any>[] = []
 
     public fakePermissions<
         ContractId extends PermissionContractId = PermissionContractId,
@@ -114,10 +115,15 @@ export default class FakeAuthorizer implements Authorizer {
         return this.lastCanOptions
     }
 
+    public getAllSavedPermissions() {
+        return this.savedPermissions
+    }
+
     public async savePermissions<
         ContractId extends PermissionContractId,
         Ids extends PermissionId<ContractId>,
     >(options: SavePermissionsOptions<ContractId, Ids>): Promise<void> {
+        this.savedPermissions.push(options)
         this.lastSavePermissionOptions = options
     }
 
