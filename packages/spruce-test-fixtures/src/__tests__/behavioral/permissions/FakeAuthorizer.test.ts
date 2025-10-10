@@ -229,7 +229,7 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
 
     @test()
     protected static async matchesIfFirstTargetMatchesOnOrgId() {
-        const contractid = this.generateRandomPermissionId()
+        const permissionId = this.generateRandomPermissionId()
 
         const target = {
             organizationId: generateId(),
@@ -237,19 +237,19 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
         this.fakePermissions(
             [
                 {
-                    id: contractid,
+                    id: permissionId,
                     can: true,
                 },
             ],
             target
         )
 
-        await this.assertCan(contractid, target)
+        await this.assertCan(permissionId, target)
     }
 
     @test()
     protected static async matchesIfFirstTargetMatchesOnLocationId() {
-        const contractid = this.generateRandomPermissionId()
+        const permissionId = this.generateRandomPermissionId()
 
         const target = {
             locationId: generateId(),
@@ -258,19 +258,19 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
         this.fakePermissions(
             [
                 {
-                    id: contractid,
+                    id: permissionId,
                     can: true,
                 },
             ],
             target
         )
 
-        await this.assertCan(contractid, target)
+        await this.assertCan(permissionId, target)
     }
 
     @test()
     protected static async matchesIfPermissionHasNoTargetNoMatterWhat() {
-        const contractid = this.generateRandomPermissionId()
+        const permissionId = this.generateRandomPermissionId()
 
         const target = {
             locationId: generateId(),
@@ -278,12 +278,12 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
 
         this.fakePermissions([
             {
-                id: contractid,
+                id: permissionId,
                 can: true,
             },
         ])
 
-        await this.assertCan(contractid, target)
+        await this.assertCan(permissionId, target)
     }
 
     @test()
@@ -404,10 +404,6 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
         await this.assertDoesHonorPermissionContract()
     }
 
-    private static generateRandomPermissionId() {
-        return generateId() as any
-    }
-
     @test()
     protected static async doesHonorReturnsFalseIfAllPermissionsAreFalse() {
         this.fakePermissions([
@@ -450,19 +446,65 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
             }
         )
 
-        await assert.doesThrowAsync(() =>
-            this.can([permissionId], {
-                contractPersonId: generateId(),
-            })
+        await this.assertCant(permissionId, {
+            contractPersonId: generateId(),
+        })
+    }
+
+    @test()
+    protected static async passesIfContractPersonIdMatches() {
+        const permissionId = this.generateRandomPermissionId()
+        const contractPersonId = generateId()
+        this.fakePermissions(
+            [
+                {
+                    id: permissionId,
+                    can: true,
+                },
+            ],
+            {
+                contractPersonId,
+            }
         )
+
+        await this.assertCan(permissionId, { contractPersonId })
+    }
+
+    @test()
+    protected static async passesIfPermissionDoesNotHaveContractPersonId() {
+        const permissionId = this.generateRandomPermissionId()
+        const locationId = generateId()
+        this.fakePermissions(
+            [
+                {
+                    id: permissionId,
+                    can: true,
+                },
+            ],
+            {
+                locationId,
+            }
+        )
+
+        await this.assertCan(permissionId, {
+            contractPersonId: generateId(),
+            locationId,
+        })
+    }
+
+    private static generateRandomPermissionId() {
+        return generateId() as any
     }
 
     private static async assertCan(
-        contractid: PermissionContractId,
+        permissionId: string,
         target?: PermissionContractTarget
     ) {
-        const perms = await this.can([contractid], target)
-        assert.isTrue(perms[contractid])
+        const perms = await this.can([permissionId], target)
+        assert.isTrue(
+            perms[permissionId],
+            'Should have returned true because the target matches'
+        )
     }
 
     private static async assertCant(
@@ -470,7 +512,10 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
         target?: PermissionContractTarget
     ) {
         const perms = await this.can([permissionId], target)
-        assert.isFalse(perms[permissionId])
+        assert.isFalse(
+            perms[permissionId],
+            'Should have returned false because target does not match'
+        )
     }
 
     private static async assertCanOptionsMatch(can: AuthorizerCanOptions<any>) {
@@ -553,7 +598,7 @@ export default class CheckingPermissionsTest extends AbstractSpruceFixtureTest {
     ) {
         this.instance.fakePermissions({
             target,
-            contractId: this.contractId as any,
+            contractId: this.contractId as PermissionContractId,
             permissions: options,
         })
     }
