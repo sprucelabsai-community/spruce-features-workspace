@@ -15,7 +15,7 @@ export default class FakingErrorResponsesTest extends AbstractSpruceFixtureTest 
     @test('faking whoami::v2020_12_25', 'whoami::v2020_12_25')
     @test('faking request-pin::v2020_12_25', 'request-pin::v2020_12_25', {
         payload: {
-            phone: '+555-000-0001',
+            phone: '+1 555-000-0001',
         },
     })
     protected static async throwsWhenFakingResponse(
@@ -83,7 +83,7 @@ export default class FakingErrorResponsesTest extends AbstractSpruceFixtureTest 
 
         await this.client.emitAndFlattenResponses('request-pin::v2020_12_25', {
             payload: {
-                phone: '+555-000-0001',
+                phone: '+1 555-000-0001',
             },
         })
     }
