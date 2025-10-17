@@ -13,7 +13,7 @@
       "@sprucelabs/spruce-test-fixtures"
     ]
   },
-  "version": "74.2.8",
+  "version": "74.2.9",
   "files": [
     "build/**/*",
     "!build/__tests__",
@@ -71,7 +71,7 @@
     "@sprucelabs/spruce-core-schemas": "^41.3.27",
     "@sprucelabs/spruce-event-utils": "^41.0.151",
     "@sprucelabs/spruce-permission-utils": "^19.0.116",
-    "@sprucelabs/spruce-skill-booter": "^74.2.8",
+    "@sprucelabs/spruce-skill-booter": "^74.2.9",
     "@sprucelabs/spruce-skill-utils": "^32.1.7",
     "@sprucelabs/test-utils": "^6.0.110",
     "dotenv": "^17.2.3",
