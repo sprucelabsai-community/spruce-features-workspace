@@ -24,9 +24,9 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 				
 				'id': string
 				
-				'vc': HeartwoodViewController.SkillViewController
+				'vc': (HeartwoodViewController.SkillViewController)
 				
-				'args'?: Record<string, any> | undefined | null
+				'args'?: (Record<string, any>) | undefined | null
 		}
 
 		interface TestRouterEmitPayloadSchema extends SpruceSchema.Schema {
