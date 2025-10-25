@@ -3,6 +3,150 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [74.2.18](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v74.2.17...v74.2.18) (2025-10-25)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [74.2.17](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v74.2.16...v74.2.17) (2025-10-23)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [74.2.16](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v74.2.15...v74.2.16) (2025-10-21)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [74.2.15](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v74.2.14...v74.2.15) (2025-10-21)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [74.2.14](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v74.2.13...v74.2.14) (2025-10-21)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [74.2.13](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v74.2.12...v74.2.13) (2025-10-21)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [74.2.12](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v74.2.11...v74.2.12) (2025-10-20)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [74.2.11](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v74.2.10...v74.2.11) (2025-10-20)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [74.2.10](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v74.2.9...v74.2.10) (2025-10-18)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [74.2.9](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v74.2.8...v74.2.9) (2025-10-17)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [74.2.8](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v74.2.7...v74.2.8) (2025-10-17)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [74.2.7](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v74.2.6...v74.2.7) (2025-10-17)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [74.2.6](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v74.2.5...v74.2.6) (2025-10-17)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [74.2.5](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v74.2.4...v74.2.5) (2025-10-17)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [74.2.4](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v74.2.3...v74.2.4) (2025-10-17)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [74.2.3](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v74.2.2...v74.2.3) (2025-10-16)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [74.2.2](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v74.2.1...v74.2.2) (2025-10-16)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+## [74.2.1](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v74.2.0...v74.2.1) (2025-10-16)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
 # [74.2.0](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v74.1.40...v74.2.0) (2025-10-10)
 
 
