@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [76.0.0](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v75.0.9...v76.0.0) (2025-11-14)
+
+
+### Breaking Changes
+
+* dependency loader ([ced830f](https://github.com/sprucelabsai-community/spruce-features-workspace/commit/ced830f))
+
+
+
+
+
 ## [75.0.9](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v75.0.8...v75.0.9) (2025-11-13)
 
 **Note:** Version bump only for package @sprucelabs/spruce-store-plugin
