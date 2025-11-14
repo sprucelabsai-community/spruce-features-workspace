@@ -36,6 +36,7 @@ import { ArgsFromSvc } from '../../types/view.types'
 import spyMapUtil from '../../utilities/SpyMapUtil'
 import vcDiskUtil from '../../utilities/vcDisk.utility'
 import FakeSkillViewController from '../Fake.svc'
+import FakeDependencyLoader from '../FakeDependencyLoader'
 import TestRouter from '../routers/TestRouter'
 import SpyViewControllerFactory from '../SpyViewControllerFactory'
 import FixtureFactory from './FixtureFactory'
@@ -61,6 +62,7 @@ export default class ViewFixture {
     private static scope?: SpyScope
     private static shouldAutomaticallyResetAuthenticator = true
     private static viewClient?: Client
+    private static device: SpyDevice
 
     protected people: PersonFixture
     protected organizations: OrganizationFixture
@@ -73,7 +75,8 @@ export default class ViewFixture {
     private proxyDecorator: ClientProxyDecorator
     private locale: Locale
     private permissions: PermissionFixture
-    private static device: SpyDevice
+    private mockDependencyLoader: FakeDependencyLoader =
+        FakeDependencyLoader.Loader()
 
     public static lockProxyCacheForPerson(id: any) {
         this.dontResetProxyTokenForPersonId = id
@@ -433,8 +436,13 @@ export default class ViewFixture {
             scope: this.getScope(),
             locale: this.getLocale(),
             authorizer: this.permissions.getAuthorizer(),
+            dependencyLoader: this.getDependencyLoader(),
         })
         return TestRouter.getInstance()
+    }
+
+    public getDependencyLoader() {
+        return this.mockDependencyLoader
     }
 
     /**

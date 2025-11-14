@@ -12,6 +12,7 @@ import { errorAssert } from '@sprucelabs/test-utils'
 import AbstractSpruceFixtureTest from '../../../tests/AbstractSpruceFixtureTest'
 import FakeSkillViewController from '../../../tests/Fake.svc'
 import FakeAuthorizer from '../../../tests/FakeAuthorizer'
+import FakeDependencyLoader from '../../../tests/FakeDependencyLoader'
 import TestRouter from '../../../tests/routers/TestRouter'
 import BookSkillViewController from '../../testDirsAndFiles/skill/build/skillViewControllers/Book.svc'
 import SpySkillViewController from '../../testDirsAndFiles/skill/build/skillViewControllers/Spy.svc'
@@ -166,9 +167,40 @@ export default class RoutingTest extends AbstractSpruceFixtureTest {
 
     @test()
     protected static testRouterBuildsOptionsWithLocaleAndAuthorizer() {
-        const options = this.router.buildLoadOptions()
+        const options = this.buildLoadOptions()
         assert.isTrue(options.locale instanceof LocaleImpl)
         assert.isTrue(options.authorizer instanceof FakeAuthorizer)
+    }
+
+    @test()
+    protected static testRouterPutsMockDepencyLoaderIntoLoadOptions() {
+        const options = this.buildLoadOptions()
+        //@ts-ignore
+        assert.isInstanceOf(options.dependencyLoader, FakeDependencyLoader)
+    }
+
+    @test()
+    protected static sharesDependencyLoaderBetweenBuilding() {
+        const { dependencyLoader: dep1 } = this.buildLoadOptions()
+        const { dependencyLoader: dep2 } = this.buildLoadOptions()
+
+        assert.isEqual(
+            dep1,
+            dep2,
+            'Dependency loaders are not the same instance'
+        )
+    }
+
+    @test()
+    protected static canGetDependencyLoaderDirectlyFromViewFixture() {
+        TestRouter.reset()
+        const { dependencyLoader } = this.views.getRouter().buildLoadOptions()
+        const dl = this.views.getDependencyLoader()
+        assert.isEqual(
+            dl,
+            dependencyLoader,
+            'Dependency loaders are not the same instance'
+        )
     }
 
     @test()
@@ -199,6 +231,10 @@ export default class RoutingTest extends AbstractSpruceFixtureTest {
 
         this.router.setNamespace('heartwood')
         this.assertCurrentNamespace('heartwood')
+    }
+
+    private static buildLoadOptions() {
+        return this.router.buildLoadOptions()
     }
 
     private static assertCurrentNamespace(namespace: string) {

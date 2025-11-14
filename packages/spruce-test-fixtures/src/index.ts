@@ -26,6 +26,7 @@ export { default as FakeAuthorizer } from './tests/FakeAuthorizer'
 export * from './tests/FakeAuthorizer'
 export { default as SpyViewControllerFactory } from './tests/SpyViewControllerFactory'
 export { default as SpyAuthenticator } from './tests/fixtures/SpyAuthenticator'
+export { default as MockDependencyLoader } from './tests/FakeDependencyLoader'
 
 /**
  * @deprecated phoneNumberIncrementer -> phoneNumberIncrementor

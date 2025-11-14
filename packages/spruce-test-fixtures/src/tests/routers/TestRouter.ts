@@ -18,6 +18,7 @@ import {
     MercuryEventEmitter,
 } from '@sprucelabs/mercury-types'
 import testRouterEmitPayloadSchema from '#spruce/schemas/spruceTestFixtures/v2021_07_19/testRouterEmitPayload.schema'
+import FakeDependencyLoader from '../FakeDependencyLoader'
 import FakeThemeManager from '../FakeThemeManager'
 
 export default class TestRouter
@@ -26,20 +27,23 @@ export default class TestRouter
 {
     private vcFactory: ViewControllerFactory
     private presentVc?: SkillViewController<any>
+
     private static vcFactory: ViewControllerFactory
     private static instance?: TestRouter
     private static scope: Scope
     private static locale: Locale
     private static shouldLoadDestinationVc = false
-
+    private static authorizer: Authorizer
     private static shouldThrowWhenRedirectingToBadSvc = true
+    private static mockDependencyLoader: FakeDependencyLoader
+
     private scope: Scope
     private locale: Locale
     private manuallySetNamespace?: string
 
     private readonly themes = new FakeThemeManager()
     private authorizer: Authorizer
-    private static authorizer: Authorizer
+    private mockDependencyLoader: FakeDependencyLoader
 
     public static setShouldThrowWhenRedirectingToBadSvc(shouldThrow: boolean) {
         this.shouldThrowWhenRedirectingToBadSvc = shouldThrow
@@ -50,13 +54,18 @@ export default class TestRouter
         scope: Scope
         locale: Locale
         authorizer: Authorizer
+        dependencyLoader: FakeDependencyLoader
     }) {
         super(contract)
 
-        this.vcFactory = options.vcFactory
-        this.scope = options.scope
-        this.locale = options.locale
-        this.authorizer = options.authorizer
+        const { vcFactory, scope, locale, authorizer, dependencyLoader } =
+            options
+
+        this.vcFactory = vcFactory
+        this.scope = scope
+        this.locale = locale
+        this.authorizer = authorizer
+        this.mockDependencyLoader = dependencyLoader
     }
 
     public static setShouldLoadDestinationVc(shouldLoad: boolean) {
@@ -70,6 +79,7 @@ export default class TestRouter
                 scope: this.scope,
                 locale: this.locale,
                 authorizer: this.authorizer,
+                dependencyLoader: this.mockDependencyLoader,
             })
             routerTestPatcher.patchRedirectToThrow(this.instance)
         }
@@ -109,11 +119,15 @@ export default class TestRouter
         scope: Scope
         locale: Locale
         authorizer: Authorizer
+        dependencyLoader: FakeDependencyLoader
     }) {
-        this.vcFactory = options.vcFactory
-        this.scope = options.scope
-        this.locale = options.locale
-        this.authorizer = options.authorizer
+        const { vcFactory, scope, locale, authorizer, dependencyLoader } =
+            options
+        this.vcFactory = vcFactory
+        this.scope = scope
+        this.locale = locale
+        this.authorizer = authorizer
+        this.mockDependencyLoader = dependencyLoader
     }
 
     public getPresentVc() {
@@ -162,6 +176,7 @@ export default class TestRouter
             authorizer: this.authorizer,
             scope: this.scope,
             themes: this.themes,
+            dependencyLoader: this.mockDependencyLoader,
         }
     }
 }
