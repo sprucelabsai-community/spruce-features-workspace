@@ -3,6 +3,65 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [76.0.6](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v76.0.5...v76.0.6) (2025-11-19)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+## [76.0.5](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v76.0.4...v76.0.5) (2025-11-18)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+## [76.0.4](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v76.0.3...v76.0.4) (2025-11-17)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+## [76.0.3](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v76.0.2...v76.0.3) (2025-11-17)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+## [76.0.2](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v76.0.1...v76.0.2) (2025-11-14)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+## [76.0.1](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v76.0.0...v76.0.1) (2025-11-14)
+
+**Note:** Version bump only for package spruce-features-workspace
+
+
+
+
+
+# [76.0.0](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v75.0.9...v76.0.0) (2025-11-14)
+
+
+### Breaking Changes
+
+* dependency loader ([ced830f](https://github.com/sprucelabsai-community/spruce-features-workspace/commit/ced830f))
+
+
+
+
+
 ## [75.0.9](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v75.0.8...v75.0.9) (2025-11-13)
 
 **Note:** Version bump only for package spruce-features-workspace
