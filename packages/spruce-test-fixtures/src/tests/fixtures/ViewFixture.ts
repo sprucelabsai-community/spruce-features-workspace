@@ -27,7 +27,7 @@ import {
 import { MercuryClient } from '@sprucelabs/mercury-client'
 import { SchemaError } from '@sprucelabs/schema'
 import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
-import { buildLog, diskUtil } from '@sprucelabs/spruce-skill-utils'
+import { buildLog, diskUtil, Log } from '@sprucelabs/spruce-skill-utils'
 import { ClientProxyDecorator } from '../..'
 import { TokenGenerator } from '../../ClientProxyDecorator'
 import SpruceError from '../../errors/SpruceError'
@@ -63,6 +63,7 @@ export default class ViewFixture {
     private static shouldAutomaticallyResetAuthenticator = true
     private static viewClient?: Client
     private static device: SpyDevice
+    private static log?: Log
 
     protected people: PersonFixture
     protected organizations: OrganizationFixture
@@ -226,6 +227,14 @@ export default class ViewFixture {
         const toastHandler = MockToastMessageHandler.Handler()
         MockToastMessageHandler.setInstance(toastHandler)
 
+        ViewFixture.log = buildLog(undefined, {
+            transportsByLevel: {
+                ERROR: () => {},
+                WARN: () => {},
+                INFO: () => {},
+            },
+        })
+
         this.vcFactory = ViewControllerFactory.Factory({
             controllerMap,
             device: this.device,
@@ -236,13 +245,7 @@ export default class ViewFixture {
             toastHandler: async (message) => {
                 MockToastMessageHandler.getInstance().handleMessage(message)
             },
-            log: {
-                prefix: 'ViewFixture',
-                error: () => '',
-                warn: () => '',
-                info: () => '',
-                buildLog,
-            },
+            log: ViewFixture.log,
             maps: spyMapUtil,
         })
 
@@ -269,6 +272,10 @@ export default class ViewFixture {
         }
 
         return this.vcFactory
+    }
+
+    public getLog() {
+        return ViewFixture.log!
     }
 
     public getDevice() {

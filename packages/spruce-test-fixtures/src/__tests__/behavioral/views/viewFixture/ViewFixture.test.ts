@@ -46,6 +46,7 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
     private static fixtureNoOptions: ViewFixture
     private static eventFaker: EventFaker
     private static lastDevice?: Device
+    private static lastMockFixture: ViewFixture
 
     protected static async beforeEach() {
         await super.beforeEach()
@@ -656,12 +657,29 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
         console.warn = () => assert.fail('should not be called')
         console.error = () => assert.fail('should not be called')
 
-        const vc = this.MockVc('logging') as LoggingViewController
+        const vc = this.LoggingVc()
         const log = vc.getLog()
 
         log.info('hey')
         log.error('hey')
         log.warn('hey')
+    }
+
+    @test()
+    protected static async sharesLogWithViewFixture() {
+        const vc = this.LoggingVc()
+        const log = vc.getLog()
+
+        log.startTrackingHistory(3)
+
+        log.info(generateId())
+        log.info(generateId())
+        log.info(generateId())
+
+        const expected = log.getHistory()
+        const actual = this.lastMockFixture.getLog().getHistory()
+
+        assert.isEqualDeep(actual, expected, 'Did not share log history')
     }
 
     @test()
@@ -811,6 +829,11 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
         return this.fixture.getFactory()
     }
 
+    private static LoggingVc() {
+        const vc = this.MockVc('logging') as LoggingViewController
+        return vc
+    }
+
     private static ViewFixture(): ViewFixture {
         return this.Fixture('view', {
             controllerMap: {
@@ -885,6 +908,9 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
         const vc = factory.Controller(named, {
             header: { title: 'hey' },
         })
+
+        this.lastMockFixture = viewFixture
+
         return vc
     }
 
