@@ -669,17 +669,9 @@ export default class ViewFixtureTest extends AbstractSpruceFixtureTest {
     protected static async sharesLogWithViewFixture() {
         const vc = this.LoggingVc()
         const log = vc.getLog()
+        const fixtureLog = this.lastMockFixture.getLog()
 
-        log.startTrackingHistory(3)
-
-        log.info(generateId())
-        log.info(generateId())
-        log.info(generateId())
-
-        const expected = log.getHistory()
-        const actual = this.lastMockFixture.getLog().getHistory()
-
-        assert.isEqualDeep(actual, expected, 'Did not share log history')
+        assert.isEqual(log, fixtureLog, 'Did not share log instance')
     }
 
     @test()

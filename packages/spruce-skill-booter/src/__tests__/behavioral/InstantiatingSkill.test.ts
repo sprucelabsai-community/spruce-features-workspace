@@ -145,8 +145,6 @@ export default class SkillTest extends AbstractSkillTest {
                 warn: () => '',
                 info: (data) => (log += data),
                 error: () => '',
-                getHistory: () => [],
-                startTrackingHistory: () => {},
                 buildLog,
             },
         })
