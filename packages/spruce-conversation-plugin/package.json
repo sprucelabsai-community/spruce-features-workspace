@@ -12,7 +12,7 @@
       "@types/inquirer"
     ]
   },
-  "version": "76.0.24",
+  "version": "76.1.1",
   "files": [
     "build/**/*",
     "!build/__tests__",
