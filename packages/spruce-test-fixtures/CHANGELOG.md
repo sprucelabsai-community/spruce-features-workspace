@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [77.0.1](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v77.0.0...v77.0.1) (2026-01-08)
+
+**Note:** Version bump only for package @sprucelabs/spruce-test-fixtures
+
+
+
+
+
+# [77.0.0](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v76.2.0...v77.0.0) (2026-01-08)
+
+
+### Breaking Changes
+
+* upgrade dependencies and fix Log interface breaking change ([f66efb5](https://github.com/sprucelabsai-community/spruce-features-workspace/commit/f66efb5))
+
+
+
+
+
 # [76.2.0](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v76.1.3...v76.2.0) (2026-01-07)
 
 
