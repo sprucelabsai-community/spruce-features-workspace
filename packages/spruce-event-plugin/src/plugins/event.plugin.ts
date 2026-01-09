@@ -593,9 +593,14 @@ export class EventFeaturePlugin implements SkillFeature {
                         `FQEN:`,
                         fqen,
                         err.stack ?? err.message,
+                        'Target and Payload:',
                         '\n\n************************************\n\n',
                         JSON.stringify(targetAndPayload),
-                        '\n\n************************************\n\n'
+                        '\n\n************************************\n\n',
+                        'Original Error:',
+                        err.originalError?.stack ||
+                            err.originalError?.message ||
+                            'No original error'
                     )
                     throw err
                 } finally {
