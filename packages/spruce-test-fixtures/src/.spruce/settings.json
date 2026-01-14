@@ -20,5 +20,9 @@
       "tsconfig.json",
       ".gitignore"
     ]
+  },
+  "regressionproof": {
+    "enabled": true,
+    "projectName": "spruce-features-workspace"
   }
 }

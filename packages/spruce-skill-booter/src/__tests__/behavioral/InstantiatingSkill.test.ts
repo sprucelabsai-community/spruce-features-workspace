@@ -150,6 +150,7 @@ export default class SkillTest extends AbstractSkillTest {
                 getIsTrackingHistory: () => false,
                 getHistoryLimit: () => 0,
                 startTrackingHistory: () => {},
+                getHistory: () => [],
             },
         })
 
