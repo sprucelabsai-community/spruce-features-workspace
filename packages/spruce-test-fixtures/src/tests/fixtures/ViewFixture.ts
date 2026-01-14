@@ -23,6 +23,7 @@ import {
     AppControllerId,
     AppControllerConstructor,
     MockToastMessageHandler,
+    FakeStorage,
 } from '@sprucelabs/heartwood-view-controllers'
 import { MercuryClient } from '@sprucelabs/mercury-client'
 import { SchemaError } from '@sprucelabs/schema'
@@ -140,7 +141,7 @@ export default class ViewFixture {
     }
 
     private static resetDevice() {
-        ViewFixture.device = new SpyDevice()
+        ViewFixture.device = new SpyDevice(new FakeStorage())
     }
 
     public addPlugin(name: string, plugin: ViewControllerPlugin) {
