@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [77.0.5](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v77.0.4...v77.0.5) (2026-02-05)
+
+
+### Documentation
+
+* comprehensive README for spruce-test-fixtures with contributor badge ([59b50b1](https://github.com/sprucelabsai-community/spruce-features-workspace/commit/59b50b1))
+
+
+
+
+
 ## [77.0.4](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v77.0.3...v77.0.4) (2026-01-27)
 
 **Note:** Version bump only for package spruce-features-workspace
