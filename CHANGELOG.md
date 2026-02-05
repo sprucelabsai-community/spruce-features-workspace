@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [77.0.6](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v77.0.5...v77.0.6) (2026-02-05)
+
+
+### Documentation
+
+* move AI TDD Contributor badge to top of README ([9166038](https://github.com/sprucelabsai-community/spruce-features-workspace/commit/9166038))
+
+
+
+
+
 ## [77.0.5](https://github.com/sprucelabsai-community/spruce-features-workspace/compare/v77.0.4...v77.0.5) (2026-02-05)
 
 
