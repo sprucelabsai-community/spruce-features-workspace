@@ -1,5 +1,7 @@
 # Spruce Test Fixtures
 
+[![AI TDD Contributor](https://regressionproof.ai/badge.svg)](https://regressionproof.ai)
+
 A comprehensive testing utilities package for Spruce that provides fixtures and helpers for unit and integration testing Spruce skills and applications.
 
 ## Features
@@ -79,5 +81,3 @@ yarn test
 ## Documentation
 
 For comprehensive documentation, visit [developer.spruce.bot](https://developer.spruce.bot).
-
-[![AI TDD Contributor](https://regressionproof.ai/badge.svg)](https://regressionproof.ai)
