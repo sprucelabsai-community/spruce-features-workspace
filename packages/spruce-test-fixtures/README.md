@@ -1,24 +1,83 @@
-<img src="https://raw.githubusercontent.com/sprucelabsai/spruce-features-workspace/master/packages/spruce-conversation-plugin/docs/images/hero.jpg">
+# Spruce Test Fixtures
 
-<h1 align="center">
-Spruce XP Documentation
-</h1>
-<h3 align="center">Spruce XP is an Experience Platform built to create unforgettable experiences and long-lasting relationships.
-</h3>
-<p align="center">
-<img align="center" width="80%" src="https://raw.githubusercontent.com/sprucelabsai/spruce-features-workspace/master/packages/spruce-conversation-plugin/docs/images/bullets.jpg">
-</p>
-<img src="https://raw.githubusercontent.com/sprucelabsai/spruce-features-workspace/master/packages/spruce-conversation-plugin/docs/images/spacer.png">
-<br />
-<p align="center">
-<img align="center" width="80%" src="https://raw.githubusercontent.com/sprucelabsai/spruce-features-workspace/master/packages/spruce-conversation-plugin/docs/images/sprucebot-message.png">
-</p>
+A comprehensive testing utilities package for Spruce that provides fixtures and helpers for unit and integration testing Spruce skills and applications.
 
-<br />
-<p align="center">
-<a href="https://developer.spruce.ai/#/"><img width="250" src="https://raw.githubusercontent.com/sprucelabsai/spruce-features-workspace/master/packages/spruce-conversation-plugin/docs/images/read-full-docs.png" /></a>
-</p>
+## Features
 
-### Dependencies
+### Base Test Class
 
-[Arkit diagram here](docs/dependencies.md).
+`AbstractSpruceFixtureTest` extends AbstractSkillTest and provides lifecycle hooks for test setup/teardown.
+
+```typescript
+import { AbstractSpruceFixtureTest } from '@sprucelabs/spruce-test-fixtures'
+
+export default class MyTest extends AbstractSpruceFixtureTest {
+    @test()
+    protected async canRunTest() {
+        // Your test here
+    }
+}
+```
+
+### Core Fixtures
+
+| Fixture | Description |
+|---------|-------------|
+| `OrganizationFixture` | Create and manage test organizations |
+| `LocationFixture` | Create and manage test locations |
+| `PersonFixture` | Create test persons, handle login/authentication |
+| `SkillFixture` | Manage skill setup and configuration |
+| `ViewFixture` | Test view controllers with mocked UI components |
+| `StoreFixture` | Database store testing utilities |
+| `RoleFixture` | Test role-based access control |
+| `PermissionFixture` | Test permission handling |
+| `MercuryFixture` | Mercury event client setup |
+
+### Test Decorators
+
+```typescript
+import { fake, login, seed, install } from '@sprucelabs/spruce-test-fixtures'
+
+export default class MyTest extends AbstractSpruceFixtureTest {
+    @login()
+    @seed('organizations', 1)
+    @test()
+    protected async canTestWithSeededData() {
+        // Test runs with logged-in user and seeded organization
+    }
+}
+```
+
+| Decorator | Description |
+|-----------|-------------|
+| `@fake` | Fake API responses |
+| `@login` | Login as specific user |
+| `@seed` | Seed test data |
+| `@install` | Handle skill installation |
+
+### Spy & Mock Utilities
+
+- **FakeAuthorizer** - Mock authorization for testing
+- **SpyAuthenticator** - Spy on authentication calls
+- **SpyViewControllerFactory** - Track view controller instantiation
+- **TestRouter** - Route events in test environment
+- **SpyMapUtil** - Spy on Map operations
+
+## Development
+
+```bash
+# Install dependencies
+yarn
+
+# Build
+yarn build.dev
+
+# Run tests
+yarn test
+```
+
+## Documentation
+
+For comprehensive documentation, visit [developer.spruce.bot](https://developer.spruce.bot).
+
+[![AI TDD Contributor](https://regressionproof.ai/badge.svg)](https://regressionproof.ai)
