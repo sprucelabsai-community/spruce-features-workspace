@@ -23,6 +23,7 @@ export default class AddsStoreFactoryToSkillContextTest extends AbstractStorePlu
 
     @test()
     protected static async storeFactoryIsTyped() {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const context = await this.bootAndGetContext()
         type Context = typeof context
 
