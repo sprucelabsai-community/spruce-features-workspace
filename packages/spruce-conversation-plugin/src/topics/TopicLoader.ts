@@ -1,5 +1,5 @@
-import pathUtil from 'path'
 import { createRequire } from 'module'
+import pathUtil from 'path'
 import globby from '@sprucelabs/globby'
 import { SchemaError } from '@sprucelabs/schema'
 import SpruceError from '../errors/SpruceError'
