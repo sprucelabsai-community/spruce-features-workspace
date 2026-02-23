@@ -1,9 +1,9 @@
+import { createRequire } from 'module'
 import {
     MercuryClient,
     MercuryClientFactory,
     MercuryTestClient,
 } from '@sprucelabs/mercury-client'
-import { createRequire } from 'module'
 import '@sprucelabs/mercury-core-events'
 import { coreEventContracts } from '@sprucelabs/mercury-core-events'
 import { EventContract } from '@sprucelabs/mercury-types'

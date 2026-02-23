@@ -1,5 +1,5 @@
-import AbstractSpruceError from '@sprucelabs/error'
 import { createRequire } from 'module'
+import AbstractSpruceError from '@sprucelabs/error'
 import {
     ViewController,
     SkillViewController,

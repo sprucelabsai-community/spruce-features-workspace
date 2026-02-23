@@ -1,10 +1,10 @@
+import { createRequire } from 'module'
 import {
     Database,
     DatabaseFactory,
     StoreFactory,
     StoreLoader,
 } from '@sprucelabs/data-stores'
-import { createRequire } from 'module'
 import { SchemaError } from '@sprucelabs/schema'
 import {
     SkillFeature,
