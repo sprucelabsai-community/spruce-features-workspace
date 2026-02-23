@@ -1,4 +1,5 @@
-import { MercuryClient } from '@sprucelabs/mercury-client'
+import { createRequire } from 'module'
+import { MercuryClient, MercuryClientFactory } from '@sprucelabs/mercury-client'
 import { EventContract, SpruceSchemas } from '@sprucelabs/mercury-types'
 import { SchemaError } from '@sprucelabs/schema'
 import {
@@ -24,6 +25,7 @@ import dotenv from 'dotenv'
 import ListenerCacher from '../cache/ListenerCacher'
 import SpruceError from '../errors/SpruceError'
 dotenv.config({ quiet: true })
+const requireCompat = createRequire(process.cwd() + '/')
 
 export class EventFeaturePlugin implements SkillFeature {
     private skill: Skill
@@ -338,11 +340,9 @@ export class EventFeaturePlugin implements SkillFeature {
                 this.shouldConnectToApi() &&
                 EventFeaturePlugin.shouldPassEventContractsToMercury &&
                 this.combinedContractsFile
-                    ? require(this.combinedContractsFile).default
+                    ? requireCompat(this.combinedContractsFile).default
                     : null
 
-            const MercuryClientFactory =
-                require('@sprucelabs/mercury-client').MercuryClientFactory
             const host = this.getHost()
 
             if (!host) {
@@ -618,7 +618,7 @@ export class EventFeaturePlugin implements SkillFeature {
 
     private async loadContracts() {
         if (this.shouldConnectToApi() && this.combinedContractsFile) {
-            const contracts = require(this.combinedContractsFile).default
+            const contracts = requireCompat(this.combinedContractsFile).default
 
             this.log.info(`Loading ${contracts.length} contracts.`)
 
@@ -680,7 +680,7 @@ export class EventFeaturePlugin implements SkillFeature {
             })
         }
 
-        const listeners: EventFeatureListener[] = require(
+        const listeners: EventFeatureListener[] = requireCompat(
             this.listenersPath as string
         ).default
 
@@ -709,7 +709,7 @@ export class EventFeaturePlugin implements SkillFeature {
     }
 
     public async getNamespace() {
-        const pkg = require(this.skill.activeDir + '/../package.json')
+        const pkg = requireCompat(this.skill.activeDir + '/../package.json')
         return pkg.skill.namespace
     }
 

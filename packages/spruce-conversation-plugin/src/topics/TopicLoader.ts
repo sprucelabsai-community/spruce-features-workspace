@@ -1,8 +1,11 @@
 import pathUtil from 'path'
+import { createRequire } from 'module'
 import globby from '@sprucelabs/globby'
 import { SchemaError } from '@sprucelabs/schema'
 import SpruceError from '../errors/SpruceError'
 import { LoadedTopicDefinition } from '../types/conversation.types'
+
+const requireCompat = createRequire(process.cwd() + '/')
 
 export default class TopicLoader {
     private constructor() {}
@@ -29,7 +32,9 @@ export default class TopicLoader {
     }
 
     private static loadTopic(match: string): LoadedTopicDefinition {
-        const imported = require(match) as { default?: LoadedTopicDefinition }
+        const imported = requireCompat(match) as {
+            default?: LoadedTopicDefinition
+        }
         const file = pathUtil
             .basename(match)
             .replace(pathUtil.extname(match), '')

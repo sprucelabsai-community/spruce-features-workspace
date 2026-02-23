@@ -1,4 +1,5 @@
 import AbstractSpruceError from '@sprucelabs/error'
+import { createRequire } from 'module'
 import {
     ViewController,
     SkillViewController,
@@ -16,6 +17,8 @@ import {
 import SpruceError from '../errors/SpruceError'
 import { HealthCheckView } from '../types/view.types'
 
+const requireCompat = createRequire(process.cwd() + '/')
+
 const vcDiskUtil = {
     loadViewControllers(
         activeDir: string,
@@ -30,7 +33,11 @@ const vcDiskUtil = {
             )
         }
 
-        const { default: controllerMap, pluginsByName, App } = require(path)
+        const {
+            default: controllerMap,
+            pluginsByName,
+            App,
+        } = requireCompat(path)
         const controllers = Object.values(controllerMap) as (
             | (ViewController<any> & { name?: string })
             | (SkillViewController & { name?: string })
@@ -102,7 +109,7 @@ const vcDiskUtil = {
 
         const file = this.resolveThemeFile(activeDir)
         if (file && diskUtil.doesFileExist(file)) {
-            const props = require(file).default
+            const props = requireCompat(file).default
             theme = {
                 name: 'Theme',
                 props,

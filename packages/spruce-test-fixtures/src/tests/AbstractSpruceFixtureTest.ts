@@ -13,6 +13,7 @@ import {
 } from '@sprucelabs/spruce-skill-booter'
 import { Skill, testLog } from '@sprucelabs/spruce-skill-utils'
 import { assert } from '@sprucelabs/test-utils'
+import dotenv from 'dotenv'
 import FakerTracker from '../FakerTracker'
 import {
     FixtureConstructorOptionsMap,
@@ -29,11 +30,10 @@ import SeedFixture from './fixtures/SeedFixture'
 import SkillFixture from './fixtures/SkillFixture'
 import StoreFixture from './fixtures/StoreFixture'
 import ViewFixture from './fixtures/ViewFixture'
-const env = require('dotenv')
 
 export default abstract class AbstractSpruceFixtureTest extends AbstractSkillTest {
     protected static async beforeAll() {
-        env.config = () => {}
+        dotenv.config = () => ({ parsed: {} })
         await super.beforeAll()
         await FixtureFactory.beforeAll()
         console.error = testLog.error.bind(testLog)

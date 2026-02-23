@@ -3,6 +3,7 @@ import {
     MercuryClientFactory,
     MercuryTestClient,
 } from '@sprucelabs/mercury-client'
+import { createRequire } from 'module'
 import '@sprucelabs/mercury-core-events'
 import { coreEventContracts } from '@sprucelabs/mercury-core-events'
 import { EventContract } from '@sprucelabs/mercury-types'
@@ -18,6 +19,7 @@ import {
     TestConnectionOptions,
 } from '../../types/fixture.types'
 dotenv.config({ quiet: true })
+const requireCompat = createRequire(process.cwd() + '/')
 
 const TEST_HOST = process.env.TEST_HOST ?? process.env.HOST
 
@@ -137,7 +139,7 @@ export default class MercuryFixture {
             const combinedContract =
                 eventDiskUtil.resolveCombinedEventsContractFile(cwd)
 
-            let contracts = require(combinedContract).default
+            let contracts = requireCompat(combinedContract).default
 
             if (this.shouldMixinCoreEventContractWhenImportingLocal) {
                 contracts = [...contracts, ...coreEventContracts]

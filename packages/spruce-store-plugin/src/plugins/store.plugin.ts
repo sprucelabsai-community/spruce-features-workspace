@@ -4,6 +4,7 @@ import {
     StoreFactory,
     StoreLoader,
 } from '@sprucelabs/data-stores'
+import { createRequire } from 'module'
 import { SchemaError } from '@sprucelabs/schema'
 import {
     SkillFeature,
@@ -14,6 +15,8 @@ import {
 } from '@sprucelabs/spruce-skill-utils'
 import SpruceError from '../errors/SpruceError'
 import { StoreHealthCheckItem } from '../types/store.types'
+
+const requireCompat = createRequire(process.cwd() + '/')
 
 export class StoreFeaturePlugin implements SkillFeature {
     private skill: Skill
@@ -91,7 +94,7 @@ export class StoreFeaturePlugin implements SkillFeature {
 
             if (process.env.DB_ADAPTER) {
                 try {
-                    require(process.env.DB_ADAPTER)
+                    requireCompat(process.env.DB_ADAPTER)
                 } catch (err: any) {
                     throw new SpruceError({
                         code: 'FAILED_TO_LOAD_DB_ADAPTER',
